@@ -1,0 +1,12 @@
+{
+  "name": "leetcodejs",
+  "version": "1.0.0",
+  "main": "testsRunner.js",
+  "scripts": {
+    "start": "node testsRunner.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

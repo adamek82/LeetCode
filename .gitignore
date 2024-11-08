@@ -1,0 +1,19 @@
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# Ignore C++ build artifacts
+*.obj
+*.exe
+*.ilk
+*.pdb
+
+# Ignore all files in .vscode folder
+.vscode/*
+
+# Exception for launch.json and tasks.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# Ignore any system-specific files
+.DS_Store
