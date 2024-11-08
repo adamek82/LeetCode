@@ -9,7 +9,6 @@
             "name": "TestsRunner",
             "request": "launch",
             "mainClass": "TestsRunner",
-            "projectName": "LeetCodeJava_325ef760"
         }
     ]
 }
