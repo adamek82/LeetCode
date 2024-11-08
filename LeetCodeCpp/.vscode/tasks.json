@@ -3,27 +3,27 @@
     "tasks": [
         {
             "label": "build with MSVC",
-			"type": "shell",
+            "type": "shell",
             "command": "cmd.exe",
-			"args": [
-				"/c", 
-				"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat",
-				"'&'",
-				"cl.exe",
+            "args": [
+                "/c", 
+                "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat",
+                "'&'",
+                "cl.exe",
                 "/std:c++20",
                 "/Zi",
                 "/EHsc",
                 "/nologo",
-				"/Fe${workspaceFolder}\\.vscode\\testsRunner.exe",
-				"/Fo${workspaceFolder}\\.vscode\\",
+                "/Fe${workspaceFolder}\\.vscode\\testsRunner.exe",
+                "/Fo${workspaceFolder}\\.vscode\\",
                 "/Fd${workspaceFolder}\\.vscode\\vc140.pdb",
-				"${workspaceFolder}/CourseSchedule_207.cpp",
+                "${workspaceFolder}/CourseSchedule_207.cpp",
                 "${workspaceFolder}/FindIfPathExistsInGraph_1971.cpp",
                 "${workspaceFolder}/NumberOfIslands_200.cpp",
                 "${workspaceFolder}/MaxAreaOfIsland_695.cpp",
                 "${workspaceFolder}/CourseScheduleII_210.cpp",
                 "${workspaceFolder}/NetworkDelayTime_743.cpp",
-				"${workspaceFolder}/testsRunner.cpp"
+                "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {
                 "cwd": "${fileDirname}"
@@ -31,9 +31,9 @@
             "problemMatcher": [
                 "$msCompile"
             ],
-			"group": {
-				"kind": "build",
-			  },
+            "group": {
+                "kind": "build",
+              },
             "detail": "compiler: cl.exe"
         },
     ]
