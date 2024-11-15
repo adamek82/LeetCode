@@ -1,8 +1,8 @@
-const CourseSchedule = require('./courseSchedule'); // assuming this exists as in your code
-const FindIfPathExistsInGraph = require('./findIfPathExistsInGraph');
-const numIslands = require('./numIslands');
-const maxAreaOfIsland = require('./maxAreaOfIsland');
-const CourseScheduleII = require('./CourseScheduleII');
+const CourseSchedule_207 = require('./CourseSchedule_207'); 
+const FindIfPathExistsInGraph_1971 = require('./FindIfPathExistsInGraph_1971');
+const numberOfIslands_200 = require('./NumberOfIslands_200');
+const maxAreaOfIsland_695 = require('./maxAreaOfIsland_695');
+const CourseScheduleII_210 = require('./CourseScheduleII_210');
 
 // Test case structure for course schedule
 class TestCase {
@@ -49,7 +49,7 @@ class TestsRunner {
             new TestCase(5, [[0, 1], [2, 3], [3, 4], [2, 1], [4, 2]], false)
         ];
 
-        const courseSchedule = new CourseSchedule();
+        const courseSchedule = new CourseSchedule_207();
 
         testCases.forEach((testCase, index) => {
             const result = courseSchedule.canFinish(testCase.numCourses, testCase.prerequisites);
@@ -66,7 +66,7 @@ class TestsRunner {
             new PathTestCase(4, [[0, 1], [1, 2]], 0, 3, false)
         ];
 
-        const findIfPathExists = new FindIfPathExistsInGraph();
+        const findIfPathExists = new FindIfPathExistsInGraph_1971();
 
         testCases.forEach((testCase, index) => {
             const result = findIfPathExists.validPath(testCase.n, testCase.edges, testCase.source, testCase.destination);
@@ -112,7 +112,7 @@ class TestsRunner {
         ];
 
         testCases.forEach((testCase, index) => {
-            const result = numIslands(testCase.grid.map(row => [...row])); // Copy each row to avoid modifying original
+            const result = numberOfIslands_200(testCase.grid.map(row => [...row])); // Copy each row to avoid modifying original
             console.log(`Num Islands Test ${index + 1}: res = ${result === testCase.expectedResult ? 'PASS' : 'FAIL'} `
                         + `(Expected: ${testCase.expectedResult}, Got: ${result})`);
         });
@@ -161,7 +161,7 @@ class TestsRunner {
         ];
 
         testCases.forEach((testCase, index) => {
-            const result = maxAreaOfIsland(testCase.grid.map(row => [...row]));  // Copy each row to avoid modifying original
+            const result = maxAreaOfIsland_695(testCase.grid.map(row => [...row]));  // Copy each row to avoid modifying original
             console.log(`Max Area of Island Test ${index + 1}: res = ${result === testCase.expectedResult ? 'PASS' : 'FAIL'} `
                         + `(Expected: ${testCase.expectedResult}, Got: ${result})`);
         });
@@ -176,7 +176,7 @@ class TestsRunner {
             new TestCase(5, [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0]], [])
         ];
 
-        const courseScheduleII = new CourseScheduleII();
+        const courseScheduleII = new CourseScheduleII_210();
 
         // Local helper function to validate course order
         const isValidOrder = (order, numCourses, prerequisites) => {

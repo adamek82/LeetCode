@@ -1,4 +1,4 @@
-class FindIfPathExistsInGraph {
+class FindIfPathExistsInGraph_1971 {
     validPath(n, edges, source, destination) {
         if (source === destination) return true;
 
@@ -30,4 +30,4 @@ class FindIfPathExistsInGraph {
     }
 }
 
-module.exports = FindIfPathExistsInGraph;
+module.exports = FindIfPathExistsInGraph_1971;

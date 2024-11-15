@@ -1,5 +1,5 @@
 // courseSchedule.js
-class CourseSchedule {
+class CourseSchedule_207 {
     static UNVISITED = 0;
     static VISITING = 1;
     static VISITED = 2;
@@ -15,13 +15,13 @@ class CourseSchedule {
             graph.get(course).push(prereq);
         });
 
-        const states = Array(numCourses).fill(CourseSchedule.UNVISITED);
+        const states = Array(numCourses).fill(CourseSchedule_207.UNVISITED);
 
         const dfs = (course) => {
-            if (states[course] === CourseSchedule.VISITING) return false; // Cycle detected
-            if (states[course] === CourseSchedule.VISITED) return true;   // Already visited
+            if (states[course] === CourseSchedule_207.VISITING) return false; // Cycle detected
+            if (states[course] === CourseSchedule_207.VISITED) return true;   // Already visited
 
-            states[course] = CourseSchedule.VISITING;
+            states[course] = CourseSchedule_207.VISITING;
             const neighbors = graph.get(course) || [];
 
             for (let neighbor of neighbors) {
@@ -30,7 +30,7 @@ class CourseSchedule {
                 }
             }
 
-            states[course] = CourseSchedule.VISITED;
+            states[course] = CourseSchedule_207.VISITED;
             return true;
         };
 
@@ -45,4 +45,4 @@ class CourseSchedule {
 }
 
 // Export the CourseSchedule class
-module.exports = CourseSchedule;
+module.exports = CourseSchedule_207;
