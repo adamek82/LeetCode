@@ -1,4 +1,4 @@
-class CourseSchedule:
+class CourseSchedule_207:
     def canFinish(self, numCourses: int, prerequisites: list[list[int]]) -> bool:
         graph = {i: [] for i in range(numCourses)}  # Create a graph
         for course, prereq in prerequisites:

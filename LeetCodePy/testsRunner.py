@@ -1,7 +1,7 @@
-from CourseSchedule import CourseSchedule
+from CourseSchedule_207 import CourseSchedule_207
 from FindIfPathExistsInGraph_1971 import FindIfPathExistsInGraph_1971
 from NumberOfIslands_200 import NumberOfIslands_200
-from maxAreaOfIsland import MaxAreaOfIsland
+from MaxAreaOfIsland_695 import MaxAreaOfIsland_695
 from CourseScheduleII_210 import CourseScheduleII_210
 
 # Class to represent each test case
@@ -12,7 +12,7 @@ class CourseScheduleTestCase:
         self.expectedResult = expectedResult
 
 def course_schedule_tests():
-    cs = CourseSchedule()
+    cs = CourseSchedule_207()
 
     # Define test cases in an array
     test_cases = [
@@ -105,7 +105,7 @@ class MaxAreaTestCase:
         self.expected_result = expected_result
 
 def max_area_of_island_tests():
-    solution = MaxAreaOfIsland()
+    solution = MaxAreaOfIsland_695()
 
     test_cases = [
         MaxAreaTestCase([

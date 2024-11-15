@@ -1,6 +1,6 @@
 from typing import List
 
-class MaxAreaOfIsland:
+class MaxAreaOfIsland_695:
     def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
         max_area = 0
         rows, cols = len(grid), len(grid[0])
