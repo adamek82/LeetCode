@@ -230,7 +230,7 @@ public class TestsRunner {
     }
    
     public static void main(String[] args) {
-        System.out.println("Tests:");
+        System.out.println("Running LeetCodeJava tests:");
 
         System.out.println("Running CourseSchedule_207 tests:");
         courseSchedule_207_tests();

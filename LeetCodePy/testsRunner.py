@@ -172,6 +172,7 @@ def course_schedule_ii_tests():
         print(f"Course Schedule II Test {i + 1}: res = {'PASS' if is_valid else 'FAIL'}")
 
 if __name__ == "__main__":
+    print("Running LeetCodePy tests:")
     course_schedule_tests()
     find_if_path_exists_tests()
     num_islands_tests()

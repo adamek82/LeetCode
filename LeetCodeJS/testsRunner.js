@@ -204,6 +204,8 @@ class TestsRunner {
     }
 
     static runAllTests() {
+        console.log("Running LeetCodeJS tests:");
+
         console.log("Running Course Schedule tests:");
         this.courseScheduleTests();
         

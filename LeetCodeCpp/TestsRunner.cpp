@@ -252,6 +252,7 @@ public:
 };
 
 int main() {
+    std::cout << "Running LeetCodeCpp tests:\n";
     TestsRunner::runAllTests();
     return 0;
 }
