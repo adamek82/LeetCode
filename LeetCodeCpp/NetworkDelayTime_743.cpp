@@ -30,16 +30,6 @@ int NetworkDelayTime_743::networkDelayTime(std::vector<std::vector<int>> &times,
         }
     }
     
-    if (min_times.size() == n) {
-        int max_time = 0;
-        for (const auto& [node, time] : min_times) {
-            max_time = std::max(max_time, time);
-        }
-        return max_time;
-    } else {
-        return -1; // Not all nodes are reachable
-    }
-
     return min_times.size() == n
                ? std::max_element(min_times.begin(), min_times.end(),
                                   [](const auto &a, const auto &b)
