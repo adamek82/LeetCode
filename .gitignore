@@ -17,3 +17,6 @@ __pycache__/
 
 # Ignore any system-specific files
 .DS_Store
+
+# Ignore Node.js dependencies
+node_modules/
