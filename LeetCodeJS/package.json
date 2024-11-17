@@ -5,6 +5,9 @@
   "scripts": {
     "start": "node testsRunner.js"
   },
+  "dependencies": {
+    "datastructures-js": "^13.0.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
