@@ -3,6 +3,7 @@ from FindIfPathExistsInGraph_1971 import FindIfPathExistsInGraph_1971
 from NumberOfIslands_200 import NumberOfIslands_200
 from MaxAreaOfIsland_695 import MaxAreaOfIsland_695
 from CourseScheduleII_210 import CourseScheduleII_210
+from NetworkDelayTime_743 import NetworkDelayTime_743;
 
 # Class to represent each test case
 class CourseScheduleTestCase:
@@ -171,6 +172,37 @@ def course_schedule_ii_tests():
                    (len(test.expectedResult) > 0 and is_valid_order(result, test.numCourses, test.prerequisites))
         print(f"Course Schedule II Test {i + 1}: res = {'PASS' if is_valid else 'FAIL'}")
 
+# Class to represent each test case for Network Delay Time
+class NetworkDelayTimeTestCase:
+    def __init__(self, times, n, k, expected_result):
+        self.times = times
+        self.n = n
+        self.k = k
+        self.expected_result = expected_result
+
+def network_delay_time_tests():
+    solution = NetworkDelayTime_743()
+
+    # Define test cases
+    test_cases = [
+        # Provided Examples
+        NetworkDelayTimeTestCase([[2, 1, 1], [2, 3, 1], [3, 4, 1]], 4, 2, 2),
+        NetworkDelayTimeTestCase([[1, 2, 1]], 2, 1, 1),
+        NetworkDelayTimeTestCase([[1, 2, 1]], 2, 2, -1),
+
+        # Additional Complex Example 1: 6 nodes, complex network
+        NetworkDelayTimeTestCase([[1, 2, 2], [1, 3, 4], [2, 4, 7], [3, 4, 1], [2, 5, 5], [5, 6, 3], [4, 6, 2]], 6, 1, 7),
+
+        # Additional Complex Example 2: 8 nodes, complex network
+        NetworkDelayTimeTestCase([[1, 2, 2], [1, 3, 1], [3, 4, 4], [2, 5, 7], [5, 6, 1], [6, 7, 5], [7, 8, 2], [4, 8, 3]], 8, 1, 15)
+    ]
+
+    for i, test in enumerate(test_cases):
+        result = solution.networkDelayTime(test.times, test.n, test.k)
+        print(f"Network Delay Time Test {i + 1}: res = {'PASS' if result == test.expected_result else 'FAIL'} "
+              f"(Expected: {test.expected_result}, Got: {result})")
+
+
 if __name__ == "__main__":
     print("Running LeetCodePy tests:")
     course_schedule_tests()
@@ -178,3 +210,4 @@ if __name__ == "__main__":
     num_islands_tests()
     max_area_of_island_tests()
     course_schedule_ii_tests()
+    network_delay_time_tests()
