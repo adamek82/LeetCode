@@ -1,8 +1,9 @@
-const CourseSchedule_207 = require('./CourseSchedule_207'); 
+const CourseSchedule_207 = require('./CourseSchedule_207');
 const FindIfPathExistsInGraph_1971 = require('./FindIfPathExistsInGraph_1971');
 const numberOfIslands_200 = require('./NumberOfIslands_200');
 const maxAreaOfIsland_695 = require('./maxAreaOfIsland_695');
 const CourseScheduleII_210 = require('./CourseScheduleII_210');
+const networkDelayTime_743 = require('./NetworkDelayTime_743');
 
 // Test case structure for course schedule
 class TestCase {
@@ -203,12 +204,43 @@ class TestsRunner {
         });
     }
 
+    static networkDelayTimeTests() {
+        class TestCase {
+            constructor(times, n, k, expectedResult) {
+                this.times = times;
+                this.n = n;
+                this.k = k;
+                this.expectedResult = expectedResult;
+            }
+        }
+
+        const testCases = [
+            // Provided Examples
+            new TestCase([[2, 1, 1], [2, 3, 1], [3, 4, 1]], 4, 2, 2),
+            new TestCase([[1, 2, 1]], 2, 1, 1),
+            new TestCase([[1, 2, 1]], 2, 2, -1),
+
+            // Additional Complex Example 1: 6 nodes, complex network
+            new TestCase([[1, 2, 2], [1, 3, 4], [2, 4, 7], [3, 4, 1], [2, 5, 5], [5, 6, 3], [4, 6, 2]], 6, 1, 7),
+
+            // Additional Complex Example 2: 8 nodes, complex network
+            new TestCase([[1, 2, 2], [1, 3, 1], [3, 4, 4], [2, 5, 7], [5, 6, 1], [6, 7, 5], [7, 8, 2], [4, 8, 3]], 8, 1, 15),
+        ];
+
+        testCases.forEach((testCase, index) => {
+            const result = networkDelayTime_743(testCase.times, testCase.n, testCase.k);
+            const isValid = result === testCase.expectedResult;
+
+            console.log(`Network Delay Time Test ${index + 1}: res = ${isValid ? 'PASS' : 'FAIL'} (Expected: ${testCase.expectedResult}, Got: ${result})`);
+        });
+    }
+
     static runAllTests() {
         console.log("Running LeetCodeJS tests:");
 
         console.log("Running Course Schedule tests:");
         this.courseScheduleTests();
-        
+
         console.log("\nRunning Find If Path Exists tests:");
         this.findIfPathExistsTests();
 
@@ -220,6 +252,9 @@ class TestsRunner {
 
         console.log("\nRunning Course Schedule II tests:");
         this.courseScheduleIITests();
+
+        console.log("Running Network Delay Time Tests:");
+        this.networkDelayTimeTests();
     }
 }
 

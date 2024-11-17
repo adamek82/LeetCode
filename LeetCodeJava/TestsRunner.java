@@ -127,15 +127,15 @@ public class TestsRunner {
         class TestCase {
             int[][] grid;
             int expectedResult;
-    
+
             public TestCase(int[][] grid, int expectedResult) {
                 this.grid = grid;
                 this.expectedResult = expectedResult;
             }
         }
-    
+
         MaxAreaOfIsland_695 solution = new MaxAreaOfIsland_695();
-    
+
         TestCase[] testCases = {
             new TestCase(new int[][]{
                 {0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
@@ -147,11 +147,11 @@ public class TestsRunner {
                 {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0}
             }, 6), // Expected output: 6
-    
+
             new TestCase(new int[][]{
                 {0, 0, 0, 0, 0, 0, 0, 0}
             }, 0), // Expected output: 0
-    
+
             // Additional Test Case 1
             new TestCase(new int[][]{
                 {1, 1, 0, 0, 1, 1},
@@ -159,7 +159,7 @@ public class TestsRunner {
                 {0, 0, 1, 1, 1, 0},
                 {0, 0, 1, 0, 1, 1}
             }, 10), // Expected output: 10
-    
+
             // Additional Test Case 2
             new TestCase(new int[][]{
                 {0, 1, 1, 1},
@@ -168,7 +168,7 @@ public class TestsRunner {
                 {1, 1, 1, 0}
             }, 9) // Expected output: 9
         };
-    
+
         for (int i = 0; i < testCases.length; i++) {
             int res = solution.maxAreaOfIsland(testCases[i].grid);
             System.out.println("MaxAreaOfIsland_695 Test " + (i + 1) + ": res = " + (res == testCases[i].expectedResult ? "PASS" : "FAIL") +
@@ -228,7 +228,48 @@ public class TestsRunner {
             System.out.println("Test " + (i + 1) + ": res = " + (pass ? "PASS" : "FAIL"));
         }
     }
-   
+
+    public static void networkDelayTime_743_tests() {
+        // Inner class for representing each test case
+        class TestCase {
+            int[][] times; // Edge list
+            int n;         // Number of nodes
+            int k;         // Starting node
+            int expectedResult;
+
+            public TestCase(int[][] times, int n, int k, int expectedResult) {
+                this.times = times;
+                this.n = n;
+                this.k = k;
+                this.expectedResult = expectedResult;
+            }
+        }
+
+        NetworkDelayTime_743 solution = new NetworkDelayTime_743();
+
+        // Define test cases in an array
+        TestCase[] testCases = {
+            // Provided Examples
+            new TestCase(new int[][]{{2, 1, 1}, {2, 3, 1}, {3, 4, 1}}, 4, 2, 2),
+            new TestCase(new int[][]{{1, 2, 1}}, 2, 1, 1),
+            new TestCase(new int[][]{{1, 2, 1}}, 2, 2, -1),
+
+            // Additional Complex Example 1
+            new TestCase(new int[][]{{1, 2, 2}, {1, 3, 4}, {2, 4, 7}, {3, 4, 1}, {2, 5, 5}, {5, 6, 3}, {4, 6, 2}}, 6, 1, 7),
+
+            // Additional Complex Example 2
+            new TestCase(new int[][]{{1, 2, 2}, {1, 3, 1}, {3, 4, 4}, {2, 5, 7}, {5, 6, 1}, {6, 7, 5}, {7, 8, 2}, {4, 8, 3}}, 8, 1, 15)
+        };
+
+        // Iterate through test cases
+        for (int i = 0; i < testCases.length; i++) {
+            int result = solution.networkDelayTime(testCases[i].times, testCases[i].n, testCases[i].k);
+            System.out.println("NetworkDelayTime_743 Test " + (i + 1) + ": res = " +
+                (result == testCases[i].expectedResult ? "PASS" : "FAIL") +
+                " (Expected: " + testCases[i].expectedResult + ", Got: " + result + ")");
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println("Running LeetCodeJava tests:");
 
@@ -246,5 +287,8 @@ public class TestsRunner {
 
         System.out.println("Running CourseScheduleII_210 tests:");
         courseScheduleII_210_tests();
+
+        System.out.println("\nRunning NetworkDelayTime_743 tests:");
+        networkDelayTime_743_tests();
     }
 }
