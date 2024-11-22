@@ -20,6 +20,3 @@ __pycache__/
 
 # Ignore Node.js dependencies
 node_modules/
-
-# Ignore machine-specific VSCode configuration for LeetCodeJava
-LeetCodeJava/.vscode/launch.json
