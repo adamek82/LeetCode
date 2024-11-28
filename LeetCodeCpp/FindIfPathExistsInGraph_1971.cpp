@@ -51,6 +51,40 @@ bool FindIfPathExistsInGraph_1971::validPathIterativeDFS(int n, std::vector<std:
     return false;
 }
 
+bool FindIfPathExistsInGraph_1971::validPathBFS(int n, std::vector<std::vector<int>> &edges, int source, int destination)
+{
+    if (source == destination) return true;
+
+    // This time we're going to use a hashmap for graph representation
+    std::unordered_map<int, std::vector<int>> graph;
+        for (const auto& edge : edges) {
+        graph[edge[0]].push_back(edge[1]);
+        graph[edge[1]].push_back(edge[0]);
+    }
+
+    // This time use a hashset to represent visited nodes
+    std::unordered_set<int> visited;
+    std::queue<int> queue;
+
+    queue.push(source);
+    visited.insert(source);
+
+    while (!queue.empty()) {
+        int node = queue.front();
+        queue.pop();
+        if (node == destination) return true;
+
+        for(int nei : graph[node]) {
+            if (visited.find(nei) == visited.end()) {
+                visited.insert(nei);
+                queue.push(nei);
+            }
+        }
+    }
+
+    return false;
+}
+
 bool FindIfPathExistsInGraph_1971::recursive_dfs(int node, int destination, std::vector<std::vector<int>>& graph, std::vector<int>& visited) {
     if (node == destination) return true;
 
