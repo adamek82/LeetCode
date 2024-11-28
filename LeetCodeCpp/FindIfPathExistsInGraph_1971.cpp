@@ -1,6 +1,6 @@
 #include "FindIfPathExistsInGraph_1971.h"
 
-bool FindIfPathExistsInGraph_1971::validPath(int n, std::vector<std::vector<int>>& edges, int source, int destination) {
+bool FindIfPathExistsInGraph_1971::validPathRecursiveDFS(int n, std::vector<std::vector<int>>& edges, int source, int destination) {
     if (source == destination) return true;
 
     // Create an adjacency list using a vector of vectors
@@ -14,16 +14,50 @@ bool FindIfPathExistsInGraph_1971::validPath(int n, std::vector<std::vector<int>
     std::vector<int> visited(n, 0);
     visited[source] = 1;
 
-    return dfs(source, destination, graph, visited);
+    return recursive_dfs(source, destination, graph, visited);
 }
 
-bool FindIfPathExistsInGraph_1971::dfs(int node, int destination, std::vector<std::vector<int>>& graph, std::vector<int>& visited) {
+bool FindIfPathExistsInGraph_1971::validPathIterativeDFS(int n, std::vector<std::vector<int>> &edges, int source, int destination)
+{
+    if (source == destination) return true;
+
+    // This time we're going to use a hashmap for graph representation
+    std::unordered_map<int, std::vector<int>> graph;
+        for (const auto& edge : edges) {
+        graph[edge[0]].push_back(edge[1]);
+        graph[edge[1]].push_back(edge[0]);
+    }
+
+    // This time use a hashset to represent visited nodes
+    std::unordered_set<int> visited;
+    std::stack<int> stack;
+
+    stack.push(source);
+    visited.insert(source);
+
+    while (!stack.empty()) {
+        int node = stack.top();
+        stack.pop();
+        if (node == destination) return true;
+
+        for(int nei : graph[node]) {
+            if (visited.find(nei) == visited.end()) {
+                visited.insert(nei);
+                stack.push(nei);
+            }
+        }
+    }
+
+    return false;
+}
+
+bool FindIfPathExistsInGraph_1971::recursive_dfs(int node, int destination, std::vector<std::vector<int>>& graph, std::vector<int>& visited) {
     if (node == destination) return true;
 
     for (int neighbor : graph[node]) {
         if (!visited[neighbor]) {
             visited[neighbor] = 1;
-            if (dfs(neighbor, destination, graph, visited)) return true;
+            if (recursive_dfs(neighbor, destination, graph, visited)) return true;
         }
     }
     return false;

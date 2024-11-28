@@ -77,8 +77,16 @@ public:
 
         FindIfPathExistsInGraph_1971 fp1971;
 
+        std::cout << "-> Recursive DFS version:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = fp1971.validPath(testCases[i].n, testCases[i].edges, testCases[i].source, testCases[i].destination);
+            bool result = fp1971.validPathRecursiveDFS(testCases[i].n, testCases[i].edges, testCases[i].source, testCases[i].destination);
+            std::cout << "Test " << (i + 1) << ": res = "
+                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << std::endl;
+        }
+
+        std::cout << "-> Iterative DFS version with a stack:\n";
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            bool result = fp1971.validPathIterativeDFS(testCases[i].n, testCases[i].edges, testCases[i].source, testCases[i].destination);
             std::cout << "Test " << (i + 1) << ": res = "
                       << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << std::endl;
         }
@@ -155,7 +163,7 @@ public:
 
         for (size_t i = 0; i < testCases.size(); i++) {
             int result = mai695.maxAreaOfIsland(testCases[i].grid);
-            std::cout << "Max Area Test " << i + 1 << ": res = " 
+            std::cout << "Max Area Test " << i + 1 << ": res = "
                       << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
         }
@@ -179,8 +187,8 @@ public:
 
         // Define the isValidOrder function inside the test function
         std::function<bool(const std::vector<int>&, int, const std::vector<std::vector<int>>&, const std::vector<int>&)>
-        isValidOrder = [](const std::vector<int>& order, int numCourses, 
-                          const std::vector<std::vector<int>>& prerequisites, 
+        isValidOrder = [](const std::vector<int>& order, int numCourses,
+                          const std::vector<std::vector<int>>& prerequisites,
                           const std::vector<int>& expectedOrder) {
             // If expectedOrder is empty, we expect an empty result (cycle case)
             if (expectedOrder.empty()) return order.empty();
