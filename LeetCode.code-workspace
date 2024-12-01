@@ -75,7 +75,8 @@
 			"queue": "cpp",
 			"ranges": "cpp",
 			"span": "cpp",
-			"stack": "cpp"
+			"stack": "cpp",
+			"unordered_set": "cpp"
 		}
 	}
 }

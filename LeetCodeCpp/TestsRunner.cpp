@@ -97,6 +97,13 @@ public:
             std::cout << "Test " << (i + 1) << ": res = "
                       << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << std::endl;
         }
+
+        std::cout << "-> Union-find version:\n";
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            bool result = fp1971.validPathUnionFind(testCases[i].n, testCases[i].edges, testCases[i].source, testCases[i].destination);
+            std::cout << "Test " << (i + 1) << ": res = "
+                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << std::endl;
+        }
     }
 
     static void numIslands_200_tests()

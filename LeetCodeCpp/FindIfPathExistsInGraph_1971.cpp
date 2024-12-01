@@ -1,4 +1,5 @@
 #include "FindIfPathExistsInGraph_1971.h"
+#include "UnionFind.h"
 
 bool FindIfPathExistsInGraph_1971::validPathRecursiveDFS(int n, std::vector<std::vector<int>>& edges, int source, int destination) {
     if (source == destination) return true;
@@ -83,6 +84,19 @@ bool FindIfPathExistsInGraph_1971::validPathBFS(int n, std::vector<std::vector<i
     }
 
     return false;
+}
+
+bool FindIfPathExistsInGraph_1971::validPathUnionFind(int n, std::vector<std::vector<int>> &edges, int source, int destination)
+{
+    UnionFind uf(n);
+
+    // Union all edges
+    for (const auto& edge : edges) {
+        uf.unionSets(edge[0], edge[1]);
+    }
+
+    // Check if source and destination are in the same set
+    return uf.find(source) == uf.find(destination);
 }
 
 bool FindIfPathExistsInGraph_1971::recursive_dfs(int node, int destination, std::vector<std::vector<int>>& graph, std::vector<int>& visited) {

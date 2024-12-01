@@ -17,6 +17,7 @@
                 "/Fe${workspaceFolder}\\.vscode\\testsRunner.exe",
                 "/Fo${workspaceFolder}\\.vscode\\",
                 "/Fd${workspaceFolder}\\.vscode\\vc140.pdb",
+                "${workspaceFolder}/UnionFind.cpp",
                 "${workspaceFolder}/CourseSchedule_207.cpp",
                 "${workspaceFolder}/FindIfPathExistsInGraph_1971.cpp",
                 "${workspaceFolder}/NumberOfIslands_200.cpp",
