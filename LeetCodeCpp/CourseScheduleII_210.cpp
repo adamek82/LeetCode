@@ -1,6 +1,6 @@
 #include "CourseScheduleII_210.h"
 
-std::vector<int> CourseScheduleII_210::findOrder(int numCourses, std::vector<std::vector<int>> &prerequisites)
+std::vector<int> CourseScheduleII_210::findOrderByDFSTraversal(int numCourses, std::vector<std::vector<int>> &prerequisites)
 {
     std::vector<int> order;
     std::unordered_map<int, std::vector<int>> graph;
@@ -32,4 +32,42 @@ std::vector<int> CourseScheduleII_210::findOrder(int numCourses, std::vector<std
     }
 
     return order;
+}
+
+std::vector<int> CourseScheduleII_210::findOrderByKahnsAlgorithm(int numCourses, std::vector<std::vector<int>> &prerequisites)
+{
+    std::vector<int> order;
+    std::vector<int> inDegree(numCourses, 0);
+    std::vector<std::vector<int>> graph(numCourses); // Graph with numCourses empty vectors
+
+    // Build the graph and calculate in-degrees
+    for (const auto& pre : prerequisites) {
+        graph[pre[1]].push_back(pre[0]);
+        inDegree[pre[0]]++;
+    }
+
+    // Queue to process courses with no prerequisites
+    std::queue<int> queue;
+    for (int i = 0; i < numCourses; ++i) {
+        if (inDegree[i] == 0) {
+            queue.push(i); // Add courses with no prerequisites
+        }
+    }
+
+    // Process courses in topological order
+    while (!queue.empty()) {
+        int node = queue.front();
+        queue.pop();
+        order.push_back(node);
+
+        for (int target : graph[node]) {
+            inDegree[target]--;
+            if (inDegree[target] == 0) {
+                queue.push(target);
+            }
+        }
+    }
+
+    // Check if all courses are processed
+    return order.size() == numCourses ? order : std::vector<int>();
 }

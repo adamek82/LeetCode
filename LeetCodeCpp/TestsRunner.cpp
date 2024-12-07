@@ -224,8 +224,18 @@ public:
             return true; // All prerequisites are satisfied in the given order
         };
 
+        std::cout << "-> DFS-based topological sort version:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
-            std::vector<int> result = cs210.findOrder(testCases[i].numCourses, testCases[i].prerequisites);
+            std::vector<int> result = cs210.findOrderByDFSTraversal(testCases[i].numCourses, testCases[i].prerequisites);
+
+            bool pass = isValidOrder(result, testCases[i].numCourses, testCases[i].prerequisites, testCases[i].expectedOrder);
+
+            std::cout << "Test " << (i + 1) << ": res = " << (pass ? "PASS" : "FAIL") << std::endl;
+        }
+
+        std::cout << "-> Kahn's algorithm version:\n";
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            std::vector<int> result = cs210.findOrderByKahnsAlgorithm(testCases[i].numCourses, testCases[i].prerequisites);
 
             bool pass = isValidOrder(result, testCases[i].numCourses, testCases[i].prerequisites, testCases[i].expectedOrder);
 
