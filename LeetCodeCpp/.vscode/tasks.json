@@ -24,6 +24,7 @@
                 "${workspaceFolder}/MaxAreaOfIsland_695.cpp",
                 "${workspaceFolder}/CourseScheduleII_210.cpp",
                 "${workspaceFolder}/NetworkDelayTime_743.cpp",
+                "${workspaceFolder}/RottingOranges_994.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {

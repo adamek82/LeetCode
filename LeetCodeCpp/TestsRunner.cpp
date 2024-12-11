@@ -6,6 +6,7 @@
 #include "MaxAreaOfIsland_695.h"
 #include "CourseScheduleII_210.h"
 #include "NetworkDelayTime_743.h"
+#include "RottingOranges_994.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -45,6 +46,13 @@ struct NetworkDelayTimeTestCase {
     int n;
     int k;
     int expectedResult;
+};
+
+struct RottingOrangesTestCase {
+    std::vector<std::vector<int>> grid;
+    int expectedResult;
+
+    RottingOrangesTestCase(std::vector<std::vector<int>> g, int e) : grid(g), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -267,6 +275,37 @@ public:
         }
     }
 
+    static void rottingOranges_994_tests()
+    {
+        std::vector<RottingOrangesTestCase> testCases = {
+            RottingOrangesTestCase({{2, 1, 1}, {1, 1, 0}, {0, 1, 1}}, 4),  // Example 1
+            RottingOrangesTestCase({{2, 1, 1}, {0, 1, 1}, {1, 0, 1}}, -1), // Example 2
+            RottingOrangesTestCase({{0, 2}}, 0),                           // Example 3
+            // Additional Test Case 1
+            RottingOrangesTestCase({{2, 1, 1, 0, 0, 1, 2},
+                                    {1, 0, 0, 0, 1, 1, 0},
+                                    {0, 1, 2, 1, 0, 1, 0},
+                                    {0, 1, 0, 2, 2, 1, 0}},
+                                   3),
+            // Additional Test Case 2
+            RottingOrangesTestCase({{2, 2, 1, 1, 1, 0, 0},
+                                    {0, 1, 1, 2, 1, 1, 0},
+                                    {1, 1, 0, 1, 1, 2, 1},
+                                    {2, 0, 0, 1, 1, 1, 1},
+                                    {0, 0, 1, 1, 0, 0, 0}},
+                                   4)};
+
+        RottingOranges_994 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i)
+        {
+            int result = solution.orangesRotting(testCases[i].grid);
+            std::cout << "Rotting Oranges Test " << i + 1 << ": res = "
+                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -280,6 +319,8 @@ public:
         courseScheduleII_210_tests();
         std::cout << "Running NetworkDelayTime_743 tests:\n";
         networkDelayTime_743_tests();
+        std::cout << "Running RottingOranges_994 tests:\n";
+        rottingOranges_994_tests();
     }
 };
 
