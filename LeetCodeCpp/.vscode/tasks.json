@@ -6,7 +6,7 @@
             "type": "shell",
             "command": "cmd.exe",
             "args": [
-                "/c", 
+                "/c",
                 "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat",
                 "'&'",
                 "cl.exe",
@@ -28,7 +28,10 @@
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {
-                "cwd": "${fileDirname}"
+                "cwd": "${fileDirname}",
+                "env": {
+                    "VSLANG": "1033"
+                }
             },
             "problemMatcher": [
                 "$msCompile"
