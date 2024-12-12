@@ -4,16 +4,16 @@ int RottingOranges_994::orangesRotting(std::vector<std::vector<int>> &grid)
 {
         int m = grid.size();
         int n = grid[0].size();
-        
+
         std::queue<std::pair<int, int>> rottenQueue; // To store the positions of rotten oranges
         int freshCount = 0;
 
         // Initialize the queue with all rotten oranges and count the fresh ones
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                if (grid[i][j] == 2) {
+                if (grid[i][j] == static_cast<int>(CellState::ROTTEN)) {
                     rottenQueue.push({i, j});
-                } else if (grid[i][j] == 1) {
+                } else if (grid[i][j] == static_cast<int>(CellState::FRESH)) {
                     ++freshCount;
                 }
             }
@@ -39,8 +39,8 @@ int RottingOranges_994::orangesRotting(std::vector<std::vector<int>> &grid)
                     int ny = y + dir.second;
 
                     // Check if the neighboring cell is a fresh orange
-                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1) {
-                        grid[nx][ny] = 2; // Rot the fresh orange
+                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == static_cast<int>(CellState::FRESH)) {
+                        grid[nx][ny] = static_cast<int>(CellState::ROTTEN); // Rot the fresh orange
                         rottenQueue.push({nx, ny});
                         --freshCount;
                     }
