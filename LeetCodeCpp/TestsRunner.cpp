@@ -7,6 +7,7 @@
 #include "CourseScheduleII_210.h"
 #include "NetworkDelayTime_743.h"
 #include "RottingOranges_994.h"
+#include "PacificAtlanticWaterFlow_417.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -53,6 +54,14 @@ struct RottingOrangesTestCase {
     int expectedResult;
 
     RottingOrangesTestCase(std::vector<std::vector<int>> g, int e) : grid(g), expectedResult(e) {}
+};
+
+struct PacificAtlanticTestCase {
+    std::vector<std::vector<int>> heights;
+    std::vector<std::vector<int>> expectedResult;
+
+    PacificAtlanticTestCase(std::vector<std::vector<int>> h, std::vector<std::vector<int>> e)
+        : heights(h), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -306,6 +315,52 @@ public:
         }
     }
 
+    static void pacificAtlantic_417_tests()
+    {
+        std::vector<PacificAtlanticTestCase> testCases = {
+            // Example 1
+            PacificAtlanticTestCase({{1, 2, 2, 3, 5},
+                                     {3, 2, 3, 4, 4},
+                                     {2, 4, 5, 3, 1},
+                                     {6, 7, 1, 4, 5},
+                                     {5, 1, 1, 2, 4}},
+                                    {{0, 4}, {1, 3}, {1, 4}, {2, 2}, {3, 0}, {3, 1}, {4, 0}}),
+
+            // Example 2
+            PacificAtlanticTestCase({{1}}, {{0, 0}}),
+
+            // Additional Test Case 1
+            PacificAtlanticTestCase({{10, 10, 10},
+                                     {10, 1, 10},
+                                     {10, 10, 10}},
+                                    {{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 2}, {2, 0}, {2, 1}, {2, 2}}),
+
+            // Additional Test Case 2
+            PacificAtlanticTestCase({{1, 2, 2, 3, 5},
+                                     {3, 2, 3, 4, 4},
+                                     {2, 4, 5, 6, 7},
+                                     {6, 7, 8, 9, 10}},
+                                    {{0, 4}, {1, 3}, {1, 4}, {2, 3}, {2, 4}, {3, 0}, {3, 1}, {3, 2}, {3, 3}, {3, 4}}),
+
+            // Additional Test Case 3
+            PacificAtlanticTestCase({{5, 5, 5, 5, 5},
+                                     {5, 1, 1, 1, 5},
+                                     {5, 1, 1, 1, 5},
+                                     {5, 1, 1, 1, 5},
+                                     {5, 5, 5, 5, 5}},
+                                    {{0, 0}, {0, 1}, {0, 2}, {0, 3}, {0, 4}, {1, 0}, {1, 4}, {2, 0}, {2, 4}, {3, 0}, {3, 4}, {4, 0}, {4, 1}, {4, 2}, {4, 3}, {4, 4}})};
+
+        PacificAtlanticWaterFlow_417 pacificAtlanticSolution;
+
+        for (size_t i = 0; i < testCases.size(); ++i)
+        {
+            auto result = pacificAtlanticSolution.pacificAtlantic(testCases[i].heights);
+
+            std::cout << "Test " << (i + 1) << ": res = "
+                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -321,6 +376,8 @@ public:
         networkDelayTime_743_tests();
         std::cout << "Running RottingOranges_994 tests:\n";
         rottingOranges_994_tests();
+        std::cout << "Running PacificAtlanticWaterFlow_417 tests:\n";
+        pacificAtlantic_417_tests();
     }
 };
 
