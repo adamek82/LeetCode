@@ -270,6 +270,38 @@ public class TestsRunner {
         }
     }
 
+    public static void minCostToConnectAllPoints_1584_tests() {
+        class TestCase {
+            int[][] points;
+            int expectedResult;
+    
+            public TestCase(int[][] points, int expectedResult) {
+                this.points = points;
+                this.expectedResult = expectedResult;
+            }
+        }
+    
+        MinCostToConnectAllPoints_1584 solution = new MinCostToConnectAllPoints_1584();
+    
+        TestCase[] testCases = {
+            // Provided examples
+            new TestCase(new int[][]{{0, 0}, {2, 2}, {3, 10}, {5, 2}, {7, 0}}, 20),
+            new TestCase(new int[][]{{3, 12}, {-2, 5}, {-4, 1}}, 18),
+    
+            // Additional complex examples
+            new TestCase(new int[][]{{1, 1}, {3, 3}, {7, 7}, {10, 10}, {15, 15}}, 28), // Sequential points
+            new TestCase(new int[][]{{0, 0}, {1, 1}, {1, 0}, {0, 1}, {2, 2}}, 5),     // Compact grid
+            new TestCase(new int[][]{{-100, -100}, {100, 100}, {-100, 100}, {100, -100}}, 600) // Distant points
+        };
+    
+        for (int i = 0; i < testCases.length; i++) {
+            int result = solution.minCostConnectPoints(testCases[i].points);
+            System.out.println("MinCostToConnectAllPoints_1584 Test " + (i + 1) + ": res = " +
+                (result == testCases[i].expectedResult ? "PASS" : "FAIL") +
+                " (Expected: " + testCases[i].expectedResult + ", Got: " + result + ")");
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println("Running LeetCodeJava tests:");
 
@@ -290,5 +322,8 @@ public class TestsRunner {
 
         System.out.println("\nRunning NetworkDelayTime_743 tests:");
         networkDelayTime_743_tests();
+
+        System.out.println("\nRunning MinCostToConnectAllPoints_1584 tests:");
+        minCostToConnectAllPoints_1584_tests();
     }
 }
