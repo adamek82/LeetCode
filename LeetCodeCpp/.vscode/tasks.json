@@ -26,6 +26,7 @@
                 "${workspaceFolder}/NetworkDelayTime_743.cpp",
                 "${workspaceFolder}/RottingOranges_994.cpp",
                 "${workspaceFolder}/PacificAtlanticWaterFlow_417.cpp",
+                "${workspaceFolder}/MinCostToConnectAllPoints_1584.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {

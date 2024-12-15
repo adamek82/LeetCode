@@ -8,6 +8,7 @@
 #include "NetworkDelayTime_743.h"
 #include "RottingOranges_994.h"
 #include "PacificAtlanticWaterFlow_417.h"
+#include "MinCostToConnectAllPoints_1584.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -62,6 +63,13 @@ struct PacificAtlanticTestCase {
 
     PacificAtlanticTestCase(std::vector<std::vector<int>> h, std::vector<std::vector<int>> e)
         : heights(h), expectedResult(e) {}
+};
+
+struct MinCostToConnectAllPointsTestCase {
+    std::vector<std::vector<int>> points;
+    int expectedResult;
+
+    MinCostToConnectAllPointsTestCase(std::vector<std::vector<int>> p, int e) : points(p), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -361,6 +369,28 @@ public:
         }
     }
 
+    static void minCostToConnectAllPoints_1584_tests() {
+        std::vector<MinCostToConnectAllPointsTestCase> testCases = {
+            // Provided examples
+            MinCostToConnectAllPointsTestCase({{0, 0}, {2, 2}, {3, 10}, {5, 2}, {7, 0}}, 20),
+            MinCostToConnectAllPointsTestCase({{3, 12}, {-2, 5}, {-4, 1}}, 18),
+
+            // Additional complex examples
+            MinCostToConnectAllPointsTestCase({{1, 1}, {3, 3}, {7, 7}, {10, 10}, {15, 15}}, 28), // Sequential points
+            MinCostToConnectAllPointsTestCase({{0, 0}, {1, 1}, {1, 0}, {0, 1}, {2, 2}}, 5), // Compact grid
+            MinCostToConnectAllPointsTestCase({{-100, -100}, {100, 100}, {-100, 100}, {100, -100}}, 600), // Distant points
+        };
+
+        MinCostToConnectAllPoints_1584 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = solution.minCostConnectPoints(testCases[i].points);
+            std::cout << "Min Cost Test " << (i + 1) << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -378,6 +408,8 @@ public:
         rottingOranges_994_tests();
         std::cout << "Running PacificAtlanticWaterFlow_417 tests:\n";
         pacificAtlantic_417_tests();
+        std::cout << "Running MinCostToConnectAllPoints_1584 tests:\n";
+        minCostToConnectAllPoints_1584_tests();
     }
 };
 
