@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <vector>
 #include "CourseSchedule_207.h"
 #include "FindIfPathExistsInGraph_1971.h"
@@ -9,6 +10,7 @@
 #include "RottingOranges_994.h"
 #include "PacificAtlanticWaterFlow_417.h"
 #include "MinCostToConnectAllPoints_1584.h"
+#include "LongestCommonSubsequence_1143.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -70,6 +72,15 @@ struct MinCostToConnectAllPointsTestCase {
     int expectedResult;
 
     MinCostToConnectAllPointsTestCase(std::vector<std::vector<int>> p, int e) : points(p), expectedResult(e) {}
+};
+
+struct LongestCommonSubsequenceTestCase {
+    std::string text1;
+    std::string text2;
+    int expectedResult;
+
+    LongestCommonSubsequenceTestCase(std::string t1, std::string t2, int e)
+        : text1(t1), text2(t2), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -391,6 +402,28 @@ public:
         }
     }
 
+    static void longestCommonSubsequence_tests() {
+    std::vector<LongestCommonSubsequenceTestCase> testCases = {
+        // Provided examples
+        LongestCommonSubsequenceTestCase("abcde", "ace", 3), // Example 1
+        LongestCommonSubsequenceTestCase("abc", "abc", 3),   // Example 2
+        LongestCommonSubsequenceTestCase("abc", "def", 0),   // Example 3
+
+        // Additional complex examples
+        LongestCommonSubsequenceTestCase("abcdefghijabcdefghij", "acegikacegik", 10), // Alternating match
+        LongestCommonSubsequenceTestCase("abcdefghijklmnopqrst", "zyxwvutsrqponmlkjih", 1) // No common subsequence
+    };
+
+    LongestCommonSubsequence_1143 solution;
+
+    for (size_t i = 0; i < testCases.size(); ++i) {
+        int result = solution.longestCommonSubsequence(testCases[i].text1, testCases[i].text2);
+        std::cout << "LCS Test " << i + 1 << ": res = "
+                  << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                  << " (Expected: " << testCases[i].expectedResult
+                  << ", Got: " << result << ")" << std::endl;
+    }
+}
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -410,6 +443,8 @@ public:
         pacificAtlantic_417_tests();
         std::cout << "Running MinCostToConnectAllPoints_1584 tests:\n";
         minCostToConnectAllPoints_1584_tests();
+        std::cout << "Running LongestCommonSubsequence tests:\n";
+        longestCommonSubsequence_tests();
     }
 };
 
