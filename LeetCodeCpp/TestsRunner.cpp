@@ -11,6 +11,7 @@
 #include "PacificAtlanticWaterFlow_417.h"
 #include "MinCostToConnectAllPoints_1584.h"
 #include "LongestCommonSubsequence_1143.h"
+#include "LongestIncreasingSubsequence_300.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -81,6 +82,13 @@ struct LongestCommonSubsequenceTestCase {
 
     LongestCommonSubsequenceTestCase(std::string t1, std::string t2, int e)
         : text1(t1), text2(t2), expectedResult(e) {}
+};
+
+struct LongestIncreasingSubsequenceTestCase {
+    std::vector<int> nums;
+    int expectedResult;
+
+    LongestIncreasingSubsequenceTestCase(std::vector<int> n, int e) : nums(n), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -403,27 +411,51 @@ public:
     }
 
     static void longestCommonSubsequence_tests() {
-    std::vector<LongestCommonSubsequenceTestCase> testCases = {
-        // Provided examples
-        LongestCommonSubsequenceTestCase("abcde", "ace", 3), // Example 1
-        LongestCommonSubsequenceTestCase("abc", "abc", 3),   // Example 2
-        LongestCommonSubsequenceTestCase("abc", "def", 0),   // Example 3
+        std::vector<LongestCommonSubsequenceTestCase> testCases = {
+            // Provided examples
+            LongestCommonSubsequenceTestCase("abcde", "ace", 3), // Example 1
+            LongestCommonSubsequenceTestCase("abc", "abc", 3),   // Example 2
+            LongestCommonSubsequenceTestCase("abc", "def", 0),   // Example 3
 
-        // Additional complex examples
-        LongestCommonSubsequenceTestCase("abcdefghijabcdefghij", "acegikacegik", 10), // Alternating match
-        LongestCommonSubsequenceTestCase("abcdefghijklmnopqrst", "zyxwvutsrqponmlkjih", 1) // No common subsequence
-    };
+            // Additional complex examples
+            LongestCommonSubsequenceTestCase("abcdefghijabcdefghij", "acegikacegik", 10), // Alternating match
+            LongestCommonSubsequenceTestCase("abcdefghijklmnopqrst", "zyxwvutsrqponmlkjih", 1) // No common subsequence
+        };
 
-    LongestCommonSubsequence_1143 solution;
+        LongestCommonSubsequence_1143 solution;
 
-    for (size_t i = 0; i < testCases.size(); ++i) {
-        int result = solution.longestCommonSubsequence(testCases[i].text1, testCases[i].text2);
-        std::cout << "LCS Test " << i + 1 << ": res = "
-                  << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                  << " (Expected: " << testCases[i].expectedResult
-                  << ", Got: " << result << ")" << std::endl;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = solution.longestCommonSubsequence(testCases[i].text1, testCases[i].text2);
+            std::cout << "LCS Test " << i + 1 << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expectedResult
+                    << ", Got: " << result << ")" << std::endl;
+        }
     }
-}
+
+    static void longestIncreasingSubsequence_tests() {
+        std::vector<LongestIncreasingSubsequenceTestCase> testCases = {
+            // Provided examples
+            LongestIncreasingSubsequenceTestCase({10, 9, 2, 5, 3, 7, 101, 18}, 4), // Example 1
+            LongestIncreasingSubsequenceTestCase({0, 1, 0, 3, 2, 3}, 4),           // Example 2
+            LongestIncreasingSubsequenceTestCase({7, 7, 7, 7, 7, 7, 7}, 1),        // Example 3
+
+            // Additional complex examples
+            LongestIncreasingSubsequenceTestCase({3, 10, 2, 1, 20, 4, 6, 21, 22, 23}, 6), // Example 4
+            LongestIncreasingSubsequenceTestCase({9, 2, 5, 3, 7, 101, 18, 9, 4, 5, 6, 7, 8}, 7) // Example 5
+        };
+
+        LongestIncreasingSubsequence_300 solution; // Assuming your LIS solution is implemented in this class
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = solution.lengthOfLIS(testCases[i].nums);
+            std::cout << "LIS Test " << i + 1 << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expectedResult
+                    << ", Got: " << result << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -445,6 +477,8 @@ public:
         minCostToConnectAllPoints_1584_tests();
         std::cout << "Running LongestCommonSubsequence tests:\n";
         longestCommonSubsequence_tests();
+        std::cout << "Running LongestIncreasingSubsequence_300 tests:\n";
+        longestIncreasingSubsequence_tests();
     }
 };
 

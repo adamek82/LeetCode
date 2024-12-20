@@ -28,6 +28,7 @@
                 "${workspaceFolder}/PacificAtlanticWaterFlow_417.cpp",
                 "${workspaceFolder}/MinCostToConnectAllPoints_1584.cpp",
                 "${workspaceFolder}/LongestCommonSubsequence_1143.cpp",
+                "${workspaceFolder}/LongestIncreasingSubsequence_300.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {
