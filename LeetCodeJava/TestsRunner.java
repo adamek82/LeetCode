@@ -302,6 +302,38 @@ public class TestsRunner {
         }
     }
 
+    public static void longestIncreasingSubsequence_300_tests() {
+        // Inner class for representing each test case
+        class TestCase {
+            int[] nums;
+            int expectedResult;
+    
+            public TestCase(int[] nums, int expectedResult) {
+                this.nums = nums;
+                this.expectedResult = expectedResult;
+            }
+        }
+    
+        LongestIncreasingSubsequence_300 solution = new LongestIncreasingSubsequence_300();
+    
+        // Define test cases in an array
+        TestCase[] testCases = {
+            new TestCase(new int[]{10, 9, 2, 5, 3, 7, 101, 18}, 4), // Example 1
+            new TestCase(new int[]{0, 1, 0, 3, 2, 3}, 4),           // Example 2
+            new TestCase(new int[]{7, 7, 7, 7, 7, 7, 7}, 1),        // Example 3
+            new TestCase(new int[]{3, 10, 2, 1, 20, 4, 6, 21, 22, 23}, 6), // Example 4
+            new TestCase(new int[]{9, 2, 5, 3, 7, 101, 18, 9, 4, 5, 6, 7, 8}, 7) // Example 5
+        };
+    
+        // Iterate through test cases
+        for (int i = 0; i < testCases.length; i++) {
+            int res = solution.lengthOfLIS(testCases[i].nums);
+            System.out.println("LongestIncreasingSubsequence_300 Test " + (i + 1) + ": res = " +
+                (res == testCases[i].expectedResult ? "PASS" : "FAIL") +
+                " (Expected: " + testCases[i].expectedResult + ", Got: " + res + ")");
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println("Running LeetCodeJava tests:");
 
@@ -325,5 +357,8 @@ public class TestsRunner {
 
         System.out.println("\nRunning MinCostToConnectAllPoints_1584 tests:");
         minCostToConnectAllPoints_1584_tests();
+
+        System.out.println("\nRunning LongestIncreasingSubsequence_300 tests:");
+        longestIncreasingSubsequence_300_tests(); // New test addition
     }
 }
