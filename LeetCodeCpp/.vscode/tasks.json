@@ -18,6 +18,8 @@
                 "/Fo${workspaceFolder}\\.vscode\\",
                 "/Fd${workspaceFolder}\\.vscode\\vc140.pdb",
                 "${workspaceFolder}/UnionFind.cpp",
+                "${workspaceFolder}/ListNode.cpp",
+                "${workspaceFolder}/ListUtils.cpp",
                 "${workspaceFolder}/CourseSchedule_207.cpp",
                 "${workspaceFolder}/FindIfPathExistsInGraph_1971.cpp",
                 "${workspaceFolder}/NumberOfIslands_200.cpp",
@@ -29,6 +31,7 @@
                 "${workspaceFolder}/MinCostToConnectAllPoints_1584.cpp",
                 "${workspaceFolder}/LongestCommonSubsequence_1143.cpp",
                 "${workspaceFolder}/LongestIncreasingSubsequence_300.cpp",
+                "${workspaceFolder}/RemoveDuplicatesFromSortedList_83.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {

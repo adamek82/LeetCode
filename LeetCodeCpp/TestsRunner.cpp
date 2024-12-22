@@ -12,6 +12,8 @@
 #include "MinCostToConnectAllPoints_1584.h"
 #include "LongestCommonSubsequence_1143.h"
 #include "LongestIncreasingSubsequence_300.h"
+#include "ListUtils.h"
+#include "RemoveDuplicatesFromSortedList_83.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -89,6 +91,14 @@ struct LongestIncreasingSubsequenceTestCase {
     int expectedResult;
 
     LongestIncreasingSubsequenceTestCase(std::vector<int> n, int e) : nums(n), expectedResult(e) {}
+};
+
+struct RemoveDuplicatesTestCase {
+    std::vector<int> inputList;
+    std::vector<int> expectedList;
+
+    RemoveDuplicatesTestCase(std::vector<int> input, std::vector<int> expected)
+        : inputList(input), expectedList(expected) {}
 };
 
 class TestsRunner {
@@ -456,6 +466,44 @@ public:
         }
     }
 
+    static void removeDuplicatesFromSortedList_83_tests() {
+        using IntListNode = ListNode<int>;
+
+        // Define test cases
+        std::vector<RemoveDuplicatesTestCase> testCases = {
+            // Provided examples
+            RemoveDuplicatesTestCase({1, 1, 2}, {1, 2}),
+            RemoveDuplicatesTestCase({1, 1, 2, 3, 3}, {1, 2, 3}),
+
+            // Additional complex test cases
+            RemoveDuplicatesTestCase({1, 1, 1, 1, 1}, {1}),                         // Single value repeated many times
+            RemoveDuplicatesTestCase({1, 2, 2, 3, 3, 4, 4, 5, 5, 6}, {1, 2, 3, 4, 5, 6}), // Alternating duplicates
+            RemoveDuplicatesTestCase({-10, -10, -5, 0, 0, 1, 1, 2, 2, 2, 100}, {-10, -5, 0, 1, 2, 100}), // Mixed negative and positive numbers
+        };
+
+        RemoveDuplicatesFromSortedList_83 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            // Create a linked list using ListUtils
+            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].inputList);
+
+            // Run the solution
+            IntListNode* result = solution.deleteDuplicates(input);
+
+            // Convert result to vector
+            std::vector<int> resultVector = ListUtils::toVector<int>(result);
+
+            // Print test results
+            std::cout << "Remove Duplicates Test " << i + 1 << ": res = "
+                    << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
+                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
+                    << ", Got: " << ListUtils::toString<int>(result) << ")" << std::endl;
+
+            // Free the allocated linked list
+            ListUtils::freeList<int>(result);
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -479,6 +527,8 @@ public:
         longestCommonSubsequence_tests();
         std::cout << "Running LongestIncreasingSubsequence_300 tests:\n";
         longestIncreasingSubsequence_tests();
+        std::cout << "Running RemoveDuplicatesFromSortedList_83 tests:\n";
+        removeDuplicatesFromSortedList_83_tests();
     }
 };
 
