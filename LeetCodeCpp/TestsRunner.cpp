@@ -14,6 +14,7 @@
 #include "LongestIncreasingSubsequence_300.h"
 #include "ListUtils.h"
 #include "RemoveDuplicatesFromSortedList_83.h"
+#include "ReverseLinkedList_206.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -98,6 +99,14 @@ struct RemoveDuplicatesTestCase {
     std::vector<int> expectedList;
 
     RemoveDuplicatesTestCase(std::vector<int> input, std::vector<int> expected)
+        : inputList(input), expectedList(expected) {}
+};
+
+struct ReverseListTestCase {
+    std::vector<int> inputList;
+    std::vector<int> expectedList;
+
+    ReverseListTestCase(std::vector<int> input, std::vector<int> expected)
         : inputList(input), expectedList(expected) {}
 };
 
@@ -504,6 +513,44 @@ public:
         }
     }
 
+    static void reverseLinkedList_206_tests() {
+        using IntListNode = ListNode<int>;
+
+        // Define test cases
+        std::vector<ReverseListTestCase> testCases = {
+            // Provided examples
+            ReverseListTestCase({1, 2, 3, 4, 5}, {5, 4, 3, 2, 1}),
+            ReverseListTestCase({1, 2}, {2, 1}),
+            ReverseListTestCase({}, {}),
+
+            // Additional complex test cases
+            ReverseListTestCase({-5, -4, -3, -2, -1}, {-1, -2, -3, -4, -5}), // Negative values
+            ReverseListTestCase({10, 20, 30, 40, 50, 60}, {60, 50, 40, 30, 20, 10}) // Longer list
+        };
+
+        ReverseLinkedList_206 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            // Create a linked list using ListUtils
+            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].inputList);
+
+            // Run the solution
+            IntListNode* result = solution.reverseList(input);
+
+            // Convert result to vector
+            std::vector<int> resultVector = ListUtils::toVector<int>(result);
+
+            // Print test results
+            std::cout << "Reverse Linked List Test " << i + 1 << ": res = "
+                    << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
+                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
+                    << ", Got: " << ListUtils::toString<int>(result) << ")" << std::endl;
+
+            // Free the allocated linked list
+            ListUtils::freeList<int>(result);
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -529,6 +576,8 @@ public:
         longestIncreasingSubsequence_tests();
         std::cout << "Running RemoveDuplicatesFromSortedList_83 tests:\n";
         removeDuplicatesFromSortedList_83_tests();
+        std::cout << "Running ReverseLinkedListLeetcode_206 tests:\n";
+        reverseLinkedList_206_tests();
     }
 };
 
