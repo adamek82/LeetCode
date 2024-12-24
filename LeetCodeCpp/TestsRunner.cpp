@@ -15,6 +15,7 @@
 #include "ListUtils.h"
 #include "RemoveDuplicatesFromSortedList_83.h"
 #include "ReverseLinkedList_206.h"
+#include "MergeTwoSortedLists_21.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -108,6 +109,15 @@ struct ReverseListTestCase {
 
     ReverseListTestCase(std::vector<int> input, std::vector<int> expected)
         : inputList(input), expectedList(expected) {}
+};
+
+struct MergeTwoListsTestCase {
+    std::vector<int> list1;
+    std::vector<int> list2;
+    std::vector<int> expectedList;
+
+    MergeTwoListsTestCase(std::vector<int> l1, std::vector<int> l2, std::vector<int> expected)
+        : list1(l1), list2(l2), expectedList(expected) {}
 };
 
 class TestsRunner {
@@ -551,6 +561,45 @@ public:
         }
     }
 
+    static void mergeTwoSortedLists_21_tests() {
+        using IntListNode = ListNode<int>;
+
+        // Define test cases
+        std::vector<MergeTwoListsTestCase> testCases = {
+            // Provided examples
+            MergeTwoListsTestCase({1, 2, 4}, {1, 3, 4}, {1, 1, 2, 3, 4, 4}),
+            MergeTwoListsTestCase({}, {}, {}),
+            MergeTwoListsTestCase({}, {0}, {0}),
+
+            // Additional complex test cases
+            MergeTwoListsTestCase({-10, -5, 0, 3}, {-8, -6, 2, 4}, {-10, -8, -6, -5, 0, 2, 3, 4}),
+            MergeTwoListsTestCase({1, 3, 5, 7}, {2, 4, 6, 8, 10}, {1, 2, 3, 4, 5, 6, 7, 8, 10})
+        };
+
+        MergeTwoSortedLists_21 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            // Create linked lists using ListUtils
+            IntListNode* list1 = ListUtils::createLinkedList<int>(testCases[i].list1);
+            IntListNode* list2 = ListUtils::createLinkedList<int>(testCases[i].list2);
+
+            // Run the solution
+            IntListNode* result = solution.mergeTwoLists(list1, list2);
+
+            // Convert result to vector
+            std::vector<int> resultVector = ListUtils::toVector<int>(result);
+
+            // Print test results
+            std::cout << "Merge Two Sorted Lists Test " << i + 1 << ": res = "
+                    << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
+                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
+                    << ", Got: " << ListUtils::toString<int>(result) << ")" << std::endl;
+
+            // Free the allocated merged list
+            ListUtils::freeList<int>(result);
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -578,6 +627,8 @@ public:
         removeDuplicatesFromSortedList_83_tests();
         std::cout << "Running ReverseLinkedListLeetcode_206 tests:\n";
         reverseLinkedList_206_tests();
+        std::cout << "Running MergeTwoSortedLists_21 tests:\n";
+        mergeTwoSortedLists_21_tests();
     }
 };
 
