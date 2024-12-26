@@ -2,6 +2,7 @@
 #include "ListNode.h"
 #include <vector>
 #include <string>
+#include <unordered_set>
 #include <sstream>
 
 class ListUtils {
@@ -21,4 +22,8 @@ public:
     // Free the linked list memory
     template <typename T>
     static void freeList(ListNode<T>* head);
+
+    // Create a linked list from a vector and set up a cycle if pos >= 0
+    template <typename T>
+    static ListNode<T>* createLinkedListWithCycle(const std::vector<T>& values, int pos);
 };

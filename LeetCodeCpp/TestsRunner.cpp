@@ -16,6 +16,7 @@
 #include "RemoveDuplicatesFromSortedList_83.h"
 #include "ReverseLinkedList_206.h"
 #include "MergeTwoSortedLists_21.h"
+#include "LinkedListCycle_141.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -118,6 +119,15 @@ struct MergeTwoListsTestCase {
 
     MergeTwoListsTestCase(std::vector<int> l1, std::vector<int> l2, std::vector<int> expected)
         : list1(l1), list2(l2), expectedList(expected) {}
+};
+
+struct LinkedListCycleTestCase {
+    std::vector<int> inputList;
+    int pos;
+    bool expectedResult;
+
+    LinkedListCycleTestCase(std::vector<int> input, int cyclePos, bool expected)
+        : inputList(input), pos(cyclePos), expectedResult(expected) {}
 };
 
 class TestsRunner {
@@ -600,6 +610,38 @@ public:
         }
     }
 
+    static void hasCycle_141_tests() {
+        std::vector<LinkedListCycleTestCase> testCases = {
+            // Provided examples
+            LinkedListCycleTestCase({3, 2, 0, -4}, 1, true),
+            LinkedListCycleTestCase({1, 2}, 0, true),
+            LinkedListCycleTestCase({1}, -1, false),
+
+            // Additional examples
+            LinkedListCycleTestCase({1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 4, true),
+            LinkedListCycleTestCase({10, 20, 30, 40, 50, 60, 70, 80}, 2, true)
+        };
+
+        LinkedListCycle_141 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            // Create a linked list with a cycle
+            ListNode<int>* head = ListUtils::createLinkedListWithCycle<int>(testCases[i].inputList, testCases[i].pos);
+
+            // Run the hasCycle function
+            bool result = solution.hasCycle(head);
+
+            // Print test results
+            std::cout << "Test " << (i + 1) << ": res = "
+                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expectedResult
+                      << ", Got: " << result << ")" << std::endl;
+
+            // Free the linked list
+            ListUtils::freeList<int>(head);
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -629,6 +671,8 @@ public:
         reverseLinkedList_206_tests();
         std::cout << "Running MergeTwoSortedLists_21 tests:\n";
         mergeTwoSortedLists_21_tests();
+        std::cout << "Running LinkedListCycle_141 tests:\n";
+        hasCycle_141_tests();
     }
 };
 
