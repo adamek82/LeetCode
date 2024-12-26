@@ -36,8 +36,8 @@ std::string ListUtils::toString(ListNode<T>* head) {
     std::unordered_set<ListNode<T>*> visited;
     while (head) {
         if (visited.find(head) != visited.end()) {
-            oss << head->val << "(cycle)";
-            break;
+            oss << head->val << " (cycle)";
+            return oss.str();
         }
         visited.insert(head);
         oss << head->val << " -> ";

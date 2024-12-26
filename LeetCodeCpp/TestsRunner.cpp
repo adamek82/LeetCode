@@ -635,7 +635,8 @@ public:
             std::cout << "Test " << (i + 1) << ": res = "
                       << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expectedResult
-                      << ", Got: " << result << ")" << std::endl;
+                      << ", Got: " << result << ")\n"
+                      << "List: " << ListUtils::toString<int>(head) << std::endl;
 
             // Free the linked list
             ListUtils::freeList<int>(head);
