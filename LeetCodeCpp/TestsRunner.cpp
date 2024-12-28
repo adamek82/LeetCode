@@ -17,6 +17,7 @@
 #include "ReverseLinkedList_206.h"
 #include "MergeTwoSortedLists_21.h"
 #include "LinkedListCycle_141.h"
+#include "MiddleOfLinkedList_876.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -128,6 +129,14 @@ struct LinkedListCycleTestCase {
 
     LinkedListCycleTestCase(std::vector<int> input, int cyclePos, bool expected)
         : inputList(input), pos(cyclePos), expectedResult(expected) {}
+};
+
+struct MiddleOfLinkedListTestCase {
+    std::vector<int> inputList;
+    std::vector<int> expectedList;
+
+    MiddleOfLinkedListTestCase(std::vector<int> input, std::vector<int> expected)
+        : inputList(input), expectedList(expected) {}
 };
 
 class TestsRunner {
@@ -643,6 +652,43 @@ public:
         }
     }
 
+    static void middleOfLinkedList_876_tests() {
+        using IntListNode = ListNode<int>;
+
+        std::vector<MiddleOfLinkedListTestCase> testCases = {
+            // Provided examples
+            MiddleOfLinkedListTestCase({1, 2, 3, 4, 5}, {3, 4, 5}),
+            MiddleOfLinkedListTestCase({1, 2, 3, 4, 5, 6}, {4, 5, 6}),
+
+            // Additional test cases
+            MiddleOfLinkedListTestCase({}, {}),                         // Edge case: empty list
+            MiddleOfLinkedListTestCase({1}, {1}),                       // Edge case: single element
+            MiddleOfLinkedListTestCase({1, 2, 3, 4, 5, 6, 7}, {4, 5, 6, 7}) // Odd-length list
+        };
+
+        MiddleOfLinkedList_876 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            // Create a linked list using ListUtils
+            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].inputList);
+
+            // Run the solution
+            IntListNode* result = solution.middleNode(input);
+
+            // Convert result to vector
+            std::vector<int> resultVector = ListUtils::toVector<int>(result);
+
+            // Print test results
+            std::cout << "Middle of Linked List Test " << i + 1 << ": res = "
+                    << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
+                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
+                    << ", Got: " << ListUtils::toString<int>(result) << ")" << std::endl;
+
+            // Free the allocated linked list
+            ListUtils::freeList<int>(input);
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -674,6 +720,8 @@ public:
         mergeTwoSortedLists_21_tests();
         std::cout << "Running LinkedListCycle_141 tests:\n";
         hasCycle_141_tests();
+        std::cout << "Running MiddleOfLinkedList_876 tests:\n";
+        middleOfLinkedList_876_tests();
     }
 };
 

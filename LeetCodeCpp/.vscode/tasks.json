@@ -35,6 +35,7 @@
                 "${workspaceFolder}/ReverseLinkedList_206.cpp",
                 "${workspaceFolder}/MergeTwoSortedLists_21.cpp",
                 "${workspaceFolder}/LinkedListCycle_141.cpp",
+                "${workspaceFolder}/MiddleOfLinkedList_876.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {
