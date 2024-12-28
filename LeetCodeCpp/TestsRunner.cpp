@@ -18,6 +18,7 @@
 #include "MergeTwoSortedLists_21.h"
 #include "LinkedListCycle_141.h"
 #include "MiddleOfLinkedList_876.h"
+#include "RemoveNthNodeFromEndOfList_19.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -137,6 +138,15 @@ struct MiddleOfLinkedListTestCase {
 
     MiddleOfLinkedListTestCase(std::vector<int> input, std::vector<int> expected)
         : inputList(input), expectedList(expected) {}
+};
+
+struct RemoveNthNodeTestCase {
+    std::vector<int> inputList;
+    int n;
+    std::vector<int> expectedList;
+
+    RemoveNthNodeTestCase(std::vector<int> input, int nth, std::vector<int> expected)
+        : inputList(input), n(nth), expectedList(expected) {}
 };
 
 class TestsRunner {
@@ -689,6 +699,43 @@ public:
         }
     }
 
+    static void removeNthFromEnd_tests() {
+        using IntListNode = ListNode<int>;
+
+        std::vector<RemoveNthNodeTestCase> testCases = {
+            // Provided examples
+            RemoveNthNodeTestCase({1, 2, 3, 4, 5}, 2, {1, 2, 3, 5}),
+            RemoveNthNodeTestCase({1}, 1, {}),
+            RemoveNthNodeTestCase({1, 2}, 1, {1}),
+
+            // Additional test cases
+            RemoveNthNodeTestCase({10, 20, 30, 40, 50, 60, 70}, 3, {10, 20, 30, 40, 60, 70}), // Bigger list
+            RemoveNthNodeTestCase({5, 10, 15, 20}, 4, {10, 15, 20}) // Removing the head
+        };
+
+        RemoveNthNodeFromEndOfList_19 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            // Create a linked list using ListUtils
+            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].inputList);
+
+            // Run the solution
+            IntListNode* result = solution.removeNthFromEnd(input, testCases[i].n);
+
+            // Convert result to vector
+            std::vector<int> resultVector = ListUtils::toVector<int>(result);
+
+            // Print test results
+            std::cout << "Remove Nth Node From End Test " << i + 1 << ": res = "
+                    << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
+                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
+                    << ", Got: " << ListUtils::toString<int>(result) << ")" << std::endl;
+
+            // Free the allocated linked list
+            ListUtils::freeList<int>(result);
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -722,6 +769,8 @@ public:
         hasCycle_141_tests();
         std::cout << "Running MiddleOfLinkedList_876 tests:\n";
         middleOfLinkedList_876_tests();
+        std::cout << "Running RemoveNthFromEnd tests:\n";
+        removeNthFromEnd_tests();
     }
 };
 

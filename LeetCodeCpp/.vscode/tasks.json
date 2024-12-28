@@ -36,6 +36,7 @@
                 "${workspaceFolder}/MergeTwoSortedLists_21.cpp",
                 "${workspaceFolder}/LinkedListCycle_141.cpp",
                 "${workspaceFolder}/MiddleOfLinkedList_876.cpp",
+                "${workspaceFolder}/RemoveNthNodeFromEndOfList_19.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {
