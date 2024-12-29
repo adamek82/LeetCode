@@ -19,6 +19,7 @@
 #include "LinkedListCycle_141.h"
 #include "MiddleOfLinkedList_876.h"
 #include "RemoveNthNodeFromEndOfList_19.h"
+#include "BestTimeToBuyAndSellStock_121.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -147,6 +148,13 @@ struct RemoveNthNodeTestCase {
 
     RemoveNthNodeTestCase(std::vector<int> input, int nth, std::vector<int> expected)
         : inputList(input), n(nth), expectedList(expected) {}
+};
+
+struct MaxProfitTestCase {
+    std::vector<int> prices;
+    int expectedResult;
+
+    MaxProfitTestCase(std::vector<int> p, int e) : prices(p), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -736,6 +744,30 @@ public:
         }
     }
 
+    static void maxProfit_121_tests() {
+        std::vector<MaxProfitTestCase> testCases = {
+            // Provided examples
+            MaxProfitTestCase({7, 1, 5, 3, 6, 4}, 5),  // Example 1
+            MaxProfitTestCase({7, 6, 4, 3, 1}, 0),    // Example 2
+            
+            // Additional complex test cases
+            MaxProfitTestCase({1, 2, 3, 4, 5, 6, 7, 8, 9}, 8),       // Buy on day 1, sell on day 9
+            MaxProfitTestCase({9, 8, 7, 1, 5, 3, 6, 4}, 5),          // Buy on day 4, sell on day 7
+            
+            // Edge case
+            MaxProfitTestCase({5}, 0)  // Single price: no transactions possible
+        };
+
+        BestTimeToBuyAndSellStock_121 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = solution.maxProfit(testCases[i].prices);
+            std::cout << "Max Profit Test " << i + 1 << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -771,6 +803,8 @@ public:
         middleOfLinkedList_876_tests();
         std::cout << "Running RemoveNthFromEnd tests:\n";
         removeNthFromEnd_tests();
+        std::cout << "Running MaxProfit_121 tests:\n";
+        maxProfit_121_tests();
     }
 };
 
