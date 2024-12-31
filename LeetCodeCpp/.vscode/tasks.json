@@ -38,6 +38,7 @@
                 "${workspaceFolder}/MiddleOfLinkedList_876.cpp",
                 "${workspaceFolder}/RemoveNthNodeFromEndOfList_19.cpp",
                 "${workspaceFolder}/BestTimeToBuyAndSellStock_121.cpp",
+                "${workspaceFolder}/SpiralMatrix_54.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {

@@ -20,6 +20,7 @@
 #include "MiddleOfLinkedList_876.h"
 #include "RemoveNthNodeFromEndOfList_19.h"
 #include "BestTimeToBuyAndSellStock_121.h"
+#include "SpiralMatrix_54.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -155,6 +156,14 @@ struct MaxProfitTestCase {
     int expectedResult;
 
     MaxProfitTestCase(std::vector<int> p, int e) : prices(p), expectedResult(e) {}
+};
+
+struct SpiralMatrixTestCase {
+    std::vector<std::vector<int>> matrix;
+    std::vector<int> expectedResult;
+
+    SpiralMatrixTestCase(std::vector<std::vector<int>> m, std::vector<int> e) 
+        : matrix(m), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -768,6 +777,37 @@ public:
         }
     }
 
+    static void spiralMatrix_54_tests() {
+        std::vector<SpiralMatrixTestCase> testCases = {
+            // Provided examples
+            SpiralMatrixTestCase({{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}, {1, 2, 3, 6, 9, 8, 7, 4, 5}),
+            SpiralMatrixTestCase({{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}}, {1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7}),
+
+            // Additional test cases
+            // Edge case: Single element matrix
+            SpiralMatrixTestCase({{1}}, {1}),
+
+            // More complicated matrix: Rectangular (more rows)
+            SpiralMatrixTestCase({{1, 2}, {3, 4}, {5, 6}, {7, 8}}, {1, 2, 4, 6, 8, 7, 5, 3}),
+            
+            // More complicated matrix: Rectangular (more columns)
+            SpiralMatrixTestCase({{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}}, {1, 2, 3, 4, 5, 10, 9, 8, 7, 6}),
+        };
+
+        SpiralMatrix_54 sm54;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            std::vector<int> result = sm54.spiralOrder(testCases[i].matrix);
+            std::cout << "Spiral Matrix Test " << (i + 1) << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: ";
+            for (int val : testCases[i].expectedResult) std::cout << val << " ";
+            std::cout << ", Got: ";
+            for (int val : result) std::cout << val << " ";
+            std::cout << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -805,6 +845,8 @@ public:
         removeNthFromEnd_tests();
         std::cout << "Running MaxProfit_121 tests:\n";
         maxProfit_121_tests();
+        std::cout << "Running SpiralMatrix_54 tests:\n";
+        spiralMatrix_54_tests();
     }
 };
 
