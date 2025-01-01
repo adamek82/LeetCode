@@ -19,7 +19,9 @@
                 "/Fd${workspaceFolder}\\.vscode\\vc140.pdb",
                 "${workspaceFolder}/UnionFind.cpp",
                 "${workspaceFolder}/ListNode.cpp",
+                "${workspaceFolder}/TreeNode.cpp",
                 "${workspaceFolder}/ListUtils.cpp",
+                "${workspaceFolder}/TreeUtils.cpp",
                 "${workspaceFolder}/CourseSchedule_207.cpp",
                 "${workspaceFolder}/FindIfPathExistsInGraph_1971.cpp",
                 "${workspaceFolder}/NumberOfIslands_200.cpp",
@@ -39,6 +41,7 @@
                 "${workspaceFolder}/RemoveNthNodeFromEndOfList_19.cpp",
                 "${workspaceFolder}/BestTimeToBuyAndSellStock_121.cpp",
                 "${workspaceFolder}/SpiralMatrix_54.cpp",
+                "${workspaceFolder}/ValidateBinarySearchTree_98.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {

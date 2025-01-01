@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <optional>
 #include "CourseSchedule_207.h"
 #include "FindIfPathExistsInGraph_1971.h"
 #include "NumberOfIslands_200.h"
@@ -13,6 +14,7 @@
 #include "LongestCommonSubsequence_1143.h"
 #include "LongestIncreasingSubsequence_300.h"
 #include "ListUtils.h"
+#include "TreeUtils.h"
 #include "RemoveDuplicatesFromSortedList_83.h"
 #include "ReverseLinkedList_206.h"
 #include "MergeTwoSortedLists_21.h"
@@ -21,6 +23,7 @@
 #include "RemoveNthNodeFromEndOfList_19.h"
 #include "BestTimeToBuyAndSellStock_121.h"
 #include "SpiralMatrix_54.h"
+#include "ValidateBinarySearchTree_98.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -162,8 +165,16 @@ struct SpiralMatrixTestCase {
     std::vector<std::vector<int>> matrix;
     std::vector<int> expectedResult;
 
-    SpiralMatrixTestCase(std::vector<std::vector<int>> m, std::vector<int> e) 
+    SpiralMatrixTestCase(std::vector<std::vector<int>> m, std::vector<int> e)
         : matrix(m), expectedResult(e) {}
+};
+
+struct ValidateBinarySearchTreeTestCase {
+    std::vector<std::optional<int>> tree; // Input as vector
+    bool expectedResult;                  // Expected output
+
+    ValidateBinarySearchTreeTestCase(std::vector<std::optional<int>> t, bool e)
+        : tree(t), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -758,11 +769,11 @@ public:
             // Provided examples
             MaxProfitTestCase({7, 1, 5, 3, 6, 4}, 5),  // Example 1
             MaxProfitTestCase({7, 6, 4, 3, 1}, 0),    // Example 2
-            
+
             // Additional complex test cases
             MaxProfitTestCase({1, 2, 3, 4, 5, 6, 7, 8, 9}, 8),       // Buy on day 1, sell on day 9
             MaxProfitTestCase({9, 8, 7, 1, 5, 3, 6, 4}, 5),          // Buy on day 4, sell on day 7
-            
+
             // Edge case
             MaxProfitTestCase({5}, 0)  // Single price: no transactions possible
         };
@@ -789,7 +800,7 @@ public:
 
             // More complicated matrix: Rectangular (more rows)
             SpiralMatrixTestCase({{1, 2}, {3, 4}, {5, 6}, {7, 8}}, {1, 2, 4, 6, 8, 7, 5, 3}),
-            
+
             // More complicated matrix: Rectangular (more columns)
             SpiralMatrixTestCase({{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}}, {1, 2, 3, 4, 5, 10, 9, 8, 7, 6}),
         };
@@ -805,6 +816,31 @@ public:
             std::cout << ", Got: ";
             for (int val : result) std::cout << val << " ";
             std::cout << ")" << std::endl;
+        }
+    }
+
+    static void validateBinarySearchTree_98_tests() {
+        std::vector<ValidateBinarySearchTreeTestCase> testCases = {
+            // Provided examples
+            ValidateBinarySearchTreeTestCase({2, 1, 3}, true),
+            ValidateBinarySearchTreeTestCase({5, 1, 4, std::nullopt, std::nullopt, 3, 6}, false),
+
+            // Additional complex test cases
+            ValidateBinarySearchTreeTestCase({10, 5, 15, std::nullopt, std::nullopt, 6, 20}, false), // Violates BST in right subtree
+            ValidateBinarySearchTreeTestCase({3, 1, 5, 0, 2, 4, 6}, true),                          // Valid BST
+            ValidateBinarySearchTreeTestCase({1, std::nullopt, 2, std::nullopt, 3, std::nullopt, 4}, true) // Skewed right
+        };
+
+        ValidateBinarySearchTree_98 validator;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            TreeNode<int>* root = TreeUtils::vectorToTree(testCases[i].tree);
+            bool result = validator.isValidBST(root);
+
+            std::cout << "Validate BST Test " << (i + 1) << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
+                    << ", Got: " << (result ? "true" : "false") << ")" << std::endl;
         }
     }
 
@@ -847,6 +883,8 @@ public:
         maxProfit_121_tests();
         std::cout << "Running SpiralMatrix_54 tests:\n";
         spiralMatrix_54_tests();
+        std::cout << "Running ValidateBinarySearchTree_98 tests:\n";
+        validateBinarySearchTree_98_tests();
     }
 };
 
