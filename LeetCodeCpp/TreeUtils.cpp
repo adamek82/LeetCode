@@ -57,6 +57,109 @@ std::string TreeUtils::toLevelOrderString(TreeNode<T>* root) {
     return oss.str();
 }
 
+// Print the tree
+template <typename T>
+void TreeUtils::printTree(TreeNode<T>* root) {
+    if (!root) return;
+
+    int maxLevel = TreeUtils::maxLevel(root);
+    printNodeInternal(std::vector<TreeNode<T>*>({root}), 1, maxLevel);
+}
+
+// Helper: Print nodes recursively
+template <typename T>
+void TreeUtils::printNodeInternal(const std::vector<TreeNode<T>*>& nodes, int level, int maxLevel) {
+    if (nodes.empty() || isAllElementsNull(nodes)) return;
+
+    int floor = maxLevel - level;
+    int edgeLines = static_cast<int>(std::pow(2, std::max(floor - 1, 0)));
+    int firstSpaces = static_cast<int>(std::pow(2, floor)) - 1;
+    int betweenSpaces = static_cast<int>(std::pow(2, floor + 1)) - 1;
+
+    printWhitespaces(firstSpaces);
+
+    std::vector<TreeNode<T>*> newNodes;
+    for (TreeNode<T>* node : nodes) {
+        if (node) {
+            std::cout << node->val;
+            newNodes.push_back(node->left);
+            newNodes.push_back(node->right);
+        } else {
+            std::cout << " ";
+            newNodes.push_back(nullptr);
+            newNodes.push_back(nullptr);
+        }
+        printWhitespaces(betweenSpaces);
+    }
+    std::cout << std::endl;
+
+    for (int i = 1; i <= edgeLines; i++) {
+        for (size_t j = 0; j < nodes.size(); j++) {
+            printWhitespaces(firstSpaces - i);
+            if (nodes[j] == nullptr) {
+                printWhitespaces(edgeLines + edgeLines + i + 1);
+                continue;
+            }
+
+            if (nodes[j]->left != nullptr) {
+                std::cout << "/";
+            } else {
+                printWhitespaces(1);
+            }
+
+            printWhitespaces(i + i - 1);
+
+            if (nodes[j]->right != nullptr) {
+                std::cout << "\\";
+            } else {
+                printWhitespaces(1);
+            }
+
+            printWhitespaces(edgeLines + edgeLines - i);
+        }
+        std::cout << std::endl;
+    }
+
+    printNodeInternal(newNodes, level + 1, maxLevel);
+}
+
+// Helper: Print whitespaces
+void TreeUtils::printWhitespaces(int count) {
+    for (int i = 0; i < count; i++) {
+        std::cout << " ";
+    }
+}
+
+// Helper: Find the maximum depth of the tree
+template <typename T>
+int TreeUtils::maxLevel(TreeNode<T>* node) {
+    if (!node) return 0;
+    return std::max(maxLevel(node->left), maxLevel(node->right)) + 1;
+}
+
+// Helper: Check if all elements in a vector are null
+template <typename T>
+bool TreeUtils::isAllElementsNull(const std::vector<TreeNode<T>*>& nodes) {
+    for (TreeNode<T>* node : nodes) {
+        if (node != nullptr) return false;
+    }
+    return true;
+}
+
+template <typename T>
+void TreeUtils::freeTree(TreeNode<T>* root) {
+    if (!root) return;
+
+    // Recursively free left and right subtrees
+    freeTree(root->left);
+    freeTree(root->right);
+
+    // Delete the current node
+    delete root;
+}
+
 // Explicit instantiation for int type
 template TreeNode<int>* TreeUtils::vectorToTree(const std::vector<std::optional<int>>& values);
 template std::string TreeUtils::toLevelOrderString(TreeNode<int>* root);
+template void TreeUtils::printTree(TreeNode<int>* root);
+template void TreeUtils::freeTree(TreeNode<int>* root);
