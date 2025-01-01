@@ -4,7 +4,7 @@ std::vector<int> CourseScheduleII_210::findOrderByDFSTraversal(int numCourses, s
 {
     std::vector<int> order;
     std::unordered_map<int, std::vector<int>> graph;
-    
+
     for (const auto& prereq : prerequisites) {
         int course = prereq[0], pre = prereq[1];
         graph[course].push_back(pre);
@@ -16,7 +16,7 @@ std::vector<int> CourseScheduleII_210::findOrderByDFSTraversal(int numCourses, s
     std::function<bool(int)> dfs = [&](int course) {
         if (states[course] == VISITING) return false;
         if (states[course] == VISITED) return true;
-        
+
         states[course] = VISITING;
         for (int neighbor : graph[course]) {
             if (!dfs(neighbor)) return false;

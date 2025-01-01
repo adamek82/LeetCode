@@ -12,10 +12,10 @@ var numIslands = function(grid) {
         if (i < 0 || i >= m || j < 0 || j >= n || grid[i][j] !== '1') {
             return;
         }
-        
+
         // Mark the current cell as visited by setting it to '0'.
         grid[i][j] = '0';
-        
+
         // Visit all four adjacent cells.
         dfs(i + 1, j);
         dfs(i - 1, j);

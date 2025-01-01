@@ -42,7 +42,7 @@ std::vector<std::vector<int>> PacificAtlanticWaterFlow_417::pacificAtlantic(std:
     return result;
 }
 
-void PacificAtlanticWaterFlow_417::bfs(const std::vector<std::vector<int>> &heights, std::queue<std::pair<int, int>> &q, 
+void PacificAtlanticWaterFlow_417::bfs(const std::vector<std::vector<int>> &heights, std::queue<std::pair<int, int>> &q,
     std::vector<std::vector<bool>> &visited)
 {
     int rows = heights.size();

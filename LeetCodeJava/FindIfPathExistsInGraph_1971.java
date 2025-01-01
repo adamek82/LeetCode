@@ -32,5 +32,5 @@ public class FindIfPathExistsInGraph_1971 {
             }
         }
         return false;
-    }    
+    }
 }

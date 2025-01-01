@@ -4,9 +4,9 @@ int MinCostToConnectAllPoints_1584::minCostConnectPoints(std::vector<std::vector
 {
     int n = points.size();
     std::vector<bool> inMST(n, false); // Tracks if a point is already in the MST
-    std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<>> minHeap; 
+    std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<>> minHeap;
     // Min-heap to store (cost, point_index)
-    
+
     int result = 0; // Total cost of the MST
     int edgesUsed = 0; // Number of edges included in the MST
 

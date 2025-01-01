@@ -8,28 +8,28 @@ int NetworkDelayTime_743::networkDelayTime(std::vector<std::vector<int>> &times,
         int u = time[0], v = time[1], w = time[2];
         graph[u].emplace_back(v, w);
     }
-    
+
     // Min-heap to keep track of the minimum time to reach each node
     std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<>> min_heap;
     min_heap.emplace(0, k); // (time from source to node, node)
-    
+
     std::unordered_map<int, int> min_times;
-    
+
     while (!min_heap.empty()) {
         auto [time_k_to_i, i] = min_heap.top();
         min_heap.pop();
-        
+
         if (min_times.count(i)) continue; // Skip if the node is already visited
-        
+
         min_times[i] = time_k_to_i;
-        
+
         for (const auto& [nei, nei_time] : graph[i]) {
             if (!min_times.count(nei)) {
                 min_heap.emplace(time_k_to_i + nei_time, nei);
             }
         }
     }
-    
+
     return min_times.size() == n
                ? std::max_element(min_times.begin(), min_times.end(),
                                   [](const auto &a, const auto &b)

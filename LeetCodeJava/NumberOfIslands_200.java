@@ -19,7 +19,7 @@ public class NumberOfIslands_200 {
     private void dfs(char[][] grid, int i, int j) {
         int m = grid.length;
         int n = grid[0].length;
-        
+
         // Check boundaries and if the cell is already visited (water).
         if (i < 0 || i >= m || j < 0 || j >= n || grid[i][j] != '1') {
             return;

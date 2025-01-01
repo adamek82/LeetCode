@@ -33,5 +33,5 @@ public class LongestIncreasingSubsequence_300 {
             }
         }
         return left;
-    }    
+    }
 }
