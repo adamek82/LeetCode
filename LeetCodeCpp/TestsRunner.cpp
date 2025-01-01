@@ -835,12 +835,18 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             TreeNode<int>* root = TreeUtils::vectorToTree(testCases[i].tree);
+
+            std::cout << "Test Case " << (i + 1) << " Tree:" << std::endl;
+            TreeUtils::printTree(root); // Print the tree
+
             bool result = validator.isValidBST(root);
 
             std::cout << "Validate BST Test " << (i + 1) << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                     << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
                     << ", Got: " << (result ? "true" : "false") << ")" << std::endl;
+
+            TreeUtils::freeTree(root); // Free the memory after use
         }
     }
 
