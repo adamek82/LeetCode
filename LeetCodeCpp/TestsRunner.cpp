@@ -872,7 +872,7 @@ public:
             // Additional Complex Test 1
             LowestCommonAncestorTestCase({10, 5, 15, 3, 8, 12, 20, 1, 4, 7, 9, std::nullopt, std::nullopt, 18, 25}, 4, 9, 5),
             // Additional Complex Test 2
-            LowestCommonAncestorTestCase({30, 10, 50, 5, 20, 40, 60, std::nullopt, 8, 15, 25, std::nullopt, std::nullopt, 35, 45}, 15, 45, 30)
+            LowestCommonAncestorTestCase({30, 10, 50, 5, 20, 40, 60, std::nullopt, 8, 15, 25, 35, 45, std::nullopt, 70}, 15, 45, 30),
         };
 
         LowestCommonAncestorOfBST_235 lcaSolver;
