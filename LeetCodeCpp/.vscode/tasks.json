@@ -42,6 +42,7 @@
                 "${workspaceFolder}/BestTimeToBuyAndSellStock_121.cpp",
                 "${workspaceFolder}/SpiralMatrix_54.cpp",
                 "${workspaceFolder}/ValidateBinarySearchTree_98.cpp",
+                "${workspaceFolder}/LowestCommonAncestorOfBST_235.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {

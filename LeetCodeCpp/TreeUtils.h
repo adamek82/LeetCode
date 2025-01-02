@@ -24,6 +24,10 @@ public:
     template <typename T>
     static void printTree(TreeNode<T>* root);
 
+    // Find a node in the tree by its value
+    template <typename T>
+    static TreeNode<T>* findNode(TreeNode<T>* root, T value);
+
     // Free the binary tree memory
     template <typename T>
     static void freeTree(TreeNode<T>* root);

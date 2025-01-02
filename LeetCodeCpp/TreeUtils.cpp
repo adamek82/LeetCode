@@ -147,6 +147,20 @@ bool TreeUtils::isAllElementsNull(const std::vector<TreeNode<T>*>& nodes) {
 }
 
 template <typename T>
+TreeNode<T>* TreeUtils::findNode(TreeNode<T>* root, T value) {
+    while (root) {
+        if (root->val == value) {
+            return root; // Node found
+        } else if (value < root->val) {
+            root = root->left; // Traverse left subtree
+        } else {
+            root = root->right; // Traverse right subtree
+        }
+    }
+    return nullptr; // Node not found
+}
+
+template <typename T>
 void TreeUtils::freeTree(TreeNode<T>* root) {
     if (!root) return;
 
@@ -162,4 +176,5 @@ void TreeUtils::freeTree(TreeNode<T>* root) {
 template TreeNode<int>* TreeUtils::vectorToTree(const std::vector<std::optional<int>>& values);
 template std::string TreeUtils::toLevelOrderString(TreeNode<int>* root);
 template void TreeUtils::printTree(TreeNode<int>* root);
+template TreeNode<int>* TreeUtils::findNode(TreeNode<int>* root, int value);
 template void TreeUtils::freeTree(TreeNode<int>* root);

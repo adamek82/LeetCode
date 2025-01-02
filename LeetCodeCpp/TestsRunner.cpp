@@ -24,6 +24,7 @@
 #include "BestTimeToBuyAndSellStock_121.h"
 #include "SpiralMatrix_54.h"
 #include "ValidateBinarySearchTree_98.h"
+#include "LowestCommonAncestorOfBST_235.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -175,6 +176,16 @@ struct ValidateBinarySearchTreeTestCase {
 
     ValidateBinarySearchTreeTestCase(std::vector<std::optional<int>> t, bool e)
         : tree(t), expectedResult(e) {}
+};
+
+struct LowestCommonAncestorTestCase {
+    std::vector<std::optional<int>> tree; // Tree represented as a vector
+    int p;                                // Value of the first node
+    int q;                                // Value of the second node
+    int expectedLCA;                      // Expected LCA value
+
+    LowestCommonAncestorTestCase(const std::vector<std::optional<int>>& t, int node1, int node2, int lca)
+        : tree(t), p(node1), q(node2), expectedLCA(lca) {}
 };
 
 class TestsRunner {
@@ -850,6 +861,37 @@ public:
         }
     }
 
+    static void lowestCommonAncestor_235_tests() {
+        std::vector<LowestCommonAncestorTestCase> testCases = {
+            // Example 1
+            LowestCommonAncestorTestCase({6, 2, 8, 0, 4, 7, 9, std::nullopt, std::nullopt, 3, 5}, 2, 8, 6),
+            // Example 2
+            LowestCommonAncestorTestCase({6, 2, 8, 0, 4, 7, 9, std::nullopt, std::nullopt, 3, 5}, 2, 4, 2),
+            // Example 3
+            LowestCommonAncestorTestCase({2, 1}, 2, 1, 2),
+            // Additional Complex Test 1
+            LowestCommonAncestorTestCase({10, 5, 15, 3, 8, 12, 20, 1, 4, 7, 9, std::nullopt, std::nullopt, 18, 25}, 4, 9, 5),
+            // Additional Complex Test 2
+            LowestCommonAncestorTestCase({30, 10, 50, 5, 20, 40, 60, std::nullopt, 8, 15, 25, std::nullopt, std::nullopt, 35, 45}, 15, 45, 30)
+        };
+
+        LowestCommonAncestorOfBST_235 lcaSolver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            TreeNode<int>* root = TreeUtils::vectorToTree(testCases[i].tree);
+            TreeNode<int>* p = TreeUtils::findNode(root, testCases[i].p);
+            TreeNode<int>* q = TreeUtils::findNode(root, testCases[i].q);
+
+            TreeNode<int>* result = lcaSolver.lowestCommonAncestor(root, p, q);
+
+            std::cout << "LCA Test " << (i + 1) << ": res = "
+                    << ((result && result->val == testCases[i].expectedLCA) ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expectedLCA << ", Got: " << (result ? result->val : -1) << ")" << std::endl;
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -891,6 +933,8 @@ public:
         spiralMatrix_54_tests();
         std::cout << "Running ValidateBinarySearchTree_98 tests:\n";
         validateBinarySearchTree_98_tests();
+        std::cout << "Running LowestCommonAncestor_235 tests:\n";
+        lowestCommonAncestor_235_tests();
     }
 };
 
