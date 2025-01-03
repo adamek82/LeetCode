@@ -25,6 +25,7 @@
 #include "SpiralMatrix_54.h"
 #include "ValidateBinarySearchTree_98.h"
 #include "LowestCommonAncestorOfBST_235.h"
+#include "CopyListWithRandomPointer_138.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -186,6 +187,15 @@ struct LowestCommonAncestorTestCase {
 
     LowestCommonAncestorTestCase(const std::vector<std::optional<int>>& t, int node1, int node2, int lca)
         : tree(t), p(node1), q(node2), expectedLCA(lca) {}
+};
+
+struct CopyRandomListTestCase {
+    std::vector<std::pair<int, std::optional<int>>> inputList;
+    std::vector<std::pair<int, std::optional<int>>> expectedList;
+
+    CopyRandomListTestCase(std::vector<std::pair<int, std::optional<int>>> input,
+                           std::vector<std::pair<int, std::optional<int>>> expected)
+        : inputList(input), expectedList(expected) {}
 };
 
 class TestsRunner {
@@ -892,6 +902,42 @@ public:
         }
     }
 
+    static void copyRandomList_tests() {
+        using IntListNode = ListNode<int>;
+
+        std::vector<CopyRandomListTestCase> testCases = {
+            // Provided test cases
+            CopyRandomListTestCase({{7, std::nullopt}, {13, 0}, {11, 4}, {10, 2}, {1, 0}},
+                                {{7, std::nullopt}, {13, 0}, {11, 4}, {10, 2}, {1, 0}}),
+            CopyRandomListTestCase({{1, 1}, {2, 1}}, {{1, 1}, {2, 1}}),
+            CopyRandomListTestCase({{3, std::nullopt}, {3, 0}, {3, std::nullopt}},
+                                {{3, std::nullopt}, {3, 0}, {3, std::nullopt}}),
+
+            // Additional complex test cases
+            CopyRandomListTestCase({{1, std::nullopt}, {2, 0}, {3, 1}, {4, 3}, {5, 2}},
+                                {{1, std::nullopt}, {2, 0}, {3, 1}, {4, 3}, {5, 2}}),
+            CopyRandomListTestCase({{10, 4}, {20, 3}, {30, 2}, {40, 1}, {50, std::nullopt}},
+                                {{10, 4}, {20, 3}, {30, 2}, {40, 1}, {50, std::nullopt}})
+        };
+
+        CopyListWithRandomPointer_138 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            IntListNode* input = ListUtils::createLinkedListWithRandom<int>(testCases[i].inputList);
+            IntListNode* expected = ListUtils::createLinkedListWithRandom<int>(testCases[i].expectedList);
+
+            IntListNode* result = solution.copyRandomList(input);
+
+            bool isCorrect = ListUtils::compareListsWithRandom<int>(result, expected);
+
+            std::cout << "Test " << (i + 1) << ": " << (isCorrect ? "PASS" : "FAIL") << std::endl;
+
+            ListUtils::freeList(input);
+            ListUtils::freeList(result);
+            ListUtils::freeList(expected);
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -935,6 +981,8 @@ public:
         validateBinarySearchTree_98_tests();
         std::cout << "Running LowestCommonAncestor_235 tests:\n";
         lowestCommonAncestor_235_tests();
+        std::cout << "Running CopyListWithRandomPointer_138 tests:\n";
+        copyRandomList_tests();
     }
 };
 
