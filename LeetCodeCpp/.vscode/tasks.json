@@ -44,6 +44,7 @@
                 "${workspaceFolder}/ValidateBinarySearchTree_98.cpp",
                 "${workspaceFolder}/LowestCommonAncestorOfBST_235.cpp",
                 "${workspaceFolder}/CopyListWithRandomPointer_138.cpp",
+                "${workspaceFolder}/KthSmallestElementInBST_230.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {

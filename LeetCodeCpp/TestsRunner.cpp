@@ -26,6 +26,7 @@
 #include "ValidateBinarySearchTree_98.h"
 #include "LowestCommonAncestorOfBST_235.h"
 #include "CopyListWithRandomPointer_138.h"
+#include "KthSmallestElementInBST_230.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -196,6 +197,15 @@ struct CopyRandomListTestCase {
     CopyRandomListTestCase(std::vector<std::pair<int, std::optional<int>>> input,
                            std::vector<std::pair<int, std::optional<int>>> expected)
         : inputList(input), expectedList(expected) {}
+};
+
+struct KthSmallestTestCase {
+    std::vector<std::optional<int>> tree; // Tree represented as a vector
+    int k;                                // kth position
+    int expectedResult;                   // Expected result
+
+    KthSmallestTestCase(const std::vector<std::optional<int>>& t, int kVal, int e)
+        : tree(t), k(kVal), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -938,6 +948,34 @@ public:
         }
     }
 
+    static void kthSmallestElementInBST_230_tests() {
+        std::vector<KthSmallestTestCase> testCases = {
+            // Example 1
+            KthSmallestTestCase({3, 1, 4, std::nullopt, 2}, 1, 1),
+            // Example 2
+            KthSmallestTestCase({5, 3, 6, 2, 4, std::nullopt, std::nullopt, 1}, 3, 3),
+            // Additional Test 1: Larger balanced tree
+            KthSmallestTestCase({15, 10, 20, 5, 13, 17, 25, 3, 8, std::nullopt, 14, 16, 18}, 6, 15),
+            // Additional Test 2: Single node tree
+            KthSmallestTestCase({42}, 1, 42),
+            // Additional Test 3: Skewed tree
+            KthSmallestTestCase({1, std::nullopt, 2, std::nullopt, 3, std::nullopt, 4}, 4, 4)
+        };
+
+        KthSmallestElementInBST_230 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            TreeNode<int>* root = TreeUtils::vectorToTree(testCases[i].tree);
+
+            int result = solution.kthSmallest(root, testCases[i].k);
+            std::cout << "Kth Smallest Element Test " << (i + 1) << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+
+            TreeUtils::freeTree(root); // Free tree memory
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -983,6 +1021,8 @@ public:
         lowestCommonAncestor_235_tests();
         std::cout << "Running CopyListWithRandomPointer_138 tests:\n";
         copyRandomList_tests();
+        std::cout << "Running KthSmallestElementInBST_230 tests:\n";
+        kthSmallestElementInBST_230_tests();
     }
 };
 
