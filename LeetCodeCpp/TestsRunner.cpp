@@ -27,6 +27,7 @@
 #include "LowestCommonAncestorOfBST_235.h"
 #include "CopyListWithRandomPointer_138.h"
 #include "KthSmallestElementInBST_230.h"
+#include "Trie.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -206,6 +207,15 @@ struct KthSmallestTestCase {
 
     KthSmallestTestCase(const std::vector<std::optional<int>>& t, int kVal, int e)
         : tree(t), k(kVal), expectedResult(e) {}
+};
+
+struct TrieTestCase {
+    std::vector<std::string> operations;
+    std::vector<std::optional<std::string>> arguments;
+    std::vector<std::optional<bool>> expectedResults;
+
+    TrieTestCase(const std::vector<std::string>& ops, const std::vector<std::optional<std::string>>& args, const std::vector<std::optional<bool>>& expected)
+        : operations(ops), arguments(args), expectedResults(expected) {}
 };
 
 class TestsRunner {
@@ -976,6 +986,79 @@ public:
         }
     }
 
+    static void implementTrie_208_tests() {
+        std::vector<TrieTestCase> testCases = {
+            // Example 1
+            TrieTestCase(
+                {"Trie", "insert", "search", "search", "startsWith", "insert", "search"},
+                {std::nullopt, "apple", "apple", "app", "app", "app", "app"},
+                {std::nullopt, std::nullopt, true, false, true, std::nullopt, true}
+            ),
+            // Example 2: Overlapping words
+            TrieTestCase(
+                {"Trie", "insert", "insert", "search", "search", "startsWith"},
+                {std::nullopt, "apple", "applause", "apple", "applause", "app"},
+                {std::nullopt, std::nullopt, std::nullopt, true, true, true}
+            ),
+            // Example 3: Single-character operations
+            TrieTestCase(
+                {"Trie", "insert", "search", "startsWith", "search"},
+                {std::nullopt, "a", "a", "a", "b"},
+                {std::nullopt, std::nullopt, true, true, false}
+            ),
+            // Example 4: No matching prefix
+            TrieTestCase(
+                {"Trie", "insert", "insert", "startsWith", "startsWith", "search"},
+                {std::nullopt, "car", "cart", "ca", "cat", "carrot"},
+                {std::nullopt, std::nullopt, std::nullopt, true, false, false}
+            ),
+            // Example 5: Large input set
+            TrieTestCase(
+                {"Trie", "insert", "insert", "insert", "search", "search", "startsWith"},
+                {std::nullopt, "dictionary", "dictionaries", "dictator", "dictionary", "dictionaries", "dict"},
+                {std::nullopt, std::nullopt, std::nullopt, std::nullopt, true, true, true}
+            )
+        };
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            std::cout << "Running Trie Test Case " << i + 1 << ":\n";
+            Trie* trie = nullptr;
+
+            for (size_t j = 0; j < testCases[i].operations.size(); ++j) {
+                const auto& op = testCases[i].operations[j];
+                const auto& arg = testCases[i].arguments[j];
+                const auto& expected = testCases[i].expectedResults[j];
+
+                if (op == "Trie") {
+                    trie = new Trie();
+                    std::cout << "Operation: Trie() -> null\n";
+                } else if (op == "insert") {
+                    trie->insert(arg.value());
+                    std::cout << "Operation: insert(\"" << arg.value() << "\") -> null\n";
+                } else if (op == "search") {
+                    bool result = trie->search(arg.value());
+                    std::cout << "Operation: search(\"" << arg.value() << "\") -> " << (result ? "true" : "false");
+                    if (expected.has_value() && result == expected.value()) {
+                        std::cout << " [PASS]\n";
+                    } else {
+                        std::cout << " [FAIL]\n";
+                    }
+                } else if (op == "startsWith") {
+                    bool result = trie->startsWith(arg.value());
+                    std::cout << "Operation: startsWith(\"" << arg.value() << "\") -> " << (result ? "true" : "false");
+                    if (expected.has_value() && result == expected.value()) {
+                        std::cout << " [PASS]\n";
+                    } else {
+                        std::cout << " [FAIL]\n";
+                    }
+                }
+            }
+
+            delete trie;
+            std::cout << "\n";
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1023,6 +1106,8 @@ public:
         copyRandomList_tests();
         std::cout << "Running KthSmallestElementInBST_230 tests:\n";
         kthSmallestElementInBST_230_tests();
+        std::cout << "Running ImplementTrie_208 tests:\n";
+        implementTrie_208_tests();
     }
 };
 
