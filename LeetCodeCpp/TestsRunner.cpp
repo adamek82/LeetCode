@@ -28,6 +28,7 @@
 #include "CopyListWithRandomPointer_138.h"
 #include "KthSmallestElementInBST_230.h"
 #include "Trie.h"
+#include "KthLargestElementInArray_215.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -216,6 +217,15 @@ struct TrieTestCase {
 
     TrieTestCase(const std::vector<std::string>& ops, const std::vector<std::optional<std::string>>& args, const std::vector<std::optional<bool>>& expected)
         : operations(ops), arguments(args), expectedResults(expected) {}
+};
+
+struct KthLargestElementTestCase {
+    std::vector<int> nums;
+    int k;
+    int expectedResult;
+
+    KthLargestElementTestCase(std::vector<int> n, int kVal, int e)
+        : nums(n), k(kVal), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -1059,6 +1069,30 @@ public:
         }
     }
 
+    static void kthLargestElement_215_tests()
+    {
+        std::vector<KthLargestElementTestCase> testCases = {
+            // Problem statement examples
+            KthLargestElementTestCase({3, 2, 1, 5, 6, 4}, 2, 5),
+            KthLargestElementTestCase({3, 2, 3, 1, 2, 4, 5, 5, 6}, 4, 4),
+
+            // Additional test cases
+            KthLargestElementTestCase({1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 1, 10), // Largest element
+            KthLargestElementTestCase({7, 10, 4, 3, 20, 15}, 3, 10),           // Mixed elements
+            KthLargestElementTestCase({2, 2, 2, 2, 2}, 3, 2)                   // Repeated elements
+        };
+
+        KthLargestElementInArray_215 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i)
+        {
+            int result = solution.findKthLargest(testCases[i].nums, testCases[i].k);
+            std::cout << "Kth Largest Element Test " << (i + 1) << ": res = "
+                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1108,6 +1142,8 @@ public:
         kthSmallestElementInBST_230_tests();
         std::cout << "Running ImplementTrie_208 tests:\n";
         implementTrie_208_tests();
+        std::cout << "Running KthLargestElementInArray_215 tests:\n";
+        kthLargestElement_215_tests();
     }
 };
 
