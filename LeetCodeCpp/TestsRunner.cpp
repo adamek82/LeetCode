@@ -29,6 +29,7 @@
 #include "KthSmallestElementInBST_230.h"
 #include "Trie.h"
 #include "KthLargestElementInArray_215.h"
+#include "MinHeap.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -226,6 +227,14 @@ struct KthLargestElementTestCase {
 
     KthLargestElementTestCase(std::vector<int> n, int kVal, int e)
         : nums(n), k(kVal), expectedResult(e) {}
+};
+
+struct MinHeapTestCase {
+    std::vector<std::pair<std::string, int>> operations; // {operation, value (if any)}
+    std::vector<int> expectedResults;                   // Expected results for operations
+
+    MinHeapTestCase(std::vector<std::pair<std::string, int>> ops, std::vector<int> results)
+        : operations(std::move(ops)), expectedResults(std::move(results)) {}
 };
 
 class TestsRunner {
@@ -1093,6 +1102,49 @@ public:
         }
     }
 
+    static void minHeap_tests() {
+        std::vector<MinHeapTestCase> testCases = {
+            MinHeapTestCase(
+                {{"insert", 5}, {"insert", 3}, {"insert", 8}, {"insert", 1}, {"insert", 2}, {"extractMin", 0}, {"extractMin", 0}},
+                {1, 2} // Expected results of the extractMin calls
+            ),
+            MinHeapTestCase(
+                {{"insert", 10}, {"insert", 20}, {"insert", 5}, {"update", 1}, {"extractMin", 0}},
+                {1} // Updated root is extracted
+            ),
+            MinHeapTestCase(
+                {{"insert", 100}, {"insert", 50}, {"insert", 25}, {"extractMin", 0}, {"extractMin", 0}},
+                {25, 50} // Both extractions
+            )
+        };
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            MinHeap heap;
+            std::vector<int> results;
+
+            for (const auto& op : testCases[i].operations) {
+                if (op.first == "insert") {
+                    heap.insert(op.second);
+                } else if (op.first == "extractMin") {
+                    results.push_back(heap.extractMin());
+                } else if (op.first == "update") {
+                    heap.update(op.second, op.second); // Use parameters as necessary
+                }
+            }
+
+            // Compare results
+            bool pass = results == testCases[i].expectedResults;
+            std::cout << "MinHeap Test " << (i + 1) << ": " << (pass ? "PASS" : "FAIL") << "\n";
+            if (!pass) {
+                std::cout << "Expected: ";
+                for (int r : testCases[i].expectedResults) std::cout << r << " ";
+                std::cout << "\nGot: ";
+                for (int r : results) std::cout << r << " ";
+                std::cout << "\n";
+            }
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1144,6 +1196,8 @@ public:
         implementTrie_208_tests();
         std::cout << "Running KthLargestElementInArray_215 tests:\n";
         kthLargestElement_215_tests();
+        std::cout << "Running MinHeap tests:\n";
+        minHeap_tests();
     }
 };
 

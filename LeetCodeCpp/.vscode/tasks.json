@@ -24,6 +24,7 @@
                 "${workspaceFolder}/TreeUtils.cpp",
                 "${workspaceFolder}/TrieNode.cpp",
                 "${workspaceFolder}/Trie.cpp",
+                "${workspaceFolder}/MinHeap.cpp",
                 "${workspaceFolder}/CourseSchedule_207.cpp",
                 "${workspaceFolder}/FindIfPathExistsInGraph_1971.cpp",
                 "${workspaceFolder}/NumberOfIslands_200.cpp",
