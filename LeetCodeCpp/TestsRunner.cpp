@@ -30,6 +30,7 @@
 #include "Trie.h"
 #include "KthLargestElementInArray_215.h"
 #include "MinHeap.h"
+#include "RotateImage_48.h" 
 
 struct ScheduleTestCase {
     int numCourses;
@@ -235,6 +236,14 @@ struct MinHeapTestCase {
 
     MinHeapTestCase(std::vector<std::pair<std::string, int>> ops, std::vector<int> results)
         : operations(std::move(ops)), expectedResults(std::move(results)) {}
+};
+
+struct RotateImageTestCase {
+    std::vector<std::vector<int>> inputMatrix;
+    std::vector<std::vector<int>> expectedMatrix;
+
+    RotateImageTestCase(std::vector<std::vector<int>> input, std::vector<std::vector<int>> expected)
+        : inputMatrix(input), expectedMatrix(expected) {}
 };
 
 class TestsRunner {
@@ -1145,6 +1154,42 @@ public:
         }
     }
 
+    static void rotateImage_48_tests() {
+        std::vector<RotateImageTestCase> testCases = {
+            // Example 1
+            RotateImageTestCase({{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}, {{7, 4, 1}, {8, 5, 2}, {9, 6, 3}}),
+            // Example 2
+            RotateImageTestCase({{5, 1, 9, 11}, {2, 4, 8, 10}, {13, 3, 6, 7}, {15, 14, 12, 16}},
+                                {{15, 13, 2, 5}, {14, 3, 4, 1}, {12, 6, 8, 9}, {16, 7, 10, 11}}),
+            // Additional Test Cases
+            RotateImageTestCase({{1}}, {{1}}), // Single element
+            RotateImageTestCase({{1, 2}, {3, 4}}, {{3, 1}, {4, 2}}), // 2x2 matrix
+            RotateImageTestCase(
+                {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}},
+                {{13, 9, 5, 1}, {14, 10, 6, 2}, {15, 11, 7, 3}, {16, 12, 8, 4}}) // Larger 4x4 matrix
+        };
+
+        RotateImage_48 rotateImage;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto input = testCases[i].inputMatrix;
+            rotateImage.rotate(input);
+
+            std::cout << "Rotate Image Test " << (i + 1) << ": res = "
+                    << (input == testCases[i].expectedMatrix ? "PASS" : "FAIL")
+                    << "\nExpected: ";
+            for (const auto& row : testCases[i].expectedMatrix) {
+                for (int val : row) std::cout << val << " ";
+                std::cout << "\n";
+            }
+            std::cout << "Got: ";
+            for (const auto& row : input) {
+                for (int val : row) std::cout << val << " ";
+                std::cout << "\n";
+            }
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1198,6 +1243,8 @@ public:
         kthLargestElement_215_tests();
         std::cout << "Running MinHeap tests:\n";
         minHeap_tests();
+        std::cout << "Running RotateImage_48 tests:\n";
+        rotateImage_48_tests();
     }
 };
 
