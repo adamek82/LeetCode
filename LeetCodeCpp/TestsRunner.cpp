@@ -1011,7 +1011,7 @@ public:
             // Example 2
             KthSmallestTestCase({5, 3, 6, 2, 4, std::nullopt, std::nullopt, 1}, 3, 3),
             // Additional Test 1: Larger balanced tree
-            KthSmallestTestCase({15, 10, 20, 5, 13, 17, 25, 3, 8, std::nullopt, 14, 16, 18}, 6, 15),
+            KthSmallestTestCase({15, 10, 20, 5, 13, 17, 25, 3, 8, std::nullopt, 14, 16, 18}, 6, 14),
             // Additional Test 2: Single node tree
             KthSmallestTestCase({42}, 1, 42),
             // Additional Test 3: Skewed tree
