@@ -36,6 +36,9 @@ struct ScheduleTestCase {
     int numCourses;
     std::vector<std::vector<int>> prerequisites;
     bool expectedResult;
+
+    ScheduleTestCase(int num, std::vector<std::vector<int>> prereq, bool result)
+        : numCourses(num), prerequisites(std::move(prereq)), expectedResult(result) {}
 };
 
 struct PathTestCase {
@@ -44,25 +47,34 @@ struct PathTestCase {
     int source;
     int destination;
     bool expectedResult;
+
+    PathTestCase(int nodes, std::vector<std::vector<int>> edg, int src, int dest, bool result)
+        : n(nodes), edges(std::move(edg)), source(src), destination(dest), expectedResult(result) {}
 };
 
 struct NumIslandsTestCase {
     std::vector<std::vector<char>> grid;
     int expectedResult;
 
-    NumIslandsTestCase(std::vector<std::vector<char>> g, int e) : grid(g), expectedResult(e) {}
+    NumIslandsTestCase(std::vector<std::vector<char>> g, int e)
+        : grid(std::move(g)), expectedResult(e) {}
 };
 
 struct MaxAreaTestCase {
     std::vector<std::vector<int>> grid;
     int expectedResult;
-    MaxAreaTestCase(std::vector<std::vector<int>> g, int e) : grid(g), expectedResult(e) {}
+
+    MaxAreaTestCase(std::vector<std::vector<int>> g, int e)
+        : grid(std::move(g)), expectedResult(e) {}
 };
 
 struct CourseScheduleIITestCase {
     int numCourses;
     std::vector<std::vector<int>> prerequisites;
-    std::vector<int> expectedOrder;  // An empty vector means no valid order (cycle detected)
+    std::vector<int> expectedOrder;
+
+    CourseScheduleIITestCase(int num, std::vector<std::vector<int>> prereq, std::vector<int> order)
+        : numCourses(num), prerequisites(std::move(prereq)), expectedOrder(std::move(order)) {}
 };
 
 struct NetworkDelayTimeTestCase {
@@ -70,13 +82,17 @@ struct NetworkDelayTimeTestCase {
     int n;
     int k;
     int expectedResult;
+
+    NetworkDelayTimeTestCase(std::vector<std::vector<int>> t, int nodes, int start, int result)
+        : times(std::move(t)), n(nodes), k(start), expectedResult(result) {}
 };
 
 struct RottingOrangesTestCase {
     std::vector<std::vector<int>> grid;
     int expectedResult;
 
-    RottingOrangesTestCase(std::vector<std::vector<int>> g, int e) : grid(g), expectedResult(e) {}
+    RottingOrangesTestCase(std::vector<std::vector<int>> g, int e)
+        : grid(std::move(g)), expectedResult(e) {}
 };
 
 struct PacificAtlanticTestCase {
@@ -84,14 +100,15 @@ struct PacificAtlanticTestCase {
     std::vector<std::vector<int>> expectedResult;
 
     PacificAtlanticTestCase(std::vector<std::vector<int>> h, std::vector<std::vector<int>> e)
-        : heights(h), expectedResult(e) {}
+        : heights(std::move(h)), expectedResult(std::move(e)) {}
 };
 
 struct MinCostToConnectAllPointsTestCase {
     std::vector<std::vector<int>> points;
     int expectedResult;
 
-    MinCostToConnectAllPointsTestCase(std::vector<std::vector<int>> p, int e) : points(p), expectedResult(e) {}
+    MinCostToConnectAllPointsTestCase(std::vector<std::vector<int>> p, int e)
+        : points(std::move(p)), expectedResult(e) {}
 };
 
 struct LongestCommonSubsequenceTestCase {
@@ -100,14 +117,15 @@ struct LongestCommonSubsequenceTestCase {
     int expectedResult;
 
     LongestCommonSubsequenceTestCase(std::string t1, std::string t2, int e)
-        : text1(t1), text2(t2), expectedResult(e) {}
+        : text1(std::move(t1)), text2(std::move(t2)), expectedResult(e) {}
 };
 
 struct LongestIncreasingSubsequenceTestCase {
     std::vector<int> nums;
     int expectedResult;
 
-    LongestIncreasingSubsequenceTestCase(std::vector<int> n, int e) : nums(n), expectedResult(e) {}
+    LongestIncreasingSubsequenceTestCase(std::vector<int> n, int e)
+        : nums(std::move(n)), expectedResult(e) {}
 };
 
 struct RemoveDuplicatesTestCase {
@@ -115,7 +133,7 @@ struct RemoveDuplicatesTestCase {
     std::vector<int> expectedList;
 
     RemoveDuplicatesTestCase(std::vector<int> input, std::vector<int> expected)
-        : inputList(input), expectedList(expected) {}
+        : inputList(std::move(input)), expectedList(std::move(expected)) {}
 };
 
 struct ReverseListTestCase {
@@ -123,7 +141,7 @@ struct ReverseListTestCase {
     std::vector<int> expectedList;
 
     ReverseListTestCase(std::vector<int> input, std::vector<int> expected)
-        : inputList(input), expectedList(expected) {}
+        : inputList(std::move(input)), expectedList(std::move(expected)) {}
 };
 
 struct MergeTwoListsTestCase {
@@ -132,7 +150,7 @@ struct MergeTwoListsTestCase {
     std::vector<int> expectedList;
 
     MergeTwoListsTestCase(std::vector<int> l1, std::vector<int> l2, std::vector<int> expected)
-        : list1(l1), list2(l2), expectedList(expected) {}
+        : list1(std::move(l1)), list2(std::move(l2)), expectedList(std::move(expected)) {}
 };
 
 struct LinkedListCycleTestCase {
@@ -141,7 +159,7 @@ struct LinkedListCycleTestCase {
     bool expectedResult;
 
     LinkedListCycleTestCase(std::vector<int> input, int cyclePos, bool expected)
-        : inputList(input), pos(cyclePos), expectedResult(expected) {}
+        : inputList(std::move(input)), pos(cyclePos), expectedResult(expected) {}
 };
 
 struct MiddleOfLinkedListTestCase {
@@ -149,7 +167,7 @@ struct MiddleOfLinkedListTestCase {
     std::vector<int> expectedList;
 
     MiddleOfLinkedListTestCase(std::vector<int> input, std::vector<int> expected)
-        : inputList(input), expectedList(expected) {}
+        : inputList(std::move(input)), expectedList(std::move(expected)) {}
 };
 
 struct RemoveNthNodeTestCase {
@@ -158,14 +176,14 @@ struct RemoveNthNodeTestCase {
     std::vector<int> expectedList;
 
     RemoveNthNodeTestCase(std::vector<int> input, int nth, std::vector<int> expected)
-        : inputList(input), n(nth), expectedList(expected) {}
+        : inputList(std::move(input)), n(nth), expectedList(std::move(expected)) {}
 };
 
 struct MaxProfitTestCase {
     std::vector<int> prices;
     int expectedResult;
 
-    MaxProfitTestCase(std::vector<int> p, int e) : prices(p), expectedResult(e) {}
+    MaxProfitTestCase(std::vector<int> p, int e) : prices(std::move(p)), expectedResult(e) {}
 };
 
 struct SpiralMatrixTestCase {
@@ -173,7 +191,7 @@ struct SpiralMatrixTestCase {
     std::vector<int> expectedResult;
 
     SpiralMatrixTestCase(std::vector<std::vector<int>> m, std::vector<int> e)
-        : matrix(m), expectedResult(e) {}
+        : matrix(std::move(m)), expectedResult(std::move(e)) {}
 };
 
 struct ValidateBinarySearchTreeTestCase {
@@ -181,7 +199,7 @@ struct ValidateBinarySearchTreeTestCase {
     bool expectedResult;                  // Expected output
 
     ValidateBinarySearchTreeTestCase(std::vector<std::optional<int>> t, bool e)
-        : tree(t), expectedResult(e) {}
+        : tree(std::move(t)), expectedResult(e) {}
 };
 
 struct LowestCommonAncestorTestCase {
@@ -191,7 +209,7 @@ struct LowestCommonAncestorTestCase {
     int expectedLCA;                      // Expected LCA value
 
     LowestCommonAncestorTestCase(const std::vector<std::optional<int>>& t, int node1, int node2, int lca)
-        : tree(t), p(node1), q(node2), expectedLCA(lca) {}
+        : tree(std::move(t)), p(node1), q(node2), expectedLCA(lca) {}
 };
 
 struct CopyRandomListTestCase {
@@ -200,7 +218,7 @@ struct CopyRandomListTestCase {
 
     CopyRandomListTestCase(std::vector<std::pair<int, std::optional<int>>> input,
                            std::vector<std::pair<int, std::optional<int>>> expected)
-        : inputList(input), expectedList(expected) {}
+        : inputList(std::move(input)), expectedList(std::move(expected)) {}
 };
 
 struct KthSmallestTestCase {
@@ -209,7 +227,7 @@ struct KthSmallestTestCase {
     int expectedResult;                   // Expected result
 
     KthSmallestTestCase(const std::vector<std::optional<int>>& t, int kVal, int e)
-        : tree(t), k(kVal), expectedResult(e) {}
+        : tree(std::move(t)), k(kVal), expectedResult(e) {}
 };
 
 struct TrieTestCase {
@@ -217,8 +235,8 @@ struct TrieTestCase {
     std::vector<std::optional<std::string>> arguments;
     std::vector<std::optional<bool>> expectedResults;
 
-    TrieTestCase(const std::vector<std::string>& ops, const std::vector<std::optional<std::string>>& args, const std::vector<std::optional<bool>>& expected)
-        : operations(ops), arguments(args), expectedResults(expected) {}
+    TrieTestCase(const std::vector<std::string> ops, const std::vector<std::optional<std::string>> args, const std::vector<std::optional<bool>> expected)
+        : operations(std::move(ops)), arguments(std::move(args)), expectedResults(std::move(expected)) {}
 };
 
 struct KthLargestElementTestCase {
@@ -227,7 +245,7 @@ struct KthLargestElementTestCase {
     int expectedResult;
 
     KthLargestElementTestCase(std::vector<int> n, int kVal, int e)
-        : nums(n), k(kVal), expectedResult(e) {}
+        : nums(std::move(n)), k(kVal), expectedResult(e) {}
 };
 
 struct MinHeapTestCase {
@@ -243,17 +261,17 @@ struct RotateImageTestCase {
     std::vector<std::vector<int>> expectedMatrix;
 
     RotateImageTestCase(std::vector<std::vector<int>> input, std::vector<std::vector<int>> expected)
-        : inputMatrix(input), expectedMatrix(expected) {}
+        : inputMatrix(std::move(input)), expectedMatrix(std::move(expected)) {}
 };
 
 class TestsRunner {
 public:
     static void courseSchedule_207_tests() {
         std::vector<ScheduleTestCase> testCases = {
-            {2, {{1, 0}}, true},
-            {2, {{1, 0}, {0, 1}}, false},
-            {5, {{0, 1}, {2, 3}, {3, 4}, {2, 1}}, true},
-            {5, {{0, 1}, {2, 3}, {3, 4}, {2, 1}, {4, 2}}, false},
+            ScheduleTestCase(2, {{1, 0}}, true),
+            ScheduleTestCase(2, {{1, 0}, {0, 1}}, false),
+            ScheduleTestCase(5, {{0, 1}, {2, 3}, {3, 4}, {2, 1}}, true),
+            ScheduleTestCase(5, {{0, 1}, {2, 3}, {3, 4}, {2, 1}, {4, 2}}, false),
         };
 
         CourseSchedule_207 cs207;
@@ -267,11 +285,11 @@ public:
 
     static void findIfPathExistsInGraph_1971_tests() {
         std::vector<PathTestCase> testCases = {
-            {3, {{0, 1}, {1, 2}, {2, 0}}, 0, 2, true},
-            {6, {{0, 1}, {0, 2}, {3, 5}, {5, 4}, {4, 3}}, 0, 5, false},
-            {4, {{0, 1}, {1, 2}, {2, 3}}, 0, 3, true},
-            {5, {{0, 4}, {4, 3}, {3, 2}, {2, 1}}, 0, 1, true},
-            {4, {{0, 1}, {1, 2}}, 0, 3, false},
+            PathTestCase(3, {{0, 1}, {1, 2}, {2, 0}}, 0, 2, true),
+            PathTestCase(6, {{0, 1}, {0, 2}, {3, 5}, {5, 4}, {4, 3}}, 0, 5, false),
+            PathTestCase(4, {{0, 1}, {1, 2}, {2, 3}}, 0, 3, true),
+            PathTestCase(5, {{0, 4}, {4, 3}, {3, 2}, {2, 1}}, 0, 1, true),
+            PathTestCase(4, {{0, 1}, {1, 2}}, 0, 3, false),
         };
 
         FindIfPathExistsInGraph_1971 fp1971;
@@ -385,15 +403,15 @@ public:
     static void courseScheduleII_210_tests() {
         std::vector<CourseScheduleIITestCase> testCases = {
             // Example 1
-            {2, {{1, 0}}, {0, 1}},
+            CourseScheduleIITestCase({2, {{1, 0}}, {0, 1}}),
             // Example 2
-            {4, {{1, 0}, {2, 0}, {3, 1}, {3, 2}}, {0, 1, 2, 3}},
+            CourseScheduleIITestCase({4, {{1, 0}, {2, 0}, {3, 1}, {3, 2}}, {0, 1, 2, 3}}),
             // Example 3
-            {1, {}, {0}},
+            CourseScheduleIITestCase({1, {}, {0}}),
             // Additional Complex Test 1: A graph with two independent subgraphs
-            {6, {{1, 0}, {2, 0}, {3, 4}, {5, 4}}, {0, 4, 1, 2, 3, 5}},
+            CourseScheduleIITestCase({6, {{1, 0}, {2, 0}, {3, 4}, {5, 4}}, {0, 4, 1, 2, 3, 5}}),
             // Additional Complex Test 2: A cycle detection case
-            {5, {{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 0}}, {}}
+            CourseScheduleIITestCase({5, {{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 0}}, {}})
         };
 
         CourseScheduleII_210 cs210;
@@ -445,15 +463,15 @@ public:
     static void networkDelayTime_743_tests() {
         std::vector<NetworkDelayTimeTestCase> testCases = {
             // Provided Examples
-            {{ {2, 1, 1}, {2, 3, 1}, {3, 4, 1} }, 4, 2, 2},
-            {{ {1, 2, 1} }, 2, 1, 1},
-            {{ {1, 2, 1} }, 2, 2, -1},
+            NetworkDelayTimeTestCase({{ {2, 1, 1}, {2, 3, 1}, {3, 4, 1} }, 4, 2, 2}),
+            NetworkDelayTimeTestCase({{ {1, 2, 1} }, 2, 1, 1}),
+            NetworkDelayTimeTestCase({{ {1, 2, 1} }, 2, 2, -1}),
 
             // Additional Complex Example 1: 6 nodes, complex network
-            {{ {1, 2, 2}, {1, 3, 4}, {2, 4, 7}, {3, 4, 1}, {2, 5, 5}, {5, 6, 3}, {4, 6, 2} }, 6, 1, 7},
+            NetworkDelayTimeTestCase({{ {1, 2, 2}, {1, 3, 4}, {2, 4, 7}, {3, 4, 1}, {2, 5, 5}, {5, 6, 3}, {4, 6, 2} }, 6, 1, 7}),
 
             // Additional Complex Example 2: 8 nodes, complex network
-            {{ {1, 2, 2}, {1, 3, 1}, {3, 4, 4}, {2, 5, 7}, {5, 6, 1}, {6, 7, 5}, {7, 8, 2}, {4, 8, 3} }, 8, 1, 15},
+            NetworkDelayTimeTestCase({{ {1, 2, 2}, {1, 3, 1}, {3, 4, 4}, {2, 5, 7}, {5, 6, 1}, {6, 7, 5}, {7, 8, 2}, {4, 8, 3} }, 8, 1, 15}),
         };
 
         NetworkDelayTime_743 ndt743;
