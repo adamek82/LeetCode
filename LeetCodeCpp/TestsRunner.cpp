@@ -31,6 +31,7 @@
 #include "KthLargestElementInArray_215.h"
 #include "MinHeap.h"
 #include "RotateImage_48.h" 
+#include "MergeIntervals_56.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -262,6 +263,14 @@ struct RotateImageTestCase {
 
     RotateImageTestCase(std::vector<std::vector<int>> input, std::vector<std::vector<int>> expected)
         : inputMatrix(std::move(input)), expectedMatrix(std::move(expected)) {}
+};
+
+struct MergeIntervalsTestCase {
+    std::vector<std::vector<int>> intervals;
+    std::vector<std::vector<int>> expectedResult;
+
+    MergeIntervalsTestCase(std::vector<std::vector<int>> input, std::vector<std::vector<int>> expected)
+        : intervals(std::move(input)), expectedResult(std::move(expected)) {}
 };
 
 class TestsRunner {
@@ -1208,6 +1217,39 @@ public:
         }
     }
 
+    static void mergeIntervals_56_tests() {
+        std::vector<MergeIntervalsTestCase> testCases = {
+            // Problem statement examples
+            MergeIntervalsTestCase({{1, 3}, {2, 6}, {8, 10}, {15, 18}}, {{1, 6}, {8, 10}, {15, 18}}),
+            MergeIntervalsTestCase({{1, 4}, {4, 5}}, {{1, 5}}),
+
+            // Additional complex test cases
+            MergeIntervalsTestCase({{1, 4}, {0, 2}, {3, 5}}, {{0, 5}}),
+            MergeIntervalsTestCase({{1, 10}, {2, 6}, {8, 9}, {15, 20}, {18, 22}}, {{1, 10}, {15, 22}}),
+
+            // Edge case: Single interval
+            MergeIntervalsTestCase({{5, 10}}, {{5, 10}})
+        };
+
+        MergeIntervals_56 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto result = solution.merge(testCases[i].intervals);
+
+            std::cout << "Merge Intervals Test " << (i + 1) << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << "\nExpected: ";
+            for (const auto& interval : testCases[i].expectedResult) {
+                std::cout << "[" << interval[0] << "," << interval[1] << "] ";
+            }
+            std::cout << "\nGot: ";
+            for (const auto& interval : result) {
+                std::cout << "[" << interval[0] << "," << interval[1] << "] ";
+            }
+            std::cout << "\n\n";
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1263,6 +1305,8 @@ public:
         minHeap_tests();
         std::cout << "Running RotateImage_48 tests:\n";
         rotateImage_48_tests();
+        std::cout << "Running MergeIntervals_56 tests:\n";
+        mergeIntervals_56_tests();
     }
 };
 
