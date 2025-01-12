@@ -52,6 +52,7 @@
                 "${workspaceFolder}/RotateImage_48.cpp",
                 "${workspaceFolder}/MergeIntervals_56.cpp",
                 "${workspaceFolder}/MergeKSortedLists_23.cpp",
+                "${workspaceFolder}/ProductOfArrayExceptSelf.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {

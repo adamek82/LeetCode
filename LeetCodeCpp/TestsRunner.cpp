@@ -33,6 +33,7 @@
 #include "RotateImage_48.h"
 #include "MergeIntervals_56.h"
 #include "MergeKSortedLists_23.h"
+#include "ProductOfArrayExceptSelf.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -280,6 +281,14 @@ struct MergeKListsTestCase {
 
     MergeKListsTestCase(std::vector<std::vector<int>> inputs, std::vector<int> expected)
         : inputLists(std::move(inputs)), expectedList(std::move(expected)) {}
+};
+
+struct ProductOfArrayExceptSelfTestCase {
+    std::vector<int> nums;
+    std::vector<int> expectedResult;
+
+    ProductOfArrayExceptSelfTestCase(std::vector<int> input, std::vector<int> expected)
+        : nums(std::move(input)), expectedResult(std::move(expected)) {}
 };
 
 class TestsRunner {
@@ -1301,6 +1310,34 @@ public:
         }
     }
 
+    static void productOfArrayExceptSelf_tests() {
+        std::vector<ProductOfArrayExceptSelfTestCase> testCases = {
+            // Example 1
+            ProductOfArrayExceptSelfTestCase({1, 2, 3, 4}, {24, 12, 8, 6}),
+            // Example 2
+            ProductOfArrayExceptSelfTestCase({-1, 1, 0, -3, 3}, {0, 0, 9, 0, 0}),
+            // Corner Case: All ones
+            ProductOfArrayExceptSelfTestCase({1, 1, 1, 1}, {1, 1, 1, 1}),
+            // Complex Case 1: Mixed positive and negative numbers
+            ProductOfArrayExceptSelfTestCase({-2, -3, 4, 5}, {-60, -40, 30, 24}),
+            // Complex Case 2: Large array
+            ProductOfArrayExceptSelfTestCase({10, 20, 30, 40, 50}, {1200000, 600000, 400000, 300000, 240000})
+        };
+
+        ProductOfArrayExceptSelf solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto result = solution.productExceptSelf(testCases[i].nums);
+            std::cout << "Product of Array Except Self Test " << (i + 1) << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: ";
+            for (int val : testCases[i].expectedResult) std::cout << val << " ";
+            std::cout << ", Got: ";
+            for (int val : result) std::cout << val << " ";
+            std::cout << ")\n";
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1360,6 +1397,8 @@ public:
         mergeIntervals_56_tests();
         std::cout << "Running MergeKSortedLists_23 tests:\n";
         mergeKLists_tests();
+        std::cout << "Running ProductOfArrayExceptSelf_238 tests:\n";
+        productOfArrayExceptSelf_tests();
     }
 };
 
