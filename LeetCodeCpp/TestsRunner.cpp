@@ -30,8 +30,9 @@
 #include "Trie.h"
 #include "KthLargestElementInArray_215.h"
 #include "MinHeap.h"
-#include "RotateImage_48.h" 
+#include "RotateImage_48.h"
 #include "MergeIntervals_56.h"
+#include "MergeKSortedLists_23.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -271,6 +272,14 @@ struct MergeIntervalsTestCase {
 
     MergeIntervalsTestCase(std::vector<std::vector<int>> input, std::vector<std::vector<int>> expected)
         : intervals(std::move(input)), expectedResult(std::move(expected)) {}
+};
+
+struct MergeKListsTestCase {
+    std::vector<std::vector<int>> inputLists;
+    std::vector<int> expectedList;
+
+    MergeKListsTestCase(std::vector<std::vector<int>> inputs, std::vector<int> expected)
+        : inputLists(std::move(inputs)), expectedList(std::move(expected)) {}
 };
 
 class TestsRunner {
@@ -1250,6 +1259,48 @@ public:
         }
     }
 
+    static void mergeKLists_tests() {
+        using IntListNode = ListNode<int>;
+
+        std::vector<MergeKListsTestCase> testCases = {
+            // Example 1
+            MergeKListsTestCase({{1, 4, 5}, {1, 3, 4}, {2, 6}}, {1, 1, 2, 3, 4, 4, 5, 6}),
+            // Example 2
+            MergeKListsTestCase({}, {}),
+            // Example 3
+            MergeKListsTestCase({{}}, {}),
+            // Additional Test 1: Single long list
+            MergeKListsTestCase({{1, 2, 3, 4, 5}}, {1, 2, 3, 4, 5}),
+            // Additional Test 2: Large overlapping lists
+            MergeKListsTestCase({{1, 3, 5}, {2, 4, 6}, {0, 7, 8, 9}}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9})
+        };
+
+        MergeKSortedLists_23 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            // Create input linked lists
+            std::vector<IntListNode*> inputLists;
+            for (const auto& list : testCases[i].inputLists) {
+                inputLists.push_back(ListUtils::createLinkedList<int>(list));
+            }
+
+            // Run the solution
+            IntListNode* result = solution.mergeKLists(inputLists);
+
+            // Convert result to vector
+            std::vector<int> resultVector = ListUtils::toVector<int>(result);
+
+            // Print test results
+            std::cout << "Merge K Lists Test " << i + 1 << ": res = "
+                    << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
+                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
+                    << ", Got: " << ListUtils::toString<int>(result) << ")" << std::endl;
+
+            // Free allocated memory
+            ListUtils::freeList<int>(result);
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1307,6 +1358,8 @@ public:
         rotateImage_48_tests();
         std::cout << "Running MergeIntervals_56 tests:\n";
         mergeIntervals_56_tests();
+        std::cout << "Running MergeKSortedLists_23 tests:\n";
+        mergeKLists_tests();
     }
 };
 
