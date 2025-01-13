@@ -1364,9 +1364,23 @@ public:
             MajorityElementTestCase({10, 9, 9, 10, 10, 10, 9, 10, 9, 10, 10}, 10)
         };
 
+        std::cout << "-> Boyer–Moore Majority Vote Algorithm:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
             MajorityElement_169 solution;
             int result = solution.majorityElement(testCases[i].nums);
+            std::cout << "Test " << (i + 1) << ": ";
+            if (result == testCases[i].expectedResult) {
+                std::cout << "PASS\n";
+            } else {
+                std::cout << "FAIL (Expected: " << testCases[i].expectedResult
+                        << ", Got: " << result << ")\n";
+            }
+        }
+
+        std::cout << "-> Frequency Counting with a Hashmap Algorithm:\n";
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            MajorityElement_169 solution;
+            int result = solution.majorityElementWithHashmap(testCases[i].nums);
             std::cout << "Test " << (i + 1) << ": ";
             if (result == testCases[i].expectedResult) {
                 std::cout << "PASS\n";
