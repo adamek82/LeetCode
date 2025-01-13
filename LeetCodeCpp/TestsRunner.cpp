@@ -34,6 +34,7 @@
 #include "MergeIntervals_56.h"
 #include "MergeKSortedLists_23.h"
 #include "ProductOfArrayExceptSelf.h"
+#include "MajorityElement_169.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -289,6 +290,14 @@ struct ProductOfArrayExceptSelfTestCase {
 
     ProductOfArrayExceptSelfTestCase(std::vector<int> input, std::vector<int> expected)
         : nums(std::move(input)), expectedResult(std::move(expected)) {}
+};
+
+struct MajorityElementTestCase {
+    std::vector<int> nums;
+    int expectedResult;
+
+    MajorityElementTestCase(std::vector<int> nums, int result)
+        : nums(std::move(nums)), expectedResult(result) {}
 };
 
 class TestsRunner {
@@ -1338,6 +1347,36 @@ public:
         }
     }
 
+    static void majorityElement_tests() {
+        // Define test cases
+        std::vector<MajorityElementTestCase> testCases = {
+            // Example 1
+            MajorityElementTestCase({3, 2, 3}, 3),
+            // Example 2
+            MajorityElementTestCase({2, 2, 1, 1, 1, 2, 2}, 2),
+            // Edge Case: Single element
+            MajorityElementTestCase({1}, 1),
+            // Complex Case 1: Large input with clear majority
+            MajorityElementTestCase({1, 1, 1, 1, 2, 2, 2, 2, 1, 1}, 1),
+            // Complex Case 2: Alternating majority
+            MajorityElementTestCase({5, 1, 5, 1, 5, 5, 5, 2, 5, 3, 5, 5}, 5),
+            // Complex Case 3: Majority in large data
+            MajorityElementTestCase({10, 9, 9, 10, 10, 10, 9, 10, 9, 10, 10}, 10)
+        };
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            MajorityElement_169 solution;
+            int result = solution.majorityElement(testCases[i].nums);
+            std::cout << "Test " << (i + 1) << ": ";
+            if (result == testCases[i].expectedResult) {
+                std::cout << "PASS\n";
+            } else {
+                std::cout << "FAIL (Expected: " << testCases[i].expectedResult
+                        << ", Got: " << result << ")\n";
+            }
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1399,6 +1438,8 @@ public:
         mergeKLists_tests();
         std::cout << "Running ProductOfArrayExceptSelf_238 tests:\n";
         productOfArrayExceptSelf_tests();
+        std::cout << "Running MajorityElement_169 tests:\n";
+        majorityElement_tests();
     }
 };
 

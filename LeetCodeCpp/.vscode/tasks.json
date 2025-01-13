@@ -53,6 +53,7 @@
                 "${workspaceFolder}/MergeIntervals_56.cpp",
                 "${workspaceFolder}/MergeKSortedLists_23.cpp",
                 "${workspaceFolder}/ProductOfArrayExceptSelf.cpp",
+                "${workspaceFolder}/MajorityElement_169.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {
