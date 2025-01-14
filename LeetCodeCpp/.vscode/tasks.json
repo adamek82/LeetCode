@@ -54,6 +54,7 @@
                 "${workspaceFolder}/MergeKSortedLists_23.cpp",
                 "${workspaceFolder}/ProductOfArrayExceptSelf.cpp",
                 "${workspaceFolder}/MajorityElement_169.cpp",
+                "${workspaceFolder}/EvaluateReversePolishNotation_150.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {

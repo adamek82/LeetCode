@@ -35,6 +35,7 @@
 #include "MergeKSortedLists_23.h"
 #include "ProductOfArrayExceptSelf.h"
 #include "MajorityElement_169.h"
+#include "EvaluateReversePolishNotation_150.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -298,6 +299,14 @@ struct MajorityElementTestCase {
 
     MajorityElementTestCase(std::vector<int> nums, int result)
         : nums(std::move(nums)), expectedResult(result) {}
+};
+
+struct EvaluateRPNTestCase {
+    std::vector<std::string> tokens;
+    int expectedResult;
+
+    EvaluateRPNTestCase(std::vector<std::string> t, int e)
+        : tokens(std::move(t)), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -1391,6 +1400,26 @@ public:
         }
     }
 
+    static void evaluateReversePolishNotation_150_tests() {
+        std::vector<EvaluateRPNTestCase> testCases = {
+            EvaluateRPNTestCase({"2", "1", "+", "3", "*"}, 9),  // Example 1
+            EvaluateRPNTestCase({"4", "13", "5", "/", "+"}, 6), // Example 2
+            EvaluateRPNTestCase({"10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"}, 22), // Example 3
+            // Additional test cases
+            EvaluateRPNTestCase({"3", "4", "+", "2", "*", "7", "/"}, 2), // Complex case: (((3+4)*2)/7)
+            EvaluateRPNTestCase({"5", "-2", "4", "+", "*", "3", "+"}, 13) // Complex case: ((5*(-2+4))+3)
+        };
+
+        EvaluateReversePolishNotation_150 evaluator;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = evaluator.evalRPN(testCases[i].tokens);
+            std::cout << "Evaluate RPN Test " << (i + 1) << ": res = "
+                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")\n";
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1454,6 +1483,8 @@ public:
         productOfArrayExceptSelf_tests();
         std::cout << "Running MajorityElement_169 tests:\n";
         majorityElement_tests();
+        std::cout << "Running Evaluate Reverse Polish Notation_150 tests:\n";
+        evaluateReversePolishNotation_150_tests();
     }
 };
 
