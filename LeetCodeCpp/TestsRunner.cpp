@@ -36,6 +36,7 @@
 #include "ProductOfArrayExceptSelf.h"
 #include "MajorityElement_169.h"
 #include "EvaluateReversePolishNotation_150.h"
+#include "LargestRectangleInHistogram_84.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -307,6 +308,14 @@ struct EvaluateRPNTestCase {
 
     EvaluateRPNTestCase(std::vector<std::string> t, int e)
         : tokens(std::move(t)), expectedResult(e) {}
+};
+
+struct LargestRectangleTestCase {
+    std::vector<int> heights;
+    int expectedArea;
+
+    LargestRectangleTestCase(std::vector<int> h, int area)
+        : heights(std::move(h)), expectedArea(area) {}
 };
 
 class TestsRunner {
@@ -1420,6 +1429,31 @@ public:
         }
     }
 
+    static void largestRectangleArea_tests() {
+        std::vector<LargestRectangleTestCase> testCases = {
+            // Example 1
+            LargestRectangleTestCase({2, 1, 5, 6, 2, 3}, 10),
+            // Example 2
+            LargestRectangleTestCase({2, 4}, 4),
+            // Additional Test 1: All bars of the same height
+            LargestRectangleTestCase({1, 1, 1, 1, 1}, 5),
+            // Additional Test 2: Decreasing heights
+            LargestRectangleTestCase({5, 4, 3, 2, 1}, 9),
+            // Additional Test 3: Complex case
+            LargestRectangleTestCase({2, 1, 4, 5, 1, 3, 3}, 8)
+        };
+
+        LargestRectangleInHistogram_84 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = solution.largestRectangleArea(testCases[i].heights);
+            std::cout << "Test " << (i + 1) << ": res = "
+                      << (result == testCases[i].expectedArea ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expectedArea
+                      << ", Got: " << result << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1485,6 +1519,8 @@ public:
         majorityElement_tests();
         std::cout << "Running Evaluate Reverse Polish Notation_150 tests:\n";
         evaluateReversePolishNotation_150_tests();
+        std::cout << "Running LargestRectangleInHistogram_84 tests:\n";
+        largestRectangleArea_tests();
     }
 };
 

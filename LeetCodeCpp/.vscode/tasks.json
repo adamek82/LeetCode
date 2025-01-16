@@ -55,6 +55,7 @@
                 "${workspaceFolder}/ProductOfArrayExceptSelf.cpp",
                 "${workspaceFolder}/MajorityElement_169.cpp",
                 "${workspaceFolder}/EvaluateReversePolishNotation_150.cpp",
+                "${workspaceFolder}/LargestRectangleInHistogram_84.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {
