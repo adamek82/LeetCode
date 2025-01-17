@@ -37,6 +37,7 @@
 #include "MajorityElement_169.h"
 #include "EvaluateReversePolishNotation_150.h"
 #include "LargestRectangleInHistogram_84.h"
+#include "WordSearch_79.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -316,6 +317,15 @@ struct LargestRectangleTestCase {
 
     LargestRectangleTestCase(std::vector<int> h, int area)
         : heights(std::move(h)), expectedArea(area) {}
+};
+
+struct WordSearchTestCase {
+    std::vector<std::vector<char>> board;
+    std::string word;
+    bool expectedResult;
+
+    WordSearchTestCase(std::vector<std::vector<char>> b, std::string w, bool e)
+        : board(std::move(b)), word(std::move(w)), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -1454,6 +1464,54 @@ public:
         }
     }
 
+    static void runWordSearchTests() {
+        std::vector<WordSearchTestCase> testCases = {
+            // Example 1 from problem statement
+            WordSearchTestCase({{'A','B','C','E'},
+                                {'S','F','C','S'},
+                                {'A','D','E','E'}},
+                            "ABCCED", true),
+
+            // Example 2 from problem statement
+            WordSearchTestCase({{'A','B','C','E'},
+                                {'S','F','C','S'},
+                                {'A','D','E','E'}},
+                            "SEE", true),
+
+            // Example 3 from problem statement
+            WordSearchTestCase({{'A','B','C','E'},
+                                {'S','F','C','S'},
+                                {'A','D','E','E'}},
+                            "ABCB", false),
+
+            // Additional complex test case 1
+            WordSearchTestCase({{'A','B','C','E','F','G'},
+                                {'H','I','J','K','L','M'},
+                                {'N','O','P','Q','R','S'},
+                                {'T','U','V','W','X','Y'},
+                                {'Z','A','B','C','D','E'}},
+                            "ABCEFGMLKJIHNT", true),
+
+            // Additional complex test case 2
+            WordSearchTestCase({{'A','B','C','E','F','G'},
+                                {'H','I','J','K','L','M'},
+                                {'N','O','P','Q','R','S'},
+                                {'T','U','V','W','X','Y'},
+                                {'Z','A','B','C','D','E'}},
+                            "ZYXWVUTSRQPONMLK", false)
+        };
+
+        WordSearch_79 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            bool result = solution.exist(testCases[i].board, testCases[i].word);
+            std::cout << "Test " << (i + 1) << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
+                    << ", Got: " << (result ? "true" : "false") << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1521,6 +1579,8 @@ public:
         evaluateReversePolishNotation_150_tests();
         std::cout << "Running LargestRectangleInHistogram_84 tests:\n";
         largestRectangleArea_tests();
+        std::cout << "Running WordSearch_79 tests:\n";
+        runWordSearchTests();
     }
 };
 
