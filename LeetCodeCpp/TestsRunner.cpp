@@ -38,6 +38,7 @@
 #include "EvaluateReversePolishNotation_150.h"
 #include "LargestRectangleInHistogram_84.h"
 #include "WordSearch_79.h"
+#include "ValidParentheses_20.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -326,6 +327,14 @@ struct WordSearchTestCase {
 
     WordSearchTestCase(std::vector<std::vector<char>> b, std::string w, bool e)
         : board(std::move(b)), word(std::move(w)), expectedResult(e) {}
+};
+
+struct ValidParenthesesTestCase {
+    std::string input;
+    bool expectedResult;
+
+    ValidParenthesesTestCase(std::string in, bool result)
+        : input(std::move(in)), expectedResult(result) {}
 };
 
 class TestsRunner {
@@ -1512,6 +1521,26 @@ public:
         }
     }
 
+    static void runValidParenthesesTests() {
+        std::vector<ValidParenthesesTestCase> testCases = {
+            {"()", true},
+            {"()[]{}", true},
+            {"(]", false},
+            {"([])", true},
+            {"({[(){}[]]})", true} // Additional complex test case
+        };
+
+        ValidParentheses_20 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            bool result = solution.isValid(testCases[i].input);
+            std::cout << "Test " << (i + 1) << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
+                    << ", Got: " << (result ? "true" : "false") << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1581,6 +1610,8 @@ public:
         largestRectangleArea_tests();
         std::cout << "Running WordSearch_79 tests:\n";
         runWordSearchTests();
+        std::cout << "Running ValidParentheses_20 tests:\n";
+        runValidParenthesesTests();
     }
 };
 
