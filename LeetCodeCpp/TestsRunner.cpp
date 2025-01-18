@@ -40,6 +40,7 @@
 #include "WordSearch_79.h"
 #include "ValidParentheses_20.h"
 #include "ValidSudoku_36.h"
+#include "BinarySearch_704.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -344,6 +345,15 @@ struct ValidSudokuTestCase {
 
     ValidSudokuTestCase(std::vector<std::vector<char>> b, bool e)
         : board(std::move(b)), expectedResult(e) {}
+};
+
+struct BinarySearchTestCase {
+    std::vector<int> nums;
+    int target;
+    int expectedResult;
+
+    BinarySearchTestCase(std::vector<int> n, int t, int e)
+        : nums(std::move(n)), target(t), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -1629,6 +1639,31 @@ public:
         }
     }
 
+    static void binarySearch_704_tests() {
+        std::vector<BinarySearchTestCase> testCases = {
+            // Example 1
+            BinarySearchTestCase({-1, 0, 3, 5, 9, 12}, 9, 4),
+            // Example 2
+            BinarySearchTestCase({-1, 0, 3, 5, 9, 12}, 2, -1),
+            // Complex Case 1: Large range with the target in the middle
+            BinarySearchTestCase({-10000, -5000, 0, 5000, 10000}, 0, 2),
+            // Complex Case 2: Target near boundaries
+            BinarySearchTestCase({1, 3, 5, 7, 9, 11}, 11, 5), // Target is the last element
+            // Corner Case: Single element, no match
+            BinarySearchTestCase({1}, 0, -1)
+        };
+
+        BinarySearch_704 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = solution.search(testCases[i].nums, testCases[i].target);
+            std::cout << "Binary Search Test " << (i + 1) << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expectedResult
+                    << ", Got: " << result << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1702,6 +1737,8 @@ public:
         runValidParenthesesTests();
         std::cout << "Running ValidSudoku_36 tests:\n";
         validSudoku_36_tests();
+        std::cout << "Running BinarySearch_704 tests:\n";
+        binarySearch_704_tests();
     }
 };
 
