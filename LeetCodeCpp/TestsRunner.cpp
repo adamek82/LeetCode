@@ -39,6 +39,7 @@
 #include "LargestRectangleInHistogram_84.h"
 #include "WordSearch_79.h"
 #include "ValidParentheses_20.h"
+#include "ValidSudoku_36.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -335,6 +336,14 @@ struct ValidParenthesesTestCase {
 
     ValidParenthesesTestCase(std::string in, bool result)
         : input(std::move(in)), expectedResult(result) {}
+};
+
+struct ValidSudokuTestCase {
+    std::vector<std::vector<char>> board;
+    bool expectedResult;
+
+    ValidSudokuTestCase(std::vector<std::vector<char>> b, bool e)
+        : board(std::move(b)), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -1541,6 +1550,85 @@ public:
         }
     }
 
+    static void validSudoku_36_tests() {
+        std::vector<ValidSudokuTestCase> testCases = {
+            // Example 1: Valid Sudoku
+            ValidSudokuTestCase({
+                {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
+                {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+                {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+                {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+                {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+                {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+                {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+                {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+                {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
+            }, true),
+
+            // Example 2: Invalid Sudoku (Duplicate in Sub-box)
+            ValidSudokuTestCase({
+                {'8', '3', '.', '.', '7', '.', '.', '.', '.'},
+                {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+                {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+                {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+                {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+                {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+                {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+                {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+                {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
+            }, false),
+
+            // Example 3: Valid Complex Sudoku
+            ValidSudokuTestCase({
+                {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
+                {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+                {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+                {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+                {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+                {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+                {'1', '6', '.', '.', '.', '.', '2', '8', '.'},
+                {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+                {'2', '.', '.', '.', '8', '.', '.', '7', '9'}
+            }, true),
+
+            // Example 4: Invalid Sudoku (Duplicate in Row)
+            ValidSudokuTestCase({
+                {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
+                {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+                {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+                {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+                {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+                {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+                {'1', '6', '.', '.', '.', '.', '2', '8', '.'},
+                {'.', '.', '.', '4', '1', '9', '.', '1', '5'},
+                {'2', '.', '.', '.', '8', '.', '.', '7', '9'}
+            }, false),
+
+            // Example 5: Invalid Sudoku (Duplicate in Column)
+            ValidSudokuTestCase({
+                {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
+                {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+                {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+                {'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+                {'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+                {'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+                {'1', '6', '.', '.', '.', '.', '2', '8', '.'},
+                {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+                {'2', '.', '.', '.', '8', '.', '.', '7', '5'}
+            }, false),
+        };
+
+        ValidSudoku_36 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            bool result = solver.isValidSudoku(testCases[i].board);
+            std::cout << "Valid Sudoku Test " << (i + 1) << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
+                    << ", Got: " << (result ? "true" : "false") << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1612,6 +1700,8 @@ public:
         runWordSearchTests();
         std::cout << "Running ValidParentheses_20 tests:\n";
         runValidParenthesesTests();
+        std::cout << "Running ValidSudoku_36 tests:\n";
+        validSudoku_36_tests();
     }
 };
 

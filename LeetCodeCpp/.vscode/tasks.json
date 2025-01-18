@@ -58,6 +58,7 @@
                 "${workspaceFolder}/LargestRectangleInHistogram_84.cpp",
                 "${workspaceFolder}/WordSearch_79.cpp",
                 "${workspaceFolder}/ValidParentheses_20.cpp",
+                "${workspaceFolder}/ValidSudoku_36.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {
