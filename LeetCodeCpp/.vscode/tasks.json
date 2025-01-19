@@ -61,6 +61,7 @@
                 "${workspaceFolder}/ValidSudoku_36.cpp",
                 "${workspaceFolder}/BinarySearch_704.cpp",
                 "${workspaceFolder}/SearchInsertPosition_35.cpp",
+                "${workspaceFolder}/Search2DMatrix_74.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {

@@ -42,6 +42,7 @@
 #include "ValidSudoku_36.h"
 #include "BinarySearch_704.h"
 #include "SearchInsertPosition_35.h"
+#include "Search2DMatrix_74.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -355,6 +356,15 @@ struct BinarySearchTestCase {
 
     BinarySearchTestCase(std::vector<int> n, int t, int e)
         : nums(std::move(n)), target(t), expectedResult(e) {}
+};
+
+struct Search2DMatrixTestCase {
+    std::vector<std::vector<int>> matrix;
+    int target;
+    bool expectedResult;
+
+    Search2DMatrixTestCase(std::vector<std::vector<int>> mat, int tgt, bool result)
+        : matrix(std::move(mat)), target(tgt), expectedResult(result) {}
 };
 
 class TestsRunner {
@@ -1690,6 +1700,29 @@ public:
         }
     }
 
+    static void search2DMatrixTests() {
+        std::vector<Search2DMatrixTestCase> testCases = {
+            // Provided examples
+            Search2DMatrixTestCase({{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}}, 3, true),
+            Search2DMatrixTestCase({{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}}, 13, false),
+
+            // Additional complex test cases
+            Search2DMatrixTestCase({{1, 5, 9}, {14, 20, 23}, {30, 34, 50}}, 20, true),
+            Search2DMatrixTestCase({{1, 3, 6, 10}, {15, 20, 25, 30}, {35, 40, 45, 50}}, 7, false),
+            Search2DMatrixTestCase({{5, 7, 9, 11}, {13, 15, 17, 19}, {21, 23, 25, 27}}, 27, true),
+        };
+
+        Search2DMatrix_74 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            bool result = solution.searchMatrix(testCases[i].matrix, testCases[i].target);
+            std::cout << "Test " << (i + 1) << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
+                    << ", Got: " << (result ? "true" : "false") << ")\n";
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1767,6 +1800,8 @@ public:
         binarySearch_704_tests();
         std::cout << "Running Search Insert Position_35 tests:\n";
         searchInsertPosition_35_tests();
+        std::cout << "Running Search 2D Matrix_74 tests:\n";
+        search2DMatrixTests();
     }
 };
 
