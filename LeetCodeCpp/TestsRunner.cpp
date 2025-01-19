@@ -41,6 +41,7 @@
 #include "ValidParentheses_20.h"
 #include "ValidSudoku_36.h"
 #include "BinarySearch_704.h"
+#include "SearchInsertPosition_35.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -1664,6 +1665,31 @@ public:
         }
     }
 
+    static void searchInsertPosition_35_tests() {
+        std::vector<BinarySearchTestCase> testCases = {
+            // Example 1: Target is found
+            BinarySearchTestCase({1, 3, 5, 6}, 5, 2),
+            // Example 2: Target is not found, insert at index 1
+            BinarySearchTestCase({1, 3, 5, 6}, 2, 1),
+            // Example 3: Target is not found, insert at the end
+            BinarySearchTestCase({1, 3, 5, 6}, 7, 4),
+            // Complex Case 1: Large range with insertion at the beginning
+            BinarySearchTestCase({10, 20, 30, 40, 50}, 5, 0),
+            // Complex Case 2: Large range with insertion in the middle
+            BinarySearchTestCase({10, 20, 30, 40, 50, 60, 70, 80, 90, 100}, 55, 5)
+        };
+
+        SearchInsertPosition_35 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = solution.searchInsert(testCases[i].nums, testCases[i].target);
+            std::cout << "Search Insert Position Test " << (i + 1) << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expectedResult
+                    << ", Got: " << result << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1739,6 +1765,8 @@ public:
         validSudoku_36_tests();
         std::cout << "Running BinarySearch_704 tests:\n";
         binarySearch_704_tests();
+        std::cout << "Running Search Insert Position_35 tests:\n";
+        searchInsertPosition_35_tests();
     }
 };
 
