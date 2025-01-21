@@ -43,6 +43,7 @@
 #include "BinarySearch_704.h"
 #include "SearchInsertPosition_35.h"
 #include "Search2DMatrix_74.h"
+#include "AllOOneDataStructure_432.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -1723,6 +1724,82 @@ public:
         }
     }
 
+    static bool inSet(const std::string& s, std::initializer_list<std::string> candidates) {
+        // Helper to handle the fact that getMaxKey / getMinKey can return any
+        // of the keys sharing min/max count
+        for (auto& c : candidates) {
+            if (s == c) return true;
+        }
+        return false;
+    }
+
+    static void allOne_432_tests() {
+        // Test 1: Basic example from problem statement
+        {
+            AllOOneDataStructure_432 allOne;
+            allOne.inc("hello");
+            allOne.inc("hello");
+            // "hello" now has count 2
+            std::string mx = allOne.getMaxKey();  // expect "hello"
+            std::string mn = allOne.getMinKey();  // expect "hello"
+            bool t1a = (mx == "hello") && (mn == "hello");
+
+            allOne.inc("leet");
+            // "hello"=2, "leet"=1
+            mx = allOne.getMaxKey(); // still "hello"
+            mn = allOne.getMinKey(); // now "leet"
+            bool t1b = (mx == "hello") && (mn == "leet");
+
+            bool pass = t1a && t1b;
+            std::cout << "Test 1: " << (pass ? "PASS" : "FAIL") << std::endl;
+        }
+
+        // Test 2: Multiple keys with same counts
+        {
+            AllOOneDataStructure_432 allOne;
+            allOne.inc("foo"); // foo=1
+            allOne.inc("bar"); // bar=1
+            allOne.inc("bar"); // bar=2
+            // So bar=2, foo=1
+            bool t2a = inSet(allOne.getMaxKey(), {"bar"}); // Only "bar" has count=2
+            bool t2b = inSet(allOne.getMinKey(), {"foo"}); // Only "foo" has count=1
+
+            // Now bring foo up to 2
+            allOne.inc("foo"); // foo=2, bar=2
+            // Both foo & bar have count=2, so min & max can be either
+            bool t2c = inSet(allOne.getMaxKey(), {"foo", "bar"});
+            bool t2d = inSet(allOne.getMinKey(), {"foo", "bar"});
+
+            bool pass = (t2a && t2b && t2c && t2d);
+            std::cout << "Test 2: " << (pass ? "PASS" : "FAIL") << std::endl;
+        }
+
+        // Test 3: Testing dec() and removal
+        {
+            AllOOneDataStructure_432 allOne;
+            // a=3, b=1, c=1
+            allOne.inc("a");  allOne.inc("a");  allOne.inc("a");
+            allOne.inc("b");
+            allOne.inc("c");
+
+            // Check max/min
+            bool t3a = inSet(allOne.getMaxKey(), {"a"});          // a=3 is max
+            bool t3b = inSet(allOne.getMinKey(), {"b", "c"});     // b=1, c=1
+
+            // Decrement "a" 3 times => "a" removed from structure
+            allOne.dec("a"); // now a=2
+            allOne.dec("a"); // now a=1
+            allOne.dec("a"); // now removed
+            // left with b=1, c=1
+
+            bool t3c = inSet(allOne.getMaxKey(), {"b", "c"});  // both b,c => count=1
+            bool t3d = inSet(allOne.getMinKey(), {"b", "c"});
+
+            bool pass = (t3a && t3b && t3c && t3d);
+            std::cout << "Test 3: " << (pass ? "PASS" : "FAIL") << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1802,6 +1879,8 @@ public:
         searchInsertPosition_35_tests();
         std::cout << "Running Search 2D Matrix_74 tests:\n";
         search2DMatrixTests();
+        std::cout << "Running All O One Data Structure_432) tests:\n";
+        allOne_432_tests();
     }
 };
 

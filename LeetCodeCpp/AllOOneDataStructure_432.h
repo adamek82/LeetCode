@@ -1,0 +1,28 @@
+#pragma once
+#include <string>
+#include <list>
+#include <unordered_map>
+#include <unordered_set>
+
+struct Node {
+    int count;
+    std::unordered_set<std::string> keys;
+    Node(int c) : count(c) {}
+};
+
+class AllOOneDataStructure_432 {
+public:
+    AllOOneDataStructure_432();
+    void inc(const std::string &key);
+    void dec(const std::string &key);
+    std::string getMaxKey();
+    std::string getMinKey();
+
+private:
+    // A list of nodes sorted by count (ascending).
+    // front() will have the smallest count, back() the largest.
+    std::list<Node> nodeList;
+
+    // Maps each key to the corresponding iterator in nodeList.
+    std::unordered_map<std::string, std::list<Node>::iterator> key2node;
+};

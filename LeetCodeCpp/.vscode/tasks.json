@@ -62,6 +62,7 @@
                 "${workspaceFolder}/BinarySearch_704.cpp",
                 "${workspaceFolder}/SearchInsertPosition_35.cpp",
                 "${workspaceFolder}/Search2DMatrix_74.cpp",
+                "${workspaceFolder}/AllOOneDataStructure_432.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {
