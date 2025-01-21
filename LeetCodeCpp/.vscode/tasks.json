@@ -63,6 +63,7 @@
                 "${workspaceFolder}/SearchInsertPosition_35.cpp",
                 "${workspaceFolder}/Search2DMatrix_74.cpp",
                 "${workspaceFolder}/AllOOneDataStructure_432.cpp",
+                "${workspaceFolder}/FindMinimumInRotatedSortedArray_153.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {

@@ -44,6 +44,7 @@
 #include "SearchInsertPosition_35.h"
 #include "Search2DMatrix_74.h"
 #include "AllOOneDataStructure_432.h"
+#include "FindMinimumInRotatedSortedArray_153.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -366,6 +367,13 @@ struct Search2DMatrixTestCase {
 
     Search2DMatrixTestCase(std::vector<std::vector<int>> mat, int tgt, bool result)
         : matrix(std::move(mat)), target(tgt), expectedResult(result) {}
+};
+
+struct FindMinTestCase {
+    std::vector<int> nums;
+    int expectedResult;
+
+    FindMinTestCase(std::vector<int> n, int e) : nums(std::move(n)), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -1800,6 +1808,25 @@ public:
         }
     }
 
+    static void findMinimumInRotatedSortedArray_153_tests() {
+        std::vector<FindMinTestCase> testCases = {
+            FindMinTestCase({3, 4, 5, 1, 2}, 1),                     // Example 1
+            FindMinTestCase({4, 5, 6, 7, 0, 1, 2}, 0),               // Example 2
+            FindMinTestCase({11, 13, 15, 17}, 11),                   // Example 3
+            FindMinTestCase({5, 6, 7, 8, 9, 1, 2, 3, 4}, 1),         // Additional Test 1
+            FindMinTestCase({30, 40, 50, 5, 10, 20}, 5)              // Additional Test 2
+        };
+
+        FindMinimumInRotatedSortedArray_153 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = solution.findMin(testCases[i].nums);
+            std::cout << "Test " << (i + 1) << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1881,6 +1908,8 @@ public:
         search2DMatrixTests();
         std::cout << "Running All O One Data Structure_432) tests:\n";
         allOne_432_tests();
+        std::cout << "Running Find Minimum in Rotated Sorted Array_153 tests:\n";
+        TestsRunner::findMinimumInRotatedSortedArray_153_tests();
     }
 };
 
