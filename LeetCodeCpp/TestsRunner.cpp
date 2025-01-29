@@ -45,6 +45,8 @@
 #include "Search2DMatrix_74.h"
 #include "AllOOneDataStructure_432.h"
 #include "FindMinimumInRotatedSortedArray_153.h"
+#include "GraphNode.h"
+#include "CloneGraph_133.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -1827,6 +1829,65 @@ public:
         }
     }
 
+    // Helper function to check if two graphs are isomorphic
+    static bool areGraphsIsomorphic(GraphNode<int>* original, GraphNode<int>* cloned) {
+        if (!original && !cloned) return true;
+        if (!original || !cloned) return false;
+        if (original->val != cloned->val) return false;
+
+        std::unordered_map<GraphNode<int>*, GraphNode<int>*> visited;
+        std::function<bool(GraphNode<int>*, GraphNode<int>*)> dfs = [&](GraphNode<int>* n1, GraphNode<int>* n2) -> bool {
+            if (!n1 || !n2) return n1 == n2;
+            if (n1->val != n2->val) return false;
+            if (visited.count(n1)) return visited[n1] == n2;
+
+            visited[n1] = n2;
+            if (n1->neighbors.size() != n2->neighbors.size()) return false;
+
+            for (size_t i = 0; i < n1->neighbors.size(); ++i) {
+                if (!dfs(n1->neighbors[i], n2->neighbors[i])) return false;
+            }
+            return true;
+        };
+
+        return dfs(original, cloned);
+    }
+
+    // Utility function to build a graph from adjacency list
+    static GraphNode<int>* buildGraph(const std::vector<std::vector<int>>& adjList) {
+        if (adjList.empty()) return nullptr;
+
+        std::unordered_map<int, GraphNode<int>*> nodeMap;
+        for (int i = 0; i < adjList.size(); ++i) {
+            if (!nodeMap.count(i + 1)) nodeMap[i + 1] = new GraphNode<int>(i + 1);
+            for (int neighbor : adjList[i]) {
+                if (!nodeMap.count(neighbor)) nodeMap[neighbor] = new GraphNode<int>(neighbor);
+                nodeMap[i + 1]->neighbors.push_back(nodeMap[neighbor]);
+            }
+        }
+        return nodeMap[1]; // The first node (value = 1) is always the entry point.
+    }
+
+    static void cloneGraph_133_tests() {
+        std::vector<std::vector<std::vector<int>>> testCases = {
+            {{2, 4}, {1, 3}, {2, 4}, {1, 3}},  // Example 1
+            {{}},  // Example 2 (Single node, no neighbors)
+            {},    // Example 3 (Empty graph)
+            {{2}, {1, 3}, {2, 4}, {3}}, // Additional case: Line-shaped graph
+            {{2, 3, 4, 5}, {1, 3, 5}, {1, 2, 4}, {1, 3, 5}, {1, 2, 4}} // Additional case: Fully connected small graph
+        };
+
+        CloneGraph_133 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            GraphNode<int>* originalGraph = buildGraph(testCases[i]);
+            GraphNode<int>* clonedGraph = solver.cloneGraph(originalGraph);
+
+            bool result = areGraphsIsomorphic(originalGraph, clonedGraph);
+            std::cout << "Clone Graph Test " << (i + 1) << ": " << (result ? "PASS" : "FAIL") << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1909,7 +1970,9 @@ public:
         std::cout << "Running All O One Data Structure_432) tests:\n";
         allOne_432_tests();
         std::cout << "Running Find Minimum in Rotated Sorted Array_153 tests:\n";
-        TestsRunner::findMinimumInRotatedSortedArray_153_tests();
+        findMinimumInRotatedSortedArray_153_tests();
+        std::cout << "Clone Graph_133 tests:\n";
+        cloneGraph_133_tests();
     }
 };
 
