@@ -2,13 +2,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Run Kotlin",
+            "name": "Debug TestsRunner Jar",
             "type": "java",
             "request": "launch",
-            "mainClass": "",
-            "program": "${workspaceFolder}/LeetCodeKotlin/.vscode/TestsRunner.jar",
-            "args": [],
-            "console": "integratedTerminal"
+            "mainClass": "TestsRunner",
+            "classPaths": [
+                "${workspaceFolder}/.vscode/TestsRunner.jar"
+            ]
         }
     ]
 }

@@ -1,13 +1,15 @@
 {
-    "version": "0.2.0",
-    "configurations": [
+    "version": "2.0.0",
+    "tasks": [
         {
-            "name": "Run Kotlin",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "java",
-            "args": ["-jar", "${workspaceFolder}/LeetCodeKotlin/.vscode/TestsRunner.jar"],
-            "console": "integratedTerminal"
+            "label": "Compile Kotlin",
+            "type": "shell",
+            "command": "kotlinc TestsRunner.kt -include-runtime -d .vscode/TestsRunner.jar",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": []
         }
     ]
 }
