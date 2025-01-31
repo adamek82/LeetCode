@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run Kotlin",
+            "type": "java",
+            "request": "launch",
+            "mainClass": "",
+            "program": "${workspaceFolder}/LeetCodeKotlin/.vscode/TestsRunner.jar",
+            "args": [],
+            "console": "integratedTerminal"
+        }
+    ]
+}

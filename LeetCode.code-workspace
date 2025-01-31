@@ -12,6 +12,9 @@
 		{
 			"path": "LeetCodePy"
 		}
+		{
+			"path": "LeetCodeKotlin"
+		}
 	],
 	"settings": {
 		"files.associations": {

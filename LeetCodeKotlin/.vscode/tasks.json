@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run Kotlin",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "java",
+            "args": ["-jar", "${workspaceFolder}/LeetCodeKotlin/.vscode/TestsRunner.jar"],
+            "console": "integratedTerminal"
+        }
+    ]
+}
