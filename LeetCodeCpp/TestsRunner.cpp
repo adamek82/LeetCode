@@ -47,6 +47,7 @@
 #include "FindMinimumInRotatedSortedArray_153.h"
 #include "GraphNode.h"
 #include "CloneGraph_133.h"
+#include "ZigzagConversion_6.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -376,6 +377,15 @@ struct FindMinTestCase {
     int expectedResult;
 
     FindMinTestCase(std::vector<int> n, int e) : nums(std::move(n)), expectedResult(e) {}
+};
+
+struct ZigzagTestCase {
+    std::string input;
+    int numRows;
+    std::string expected;
+
+    ZigzagTestCase(std::string s, int n, std::string e)
+        : input(std::move(s)), numRows(n), expected(std::move(e)) {}
 };
 
 class TestsRunner {
@@ -1888,6 +1898,25 @@ public:
         }
     }
 
+    static void zigzagConversion_6_tests() {
+        std::vector<ZigzagTestCase> testCases = {
+            ZigzagTestCase("PAYPALISHIRING", 3, "PAHNAPLSIIGYIR"),
+            ZigzagTestCase("PAYPALISHIRING", 4, "PINALSIGYAHRPI"),
+            ZigzagTestCase("A", 1, "A"),
+            ZigzagTestCase("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 5, "AIQYBHJPRXZCGKOSWDFLNTVEMU"),
+            ZigzagTestCase("THISISAZIGZAGCONVERSIONTEST", 6, "TZIHGASOIIGRNSZCETIAOVETSNS")
+        };
+    
+        ZigzagConversion_6 solution;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            std::string result = solution.convert(testCases[i].input, testCases[i].numRows);
+            std::cout << "Test " << (i + 1) << ": "
+                      << (result == testCases[i].expected ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expected
+                      << ", Got: " << result << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -1973,6 +2002,8 @@ public:
         findMinimumInRotatedSortedArray_153_tests();
         std::cout << "Clone Graph_133 tests:\n";
         cloneGraph_133_tests();
+        std::cout << "Zigzag Conversion_6 tests:\n";
+        zigzagConversion_6_tests();
     }
 };
 
