@@ -1909,11 +1909,18 @@ public:
     
         ZigzagConversion_6 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            std::string result = solution.convert(testCases[i].input, testCases[i].numRows);
-            std::cout << "Test " << (i + 1) << ": "
-                      << (result == testCases[i].expected ? "PASS" : "FAIL")
+            std::string result_rowWise = solution.convert_rowWise(testCases[i].input, testCases[i].numRows);
+            std::string result_jumpPattern = solution.convert_jumpPattern(testCases[i].input, testCases[i].numRows);
+
+            std::cout << "Test " << (i + 1) << " (Row-Wise): "
+                      << (result_rowWise == testCases[i].expected ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expected
-                      << ", Got: " << result << ")" << std::endl;
+                      << ", Got: " << result_rowWise << ")" << std::endl;
+
+            std::cout << "Test " << (i + 1) << " (Jump-Pattern): "
+                      << (result_jumpPattern == testCases[i].expected ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expected
+                      << ", Got: " << result_jumpPattern << ")" << std::endl;
         }
     }
 
