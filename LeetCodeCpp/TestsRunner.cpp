@@ -48,6 +48,7 @@
 #include "GraphNode.h"
 #include "CloneGraph_133.h"
 #include "ZigzagConversion_6.h"
+#include "HIndex_274.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -386,6 +387,14 @@ struct ZigzagTestCase {
 
     ZigzagTestCase(std::string s, int n, std::string e)
         : input(std::move(s)), numRows(n), expected(std::move(e)) {}
+};
+
+struct HIndexTestCase {
+    std::vector<int> citations;
+    int expectedResult;
+
+    HIndexTestCase(std::vector<int> c, int e)
+        : citations(std::move(c)), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -1924,6 +1933,31 @@ public:
         }
     }
 
+    static void hIndex_274_tests() {
+        // 5 test cases: the 2 from the LeetCode examples + 3 additional
+        std::vector<HIndexTestCase> testCases = {
+            // Example 1
+            HIndexTestCase({3, 0, 6, 1, 5}, 3),
+            // Example 2
+            HIndexTestCase({1, 3, 1}, 1),
+    
+            // Additional (more complex) test cases
+            HIndexTestCase({10, 8, 5, 4, 3}, 4),  // H-index should be 4
+            HIndexTestCase({0, 0, 0, 0}, 0),      // H-index should be 0
+            HIndexTestCase({4, 4, 4, 4, 4}, 4)    // H-index should be 4
+        };
+    
+        HIndex_274 solution;
+    
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = solution.hIndex(testCases[i].citations);
+            std::cout << "HIndex_274 Test " << (i + 1) << ": res = "
+                      << ((result == testCases[i].expectedResult) ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expectedResult
+                      << ", Got: " << result << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2011,6 +2045,8 @@ public:
         cloneGraph_133_tests();
         std::cout << "Zigzag Conversion_6 tests:\n";
         zigzagConversion_6_tests();
+        std::cout << "H-Index_274 tests:\n";
+        hIndex_274_tests();
     }
 };
 

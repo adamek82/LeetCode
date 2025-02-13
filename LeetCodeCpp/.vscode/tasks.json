@@ -67,6 +67,7 @@
                 "${workspaceFolder}/GraphNode.cpp",
                 "${workspaceFolder}/CloneGraph_133.cpp",
                 "${workspaceFolder}/ZigzagConversion_6.cpp",
+                "${workspaceFolder}/HIndex_274.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {
