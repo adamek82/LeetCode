@@ -49,6 +49,7 @@
 #include "CloneGraph_133.h"
 #include "ZigzagConversion_6.h"
 #include "HIndex_274.h"
+#include "SortColors_75.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -395,6 +396,14 @@ struct HIndexTestCase {
 
     HIndexTestCase(std::vector<int> c, int e)
         : citations(std::move(c)), expectedResult(e) {}
+};
+
+struct SortColorsTestCase {
+    std::vector<int> input;
+    std::vector<int> expected;
+
+    SortColorsTestCase(std::vector<int> in, std::vector<int> exp)
+        : input(std::move(in)), expected(std::move(exp)) {}
 };
 
 class TestsRunner {
@@ -1915,7 +1924,7 @@ public:
             ZigzagTestCase("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 5, "AIQYBHJPRXZCGKOSWDFLNTVEMU"),
             ZigzagTestCase("THISISAZIGZAGCONVERSIONTEST", 6, "TZIHGASOIIGRNSZCETIAOVETSNS")
         };
-    
+
         ZigzagConversion_6 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
             std::string result_rowWise = solution.convert_rowWise(testCases[i].input, testCases[i].numRows);
@@ -1940,21 +1949,58 @@ public:
             HIndexTestCase({3, 0, 6, 1, 5}, 3),
             // Example 2
             HIndexTestCase({1, 3, 1}, 1),
-    
+
             // Additional (more complex) test cases
             HIndexTestCase({10, 8, 5, 4, 3}, 4),  // H-index should be 4
             HIndexTestCase({0, 0, 0, 0}, 0),      // H-index should be 0
             HIndexTestCase({4, 4, 4, 4, 4}, 4)    // H-index should be 4
         };
-    
+
         HIndex_274 solution;
-    
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.hIndex(testCases[i].citations);
             std::cout << "HIndex_274 Test " << (i + 1) << ": res = "
                       << ((result == testCases[i].expectedResult) ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expectedResult
                       << ", Got: " << result << ")" << std::endl;
+        }
+    }
+
+    static void sortColors_75_tests() {
+        // Create test cases (two from the problem statement + three more)
+        std::vector<SortColorsTestCase> testCases = {
+            // Example 1
+            SortColorsTestCase({2, 0, 2, 1, 1, 0}, {0, 0, 1, 1, 2, 2}),
+            // Example 2
+            SortColorsTestCase({2, 0, 1}, {0, 1, 2}),
+            // Additional Test 1: Single element
+            SortColorsTestCase({0}, {0}),
+            // Additional Test 2: All the same element
+            SortColorsTestCase({2, 2, 2, 2}, {2, 2, 2, 2}),
+            // Additional Test 3: Mixed with more 1s
+            SortColorsTestCase({1, 0, 2, 2, 1, 0}, {0, 0, 1, 1, 2, 2})
+        };
+
+        SortColors_75 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            std::vector<int> arr = testCases[i].input;
+            solution.sortColors(arr);
+
+            bool pass = (arr == testCases[i].expected);
+            std::cout << "SortColors Test " << (i + 1) << ": "
+                    << (pass ? "PASS" : "FAIL")
+                    << " (Expected: [";
+            for (size_t j = 0; j < testCases[i].expected.size(); ++j) {
+                std::cout << testCases[i].expected[j]
+                        << (j + 1 < testCases[i].expected.size() ? ", " : "");
+            }
+            std::cout << "], Got: [";
+            for (size_t j = 0; j < arr.size(); ++j) {
+                std::cout << arr[j] << (j + 1 < arr.size() ? ", " : "");
+            }
+            std::cout << "])" << std::endl;
         }
     }
 
@@ -2047,6 +2093,8 @@ public:
         zigzagConversion_6_tests();
         std::cout << "H-Index_274 tests:\n";
         hIndex_274_tests();
+        std::cout << "Sort Colors_75 tests:\n";
+        sortColors_75_tests();
     }
 };
 

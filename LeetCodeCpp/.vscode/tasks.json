@@ -68,6 +68,7 @@
                 "${workspaceFolder}/CloneGraph_133.cpp",
                 "${workspaceFolder}/ZigzagConversion_6.cpp",
                 "${workspaceFolder}/HIndex_274.cpp",
+                "${workspaceFolder}/SortColors_75.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {
