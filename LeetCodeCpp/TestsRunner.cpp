@@ -50,6 +50,7 @@
 #include "ZigzagConversion_6.h"
 #include "HIndex_274.h"
 #include "SortColors_75.h"
+#include "RemoveDuplicatesFromSortedArrayII_80.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -404,6 +405,15 @@ struct SortColorsTestCase {
 
     SortColorsTestCase(std::vector<int> in, std::vector<int> exp)
         : input(std::move(in)), expected(std::move(exp)) {}
+};
+
+struct RemoveDuplicatesFromSortedArrayIITestCase {
+    std::vector<int> input;
+    int expectedK;
+    std::vector<int> expectedResult;
+
+    RemoveDuplicatesFromSortedArrayIITestCase(std::vector<int> in, int k, std::vector<int> exp)
+        : input(std::move(in)), expectedK(k), expectedResult(std::move(exp)) {}
 };
 
 class TestsRunner {
@@ -2004,6 +2014,45 @@ public:
         }
     }
 
+    static void removeDuplicatesFromSortedArrayII_80_tests() {
+        // Prepare test cases:
+        std::vector<RemoveDuplicatesFromSortedArrayIITestCase> testCases = {
+            // 2 examples from the problem statement:
+            RemoveDuplicatesFromSortedArrayIITestCase({1,1,1,2,2,3}, 5, {1,1,2,2,3}),           // Example 1
+            RemoveDuplicatesFromSortedArrayIITestCase({0,0,1,1,1,1,2,3,3}, 7, {0,0,1,1,2,3,3}), // Example 2
+
+            // 3 additional (one corner case):
+            RemoveDuplicatesFromSortedArrayIITestCase({42}, 1, {42}),                       // Corner: single element
+            RemoveDuplicatesFromSortedArrayIITestCase({2,2,2,2}, 2, {2,2}),                 // All duplicates
+            RemoveDuplicatesFromSortedArrayIITestCase({1,1,2,2,2,3,3}, 6, {1,1,2,2,3,3})    // Mixed duplicates
+        };
+
+        // Instantiate your solution class
+        RemoveDuplicatesFromSortedArrayII_80 solution;
+
+        // Run each test
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto nums = testCases[i].input;  // Make a local copy we can modify
+            int k = solution.removeDuplicates(nums);
+
+            // Check if k matches expectedK, and also if the first k elements match expectedResult
+            bool pass = (k == testCases[i].expectedK);
+            if (pass) {
+                for (int idx = 0; idx < k; ++idx) {
+                    if (nums[idx] != testCases[i].expectedResult[idx]) {
+                        pass = false;
+                        break;
+                    }
+                }
+            }
+
+            std::cout << "RemoveDuplicatesFromSortedArrayII_80 Test " << (i + 1) << ": "
+                    << (pass ? "PASS" : "FAIL")
+                    << " (Expected k=" << testCases[i].expectedK
+                    << ", got k=" << k << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2095,6 +2144,8 @@ public:
         hIndex_274_tests();
         std::cout << "Sort Colors_75 tests:\n";
         sortColors_75_tests();
+        std::cout << "Remove Duplicates From Sorted Array II_80 tests:\n";
+        removeDuplicatesFromSortedArrayII_80_tests();
     }
 };
 
