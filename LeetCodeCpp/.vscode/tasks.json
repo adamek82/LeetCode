@@ -70,6 +70,7 @@
                 "${workspaceFolder}/HIndex_274.cpp",
                 "${workspaceFolder}/SortColors_75.cpp",
                 "${workspaceFolder}/RemoveDuplicatesFromSortedArrayII_80.cpp",
+                "${workspaceFolder}/BestTimeToBuyAndSellStockII_122.cpp",
                 "${workspaceFolder}/testsRunner.cpp"
             ],
             "options": {

@@ -51,6 +51,7 @@
 #include "HIndex_274.h"
 #include "SortColors_75.h"
 #include "RemoveDuplicatesFromSortedArrayII_80.h"
+#include "BestTimeToBuyAndSellStockII_122.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -414,6 +415,14 @@ struct RemoveDuplicatesFromSortedArrayIITestCase {
 
     RemoveDuplicatesFromSortedArrayIITestCase(std::vector<int> in, int k, std::vector<int> exp)
         : input(std::move(in)), expectedK(k), expectedResult(std::move(exp)) {}
+};
+
+struct BestTimeToBuyAndSellStockII_122_TestCase {
+    std::vector<int> prices;
+    int expectedProfit;
+
+    BestTimeToBuyAndSellStockII_122_TestCase(std::vector<int> p, int e)
+        : prices(std::move(p)), expectedProfit(e) {}
 };
 
 class TestsRunner {
@@ -2053,6 +2062,38 @@ public:
         }
     }
 
+    static void bestTimeToBuyAndSellStockII_122_tests() {
+        std::vector<BestTimeToBuyAndSellStockII_122_TestCase> testCases = {
+            // 3 examples from the problem statement:
+            BestTimeToBuyAndSellStockII_122_TestCase({7,1,5,3,6,4}, 7), // Example 1
+            BestTimeToBuyAndSellStockII_122_TestCase({1,2,3,4,5}, 4),   // Example 2
+            BestTimeToBuyAndSellStockII_122_TestCase({7,6,4,3,1}, 0),   // Example 3
+
+            // 2 additional, more complicated examples:
+            // For prices = [2,4,1,10,9,11]:
+            // Day-to-day profit breakdown: (4-2)=2, (10-1)=9, (11-9)=2, total profit = 2+9+2 = 13.
+            BestTimeToBuyAndSellStockII_122_TestCase({2,4,1,10,9,11}, 13),
+
+            // For prices = [3,3,5,0,0,3,1,4]:
+            // Day-to-day profit breakdown: (5-3)=2, (3-0)=3, (4-1)=3, total profit = 2+3+3 = 8.
+            BestTimeToBuyAndSellStockII_122_TestCase({3,3,5,0,0,3,1,4}, 8)
+        };
+
+        // Instantiate the solution class
+        BestTimeToBuyAndSellStockII_122 solution;
+
+        // Test each case
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = solution.maxProfit(testCases[i].prices);
+
+            bool pass = (result == testCases[i].expectedProfit);
+            std::cout << "BestTimeToBuyAndSellStockII_122 Test " << (i + 1) << ": "
+                    << (pass ? "PASS" : "FAIL")
+                    << " (Expected " << testCases[i].expectedProfit
+                    << ", got " << result << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2146,6 +2187,8 @@ public:
         sortColors_75_tests();
         std::cout << "Remove Duplicates From Sorted Array II_80 tests:\n";
         removeDuplicatesFromSortedArrayII_80_tests();
+        std::cout << "Best Time To Buy And Sell Stock II_122 tests:\n";
+        bestTimeToBuyAndSellStockII_122_tests();
     }
 };
 
