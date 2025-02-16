@@ -52,6 +52,7 @@
 #include "SortColors_75.h"
 #include "RemoveDuplicatesFromSortedArrayII_80.h"
 #include "BestTimeToBuyAndSellStockII_122.h"
+#include "ValidAnagram_242.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -423,6 +424,15 @@ struct BestTimeToBuyAndSellStockII_122_TestCase {
 
     BestTimeToBuyAndSellStockII_122_TestCase(std::vector<int> p, int e)
         : prices(std::move(p)), expectedProfit(e) {}
+};
+
+struct ValidAnagramTestCase {
+    std::string s;
+    std::string t;
+    bool expectedResult;
+
+    ValidAnagramTestCase(std::string str1, std::string str2, bool result)
+        : s(std::move(str1)), t(std::move(str2)), expectedResult(result) {}
 };
 
 class TestsRunner {
@@ -2094,6 +2104,29 @@ public:
         }
     }
 
+    static void validAnagram_242_tests() {
+        std::vector<ValidAnagramTestCase> testCases = {
+            // Examples from the problem statement
+            ValidAnagramTestCase("anagram", "nagaram", true),
+            ValidAnagramTestCase("rat", "car", false),
+
+            // Additional complex test cases
+            ValidAnagramTestCase("abcdefg", "gfedcba", true), // Reverse order, still an anagram
+            ValidAnagramTestCase("aabbcc", "abcabc", true),   // Same frequency, different order
+            ValidAnagramTestCase(std::string(50000, 'a') + "b", std::string(50000, 'a') + "c", false) // Edge case with large input, one character differs
+        };
+
+        ValidAnagram_242 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            bool result = solution.isAnagram(testCases[i].s, testCases[i].t);
+            std::cout << "Valid Anagram Test " << (i + 1) << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
+                    << ", Got: " << (result ? "true" : "false") << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2189,6 +2222,8 @@ public:
         removeDuplicatesFromSortedArrayII_80_tests();
         std::cout << "Best Time To Buy And Sell Stock II_122 tests:\n";
         bestTimeToBuyAndSellStockII_122_tests();
+        std::cout << "Valid Annagram_242 tests:\n";
+        validAnagram_242_tests();
     }
 };
 
