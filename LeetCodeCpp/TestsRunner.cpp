@@ -2174,6 +2174,14 @@ public:
                 {1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3},
                 {"home", "about", "career", "home", "about", "career", "home", "career", "about", "career", "about", "home"},
                 {"home", "about", "career"}
+            ),
+            // Complex case with a tie, forcing lexicographical sorting
+            AnalyzeUserWebsiteVisitPatternTestCase(
+                {"u1", "u1", "u1", "u2", "u2", "u2", "u3", "u3", "u3", "u4", "u4", "u4", "u5", "u5", "u5", "u6", "u6", "u6"},
+                {1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3},
+                {"alpha", "beta", "gamma", "alpha", "beta", "gamma", "beta", "gamma", "delta",
+                 "beta", "gamma", "delta", "alpha", "beta", "gamma", "alpha", "beta", "gamma"},
+                {"alpha", "beta", "gamma"}  // Lexicographically smaller, tie-breaking case
             )
         };
 
