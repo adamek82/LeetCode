@@ -2184,31 +2184,31 @@ public:
                 {"alpha", "beta", "gamma"}  // Lexicographically smaller, tie-breaking case
             )
         };
-    
+
         AnalyzeUserWebsiteVisitPattern1152 solver;
-    
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             std::vector<std::string> result_map = solver.mostVisitedPattern_usingMap(testCases[i].username, testCases[i].timestamp, testCases[i].website);
             std::vector<std::string> result_hashmap = solver.mostVisitedPattern_usingHashmap(testCases[i].username, testCases[i].timestamp, testCases[i].website);
-    
+
             bool pass_map = (result_map == testCases[i].expectedResult);
             bool pass_hashmap = (result_hashmap == testCases[i].expectedResult);
             bool pass_consistency = (result_map == result_hashmap);
-    
+
             std::cout << "AnalyzeUserWebsiteVisitPattern Test " << (i + 1) << ": \n";
-    
+
             std::cout << " - Using Map: " << (pass_map ? "PASS" : "FAIL") << " (Expected: ";
             for (const auto& s : testCases[i].expectedResult) std::cout << s << " ";
             std::cout << ", Got: ";
             for (const auto& s : result_map) std::cout << s << " ";
             std::cout << ")\n";
-    
+
             std::cout << " - Using Hashmap: " << (pass_hashmap ? "PASS" : "FAIL") << " (Expected: ";
             for (const auto& s : testCases[i].expectedResult) std::cout << s << " ";
             std::cout << ", Got: ";
             for (const auto& s : result_hashmap) std::cout << s << " ";
             std::cout << ")\n";
-    
+
             std::cout << " - Consistency Check (Map vs Hashmap): " << (pass_consistency ? "PASS" : "FAIL") << "\n\n";
         }
     }
