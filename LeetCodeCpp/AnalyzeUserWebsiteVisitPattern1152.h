@@ -9,5 +9,6 @@
 
 class AnalyzeUserWebsiteVisitPattern1152 {
 public:
-    std::vector<std::string> mostVisitedPattern(std::vector<std::string>& username, std::vector<int>& timestamp, std::vector<std::string>& website);
+    std::vector<std::string> mostVisitedPattern_usingMap(std::vector<std::string>& username, std::vector<int>& timestamp, std::vector<std::string>& website);
+    std::vector<std::string> mostVisitedPattern_usingHashmap(std::vector<std::string>& username, std::vector<int>& timestamp, std::vector<std::string>& website);
 };
