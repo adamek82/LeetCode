@@ -53,6 +53,7 @@
 #include "RemoveDuplicatesFromSortedArrayII_80.h"
 #include "BestTimeToBuyAndSellStockII_122.h"
 #include "ValidAnagram_242.h"
+#include "AnalyzeUserWebsiteVisitPattern1152.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -433,6 +434,16 @@ struct ValidAnagramTestCase {
 
     ValidAnagramTestCase(std::string str1, std::string str2, bool result)
         : s(std::move(str1)), t(std::move(str2)), expectedResult(result) {}
+};
+
+struct AnalyzeUserWebsiteVisitPatternTestCase {
+    std::vector<std::string> username;
+    std::vector<int> timestamp;
+    std::vector<std::string> website;
+    std::vector<std::string> expectedResult;
+
+    AnalyzeUserWebsiteVisitPatternTestCase(std::vector<std::string> u, std::vector<int> t, std::vector<std::string> w, std::vector<std::string> e)
+        : username(std::move(u)), timestamp(std::move(t)), website(std::move(w)), expectedResult(std::move(e)) {}
 };
 
 class TestsRunner {
@@ -2127,6 +2138,59 @@ public:
         }
     }
 
+    static void analyzeUserWebsiteVisitPattern_1152_tests() {
+        std::vector<AnalyzeUserWebsiteVisitPatternTestCase> testCases = {
+            // Example 1 (From Problem Statement)
+            AnalyzeUserWebsiteVisitPatternTestCase(
+                {"joe", "joe", "joe", "james", "james", "james", "james", "mary", "mary", "mary"},
+                {1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+                {"home", "about", "career", "home", "cart", "maps", "home", "home", "about", "career"},
+                {"home", "about", "career"}
+            ),
+            // Example 2 (From Problem Statement)
+            AnalyzeUserWebsiteVisitPatternTestCase(
+                {"ua", "ua", "ua", "ub", "ub", "ub"},
+                {1, 2, 3, 4, 5, 6},
+                {"a", "b", "a", "a", "b", "c"},
+                {"a", "b", "a"}
+            ),
+            // Corner Case: Only one user with exactly three visits
+            AnalyzeUserWebsiteVisitPatternTestCase(
+                {"alice", "alice", "alice"},
+                {1, 2, 3},
+                {"x", "y", "z"},
+                {"x", "y", "z"}
+            ),
+            // Large Complex Case: Multiple users with different patterns
+            AnalyzeUserWebsiteVisitPatternTestCase(
+                {"u1", "u1", "u1", "u1", "u2", "u2", "u2", "u3", "u3", "u3", "u3", "u3"},
+                {1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5},
+                {"alpha", "beta", "gamma", "delta", "alpha", "beta", "gamma", "beta", "gamma", "alpha", "delta", "beta"},
+                {"alpha", "beta", "gamma"}
+            ),
+            // Another more complex test
+            AnalyzeUserWebsiteVisitPatternTestCase(
+                {"u1", "u1", "u1", "u2", "u2", "u2", "u3", "u3", "u3", "u4", "u4", "u4"},
+                {1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3},
+                {"home", "about", "career", "home", "about", "career", "home", "career", "about", "career", "about", "home"},
+                {"home", "about", "career"}
+            )
+        };
+
+        AnalyzeUserWebsiteVisitPattern1152 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            std::vector<std::string> result = solver.mostVisitedPattern(testCases[i].username, testCases[i].timestamp, testCases[i].website);
+            std::cout << "AnalyzeUserWebsiteVisitPattern Test " << (i + 1) << ": res = "
+                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << " (Expected: ";
+            for (const auto& s : testCases[i].expectedResult) std::cout << s << " ";
+            std::cout << ", Got: ";
+            for (const auto& s : result) std::cout << s << " ";
+            std::cout << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2224,6 +2288,8 @@ public:
         bestTimeToBuyAndSellStockII_122_tests();
         std::cout << "Valid Annagram_242 tests:\n";
         validAnagram_242_tests();
+        std::cout << "Analyze User Website Visit Pattern_1152 tests:\n";
+        analyzeUserWebsiteVisitPattern_1152_tests();
     }
 };
 
