@@ -1,93 +1,18 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "build with MSVC",
-            "type": "shell",
-            "command": "cmd.exe",
-            "args": [
-                "/c",
-                "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat",
-                "'&'",
-                "cl.exe",
-                "/std:c++20",
-                "/Zi",
-                "/EHsc",
-                "/nologo",
-                "/Fe${workspaceFolder}\\.vscode\\testsRunner.exe",
-                "/Fo${workspaceFolder}\\.vscode\\",
-                "/Fd${workspaceFolder}\\.vscode\\vc140.pdb",
-                "${workspaceFolder}/UnionFind.cpp",
-                "${workspaceFolder}/ListNode.cpp",
-                "${workspaceFolder}/TreeNode.cpp",
-                "${workspaceFolder}/ListUtils.cpp",
-                "${workspaceFolder}/TreeUtils.cpp",
-                "${workspaceFolder}/TrieNode.cpp",
-                "${workspaceFolder}/Trie.cpp",
-                "${workspaceFolder}/MinHeap.cpp",
-                "${workspaceFolder}/CourseSchedule_207.cpp",
-                "${workspaceFolder}/FindIfPathExistsInGraph_1971.cpp",
-                "${workspaceFolder}/NumberOfIslands_200.cpp",
-                "${workspaceFolder}/MaxAreaOfIsland_695.cpp",
-                "${workspaceFolder}/CourseScheduleII_210.cpp",
-                "${workspaceFolder}/NetworkDelayTime_743.cpp",
-                "${workspaceFolder}/RottingOranges_994.cpp",
-                "${workspaceFolder}/PacificAtlanticWaterFlow_417.cpp",
-                "${workspaceFolder}/MinCostToConnectAllPoints_1584.cpp",
-                "${workspaceFolder}/LongestCommonSubsequence_1143.cpp",
-                "${workspaceFolder}/LongestIncreasingSubsequence_300.cpp",
-                "${workspaceFolder}/RemoveDuplicatesFromSortedList_83.cpp",
-                "${workspaceFolder}/ReverseLinkedList_206.cpp",
-                "${workspaceFolder}/MergeTwoSortedLists_21.cpp",
-                "${workspaceFolder}/LinkedListCycle_141.cpp",
-                "${workspaceFolder}/MiddleOfLinkedList_876.cpp",
-                "${workspaceFolder}/RemoveNthNodeFromEndOfList_19.cpp",
-                "${workspaceFolder}/BestTimeToBuyAndSellStock_121.cpp",
-                "${workspaceFolder}/SpiralMatrix_54.cpp",
-                "${workspaceFolder}/ValidateBinarySearchTree_98.cpp",
-                "${workspaceFolder}/LowestCommonAncestorOfBST_235.cpp",
-                "${workspaceFolder}/CopyListWithRandomPointer_138.cpp",
-                "${workspaceFolder}/KthSmallestElementInBST_230.cpp",
-                "${workspaceFolder}/KthLargestElementInArray_215.cpp",
-                "${workspaceFolder}/RotateImage_48.cpp",
-                "${workspaceFolder}/MergeIntervals_56.cpp",
-                "${workspaceFolder}/MergeKSortedLists_23.cpp",
-                "${workspaceFolder}/ProductOfArrayExceptSelf.cpp",
-                "${workspaceFolder}/MajorityElement_169.cpp",
-                "${workspaceFolder}/EvaluateReversePolishNotation_150.cpp",
-                "${workspaceFolder}/LargestRectangleInHistogram_84.cpp",
-                "${workspaceFolder}/WordSearch_79.cpp",
-                "${workspaceFolder}/ValidParentheses_20.cpp",
-                "${workspaceFolder}/ValidSudoku_36.cpp",
-                "${workspaceFolder}/BinarySearch_704.cpp",
-                "${workspaceFolder}/SearchInsertPosition_35.cpp",
-                "${workspaceFolder}/Search2DMatrix_74.cpp",
-                "${workspaceFolder}/AllOOneDataStructure_432.cpp",
-                "${workspaceFolder}/FindMinimumInRotatedSortedArray_153.cpp",
-                "${workspaceFolder}/GraphNode.cpp",
-                "${workspaceFolder}/CloneGraph_133.cpp",
-                "${workspaceFolder}/ZigzagConversion_6.cpp",
-                "${workspaceFolder}/HIndex_274.cpp",
-                "${workspaceFolder}/SortColors_75.cpp",
-                "${workspaceFolder}/RemoveDuplicatesFromSortedArrayII_80.cpp",
-                "${workspaceFolder}/BestTimeToBuyAndSellStockII_122.cpp",
-                "${workspaceFolder}/ValidAnagram_242.cpp",
-                "${workspaceFolder}/AnalyzeUserWebsiteVisitPattern1152.cpp",
-                "${workspaceFolder}/testsRunner.cpp"
-            ],
-            "options": {
-                "cwd": "${fileDirname}",
-                "env": {
-                    "VSLANG": "1033"
-                }
-            },
-            "problemMatcher": [
-                "$msCompile"
-            ],
-            "group": {
-                "kind": "build",
-              },
-            "detail": "compiler: cl.exe"
-        },
-    ]
+  "version": "2.0.0",
+  "tasks": [
+      {
+          "label": "Incremental Build",
+          "type": "shell",
+          "command": "powershell",
+          "args": [
+              "-NoProfile",
+              "-ExecutionPolicy", "Bypass",
+              "-File",
+              "${workspaceFolder}/build.ps1"
+          ],
+          "problemMatcher": ["$msCompile"],
+          "group": { "kind": "build" }
+      }
+  ]
 }
