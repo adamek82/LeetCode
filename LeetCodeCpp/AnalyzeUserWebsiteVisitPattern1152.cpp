@@ -44,13 +44,21 @@ std::vector<std::string> AnalyzeUserWebsiteVisitPattern1152::mostVisitedPattern_
 }
 
 // Define a custom hash function for vector<string>
+// This allows std::unordered_map to use vector<string> as a key.
 struct VectorHash {
     size_t operator()(const std::vector<std::string>& v) const {
         size_t hashValue = 0;
         std::hash<std::string> hasher;
+
+        // Combine hashes of individual strings using bitwise operations
         for (const auto& s : v) {
+            // ^  (XOR): Mixes hash values to reduce collisions
+            // 0x9e3779b9: Golden ratio multiplier, helps spread bits uniformly
+            // << 6: Left shift to amplify changes in higher bits
+            // >> 2: Right shift to mix high bits into low bits, improving distribution
             hashValue ^= hasher(s) + 0x9e3779b9 + (hashValue << 6) + (hashValue >> 2);
         }
+
         return hashValue;
     }
 };
