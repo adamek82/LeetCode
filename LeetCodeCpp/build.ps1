@@ -2,10 +2,9 @@
 
 $vcvars64 = "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
 $vscodeDir = "$PSScriptRoot\.vscode"
-$cppFiles = Get-ChildItem -Path $PSScriptRoot -Filter "*.cpp"
-$pdbFile = "$vscodeDir\vc140.pdb"
+$cppFiles  = Get-ChildItem -Path $PSScriptRoot -Filter "*.cpp"
 
-# Ensure the .vscode directory exists for storing .obj and .pdb files
+# Ensure the .vscode directory exists for storing .obj files
 if (!(Test-Path $vscodeDir)) {
     New-Item -ItemType Directory -Path $vscodeDir | Out-Null
 }
@@ -20,13 +19,14 @@ cmd.exe /c "call `"$vcvars64`" && set" | ForEach-Object {
     }
 }
 
-# Compile only changed files, storing .obj and .pdb files in .vscode/
+# Compile only changed .cpp files
 foreach ($file in $cppFiles) {
-    $objFile = "$vscodeDir\" + [System.IO.Path]::GetFileNameWithoutExtension($file.Name) + ".obj"
+    $objFile = Join-Path $vscodeDir ([System.IO.Path]::GetFileNameWithoutExtension($file.Name) + ".obj")
 
     if (!(Test-Path $objFile) -or (Get-Item $file.FullName).LastWriteTime -gt (Get-Item $objFile).LastWriteTime) {
         Write-Host "Compiling $($file.Name)..."
-        cmd.exe /c "cl.exe /std:c++20 /Zi /EHsc /nologo /c /Fo`"$objFile`" /Fd`"$pdbFile`" `"$($file.FullName)`""
+        # NOTE: Removed /Fd. Added /Od for no optimization.
+        cmd.exe /c "cl.exe /std:c++20 /Zi /Od /EHsc /nologo /c /Fo`"$objFile`" `"$($file.FullName)`""
     } else {
         Write-Host "Skipping $($file.Name), up-to-date."
     }
@@ -34,9 +34,10 @@ foreach ($file in $cppFiles) {
     $objFiles += "`"$objFile`""
 }
 
-# Linking step, reading .obj files from .vscode/, and keeping .pdb in .vscode/
 Write-Host "Linking executable..."
-$linkCmd = "cl.exe /nologo /Fe`"$vscodeDir\testsRunner.exe`" /Fd`"$pdbFile`" " + ($objFiles -join " ")
+# NOTE: Removed /Fd here, too. /DEBUG will produce a .pdb that references the .exe correctly.
+$linkCmd = "cl.exe /nologo " + ($objFiles -join " ") +
+           " /link /DEBUG /OUT:`"$vscodeDir\TestsRunner.exe`" /LTCG:OFF"
 cmd.exe /c $linkCmd
 
 Write-Host "Build completed."
