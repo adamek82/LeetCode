@@ -1,4 +1,4 @@
-# PowerShell script for parallel incremental compilation
+# PowerShell script for parallel incremental compilation with timing
 
 $vcvars64 = "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
 $vscodeDir = "$PSScriptRoot\.vscode"
@@ -13,6 +13,9 @@ if (!(Test-Path $vscodeDir)) {
 $maxParallel = [System.Environment]::ProcessorCount
 $jobs = @()
 $objFiles = @()
+
+# Start timing
+$startTime = [System.Diagnostics.Stopwatch]::StartNew()
 
 # Load Visual Studio environment once at the start
 Write-Host "Setting up Visual Studio environment..."
@@ -63,4 +66,6 @@ Write-Host "Linking executable..."
 $linkCmd = "cl.exe /nologo " + ($objFiles -join " ") + " /link /DEBUG /OUT:`"$vscodeDir\TestsRunner.exe`" /LTCG:OFF"
 cmd.exe /c $linkCmd
 
-Write-Host "Build completed."
+# Stop timing
+$endTime = $startTime.Elapsed
+Write-Host "Build completed in $($endTime.TotalMilliseconds) ms."
