@@ -54,6 +54,7 @@
 #include "BestTimeToBuyAndSellStockII_122.h"
 #include "ValidAnagram_242.h"
 #include "AnalyzeUserWebsiteVisitPattern1152.h"
+#include "GroupAnagrams_49.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -444,6 +445,14 @@ struct AnalyzeUserWebsiteVisitPatternTestCase {
 
     AnalyzeUserWebsiteVisitPatternTestCase(std::vector<std::string> u, std::vector<int> t, std::vector<std::string> w, std::vector<std::string> e)
         : username(std::move(u)), timestamp(std::move(t)), website(std::move(w)), expectedResult(std::move(e)) {}
+};
+
+struct GroupAnagramsTestCase {
+    std::vector<std::string> input;
+    std::vector<std::vector<std::string>> expected;
+
+    GroupAnagramsTestCase(std::vector<std::string> in, std::vector<std::vector<std::string>> exp)
+        : input(std::move(in)), expected(std::move(exp)) {}
 };
 
 class TestsRunner {
@@ -2213,6 +2222,46 @@ public:
         }
     }
 
+    static void groupAnagrams_49_tests() {
+        std::vector<GroupAnagramsTestCase> testCases = {
+            // Example 1
+            GroupAnagramsTestCase({"eat", "tea", "tan", "ate", "nat", "bat"},
+                                  {{"bat"}, {"tan", "nat"}, {"eat", "tea", "ate"}}),
+
+            // Example 2
+            GroupAnagramsTestCase({""}, { {""} }),
+
+            // Example 3
+            GroupAnagramsTestCase({"a"}, { {"a"} }),
+
+            // Large test case: Multiple anagram groups with long words
+            GroupAnagramsTestCase({"abcdefg", "gfedcba", "xyz", "zxy", "yxz", "longword", "wordlong"},
+                                  {{"abcdefg", "gfedcba"}, {"xyz", "zxy", "yxz"}, {"longword", "wordlong"}}),
+
+            // Large test case: Many unique words (no anagrams)
+            GroupAnagramsTestCase({"abcd", "efgh", "ijkl", "mnop", "qrst", "uvwx", "yz"},
+                                  {{"abcd"}, {"efgh"}, {"ijkl"}, {"mnop"}, {"qrst"}, {"uvwx"}, {"yz"}})
+        };
+
+        GroupAnagrams_49 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            std::vector<std::vector<std::string>> result = solution.groupAnagrams(testCases[i].input);
+
+            // Convert result to a sorted form for comparison (since anagram groups can be in any order)
+            for (auto &group : result) std::sort(group.begin(), group.end());
+            for (auto &group : testCases[i].expected) std::sort(group.begin(), group.end());
+            std::sort(result.begin(), result.end());
+            std::sort(testCases[i].expected.begin(), testCases[i].expected.end());
+
+            bool pass = (result == testCases[i].expected);
+
+            std::cout << "Group Anagrams Test " << i + 1 << ": "
+                      << (pass ? "PASS" : "FAIL")
+                      << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2312,6 +2361,8 @@ public:
         validAnagram_242_tests();
         std::cout << "Analyze User Website Visit Pattern_1152 tests:\n";
         analyzeUserWebsiteVisitPattern_1152_tests();
+        std::cout << "Group Anagrams_49 tests:\n";
+        groupAnagrams_49_tests();
     }
 };
 
