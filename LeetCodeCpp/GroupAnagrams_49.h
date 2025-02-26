@@ -6,5 +6,6 @@
 
 class GroupAnagrams_49 {
 public:
-    std::vector<std::vector<std::string>> groupAnagrams(std::vector<std::string>& strs);
+    std::vector<std::vector<std::string>> groupAnagrams_sorting(std::vector<std::string>& strs);
+    std::vector<std::vector<std::string>> groupAnagrams_counting(std::vector<std::string>& strs);
 };

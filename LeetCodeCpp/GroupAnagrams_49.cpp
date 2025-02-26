@@ -1,6 +1,6 @@
 #include "GroupAnagrams_49.h"
 
-std::vector<std::vector<std::string>> GroupAnagrams_49::groupAnagrams(std::vector<std::string> &strs)
+std::vector<std::vector<std::string>> GroupAnagrams_49::groupAnagrams_sorting(std::vector<std::string> &strs)
 {
     std::unordered_map<std::string, std::vector<std::string>> anagramGroups;
 
@@ -16,5 +16,24 @@ std::vector<std::vector<std::string>> GroupAnagrams_49::groupAnagrams(std::vecto
         result.push_back(move(group)); // Move to avoid unnecessary copies
     }
 
+    return result;
+}
+
+std::vector<std::vector<std::string>> GroupAnagrams_49::groupAnagrams_counting(std::vector<std::string> &strs)
+{
+    std::unordered_map<std::string, std::vector<std::string>> anagrams;
+    for (const std::string& s : strs) {
+        std::string key(26, '0');
+        for (char c : s) key[c - 'a']++;
+        anagrams[key].push_back(s);
+    }
+
+    // Correct way to construct result
+    std::vector<std::vector<std::string>> result;
+    result.reserve(anagrams.size());
+    for (auto& [key, group] : anagrams) {
+        result.push_back(move(group)); // Move to avoid unnecessary copying
+    }
+    
     return result;
 }

@@ -2227,41 +2227,50 @@ public:
             // Example 1
             GroupAnagramsTestCase({"eat", "tea", "tan", "ate", "nat", "bat"},
                                   {{"bat"}, {"tan", "nat"}, {"eat", "tea", "ate"}}),
-
+    
             // Example 2
             GroupAnagramsTestCase({""}, { {""} }),
-
+    
             // Example 3
             GroupAnagramsTestCase({"a"}, { {"a"} }),
-
+    
             // Large test case: Multiple anagram groups with long words
             GroupAnagramsTestCase({"abcdefg", "gfedcba", "xyz", "zxy", "yxz", "longword", "wordlong"},
                                   {{"abcdefg", "gfedcba"}, {"xyz", "zxy", "yxz"}, {"longword", "wordlong"}}),
-
+    
             // Large test case: Many unique words (no anagrams)
             GroupAnagramsTestCase({"abcd", "efgh", "ijkl", "mnop", "qrst", "uvwx", "yz"},
                                   {{"abcd"}, {"efgh"}, {"ijkl"}, {"mnop"}, {"qrst"}, {"uvwx"}, {"yz"}})
         };
-
+    
         GroupAnagrams_49 solution;
-
+    
         for (size_t i = 0; i < testCases.size(); ++i) {
-            std::vector<std::vector<std::string>> result = solution.groupAnagrams(testCases[i].input);
-
-            // Convert result to a sorted form for comparison (since anagram groups can be in any order)
-            for (auto &group : result) std::sort(group.begin(), group.end());
-            for (auto &group : testCases[i].expected) std::sort(group.begin(), group.end());
-            std::sort(result.begin(), result.end());
-            std::sort(testCases[i].expected.begin(), testCases[i].expected.end());
-
-            bool pass = (result == testCases[i].expected);
-
+            std::vector<std::vector<std::string>> result_sorting = solution.groupAnagrams_sorting(testCases[i].input);
+            std::vector<std::vector<std::string>> result_counting = solution.groupAnagrams_counting(testCases[i].input);
+    
+            // Convert results to a sorted form for comparison
+            auto sortResult = [](std::vector<std::vector<std::string>>& result) {
+                for (auto& group : result) std::sort(group.begin(), group.end());
+                std::sort(result.begin(), result.end());
+            };
+    
+            sortResult(result_sorting);
+            sortResult(result_counting);
+            sortResult(testCases[i].expected);
+    
+            bool pass_sorting = (result_sorting == testCases[i].expected);
+            bool pass_counting = (result_counting == testCases[i].expected);
+            bool identical_outputs = (result_sorting == result_counting);
+    
             std::cout << "Group Anagrams Test " << i + 1 << ": "
-                      << (pass ? "PASS" : "FAIL")
+                      << (pass_sorting ? "PASS" : "FAIL") << " (Sorting) | "
+                      << (pass_counting ? "PASS" : "FAIL") << " (Counting) | "
+                      << (identical_outputs ? "MATCH" : "DIFFERENT") << " (Comparison)"
                       << std::endl;
         }
     }
-
+  
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
