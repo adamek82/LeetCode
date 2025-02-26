@@ -5,6 +5,8 @@ object TestsRunner {
         testBestTimeToBuyAndSellStock_121()
         println("Running FindIfPathExistsInGraph_1971 tests:")
         testFindIfPathExistsInGraph_1971()
+        println("Running GroupAnagrams_49 tests:")
+        testGroupAnagrams_49()
     }
 
     data class MaxProfitTestCase(
@@ -18,6 +20,11 @@ object TestsRunner {
         val source: Int,
         val destination: Int,
         val expectedResult: Boolean
+    )
+
+    data class GroupAnagramsTestCase(
+        val input: Array<String>,
+        val expected: List<List<String>>
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -74,6 +81,63 @@ object TestsRunner {
                     "FAIL"
                 } +
                 " (Expected: ${testCase.expectedResult}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testGroupAnagrams_49() {
+        val testCases = listOf(
+            // Example 1
+            GroupAnagramsTestCase(
+                arrayOf("eat", "tea", "tan", "ate", "nat", "bat"),
+                listOf(listOf("bat"), listOf("tan", "nat"), listOf("eat", "tea", "ate"))
+            ),
+            // Example 2
+            GroupAnagramsTestCase(
+                arrayOf(""),
+                listOf(listOf(""))
+            ),
+            // Example 3
+            GroupAnagramsTestCase(
+                arrayOf("a"),
+                listOf(listOf("a"))
+            ),
+            // Large test case: Multiple anagram groups with long words
+            GroupAnagramsTestCase(
+                arrayOf("abcdefg", "gfedcba", "xyz", "zxy", "yxz", "longword", "wordlong"),
+                listOf(listOf("abcdefg", "gfedcba"), listOf("xyz", "zxy", "yxz"), listOf("longword", "wordlong"))
+            ),
+            // Large test case: Many unique words (no anagrams)
+            GroupAnagramsTestCase(
+                arrayOf("abcd", "efgh", "ijkl", "mnop", "qrst", "uvwx", "yz"),
+                listOf(listOf("abcd"), listOf("efgh"), listOf("ijkl"), listOf("mnop"), listOf("qrst"), listOf("uvwx"), listOf("yz"))
+            )
+        )
+
+        val solution = GroupAnagrams_49()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val resultSorting = solution.groupAnagrams_sorting(testCase.input)
+            val resultCounting = solution.groupAnagrams_counting(testCase.input)
+
+            // Sort groups for deterministic comparison
+            val normalize = { res: List<List<String>> ->
+                res.map { it.sorted() }.sortedBy { it.firstOrNull() ?: "" }
+            }
+
+            val sortedResultSorting = normalize(resultSorting)
+            val sortedResultCounting = normalize(resultCounting)
+            val sortedExpected = normalize(testCase.expected)
+
+            val passSorting = sortedResultSorting == sortedExpected
+            val passCounting = sortedResultCounting == sortedExpected
+            val identicalOutputs = sortedResultSorting == sortedResultCounting
+
+            println(
+                "Group Anagrams Test ${index + 1}: " +
+                (if (passSorting) "PASS" else "FAIL") + " (Sorting) | " +
+                (if (passCounting) "PASS" else "FAIL") + " (Counting) | " +
+                (if (identicalOutputs) "MATCH" else "DIFFERENT") + " (Comparison)"
             )
         }
     }
