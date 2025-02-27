@@ -122,7 +122,17 @@ object TestsRunner {
 
             // Sort groups for deterministic comparison
             val normalize = { res: List<List<String>> ->
-                res.map { it.sorted() }.sortedBy { it.firstOrNull() ?: "" }
+                res.map { it.sorted() }
+                    .sortedWith { a, b ->
+                        // Compare a[i] vs b[i] for each index until they differ.
+                        val minSize = minOf(a.size, b.size)
+                        for (i in 0 until minSize) {
+                            val cmp = a[i].compareTo(b[i])
+                            if (cmp != 0) return@sortedWith cmp
+                        }
+                        // If all overlapping elements are equal, compare by length (shorter = less)
+                        a.size.compareTo(b.size)
+                    }
             }
 
             val sortedResultSorting = normalize(resultSorting)
