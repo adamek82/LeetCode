@@ -7,6 +7,8 @@ object TestsRunner {
         testFindIfPathExistsInGraph_1971()
         println("Running GroupAnagrams_49 tests:")
         testGroupAnagrams_49()
+        println("Running AddBinary_67 tests:")
+        testAddBinary_67()
     }
 
     data class MaxProfitTestCase(
@@ -25,6 +27,12 @@ object TestsRunner {
     data class GroupAnagramsTestCase(
         val input: Array<String>,
         val expected: List<List<String>>
+    )
+
+    data class AddBinaryTestCase(
+        val a: String,
+        val b: String,
+        val expected: String
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -47,12 +55,12 @@ object TestsRunner {
             val pass = (result == testCase.expectedResult)
 
             println(
-                "Test ${index + 1}: res = " + 
+                "Test ${index + 1}: res = " +
                 if (pass) {
                     "PASS"
                 } else {
                     "FAIL"
-                } + 
+                } +
                 " (Expected: ${testCase.expectedResult}, Got: $result)"
             )
         }
@@ -148,6 +156,31 @@ object TestsRunner {
                 (if (passSorting) "PASS" else "FAIL") + " (Sorting) | " +
                 (if (passCounting) "PASS" else "FAIL") + " (Counting) | " +
                 (if (identicalOutputs) "MATCH" else "DIFFERENT") + " (Comparison)"
+            )
+        }
+    }
+
+    private fun testAddBinary_67() {
+        val testCases = listOf(
+            // From the LeetCode examples
+            AddBinaryTestCase("11", "1", "100"),
+            AddBinaryTestCase("1010", "1011", "10101"),
+            // Three additional, more complex tests
+            AddBinaryTestCase("0", "0", "0"),
+            AddBinaryTestCase("1111", "1111", "11110"),
+            AddBinaryTestCase("100000", "1", "100001")
+        )
+
+        val solution = AddBinary_67()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.addBinary(testCase.a, testCase.b)
+            val pass = (result == testCase.expected)
+
+            println(
+                "AddBinary Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: $result)"
             )
         }
     }
