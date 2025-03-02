@@ -9,6 +9,8 @@ object TestsRunner {
         testGroupAnagrams_49()
         println("Running AddBinary_67 tests:")
         testAddBinary_67()
+        println("Running HammingWeight_191 tests:")
+        testHammingWeight_191()
     }
 
     data class MaxProfitTestCase(
@@ -33,6 +35,11 @@ object TestsRunner {
         val a: String,
         val b: String,
         val expected: String
+    )
+
+    data class HammingWeightTestCase(
+        val n: Int,
+        val expected: Int
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -179,6 +186,30 @@ object TestsRunner {
 
             println(
                 "AddBinary Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testHammingWeight_191() {
+        val testCases = listOf(
+            // Provided examples
+            HammingWeightTestCase(0xB, 3),             // was 11
+            HammingWeightTestCase(0x80, 1),            // was 128
+            HammingWeightTestCase(0x7FFFFFFD, 30),     // was 2147483645
+            // Two additional complicated ones
+            HammingWeightTestCase(0x7FFFFFFF, 31),     // was 2147483647
+            HammingWeightTestCase(0x55555555, 16)      // was 1431655765
+        )
+
+        val solution = NumberOf1Bits_191()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.hammingWeight(testCase.n)
+            val pass = (result == testCase.expected)
+            println(
+                "HammingWeight Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expected}, Got: $result)"
             )
