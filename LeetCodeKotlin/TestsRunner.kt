@@ -11,6 +11,8 @@ object TestsRunner {
         testAddBinary_67()
         println("Running HammingWeight_191 tests:")
         testHammingWeight_191()
+        println("Running UniqueNumberOfOccurrences_1207 tests:")
+        testUniqueNumberOfOccurrences_1207()
     }
 
     data class MaxProfitTestCase(
@@ -40,6 +42,11 @@ object TestsRunner {
     data class HammingWeightTestCase(
         val n: Int,
         val expected: Int
+    )
+
+    data class UniqueOccurrencesTestCase(
+        val arr: IntArray,
+        val expectedResult: Boolean
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -212,6 +219,29 @@ object TestsRunner {
                 "HammingWeight Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testUniqueNumberOfOccurrences_1207() {
+        val testCases = listOf(
+            UniqueOccurrencesTestCase(intArrayOf(1, 2, 2, 1, 1, 3), true),
+            UniqueOccurrencesTestCase(intArrayOf(1, 2), false),
+            UniqueOccurrencesTestCase(intArrayOf(-3, 0, 1, -3, 1, 1, 1, -3, 10, 0), true),
+            UniqueOccurrencesTestCase(intArrayOf(4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 5), false),
+            UniqueOccurrencesTestCase(intArrayOf(-1000, 1000, -500, 500, 0, 0, 0, -500, 500), false)
+        )
+
+        val solution = UniqueNumberOfOccurrences_1207()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.uniqueOccurrences(testCase.arr)
+            val pass = (result == testCase.expectedResult)
+
+            println(
+                "Test ${index + 1}: res = " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expectedResult}, Got: $result)"
             )
         }
     }
