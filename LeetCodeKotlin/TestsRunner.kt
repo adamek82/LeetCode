@@ -13,6 +13,8 @@ object TestsRunner {
         testHammingWeight_191()
         println("Running UniqueNumberOfOccurrences_1207 tests:")
         testUniqueNumberOfOccurrences_1207()
+        println("Running SquaresOfSortedArray_977 tests:")
+        testSquaresOfSortedArray_977()
     }
 
     data class MaxProfitTestCase(
@@ -47,6 +49,11 @@ object TestsRunner {
     data class UniqueOccurrencesTestCase(
         val arr: IntArray,
         val expectedResult: Boolean
+    )
+
+    data class SquaresTestCase(
+        val input: IntArray,
+        val expected: IntArray
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -242,6 +249,29 @@ object TestsRunner {
                 "Test ${index + 1}: res = " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expectedResult}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testSquaresOfSortedArray_977() {
+        val testCases = listOf(
+            SquaresTestCase(intArrayOf(-4, -1, 0, 3, 10), intArrayOf(0, 1, 9, 16, 100)),
+            SquaresTestCase(intArrayOf(-7, -3, 2, 3, 11), intArrayOf(4, 9, 9, 49, 121)),
+            SquaresTestCase(intArrayOf(-10, -5, -2, 0, 1, 4, 8), intArrayOf(0, 1, 4, 16, 25, 64, 100)),
+            SquaresTestCase(intArrayOf(-8, -7, -6, -5, -4, -3, -2, -1), intArrayOf(1, 4, 9, 16, 25, 36, 49, 64)),
+            SquaresTestCase(intArrayOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), intArrayOf(0, 1, 4, 9, 16, 25, 36, 49, 64, 81))
+        )
+
+        val solution = SquaresOfSortedArray_977()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.sortedSquares(testCase.input)
+            val pass = (result.contentEquals(testCase.expected))
+
+            println(
+                "SquaresOfSortedArray Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected.joinToString()}, Got: ${result.joinToString()})"
             )
         }
     }
