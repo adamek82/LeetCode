@@ -15,6 +15,8 @@ object TestsRunner {
         testUniqueNumberOfOccurrences_1207()
         println("Running SquaresOfSortedArray_977 tests:")
         testSquaresOfSortedArray_977()
+        println("Running MinSubArrayLen_209 tests:")
+        testMinSubArrayLen_209()
     }
 
     data class MaxProfitTestCase(
@@ -54,6 +56,12 @@ object TestsRunner {
     data class SquaresTestCase(
         val input: IntArray,
         val expected: IntArray
+    )
+
+    data class MinSubArrayLenTestCase(
+        val target: Int,
+        val nums: IntArray,
+        val expectedResult: Int
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -272,6 +280,31 @@ object TestsRunner {
                 "SquaresOfSortedArray Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expected.joinToString()}, Got: ${result.joinToString()})"
+            )
+        }
+    }
+
+    private fun testMinSubArrayLen_209() {
+        val testCases = listOf(
+            // 3 examples from the problem statement:
+            MinSubArrayLenTestCase(7, intArrayOf(2, 3, 1, 2, 4, 3), 2),
+            MinSubArrayLenTestCase(4, intArrayOf(1, 4, 4), 1),
+            MinSubArrayLenTestCase(11, intArrayOf(1, 1, 1, 1, 1, 1, 1, 1), 0),
+
+            // 2 additional, more complex tests:
+            MinSubArrayLenTestCase(100, intArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 50), 9),
+            MinSubArrayLenTestCase(15, intArrayOf(5, 1, 3, 5, 10, 7, 4, 9, 2, 8), 2)
+        )
+
+        val solution = MinimumSizeSubarraySum_209()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.minSubArrayLen(testCase.target, testCase.nums)
+            val pass = (result == testCase.expectedResult)
+            println(
+                "MinSubArrayLen Test ${index + 1}: " +
+                    if (pass) "PASS" else "FAIL" +
+                    " (Expected: ${testCase.expectedResult}, Got: $result)"
             )
         }
     }
