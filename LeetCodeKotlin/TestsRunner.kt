@@ -17,6 +17,8 @@ object TestsRunner {
         testSquaresOfSortedArray_977()
         println("Running MinSubArrayLen_209 tests:")
         testMinSubArrayLen_209()
+        println("Running PermutationInString_567 tests:")
+        testPermutationInString_567()
     }
 
     data class MaxProfitTestCase(
@@ -62,6 +64,12 @@ object TestsRunner {
         val target: Int,
         val nums: IntArray,
         val expectedResult: Int
+    )
+
+    data class PermutationInStringTestCase(
+        val s1: String,
+        val s2: String,
+        val expectedResult: Boolean
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -308,4 +316,31 @@ object TestsRunner {
             )
         }
     }
+
+    private fun testPermutationInString_567() {
+        val testCases = listOf(
+            // Example cases
+            PermutationInStringTestCase("ab", "eidbaooo", true),
+            PermutationInStringTestCase("ab", "eidboaoo", false),
+
+            // Additional complex cases
+            PermutationInStringTestCase("abc", "cbabcacab", true),  // Contains permutation at index 2
+            PermutationInStringTestCase("xyz", "yxzxyzxyz", true),  // Multiple valid permutations
+            PermutationInStringTestCase("aabb", "eidbaabooo", true) // Contains permutation "baab"
+        )
+
+        val solution = PermutationInString_567()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.checkInclusion(testCase.s1, testCase.s2)
+            val pass = (result == testCase.expectedResult)
+
+            println(
+                "PermutationInString Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expectedResult}, Got: $result)"
+            )
+        }
+    }
+
 }
