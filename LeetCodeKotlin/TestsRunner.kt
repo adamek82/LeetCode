@@ -19,6 +19,8 @@ object TestsRunner {
         testMinSubArrayLen_209()
         println("Running PermutationInString_567 tests:")
         testPermutationInString_567()
+        println("Running LongestRepeatingCharacterReplacement_424 tests:")
+        testLongestRepeatingCharacterReplacement_424()
     }
 
     data class MaxProfitTestCase(
@@ -70,6 +72,12 @@ object TestsRunner {
         val s1: String,
         val s2: String,
         val expectedResult: Boolean
+    )
+
+    data class LongestRepeatingCharReplacementTestCase(
+        val s: String,
+        val k: Int,
+        val expected: Int
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -343,4 +351,26 @@ object TestsRunner {
         }
     }
 
+    private fun testLongestRepeatingCharacterReplacement_424() {
+        // 2 examples from the problem statement + 3 more complex ones
+        val testCases = listOf(
+            LongestRepeatingCharReplacementTestCase("ABAB", 2, 4),       // Example 1
+            LongestRepeatingCharReplacementTestCase("AABABBA", 1, 4),    // Example 2
+            LongestRepeatingCharReplacementTestCase("BABABA", 3, 6),     // Turn all 'A' to 'B'
+            LongestRepeatingCharReplacementTestCase("ABCDE", 2, 3),      // Best is a substring of length 3 by transforming 2 chars
+            LongestRepeatingCharReplacementTestCase("ABBBBAA", 2, 6)     // Transform 2 'A's in a 6-length substring
+        )
+    
+        val solution = LongestRepeatingCharacterReplacement_424()
+    
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.characterReplacement(testCase.s, testCase.k)
+            val pass = (result == testCase.expected)
+            println(
+                "LongestRepeatingCharacterReplacement Test ${index + 1}: " +
+                        if (pass) "PASS" else "FAIL" +
+                        " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
 }
