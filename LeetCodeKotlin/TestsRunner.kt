@@ -21,6 +21,8 @@ object TestsRunner {
         testPermutationInString_567()
         println("Running LongestRepeatingCharacterReplacement_424 tests:")
         testLongestRepeatingCharacterReplacement_424()
+        println("Running LongestConsecutiveSequence_128 tests:")
+        testLongestConsecutiveSequence_128()
     }
 
     data class MaxProfitTestCase(
@@ -80,6 +82,11 @@ object TestsRunner {
         val expected: Int
     )
 
+    data class LongestConsecutiveSequenceTestCase(
+        val nums: IntArray,
+        val expected: Int
+    )
+    
     private fun testBestTimeToBuyAndSellStock_121() {
         // The same test cases we used in C++
         //  - Provided examples
@@ -370,6 +377,32 @@ object TestsRunner {
                 "LongestRepeatingCharacterReplacement Test ${index + 1}: " +
                         if (pass) "PASS" else "FAIL" +
                         " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testLongestConsecutiveSequence_128() {
+        val testCases = listOf(
+            // 3 examples from the problem statement:
+            LongestConsecutiveSequenceTestCase(intArrayOf(100, 4, 200, 1, 3, 2), 4),
+            LongestConsecutiveSequenceTestCase(intArrayOf(0, 3, 7, 2, 5, 8, 4, 6, 0, 1), 9),
+            LongestConsecutiveSequenceTestCase(intArrayOf(1, 0, 1, 2), 3),
+    
+            // 2 additional, more complex tests:
+            LongestConsecutiveSequenceTestCase(intArrayOf(-1, 0, 1, 2, 3, 7, 8, 10, 11, 12), 5),
+            LongestConsecutiveSequenceTestCase(intArrayOf(-10, -9, -8, -100, 200, 205, 203, 202, 204, 201), 6)
+        )
+    
+        val solution = LongestConsecutiveSequence_128()
+    
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.longestConsecutive(testCase.nums)
+            val pass = (result == testCase.expected)
+    
+            println(
+                "LongestConsecutiveSequence Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: $result)"
             )
         }
     }
