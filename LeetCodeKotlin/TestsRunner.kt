@@ -23,6 +23,8 @@ object TestsRunner {
         testLongestRepeatingCharacterReplacement_424()
         println("Running LongestConsecutiveSequence_128 tests:")
         testLongestConsecutiveSequence_128()
+        println("Running MaxConsecutiveOnesIII_1004 tests:")
+        testMaxConsecutiveOnesIII_1004()
     }
 
     data class MaxProfitTestCase(
@@ -86,7 +88,13 @@ object TestsRunner {
         val nums: IntArray,
         val expected: Int
     )
-    
+
+    data class MaxConsecutiveOnesIIITestCase(
+        val nums: IntArray,
+        val k: Int,
+        val expected: Int
+    )
+
     private fun testBestTimeToBuyAndSellStock_121() {
         // The same test cases we used in C++
         //  - Provided examples
@@ -367,9 +375,9 @@ object TestsRunner {
             LongestRepeatingCharReplacementTestCase("ABCDE", 2, 3),      // Best is a substring of length 3 by transforming 2 chars
             LongestRepeatingCharReplacementTestCase("ABBBBAA", 2, 6)     // Transform 2 'A's in a 6-length substring
         )
-    
+
         val solution = LongestRepeatingCharacterReplacement_424()
-    
+
         for ((index, testCase) in testCases.withIndex()) {
             val result = solution.characterReplacement(testCase.s, testCase.k)
             val pass = (result == testCase.expected)
@@ -387,20 +395,45 @@ object TestsRunner {
             LongestConsecutiveSequenceTestCase(intArrayOf(100, 4, 200, 1, 3, 2), 4),
             LongestConsecutiveSequenceTestCase(intArrayOf(0, 3, 7, 2, 5, 8, 4, 6, 0, 1), 9),
             LongestConsecutiveSequenceTestCase(intArrayOf(1, 0, 1, 2), 3),
-    
+
             // 2 additional, more complex tests:
             LongestConsecutiveSequenceTestCase(intArrayOf(-1, 0, 1, 2, 3, 7, 8, 10, 11, 12), 5),
             LongestConsecutiveSequenceTestCase(intArrayOf(-10, -9, -8, -100, 200, 205, 203, 202, 204, 201), 6)
         )
-    
+
         val solution = LongestConsecutiveSequence_128()
-    
+
         for ((index, testCase) in testCases.withIndex()) {
             val result = solution.longestConsecutive(testCase.nums)
             val pass = (result == testCase.expected)
-    
+
             println(
                 "LongestConsecutiveSequence Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testMaxConsecutiveOnesIII_1004() {
+        val testCases = listOf(
+            // 2 examples from the problem statement:
+            MaxConsecutiveOnesIIITestCase(intArrayOf(1,1,1,0,0,0,1,1,1,1,0), 2, 6),
+            MaxConsecutiveOnesIIITestCase(intArrayOf(0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1), 3, 10),
+
+            // 3 additional, more complex tests:
+            MaxConsecutiveOnesIIITestCase(intArrayOf(1,0,1,1,0,1), 1, 4),
+            MaxConsecutiveOnesIIITestCase(intArrayOf(0,0,0,1,1,1,0,1,1,1), 2, 8),
+            MaxConsecutiveOnesIIITestCase(intArrayOf(1,1,0,1,0,0,1,1), 3, 8)
+        )
+
+        val solution = MaxConsecutiveOnesIII_1004()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.longestOnes(testCase.nums, testCase.k)
+            val pass = (result == testCase.expected)
+            println(
+                "MaxConsecutiveOnesIII Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expected}, Got: $result)"
             )
