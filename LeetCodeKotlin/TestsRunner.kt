@@ -27,6 +27,8 @@ object TestsRunner {
         testMaxConsecutiveOnesIII_1004()
         println("Running IslandPerimeter_463 tests:")
         testIslandPerimeter_463()
+        println("Running MaximumAverageSubarrayI_643 tests:")
+        testMaximumAverageSubarrayI_643()
     }
 
     data class MaxProfitTestCase(
@@ -100,6 +102,12 @@ object TestsRunner {
     data class IslandPerimeterTestCase(
         val grid: Array<IntArray>,
         val expected: Int
+    )
+
+    data class MaximumAverageSubarrayITestCase(
+        val nums: IntArray,
+        val k: Int,
+        val expected: Double
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -497,6 +505,32 @@ object TestsRunner {
             val pass = (result == testCase.expected)
             println(
                 "IslandPerimeter Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testMaximumAverageSubarrayI_643() {
+        val testCases = listOf(
+            // Example 1 (from the problem statement)
+            MaximumAverageSubarrayITestCase(intArrayOf(1,12,-5,-6,50,3), 4, 12.75),
+            // Example 2 (from the problem statement)
+            MaximumAverageSubarrayITestCase(intArrayOf(5), 1, 5.0),
+
+            // Three additional complex tests
+            MaximumAverageSubarrayITestCase(intArrayOf(0, 0, 0, 0), 4, 0.0),
+            MaximumAverageSubarrayITestCase(intArrayOf(-1, -2, -3, -4, -5, 5, 5, 5, 5, 5), 5, 5.0),
+            MaximumAverageSubarrayITestCase(intArrayOf(1,2,3,4,5,6,7,8), 3, 7.0)
+        )
+
+        val solution = MaximumAverageSubarrayI643()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.findMaxAverage(testCase.nums, testCase.k)
+            val pass = kotlin.math.abs(result - testCase.expected) < 1e-5
+            println(
+                "MaximumAverageSubarrayI Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expected}, Got: $result)"
             )
