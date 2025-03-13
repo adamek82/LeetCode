@@ -25,6 +25,8 @@ object TestsRunner {
         testLongestConsecutiveSequence_128()
         println("Running MaxConsecutiveOnesIII_1004 tests:")
         testMaxConsecutiveOnesIII_1004()
+        println("Running IslandPerimeter_463 tests:")
+        testIslandPerimeter_463()
     }
 
     data class MaxProfitTestCase(
@@ -92,6 +94,11 @@ object TestsRunner {
     data class MaxConsecutiveOnesIIITestCase(
         val nums: IntArray,
         val k: Int,
+        val expected: Int
+    )
+
+    data class IslandPerimeterTestCase(
+        val grid: Array<IntArray>,
         val expected: Int
     )
 
@@ -434,6 +441,62 @@ object TestsRunner {
             val pass = (result == testCase.expected)
             println(
                 "MaxConsecutiveOnesIII Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testIslandPerimeter_463() {
+        val testCases = listOf(
+            // Example 1
+            IslandPerimeterTestCase(
+                arrayOf(
+                    intArrayOf(0, 1, 0, 0),
+                    intArrayOf(1, 1, 1, 0),
+                    intArrayOf(0, 1, 0, 0),
+                    intArrayOf(1, 1, 0, 0)
+                ),
+                16
+            ),
+            // Example 2
+            IslandPerimeterTestCase(
+                arrayOf(intArrayOf(1)),
+                4
+            ),
+            // Example 3
+            IslandPerimeterTestCase(
+                arrayOf(intArrayOf(1, 0)),
+                4
+            ),
+            // Additional complex example 1
+            IslandPerimeterTestCase(
+                arrayOf(
+                    intArrayOf(1, 1, 1, 0),
+                    intArrayOf(1, 1, 0, 0),
+                    intArrayOf(1, 0, 0, 0)
+                ),
+                12
+            ),
+            // Additional complex example 2
+            IslandPerimeterTestCase(
+                arrayOf(
+                    intArrayOf(0, 0, 0, 0, 0),
+                    intArrayOf(0, 1, 1, 1, 0),
+                    intArrayOf(0, 1, 1, 1, 0),
+                    intArrayOf(0, 0, 1, 0, 0),
+                    intArrayOf(0, 0, 0, 0, 0)
+                ),
+                12
+            )
+        )
+
+        val solution = IslandPerimeter_463()
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.islandPerimeter(testCase.grid)
+            val pass = (result == testCase.expected)
+            println(
+                "IslandPerimeter Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expected}, Got: $result)"
             )
