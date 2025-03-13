@@ -29,6 +29,8 @@ object TestsRunner {
         testIslandPerimeter_463()
         println("Running MaximumAverageSubarrayI_643 tests:")
         testMaximumAverageSubarrayI_643()
+        println("Running InvertBinaryTree_226 tests:")
+        testInvertBinaryTree_226()
     }
 
     data class MaxProfitTestCase(
@@ -108,6 +110,11 @@ object TestsRunner {
         val nums: IntArray,
         val k: Int,
         val expected: Double
+    )
+
+    data class InvertBinaryTreeTestCase(
+        val input: TreeNode?,
+        val expected: TreeNode?
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -533,6 +540,102 @@ object TestsRunner {
                 "MaximumAverageSubarrayI Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testInvertBinaryTree_226() {
+        val solution = InvertBinaryTree_226()
+
+        val testCases = listOf(
+            // Example 1 from the problem statement
+            InvertBinaryTreeTestCase(
+                input = TreeNode(4).apply {
+                    left = TreeNode(2).apply {
+                        left = TreeNode(1)
+                        right = TreeNode(3)
+                    }
+                    right = TreeNode(7).apply {
+                        left = TreeNode(6)
+                        right = TreeNode(9)
+                    }
+                },
+                expected = TreeNode(4).apply {
+                    left = TreeNode(7).apply {
+                        left = TreeNode(9)
+                        right = TreeNode(6)
+                    }
+                    right = TreeNode(2).apply {
+                        left = TreeNode(3)
+                        right = TreeNode(1)
+                    }
+                }
+            ),
+
+            // Example 2 from the problem statement
+            InvertBinaryTreeTestCase(
+                input = TreeNode(2).apply {
+                    left = TreeNode(1)
+                    right = TreeNode(3)
+                },
+                expected = TreeNode(2).apply {
+                    left = TreeNode(3)
+                    right = TreeNode(1)
+                }
+            ),
+
+            // Example 3 (Empty tree)
+            InvertBinaryTreeTestCase(
+                input = null,
+                expected = null
+            ),
+
+            // Additional test case 1 (Single node)
+            InvertBinaryTreeTestCase(
+                input = TreeNode(1),
+                expected = TreeNode(1)
+            ),
+
+            // Additional test case 2 (More complex tree)
+            InvertBinaryTreeTestCase(
+                input = TreeNode(8).apply {
+                    left = TreeNode(3).apply {
+                        left = TreeNode(1)
+                        right = TreeNode(6).apply {
+                            left = TreeNode(4)
+                            right = TreeNode(7)
+                        }
+                    }
+                    right = TreeNode(10).apply {
+                        right = TreeNode(14).apply {
+                            left = TreeNode(13)
+                        }
+                    }
+                },
+                expected = TreeNode(8).apply {
+                    left = TreeNode(10).apply {
+                        left = TreeNode(14).apply {
+                            right = TreeNode(13)
+                        }
+                    }
+                    right = TreeNode(3).apply {
+                        left = TreeNode(6).apply {
+                            left = TreeNode(7)
+                            right = TreeNode(4)
+                        }
+                        right = TreeNode(1)
+                    }
+                }
+            )
+        )
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.invertTree(testCase.input)
+            val pass = TreeUtils.isSameTree(result, testCase.expected)
+
+            println(
+                "InvertBinaryTree Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL"
             )
         }
     }
