@@ -113,8 +113,8 @@ object TestsRunner {
     )
 
     data class InvertBinaryTreeTestCase(
-        val input: TreeNode?,
-        val expected: TreeNode?
+        val inputValues: List<Int?>,
+        val expectedValues: List<Int?>
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -546,97 +546,71 @@ object TestsRunner {
 
     private fun testInvertBinaryTree_226() {
         val solution = InvertBinaryTree_226()
-
+    
+        // 1) Define your test cases in level-order form
         val testCases = listOf(
-            // Example 1 from the problem statement
+            // Example 1 (from the problem statement)
             InvertBinaryTreeTestCase(
-                input = TreeNode(4).apply {
-                    left = TreeNode(2).apply {
-                        left = TreeNode(1)
-                        right = TreeNode(3)
-                    }
-                    right = TreeNode(7).apply {
-                        left = TreeNode(6)
-                        right = TreeNode(9)
-                    }
-                },
-                expected = TreeNode(4).apply {
-                    left = TreeNode(7).apply {
-                        left = TreeNode(9)
-                        right = TreeNode(6)
-                    }
-                    right = TreeNode(2).apply {
-                        left = TreeNode(3)
-                        right = TreeNode(1)
-                    }
-                }
+                inputValues = listOf(4, 2, 7, 1, 3, 6, 9),
+                expectedValues = listOf(4, 7, 2, 9, 6, 3, 1)
             ),
-
-            // Example 2 from the problem statement
+            // Example 2 (from the problem statement)
             InvertBinaryTreeTestCase(
-                input = TreeNode(2).apply {
-                    left = TreeNode(1)
-                    right = TreeNode(3)
-                },
-                expected = TreeNode(2).apply {
-                    left = TreeNode(3)
-                    right = TreeNode(1)
-                }
+                inputValues = listOf(2, 1, 3),
+                expectedValues = listOf(2, 3, 1)
             ),
-
             // Example 3 (Empty tree)
             InvertBinaryTreeTestCase(
-                input = null,
-                expected = null
+                inputValues = emptyList(),
+                expectedValues = emptyList()
             ),
-
             // Additional test case 1 (Single node)
             InvertBinaryTreeTestCase(
-                input = TreeNode(1),
-                expected = TreeNode(1)
+                inputValues = listOf(1),
+                expectedValues = listOf(1)
             ),
-
             // Additional test case 2 (More complex tree)
+            //
+            // Original tree:
+            //        8
+            //       / \
+            //      3  10
+            //     / \   \
+            //    1   6   14
+            //       / \
+            //      4   7
+            //     /
+            //    13
+            //
+            // Level-order (inputValues):
+            // [8, 3, 10, 1, 6, null, 14, null, null, 4, 7, 13]
+            //
+            // Inverted tree:
+            //        8
+            //       / \
+            //     10   3
+            //     /    / \
+            //   14    6   1
+            //    \   / \
+            //    13 7  4
+            //
+            // Level-order (expectedValues):
+            // [8, 10, 3, 14, null, 6, 1, null, 13, 7, 4]
             InvertBinaryTreeTestCase(
-                input = TreeNode(8).apply {
-                    left = TreeNode(3).apply {
-                        left = TreeNode(1)
-                        right = TreeNode(6).apply {
-                            left = TreeNode(4)
-                            right = TreeNode(7)
-                        }
-                    }
-                    right = TreeNode(10).apply {
-                        right = TreeNode(14).apply {
-                            left = TreeNode(13)
-                        }
-                    }
-                },
-                expected = TreeNode(8).apply {
-                    left = TreeNode(10).apply {
-                        left = TreeNode(14).apply {
-                            right = TreeNode(13)
-                        }
-                    }
-                    right = TreeNode(3).apply {
-                        left = TreeNode(6).apply {
-                            left = TreeNode(7)
-                            right = TreeNode(4)
-                        }
-                        right = TreeNode(1)
-                    }
-                }
+                inputValues = listOf(8, 3, 10, 1, 6, null, 14, null, null, 4, 7, 13),
+                expectedValues = listOf(8, 10, 3, 14, null, 6, 1, null, 13, 7, 4)
             )
         )
-
+    
+        // 2) For each test case, convert the lists into trees, invert, and check
         for ((index, testCase) in testCases.withIndex()) {
-            val result = solution.invertTree(testCase.input)
-            val pass = TreeUtils.isSameTree(result, testCase.expected)
-
-            println(
-                "InvertBinaryTree Test ${index + 1}: " +
-                if (pass) "PASS" else "FAIL"
-            )
+            val inputTree = TreeUtils.vectorToTree(testCase.inputValues)
+            val expectedTree = TreeUtils.vectorToTree(testCase.expectedValues)
+    
+            val result = solution.invertTree(inputTree)
+            val pass = TreeUtils.isSameTree(result, expectedTree)
+    
+            println("InvertBinaryTree Test ${index + 1}: ${if (pass) "PASS" else "FAIL"}")
         }
     }
 }
