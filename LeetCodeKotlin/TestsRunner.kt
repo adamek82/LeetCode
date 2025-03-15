@@ -31,6 +31,8 @@ object TestsRunner {
         testMaximumAverageSubarrayI_643()
         println("Running InvertBinaryTree_226 tests:")
         testInvertBinaryTree_226()
+        println("Running MaximumDepthOfBinaryTree_194 tests:")
+        testMaximumDepthOfBinaryTree_104()
     }
 
     data class MaxProfitTestCase(
@@ -115,6 +117,11 @@ object TestsRunner {
     data class InvertBinaryTreeTestCase(
         val inputValues: List<Int?>,
         val expectedValues: List<Int?>
+    )
+
+    data class MaximumDepthOfBinaryTreeCase(
+        val inputValues: List<Int?>,
+        val expectedValue: Int
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -611,6 +618,48 @@ object TestsRunner {
             val pass = TreeUtils.isSameTree(result, expectedTree)
     
             println("InvertBinaryTree Test ${index + 1}: ${if (pass) "PASS" else "FAIL"}")
+        }
+    }
+
+    private fun testMaximumDepthOfBinaryTree_104() {
+        val solution = MaximumDepthOfBinaryTree_104()
+
+        val testCases = listOf(
+            // Example 1 (from the problem statement)
+            MaximumDepthOfBinaryTreeCase(
+                inputValues = listOf(3, 9, 20, null, null, 15, 7),
+                expectedValue = 3
+            ),
+            // Example 2 (from the problem statement)
+            MaximumDepthOfBinaryTreeCase(
+                inputValues = listOf(1, null, 2),
+                expectedValue = 2
+            ),
+            // Additional Test Case 1: Empty tree
+            MaximumDepthOfBinaryTreeCase(
+                inputValues = listOf(), // No nodes
+                expectedValue = 0
+            ),
+             // Additional Test Case 2: Single node tree
+            MaximumDepthOfBinaryTreeCase(
+                inputValues = listOf(1), // Only root node
+                expectedValue = 1
+            ),
+            // Additional Test Case 3: Unbalanced left-skewed tree
+            MaximumDepthOfBinaryTreeCase(
+                inputValues = listOf(1, 2, null, 3, null, 4, null),
+                expectedValue = 4
+            )
+        )
+        for ((index, testCase) in testCases.withIndex()) {
+            val inputTree = TreeUtils.vectorToTree(testCase.inputValues)
+            val result = solution.maxDepth(inputTree)
+            val pass = (result == testCase.expectedValue)
+            println(
+                "MaximumDepthOfBinaryTree Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expectedValue}, Got: $result)"
+            )
         }
     }
 }
