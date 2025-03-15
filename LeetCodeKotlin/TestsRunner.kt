@@ -33,6 +33,8 @@ object TestsRunner {
         testInvertBinaryTree_226()
         println("Running MaximumDepthOfBinaryTree_194 tests:")
         testMaximumDepthOfBinaryTree_104()
+        println("Running BalancedBinaryTree_110 tests:")
+        testBalancedBinaryTree_110()
     }
 
     data class MaxProfitTestCase(
@@ -122,6 +124,11 @@ object TestsRunner {
     data class MaximumDepthOfBinaryTreeCase(
         val inputValues: List<Int?>,
         val expectedValue: Int
+    )
+
+    data class BalancedBinaryTreeTestCase(
+        val inputValues: List<Int?>,
+        val expected: Boolean
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -553,7 +560,7 @@ object TestsRunner {
 
     private fun testInvertBinaryTree_226() {
         val solution = InvertBinaryTree_226()
-    
+
         // 1) Define your test cases in level-order form
         val testCases = listOf(
             // Example 1 (from the problem statement)
@@ -608,15 +615,15 @@ object TestsRunner {
                 expectedValues = listOf(8, 10, 3, 14, null, 6, 1, null, 13, 7, 4)
             )
         )
-    
+
         // 2) For each test case, convert the lists into trees, invert, and check
         for ((index, testCase) in testCases.withIndex()) {
             val inputTree = TreeUtils.vectorToTree(testCase.inputValues)
             val expectedTree = TreeUtils.vectorToTree(testCase.expectedValues)
-    
+
             val result = solution.invertTree(inputTree)
             val pass = TreeUtils.isSameTree(result, expectedTree)
-    
+
             println("InvertBinaryTree Test ${index + 1}: ${if (pass) "PASS" else "FAIL"}")
         }
     }
@@ -659,6 +666,38 @@ object TestsRunner {
                 "MaximumDepthOfBinaryTree Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expectedValue}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testBalancedBinaryTree_110() {
+        val testCases = listOf(
+            // Example 1: [3,9,20,null,null,15,7] -> true
+            BalancedBinaryTreeTestCase(listOf(3, 9, 20, null, null, 15, 7), true),
+
+            // Example 2: [1,2,2,3,3,null,null,4,4] -> false
+            BalancedBinaryTreeTestCase(listOf(1, 2, 2, 3, 3, null, null, 4, 4), false),
+
+            // Example 3: [] -> true
+            BalancedBinaryTreeTestCase(emptyList(), true),
+
+            // Additional Example 4: [2,1,3] -> true
+            BalancedBinaryTreeTestCase(listOf(2, 1, 3), true),
+
+            // Additional Example 5 (unbalanced):
+            // [1,2,2,3,null,null,3,4,null,null,null] -> false
+            BalancedBinaryTreeTestCase(listOf(1, 2, 2, 3, null, null, 3, 4, null, null, null), false)
+        )
+
+        val solution = BalancedBinaryTree_110()
+        for ((index, testCase) in testCases.withIndex()) {
+            val root = TreeUtils.vectorToTree(testCase.inputValues)
+            val result = solution.isBalanced(root)
+            val pass = (result == testCase.expected)
+            println(
+                "BalancedBinaryTree Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: $result)"
             )
         }
     }
