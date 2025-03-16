@@ -37,6 +37,8 @@ object TestsRunner {
         testBalancedBinaryTree_110()
         println("Running BinaryTreeLevelOrderTraversal_102 tests:")
         testBinaryTreeLevelOrderTraversal_102()
+        println("Running DiameterOfBinaryTree_543 tests:")
+        testDiameterOfBinaryTree_543()
     }
 
     data class MaxProfitTestCase(
@@ -136,6 +138,11 @@ object TestsRunner {
     data class BinaryTreeLevelOrderTraversalTestCase(
         val inputValues: List<Int?>,
         val expected: List<List<Int>>
+    )
+
+    data class DiameterOfBinaryTreeTestCase(
+        val inputValues: List<Int?>,
+        val expected: Int
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -776,4 +783,77 @@ object TestsRunner {
             )
         }
     }
+
+    private fun testDiameterOfBinaryTree_543() {
+        val testCases = listOf(
+            // Example 1: Balanced tree with diameter = 3
+            //      1
+            //     / \
+            //    2   3
+            //   / \
+            //  4   5
+            DiameterOfBinaryTreeTestCase(listOf(1, 2, 3, 4, 5), 3),
+        
+            // Example 2: Small tree with diameter = 1
+            //    1
+            //   /
+            //  2
+            DiameterOfBinaryTreeTestCase(listOf(1, 2), 1),
+        
+            // Additional Test 1: Unbalanced left-skewed tree with diameter = 4
+            //    1
+            //   /
+            //  2
+            //   \
+            //    3
+            //     \
+            //      4
+            //       \
+            //        5
+            DiameterOfBinaryTreeTestCase(listOf(1, 2, null, 3, null, 4, null, 5), 4),
+        
+            // Additional Test 2: Full binary tree with diameter = 4
+            //        1
+            //       / \
+            //      2   3
+            //     / \ / \
+            //    4  5 6  7
+            DiameterOfBinaryTreeTestCase(listOf(1, 2, 3, 4, 5, 6, 7), 4),
+        
+            // Additional Test 3: Large right-skewed tree with diameter = 9
+            //  1
+            //   \
+            //    2
+            //     \
+            //      3
+            //       \
+            //        4
+            //         \
+            //          5
+            //           \
+            //            6
+            //             \
+            //              7
+            //               \
+            //                8
+            //                 \
+            //                  9
+            //                   \
+            //                   10
+            DiameterOfBinaryTreeTestCase(listOf(1, null, 2, null, 3, null, 4, null, 5, null, 6, null, 7, null, 8, null, 9, null, 10), 9)
+        )
+    
+        val solution = DiameterOfBinaryTree_543()
+    
+        for ((index, testCase) in testCases.withIndex()) {
+            val root = TreeUtils.vectorToTree(testCase.inputValues)
+            val result = solution.diameterOfBinaryTree(root)
+            val pass = result == testCase.expected
+            println(
+                "DiameterOfBinaryTree Test ${index + 1}: " +
+                        if (pass) "PASS" else "FAIL" +
+                        " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }    
 }
