@@ -35,6 +35,8 @@ object TestsRunner {
         testMaximumDepthOfBinaryTree_104()
         println("Running BalancedBinaryTree_110 tests:")
         testBalancedBinaryTree_110()
+        println("Running BinaryTreeLevelOrderTraversal_102 tests:")
+        testBinaryTreeLevelOrderTraversal_102()
     }
 
     data class MaxProfitTestCase(
@@ -129,6 +131,11 @@ object TestsRunner {
     data class BalancedBinaryTreeTestCase(
         val inputValues: List<Int?>,
         val expected: Boolean
+    )
+
+    data class BinaryTreeLevelOrderTraversalTestCase(
+        val inputValues: List<Int?>,
+        val expected: List<List<Int>>
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -696,6 +703,74 @@ object TestsRunner {
             val pass = (result == testCase.expected)
             println(
                 "BalancedBinaryTree Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testBinaryTreeLevelOrderTraversal_102() {
+        val solution = BinaryTreeLevelOrderTraversal_102()
+        val testCases = listOf(
+            // Given Example 1
+            BinaryTreeLevelOrderTraversalTestCase(
+                inputValues = listOf(3, 9, 20, null, null, 15, 7),
+                expected = listOf(
+                    listOf(3),
+                    listOf(9, 20),
+                    listOf(15, 7)
+                )
+            ),
+            // Given Example 2
+            BinaryTreeLevelOrderTraversalTestCase(
+                inputValues = listOf(1),
+                expected = listOf(
+                    listOf(1)
+                )
+            ),
+            // Given Example 3 (empty tree)
+            BinaryTreeLevelOrderTraversalTestCase(
+                inputValues = emptyList(),
+                expected = emptyList()
+            ),
+            // Additional Test 4 (perfect binary tree)
+            // Tree shape:
+            //         1
+            //        / \
+            //       2   3
+            //      / \ / \
+            //     4  5 6  7
+            // BFS => [[1],[2,3],[4,5,6,7]]
+            BinaryTreeLevelOrderTraversalTestCase(
+                inputValues = listOf(1, 2, 3, 4, 5, 6, 7),
+                expected = listOf(
+                    listOf(1),
+                    listOf(2, 3),
+                    listOf(4, 5, 6, 7)
+                )
+            ),
+            // Additional Test 5 (mixed nulls)
+            // Level-order array => [1,2,3,4,null,null,7]
+            // BFS => [[1],[2,3],[4,7]]
+            BinaryTreeLevelOrderTraversalTestCase(
+                inputValues = listOf(1, 2, 3, 4, null, null, 7),
+                expected = listOf(
+                    listOf(1),
+                    listOf(2, 3),
+                    listOf(4, 7)
+                )
+            )
+        )
+
+        for ((index, testCase) in testCases.withIndex()) {
+            // Convert level-order list to a TreeNode? (similar to how other tree tests are done)
+            val root = TreeUtils.vectorToTree(testCase.inputValues)
+
+            val result = solution.levelOrder(root)
+            val pass = (result == testCase.expected)
+
+            println(
+                "BinaryTreeLevelOrderTraversal_102 Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expected}, Got: $result)"
             )
