@@ -39,6 +39,8 @@ object TestsRunner {
         testBinaryTreeLevelOrderTraversal_102()
         println("Running DiameterOfBinaryTree_543 tests:")
         testDiameterOfBinaryTree_543()
+        println("Running SameTree_100 tests:")
+        testSameTree_100()
     }
 
     data class MaxProfitTestCase(
@@ -143,6 +145,12 @@ object TestsRunner {
     data class DiameterOfBinaryTreeTestCase(
         val inputValues: List<Int?>,
         val expected: Int
+    )
+
+    data class SameTreeTestCase(
+        val p: List<Int?>,
+        val q: List<Int?>,
+        val expected: Boolean
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -793,13 +801,13 @@ object TestsRunner {
             //   / \
             //  4   5
             DiameterOfBinaryTreeTestCase(listOf(1, 2, 3, 4, 5), 3),
-        
+
             // Example 2: Small tree with diameter = 1
             //    1
             //   /
             //  2
             DiameterOfBinaryTreeTestCase(listOf(1, 2), 1),
-        
+
             // Additional Test 1: Unbalanced left-skewed tree with diameter = 4
             //    1
             //   /
@@ -811,7 +819,7 @@ object TestsRunner {
             //       \
             //        5
             DiameterOfBinaryTreeTestCase(listOf(1, 2, null, 3, null, 4, null, 5), 4),
-        
+
             // Additional Test 2: Full binary tree with diameter = 4
             //        1
             //       / \
@@ -819,7 +827,7 @@ object TestsRunner {
             //     / \ / \
             //    4  5 6  7
             DiameterOfBinaryTreeTestCase(listOf(1, 2, 3, 4, 5, 6, 7), 4),
-        
+
             // Additional Test 3: Large right-skewed tree with diameter = 9
             //  1
             //   \
@@ -842,9 +850,9 @@ object TestsRunner {
             //                   10
             DiameterOfBinaryTreeTestCase(listOf(1, null, 2, null, 3, null, 4, null, 5, null, 6, null, 7, null, 8, null, 9, null, 10), 9)
         )
-    
+
         val solution = DiameterOfBinaryTree_543()
-    
+
         for ((index, testCase) in testCases.withIndex()) {
             val root = TreeUtils.vectorToTree(testCase.inputValues)
             val result = solution.diameterOfBinaryTree(root)
@@ -855,5 +863,58 @@ object TestsRunner {
                         " (Expected: ${testCase.expected}, Got: $result)"
             )
         }
-    }    
+    }
+
+    private fun testSameTree_100() {
+        val testCases = listOf(
+            // Example 1: Trees are identical
+            SameTreeTestCase(listOf(1, 2, 3), listOf(1, 2, 3), true),
+
+            // Example 2: Different structures
+            SameTreeTestCase(listOf(1, 2), listOf(1, null, 2), false),
+
+            // Example 3: Different node values
+            SameTreeTestCase(listOf(1, 2, 1), listOf(1, 1, 2), false),
+
+            // Additional Test 1: Identical complex tree
+            //       5              5
+            //      / \            / \
+            //     3   7          3   7
+            //    / \   \        / \   \
+            //   2   4   8      2   4   8
+            SameTreeTestCase(
+                listOf(5, 3, 7, 2, 4, null, 8),
+                listOf(5, 3, 7, 2, 4, null, 8),
+                true
+            ),
+
+            // Additional Test 2: Large tree with one differing node
+            //       10               10
+            //      /  \             /  \
+            //     5    15          5    20  <- Different value
+            //    / \   / \        / \   / \
+            //   3   7 12 17      3   7 12 17
+            SameTreeTestCase(
+                listOf(10, 5, 15, 3, 7, 12, 17),
+                listOf(10, 5, 20, 3, 7, 12, 17),
+                false
+            )
+        )
+
+        val solution = SameTree_100()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val pTree = TreeUtils.vectorToTree(testCase.p)
+            val qTree = TreeUtils.vectorToTree(testCase.q)
+
+            val result = solution.isSameTree(pTree, qTree)
+            val pass = (result == testCase.expected)
+
+            println(
+                "SameTree_100 Test ${index + 1}: " +
+                        if (pass) "PASS" else "FAIL" +
+                        " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
 }
