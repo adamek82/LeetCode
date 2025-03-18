@@ -9,7 +9,7 @@ class SquaresOfSortedArray_977 {
         while (left <= right) {
             val leftSquare = nums[left] * nums[left]
             val rightSquare = nums[right] * nums[right]
-            
+
             if (leftSquare > rightSquare) {
                 result[index] = leftSquare
                 left++
@@ -19,7 +19,7 @@ class SquaresOfSortedArray_977 {
             }
             index--
         }
-        
+
         return result
     }
 }

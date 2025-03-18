@@ -16,7 +16,7 @@ class GroupAnagrams_49 {
         for (s in strs) {
             val key = CharArray(26) { '0' }  // Initialize key with '0's
             for (c in s) key[c - 'a']++  // Increment corresponding position
-            
+
             val keyStr = String(key)  // Convert CharArray to a string
             anagramGroups.getOrPut(keyStr) { mutableListOf() }.add(s)
         }

@@ -1,4 +1,4 @@
-class SymmetricTree_101 { 
+class SymmetricTree_101 {
     fun isSymmetric(root: TreeNode?): Boolean {
         return isMirror(root?.left, root?.right)
     }

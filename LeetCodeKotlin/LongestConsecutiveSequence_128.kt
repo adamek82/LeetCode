@@ -1,4 +1,4 @@
-class LongestConsecutiveSequence_128 { 
+class LongestConsecutiveSequence_128 {
     fun longestConsecutive(nums: IntArray): Int {
         if (nums.isEmpty()) return 0
 

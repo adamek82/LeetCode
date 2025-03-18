@@ -932,13 +932,13 @@ object TestsRunner {
                 inputValues = listOf(1, 2, 2, 3, 4, 4, 3),
                 expected = true
             ),
-    
+
             // Example 2: Non-symmetric tree
             SymmetricTreeTestCase(
                 inputValues = listOf(1, 2, 2, null, 3, null, 3),
                 expected = false
             ),
-    
+
             // Additional complex test 1: Larger symmetric tree
             //         1
             //       /   \
@@ -951,7 +951,7 @@ object TestsRunner {
                 inputValues = listOf(1, 2, 2, 3, 4, 4, 3, 5, null, null, null, null, null, null, 5),
                 expected = true
             ),
-    
+
             // Additional complex test 2: Tree structurally symmetric but with one mismatched value
             //        1
             //       / \
@@ -962,7 +962,7 @@ object TestsRunner {
                 inputValues = listOf(1, 2, 2, 3, null, null, 4),
                 expected = false
             ),
-    
+
             // Additional complex test 3: Asymmetric tree with uneven depths
             //        1
             //       / \
@@ -976,14 +976,14 @@ object TestsRunner {
                 expected = false
             )
         )
-    
+
         val solution = SymmetricTree_101()
-    
+
         for ((index, testCase) in testCases.withIndex()) {
             val root = TreeUtils.vectorToTree(testCase.inputValues)
             val result = solution.isSymmetric(root)
             val pass = (result == testCase.expected)
-    
+
             println(
                 "SymmetricTree_101 Test ${index + 1}: " +
                         if (pass) "PASS" else "FAIL" +
@@ -991,5 +991,4 @@ object TestsRunner {
             )
         }
     }
-   
 }

@@ -34,6 +34,6 @@ std::vector<std::vector<std::string>> GroupAnagrams_49::groupAnagrams_counting(s
     for (auto& [key, group] : anagrams) {
         result.push_back(move(group)); // Move to avoid unnecessary copying
     }
-    
+
     return result;
 }

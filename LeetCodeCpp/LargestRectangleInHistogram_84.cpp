@@ -5,7 +5,7 @@ int LargestRectangleInHistogram_84::largestRectangleArea(std::vector<int> &heigh
     std::stack<int> st; // Stack to store indices of histogram bars
     int maxArea = 0; // Variable to store the maximum area
     int n = heights.size();
-    
+
     // Append a 0 height to handle remaining bars in the stack
     heights.push_back(0);
 

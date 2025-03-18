@@ -3,10 +3,10 @@
 int BinarySearch_704::search(std::vector<int> &nums, int target)
 {
     int left = 0, right = nums.size() - 1;
-    
+
     while (left <= right) {
         int mid = left + (right - left) / 2; // Prevents overflow
-        
+
         if (nums[mid] == target) {
             return mid; // Target found, return its index
         } else if (nums[mid] < target) {
@@ -15,6 +15,6 @@ int BinarySearch_704::search(std::vector<int> &nums, int target)
             right = mid - 1; // Search in the left half
         }
     }
-    
+
     return -1; // Target not found
 }
