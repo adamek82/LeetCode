@@ -41,6 +41,8 @@ object TestsRunner {
         testDiameterOfBinaryTree_543()
         println("Running SameTree_100 tests:")
         testSameTree_100()
+        println("Running SymmetricTree_101 tests:")
+        testSymmetricTree_101()
     }
 
     data class MaxProfitTestCase(
@@ -150,6 +152,11 @@ object TestsRunner {
     data class SameTreeTestCase(
         val p: List<Int?>,
         val q: List<Int?>,
+        val expected: Boolean
+    )
+
+    data class SymmetricTreeTestCase(
+        val inputValues: List<Int?>,
         val expected: Boolean
     )
 
@@ -917,4 +924,72 @@ object TestsRunner {
             )
         }
     }
+
+    private fun testSymmetricTree_101() {
+        val testCases = listOf(
+            // Example 1: Symmetric tree
+            SymmetricTreeTestCase(
+                inputValues = listOf(1, 2, 2, 3, 4, 4, 3),
+                expected = true
+            ),
+    
+            // Example 2: Non-symmetric tree
+            SymmetricTreeTestCase(
+                inputValues = listOf(1, 2, 2, null, 3, null, 3),
+                expected = false
+            ),
+    
+            // Additional complex test 1: Larger symmetric tree
+            //         1
+            //       /   \
+            //      2     2
+            //     / \   / \
+            //    3   4 4   3
+            //   /           \
+            //  5             5
+            SymmetricTreeTestCase(
+                inputValues = listOf(1, 2, 2, 3, 4, 4, 3, 5, null, null, null, null, null, null, 5),
+                expected = true
+            ),
+    
+            // Additional complex test 2: Tree structurally symmetric but with one mismatched value
+            //        1
+            //       / \
+            //      2   2
+            //     /     \
+            //    3       4  <-- Mismatched values (should be 3 to match)
+            SymmetricTreeTestCase(
+                inputValues = listOf(1, 2, 2, 3, null, null, 4),
+                expected = false
+            ),
+    
+            // Additional complex test 3: Asymmetric tree with uneven depths
+            //        1
+            //       / \
+            //      2   2
+            //       \   \
+            //        3   3
+            //       /     \
+            //      4       4
+            SymmetricTreeTestCase(
+                inputValues = listOf(1, 2, 2, null, 3, null, 3, 4, null, null, 4),
+                expected = false
+            )
+        )
+    
+        val solution = SymmetricTree_101()
+    
+        for ((index, testCase) in testCases.withIndex()) {
+            val root = TreeUtils.vectorToTree(testCase.inputValues)
+            val result = solution.isSymmetric(root)
+            val pass = (result == testCase.expected)
+    
+            println(
+                "SymmetricTree_101 Test ${index + 1}: " +
+                        if (pass) "PASS" else "FAIL" +
+                        " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+   
 }
