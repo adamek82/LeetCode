@@ -43,6 +43,8 @@ object TestsRunner {
         testSameTree_100()
         println("Running SymmetricTree_101 tests:")
         testSymmetricTree_101()
+        println("Running PathSum_112 tests:")
+        testPathSum_112()
     }
 
     data class MaxProfitTestCase(
@@ -157,6 +159,12 @@ object TestsRunner {
 
     data class SymmetricTreeTestCase(
         val inputValues: List<Int?>,
+        val expected: Boolean
+    )
+
+    data class PathSumTestCase(
+        val rootValues: List<Int?>,
+        val targetSum: Int,
         val expected: Boolean
     )
 
@@ -986,6 +994,31 @@ object TestsRunner {
 
             println(
                 "SymmetricTree_101 Test ${index + 1}: " +
+                        if (pass) "PASS" else "FAIL" +
+                        " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testPathSum_112() {
+        val testCases = listOf(
+            PathSumTestCase(listOf(5,4,8,11,null,13,4,7,2,null,null,null,1), 22, true), // Example 1
+            PathSumTestCase(listOf(1,2,3), 5, false),                               // Example 2
+            PathSumTestCase(emptyList(), 0, false),                                 // Example 3
+            // Additional complex case 1
+            PathSumTestCase(listOf(1,-2,-3,1,3,-2,null,-1), -1, true),
+            // Additional complex case 2
+            PathSumTestCase(listOf(10,5,12,4,7,null,null,null,null,1), 18, false)
+        )
+
+        val solution = PathSum_112()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val tree = TreeUtils.vectorToTree(testCase.rootValues)
+            val result = solution.hasPathSum(tree, testCase.targetSum)
+            val pass = (result == testCase.expected)
+            println(
+                "PathSum_112 Test ${index + 1}: " +
                         if (pass) "PASS" else "FAIL" +
                         " (Expected: ${testCase.expected}, Got: $result)"
             )
