@@ -45,6 +45,8 @@ object TestsRunner {
         testSymmetricTree_101()
         println("Running PathSum_112 tests:")
         testPathSum_112()
+        println("Running SubtreeOfAnotherTree_572 tests:")
+        testSubtreeOfAnotherTree_572()
     }
 
     data class MaxProfitTestCase(
@@ -165,6 +167,12 @@ object TestsRunner {
     data class PathSumTestCase(
         val rootValues: List<Int?>,
         val targetSum: Int,
+        val expected: Boolean
+    )
+
+    data class SubtreeTestCase(
+        val rootValues: List<Int?>,
+        val subRootValues: List<Int?>,
         val expected: Boolean
     )
 
@@ -1021,6 +1029,57 @@ object TestsRunner {
                 "PathSum_112 Test ${index + 1}: " +
                         if (pass) "PASS" else "FAIL" +
                         " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testSubtreeOfAnotherTree_572() {
+        val testCases = listOf(
+            // Example 1
+            SubtreeTestCase(
+                rootValues = listOf(3, 4, 5, 1, 2),
+                subRootValues = listOf(4, 1, 2),
+                expected = true
+            ),
+            // Example 2
+            SubtreeTestCase(
+                rootValues = listOf(3, 4, 5, 1, 2, null, null, null, null, 0),
+                subRootValues = listOf(4, 1, 2),
+                expected = false
+            ),
+            // Additional complex case 1
+            SubtreeTestCase(
+                rootValues = listOf(1, 2, 3, 4, 5, 6, 7),
+                subRootValues = listOf(2, 4, 5),
+                expected = true
+            ),
+            // Additional complex case 2
+            SubtreeTestCase(
+                rootValues = listOf(10, 5, 15, 3, 7, null, 18),
+                subRootValues = listOf(5, 3, 7),
+                expected = true
+            ),
+            // Additional complex case 3: A subtree appearing deep within the tree
+            SubtreeTestCase(
+                rootValues = listOf(1, 2, 3, 4, 5, null, null, 6, 7, null, null, null, null, 8, 9),
+                subRootValues = listOf(4, 6, 7, null, null, 8, 9),
+                expected = true
+            )
+        )
+
+        val solution = SubtreeOfAnotherTree_572()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val rootTree = TreeUtils.vectorToTree(testCase.rootValues)
+            val subRootTree = TreeUtils.vectorToTree(testCase.subRootValues)
+
+            val result = solution.isSubtree(rootTree, subRootTree)
+            val pass = (result == testCase.expected)
+
+            println(
+                "SubtreeOfAnotherTree Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: $result)"
             )
         }
     }
