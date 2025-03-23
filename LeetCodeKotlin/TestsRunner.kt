@@ -49,6 +49,8 @@ object TestsRunner {
         testSubtreeOfAnotherTree_572()
         println("Running AverageOfLevelsInBinaryTree_637 tests:")
         testAverageOfLevelsInBinaryTree_637()
+        println("Running KthSmallestBST_230 tests:")
+        testKthSmallestBST_230()
     }
 
     /** Helper to compare double arrays within 1e-5 */
@@ -190,6 +192,12 @@ object TestsRunner {
     data class AverageOfLevelsInBinaryTreeTestCase(
         val inputValues: List<Int?>,
         val expected: DoubleArray
+    )
+
+    data class KthSmallestBSTTestCase(
+        val inputValues: List<Int?>,
+        val k: Int,
+        val expected: Int
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -1144,6 +1152,61 @@ object TestsRunner {
                 "AverageOfLevelsInBinaryTree_637 Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expected.joinToString()}, Got: ${result.joinToString()})"
+            )
+        }
+    }
+
+    private fun testKthSmallestBST_230() {
+        println("Running KthSmallestBST_230 tests:")
+
+        val testCases = listOf(
+            // Example 1 (from the problem statement)
+            KthSmallestBSTTestCase(
+                listOf(3, 1, 4, null, 2),
+                k = 1,
+                expected = 1
+            ),
+            // Example 2 (from the problem statement)
+            KthSmallestBSTTestCase(
+                listOf(5, 3, 6, 2, 4, null, null, 1),
+                k = 3,
+                expected = 3
+            ),
+            // Additional Test 3: A more complex BST
+            // BFS => [8,3,10,1,6,null,14,null,null,4,7]
+            // Inorder => [1,3,4,6,7,8,10,14], so 5th smallest is 7.
+            KthSmallestBSTTestCase(
+                listOf(8, 3, 10, 1, 6, null, 14, null, null, 4, 7),
+                k = 5,
+                expected = 7
+            ),
+            // Additional Test 4: BST with duplicates
+            // BFS => [5,3,7,3,4,6,8]
+            // Inorder => [3,3,4,5,6,7,8], so 2nd smallest is also 3.
+            KthSmallestBSTTestCase(
+                listOf(5, 3, 7, 3, 4, 6, 8),
+                k = 2,
+                expected = 3
+            ),
+            // Additional Test 5: Right-skewed chain [1, null, 2, null, 3]
+            // Inorder => [1,2,3], so 3rd smallest is 3.
+            KthSmallestBSTTestCase(
+                listOf(1, null, 2, null, 3),
+                k = 3,
+                expected = 3
+            )
+        )
+
+        val solution = KthSmallestElementInBST_230()  // Replace with your actual class name if different
+        for ((index, testCase) in testCases.withIndex()) {
+            val root = TreeUtils.vectorToTree(testCase.inputValues)
+            val result = solution.kthSmallest(root, testCase.k)
+            val pass = (result == testCase.expected)
+
+            println(
+                "KthSmallestBST_230 Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: $result)"
             )
         }
     }
