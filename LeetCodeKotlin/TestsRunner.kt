@@ -1116,8 +1116,6 @@ object TestsRunner {
     }
 
     private fun testAverageOfLevelsInBinaryTree_637() {
-        println("Running AverageOfLevelsInBinaryTree_637 tests:")
-    
         val testCases = listOf(
             // From the problem statement Example 1
             AverageOfLevelsInBinaryTreeTestCase(
@@ -1147,14 +1145,14 @@ object TestsRunner {
                 doubleArrayOf(1.0, 2.5, 4.5, 6.0, 7.0)
             )
         )
-    
+
         val solution = AverageOfLevelsInBinaryTree_637()
-    
+
         for ((index, testCase) in testCases.withIndex()) {
             val root = TreeUtils.vectorToTree(testCase.inputValues)
             val result = solution.averageOfLevels(root)
             val pass = checkDoubleArraysApproximately(result, testCase.expected)
-    
+
             println(
                 "AverageOfLevelsInBinaryTree_637 Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
@@ -1164,8 +1162,6 @@ object TestsRunner {
     }
 
     private fun testKthSmallestBST_230() {
-        println("Running KthSmallestBST_230 tests:")
-
         val testCases = listOf(
             // Example 1 (from the problem statement)
             KthSmallestBSTTestCase(
@@ -1219,8 +1215,6 @@ object TestsRunner {
     }
 
     private fun testMinimumAbsoluteDifferenceInBST_530() {
-        println("Running MinimumAbsoluteDifferenceInBST_530 tests:")
-
         val testCases = listOf(
             // Example 1 (from the problem statement)
             MinimumAbsoluteDifferenceInBSTTestCase(
