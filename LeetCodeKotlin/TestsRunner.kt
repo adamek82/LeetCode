@@ -51,6 +51,8 @@ object TestsRunner {
         testAverageOfLevelsInBinaryTree_637()
         println("Running KthSmallestBST_230 tests:")
         testKthSmallestBST_230()
+        println("Running MinimumAbsoluteDifferenceInBST_530 tests:")
+        testMinimumAbsoluteDifferenceInBST_530()
     }
 
     /** Helper to compare double arrays within 1e-5 */
@@ -197,6 +199,11 @@ object TestsRunner {
     data class KthSmallestBSTTestCase(
         val inputValues: List<Int?>,
         val k: Int,
+        val expected: Int
+    )
+
+    data class MinimumAbsoluteDifferenceInBSTTestCase(
+        val inputValues: List<Int?>,
         val expected: Int
     )
 
@@ -1205,6 +1212,57 @@ object TestsRunner {
 
             println(
                 "KthSmallestBST_230 Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testMinimumAbsoluteDifferenceInBST_530() {
+        println("Running MinimumAbsoluteDifferenceInBST_530 tests:")
+
+        val testCases = listOf(
+            // Example 1 (from the problem statement)
+            MinimumAbsoluteDifferenceInBSTTestCase(
+                listOf(4, 2, 6, 1, 3),
+                expected = 1
+            ),
+            // Example 2 (from the problem statement)
+            MinimumAbsoluteDifferenceInBSTTestCase(
+                listOf(1, 0, 48, null, null, 12, 49),
+                expected = 1
+            ),
+            // Additional Test 3: Perfect BST
+            // Level-order => [4,2,6,1,3,5,7]
+            // Sorted => [1,2,3,4,5,6,7], min gap is 1
+            MinimumAbsoluteDifferenceInBSTTestCase(
+                listOf(4, 2, 6, 1, 3, 5, 7),
+                expected = 1
+            ),
+            // Additional Test 4: Skewed BST (all right children)
+            // Input => [1, null, 2, null, 3, null, 4]
+            // Sorted => [1,2,3,4], min gap = 1
+            MinimumAbsoluteDifferenceInBSTTestCase(
+                listOf(1, null, 2, null, 3, null, 4),
+                expected = 1
+            ),
+            // Additional Test 5: BST with bigger gaps
+            // Input => [10,5,15,3,7,12,20,2,null,null,9,null,null,null,25]
+            // Sorted => [2,3,5,7,9,10,12,15,20,25], min gap = 1 (between 2 & 3, or 9 & 10)
+            MinimumAbsoluteDifferenceInBSTTestCase(
+                listOf(10,5,15,3,7,12,20,2,null,null,9,null,null,null,25),
+                expected = 1
+            )
+        )
+
+        val solution = MinimumAbsoluteDifferenceInBST_530()
+        for ((index, testCase) in testCases.withIndex()) {
+            val root = TreeUtils.vectorToTree(testCase.inputValues)
+            val result = solution.getMinimumDifference(root)
+            val pass = (result == testCase.expected)
+
+            println(
+                "MinimumAbsoluteDifferenceInBST_530 Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expected}, Got: $result)"
             )
