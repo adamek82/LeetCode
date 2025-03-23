@@ -47,6 +47,17 @@ object TestsRunner {
         testPathSum_112()
         println("Running SubtreeOfAnotherTree_572 tests:")
         testSubtreeOfAnotherTree_572()
+        println("Running AverageOfLevelsInBinaryTree_637 tests:")
+        testAverageOfLevelsInBinaryTree_637()
+    }
+
+    /** Helper to compare double arrays within 1e-5 */
+    private fun checkDoubleArraysApproximately(a: DoubleArray, b: DoubleArray, eps: Double = 1e-5): Boolean {
+        if (a.size != b.size) return false
+        for (i in a.indices) {
+            if (kotlin.math.abs(a[i] - b[i]) > eps) return false
+        }
+        return true
     }
 
     data class MaxProfitTestCase(
@@ -174,6 +185,11 @@ object TestsRunner {
         val rootValues: List<Int?>,
         val subRootValues: List<Int?>,
         val expected: Boolean
+    )
+
+    data class AverageOfLevelsInBinaryTreeTestCase(
+        val inputValues: List<Int?>,
+        val expected: DoubleArray
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -1080,6 +1096,54 @@ object TestsRunner {
                 "SubtreeOfAnotherTree Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testAverageOfLevelsInBinaryTree_637() {
+        println("Running AverageOfLevelsInBinaryTree_637 tests:")
+    
+        val testCases = listOf(
+            // From the problem statement Example 1
+            AverageOfLevelsInBinaryTreeTestCase(
+                listOf(3, 9, 20, null, null, 15, 7),
+                doubleArrayOf(3.0, 14.5, 11.0)
+            ),
+            // From the problem statement Example 2
+            AverageOfLevelsInBinaryTreeTestCase(
+                listOf(3, 9, 20, 15, 7),
+                doubleArrayOf(3.0, 14.5, 11.0)
+            ),
+            // From the problem statement Example 3 (empty tree)
+            AverageOfLevelsInBinaryTreeTestCase(
+                emptyList(),
+                doubleArrayOf()
+            ),
+            // Additional complex example (perfect binary tree)
+            // Level by level averages: 1, (2+3)/2=2.5, (4+5+6+7)/4=5.5
+            AverageOfLevelsInBinaryTreeTestCase(
+                listOf(1, 2, 3, 4, 5, 6, 7),
+                doubleArrayOf(1.0, 2.5, 5.5)
+            ),
+            // Additional complex example (unbalanced)
+            // Averages: [1.0, 2.5, 4.5, 6.0, 7.0]
+            AverageOfLevelsInBinaryTreeTestCase(
+                listOf(1, 2, 3, 4, null, null, 5, 6, null, null, null, null, 7, null, null),
+                doubleArrayOf(1.0, 2.5, 4.5, 6.0, 7.0)
+            )
+        )
+    
+        val solution = AverageOfLevelsInBinaryTree_637()
+    
+        for ((index, testCase) in testCases.withIndex()) {
+            val root = TreeUtils.vectorToTree(testCase.inputValues)
+            val result = solution.averageOfLevels(root)
+            val pass = checkDoubleArraysApproximately(result, testCase.expected)
+    
+            println(
+                "AverageOfLevelsInBinaryTree_637 Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected.joinToString()}, Got: ${result.joinToString()})"
             )
         }
     }
