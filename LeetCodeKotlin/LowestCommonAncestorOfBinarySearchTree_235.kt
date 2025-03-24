@@ -1,9 +1,9 @@
 class LowestCommonAncestorOfBinarySearchTree_235 {
     fun lowestCommonAncestor(root: TreeNode?, p: TreeNode?, q: TreeNode?): TreeNode? {
         if (p == null || q == null) return null
-        
+
         var current = root
-        
+
         while (current != null) {
             val value = current.value
             if (p.value < value && q.value < value) {
@@ -17,7 +17,7 @@ class LowestCommonAncestorOfBinarySearchTree_235 {
                 return current
             }
         }
-        
+
         return null
     }
 }

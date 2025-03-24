@@ -56,7 +56,7 @@ object TestsRunner {
         println("Running ValidateBinarySearchTree_98 tests:")
         testValidateBinarySearchTree_98()
         println("Running LowestCommonAncestorOfBinarySearchTree_235 tests:")
-        testLowestCommonAncestorOfBinarySearchTree_235()        
+        testLowestCommonAncestorOfBinarySearchTree_235()
     }
 
     /** Helper to compare double arrays within 1e-5 */
