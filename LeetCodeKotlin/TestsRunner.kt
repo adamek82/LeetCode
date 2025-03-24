@@ -53,6 +53,8 @@ object TestsRunner {
         testKthSmallestBST_230()
         println("Running MinimumAbsoluteDifferenceInBST_530 tests:")
         testMinimumAbsoluteDifferenceInBST_530()
+        println("Running ValidateBinarySearchTree_98 tests:")
+        testValidateBinarySearchTree_98()
     }
 
     /** Helper to compare double arrays within 1e-5 */
@@ -205,6 +207,11 @@ object TestsRunner {
     data class MinimumAbsoluteDifferenceInBSTTestCase(
         val inputValues: List<Int?>,
         val expected: Int
+    )
+
+    data class ValidateBinarySearchTreeTestCase(
+        val inputValues: List<Int?>,
+        val expected: Boolean
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -1257,6 +1264,53 @@ object TestsRunner {
 
             println(
                 "MinimumAbsoluteDifferenceInBST_530 Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testValidateBinarySearchTree_98() {
+        println("Running ValidateBinarySearchTree_98 tests:")
+
+        val testCases = listOf(
+            // Example 1 from the problem statement
+            ValidateBinarySearchTreeTestCase(
+                listOf(2, 1, 3),
+                expected = true
+            ),
+            // Example 2 from the problem statement
+            ValidateBinarySearchTreeTestCase(
+                listOf(5, 1, 4, null, null, 3, 6),
+                expected = false
+            ),
+            // Additional Test 3: Right-skewed tree [1,null,2,null,3,null,4]
+            ValidateBinarySearchTreeTestCase(
+                listOf(1, null, 2, null, 3, null, 4),
+                expected = true
+            ),
+            // Additional Test 4: All duplicates [2,2,2] => invalid BST
+            ValidateBinarySearchTreeTestCase(
+                listOf(2, 2, 2),
+                expected = false
+            ),
+            // Additional Test 5: Larger valid BST
+            // Level-order => [10,5,15,2,7,12,20]
+            ValidateBinarySearchTreeTestCase(
+                listOf(10, 5, 15, 2, 7, 12, 20),
+                expected = true
+            )
+        )
+
+        val solution = ValidateBinarySearchTree_98()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val root = TreeUtils.vectorToTree(testCase.inputValues)
+            val result = solution.isValidBST(root)
+            val pass = (result == testCase.expected)
+
+            println(
+                "ValidateBinarySearchTree_98 Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expected}, Got: $result)"
             )
