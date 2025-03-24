@@ -55,6 +55,8 @@ object TestsRunner {
         testMinimumAbsoluteDifferenceInBST_530()
         println("Running ValidateBinarySearchTree_98 tests:")
         testValidateBinarySearchTree_98()
+        println("Running LowestCommonAncestorOfBinarySearchTree_235 tests:")
+        testLowestCommonAncestorOfBinarySearchTree_235()        
     }
 
     /** Helper to compare double arrays within 1e-5 */
@@ -212,6 +214,13 @@ object TestsRunner {
     data class ValidateBinarySearchTreeTestCase(
         val inputValues: List<Int?>,
         val expected: Boolean
+    )
+
+    data class LowestCommonAncestorOfBSTTestCase(
+        val inputValues: List<Int?>,
+        val pVal: Int,
+        val qVal: Int,
+        val expected: Int
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -1313,6 +1322,80 @@ object TestsRunner {
                 "ValidateBinarySearchTree_98 Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testLowestCommonAncestorOfBinarySearchTree_235() {
+        println("Running LowestCommonAncestorOfBinarySearchTree_235 tests:")
+
+        val testCases = listOf(
+            // Example 1 from the problem statement
+            LowestCommonAncestorOfBSTTestCase(
+                listOf(6, 2, 8, 0, 4, 7, 9, null, null, 3, 5),
+                pVal = 2,
+                qVal = 8,
+                expected = 6
+            ),
+            // Example 2 from the problem statement
+            LowestCommonAncestorOfBSTTestCase(
+                listOf(6, 2, 8, 0, 4, 7, 9, null, null, 3, 5),
+                pVal = 2,
+                qVal = 4,
+                expected = 2
+            ),
+            // Example 3 from the problem statement
+            LowestCommonAncestorOfBSTTestCase(
+                listOf(2, 1),
+                pVal = 2,
+                qVal = 1,
+                expected = 2
+            ),
+            // Additional Test 4: LCA is the root
+            // BFS => [5,3,8,2,4,7,9]
+            // pVal=2, qVal=9 => LCA is 5
+            LowestCommonAncestorOfBSTTestCase(
+                listOf(5, 3, 8, 2, 4, 7, 9),
+                pVal = 2,
+                qVal = 9,
+                expected = 5
+            ),
+            // Additional Test 5: Deeper nodes
+            // BFS => [10, 5, 15, null, null, 12, 20]
+            // pVal=12, qVal=20 => LCA is 15
+            LowestCommonAncestorOfBSTTestCase(
+                listOf(10, 5, 15, null, null, 12, 20),
+                pVal = 12,
+                qVal = 20,
+                expected = 15
+            )
+        )
+
+        val solution = LowestCommonAncestorOfBinarySearchTree_235()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val root = TreeUtils.vectorToTree(testCase.inputValues)
+
+            // Helper function to find a node by its value
+            fun findNodeByValue(node: TreeNode?, value: Int): TreeNode? {
+                if (node == null) return null
+                if (node.value == value) return node
+                return if (value < node.value) {
+                    findNodeByValue(node.left, value)
+                } else {
+                    findNodeByValue(node.right, value)
+                }
+            }
+
+            val pNode = findNodeByValue(root, testCase.pVal)
+            val qNode = findNodeByValue(root, testCase.qVal)
+            val lca = solution.lowestCommonAncestor(root, pNode, qNode)
+            val pass = (lca?.value == testCase.expected)
+
+            println(
+                "LowestCommonAncestorOfBinarySearchTree_235 Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: ${lca?.value})"
             )
         }
     }
