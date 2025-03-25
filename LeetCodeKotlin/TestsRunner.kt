@@ -57,6 +57,8 @@ object TestsRunner {
         testValidateBinarySearchTree_98()
         println("Running LowestCommonAncestorOfBinarySearchTree_235 tests:")
         testLowestCommonAncestorOfBinarySearchTree_235()
+        println("Running ImplementTrie_208 tests:")
+        testImplementTrie_208()
     }
 
     /** Helper to compare double arrays within 1e-5 */
@@ -221,6 +223,12 @@ object TestsRunner {
         val pVal: Int,
         val qVal: Int,
         val expected: Int
+    )
+
+    data class TrieTestCase(
+        val operations: List<String>,
+        val arguments: List<String?>,
+        val expectedResults: List<Boolean?>  // null if no boolean result is expected from the operation
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -1397,6 +1405,81 @@ object TestsRunner {
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expected}, Got: ${lca?.value})"
             )
+        }
+    }
+
+    private fun testImplementTrie_208() {
+        val testCases = listOf(
+            // Example 1
+            TrieTestCase(
+                operations = listOf("Trie", "insert", "search", "search", "startsWith", "insert", "search"),
+                arguments = listOf(null, "apple", "apple", "app", "app", "app", "app"),
+                expectedResults = listOf(null, null, true, false, true, null, true)
+            ),
+            // Example 2: Overlapping words
+            TrieTestCase(
+                operations = listOf("Trie", "insert", "insert", "search", "search", "startsWith"),
+                arguments = listOf(null, "apple", "applause", "apple", "applause", "app"),
+                expectedResults = listOf(null, null, null, true, true, true)
+            ),
+            // Example 3: Single-character operations
+            TrieTestCase(
+                operations = listOf("Trie", "insert", "search", "startsWith", "search"),
+                arguments = listOf(null, "a", "a", "a", "b"),
+                expectedResults = listOf(null, null, true, true, false)
+            ),
+            // Example 4: No matching prefix
+            TrieTestCase(
+                operations = listOf("Trie", "insert", "insert", "startsWith", "startsWith", "search"),
+                arguments = listOf(null, "car", "cart", "ca", "cat", "carrot"),
+                expectedResults = listOf(null, null, null, true, false, false)
+            ),
+            // Example 5: Large input set
+            TrieTestCase(
+                operations = listOf("Trie", "insert", "insert", "insert", "search", "search", "startsWith"),
+                arguments = listOf(null, "dictionary", "dictionaries", "dictator", "dictionary", "dictionaries", "dict"),
+                expectedResults = listOf(null, null, null, null, true, true, true)
+            )
+        )
+
+        for ((index, testCase) in testCases.withIndex()) {
+            var trie: Trie? = null
+
+            for (opIndex in testCase.operations.indices) {
+                val op = testCase.operations[opIndex]
+                val arg = testCase.arguments[opIndex]
+                val expected = testCase.expectedResults[opIndex]
+
+                when (op) {
+                    "Trie" -> {
+                        trie = Trie()
+                        println("Operation: Trie() -> null")
+                    }
+                    "insert" -> {
+                        trie!!.insert(arg!!)
+                        println("Operation: insert(\"$arg\") -> null")
+                    }
+                    "search" -> {
+                        val result = trie!!.search(arg!!)
+                        print("Operation: search(\"$arg\") -> $result")
+                        if (expected != null && result == expected) {
+                            println(" [PASS]")
+                        } else {
+                            println(" [FAIL]")
+                        }
+                    }
+                    "startsWith" -> {
+                        val result = trie!!.startsWith(arg!!)
+                        print("Operation: startsWith(\"$arg\") -> $result")
+                        if (expected != null && result == expected) {
+                            println(" [PASS]")
+                        } else {
+                            println(" [FAIL]")
+                        }
+                    }
+                }
+            }
+            println()
         }
     }
 }
