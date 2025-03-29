@@ -30,6 +30,7 @@ void freeEdges(int **edges, int edgesSize) {
     free(edges);
 }
 
+// Test cases are statically allocated using C99 compound literals.
 void runValidPathTests() {
     PathTestCase testCases[5] = {
         {
@@ -101,22 +102,30 @@ void runValidPathTests() {
         }
     };
 
-    // Run each test case and print the result
+    // Run each test case and print results for both solutions
     for (int i = 0; i < 5; i++) {
-        bool result = validPath(testCases[i].n,
-                                testCases[i].edges,
-                                testCases[i].edgesSize,
-                                testCases[i].edgesColSize,
-                                testCases[i].source,
-                                testCases[i].destination);
-        printf("Test %d: %s\n", i + 1, (result == testCases[i].expectedResult) ? "PASS" : "FAIL");
+        bool resultOriginal = validPath(testCases[i].n,
+                                        testCases[i].edges,
+                                        testCases[i].edgesSize,
+                                        testCases[i].edgesColSize,
+                                        testCases[i].source,
+                                        testCases[i].destination);
+        bool resultOptimized = validPathOptimized(testCases[i].n,
+                                                  testCases[i].edges,
+                                                  testCases[i].edgesSize,
+                                                  testCases[i].edgesColSize,
+                                                  testCases[i].source,
+                                                  testCases[i].destination);
+        printf("Test %d: Original = %s, Optimized = %s\n", i + 1,
+               (resultOriginal == testCases[i].expectedResult) ? "PASS" : "FAIL",
+               (resultOptimized == testCases[i].expectedResult) ? "PASS" : "FAIL");
     }
 }
 
 int main(void)
 {
 	printf("Running LeetCodeC tests:\n");
-	printf("Running FindIfPathExistsInGraph_1971 tests:\n");
+	printf("Running FindIfPathExistsInGraph tests (both original and optimized):\n");
 	runValidPathTests();
 	return 0;
 }
