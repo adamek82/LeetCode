@@ -59,6 +59,8 @@ object TestsRunner {
         testLowestCommonAncestorOfBinarySearchTree_235()
         println("Running ImplementTrie_208 tests:")
         testImplementTrie_208()
+        println("Running SqrtX_69 tests:")
+        testSqrtX_69()
     }
 
     /** Helper to compare double arrays within 1e-5 */
@@ -229,6 +231,11 @@ object TestsRunner {
         val operations: List<String>,
         val arguments: List<String?>,
         val expectedResults: List<Boolean?>  // null if no boolean result is expected from the operation
+    )
+
+    data class SqrtTestCase(
+        val x: Int,
+        val expected: Int
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -1480,6 +1487,27 @@ object TestsRunner {
                 }
             }
             println()
+        }
+    }
+
+    private fun testSqrtX_69() {
+        val testCases = listOf(
+            SqrtTestCase(4, 2),           // Example 1
+            SqrtTestCase(8, 2),           // Example 2
+            SqrtTestCase(0, 0),           // Edge case: x = 0
+            SqrtTestCase(1, 1),           // Additional test case: x = 1
+            SqrtTestCase(2147483647, 46340) // Overflow-avoidance test with max Int
+        )
+
+        val solution = SqrtX_69()
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.mySqrt(testCase.x)
+            val pass = (result == testCase.expected)
+            println(
+                "SqrtX_69 Test ${index + 1}: " +
+                (if (pass) "PASS" else "FAIL") +
+                " (Input: ${testCase.x}, Expected: ${testCase.expected}, Got: $result)"
+            )
         }
     }
 }
