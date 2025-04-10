@@ -1495,7 +1495,7 @@ object TestsRunner {
             SqrtTestCase(4, 2),           // Example 1
             SqrtTestCase(8, 2),           // Example 2
             SqrtTestCase(0, 0),           // Edge case: x = 0
-            SqrtTestCase(1, 1),           // Additional test case: x = 1
+            SqrtTestCase(50, 7),          // Additional test case: typical number (sqrt(50) ≈ 7.07)
             SqrtTestCase(2147483647, 46340) // Overflow-avoidance test with max Int
         )
 
