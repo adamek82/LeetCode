@@ -61,6 +61,8 @@ object TestsRunner {
         testImplementTrie_208()
         println("Running SqrtX_69 tests:")
         testSqrtX_69()
+        println("Running WordSearch_79 tests:")
+        testWordSearch_79()
     }
 
     /** Helper to compare double arrays within 1e-5 */
@@ -236,6 +238,12 @@ object TestsRunner {
     data class SqrtTestCase(
         val x: Int,
         val expected: Int
+    )
+
+    data class WordSearchTestCase(
+        val board: Array<CharArray>,
+        val word: String,
+        val expected: Boolean
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -1508,6 +1516,73 @@ object TestsRunner {
                 (if (pass) "PASS" else "FAIL") +
                 " (Input: ${testCase.x}, Expected: ${testCase.expected}, Got: $result)"
             )
+        }
+    }
+
+    private fun testWordSearch_79() {
+        val testCases = listOf(
+            // Example 1 from the problem statement:
+            WordSearchTestCase(
+                board = arrayOf(
+                    charArrayOf('A','B','C','E'),
+                    charArrayOf('S','F','C','S'),
+                    charArrayOf('A','D','E','E')
+                ),
+                word = "ABCCED",
+                expected = true
+            ),
+            // Example 2 from the problem statement:
+            WordSearchTestCase(
+                board = arrayOf(
+                    charArrayOf('A','B','C','E'),
+                    charArrayOf('S','F','C','S'),
+                    charArrayOf('A','D','E','E')
+                ),
+                word = "SEE",
+                expected = true
+            ),
+            // Example 3 from the problem statement:
+            WordSearchTestCase(
+                board = arrayOf(
+                    charArrayOf('A','B','C','E'),
+                    charArrayOf('S','F','C','S'),
+                    charArrayOf('A','D','E','E')
+                ),
+                word = "ABCB",
+                expected = false
+            ),
+            // Additional complex test case 1:
+            WordSearchTestCase(
+                board = arrayOf(
+                    charArrayOf('A','B','C','D','E'),
+                    charArrayOf('F','G','H','I','J'),
+                    charArrayOf('K','L','M','N','O'),
+                    charArrayOf('P','Q','R','S','T'),
+                    charArrayOf('U','V','W','X','Y')
+                ),
+                word = "ABCDIJON",
+                expected = true
+            ),
+            // Additional complex test case 2:
+            WordSearchTestCase(
+                board = arrayOf(
+                    charArrayOf('A','B','A','B'),
+                    charArrayOf('B','A','B','A'),
+                    charArrayOf('A','B','A','B')
+                ),
+                word = "ABABABA",
+                expected = true
+            )
+        )
+        
+        val solution = WordSearch_79()
+        
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.exist(testCase.board, testCase.word)
+            val pass = (result == testCase.expected)
+            println("WordSearch_79 Test ${index + 1}: " +
+                    if (pass) "PASS" else "FAIL" +
+                    " (Word: \"${testCase.word}\", Expected: ${testCase.expected}, Got: $result)")
         }
     }
 }
