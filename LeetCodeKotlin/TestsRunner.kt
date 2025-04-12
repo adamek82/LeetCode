@@ -63,6 +63,8 @@ object TestsRunner {
         testSqrtX_69()
         println("Running WordSearch_79 tests:")
         testWordSearch_79()
+        println("Running JumpGameII_45 tests:")
+        testJumpGameII_45()
     }
 
     /** Helper to compare double arrays within 1e-5 */
@@ -244,6 +246,11 @@ object TestsRunner {
         val board: Array<CharArray>,
         val word: String,
         val expected: Boolean
+    )
+
+    data class JumpGameII_TestCase(
+        val nums: IntArray,
+        val expected: Int
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -1574,15 +1581,38 @@ object TestsRunner {
                 expected = true
             )
         )
-        
+
         val solution = WordSearch_79()
-        
+
         for ((index, testCase) in testCases.withIndex()) {
             val result = solution.exist(testCase.board, testCase.word)
             val pass = (result == testCase.expected)
             println("WordSearch_79 Test ${index + 1}: " +
                     if (pass) "PASS" else "FAIL" +
                     " (Word: \"${testCase.word}\", Expected: ${testCase.expected}, Got: $result)")
+        }
+    }
+
+    private fun testJumpGameII_45() {
+        val testCases = listOf(
+            // Test cases from the problem statement:
+            JumpGameII_TestCase(intArrayOf(2, 3, 1, 1, 4), 2),
+            JumpGameII_TestCase(intArrayOf(2, 3, 0, 1, 4), 2),
+            // Additional, more complex test cases:
+            // A chain of ones, where each step only advances one index.
+            JumpGameII_TestCase(IntArray(10) { 1 }, 9),
+            // A case with varying jump lengths requiring non-obvious choices.
+            JumpGameII_TestCase(intArrayOf(3, 4, 2, 1, 2, 3, 7, 1, 1, 1, 3), 4),
+            // A case mixing larger and smaller jump values.
+            JumpGameII_TestCase(intArrayOf(4, 1, 1, 3, 2, 1, 1, 1, 9, 0, 2, 3), 5)
+        )
+        val solution = JumpGameII_45()
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.jump(testCase.nums)
+            val pass = (result == testCase.expected)
+            println("JumpGameII_45 Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: $result)")
         }
     }
 }
