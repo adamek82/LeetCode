@@ -67,6 +67,8 @@ object TestsRunner {
         testJumpGameII_45()
         println("Running GenerateParentheses_22 tests:")
         testGenerateParentheses_22()
+        println("Running LetterCombinations_17 tests:")
+        testLetterCombinations_17()
     }
 
     /** Helper to compare double arrays within 1e-5 */
@@ -258,6 +260,11 @@ object TestsRunner {
     data class GenerateParenthesesTestCase(
         val n: Int, val expected: List<String>? = null,
         val expectedCount: Int? = null
+    )
+
+    data class LetterCombinationsTestCase(
+        val input: String,
+        val expected: List<String>
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -1654,6 +1661,45 @@ object TestsRunner {
                     if (pass) "PASS" else "FAIL" +
                     " (n=${tc.n}, Expected count: ${tc.expectedCount}, Got count: ${result.size})")
             }
+        }
+    }
+
+    private fun testLetterCombinations_17() {
+        val testCases = listOf(
+            // Example 1 from the problem statement: empty digits
+            LetterCombinationsTestCase("", emptyList()),
+            // Example 2 from the problem statement: single digit "2"
+            LetterCombinationsTestCase("2", listOf("a", "b", "c")),
+            // Example 3 from the problem statement: "23"
+            LetterCombinationsTestCase("23", listOf("ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf")),
+            // Additional complex test case 1: three digits "234"
+            LetterCombinationsTestCase("234", listOf(
+                "adg", "adh", "adi",
+                "aeg", "aeh", "aei",
+                "afg", "afh", "afi",
+                "bdg", "bdh", "bdi",
+                "beg", "beh", "bei",
+                "bfg", "bfh", "bfi",
+                "cdg", "cdh", "cdi",
+                "ceg", "ceh", "cei",
+                "cfg", "cfh", "cfi"
+            )),
+            // Additional complex test case 2: two digits "79"
+            LetterCombinationsTestCase("79", listOf(
+                "pw", "px", "py", "pz",
+                "qw", "qx", "qy", "qz",
+                "rw", "rx", "ry", "rz",
+                "sw", "sx", "sy", "sz"
+            ))
+        )
+        
+        val solution = LetterCombinations_17()
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.letterCombinations(testCase.input)
+            val pass = (result == testCase.expected)
+            println("LetterCombinations_17 Test ${index + 1}: " +
+                    if (pass) "PASS" else "FAIL" +
+                    " (Input: \"${testCase.input}\", Expected: ${testCase.expected}, Got: $result)")
         }
     }
 }
