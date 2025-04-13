@@ -65,6 +65,8 @@ object TestsRunner {
         testWordSearch_79()
         println("Running JumpGameII_45 tests:")
         testJumpGameII_45()
+        println("Running GenerateParentheses_22 tests:")
+        testGenerateParentheses_22()
     }
 
     /** Helper to compare double arrays within 1e-5 */
@@ -251,6 +253,11 @@ object TestsRunner {
     data class JumpGameII_TestCase(
         val nums: IntArray,
         val expected: Int
+    )
+
+    data class GenerateParenthesesTestCase(
+        val n: Int, val expected: List<String>? = null,
+        val expectedCount: Int? = null
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -1613,6 +1620,40 @@ object TestsRunner {
             println("JumpGameII_45 Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expected}, Got: $result)")
+        }
+    }
+
+    private fun testGenerateParentheses_22() {
+        val testCases = listOf(
+            // Two tests from the statement:
+            GenerateParenthesesTestCase(1, expected = listOf("()")),
+            GenerateParenthesesTestCase(3, expected = listOf("((()))", "(()())", "(())()", "()(())", "()()()")),
+            // Three additional, more complicated tests:
+            GenerateParenthesesTestCase(4, expected = listOf(
+                "(((())))", "((()()))", "((())())", "((()))()", "(()(()))",
+                "(()()())", "(()())()", "(())(())", "(())()()", "()((()))",
+                "()(()())", "()(())()", "()()(())", "()()()()"
+            )),
+            GenerateParenthesesTestCase(5, expectedCount = 42),
+            GenerateParenthesesTestCase(8, expectedCount = 1430)
+        )
+        val solution = GenerateParentheses_22()
+        for ((index, tc) in testCases.withIndex()) {
+            val result = solution.generateParenthesis(tc.n)
+            if (tc.expected != null) {
+                // Sort lists for order-insensitive comparison.
+                val resultSorted = result.sorted()
+                val expectedSorted = tc.expected.sorted()
+                val pass = resultSorted == expectedSorted
+                println("GenerateParentheses_22 Test ${index + 1}: " +
+                    if (pass) "PASS" else "FAIL" +
+                    " (n=${tc.n}, Expected: $expectedSorted, Got: $resultSorted)")
+            } else if (tc.expectedCount != null) {
+                val pass = result.size == tc.expectedCount
+                println("GenerateParentheses_22 Test ${index + 1}: " +
+                    if (pass) "PASS" else "FAIL" +
+                    " (n=${tc.n}, Expected count: ${tc.expectedCount}, Got count: ${result.size})")
+            }
         }
     }
 }
