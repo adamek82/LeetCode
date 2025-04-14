@@ -55,6 +55,7 @@
 #include "ValidAnagram_242.h"
 #include "AnalyzeUserWebsiteVisitPattern1152.h"
 #include "GroupAnagrams_49.h"
+#include "FindCelebrity_277.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -453,6 +454,14 @@ struct GroupAnagramsTestCase {
 
     GroupAnagramsTestCase(std::vector<std::string> in, std::vector<std::vector<std::string>> exp)
         : input(std::move(in)), expected(std::move(exp)) {}
+};
+
+struct FindCelebrityTestCase {
+    std::vector<std::vector<int>> matrix;
+    int expectedResult;
+
+    FindCelebrityTestCase(std::vector<std::vector<int>> m, int e)
+        : matrix(std::move(m)), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -2271,6 +2280,52 @@ public:
         }
     }
 
+    static void findCelebrity_277_tests() {
+        std::vector<FindCelebrityTestCase> testCases = {
+            // Easy: A knows B, B knows no one → B is celebrity
+            FindCelebrityTestCase({{0, 1}, {0, 0}}, 1),
+    
+            // Edge: 1 person only
+            FindCelebrityTestCase({{0}}, 0),
+    
+            // Edge: 3 people, 2 is celeb
+            FindCelebrityTestCase({
+                {0, 1, 1},
+                {0, 0, 1},
+                {0, 0, 0}
+            }, 2),
+    
+            // 4x4 complex
+            FindCelebrityTestCase({
+                {0, 1, 1, 1},
+                {0, 0, 1, 1},
+                {0, 0, 0, 1},
+                {0, 0, 0, 0}
+            }, 3),
+    
+            // 7x7 larger case, celebrity at 6
+            FindCelebrityTestCase({
+                {0,1,1,1,1,1,1},
+                {0,0,1,1,1,1,1},
+                {0,0,0,1,1,1,1},
+                {0,0,0,0,1,1,1},
+                {0,0,0,0,0,1,1},
+                {0,0,0,0,0,0,1},
+                {0,0,0,0,0,0,0}
+            }, 6)
+        };
+    
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            FindCelebrity_277 solver;
+            solver.knowsMatrix = testCases[i].matrix;
+            int result = solver.findCelebrity((int)testCases[i].matrix.size());
+    
+            std::cout << "FindCelebrity Test " << (i + 1)
+                      << ": res = " << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2372,6 +2427,8 @@ public:
         analyzeUserWebsiteVisitPattern_1152_tests();
         std::cout << "Group Anagrams_49 tests:\n";
         groupAnagrams_49_tests();
+        std::cout << "Find the Celebrity_277 tests:\n";
+        findCelebrity_277_tests();
     }
 };
 
