@@ -69,6 +69,8 @@ object TestsRunner {
         testGenerateParentheses_22()
         println("Running LetterCombinations_17 tests:")
         testLetterCombinations_17()
+        println("Running CourseSchedule_207 tests:")
+        testCourseSchedule_207()
     }
 
     /** Helper to compare double arrays within 1e-5 */
@@ -265,6 +267,12 @@ object TestsRunner {
     data class LetterCombinationsTestCase(
         val input: String,
         val expected: List<String>
+    )
+
+    data class ScheduleTestCase(
+        val numCourses: Int,
+        val prerequisites: Array<IntArray>,
+        val expectedResult: Boolean
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -1700,6 +1708,27 @@ object TestsRunner {
             println("LetterCombinations_17 Test ${index + 1}: " +
                     if (pass) "PASS" else "FAIL" +
                     " (Input: \"${testCase.input}\", Expected: ${testCase.expected}, Got: $result)")
+        }
+    }
+
+    private fun testCourseSchedule_207() {
+        val testCases = listOf(
+            ScheduleTestCase(2, arrayOf(intArrayOf(1, 0)), true),
+            ScheduleTestCase(2, arrayOf(intArrayOf(1, 0), intArrayOf(0, 1)), false),
+            ScheduleTestCase(5, arrayOf(intArrayOf(0, 1), intArrayOf(2, 3), intArrayOf(3, 4), intArrayOf(2, 1)), true),
+            ScheduleTestCase(5, arrayOf(intArrayOf(0, 1), intArrayOf(2, 3), intArrayOf(3, 4), intArrayOf(2, 1), intArrayOf(4, 2)), false)
+        )
+    
+        val solution = CourseSchedule_207()
+    
+        for ((index, tc) in testCases.withIndex()) {
+            val result = solution.canFinish(tc.numCourses, tc.prerequisites)
+            val pass = result == tc.expectedResult
+            println(
+                "Test ${index + 1}: res = " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${tc.expectedResult}, Got: $result)"
+            )
         }
     }
 }
