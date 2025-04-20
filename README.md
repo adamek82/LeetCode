@@ -28,17 +28,17 @@ This repository contains my implementations of a wide range of LeetCode algorith
 | 23 | Merge K Sorted Lists | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 35 | Search Insert Position | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 36 | Valid Sudoku | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
-| 45 | Jump Game I I | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
+| 45 | Jump Game II | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
 | 48 | Rotate Image | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 49 | Group Anagrams | ✗ | ✓ | ✗ | ✗ | ✓ | ✗ |
 | 54 | Spiral Matrix | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 56 | Merge Intervals | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 67 | Add Binary | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
 | 69 | Sqrt X | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
-| 74 | Search2 D Matrix | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
+| 74 | Search 2D Matrix | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 75 | Sort Colors | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 79 | Word Search | ✗ | ✓ | ✗ | ✗ | ✓ | ✗ |
-| 80 | Remove Duplicates From Sorted Array I I | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
+| 80 | Remove Duplicates From Sorted Array II | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 83 | Remove Duplicates From Sorted List | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 84 | Largest Rectangle In Histogram | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 98 | Validate Binary Search Tree | ✗ | ✓ | ✗ | ✗ | ✓ | ✗ |
@@ -49,7 +49,7 @@ This repository contains my implementations of a wide range of LeetCode algorith
 | 110 | Balanced Binary Tree | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
 | 112 | Path Sum | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
 | 121 | Best Time To Buy And Sell Stock | ✗ | ✓ | ✗ | ✗ | ✓ | ✗ |
-| 122 | Best Time To Buy And Sell Stock I I | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
+| 122 | Best Time To Buy And Sell Stock II | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 128 | Longest Consecutive Sequence | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
 | 133 | Clone Graph | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 138 | Copy List With Random Pointer | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
@@ -57,16 +57,16 @@ This repository contains my implementations of a wide range of LeetCode algorith
 | 150 | Evaluate Reverse Polish Notation | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 153 | Find Minimum In Rotated Sorted Array | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 169 | Majority Element | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
-| 191 | Number Of1 Bits | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
+| 191 | Number Of 1 Bits | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
 | 200 | Number Of Islands | ✗ | ✓ | ✓ | ✓ | ✗ | ✓ |
 | 206 | Reverse Linked List | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 207 | Course Schedule | ✗ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | 209 | Minimum Size Subarray Sum | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
-| 210 | Course Schedule I I | ✗ | ✓ | ✓ | ✓ | ✗ | ✓ |
+| 210 | Course Schedule II | ✗ | ✓ | ✓ | ✓ | ✗ | ✓ |
 | 215 | Kth Largest Element In Array | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 226 | Invert Binary Tree | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
-| 230 | Kth Smallest Element In B S T | ✗ | ✓ | ✗ | ✗ | ✓ | ✗ |
-| 235 | Lowest Common Ancestor Of B S T | ✗ | ✓ | ✗ | ✗ | ✓ | ✗ |
+| 230 | Kth Smallest Element In BST | ✗ | ✓ | ✗ | ✗ | ✓ | ✗ |
+| 235 | Lowest Common Ancestor Of BST | ✗ | ✓ | ✗ | ✗ | ✓ | ✗ |
 | 242 | Valid Anagram | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 274 | H Index | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 277 | Find Celebrity | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
@@ -75,7 +75,7 @@ This repository contains my implementations of a wide range of LeetCode algorith
 | 424 | Longest Repeating Character Replacement | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
 | 432 | All O One Data Structure | ✓ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 463 | Island Perimeter | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
-| 530 | Minimum Absolute Difference In B S T | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
+| 530 | Minimum Absolute Difference In BST | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
 | 543 | Diameter Of Binary Tree | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
 | 567 | Permutation In String | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
 | 572 | Subtree Of Another Tree | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
@@ -86,7 +86,7 @@ This repository contains my implementations of a wide range of LeetCode algorith
 | 876 | Middle Of Linked List | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 977 | Squares Of Sorted Array | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
 | 994 | Rotting Oranges | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
-| 1004 | Max Consecutive Ones I I I | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
+| 1004 | Max Consecutive Ones III | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
 | 1143 | Longest Common Subsequence | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 1207 | Unique Number Of Occurrences | ✗ | ✗ | ✗ | ✗ | ✓ | ✗ |
 | 1584 | Min Cost To Connect All Points | ✗ | ✓ | ✓ | ✗ | ✗ | ✗ |
