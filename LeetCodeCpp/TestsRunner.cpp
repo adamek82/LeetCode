@@ -56,6 +56,7 @@
 #include "AnalyzeUserWebsiteVisitPattern1152.h"
 #include "GroupAnagrams_49.h"
 #include "FindCelebrity_277.h"
+#include "LongestConsecutiveSequence_128.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -462,6 +463,13 @@ struct FindCelebrityTestCase {
 
     FindCelebrityTestCase(std::vector<std::vector<int>> m, int e)
         : matrix(std::move(m)), expectedResult(e) {}
+};
+
+struct LongestConsecutiveSequenceTestCase {
+    std::vector<int> nums;
+    int expectedResult;
+    LongestConsecutiveSequenceTestCase(std::vector<int> n, int e)
+        : nums(std::move(n)), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -2326,6 +2334,27 @@ public:
         }
     }
 
+    static void longestConsecutiveSequence_128_tests() {
+        std::vector<LongestConsecutiveSequenceTestCase> testCases = {
+            // Examples from problem statement
+            LongestConsecutiveSequenceTestCase({100,4,200,1,3,2},         4),
+            LongestConsecutiveSequenceTestCase({0,3,7,2,5,8,4,6,0,1},     9),
+            LongestConsecutiveSequenceTestCase({1,0,1,2},                 3),
+            // Additional complex cases
+            LongestConsecutiveSequenceTestCase({-1,-2,-3,7,6,5,4,3,2,1},   7),          // 1,2,3,4,5,6,7
+            LongestConsecutiveSequenceTestCase({10,5,12,3,55,30,4,11,11,5,13,14,6}, 5)  // 10–14
+        };
+
+        LongestConsecutiveSequence_128 solution;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = solution.longestConsecutive(testCases[i].nums);
+            std::cout << "Test " << (i+1) << ": res = "
+                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expectedResult
+                      << ", Got: " << result << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2429,6 +2458,8 @@ public:
         groupAnagrams_49_tests();
         std::cout << "Find the Celebrity_277 tests:\n";
         findCelebrity_277_tests();
+        std::cout << "Running LongestConsecutiveSequence_128 tests:\n";
+        longestConsecutiveSequence_128_tests();
     }
 };
 
