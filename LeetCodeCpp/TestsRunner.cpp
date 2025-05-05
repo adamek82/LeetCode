@@ -57,6 +57,7 @@
 #include "GroupAnagrams_49.h"
 #include "FindCelebrity_277.h"
 #include "LongestConsecutiveSequence_128.h"
+#include "FizzBuzz_412.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -2355,6 +2356,25 @@ public:
         }
     }
 
+    static void fizzBuzz_412_tests() {
+        std::vector<int> ns = {3, 5, 15, 16, 30};
+        std::vector<std::vector<std::string>> expected = {
+            {"1","2","Fizz"},
+            {"1","2","Fizz","4","Buzz"},
+            {"1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"},
+            {"1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz","16"},
+            {"1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz","16","17","Fizz","19","Buzz","Fizz","22","23","Fizz","Buzz","26","Fizz","28","29","FizzBuzz"}
+        };
+
+        FizzBuzz_412 solution;
+        for (size_t i = 0; i < ns.size(); ++i) {
+            auto result = solution.fizzBuzz(ns[i]);
+            std::cout << "FizzBuzz Test " << (i + 1) << ": res = "
+                      << (result == expected[i] ? "PASS" : "FAIL")
+                      << " (n=" << ns[i] << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2460,6 +2480,8 @@ public:
         findCelebrity_277_tests();
         std::cout << "Running LongestConsecutiveSequence_128 tests:\n";
         longestConsecutiveSequence_128_tests();
+        std::cout << "Running FizzBuzz_412 tests:\n";
+        fizzBuzz_412_tests();
     }
 };
 
