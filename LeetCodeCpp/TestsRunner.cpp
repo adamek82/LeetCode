@@ -58,6 +58,7 @@
 #include "FindCelebrity_277.h"
 #include "LongestConsecutiveSequence_128.h"
 #include "FizzBuzz_412.h"
+#include "LongestRepeatingCharacterReplacement_424.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -471,6 +472,14 @@ struct LongestConsecutiveSequenceTestCase {
     int expectedResult;
     LongestConsecutiveSequenceTestCase(std::vector<int> n, int e)
         : nums(std::move(n)), expectedResult(e) {}
+};
+
+struct LongestRepeatingCharReplacementTestCase {
+    std::string s;
+    int k;
+    int expectedResult;
+    LongestRepeatingCharReplacementTestCase(std::string str, int kk, int exp)
+        : s(std::move(str)), k(kk), expectedResult(exp) {}
 };
 
 class TestsRunner {
@@ -2375,6 +2384,25 @@ public:
         }
     }
 
+    // Tests for LeetCode #424 Longest Repeating Character Replacement
+    static void longestRepeatingCharacterReplacement_424_tests() {
+        std::vector<LongestRepeatingCharReplacementTestCase> testCases = {
+            {"ABAB",      2, 4},  // Example 1
+            {"AABABBA",   1, 4},  // Example 2
+            {"BABABA",    3, 6},  // Transform 3 'A's into 'B's
+            {"ABCDE",     2, 3},  // Best substring length 3 by 2 changes
+            {"ABBBBAA",   2, 6}   // 6-length window after 2 changes
+        };
+        LongestRepeatingCharacterReplacement_424 solution;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = solution.characterReplacement(testCases[i].s, testCases[i].k);
+            std::cout << "LRCR_424 Test " << (i + 1) << ": res = "
+                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expectedResult
+                      << ", Got: " << result << ")\n";
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2482,6 +2510,8 @@ public:
         longestConsecutiveSequence_128_tests();
         std::cout << "Running FizzBuzz_412 tests:\n";
         fizzBuzz_412_tests();
+        std::cout << "Running Longest Repeating Character Replacement_424 tests:\n";
+        longestRepeatingCharacterReplacement_424_tests();
     }
 };
 
