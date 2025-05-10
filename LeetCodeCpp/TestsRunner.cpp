@@ -60,6 +60,7 @@
 #include "FizzBuzz_412.h"
 #include "LongestRepeatingCharacterReplacement_424.h"
 #include "LRUCache_146.h"
+#include "SortCharactersByFrequency_451.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -2474,6 +2475,52 @@ public:
         }
     }
 
+    static bool isValidFrequencySort(const std::string& orig, const std::string& res) {
+        if (orig.size() != res.size()) return false;
+        // count in orig
+        std::unordered_map<char,int> freqOrig, freqRes;
+        for (char c : orig) ++freqOrig[c];
+        for (char c : res) ++freqRes[c];
+        if (freqOrig != freqRes) return false;
+        // extract runs from res
+        std::vector<std::pair<char,int>> runs;
+        for (size_t i = 0; i < res.size(); ) {
+            char c = res[i];
+            size_t j = i+1;
+            while (j < res.size() && res[j]==c) ++j;
+            runs.emplace_back(c, int(j-i));
+            i = j;
+        }
+        // ensure each run length matches freq
+        for (auto& [c, cnt] : runs) {
+            if (freqOrig[c] != cnt) return false;
+        }
+        // ensure non-increasing frequencies
+        for (size_t i = 1; i < runs.size(); ++i) {
+            if (runs[i-1].second < runs[i].second) return false;
+        }
+        return true;
+    }
+
+    static void sortCharactersByFrequency_451_tests() {
+        std::vector<std::string> inputs = {
+            "tree",      // 'e'x2, 'r','t'
+            "cccaaa",    // 'c'x3, 'a'x3
+            "Aabb",      // 'b'x2, 'A','a'
+            "dccbbbaaaa",// a4,b3,c2,d1
+            "srrqqqpppp" // p4,q3,r2,s1
+        };
+
+        SortCharactersByFrequency_451 solution;
+        for (size_t i = 0; i < inputs.size(); ++i) {
+            std::string result = solution.frequencySort(inputs[i]);
+            bool pass = isValidFrequencySort(inputs[i], result);
+            std::cout << "SortCharactersByFrequency_451 Test " << (i + 1)
+                      << ": " << (pass ? "PASS" : "FAIL")
+                      << " (Got: " << result << ")\n";
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2585,6 +2632,8 @@ public:
         longestRepeatingCharacterReplacement_424_tests();
         std::cout << "Running LRUCache_146 tests:\n";
         lRUCache_tests();
+        std::cout << "Running SortCharactersByFrequency_451 tests:\n";
+        sortCharactersByFrequency_451_tests();
     }
 };
 
