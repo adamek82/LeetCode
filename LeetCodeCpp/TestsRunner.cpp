@@ -59,6 +59,7 @@
 #include "LongestConsecutiveSequence_128.h"
 #include "FizzBuzz_412.h"
 #include "LongestRepeatingCharacterReplacement_424.h"
+#include "LRUCache_146.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -480,6 +481,22 @@ struct LongestRepeatingCharReplacementTestCase {
     int expectedResult;
     LongestRepeatingCharReplacementTestCase(std::string str, int kk, int exp)
         : s(std::move(str)), k(kk), expectedResult(exp) {}
+};
+
+struct LRUCacheTestCase {
+    std::vector<std::string> operations;
+    std::vector<std::vector<int>> arguments;
+    std::vector<std::optional<int>> expectedResults;
+
+    LRUCacheTestCase(
+        std::vector<std::string> ops,
+        std::vector<std::vector<int>> args,
+        std::vector<std::optional<int>> exps
+    )
+      : operations(std::move(ops))
+      , arguments(std::move(args))
+      , expectedResults(std::move(exps))
+    {}
 };
 
 class TestsRunner {
@@ -2302,17 +2319,17 @@ public:
         std::vector<FindCelebrityTestCase> testCases = {
             // Easy: A knows B, B knows no one → B is celebrity
             FindCelebrityTestCase({{0, 1}, {0, 0}}, 1),
-    
+
             // Edge: 1 person only
             FindCelebrityTestCase({{0}}, 0),
-    
+
             // Edge: 3 people, 2 is celeb
             FindCelebrityTestCase({
                 {0, 1, 1},
                 {0, 0, 1},
                 {0, 0, 0}
             }, 2),
-    
+
             // 4x4 complex
             FindCelebrityTestCase({
                 {0, 1, 1, 1},
@@ -2320,7 +2337,7 @@ public:
                 {0, 0, 0, 1},
                 {0, 0, 0, 0}
             }, 3),
-    
+
             // 7x7 larger case, celebrity at 6
             FindCelebrityTestCase({
                 {0,1,1,1,1,1,1},
@@ -2332,12 +2349,12 @@ public:
                 {0,0,0,0,0,0,0}
             }, 6)
         };
-    
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             FindCelebrity_277 solver;
             solver.knowsMatrix = testCases[i].matrix;
             int result = solver.findCelebrity((int)testCases[i].matrix.size());
-    
+
             std::cout << "FindCelebrity Test " << (i + 1)
                       << ": res = " << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
@@ -2400,6 +2417,60 @@ public:
                       << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expectedResult
                       << ", Got: " << result << ")\n";
+        }
+    }
+
+    static void lRUCache_tests() {
+        std::vector<LRUCacheTestCase> testCases = {
+            // From problem statement
+            LRUCacheTestCase(
+                {"LRUCache","put","put","get","put","get","put","get","get","get"},
+                {{2},      {1,1}, {2,2}, {1},  {3,3}, {2},  {4,4}, {1},  {3},   {4}},
+                { std::nullopt, std::nullopt, std::nullopt, 1,
+                  std::nullopt, -1,         std::nullopt, -1,
+                   3,            4 }
+            ),
+            // Additional: overwrite existing key and capacity=1 edge
+            LRUCacheTestCase(
+                {"LRUCache","put","put","get","put","get","get"},
+                {{1},      {1,10},{1,20},{1},  {2,30},{1},  {2}},
+                { std::nullopt, std::nullopt, std::nullopt, 20,
+                  std::nullopt,  -1,           30 }
+            ),
+            // Additional: complex sequence with capacity = 3 and multiple evictions
+            LRUCacheTestCase(
+                {"LRUCache","put","put","put","get","put","get","get","put","get","get"},
+                {{3},      {1,1}, {2,2}, {3,3}, {1},  {4,4}, {2},  {3},  {5,5}, {1},  {4}},
+                { std::nullopt, std::nullopt, std::nullopt, std::nullopt, 1,
+                  std::nullopt, -1,          3,          std::nullopt, -1,        4}
+            ),
+        };
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            std::cout << "LRUCache Test Case " << (i+1) << ":\n";
+            LRUCache* cache = nullptr;
+            for (size_t j = 0; j < testCases[i].operations.size(); ++j) {
+                const auto& op  = testCases[i].operations[j];
+                const auto& arg = testCases[i].arguments[j];
+                const auto& exp = testCases[i].expectedResults[j];
+
+                if (op == "LRUCache") {
+                    cache = new LRUCache(arg[0]);
+                    std::cout << "  LRUCache(" << arg[0] << ") -> null\n";
+                }
+                else if (op == "put") {
+                    cache->put(arg[0], arg[1]);
+                    std::cout << "  put(" << arg[0] << ", " << arg[1] << ") -> null\n";
+                }
+                else if (op == "get") {
+                    int res = cache->get(arg[0]);
+                    bool pass = exp.has_value() && res == exp.value();
+                    std::cout << "  get(" << arg[0] << ") -> " << res
+                              << (pass ? " [PASS]\n" : " [FAIL]\n");
+                }
+            }
+            delete cache;
+            std::cout << "\n";
         }
     }
 
@@ -2512,6 +2583,8 @@ public:
         fizzBuzz_412_tests();
         std::cout << "Running Longest Repeating Character Replacement_424 tests:\n";
         longestRepeatingCharacterReplacement_424_tests();
+        std::cout << "Running LRUCache_146 tests:\n";
+        lRUCache_tests();
     }
 };
 
