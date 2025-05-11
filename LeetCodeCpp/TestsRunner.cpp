@@ -62,6 +62,7 @@
 #include "LRUCache_146.h"
 #include "SortCharactersByFrequency_451.h"
 #include "CoinChange_322.h"
+#include "TopKFrequentWords_692.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -442,6 +443,15 @@ struct ValidAnagramTestCase {
 
     ValidAnagramTestCase(std::string str1, std::string str2, bool result)
         : s(std::move(str1)), t(std::move(str2)), expectedResult(result) {}
+};
+
+struct TopKFrequentWordsTestCase {
+    std::vector<std::string> words;
+    int k;
+    std::vector<std::string> expected;
+
+    TopKFrequentWordsTestCase(std::vector<std::string> w, int kk, std::vector<std::string> e)
+        : words(std::move(w)), k(kk), expected(std::move(e)) {}
 };
 
 struct AnalyzeUserWebsiteVisitPatternTestCase {
@@ -2555,6 +2565,37 @@ public:
         }
     }
 
+    static void topKFrequentWords_692_tests() {
+        std::vector<TopKFrequentWordsTestCase> testCases = {
+            // Examples from problem statement
+            {{"i","love","leetcode","i","love","coding"}, 2, {"i","love"}},
+            {{"the","day","is","sunny","the","the","the","sunny","is","is"}, 4, {"the","is","sunny","day"}},
+            // Additional complex tests
+            {{"a","b","c","a","b","c"},                    2, {"a","b"}},                    // all tie, pick lexicographically smallest
+            {{"apple","app","apple","banana","banana","app","banana","car"}, 3, {"banana","app","apple"}}, // freq tie + lex order
+            {{"z","y","z","x","y"},                       3, {"y","z","x"}}                // z,y freq tie, x last
+        };
+
+        TopKFrequentWords_692 solution;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto result = solution.topKFrequent(testCases[i].words, testCases[i].k);
+            bool pass = (result == testCases[i].expected);
+            std::cout << "TopKFrequentWords_692 Test " << (i + 1) << ": res = "
+                      << (pass ? "PASS" : "FAIL")
+                      << " (Expected: [";
+            for (size_t j = 0; j < testCases[i].expected.size(); ++j) {
+                std::cout << testCases[i].expected[j]
+                          << (j + 1 < testCases[i].expected.size() ? ", " : "");
+            }
+            std::cout << "], Got: [";
+            for (size_t j = 0; j < result.size(); ++j) {
+                std::cout << result[j]
+                          << (j + 1 < result.size() ? ", " : "");
+            }
+            std::cout << "])" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2670,6 +2711,8 @@ public:
         sortCharactersByFrequency_451_tests();
         std::cout << "Running Coin Change_322 tests:\n";
         TestsRunner::coinChange_322_tests();
+        std::cout << "Running TopKFrequentWords_692 tests:\n";
+        TestsRunner::topKFrequentWords_692_tests();
     }
 };
 
