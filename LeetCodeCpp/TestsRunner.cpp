@@ -61,6 +61,7 @@
 #include "LongestRepeatingCharacterReplacement_424.h"
 #include "LRUCache_146.h"
 #include "SortCharactersByFrequency_451.h"
+#include "CoinChange_322.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -498,6 +499,15 @@ struct LRUCacheTestCase {
       , arguments(std::move(args))
       , expectedResults(std::move(exps))
     {}
+};
+
+struct CoinChangeTestCase {
+    std::vector<int> coins;
+    int amount;
+    int expectedResult;
+
+    CoinChangeTestCase(std::vector<int> c, int a, int e)
+        : coins(std::move(c)), amount(a), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -2521,6 +2531,30 @@ public:
         }
     }
 
+    static void coinChange_322_tests() {
+        std::vector<CoinChangeTestCase> testCases = {
+            // 3 examples from the problem statement
+            { {1,2,5},       11,  3  },
+            { {2},           3,  -1  },
+            { {1},           0,   0  },
+
+            // 2 complex examples:
+            // • 8 denominations, amount ≥ 30
+            { {1,3,4,5,10,20,50,100}, 99,  5  },
+            // • 8 prime‐value coins, larger amount
+            { {2,3,5,7,11,13,17,19}, 100,  6  }
+        };
+
+        CoinChange_322 solution;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int res = solution.coinChange(testCases[i].coins, testCases[i].amount);
+            std::cout << "CoinChange Test " << (i+1)
+                      << ": res = " << (res == testCases[i].expectedResult ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expectedResult
+                      << ", Got: " << res << ")\n";
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2634,6 +2668,8 @@ public:
         lRUCache_tests();
         std::cout << "Running SortCharactersByFrequency_451 tests:\n";
         sortCharactersByFrequency_451_tests();
+        std::cout << "Running Coin Change_322 tests:\n";
+        TestsRunner::coinChange_322_tests();
     }
 };
 
