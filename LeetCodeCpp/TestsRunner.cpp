@@ -63,6 +63,7 @@
 #include "SortCharactersByFrequency_451.h"
 #include "CoinChange_322.h"
 #include "TopKFrequentWords_692.h"
+#include "LongestCycleInGraph_2360.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -518,6 +519,14 @@ struct CoinChangeTestCase {
 
     CoinChangeTestCase(std::vector<int> c, int a, int e)
         : coins(std::move(c)), amount(a), expectedResult(e) {}
+};
+
+struct LongestCycleTestCase {
+    std::vector<int> edges;
+    int expectedResult;
+
+    LongestCycleTestCase(std::vector<int> e, int r)
+        : edges(std::move(e)), expectedResult(r) {}
 };
 
 class TestsRunner {
@@ -2596,6 +2605,29 @@ public:
         }
     }
 
+    static void longestCycleInGraph_2360_tests() {
+        std::vector<LongestCycleTestCase> testCases = {
+            // 2 examples from the LeetCode problem statement
+            LongestCycleTestCase({3, 3, 4, 2, 3}, 3),   // Example 1
+            LongestCycleTestCase({2, -1, 3, 1}, -1),    // Example 2
+
+            // 3 additional, more complex cases
+            LongestCycleTestCase({1, 2, 3, 4, 0}, 5),         // single 5-node cycle
+            LongestCycleTestCase({1, 0, 4, 2, 3}, 3),         // two cycles, longest = 3
+            LongestCycleTestCase({1, 2, 3, 4, 5, 6, 0}, 7)    // single 7-node cycle
+        };
+
+        LongestCycleInGraph_2360 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int res = solver.longestCycle(testCases[i].edges);
+            std::cout << "LongestCycleInGraph_2360 Test " << (i + 1) << ": res = "
+                      << (res == testCases[i].expectedResult ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expectedResult
+                      << ", Got: " << res << ")" << std::endl;
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2713,6 +2745,8 @@ public:
         TestsRunner::coinChange_322_tests();
         std::cout << "Running TopKFrequentWords_692 tests:\n";
         TestsRunner::topKFrequentWords_692_tests();
+        std::cout << "Running LongestCycleInGraph_2360 tests:\n";
+        longestCycleInGraph_2360_tests();
     }
 };
 
