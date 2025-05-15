@@ -64,6 +64,7 @@
 #include "CoinChange_322.h"
 #include "TopKFrequentWords_692.h"
 #include "LongestCycleInGraph_2360.h"
+#include "ShortestCycleInGraph_2608.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -527,6 +528,17 @@ struct LongestCycleTestCase {
 
     LongestCycleTestCase(std::vector<int> e, int r)
         : edges(std::move(e)), expectedResult(r) {}
+};
+
+struct ShortestCycleTestCase {
+    int n;
+    std::vector<std::vector<int>> edges;
+    int expected;
+
+    ShortestCycleTestCase(int nn,
+                          std::vector<std::vector<int>> e,
+                          int exp)
+        : n(nn), edges(std::move(e)), expected(exp) {}
 };
 
 class TestsRunner {
@@ -2628,6 +2640,62 @@ public:
         }
     }
 
+    static void shortestCycleInGraph_2608_tests() {
+        std::vector<ShortestCycleTestCase> cases = {
+            // ── 2 examples from the problem statement ───────────────────────────
+            ShortestCycleTestCase(
+                7,
+                {{0,1},{1,2},{2,0},{3,4},{4,5},{5,6},{6,3}},
+                3),
+            ShortestCycleTestCase(
+                4,
+                {{0,1},{0,2}},
+                -1),
+
+            // ── extra #1 : tiny corner-case – only one edge, no cycle ───────────
+            ShortestCycleTestCase(
+                2,
+                {{0,1}},
+                -1),
+
+            /* ── extra #2 : larger, multiple cycles, shortest = 3 ───────────────
+                   triangle 0-1-2-0  (len 3)
+                   square   3-4-5-6-3 (len 4)
+                   edges 2-3 and 4-7-5 add inter-connections                  */
+            ShortestCycleTestCase(
+                8,
+                {{0,1},{1,2},{2,0},
+                 {3,4},{4,5},{5,6},{6,3},
+                 {2,3},
+                 {4,7},{7,5}},
+                3),
+
+            /* ── extra #3 : “outer-loop needed” case (path + remote triangle) ───
+               0-1-2-3-4-5-6   long arm
+                         ╲
+                          7
+                         ╱ ╲
+                        8 - 6          shortest = 3 (6-7-8-6)
+               With BFS from 0 the first detected cycle would be very long,
+               so we need one BFS per start vertex to get the true minimum.      */
+            ShortestCycleTestCase(
+                9,
+                {{0,1},{1,2},{2,3},{3,4},{4,5},{5,6},   // path
+                 {6,7},{7,8},{8,6}},                    // triangle at the end
+                3)
+        };
+
+        ShortestCycleInGraph_2608 solver;
+
+        for (size_t i = 0; i < cases.size(); ++i) {
+            int got = solver.findShortestCycle(cases[i].n, cases[i].edges);
+            std::cout << "  Test " << (i + 1) << ": "
+                      << (got == cases[i].expected ? "PASS" : "FAIL")
+                      << "  (expected " << cases[i].expected
+                      << ", got " << got << ")\n";
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2747,6 +2815,8 @@ public:
         TestsRunner::topKFrequentWords_692_tests();
         std::cout << "Running LongestCycleInGraph_2360 tests:\n";
         longestCycleInGraph_2360_tests();
+        std::cout << "2608. Shortest Cycle in a Graph tests:\n";
+        shortestCycleInGraph_2608_tests();
     }
 };
 
