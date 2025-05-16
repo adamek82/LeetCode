@@ -65,6 +65,7 @@
 #include "TopKFrequentWords_692.h"
 #include "LongestCycleInGraph_2360.h"
 #include "ShortestCycleInGraph_2608.h"
+#include "UniquePathsII_63.h"
 
 struct ScheduleTestCase {
     int numCourses;
@@ -539,6 +540,13 @@ struct ShortestCycleTestCase {
                           std::vector<std::vector<int>> e,
                           int exp)
         : n(nn), edges(std::move(e)), expected(exp) {}
+};
+
+struct UniquePathsIITestCase {
+    std::vector<std::vector<int>> grid;
+    int expectedResult;
+    UniquePathsIITestCase(std::vector<std::vector<int>> g, int e)
+        : grid(std::move(g)), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -2696,6 +2704,37 @@ public:
         }
     }
 
+    static void uniquePathsII_63_tests() {
+        std::vector<UniquePathsIITestCase> testCases = {
+            // From the problem statement
+            UniquePathsIITestCase({{0,0,0},{0,1,0},{0,0,0}}, 2),
+            UniquePathsIITestCase({{0,1},{0,0}}, 1),
+    
+            // Additional complex cases
+            // 1) Single‐row with an obstacle blocking all paths past it
+            UniquePathsIITestCase({{0,1,0,0,0}}, 0),
+    
+            // 2) 3×3 with no obstacles: C(4,2)=6
+            UniquePathsIITestCase({{0,0,0},{0,0,0},{0,0,0}}, 6),
+    
+            // 3) Larger 10×10 grid with no obstacles:
+            //    number of paths = C(18,9) = 48620
+            UniquePathsIITestCase(
+                std::vector<std::vector<int>>(10, std::vector<int>(10, 0)),
+                48620
+            )
+        };
+    
+        UniquePathsII_63 solution;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = solution.uniquePathsWithObstacles(testCases[i].grid);
+            std::cout << "Unique Paths II Test " << (i+1)
+                      << ": " << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expectedResult
+                      << ", Got: " << result << ")\n";
+        }
+    }
+
     static void runAllTests() {
         std::cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2817,6 +2856,8 @@ public:
         longestCycleInGraph_2360_tests();
         std::cout << "2608. Shortest Cycle in a Graph tests:\n";
         shortestCycleInGraph_2608_tests();
+        std::cout << "Running Unique Paths II_63 tests:\n";
+        uniquePathsII_63_tests();
     }
 };
 
