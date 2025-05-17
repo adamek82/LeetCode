@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <optional>
+#include <cmath>
 #include "CourseSchedule_207.h"
 #include "FindIfPathExistsInGraph_1971.h"
 #include "NumberOfIslands_200.h"
@@ -66,6 +67,12 @@
 #include "LongestCycleInGraph_2360.h"
 #include "ShortestCycleInGraph_2608.h"
 #include "UniquePathsII_63.h"
+#include "MaximumAverageSubarrayI_643.h"
+
+// Helper to compare two doubles within 1e-5
+static bool approxEqual(double a, double b, double eps = 1e-5) {
+    return std::fabs(a - b) < eps;
+}
 
 struct ScheduleTestCase {
     int numCourses;
@@ -547,6 +554,14 @@ struct UniquePathsIITestCase {
     int expectedResult;
     UniquePathsIITestCase(std::vector<std::vector<int>> g, int e)
         : grid(std::move(g)), expectedResult(e) {}
+};
+
+struct MaxAvgTestCase {
+    std::vector<int> nums;
+    int k;
+    double expected;
+    MaxAvgTestCase(std::vector<int> n, int kk, double e)
+        : nums(std::move(n)), k(kk), expected(e) {}
 };
 
 class TestsRunner {
@@ -2709,14 +2724,14 @@ public:
             // From the problem statement
             UniquePathsIITestCase({{0,0,0},{0,1,0},{0,0,0}}, 2),
             UniquePathsIITestCase({{0,1},{0,0}}, 1),
-    
+
             // Additional complex cases
             // 1) Single‐row with an obstacle blocking all paths past it
             UniquePathsIITestCase({{0,1,0,0,0}}, 0),
-    
+
             // 2) 3×3 with no obstacles: C(4,2)=6
             UniquePathsIITestCase({{0,0,0},{0,0,0},{0,0,0}}, 6),
-    
+
             // 3) Larger 10×10 grid with no obstacles:
             //    number of paths = C(18,9) = 48620
             UniquePathsIITestCase(
@@ -2724,7 +2739,7 @@ public:
                 48620
             )
         };
-    
+
         UniquePathsII_63 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.uniquePathsWithObstacles(testCases[i].grid);
@@ -2732,6 +2747,29 @@ public:
                       << ": " << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expectedResult
                       << ", Got: " << result << ")\n";
+        }
+    }
+
+    static void maximumAverageSubarrayI_643_tests() {
+        std::vector<MaxAvgTestCase> testCases = {
+            // problem examples
+            MaxAvgTestCase({1, 12, -5, -6, 50, 3}, 4, 12.75),
+            MaxAvgTestCase({5},                    1,  5.0),
+
+            // additional complex tests
+            MaxAvgTestCase({1,2,3,4,5,6,7,8,9,10},   5,  8.0),          // increasing sequence
+            MaxAvgTestCase({-5,-10,-3,-4,-1,-2},     3, -2.3333333333), // all negatives
+            MaxAvgTestCase({0,100,0,100,0,100},      2,  50.0)          // alternating highs/lows
+        };
+
+        MaximumAverageSubarrayI_643 solution;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            double result = solution.findMaxAverage(testCases[i].nums, testCases[i].k);
+            bool pass = approxEqual(result, testCases[i].expected);
+            std::cout << "MaxAvgSubarrayI_643 Test " << (i + 1) << ": "
+                    << (pass ? "PASS" : "FAIL")
+                    << " (expected=" << testCases[i].expected
+                    << ", got=" << result << ")\n";
         }
     }
 
@@ -2858,6 +2896,8 @@ public:
         shortestCycleInGraph_2608_tests();
         std::cout << "Running Unique Paths II_63 tests:\n";
         uniquePathsII_63_tests();
+        std::cout << "Running Maximum Average Subarray I_643 tests:\n";
+        maximumAverageSubarrayI_643_tests();
     }
 };
 
