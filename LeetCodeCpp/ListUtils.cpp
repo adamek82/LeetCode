@@ -2,7 +2,7 @@
 
 // Create a linked list from a vector
 template <typename T>
-ListNode<T>* ListUtils::createLinkedList(const std::vector<T>& values) {
+ListNode<T>* ListUtils::createLinkedList(const vector<T>& values) {
     if (values.empty()) return nullptr;
 
     ListNode<T>* head = new ListNode<T>(values[0]);
@@ -18,8 +18,8 @@ ListNode<T>* ListUtils::createLinkedList(const std::vector<T>& values) {
 
 // Convert a linked list to a vector
 template <typename T>
-std::vector<T> ListUtils::toVector(ListNode<T>* head) {
-    std::vector<T> result;
+vector<T> ListUtils::toVector(ListNode<T>* head) {
+    vector<T> result;
 
     while (head != nullptr) {
         result.push_back(head->val);
@@ -31,9 +31,9 @@ std::vector<T> ListUtils::toVector(ListNode<T>* head) {
 
 // Convert a linked list to a string representation
 template <typename T>
-std::string ListUtils::toString(ListNode<T>* head) {
-    std::ostringstream oss;
-    std::unordered_set<ListNode<T>*> visited;
+string ListUtils::toString(ListNode<T>* head) {
+    ostringstream oss;
+    unordered_set<ListNode<T>*> visited;
     while (head) {
         if (visited.find(head) != visited.end()) {
             oss << head->val << " (cycle)";
@@ -51,7 +51,7 @@ std::string ListUtils::toString(ListNode<T>* head) {
 template <typename T>
 static void ListUtils::freeList(ListNode<T>* head) {
     ListNode<T>* current = head;
-    std::unordered_set<ListNode<T>*> visited;
+    unordered_set<ListNode<T>*> visited;
 
     while (current && visited.find(current) == visited.end()) {
         visited.insert(current);
@@ -63,7 +63,7 @@ static void ListUtils::freeList(ListNode<T>* head) {
 
 // Create a linked list from a vector and set up a cycle if pos >= 0
 template <typename T>
-static ListNode<T>* ListUtils::createLinkedListWithCycle(const std::vector<T>& values, int pos) {
+static ListNode<T>* ListUtils::createLinkedListWithCycle(const vector<T>& values, int pos) {
     if (values.empty()) return nullptr;
 
     ListNode<T>* head = new ListNode<T>(values[0]);
@@ -87,10 +87,10 @@ static ListNode<T>* ListUtils::createLinkedListWithCycle(const std::vector<T>& v
 }
 
 template <typename T>
-ListNode<T>* ListUtils::createLinkedListWithRandom(const std::vector<std::pair<T, std::optional<int>>>& nodes) {
+ListNode<T>* ListUtils::createLinkedListWithRandom(const vector<pair<T, optional<int>>>& nodes) {
     if (nodes.empty()) return nullptr;
 
-    std::vector<ListNode<T>*> createdNodes;
+    vector<ListNode<T>*> createdNodes;
     ListNode<T>* head = new ListNode<T>(nodes[0].first);
     createdNodes.push_back(head);
 
@@ -114,8 +114,8 @@ ListNode<T>* ListUtils::createLinkedListWithRandom(const std::vector<std::pair<T
 
 template <typename T>
 bool ListUtils::compareListsWithRandom(ListNode<T>* list1, ListNode<T>* list2) {
-    std::unordered_map<ListNode<T>*, int> list1Mapping;
-    std::unordered_map<ListNode<T>*, int> list2Mapping;
+    unordered_map<ListNode<T>*, int> list1Mapping;
+    unordered_map<ListNode<T>*, int> list2Mapping;
 
     ListNode<T>* current1 = list1;
     ListNode<T>* current2 = list2;
@@ -152,10 +152,10 @@ bool ListUtils::compareListsWithRandom(ListNode<T>* list1, ListNode<T>* list2) {
 }
 
 // Explicit instantiation for int type
-template ListNode<int>* ListUtils::createLinkedList<int>(const std::vector<int>&);
-template std::vector<int> ListUtils::toVector<int>(ListNode<int>*);
-template std::string ListUtils::toString<int>(ListNode<int>*);
+template ListNode<int>* ListUtils::createLinkedList<int>(const vector<int>&);
+template vector<int> ListUtils::toVector<int>(ListNode<int>*);
+template string ListUtils::toString<int>(ListNode<int>*);
 template void ListUtils::freeList<int>(ListNode<int>*);
-template ListNode<int>* ListUtils::createLinkedListWithCycle(const std::vector<int>& values, int pos);
-template ListNode<int>* ListUtils::createLinkedListWithRandom<int>(const std::vector<std::pair<int, std::optional<int>>>&);
+template ListNode<int>* ListUtils::createLinkedListWithCycle(const vector<int>& values, int pos);
+template ListNode<int>* ListUtils::createLinkedListWithRandom<int>(const vector<pair<int, optional<int>>>&);
 template bool ListUtils::compareListsWithRandom<int>(ListNode<int>* list1, ListNode<int>* list2);

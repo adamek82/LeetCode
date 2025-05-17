@@ -3,7 +3,9 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 class LongestRepeatingCharacterReplacement_424 {
 public:
-    int characterReplacement(std::string s, int k);
+    int characterReplacement(string s, int k);
 };

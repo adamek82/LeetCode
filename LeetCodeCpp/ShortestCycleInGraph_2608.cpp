@@ -1,8 +1,8 @@
 #include "ShortestCycleInGraph_2608.h"
 
-int ShortestCycleInGraph_2608::findShortestCycle(int n, std::vector<std::vector<int>> &edges)
+int ShortestCycleInGraph_2608::findShortestCycle(int n, vector<vector<int>> &edges)
 {
-    std::vector<std::vector<int>> g(n);
+    vector<vector<int>> g(n);
     for (auto& e : edges) {
         int u = e[0], v = e[1];
         g[u].push_back(v);
@@ -11,11 +11,11 @@ int ShortestCycleInGraph_2608::findShortestCycle(int n, std::vector<std::vector<
 
     const int INF = 1e9;
     int best = INF;
-    std::vector<int> dist(n);
+    vector<int> dist(n);
 
     for (int s = 0; s < n; ++s) {
-        std::fill(dist.begin(), dist.end(), INF);
-        std::queue<int> q;
+        fill(dist.begin(), dist.end(), INF);
+        queue<int> q;
         dist[s] = 0;
         q.push(s);
 
@@ -35,7 +35,7 @@ int ShortestCycleInGraph_2608::findShortestCycle(int n, std::vector<std::vector<
                         is the only neighbour whose distance is
                         exactly dist[u]-1, so the inequality
                         identifies a cross/side edge that closes a cycle. */
-                    best = std::min(best, dist[u] + dist[v] + 1);
+                    best = min(best, dist[u] + dist[v] + 1);
                 }
             }
         }

@@ -2,7 +2,9 @@
 #include <string>
 #include <stack>
 
+using namespace std;
+
 class ValidParentheses_20 {
 public:
-    bool isValid(std::string s);
+    bool isValid(string s);
 };

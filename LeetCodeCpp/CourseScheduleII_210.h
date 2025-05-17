@@ -4,8 +4,10 @@
 #include <functional>
 #include <queue>
 
+using namespace std;
+
 class CourseScheduleII_210 {
 public:
-    std::vector<int> findOrderByDFSTraversal(int numCourses, std::vector<std::vector<int>>& prerequisites);
-    std::vector<int> findOrderByKahnsAlgorithm(int numCourses, std::vector<std::vector<int>>& prerequisites);
+    vector<int> findOrderByDFSTraversal(int numCourses, vector<vector<int>>& prerequisites);
+    vector<int> findOrderByKahnsAlgorithm(int numCourses, vector<vector<int>>& prerequisites);
 };

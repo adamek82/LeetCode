@@ -1,6 +1,6 @@
 #include "Search2DMatrix_74.h"
 
-bool Search2DMatrix_74::searchMatrix(std::vector<std::vector<int>> &matrix, int target)
+bool Search2DMatrix_74::searchMatrix(vector<vector<int>> &matrix, int target)
 {
     int m = matrix.size();
     int n = matrix[0].size();

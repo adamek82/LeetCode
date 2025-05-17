@@ -1,11 +1,11 @@
 #include "ValidSudoku_36.h"
 
-bool ValidSudoku_36::isValidSudoku(std::vector<std::vector<char>> &board)
+bool ValidSudoku_36::isValidSudoku(vector<vector<char>> &board)
 {
     // Define hash sets for rows, columns, and 3x3 sub-boxes
-    std::vector<std::unordered_set<char>> rows(9);
-    std::vector<std::unordered_set<char>> cols(9);
-    std::vector<std::unordered_set<char>> boxes(9);
+    vector<unordered_set<char>> rows(9);
+    vector<unordered_set<char>> cols(9);
+    vector<unordered_set<char>> boxes(9);
 
     for (int i = 0; i < 9; ++i) {
         for (int j = 0; j < 9; ++j) {

@@ -1,6 +1,6 @@
 #include "SortColors_75.h"
 
-void SortColors_75::sortColors(std::vector<int> &nums)
+void SortColors_75::sortColors(vector<int> &nums)
 {
     int zero = -1;  // The rightmost index where we've placed a 0
     int one = -1;   // The rightmost index where we've placed a 1

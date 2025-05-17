@@ -1,8 +1,10 @@
 #include "ValidateBinarySearchTree_98.h"
 
+using namespace std;
+
 bool ValidateBinarySearchTree_98::isValidBST(TreeNode<int> *root)
 {
-    return validate(root, std::numeric_limits<long>::min(), std::numeric_limits<long>::max());
+    return validate(root, numeric_limits<long>::min(), numeric_limits<long>::max());
 }
 
 bool ValidateBinarySearchTree_98::validate(TreeNode<int> *node, long minVal, long maxVal)

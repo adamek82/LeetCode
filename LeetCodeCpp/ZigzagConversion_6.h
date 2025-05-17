@@ -3,8 +3,10 @@
 #include <vector>
 #include <algorithm>
 
+using namespace std;
+
 class ZigzagConversion_6 {
 public:
-    std::string convert_rowWise(std::string s, int numRows);
-    std::string convert_jumpPattern(std::string s, int numRows);
+    string convert_rowWise(string s, int numRows);
+    string convert_jumpPattern(string s, int numRows);
 };

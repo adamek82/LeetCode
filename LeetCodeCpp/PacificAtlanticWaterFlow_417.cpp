@@ -1,15 +1,15 @@
 #include "PacificAtlanticWaterFlow_417.h"
 
-std::vector<std::vector<int>> PacificAtlanticWaterFlow_417::pacificAtlantic(std::vector<std::vector<int>> &heights)
+vector<vector<int>> PacificAtlanticWaterFlow_417::pacificAtlantic(vector<vector<int>> &heights)
 {
     int rows = heights.size();
     int cols = heights[0].size();
 
-    std::vector<std::vector<bool>> pacific(rows, std::vector<bool>(cols, false));
-    std::vector<std::vector<bool>> atlantic(rows, std::vector<bool>(cols, false));
+    vector<vector<bool>> pacific(rows, vector<bool>(cols, false));
+    vector<vector<bool>> atlantic(rows, vector<bool>(cols, false));
 
-    std::queue<std::pair<int, int>> pacificQueue;
-    std::queue<std::pair<int, int>> atlanticQueue;
+    queue<pair<int, int>> pacificQueue;
+    queue<pair<int, int>> atlanticQueue;
 
     // Initialize queues with border cells
     for (int i = 0; i < rows; ++i) {
@@ -30,7 +30,7 @@ std::vector<std::vector<int>> PacificAtlanticWaterFlow_417::pacificAtlantic(std:
     bfs(heights, atlanticQueue, atlantic);
 
     // Find cells that can flow to both oceans
-    std::vector<std::vector<int>> result;
+    vector<vector<int>> result;
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
             if (pacific[i][j] && atlantic[i][j]) {
@@ -42,12 +42,12 @@ std::vector<std::vector<int>> PacificAtlanticWaterFlow_417::pacificAtlantic(std:
     return result;
 }
 
-void PacificAtlanticWaterFlow_417::bfs(const std::vector<std::vector<int>> &heights, std::queue<std::pair<int, int>> &q,
-    std::vector<std::vector<bool>> &visited)
+void PacificAtlanticWaterFlow_417::bfs(const vector<vector<int>> &heights, queue<pair<int, int>> &q,
+    vector<vector<bool>> &visited)
 {
     int rows = heights.size();
     int cols = heights[0].size();
-    std::vector<int> directions = {-1, 0, 1, 0, -1}; // Used to calculate neighbors
+    vector<int> directions = {-1, 0, 1, 0, -1}; // Used to calculate neighbors
 
     while (!q.empty()) {
         auto [x, y] = q.front();

@@ -3,8 +3,10 @@
 #include <queue>
 #include <array>
 
+using namespace std;
+
 class RottingOranges_994 {
 public:
     enum class CellState { EMPTY, FRESH, ROTTEN };
-    int orangesRotting(std::vector<std::vector<int>>& grid);
+    int orangesRotting(vector<vector<int>>& grid);
 };

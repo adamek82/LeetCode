@@ -1,6 +1,6 @@
 #include "RemoveDuplicatesFromSortedArrayII_80.h"
 
-int RemoveDuplicatesFromSortedArrayII_80::removeDuplicates(std::vector<int> &nums)
+int RemoveDuplicatesFromSortedArrayII_80::removeDuplicates(vector<int> &nums)
 {
     int k = 0; // Writer pointer
 

@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
 
+using namespace std;
+
 class BinarySearch_704 {
 public:
-    int search(std::vector<int>& nums, int target);
+    int search(vector<int>& nums, int target);
 };

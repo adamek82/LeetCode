@@ -7,8 +7,10 @@
 #include <map>
 #include <algorithm>
 
+using namespace std;
+
 class AnalyzeUserWebsiteVisitPattern1152 {
 public:
-    std::vector<std::string> mostVisitedPattern_usingMap(std::vector<std::string>& username, std::vector<int>& timestamp, std::vector<std::string>& website);
-    std::vector<std::string> mostVisitedPattern_usingHashmap(std::vector<std::string>& username, std::vector<int>& timestamp, std::vector<std::string>& website);
+    vector<string> mostVisitedPattern_usingMap(vector<string>& username, vector<int>& timestamp, vector<string>& website);
+    vector<string> mostVisitedPattern_usingHashmap(vector<string>& username, vector<int>& timestamp, vector<string>& website);
 };

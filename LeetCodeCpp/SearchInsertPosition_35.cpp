@@ -1,6 +1,6 @@
 #include "SearchInsertPosition_35.h"
 
-int SearchInsertPosition_35::searchInsert(std::vector<int> &nums, int target)
+int SearchInsertPosition_35::searchInsert(vector<int> &nums, int target)
 {
     int left = 0, right = nums.size() - 1;
 

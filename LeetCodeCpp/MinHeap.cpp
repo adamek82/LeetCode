@@ -8,7 +8,7 @@ MinHeap::MinHeap() {
 // Helper: Restore the heap property by moving an element upward
 void MinHeap::upheap(int idx) {
     while (idx > 1 && heap[idx] < heap[idx / 2]) {
-        std::swap(heap[idx], heap[idx / 2]);
+        swap(heap[idx], heap[idx / 2]);
         idx /= 2; // Move up
     }
 }
@@ -22,7 +22,7 @@ void MinHeap::downheap(int idx) {
             child++; // Choose the smaller child
         }
         if (heap[idx] <= heap[child]) break; // Min-heap property satisfied
-        std::swap(heap[idx], heap[child]);
+        swap(heap[idx], heap[child]);
         idx = child; // Move down
     }
 }
@@ -35,7 +35,7 @@ void MinHeap::insert(int val) {
 
 // Extract the minimum element
 int MinHeap::extractMin() {
-    if (heap.size() <= 1) throw std::runtime_error("Heap is empty");
+    if (heap.size() <= 1) throw runtime_error("Heap is empty");
     int minVal = heap[1];
     heap[1] = heap.back(); // Move the last element to the root
     heap.pop_back();       // Remove the last element
@@ -45,7 +45,7 @@ int MinHeap::extractMin() {
 
 // Update the value at a specific index
 void MinHeap::update(int idx, int newVal) {
-    if (idx <= 0 || idx >= heap.size()) throw std::runtime_error("Invalid index");
+    if (idx <= 0 || idx >= heap.size()) throw runtime_error("Invalid index");
     int oldVal = heap[idx];
     heap[idx] = newVal;
     if (newVal < oldVal) {
@@ -58,7 +58,7 @@ void MinHeap::update(int idx, int newVal) {
 // Print the current state of the heap
 void MinHeap::printHeap() {
     for (int i = 1; i < heap.size(); i++) {
-        std::cout << heap[i] << " ";
+        cout << heap[i] << " ";
     }
-    std::cout << std::endl;
+    cout << endl;
 }

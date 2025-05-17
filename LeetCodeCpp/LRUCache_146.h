@@ -3,6 +3,8 @@
 #include <utility>
 #include <unordered_map>
 
+using namespace std;
+
 class LRUCache {
 public:
     explicit LRUCache(int capacity);
@@ -12,6 +14,6 @@ public:
 private:
     int _cap;
     // front = most-recently used, back = least-recently used
-    std::list<std::pair<int,int>> _cache;
-    std::unordered_map<int, std::list<std::pair<int,int>>::iterator> _map;
+    list<pair<int,int>> _cache;
+    unordered_map<int, list<pair<int,int>>::iterator> _map;
 };

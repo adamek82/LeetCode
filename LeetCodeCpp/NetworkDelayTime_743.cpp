@@ -1,19 +1,19 @@
 #include "NetworkDelayTime_743.h"
 
-int NetworkDelayTime_743::networkDelayTime(std::vector<std::vector<int>> &times, int n, int k)
+int NetworkDelayTime_743::networkDelayTime(vector<vector<int>> &times, int n, int k)
 {
     // Build the graph as an adjacency list
-    std::unordered_map<int, std::vector<std::pair<int, int>>> graph;
+    unordered_map<int, vector<pair<int, int>>> graph;
     for (const auto& time : times) {
         int u = time[0], v = time[1], w = time[2];
         graph[u].emplace_back(v, w);
     }
 
     // Min-heap to keep track of the minimum time to reach each node
-    std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<>> min_heap;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> min_heap;
     min_heap.emplace(0, k); // (time from source to node, node)
 
-    std::unordered_map<int, int> min_times;
+    unordered_map<int, int> min_times;
 
     while (!min_heap.empty()) {
         auto [time_k_to_i, i] = min_heap.top();
@@ -31,7 +31,7 @@ int NetworkDelayTime_743::networkDelayTime(std::vector<std::vector<int>> &times,
     }
 
     return min_times.size() == n
-               ? std::max_element(min_times.begin(), min_times.end(),
+               ? max_element(min_times.begin(), min_times.end(),
                                   [](const auto &a, const auto &b)
                                   { return a.second < b.second; })
                      ->second

@@ -4,7 +4,9 @@
 #include <queue>
 #include <unordered_map>
 
+using namespace std;
+
 class TopKFrequentWords_692 {
 public:
-    std::vector<std::string> topKFrequent(std::vector<std::string>& words, int k);
+    vector<string> topKFrequent(vector<string>& words, int k);
 };

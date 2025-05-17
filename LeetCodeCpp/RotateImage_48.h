@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
 
+using namespace std;
+
 class RotateImage_48 {
 public:
-    void rotate(std::vector<std::vector<int>>& matrix);
+    void rotate(vector<vector<int>>& matrix);
 };

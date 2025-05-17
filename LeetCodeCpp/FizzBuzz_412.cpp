@@ -1,8 +1,8 @@
 #include "FizzBuzz_412.h"
 
-std::vector<std::string> FizzBuzz_412::fizzBuzz(int n)
+vector<string> FizzBuzz_412::fizzBuzz(int n)
 {
-    std::vector<std::string> ans;
+    vector<string> ans;
     ans.reserve(n);
 
     for (int i=1; i<=n; ++i) {
@@ -15,8 +15,8 @@ std::vector<std::string> FizzBuzz_412::fizzBuzz(int n)
         else if (!fizz && buzz)
             ans.push_back("Buzz");
         else
-            ans.push_back(std::to_string(i));
+            ans.push_back(to_string(i));
     }
-    
+
     return ans;
 }

@@ -1,10 +1,10 @@
 #include "MinCostToConnectAllPoints_1584.h"
 
-int MinCostToConnectAllPoints_1584::minCostConnectPoints(std::vector<std::vector<int>> &points)
+int MinCostToConnectAllPoints_1584::minCostConnectPoints(vector<vector<int>> &points)
 {
     int n = points.size();
-    std::vector<bool> inMST(n, false); // Tracks if a point is already in the MST
-    std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<>> minHeap;
+    vector<bool> inMST(n, false); // Tracks if a point is already in the MST
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;
     // Min-heap to store (cost, point_index)
 
     int result = 0; // Total cost of the MST
@@ -40,7 +40,7 @@ int MinCostToConnectAllPoints_1584::minCostConnectPoints(std::vector<std::vector
 }
 
 // Helper function to calculate Manhattan distance between two points
-int MinCostToConnectAllPoints_1584::manhattanDist(const std::vector<int> &p1, const std::vector<int> &p2)
+int MinCostToConnectAllPoints_1584::manhattanDist(const vector<int> &p1, const vector<int> &p2)
 {
     return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1]);
 }

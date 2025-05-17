@@ -3,7 +3,9 @@
 #include <stack>
 #include <algorithm>
 
+using namespace std;
+
 class LargestRectangleInHistogram_84 {
 public:
-    int largestRectangleArea(std::vector<int>& heights);
+    int largestRectangleArea(vector<int>& heights);
 };

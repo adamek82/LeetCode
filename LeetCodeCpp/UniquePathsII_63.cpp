@@ -1,9 +1,9 @@
 #include "UniquePathsII_63.h"
 
-int UniquePathsII_63::uniquePathsWithObstacles(std::vector<std::vector<int>> &grid)
+int UniquePathsII_63::uniquePathsWithObstacles(vector<vector<int>> &grid)
 {
     int m = grid.size(), n = grid[0].size();
-        
+
     for (int i = 0; i < m; ++i) {
         for (int j = 0; j < n; ++j) {
             if (i == 0 && j == 0) {
@@ -22,12 +22,12 @@ int UniquePathsII_63::uniquePathsWithObstacles(std::vector<std::vector<int>> &gr
                 // first column (j==0): only from above
                 grid[i][j] = grid[i-1][j];
             }
-            else { 
+            else {
                 // first row (i==0, j>0): only from left
                 grid[i][j] = grid[i][j-1];
             }
         }
     }
-    
+
     return grid[m-1][n-1];
 }

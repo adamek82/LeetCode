@@ -3,9 +3,11 @@
 #include <iostream>
 #include <stdexcept>
 
+using namespace std;
+
 class MinHeap {
 private:
-    std::vector<int> heap; // 1-based index
+    vector<int> heap; // 1-based index
 
     void upheap(int idx);
     void downheap(int idx);

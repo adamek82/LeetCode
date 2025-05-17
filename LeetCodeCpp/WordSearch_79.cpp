@@ -1,6 +1,6 @@
 #include "WordSearch_79.h"
 
-bool WordSearch_79::exist(std::vector<std::vector<char>> &board, std::string word)
+bool WordSearch_79::exist(vector<vector<char>> &board, string word)
 {
     int rows = board.size();
     int cols = board[0].size();
@@ -16,7 +16,7 @@ bool WordSearch_79::exist(std::vector<std::vector<char>> &board, std::string wor
     return false;
 }
 
-bool WordSearch_79::backtrack(std::vector<std::vector<char>> &board, const std::string &word, int row, int col, int index)
+bool WordSearch_79::backtrack(vector<vector<char>> &board, const string &word, int row, int col, int index)
 {
     // Base case: all characters in the word are matched
     if (index == word.size()) {

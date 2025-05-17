@@ -1,6 +1,6 @@
 #include "MaximumAverageSubarrayI_643.h"
 
-double MaximumAverageSubarrayI_643::findMaxAverage(std::vector<int> &nums, int k)
+double MaximumAverageSubarrayI_643::findMaxAverage(vector<int> &nums, int k)
 {
     long long windowSum = 0;
     // Sum up the first k elements

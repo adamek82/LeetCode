@@ -1,8 +1,8 @@
 #include "BestTimeToBuyAndSellStock_121.h"
 
-int BestTimeToBuyAndSellStock_121::maxProfit(std::vector<int> &prices)
+int BestTimeToBuyAndSellStock_121::maxProfit(vector<int> &prices)
 {
-    int minPrice = std::numeric_limits<int>::max();
+    int minPrice = numeric_limits<int>::max();
     int maxProfit = 0;
     for (int price : prices) {
         if (price < minPrice) {

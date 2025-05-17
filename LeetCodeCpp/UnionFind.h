@@ -2,9 +2,11 @@
 #include <vector>
 #include <iostream>
 
+using namespace std;
+
 class UnionFind {
 private:
-    std::vector<int> parent;
+    vector<int> parent;
 
 public:
     // Constructor: Initialize n elements, each in its own set

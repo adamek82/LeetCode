@@ -1,6 +1,6 @@
 #include "BinarySearch_704.h"
 
-int BinarySearch_704::search(std::vector<int> &nums, int target)
+int BinarySearch_704::search(vector<int> &nums, int target)
 {
     int left = 0, right = nums.size() - 1;
 

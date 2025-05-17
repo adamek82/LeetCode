@@ -5,7 +5,7 @@ AllOOneDataStructure_432::AllOOneDataStructure_432()
     // empty
 }
 
-void AllOOneDataStructure_432::inc(const std::string &key)
+void AllOOneDataStructure_432::inc(const string &key)
 {
     // Case 1: Key is NOT present yet
     if (key2node.find(key) == key2node.end()) {
@@ -28,7 +28,7 @@ void AllOOneDataStructure_432::inc(const std::string &key)
         curIt->keys.erase(key);
 
         // If there's a next node and it has count = newCount, use it
-        auto nextIt = std::next(curIt);
+        auto nextIt = next(curIt);
         if (nextIt == nodeList.end() || nextIt->count != newCount) {
             // Insert a new node after curIt
             nextIt = nodeList.insert(nextIt, Node(newCount));
@@ -45,7 +45,7 @@ void AllOOneDataStructure_432::inc(const std::string &key)
     }
 }
 
-void AllOOneDataStructure_432::dec(const std::string &key)
+void AllOOneDataStructure_432::dec(const string &key)
 {
     auto curIt = key2node[key];
     int oldCount = curIt->count;
@@ -59,7 +59,7 @@ void AllOOneDataStructure_432::dec(const std::string &key)
         key2node.erase(key);
     } else {
         // Move to the node that has (oldCount - 1)
-        auto prevIt = (curIt == nodeList.begin()) ? nodeList.end() : std::prev(curIt);
+        auto prevIt = (curIt == nodeList.begin()) ? nodeList.end() : prev(curIt);
 
         if (curIt == nodeList.begin() || prevIt->count != newCount) {
             // We need to insert a new node for count=newCount BEFORE curIt
@@ -77,7 +77,7 @@ void AllOOneDataStructure_432::dec(const std::string &key)
     }
 }
 
-std::string AllOOneDataStructure_432::getMaxKey()
+string AllOOneDataStructure_432::getMaxKey()
 {
     // If no keys at all
     if (nodeList.empty()) return "";
@@ -86,7 +86,7 @@ std::string AllOOneDataStructure_432::getMaxKey()
     return *(nodeList.back().keys.begin());
 }
 
-std::string AllOOneDataStructure_432::getMinKey()
+string AllOOneDataStructure_432::getMinKey()
 {
     // If no keys at all
     if (nodeList.empty()) return "";

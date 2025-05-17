@@ -2,7 +2,9 @@
 #include <limits>
 #include <vector>
 
+using namespace std;
+
 class BestTimeToBuyAndSellStock_121 {
 public:
-    int maxProfit(std::vector<int>& prices);
+    int maxProfit(vector<int>& prices);
 };

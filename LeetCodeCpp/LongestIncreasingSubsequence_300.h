@@ -2,7 +2,9 @@
 #include <algorithm>
 #include <vector>
 
+using namespace std;
+
 class LongestIncreasingSubsequence_300 {
 public:
-    int lengthOfLIS(std::vector<int>& nums);
+    int lengthOfLIS(vector<int>& nums);
 };

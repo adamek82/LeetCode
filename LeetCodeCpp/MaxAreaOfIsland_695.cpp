@@ -1,6 +1,6 @@
 #include "MaxAreaOfIsland_695.h"
 
-int MaxAreaOfIsland_695::maxAreaOfIsland(std::vector<std::vector<int>> &grid)
+int MaxAreaOfIsland_695::maxAreaOfIsland(vector<vector<int>> &grid)
 {
     int m = grid.size();
     int n = grid[0].size();
@@ -9,7 +9,7 @@ int MaxAreaOfIsland_695::maxAreaOfIsland(std::vector<std::vector<int>> &grid)
     for (int i = 0; i < m; ++i) {
         for (int j = 0; j < n; ++j) {
             if (grid[i][j] == 1) {
-                maxArea = std::max(maxArea, dfs(grid, i, j));
+                maxArea = max(maxArea, dfs(grid, i, j));
             }
         }
     }
@@ -17,10 +17,10 @@ int MaxAreaOfIsland_695::maxAreaOfIsland(std::vector<std::vector<int>> &grid)
     return maxArea;
 }
 
-int MaxAreaOfIsland_695::dfs(std::vector<std::vector<int>> &grid, int i, int j)
+int MaxAreaOfIsland_695::dfs(vector<vector<int>> &grid, int i, int j)
 {
     // Directions for moving in the grid (right, left, down, up)
-    static const std::vector<std::pair<int, int>> directions = {
+    static const vector<pair<int, int>> directions = {
         {0, 1}, {0, -1}, {1, 0}, {-1, 0}
     };
 

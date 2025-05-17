@@ -24,7 +24,7 @@
  *
  * Therefore, the majority element 'M' remains the final candidate.
  */
-int MajorityElement_169::majorityElement(std::vector<int> &nums)
+int MajorityElement_169::majorityElement(vector<int> &nums)
 {
     //
     int candidate = nums[0];
@@ -40,8 +40,8 @@ int MajorityElement_169::majorityElement(std::vector<int> &nums)
     return candidate;  // Return the majority candidate
 }
 
-int MajorityElement_169::majorityElementWithHashmap(const std::vector<int>& nums) {
-    std::unordered_map<int, int> frequency; // Hashmap to store frequencies
+int MajorityElement_169::majorityElementWithHashmap(const vector<int>& nums) {
+    unordered_map<int, int> frequency; // Hashmap to store frequencies
     int n = nums.size();
 
     // Count frequencies of each element

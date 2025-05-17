@@ -4,8 +4,10 @@
 #include <vector>
 #include <algorithm>
 
+using namespace std;
+
 class GroupAnagrams_49 {
 public:
-    std::vector<std::vector<std::string>> groupAnagrams_sorting(std::vector<std::string>& strs);
-    std::vector<std::vector<std::string>> groupAnagrams_counting(std::vector<std::string>& strs);
+    vector<vector<string>> groupAnagrams_sorting(vector<string>& strs);
+    vector<vector<string>> groupAnagrams_counting(vector<string>& strs);
 };

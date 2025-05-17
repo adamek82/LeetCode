@@ -2,7 +2,9 @@
 #include <vector>
 #include <algorithm>
 
+using namespace std;
+
 class MergeIntervals_56 {
 public:
-    std::vector<std::vector<int>> merge(std::vector<std::vector<int>>& intervals);
+    vector<vector<int>> merge(vector<vector<int>>& intervals);
 };

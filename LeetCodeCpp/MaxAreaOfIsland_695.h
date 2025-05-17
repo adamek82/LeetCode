@@ -2,9 +2,11 @@
 #include <algorithm>
 #include <vector>
 
+using namespace std;
+
 class MaxAreaOfIsland_695 {
 public:
-    int maxAreaOfIsland(std::vector<std::vector<int>>& grid);
+    int maxAreaOfIsland(vector<vector<int>>& grid);
 private:
-    int dfs(std::vector<std::vector<int>>& grid, int i, int j);
+    int dfs(vector<vector<int>>& grid, int i, int j);
 };

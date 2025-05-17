@@ -2,7 +2,9 @@
 #include <vector>
 #include <string>
 
+using namespace std;
+
 class FizzBuzz_412 {
 public:
-    std::vector<std::string> fizzBuzz(int n);
+    vector<string> fizzBuzz(int n);
 };

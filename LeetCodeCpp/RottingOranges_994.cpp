@@ -1,11 +1,11 @@
 #include "RottingOranges_994.h"
 
-int RottingOranges_994::orangesRotting(std::vector<std::vector<int>> &grid)
+int RottingOranges_994::orangesRotting(vector<vector<int>> &grid)
 {
         int m = grid.size();
         int n = grid[0].size();
 
-        std::queue<std::pair<int, int>> rottenQueue; // To store the positions of rotten oranges
+        queue<pair<int, int>> rottenQueue; // To store the positions of rotten oranges
         int freshCount = 0;
 
         // Initialize the queue with all rotten oranges and count the fresh ones
@@ -23,7 +23,7 @@ int RottingOranges_994::orangesRotting(std::vector<std::vector<int>> &grid)
         if (freshCount == 0) return 0;
 
         int minutes = -1;
-        constexpr std::array<std::pair<int, int>, 4> directions = {{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}}; // 4 possible directions
+        constexpr array<pair<int, int>, 4> directions = {{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}}; // 4 possible directions
 
         // BFS to propagate rotting effect
         while (!rottenQueue.empty()) {

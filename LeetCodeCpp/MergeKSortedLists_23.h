@@ -3,7 +3,9 @@
 #include <queue>
 #include "ListNode.h"
 
+using namespace std;
+
 class MergeKSortedLists_23 {
 public:
-    ListNode<int>* mergeKLists(std::vector<ListNode<int>*>& lists);
+    ListNode<int>* mergeKLists(vector<ListNode<int>*>& lists);
 };

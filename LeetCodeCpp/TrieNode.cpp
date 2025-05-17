@@ -8,7 +8,7 @@ char TrieNode::getChar() const {
     return character;
 }
 
-void TrieNode::addWord(const std::string& word) {
+void TrieNode::addWord(const string& word) {
     if (word.empty()) {
         return;
     }

@@ -1,9 +1,9 @@
 #include "ProductOfArrayExceptSelf.h"
 
-std::vector<int> ProductOfArrayExceptSelf::productExceptSelf(std::vector<int> &nums)
+vector<int> ProductOfArrayExceptSelf::productExceptSelf(vector<int> &nums)
 {
     int n = nums.size();
-    std::vector<int> result(n, 1);
+    vector<int> result(n, 1);
 
     // Calculate prefix products
     int prefix = 1;

@@ -1,6 +1,6 @@
 #include "FindMinimumInRotatedSortedArray_153.h"
 
-int FindMinimumInRotatedSortedArray_153::findMin(std::vector<int> &nums)
+int FindMinimumInRotatedSortedArray_153::findMin(vector<int> &nums)
 {
     int left = 0, right = nums.size() - 1;
 

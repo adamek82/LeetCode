@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
 
+using namespace std;
+
 class FindMinimumInRotatedSortedArray_153 {
 public:
-     int findMin(std::vector<int>& nums);
+     int findMin(vector<int>& nums);
 };

@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
 
+using namespace std;
+
 class ProductOfArrayExceptSelf {
 public:
-    std::vector<int> productExceptSelf(std::vector<int>& nums);
+    vector<int> productExceptSelf(vector<int>& nums);
 };

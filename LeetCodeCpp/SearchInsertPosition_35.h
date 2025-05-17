@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
 
+using namespace std;
+
 class SearchInsertPosition_35 {
 public:
-    int searchInsert(std::vector<int>& nums, int target);
+    int searchInsert(vector<int>& nums, int target);
 };

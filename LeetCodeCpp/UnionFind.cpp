@@ -29,9 +29,9 @@ void UnionFind::unionSets(int src, int dst) {
 
 // Display parent array (for debugging)
 void UnionFind::displayParents() {
-    std::cout << "Parent Array: ";
+    cout << "Parent Array: ";
     for (size_t i = 0; i < parent.size(); ++i) {
-        std::cout << parent[i] << " ";
+        cout << parent[i] << " ";
     }
-    std::cout << "\n";
+    cout << "\n";
 }

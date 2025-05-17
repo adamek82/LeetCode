@@ -2,9 +2,11 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 class WordSearch_79 {
 public:
-    bool exist(std::vector<std::vector<char>>& board, std::string word);
+    bool exist(vector<vector<char>>& board, string word);
 private:
-    bool backtrack(std::vector<std::vector<char>>& board, const std::string& word, int row, int col, int index);
+    bool backtrack(vector<vector<char>>& board, const string& word, int row, int col, int index);
 };

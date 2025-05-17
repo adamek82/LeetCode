@@ -1,13 +1,13 @@
 #include "EvaluateReversePolishNotation_150.h"
 
-int EvaluateReversePolishNotation_150::evalRPN(std::vector<std::string> &tokens)
+int EvaluateReversePolishNotation_150::evalRPN(vector<string> &tokens)
 {
-    std::stack<int> stk;
+    stack<int> stk;
 
-    for (const std::string& token : tokens) {
+    for (const string& token : tokens) {
         if (isOperator(token)) {
             if (stk.size() < 2) {
-                throw std::invalid_argument("Insufficient operands for the operator");
+                throw invalid_argument("Insufficient operands for the operator");
             }
             int b = stk.top();
             stk.pop();
@@ -20,22 +20,22 @@ int EvaluateReversePolishNotation_150::evalRPN(std::vector<std::string> &tokens)
     }
 
     if (stk.size() != 1) {
-        throw std::invalid_argument("Invalid RPN expression");
+        throw invalid_argument("Invalid RPN expression");
     }
 
     return stk.top();
 }
 
-bool EvaluateReversePolishNotation_150::isOperator(const std::string &token)
+bool EvaluateReversePolishNotation_150::isOperator(const string &token)
 {
     return token == "+" || token == "-" || token == "*" || token == "/";
 }
 
-int EvaluateReversePolishNotation_150::applyOperator(int a, int b, const std::string &op)
+int EvaluateReversePolishNotation_150::applyOperator(int a, int b, const string &op)
 {
     if (op == "+") return a + b;
     if (op == "-") return a - b;
     if (op == "*") return a * b;
     if (op == "/") return a / b; // Division truncates toward zero by default for integers
-    throw std::invalid_argument("Unknown operator");
+    throw invalid_argument("Unknown operator");
 }

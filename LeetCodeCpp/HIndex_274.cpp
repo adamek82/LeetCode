@@ -1,13 +1,13 @@
 #include "HIndex_274.h"
 
-int HIndex_274::hIndex(std::vector<int> &citations)
+int HIndex_274::hIndex(vector<int> &citations)
 {
     int n = citations.size();
-    std::vector<int> counts(n + 1, 0);
+    vector<int> counts(n + 1, 0);
 
     // Bucket each citation count into counts[min(c, n)].
     for (int c : citations) {
-        counts[std::min(c, n)]++;
+        counts[min(c, n)]++;
     }
 
     // Start with h at n, and totalPapers = counts[n].

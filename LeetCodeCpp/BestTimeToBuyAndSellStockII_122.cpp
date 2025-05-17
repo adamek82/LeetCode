@@ -7,7 +7,7 @@
  * is equivalent to "buying low and selling high" repeatedly, which effectively captures
  * the entire upward movement.
  */
-int BestTimeToBuyAndSellStockII_122::maxProfit(std::vector<int> &prices)
+int BestTimeToBuyAndSellStockII_122::maxProfit(vector<int> &prices)
 {
     // Accumulates the total profit after evaluating all daily price differences
     int totalProfit = 0;

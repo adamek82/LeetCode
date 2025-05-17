@@ -1,9 +1,9 @@
 #include "KthLargestElementInArray_215.h"
 
-int KthLargestElementInArray_215::findKthLargest(std::vector<int> &nums, int k)
+int KthLargestElementInArray_215::findKthLargest(vector<int> &nums, int k)
 {
     // Using a max-heap: O(n log n) time and O(n) space
-    std::priority_queue<int> maxHeap;
+    priority_queue<int> maxHeap;
 
     // Push all elements into the max-heap
     for (int num : nums) {

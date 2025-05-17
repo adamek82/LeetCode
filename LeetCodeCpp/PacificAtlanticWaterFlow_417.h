@@ -2,9 +2,11 @@
 #include <vector>
 #include <queue>
 
+using namespace std;
+
 class PacificAtlanticWaterFlow_417 {
 public:
-    std::vector<std::vector<int>> pacificAtlantic(std::vector<std::vector<int>>& heights);
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights);
 private:
-    void bfs(const std::vector<std::vector<int>>& heights, std::queue<std::pair<int, int>>& q, std::vector<std::vector<bool>>& visited);
+    void bfs(const vector<vector<int>>& heights, queue<pair<int, int>>& q, vector<vector<bool>>& visited);
 };

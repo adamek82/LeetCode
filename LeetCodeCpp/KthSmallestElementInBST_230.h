@@ -1,6 +1,8 @@
 #pragma once
 #include "TreeNode.h"
 
+using namespace std;
+
 class KthSmallestElementInBST_230 {
 public:
     int kthSmallest(TreeNode<int>* root, int k);

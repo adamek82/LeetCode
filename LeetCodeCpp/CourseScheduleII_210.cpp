@@ -1,9 +1,9 @@
 #include "CourseScheduleII_210.h"
 
-std::vector<int> CourseScheduleII_210::findOrderByDFSTraversal(int numCourses, std::vector<std::vector<int>> &prerequisites)
+vector<int> CourseScheduleII_210::findOrderByDFSTraversal(int numCourses, vector<vector<int>> &prerequisites)
 {
-    std::vector<int> order;
-    std::unordered_map<int, std::vector<int>> graph;
+    vector<int> order;
+    unordered_map<int, vector<int>> graph;
 
     for (const auto& prereq : prerequisites) {
         int course = prereq[0], pre = prereq[1];
@@ -11,9 +11,9 @@ std::vector<int> CourseScheduleII_210::findOrderByDFSTraversal(int numCourses, s
     }
 
     enum State { UNVISITED, VISITING, VISITED };
-    std::vector<State> states(numCourses, UNVISITED);
+    vector<State> states(numCourses, UNVISITED);
 
-    std::function<bool(int)> dfs = [&](int course) {
+    function<bool(int)> dfs = [&](int course) {
         if (states[course] == VISITING) return false;
         if (states[course] == VISITED) return true;
 
@@ -34,11 +34,11 @@ std::vector<int> CourseScheduleII_210::findOrderByDFSTraversal(int numCourses, s
     return order;
 }
 
-std::vector<int> CourseScheduleII_210::findOrderByKahnsAlgorithm(int numCourses, std::vector<std::vector<int>> &prerequisites)
+vector<int> CourseScheduleII_210::findOrderByKahnsAlgorithm(int numCourses, vector<vector<int>> &prerequisites)
 {
-    std::vector<int> order;
-    std::vector<int> inDegree(numCourses, 0);
-    std::vector<std::vector<int>> graph(numCourses); // Graph with numCourses empty vectors
+    vector<int> order;
+    vector<int> inDegree(numCourses, 0);
+    vector<vector<int>> graph(numCourses); // Graph with numCourses empty vectors
 
     // Build the graph and calculate in-degrees
     for (const auto& pre : prerequisites) {
@@ -47,7 +47,7 @@ std::vector<int> CourseScheduleII_210::findOrderByKahnsAlgorithm(int numCourses,
     }
 
     // Queue to process courses with no prerequisites
-    std::queue<int> queue;
+    queue<int> queue;
     for (int i = 0; i < numCourses; ++i) {
         if (inDegree[i] == 0) {
             queue.push(i); // Add courses with no prerequisites
@@ -69,5 +69,5 @@ std::vector<int> CourseScheduleII_210::findOrderByKahnsAlgorithm(int numCourses,
     }
 
     // Check if all courses are processed
-    return order.size() == numCourses ? order : std::vector<int>();
+    return order.size() == numCourses ? order : vector<int>();
 }

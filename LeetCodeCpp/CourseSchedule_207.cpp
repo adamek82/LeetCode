@@ -1,12 +1,12 @@
 #include "CourseSchedule_207.h"
 
-bool CourseSchedule_207::canFinish(int numCourses, std::vector<std::vector<int>>& prerequisites) {
-    std::unordered_map<int, std::vector<int>> graph;
+bool CourseSchedule_207::canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+    unordered_map<int, vector<int>> graph;
     for (const auto& pair : prerequisites) {
         graph[pair[0]].push_back(pair[1]);
     }
 
-    std::vector<State> states(numCourses, State::UNVISITED);
+    vector<State> states(numCourses, State::UNVISITED);
 
     for (int i = 0; i < numCourses; i++) {
         if (!dfs(i, graph, states)) {
@@ -17,7 +17,7 @@ bool CourseSchedule_207::canFinish(int numCourses, std::vector<std::vector<int>>
     return true;
 }
 
-bool CourseSchedule_207::dfs(int node, std::unordered_map<int, std::vector<int>>& graph, std::vector<State>& states) {
+bool CourseSchedule_207::dfs(int node, unordered_map<int, vector<int>>& graph, vector<State>& states) {
     if (states[node] == State::VISITING) return false; // Cycle detected
     if (states[node] == State::VISITED) return true;   // Already visited
 

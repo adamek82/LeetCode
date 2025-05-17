@@ -2,7 +2,9 @@
 #include <vector>
 #include <unordered_set>
 
+using namespace std;
+
 class ValidSudoku_36 {
 public:
-    bool isValidSudoku(std::vector<std::vector<char>>& board);
+    bool isValidSudoku(vector<vector<char>>& board);
 };

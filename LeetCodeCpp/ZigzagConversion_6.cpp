@@ -1,10 +1,10 @@
 #include "ZigzagConversion_6.h"
 
-std::string ZigzagConversion_6::convert_rowWise(std::string s, int numRows)
+string ZigzagConversion_6::convert_rowWise(string s, int numRows)
 {
     if (numRows == 1 || s.length() <= numRows) return s;
 
-    std::vector<std::string> rows(std::min(numRows, int(s.length())));
+    vector<string> rows(min(numRows, int(s.length())));
     int currRow = 0;
     bool goingDown = false;
 
@@ -14,8 +14,8 @@ std::string ZigzagConversion_6::convert_rowWise(std::string s, int numRows)
         currRow += goingDown ? 1 : -1;
     }
 
-    std::string result;
-    for (std::string &row : rows) {
+    string result;
+    for (string &row : rows) {
         result += row;
     }
 
@@ -54,10 +54,10 @@ std::string ZigzagConversion_6::convert_rowWise(std::string s, int numRows)
  * - Switching occurs only when the step size is not initially equal to d.
  */
 
-std::string ZigzagConversion_6::convert_jumpPattern(std::string s, int numRows) {
+string ZigzagConversion_6::convert_jumpPattern(string s, int numRows) {
     if (numRows == 1) return s;
     int N = s.size(), d = (numRows - 1) * 2;
-    std::string ans;
+    string ans;
     for (int i = 0; i < numRows; ++i) {
         int w = 2 * i;
         for (int j = i; j < N;) {

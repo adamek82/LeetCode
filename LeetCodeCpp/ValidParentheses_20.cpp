@@ -1,8 +1,8 @@
 #include "ValidParentheses_20.h"
 
-bool ValidParentheses_20::isValid(std::string s)
+bool ValidParentheses_20::isValid(string s)
 {
-    std::stack<char> stack;
+    stack<char> stack;
     for (char ch : s) {
         // Push opening brackets onto the stack
         if (ch == '(' || ch == '[' || ch == '{') {

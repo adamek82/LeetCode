@@ -1,6 +1,6 @@
 #include "MergeKSortedLists_23.h"
 
-ListNode<int> *MergeKSortedLists_23::mergeKLists(std::vector<ListNode<int> *> &lists)
+ListNode<int> *MergeKSortedLists_23::mergeKLists(vector<ListNode<int> *> &lists)
 {
     // Custom comparator for the priority queue
     auto compare = [](ListNode<int>* a, ListNode<int>* b) {
@@ -8,7 +8,7 @@ ListNode<int> *MergeKSortedLists_23::mergeKLists(std::vector<ListNode<int> *> &l
     };
 
     // Min-heap to store the smallest elements of each list
-    std::priority_queue<ListNode<int>*, std::vector<ListNode<int>*>, decltype(compare)> minHeap(compare);
+    priority_queue<ListNode<int>*, vector<ListNode<int>*>, decltype(compare)> minHeap(compare);
 
     // Add the head of each non-empty list to the heap
     for (auto list : lists) {

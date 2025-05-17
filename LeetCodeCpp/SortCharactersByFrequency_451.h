@@ -3,7 +3,9 @@
 #include <string>
 #include <unordered_map>
 
+using namespace std;
+
 class SortCharactersByFrequency_451 {
 public:
-    std::string frequencySort(std::string s);
+    string frequencySort(string s);
 };

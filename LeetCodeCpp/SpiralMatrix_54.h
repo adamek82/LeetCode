@@ -2,7 +2,9 @@
 #include <vector>
 #include <limits>
 
+using namespace std;
+
 class SpiralMatrix_54 {
 public:
-    std::vector<int> spiralOrder(std::vector<std::vector<int>>& matrix);
+    vector<int> spiralOrder(vector<vector<int>>& matrix);
 };

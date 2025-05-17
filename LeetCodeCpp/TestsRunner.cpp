@@ -69,505 +69,507 @@
 #include "UniquePathsII_63.h"
 #include "MaximumAverageSubarrayI_643.h"
 
+using namespace std;
+
 // Helper to compare two doubles within 1e-5
 static bool approxEqual(double a, double b, double eps = 1e-5) {
-    return std::fabs(a - b) < eps;
+    return fabs(a - b) < eps;
 }
 
 struct ScheduleTestCase {
     int numCourses;
-    std::vector<std::vector<int>> prerequisites;
+    vector<vector<int>> prerequisites;
     bool expectedResult;
 
-    ScheduleTestCase(int num, std::vector<std::vector<int>> prereq, bool result)
-        : numCourses(num), prerequisites(std::move(prereq)), expectedResult(result) {}
+    ScheduleTestCase(int num, vector<vector<int>> prereq, bool result)
+        : numCourses(num), prerequisites(move(prereq)), expectedResult(result) {}
 };
 
 struct PathTestCase {
     int n;
-    std::vector<std::vector<int>> edges;
+    vector<vector<int>> edges;
     int source;
     int destination;
     bool expectedResult;
 
-    PathTestCase(int nodes, std::vector<std::vector<int>> edg, int src, int dest, bool result)
-        : n(nodes), edges(std::move(edg)), source(src), destination(dest), expectedResult(result) {}
+    PathTestCase(int nodes, vector<vector<int>> edg, int src, int dest, bool result)
+        : n(nodes), edges(move(edg)), source(src), destination(dest), expectedResult(result) {}
 };
 
 struct NumIslandsTestCase {
-    std::vector<std::vector<char>> grid;
+    vector<vector<char>> grid;
     int expectedResult;
 
-    NumIslandsTestCase(std::vector<std::vector<char>> g, int e)
-        : grid(std::move(g)), expectedResult(e) {}
+    NumIslandsTestCase(vector<vector<char>> g, int e)
+        : grid(move(g)), expectedResult(e) {}
 };
 
 struct MaxAreaTestCase {
-    std::vector<std::vector<int>> grid;
+    vector<vector<int>> grid;
     int expectedResult;
 
-    MaxAreaTestCase(std::vector<std::vector<int>> g, int e)
-        : grid(std::move(g)), expectedResult(e) {}
+    MaxAreaTestCase(vector<vector<int>> g, int e)
+        : grid(move(g)), expectedResult(e) {}
 };
 
 struct CourseScheduleIITestCase {
     int numCourses;
-    std::vector<std::vector<int>> prerequisites;
-    std::vector<int> expectedOrder;
+    vector<vector<int>> prerequisites;
+    vector<int> expectedOrder;
 
-    CourseScheduleIITestCase(int num, std::vector<std::vector<int>> prereq, std::vector<int> order)
-        : numCourses(num), prerequisites(std::move(prereq)), expectedOrder(std::move(order)) {}
+    CourseScheduleIITestCase(int num, vector<vector<int>> prereq, vector<int> order)
+        : numCourses(num), prerequisites(move(prereq)), expectedOrder(move(order)) {}
 };
 
 struct NetworkDelayTimeTestCase {
-    std::vector<std::vector<int>> times;
+    vector<vector<int>> times;
     int n;
     int k;
     int expectedResult;
 
-    NetworkDelayTimeTestCase(std::vector<std::vector<int>> t, int nodes, int start, int result)
-        : times(std::move(t)), n(nodes), k(start), expectedResult(result) {}
+    NetworkDelayTimeTestCase(vector<vector<int>> t, int nodes, int start, int result)
+        : times(move(t)), n(nodes), k(start), expectedResult(result) {}
 };
 
 struct RottingOrangesTestCase {
-    std::vector<std::vector<int>> grid;
+    vector<vector<int>> grid;
     int expectedResult;
 
-    RottingOrangesTestCase(std::vector<std::vector<int>> g, int e)
-        : grid(std::move(g)), expectedResult(e) {}
+    RottingOrangesTestCase(vector<vector<int>> g, int e)
+        : grid(move(g)), expectedResult(e) {}
 };
 
 struct PacificAtlanticTestCase {
-    std::vector<std::vector<int>> heights;
-    std::vector<std::vector<int>> expectedResult;
+    vector<vector<int>> heights;
+    vector<vector<int>> expectedResult;
 
-    PacificAtlanticTestCase(std::vector<std::vector<int>> h, std::vector<std::vector<int>> e)
-        : heights(std::move(h)), expectedResult(std::move(e)) {}
+    PacificAtlanticTestCase(vector<vector<int>> h, vector<vector<int>> e)
+        : heights(move(h)), expectedResult(move(e)) {}
 };
 
 struct MinCostToConnectAllPointsTestCase {
-    std::vector<std::vector<int>> points;
+    vector<vector<int>> points;
     int expectedResult;
 
-    MinCostToConnectAllPointsTestCase(std::vector<std::vector<int>> p, int e)
-        : points(std::move(p)), expectedResult(e) {}
+    MinCostToConnectAllPointsTestCase(vector<vector<int>> p, int e)
+        : points(move(p)), expectedResult(e) {}
 };
 
 struct LongestCommonSubsequenceTestCase {
-    std::string text1;
-    std::string text2;
+    string text1;
+    string text2;
     int expectedResult;
 
-    LongestCommonSubsequenceTestCase(std::string t1, std::string t2, int e)
-        : text1(std::move(t1)), text2(std::move(t2)), expectedResult(e) {}
+    LongestCommonSubsequenceTestCase(string t1, string t2, int e)
+        : text1(move(t1)), text2(move(t2)), expectedResult(e) {}
 };
 
 struct LongestIncreasingSubsequenceTestCase {
-    std::vector<int> nums;
+    vector<int> nums;
     int expectedResult;
 
-    LongestIncreasingSubsequenceTestCase(std::vector<int> n, int e)
-        : nums(std::move(n)), expectedResult(e) {}
+    LongestIncreasingSubsequenceTestCase(vector<int> n, int e)
+        : nums(move(n)), expectedResult(e) {}
 };
 
 struct RemoveDuplicatesTestCase {
-    std::vector<int> inputList;
-    std::vector<int> expectedList;
+    vector<int> inputList;
+    vector<int> expectedList;
 
-    RemoveDuplicatesTestCase(std::vector<int> input, std::vector<int> expected)
-        : inputList(std::move(input)), expectedList(std::move(expected)) {}
+    RemoveDuplicatesTestCase(vector<int> input, vector<int> expected)
+        : inputList(move(input)), expectedList(move(expected)) {}
 };
 
 struct ReverseListTestCase {
-    std::vector<int> inputList;
-    std::vector<int> expectedList;
+    vector<int> inputList;
+    vector<int> expectedList;
 
-    ReverseListTestCase(std::vector<int> input, std::vector<int> expected)
-        : inputList(std::move(input)), expectedList(std::move(expected)) {}
+    ReverseListTestCase(vector<int> input, vector<int> expected)
+        : inputList(move(input)), expectedList(move(expected)) {}
 };
 
 struct MergeTwoListsTestCase {
-    std::vector<int> list1;
-    std::vector<int> list2;
-    std::vector<int> expectedList;
+    vector<int> list1;
+    vector<int> list2;
+    vector<int> expectedList;
 
-    MergeTwoListsTestCase(std::vector<int> l1, std::vector<int> l2, std::vector<int> expected)
-        : list1(std::move(l1)), list2(std::move(l2)), expectedList(std::move(expected)) {}
+    MergeTwoListsTestCase(vector<int> l1, vector<int> l2, vector<int> expected)
+        : list1(move(l1)), list2(move(l2)), expectedList(move(expected)) {}
 };
 
 struct LinkedListCycleTestCase {
-    std::vector<int> inputList;
+    vector<int> inputList;
     int pos;
     bool expectedResult;
 
-    LinkedListCycleTestCase(std::vector<int> input, int cyclePos, bool expected)
-        : inputList(std::move(input)), pos(cyclePos), expectedResult(expected) {}
+    LinkedListCycleTestCase(vector<int> input, int cyclePos, bool expected)
+        : inputList(move(input)), pos(cyclePos), expectedResult(expected) {}
 };
 
 struct MiddleOfLinkedListTestCase {
-    std::vector<int> inputList;
-    std::vector<int> expectedList;
+    vector<int> inputList;
+    vector<int> expectedList;
 
-    MiddleOfLinkedListTestCase(std::vector<int> input, std::vector<int> expected)
-        : inputList(std::move(input)), expectedList(std::move(expected)) {}
+    MiddleOfLinkedListTestCase(vector<int> input, vector<int> expected)
+        : inputList(move(input)), expectedList(move(expected)) {}
 };
 
 struct RemoveNthNodeTestCase {
-    std::vector<int> inputList;
+    vector<int> inputList;
     int n;
-    std::vector<int> expectedList;
+    vector<int> expectedList;
 
-    RemoveNthNodeTestCase(std::vector<int> input, int nth, std::vector<int> expected)
-        : inputList(std::move(input)), n(nth), expectedList(std::move(expected)) {}
+    RemoveNthNodeTestCase(vector<int> input, int nth, vector<int> expected)
+        : inputList(move(input)), n(nth), expectedList(move(expected)) {}
 };
 
 struct MaxProfitTestCase {
-    std::vector<int> prices;
+    vector<int> prices;
     int expectedResult;
 
-    MaxProfitTestCase(std::vector<int> p, int e) : prices(std::move(p)), expectedResult(e) {}
+    MaxProfitTestCase(vector<int> p, int e) : prices(move(p)), expectedResult(e) {}
 };
 
 struct SpiralMatrixTestCase {
-    std::vector<std::vector<int>> matrix;
-    std::vector<int> expectedResult;
+    vector<vector<int>> matrix;
+    vector<int> expectedResult;
 
-    SpiralMatrixTestCase(std::vector<std::vector<int>> m, std::vector<int> e)
-        : matrix(std::move(m)), expectedResult(std::move(e)) {}
+    SpiralMatrixTestCase(vector<vector<int>> m, vector<int> e)
+        : matrix(move(m)), expectedResult(move(e)) {}
 };
 
 struct ValidateBinarySearchTreeTestCase {
-    std::vector<std::optional<int>> tree; // Input as vector
+    vector<optional<int>> tree; // Input as vector
     bool expectedResult;                  // Expected output
 
-    ValidateBinarySearchTreeTestCase(std::vector<std::optional<int>> t, bool e)
-        : tree(std::move(t)), expectedResult(e) {}
+    ValidateBinarySearchTreeTestCase(vector<optional<int>> t, bool e)
+        : tree(move(t)), expectedResult(e) {}
 };
 
 struct LowestCommonAncestorTestCase {
-    std::vector<std::optional<int>> tree; // Tree represented as a vector
+    vector<optional<int>> tree; // Tree represented as a vector
     int p;                                // Value of the first node
     int q;                                // Value of the second node
     int expectedLCA;                      // Expected LCA value
 
-    LowestCommonAncestorTestCase(const std::vector<std::optional<int>>& t, int node1, int node2, int lca)
-        : tree(std::move(t)), p(node1), q(node2), expectedLCA(lca) {}
+    LowestCommonAncestorTestCase(const vector<optional<int>>& t, int node1, int node2, int lca)
+        : tree(move(t)), p(node1), q(node2), expectedLCA(lca) {}
 };
 
 struct CopyRandomListTestCase {
-    std::vector<std::pair<int, std::optional<int>>> inputList;
-    std::vector<std::pair<int, std::optional<int>>> expectedList;
+    vector<pair<int, optional<int>>> inputList;
+    vector<pair<int, optional<int>>> expectedList;
 
-    CopyRandomListTestCase(std::vector<std::pair<int, std::optional<int>>> input,
-                           std::vector<std::pair<int, std::optional<int>>> expected)
-        : inputList(std::move(input)), expectedList(std::move(expected)) {}
+    CopyRandomListTestCase(vector<pair<int, optional<int>>> input,
+                           vector<pair<int, optional<int>>> expected)
+        : inputList(move(input)), expectedList(move(expected)) {}
 };
 
 struct KthSmallestTestCase {
-    std::vector<std::optional<int>> tree; // Tree represented as a vector
+    vector<optional<int>> tree; // Tree represented as a vector
     int k;                                // kth position
     int expectedResult;                   // Expected result
 
-    KthSmallestTestCase(const std::vector<std::optional<int>>& t, int kVal, int e)
-        : tree(std::move(t)), k(kVal), expectedResult(e) {}
+    KthSmallestTestCase(const vector<optional<int>>& t, int kVal, int e)
+        : tree(move(t)), k(kVal), expectedResult(e) {}
 };
 
 struct TrieTestCase {
-    std::vector<std::string> operations;
-    std::vector<std::optional<std::string>> arguments;
-    std::vector<std::optional<bool>> expectedResults;
+    vector<string> operations;
+    vector<optional<string>> arguments;
+    vector<optional<bool>> expectedResults;
 
-    TrieTestCase(const std::vector<std::string> ops, const std::vector<std::optional<std::string>> args, const std::vector<std::optional<bool>> expected)
-        : operations(std::move(ops)), arguments(std::move(args)), expectedResults(std::move(expected)) {}
+    TrieTestCase(const vector<string> ops, const vector<optional<string>> args, const vector<optional<bool>> expected)
+        : operations(move(ops)), arguments(move(args)), expectedResults(move(expected)) {}
 };
 
 struct KthLargestElementTestCase {
-    std::vector<int> nums;
+    vector<int> nums;
     int k;
     int expectedResult;
 
-    KthLargestElementTestCase(std::vector<int> n, int kVal, int e)
-        : nums(std::move(n)), k(kVal), expectedResult(e) {}
+    KthLargestElementTestCase(vector<int> n, int kVal, int e)
+        : nums(move(n)), k(kVal), expectedResult(e) {}
 };
 
 struct MinHeapTestCase {
-    std::vector<std::pair<std::string, int>> operations; // {operation, value (if any)}
-    std::vector<int> expectedResults;                   // Expected results for operations
+    vector<pair<string, int>> operations; // {operation, value (if any)}
+    vector<int> expectedResults;                   // Expected results for operations
 
-    MinHeapTestCase(std::vector<std::pair<std::string, int>> ops, std::vector<int> results)
-        : operations(std::move(ops)), expectedResults(std::move(results)) {}
+    MinHeapTestCase(vector<pair<string, int>> ops, vector<int> results)
+        : operations(move(ops)), expectedResults(move(results)) {}
 };
 
 struct RotateImageTestCase {
-    std::vector<std::vector<int>> inputMatrix;
-    std::vector<std::vector<int>> expectedMatrix;
+    vector<vector<int>> inputMatrix;
+    vector<vector<int>> expectedMatrix;
 
-    RotateImageTestCase(std::vector<std::vector<int>> input, std::vector<std::vector<int>> expected)
-        : inputMatrix(std::move(input)), expectedMatrix(std::move(expected)) {}
+    RotateImageTestCase(vector<vector<int>> input, vector<vector<int>> expected)
+        : inputMatrix(move(input)), expectedMatrix(move(expected)) {}
 };
 
 struct MergeIntervalsTestCase {
-    std::vector<std::vector<int>> intervals;
-    std::vector<std::vector<int>> expectedResult;
+    vector<vector<int>> intervals;
+    vector<vector<int>> expectedResult;
 
-    MergeIntervalsTestCase(std::vector<std::vector<int>> input, std::vector<std::vector<int>> expected)
-        : intervals(std::move(input)), expectedResult(std::move(expected)) {}
+    MergeIntervalsTestCase(vector<vector<int>> input, vector<vector<int>> expected)
+        : intervals(move(input)), expectedResult(move(expected)) {}
 };
 
 struct MergeKListsTestCase {
-    std::vector<std::vector<int>> inputLists;
-    std::vector<int> expectedList;
+    vector<vector<int>> inputLists;
+    vector<int> expectedList;
 
-    MergeKListsTestCase(std::vector<std::vector<int>> inputs, std::vector<int> expected)
-        : inputLists(std::move(inputs)), expectedList(std::move(expected)) {}
+    MergeKListsTestCase(vector<vector<int>> inputs, vector<int> expected)
+        : inputLists(move(inputs)), expectedList(move(expected)) {}
 };
 
 struct ProductOfArrayExceptSelfTestCase {
-    std::vector<int> nums;
-    std::vector<int> expectedResult;
+    vector<int> nums;
+    vector<int> expectedResult;
 
-    ProductOfArrayExceptSelfTestCase(std::vector<int> input, std::vector<int> expected)
-        : nums(std::move(input)), expectedResult(std::move(expected)) {}
+    ProductOfArrayExceptSelfTestCase(vector<int> input, vector<int> expected)
+        : nums(move(input)), expectedResult(move(expected)) {}
 };
 
 struct MajorityElementTestCase {
-    std::vector<int> nums;
+    vector<int> nums;
     int expectedResult;
 
-    MajorityElementTestCase(std::vector<int> nums, int result)
-        : nums(std::move(nums)), expectedResult(result) {}
+    MajorityElementTestCase(vector<int> nums, int result)
+        : nums(move(nums)), expectedResult(result) {}
 };
 
 struct EvaluateRPNTestCase {
-    std::vector<std::string> tokens;
+    vector<string> tokens;
     int expectedResult;
 
-    EvaluateRPNTestCase(std::vector<std::string> t, int e)
-        : tokens(std::move(t)), expectedResult(e) {}
+    EvaluateRPNTestCase(vector<string> t, int e)
+        : tokens(move(t)), expectedResult(e) {}
 };
 
 struct LargestRectangleTestCase {
-    std::vector<int> heights;
+    vector<int> heights;
     int expectedArea;
 
-    LargestRectangleTestCase(std::vector<int> h, int area)
-        : heights(std::move(h)), expectedArea(area) {}
+    LargestRectangleTestCase(vector<int> h, int area)
+        : heights(move(h)), expectedArea(area) {}
 };
 
 struct WordSearchTestCase {
-    std::vector<std::vector<char>> board;
-    std::string word;
+    vector<vector<char>> board;
+    string word;
     bool expectedResult;
 
-    WordSearchTestCase(std::vector<std::vector<char>> b, std::string w, bool e)
-        : board(std::move(b)), word(std::move(w)), expectedResult(e) {}
+    WordSearchTestCase(vector<vector<char>> b, string w, bool e)
+        : board(move(b)), word(move(w)), expectedResult(e) {}
 };
 
 struct ValidParenthesesTestCase {
-    std::string input;
+    string input;
     bool expectedResult;
 
-    ValidParenthesesTestCase(std::string in, bool result)
-        : input(std::move(in)), expectedResult(result) {}
+    ValidParenthesesTestCase(string in, bool result)
+        : input(move(in)), expectedResult(result) {}
 };
 
 struct ValidSudokuTestCase {
-    std::vector<std::vector<char>> board;
+    vector<vector<char>> board;
     bool expectedResult;
 
-    ValidSudokuTestCase(std::vector<std::vector<char>> b, bool e)
-        : board(std::move(b)), expectedResult(e) {}
+    ValidSudokuTestCase(vector<vector<char>> b, bool e)
+        : board(move(b)), expectedResult(e) {}
 };
 
 struct BinarySearchTestCase {
-    std::vector<int> nums;
+    vector<int> nums;
     int target;
     int expectedResult;
 
-    BinarySearchTestCase(std::vector<int> n, int t, int e)
-        : nums(std::move(n)), target(t), expectedResult(e) {}
+    BinarySearchTestCase(vector<int> n, int t, int e)
+        : nums(move(n)), target(t), expectedResult(e) {}
 };
 
 struct Search2DMatrixTestCase {
-    std::vector<std::vector<int>> matrix;
+    vector<vector<int>> matrix;
     int target;
     bool expectedResult;
 
-    Search2DMatrixTestCase(std::vector<std::vector<int>> mat, int tgt, bool result)
-        : matrix(std::move(mat)), target(tgt), expectedResult(result) {}
+    Search2DMatrixTestCase(vector<vector<int>> mat, int tgt, bool result)
+        : matrix(move(mat)), target(tgt), expectedResult(result) {}
 };
 
 struct FindMinTestCase {
-    std::vector<int> nums;
+    vector<int> nums;
     int expectedResult;
 
-    FindMinTestCase(std::vector<int> n, int e) : nums(std::move(n)), expectedResult(e) {}
+    FindMinTestCase(vector<int> n, int e) : nums(move(n)), expectedResult(e) {}
 };
 
 struct ZigzagTestCase {
-    std::string input;
+    string input;
     int numRows;
-    std::string expected;
+    string expected;
 
-    ZigzagTestCase(std::string s, int n, std::string e)
-        : input(std::move(s)), numRows(n), expected(std::move(e)) {}
+    ZigzagTestCase(string s, int n, string e)
+        : input(move(s)), numRows(n), expected(move(e)) {}
 };
 
 struct HIndexTestCase {
-    std::vector<int> citations;
+    vector<int> citations;
     int expectedResult;
 
-    HIndexTestCase(std::vector<int> c, int e)
-        : citations(std::move(c)), expectedResult(e) {}
+    HIndexTestCase(vector<int> c, int e)
+        : citations(move(c)), expectedResult(e) {}
 };
 
 struct SortColorsTestCase {
-    std::vector<int> input;
-    std::vector<int> expected;
+    vector<int> input;
+    vector<int> expected;
 
-    SortColorsTestCase(std::vector<int> in, std::vector<int> exp)
-        : input(std::move(in)), expected(std::move(exp)) {}
+    SortColorsTestCase(vector<int> in, vector<int> exp)
+        : input(move(in)), expected(move(exp)) {}
 };
 
 struct RemoveDuplicatesFromSortedArrayIITestCase {
-    std::vector<int> input;
+    vector<int> input;
     int expectedK;
-    std::vector<int> expectedResult;
+    vector<int> expectedResult;
 
-    RemoveDuplicatesFromSortedArrayIITestCase(std::vector<int> in, int k, std::vector<int> exp)
-        : input(std::move(in)), expectedK(k), expectedResult(std::move(exp)) {}
+    RemoveDuplicatesFromSortedArrayIITestCase(vector<int> in, int k, vector<int> exp)
+        : input(move(in)), expectedK(k), expectedResult(move(exp)) {}
 };
 
 struct BestTimeToBuyAndSellStockII_122_TestCase {
-    std::vector<int> prices;
+    vector<int> prices;
     int expectedProfit;
 
-    BestTimeToBuyAndSellStockII_122_TestCase(std::vector<int> p, int e)
-        : prices(std::move(p)), expectedProfit(e) {}
+    BestTimeToBuyAndSellStockII_122_TestCase(vector<int> p, int e)
+        : prices(move(p)), expectedProfit(e) {}
 };
 
 struct ValidAnagramTestCase {
-    std::string s;
-    std::string t;
+    string s;
+    string t;
     bool expectedResult;
 
-    ValidAnagramTestCase(std::string str1, std::string str2, bool result)
-        : s(std::move(str1)), t(std::move(str2)), expectedResult(result) {}
+    ValidAnagramTestCase(string str1, string str2, bool result)
+        : s(move(str1)), t(move(str2)), expectedResult(result) {}
 };
 
 struct TopKFrequentWordsTestCase {
-    std::vector<std::string> words;
+    vector<string> words;
     int k;
-    std::vector<std::string> expected;
+    vector<string> expected;
 
-    TopKFrequentWordsTestCase(std::vector<std::string> w, int kk, std::vector<std::string> e)
-        : words(std::move(w)), k(kk), expected(std::move(e)) {}
+    TopKFrequentWordsTestCase(vector<string> w, int kk, vector<string> e)
+        : words(move(w)), k(kk), expected(move(e)) {}
 };
 
 struct AnalyzeUserWebsiteVisitPatternTestCase {
-    std::vector<std::string> username;
-    std::vector<int> timestamp;
-    std::vector<std::string> website;
-    std::vector<std::string> expectedResult;
+    vector<string> username;
+    vector<int> timestamp;
+    vector<string> website;
+    vector<string> expectedResult;
 
-    AnalyzeUserWebsiteVisitPatternTestCase(std::vector<std::string> u, std::vector<int> t, std::vector<std::string> w, std::vector<std::string> e)
-        : username(std::move(u)), timestamp(std::move(t)), website(std::move(w)), expectedResult(std::move(e)) {}
+    AnalyzeUserWebsiteVisitPatternTestCase(vector<string> u, vector<int> t, vector<string> w, vector<string> e)
+        : username(move(u)), timestamp(move(t)), website(move(w)), expectedResult(move(e)) {}
 };
 
 struct GroupAnagramsTestCase {
-    std::vector<std::string> input;
-    std::vector<std::vector<std::string>> expected;
+    vector<string> input;
+    vector<vector<string>> expected;
 
-    GroupAnagramsTestCase(std::vector<std::string> in, std::vector<std::vector<std::string>> exp)
-        : input(std::move(in)), expected(std::move(exp)) {}
+    GroupAnagramsTestCase(vector<string> in, vector<vector<string>> exp)
+        : input(move(in)), expected(move(exp)) {}
 };
 
 struct FindCelebrityTestCase {
-    std::vector<std::vector<int>> matrix;
+    vector<vector<int>> matrix;
     int expectedResult;
 
-    FindCelebrityTestCase(std::vector<std::vector<int>> m, int e)
-        : matrix(std::move(m)), expectedResult(e) {}
+    FindCelebrityTestCase(vector<vector<int>> m, int e)
+        : matrix(move(m)), expectedResult(e) {}
 };
 
 struct LongestConsecutiveSequenceTestCase {
-    std::vector<int> nums;
+    vector<int> nums;
     int expectedResult;
-    LongestConsecutiveSequenceTestCase(std::vector<int> n, int e)
-        : nums(std::move(n)), expectedResult(e) {}
+    LongestConsecutiveSequenceTestCase(vector<int> n, int e)
+        : nums(move(n)), expectedResult(e) {}
 };
 
 struct LongestRepeatingCharReplacementTestCase {
-    std::string s;
+    string s;
     int k;
     int expectedResult;
-    LongestRepeatingCharReplacementTestCase(std::string str, int kk, int exp)
-        : s(std::move(str)), k(kk), expectedResult(exp) {}
+    LongestRepeatingCharReplacementTestCase(string str, int kk, int exp)
+        : s(move(str)), k(kk), expectedResult(exp) {}
 };
 
 struct LRUCacheTestCase {
-    std::vector<std::string> operations;
-    std::vector<std::vector<int>> arguments;
-    std::vector<std::optional<int>> expectedResults;
+    vector<string> operations;
+    vector<vector<int>> arguments;
+    vector<optional<int>> expectedResults;
 
     LRUCacheTestCase(
-        std::vector<std::string> ops,
-        std::vector<std::vector<int>> args,
-        std::vector<std::optional<int>> exps
+        vector<string> ops,
+        vector<vector<int>> args,
+        vector<optional<int>> exps
     )
-      : operations(std::move(ops))
-      , arguments(std::move(args))
-      , expectedResults(std::move(exps))
+      : operations(move(ops))
+      , arguments(move(args))
+      , expectedResults(move(exps))
     {}
 };
 
 struct CoinChangeTestCase {
-    std::vector<int> coins;
+    vector<int> coins;
     int amount;
     int expectedResult;
 
-    CoinChangeTestCase(std::vector<int> c, int a, int e)
-        : coins(std::move(c)), amount(a), expectedResult(e) {}
+    CoinChangeTestCase(vector<int> c, int a, int e)
+        : coins(move(c)), amount(a), expectedResult(e) {}
 };
 
 struct LongestCycleTestCase {
-    std::vector<int> edges;
+    vector<int> edges;
     int expectedResult;
 
-    LongestCycleTestCase(std::vector<int> e, int r)
-        : edges(std::move(e)), expectedResult(r) {}
+    LongestCycleTestCase(vector<int> e, int r)
+        : edges(move(e)), expectedResult(r) {}
 };
 
 struct ShortestCycleTestCase {
     int n;
-    std::vector<std::vector<int>> edges;
+    vector<vector<int>> edges;
     int expected;
 
     ShortestCycleTestCase(int nn,
-                          std::vector<std::vector<int>> e,
+                          vector<vector<int>> e,
                           int exp)
-        : n(nn), edges(std::move(e)), expected(exp) {}
+        : n(nn), edges(move(e)), expected(exp) {}
 };
 
 struct UniquePathsIITestCase {
-    std::vector<std::vector<int>> grid;
+    vector<vector<int>> grid;
     int expectedResult;
-    UniquePathsIITestCase(std::vector<std::vector<int>> g, int e)
-        : grid(std::move(g)), expectedResult(e) {}
+    UniquePathsIITestCase(vector<vector<int>> g, int e)
+        : grid(move(g)), expectedResult(e) {}
 };
 
 struct MaxAvgTestCase {
-    std::vector<int> nums;
+    vector<int> nums;
     int k;
     double expected;
-    MaxAvgTestCase(std::vector<int> n, int kk, double e)
-        : nums(std::move(n)), k(kk), expected(e) {}
+    MaxAvgTestCase(vector<int> n, int kk, double e)
+        : nums(move(n)), k(kk), expected(e) {}
 };
 
 class TestsRunner {
 public:
     static void courseSchedule_207_tests() {
-        std::vector<ScheduleTestCase> testCases = {
+        vector<ScheduleTestCase> testCases = {
             ScheduleTestCase(2, {{1, 0}}, true),
             ScheduleTestCase(2, {{1, 0}, {0, 1}}, false),
             ScheduleTestCase(5, {{0, 1}, {2, 3}, {3, 4}, {2, 1}}, true),
@@ -578,13 +580,13 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = cs207.canFinish(testCases[i].numCourses, testCases[i].prerequisites);
-            std::cout << "Test " << (i + 1) << ": res = "
-                << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << std::endl;
+            cout << "Test " << (i + 1) << ": res = "
+                << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
         }
     }
 
     static void findIfPathExistsInGraph_1971_tests() {
-        std::vector<PathTestCase> testCases = {
+        vector<PathTestCase> testCases = {
             PathTestCase(3, {{0, 1}, {1, 2}, {2, 0}}, 0, 2, true),
             PathTestCase(6, {{0, 1}, {0, 2}, {3, 5}, {5, 4}, {4, 3}}, 0, 5, false),
             PathTestCase(4, {{0, 1}, {1, 2}, {2, 3}}, 0, 3, true),
@@ -594,39 +596,39 @@ public:
 
         FindIfPathExistsInGraph_1971 fp1971;
 
-        std::cout << "-> Recursive DFS version:\n";
+        cout << "-> Recursive DFS version:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = fp1971.validPathRecursiveDFS(testCases[i].n, testCases[i].edges, testCases[i].source, testCases[i].destination);
-            std::cout << "Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << std::endl;
+            cout << "Test " << (i + 1) << ": res = "
+                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
         }
 
-        std::cout << "-> Iterative DFS version with a stack:\n";
+        cout << "-> Iterative DFS version with a stack:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = fp1971.validPathIterativeDFS(testCases[i].n, testCases[i].edges, testCases[i].source, testCases[i].destination);
-            std::cout << "Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << std::endl;
+            cout << "Test " << (i + 1) << ": res = "
+                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
         }
 
-        std::cout << "-> BFS version with a queue:\n";
+        cout << "-> BFS version with a queue:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = fp1971.validPathBFS(testCases[i].n, testCases[i].edges, testCases[i].source, testCases[i].destination);
-            std::cout << "Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << std::endl;
+            cout << "Test " << (i + 1) << ": res = "
+                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
         }
 
-        std::cout << "-> Union-find version:\n";
+        cout << "-> Union-find version:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = fp1971.validPathUnionFind(testCases[i].n, testCases[i].edges, testCases[i].source, testCases[i].destination);
-            std::cout << "Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << std::endl;
+            cout << "Test " << (i + 1) << ": res = "
+                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
         }
     }
 
     static void numIslands_200_tests()
     {
         // Define test cases
-        std::vector<NumIslandsTestCase> testCases = {
+        vector<NumIslandsTestCase> testCases = {
             NumIslandsTestCase({{'1', '1', '1', '1', '0'},
                                 {'1', '1', '0', '1', '0'},
                                 {'1', '1', '0', '0', '0'},
@@ -659,13 +661,13 @@ public:
         for (size_t i = 0; i < testCases.size(); i++)
         {
             int result = noi200.numIslands(testCases[i].grid);
-            std::cout << "Test " << i + 1 << ": res = " << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+            cout << "Test " << i + 1 << ": res = " << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
         }
     }
 
     static void maxAreaOfIsland_695_tests() {
-        std::vector<MaxAreaTestCase> testCases = {
+        vector<MaxAreaTestCase> testCases = {
             MaxAreaTestCase({{0,0,1,0,0,0,0,1,0,0,0,0,0},
                              {0,0,0,0,0,0,0,1,1,1,0,0,0},
                              {0,1,1,0,1,0,0,0,0,0,0,0,0},
@@ -694,14 +696,14 @@ public:
 
         for (size_t i = 0; i < testCases.size(); i++) {
             int result = mai695.maxAreaOfIsland(testCases[i].grid);
-            std::cout << "Max Area Test " << i + 1 << ": res = "
+            cout << "Max Area Test " << i + 1 << ": res = "
                       << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
         }
     }
 
     static void courseScheduleII_210_tests() {
-        std::vector<CourseScheduleIITestCase> testCases = {
+        vector<CourseScheduleIITestCase> testCases = {
             // Example 1
             CourseScheduleIITestCase({2, {{1, 0}}, {0, 1}}),
             // Example 2
@@ -717,15 +719,15 @@ public:
         CourseScheduleII_210 cs210;
 
         // Define the isValidOrder function inside the test function
-        std::function<bool(const std::vector<int>&, int, const std::vector<std::vector<int>>&, const std::vector<int>&)>
-        isValidOrder = [](const std::vector<int>& order, int numCourses,
-                          const std::vector<std::vector<int>>& prerequisites,
-                          const std::vector<int>& expectedOrder) {
+        function<bool(const vector<int>&, int, const vector<vector<int>>&, const vector<int>&)>
+        isValidOrder = [](const vector<int>& order, int numCourses,
+                          const vector<vector<int>>& prerequisites,
+                          const vector<int>& expectedOrder) {
             // If expectedOrder is empty, we expect an empty result (cycle case)
             if (expectedOrder.empty()) return order.empty();
 
             // Create a position map to check the order of prerequisites
-            std::unordered_map<int, int> position;
+            unordered_map<int, int> position;
             for (int i = 0; i < order.size(); ++i) {
                 position[order[i]] = i;
             }
@@ -741,27 +743,27 @@ public:
             return true; // All prerequisites are satisfied in the given order
         };
 
-        std::cout << "-> DFS-based topological sort version:\n";
+        cout << "-> DFS-based topological sort version:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
-            std::vector<int> result = cs210.findOrderByDFSTraversal(testCases[i].numCourses, testCases[i].prerequisites);
+            vector<int> result = cs210.findOrderByDFSTraversal(testCases[i].numCourses, testCases[i].prerequisites);
 
             bool pass = isValidOrder(result, testCases[i].numCourses, testCases[i].prerequisites, testCases[i].expectedOrder);
 
-            std::cout << "Test " << (i + 1) << ": res = " << (pass ? "PASS" : "FAIL") << std::endl;
+            cout << "Test " << (i + 1) << ": res = " << (pass ? "PASS" : "FAIL") << endl;
         }
 
-        std::cout << "-> Kahn's algorithm version:\n";
+        cout << "-> Kahn's algorithm version:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
-            std::vector<int> result = cs210.findOrderByKahnsAlgorithm(testCases[i].numCourses, testCases[i].prerequisites);
+            vector<int> result = cs210.findOrderByKahnsAlgorithm(testCases[i].numCourses, testCases[i].prerequisites);
 
             bool pass = isValidOrder(result, testCases[i].numCourses, testCases[i].prerequisites, testCases[i].expectedOrder);
 
-            std::cout << "Test " << (i + 1) << ": res = " << (pass ? "PASS" : "FAIL") << std::endl;
+            cout << "Test " << (i + 1) << ": res = " << (pass ? "PASS" : "FAIL") << endl;
         }
     }
 
     static void networkDelayTime_743_tests() {
-        std::vector<NetworkDelayTimeTestCase> testCases = {
+        vector<NetworkDelayTimeTestCase> testCases = {
             // Provided Examples
             NetworkDelayTimeTestCase({{ {2, 1, 1}, {2, 3, 1}, {3, 4, 1} }, 4, 2, 2}),
             NetworkDelayTimeTestCase({{ {1, 2, 1} }, 2, 1, 1}),
@@ -778,15 +780,15 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = ndt743.networkDelayTime(testCases[i].times, testCases[i].n, testCases[i].k);
-            std::cout << "Network Delay Time Test " << (i + 1) << ": res = "
+            cout << "Network Delay Time Test " << (i + 1) << ": res = "
                       << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
         }
     }
 
     static void rottingOranges_994_tests()
     {
-        std::vector<RottingOrangesTestCase> testCases = {
+        vector<RottingOrangesTestCase> testCases = {
             RottingOrangesTestCase({{2, 1, 1}, {1, 1, 0}, {0, 1, 1}}, 4),  // Example 1
             RottingOrangesTestCase({{2, 1, 1}, {0, 1, 1}, {1, 0, 1}}, -1), // Example 2
             RottingOrangesTestCase({{0, 2}}, 0),                           // Example 3
@@ -809,15 +811,15 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i)
         {
             int result = solution.orangesRotting(testCases[i].grid);
-            std::cout << "Rotting Oranges Test " << i + 1 << ": res = "
+            cout << "Rotting Oranges Test " << i + 1 << ": res = "
                       << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
         }
     }
 
     static void pacificAtlantic_417_tests()
     {
-        std::vector<PacificAtlanticTestCase> testCases = {
+        vector<PacificAtlanticTestCase> testCases = {
             // Example 1
             PacificAtlanticTestCase({{1, 2, 2, 3, 5},
                                      {3, 2, 3, 4, 4},
@@ -856,13 +858,13 @@ public:
         {
             auto result = pacificAtlanticSolution.pacificAtlantic(testCases[i].heights);
 
-            std::cout << "Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << std::endl;
+            cout << "Test " << (i + 1) << ": res = "
+                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
         }
     }
 
     static void minCostToConnectAllPoints_1584_tests() {
-        std::vector<MinCostToConnectAllPointsTestCase> testCases = {
+        vector<MinCostToConnectAllPointsTestCase> testCases = {
             // Provided examples
             MinCostToConnectAllPointsTestCase({{0, 0}, {2, 2}, {3, 10}, {5, 2}, {7, 0}}, 20),
             MinCostToConnectAllPointsTestCase({{3, 12}, {-2, 5}, {-4, 1}}, 18),
@@ -877,14 +879,14 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.minCostConnectPoints(testCases[i].points);
-            std::cout << "Min Cost Test " << (i + 1) << ": res = "
+            cout << "Min Cost Test " << (i + 1) << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+                    << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
         }
     }
 
     static void longestCommonSubsequence_tests() {
-        std::vector<LongestCommonSubsequenceTestCase> testCases = {
+        vector<LongestCommonSubsequenceTestCase> testCases = {
             // Provided examples
             LongestCommonSubsequenceTestCase("abcde", "ace", 3), // Example 1
             LongestCommonSubsequenceTestCase("abc", "abc", 3),   // Example 2
@@ -899,15 +901,15 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.longestCommonSubsequence(testCases[i].text1, testCases[i].text2);
-            std::cout << "LCS Test " << i + 1 << ": res = "
+            cout << "LCS Test " << i + 1 << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                     << " (Expected: " << testCases[i].expectedResult
-                    << ", Got: " << result << ")" << std::endl;
+                    << ", Got: " << result << ")" << endl;
         }
     }
 
     static void longestIncreasingSubsequence_tests() {
-        std::vector<LongestIncreasingSubsequenceTestCase> testCases = {
+        vector<LongestIncreasingSubsequenceTestCase> testCases = {
             // Provided examples
             LongestIncreasingSubsequenceTestCase({10, 9, 2, 5, 3, 7, 101, 18}, 4), // Example 1
             LongestIncreasingSubsequenceTestCase({0, 1, 0, 3, 2, 3}, 4),           // Example 2
@@ -922,10 +924,10 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.lengthOfLIS(testCases[i].nums);
-            std::cout << "LIS Test " << i + 1 << ": res = "
+            cout << "LIS Test " << i + 1 << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                     << " (Expected: " << testCases[i].expectedResult
-                    << ", Got: " << result << ")" << std::endl;
+                    << ", Got: " << result << ")" << endl;
         }
     }
 
@@ -933,7 +935,7 @@ public:
         using IntListNode = ListNode<int>;
 
         // Define test cases
-        std::vector<RemoveDuplicatesTestCase> testCases = {
+        vector<RemoveDuplicatesTestCase> testCases = {
             // Provided examples
             RemoveDuplicatesTestCase({1, 1, 2}, {1, 2}),
             RemoveDuplicatesTestCase({1, 1, 2, 3, 3}, {1, 2, 3}),
@@ -954,13 +956,13 @@ public:
             IntListNode* result = solution.deleteDuplicates(input);
 
             // Convert result to vector
-            std::vector<int> resultVector = ListUtils::toVector<int>(result);
+            vector<int> resultVector = ListUtils::toVector<int>(result);
 
             // Print test results
-            std::cout << "Remove Duplicates Test " << i + 1 << ": res = "
+            cout << "Remove Duplicates Test " << i + 1 << ": res = "
                     << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
                     << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
-                    << ", Got: " << ListUtils::toString<int>(result) << ")" << std::endl;
+                    << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
 
             // Free the allocated linked list
             ListUtils::freeList<int>(result);
@@ -971,7 +973,7 @@ public:
         using IntListNode = ListNode<int>;
 
         // Define test cases
-        std::vector<ReverseListTestCase> testCases = {
+        vector<ReverseListTestCase> testCases = {
             // Provided examples
             ReverseListTestCase({1, 2, 3, 4, 5}, {5, 4, 3, 2, 1}),
             ReverseListTestCase({1, 2}, {2, 1}),
@@ -992,13 +994,13 @@ public:
             IntListNode* result = solution.reverseList(input);
 
             // Convert result to vector
-            std::vector<int> resultVector = ListUtils::toVector<int>(result);
+            vector<int> resultVector = ListUtils::toVector<int>(result);
 
             // Print test results
-            std::cout << "Reverse Linked List Test " << i + 1 << ": res = "
+            cout << "Reverse Linked List Test " << i + 1 << ": res = "
                     << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
                     << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
-                    << ", Got: " << ListUtils::toString<int>(result) << ")" << std::endl;
+                    << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
 
             // Free the allocated linked list
             ListUtils::freeList<int>(result);
@@ -1009,7 +1011,7 @@ public:
         using IntListNode = ListNode<int>;
 
         // Define test cases
-        std::vector<MergeTwoListsTestCase> testCases = {
+        vector<MergeTwoListsTestCase> testCases = {
             // Provided examples
             MergeTwoListsTestCase({1, 2, 4}, {1, 3, 4}, {1, 1, 2, 3, 4, 4}),
             MergeTwoListsTestCase({}, {}, {}),
@@ -1031,13 +1033,13 @@ public:
             IntListNode* result = solution.mergeTwoLists(list1, list2);
 
             // Convert result to vector
-            std::vector<int> resultVector = ListUtils::toVector<int>(result);
+            vector<int> resultVector = ListUtils::toVector<int>(result);
 
             // Print test results
-            std::cout << "Merge Two Sorted Lists Test " << i + 1 << ": res = "
+            cout << "Merge Two Sorted Lists Test " << i + 1 << ": res = "
                     << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
                     << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
-                    << ", Got: " << ListUtils::toString<int>(result) << ")" << std::endl;
+                    << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
 
             // Free the allocated merged list
             ListUtils::freeList<int>(result);
@@ -1045,7 +1047,7 @@ public:
     }
 
     static void hasCycle_141_tests() {
-        std::vector<LinkedListCycleTestCase> testCases = {
+        vector<LinkedListCycleTestCase> testCases = {
             // Provided examples
             LinkedListCycleTestCase({3, 2, 0, -4}, 1, true),
             LinkedListCycleTestCase({1, 2}, 0, true),
@@ -1066,11 +1068,11 @@ public:
             bool result = solution.hasCycle(head);
 
             // Print test results
-            std::cout << "Test " << (i + 1) << ": res = "
+            cout << "Test " << (i + 1) << ": res = "
                       << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expectedResult
                       << ", Got: " << result << ")\n"
-                      << "List: " << ListUtils::toString<int>(head) << std::endl;
+                      << "List: " << ListUtils::toString<int>(head) << endl;
 
             // Free the linked list
             ListUtils::freeList<int>(head);
@@ -1080,7 +1082,7 @@ public:
     static void middleOfLinkedList_876_tests() {
         using IntListNode = ListNode<int>;
 
-        std::vector<MiddleOfLinkedListTestCase> testCases = {
+        vector<MiddleOfLinkedListTestCase> testCases = {
             // Provided examples
             MiddleOfLinkedListTestCase({1, 2, 3, 4, 5}, {3, 4, 5}),
             MiddleOfLinkedListTestCase({1, 2, 3, 4, 5, 6}, {4, 5, 6}),
@@ -1101,13 +1103,13 @@ public:
             IntListNode* result = solution.middleNode(input);
 
             // Convert result to vector
-            std::vector<int> resultVector = ListUtils::toVector<int>(result);
+            vector<int> resultVector = ListUtils::toVector<int>(result);
 
             // Print test results
-            std::cout << "Middle of Linked List Test " << i + 1 << ": res = "
+            cout << "Middle of Linked List Test " << i + 1 << ": res = "
                     << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
                     << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
-                    << ", Got: " << ListUtils::toString<int>(result) << ")" << std::endl;
+                    << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
 
             // Free the allocated linked list
             ListUtils::freeList<int>(input);
@@ -1117,7 +1119,7 @@ public:
     static void removeNthFromEnd_tests() {
         using IntListNode = ListNode<int>;
 
-        std::vector<RemoveNthNodeTestCase> testCases = {
+        vector<RemoveNthNodeTestCase> testCases = {
             // Provided examples
             RemoveNthNodeTestCase({1, 2, 3, 4, 5}, 2, {1, 2, 3, 5}),
             RemoveNthNodeTestCase({1}, 1, {}),
@@ -1138,13 +1140,13 @@ public:
             IntListNode* result = solution.removeNthFromEnd(input, testCases[i].n);
 
             // Convert result to vector
-            std::vector<int> resultVector = ListUtils::toVector<int>(result);
+            vector<int> resultVector = ListUtils::toVector<int>(result);
 
             // Print test results
-            std::cout << "Remove Nth Node From End Test " << i + 1 << ": res = "
+            cout << "Remove Nth Node From End Test " << i + 1 << ": res = "
                     << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
                     << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
-                    << ", Got: " << ListUtils::toString<int>(result) << ")" << std::endl;
+                    << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
 
             // Free the allocated linked list
             ListUtils::freeList<int>(result);
@@ -1152,7 +1154,7 @@ public:
     }
 
     static void maxProfit_121_tests() {
-        std::vector<MaxProfitTestCase> testCases = {
+        vector<MaxProfitTestCase> testCases = {
             // Provided examples
             MaxProfitTestCase({7, 1, 5, 3, 6, 4}, 5),  // Example 1
             MaxProfitTestCase({7, 6, 4, 3, 1}, 0),    // Example 2
@@ -1169,14 +1171,14 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.maxProfit(testCases[i].prices);
-            std::cout << "Max Profit Test " << i + 1 << ": res = "
+            cout << "Max Profit Test " << i + 1 << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+                    << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
         }
     }
 
     static void spiralMatrix_54_tests() {
-        std::vector<SpiralMatrixTestCase> testCases = {
+        vector<SpiralMatrixTestCase> testCases = {
             // Provided examples
             SpiralMatrixTestCase({{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}, {1, 2, 3, 6, 9, 8, 7, 4, 5}),
             SpiralMatrixTestCase({{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}}, {1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7}),
@@ -1195,27 +1197,27 @@ public:
         SpiralMatrix_54 sm54;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            std::vector<int> result = sm54.spiralOrder(testCases[i].matrix);
-            std::cout << "Spiral Matrix Test " << (i + 1) << ": res = "
+            vector<int> result = sm54.spiralOrder(testCases[i].matrix);
+            cout << "Spiral Matrix Test " << (i + 1) << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                     << " (Expected: ";
-            for (int val : testCases[i].expectedResult) std::cout << val << " ";
-            std::cout << ", Got: ";
-            for (int val : result) std::cout << val << " ";
-            std::cout << ")" << std::endl;
+            for (int val : testCases[i].expectedResult) cout << val << " ";
+            cout << ", Got: ";
+            for (int val : result) cout << val << " ";
+            cout << ")" << endl;
         }
     }
 
     static void validateBinarySearchTree_98_tests() {
-        std::vector<ValidateBinarySearchTreeTestCase> testCases = {
+        vector<ValidateBinarySearchTreeTestCase> testCases = {
             // Provided examples
             ValidateBinarySearchTreeTestCase({2, 1, 3}, true),
-            ValidateBinarySearchTreeTestCase({5, 1, 4, std::nullopt, std::nullopt, 3, 6}, false),
+            ValidateBinarySearchTreeTestCase({5, 1, 4, nullopt, nullopt, 3, 6}, false),
 
             // Additional complex test cases
-            ValidateBinarySearchTreeTestCase({10, 5, 15, std::nullopt, std::nullopt, 6, 20}, false), // Violates BST in right subtree
+            ValidateBinarySearchTreeTestCase({10, 5, 15, nullopt, nullopt, 6, 20}, false), // Violates BST in right subtree
             ValidateBinarySearchTreeTestCase({3, 1, 5, 0, 2, 4, 6}, true),                          // Valid BST
-            ValidateBinarySearchTreeTestCase({1, std::nullopt, 2, std::nullopt, 3, std::nullopt, 4}, true) // Skewed right
+            ValidateBinarySearchTreeTestCase({1, nullopt, 2, nullopt, 3, nullopt, 4}, true) // Skewed right
         };
 
         ValidateBinarySearchTree_98 validator;
@@ -1223,32 +1225,32 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             TreeNode<int>* root = TreeUtils::vectorToTree(testCases[i].tree);
 
-            std::cout << "Test Case " << (i + 1) << " Tree:" << std::endl;
+            cout << "Test Case " << (i + 1) << " Tree:" << endl;
             TreeUtils::printTree(root); // Print the tree
 
             bool result = validator.isValidBST(root);
 
-            std::cout << "Validate BST Test " << (i + 1) << ": res = "
+            cout << "Validate BST Test " << (i + 1) << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                     << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
-                    << ", Got: " << (result ? "true" : "false") << ")" << std::endl;
+                    << ", Got: " << (result ? "true" : "false") << ")" << endl;
 
             TreeUtils::freeTree(root); // Free the memory after use
         }
     }
 
     static void lowestCommonAncestor_235_tests() {
-        std::vector<LowestCommonAncestorTestCase> testCases = {
+        vector<LowestCommonAncestorTestCase> testCases = {
             // Example 1
-            LowestCommonAncestorTestCase({6, 2, 8, 0, 4, 7, 9, std::nullopt, std::nullopt, 3, 5}, 2, 8, 6),
+            LowestCommonAncestorTestCase({6, 2, 8, 0, 4, 7, 9, nullopt, nullopt, 3, 5}, 2, 8, 6),
             // Example 2
-            LowestCommonAncestorTestCase({6, 2, 8, 0, 4, 7, 9, std::nullopt, std::nullopt, 3, 5}, 2, 4, 2),
+            LowestCommonAncestorTestCase({6, 2, 8, 0, 4, 7, 9, nullopt, nullopt, 3, 5}, 2, 4, 2),
             // Example 3
             LowestCommonAncestorTestCase({2, 1}, 2, 1, 2),
             // Additional Complex Test 1
-            LowestCommonAncestorTestCase({10, 5, 15, 3, 8, 12, 20, 1, 4, 7, 9, std::nullopt, std::nullopt, 18, 25}, 4, 9, 5),
+            LowestCommonAncestorTestCase({10, 5, 15, 3, 8, 12, 20, 1, 4, 7, 9, nullopt, nullopt, 18, 25}, 4, 9, 5),
             // Additional Complex Test 2
-            LowestCommonAncestorTestCase({30, 10, 50, 5, 20, 40, 60, std::nullopt, 8, 15, 25, 35, 45, std::nullopt, 70}, 15, 45, 30),
+            LowestCommonAncestorTestCase({30, 10, 50, 5, 20, 40, 60, nullopt, 8, 15, 25, 35, 45, nullopt, 70}, 15, 45, 30),
         };
 
         LowestCommonAncestorOfBST_235 lcaSolver;
@@ -1260,9 +1262,9 @@ public:
 
             TreeNode<int>* result = lcaSolver.lowestCommonAncestor(root, p, q);
 
-            std::cout << "LCA Test " << (i + 1) << ": res = "
+            cout << "LCA Test " << (i + 1) << ": res = "
                     << ((result && result->val == testCases[i].expectedLCA) ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expectedLCA << ", Got: " << (result ? result->val : -1) << ")" << std::endl;
+                    << " (Expected: " << testCases[i].expectedLCA << ", Got: " << (result ? result->val : -1) << ")" << endl;
 
             TreeUtils::freeTree(root);
         }
@@ -1271,19 +1273,19 @@ public:
     static void copyRandomList_tests() {
         using IntListNode = ListNode<int>;
 
-        std::vector<CopyRandomListTestCase> testCases = {
+        vector<CopyRandomListTestCase> testCases = {
             // Provided test cases
-            CopyRandomListTestCase({{7, std::nullopt}, {13, 0}, {11, 4}, {10, 2}, {1, 0}},
-                                {{7, std::nullopt}, {13, 0}, {11, 4}, {10, 2}, {1, 0}}),
+            CopyRandomListTestCase({{7, nullopt}, {13, 0}, {11, 4}, {10, 2}, {1, 0}},
+                                {{7, nullopt}, {13, 0}, {11, 4}, {10, 2}, {1, 0}}),
             CopyRandomListTestCase({{1, 1}, {2, 1}}, {{1, 1}, {2, 1}}),
-            CopyRandomListTestCase({{3, std::nullopt}, {3, 0}, {3, std::nullopt}},
-                                {{3, std::nullopt}, {3, 0}, {3, std::nullopt}}),
+            CopyRandomListTestCase({{3, nullopt}, {3, 0}, {3, nullopt}},
+                                {{3, nullopt}, {3, 0}, {3, nullopt}}),
 
             // Additional complex test cases
-            CopyRandomListTestCase({{1, std::nullopt}, {2, 0}, {3, 1}, {4, 3}, {5, 2}},
-                                {{1, std::nullopt}, {2, 0}, {3, 1}, {4, 3}, {5, 2}}),
-            CopyRandomListTestCase({{10, 4}, {20, 3}, {30, 2}, {40, 1}, {50, std::nullopt}},
-                                {{10, 4}, {20, 3}, {30, 2}, {40, 1}, {50, std::nullopt}})
+            CopyRandomListTestCase({{1, nullopt}, {2, 0}, {3, 1}, {4, 3}, {5, 2}},
+                                {{1, nullopt}, {2, 0}, {3, 1}, {4, 3}, {5, 2}}),
+            CopyRandomListTestCase({{10, 4}, {20, 3}, {30, 2}, {40, 1}, {50, nullopt}},
+                                {{10, 4}, {20, 3}, {30, 2}, {40, 1}, {50, nullopt}})
         };
 
         CopyListWithRandomPointer_138 solution;
@@ -1296,7 +1298,7 @@ public:
 
             bool isCorrect = ListUtils::compareListsWithRandom<int>(result, expected);
 
-            std::cout << "Test " << (i + 1) << ": " << (isCorrect ? "PASS" : "FAIL") << std::endl;
+            cout << "Test " << (i + 1) << ": " << (isCorrect ? "PASS" : "FAIL") << endl;
 
             ListUtils::freeList(input);
             ListUtils::freeList(result);
@@ -1305,17 +1307,17 @@ public:
     }
 
     static void kthSmallestElementInBST_230_tests() {
-        std::vector<KthSmallestTestCase> testCases = {
+        vector<KthSmallestTestCase> testCases = {
             // Example 1
-            KthSmallestTestCase({3, 1, 4, std::nullopt, 2}, 1, 1),
+            KthSmallestTestCase({3, 1, 4, nullopt, 2}, 1, 1),
             // Example 2
-            KthSmallestTestCase({5, 3, 6, 2, 4, std::nullopt, std::nullopt, 1}, 3, 3),
+            KthSmallestTestCase({5, 3, 6, 2, 4, nullopt, nullopt, 1}, 3, 3),
             // Additional Test 1: Larger balanced tree
-            KthSmallestTestCase({15, 10, 20, 5, 13, 17, 25, 3, 8, std::nullopt, 14, 16, 18}, 6, 14),
+            KthSmallestTestCase({15, 10, 20, 5, 13, 17, 25, 3, 8, nullopt, 14, 16, 18}, 6, 14),
             // Additional Test 2: Single node tree
             KthSmallestTestCase({42}, 1, 42),
             // Additional Test 3: Skewed tree
-            KthSmallestTestCase({1, std::nullopt, 2, std::nullopt, 3, std::nullopt, 4}, 4, 4)
+            KthSmallestTestCase({1, nullopt, 2, nullopt, 3, nullopt, 4}, 4, 4)
         };
 
         KthSmallestElementInBST_230 solution;
@@ -1324,50 +1326,50 @@ public:
             TreeNode<int>* root = TreeUtils::vectorToTree(testCases[i].tree);
 
             int result = solution.kthSmallest(root, testCases[i].k);
-            std::cout << "Kth Smallest Element Test " << (i + 1) << ": res = "
+            cout << "Kth Smallest Element Test " << (i + 1) << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+                    << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
 
             TreeUtils::freeTree(root); // Free tree memory
         }
     }
 
     static void implementTrie_208_tests() {
-        std::vector<TrieTestCase> testCases = {
+        vector<TrieTestCase> testCases = {
             // Example 1
             TrieTestCase(
                 {"Trie", "insert", "search", "search", "startsWith", "insert", "search"},
-                {std::nullopt, "apple", "apple", "app", "app", "app", "app"},
-                {std::nullopt, std::nullopt, true, false, true, std::nullopt, true}
+                {nullopt, "apple", "apple", "app", "app", "app", "app"},
+                {nullopt, nullopt, true, false, true, nullopt, true}
             ),
             // Example 2: Overlapping words
             TrieTestCase(
                 {"Trie", "insert", "insert", "search", "search", "startsWith"},
-                {std::nullopt, "apple", "applause", "apple", "applause", "app"},
-                {std::nullopt, std::nullopt, std::nullopt, true, true, true}
+                {nullopt, "apple", "applause", "apple", "applause", "app"},
+                {nullopt, nullopt, nullopt, true, true, true}
             ),
             // Example 3: Single-character operations
             TrieTestCase(
                 {"Trie", "insert", "search", "startsWith", "search"},
-                {std::nullopt, "a", "a", "a", "b"},
-                {std::nullopt, std::nullopt, true, true, false}
+                {nullopt, "a", "a", "a", "b"},
+                {nullopt, nullopt, true, true, false}
             ),
             // Example 4: No matching prefix
             TrieTestCase(
                 {"Trie", "insert", "insert", "startsWith", "startsWith", "search"},
-                {std::nullopt, "car", "cart", "ca", "cat", "carrot"},
-                {std::nullopt, std::nullopt, std::nullopt, true, false, false}
+                {nullopt, "car", "cart", "ca", "cat", "carrot"},
+                {nullopt, nullopt, nullopt, true, false, false}
             ),
             // Example 5: Large input set
             TrieTestCase(
                 {"Trie", "insert", "insert", "insert", "search", "search", "startsWith"},
-                {std::nullopt, "dictionary", "dictionaries", "dictator", "dictionary", "dictionaries", "dict"},
-                {std::nullopt, std::nullopt, std::nullopt, std::nullopt, true, true, true}
+                {nullopt, "dictionary", "dictionaries", "dictator", "dictionary", "dictionaries", "dict"},
+                {nullopt, nullopt, nullopt, nullopt, true, true, true}
             )
         };
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            std::cout << "Running Trie Test Case " << i + 1 << ":\n";
+            cout << "Running Trie Test Case " << i + 1 << ":\n";
             Trie* trie = nullptr;
 
             for (size_t j = 0; j < testCases[i].operations.size(); ++j) {
@@ -1377,37 +1379,37 @@ public:
 
                 if (op == "Trie") {
                     trie = new Trie();
-                    std::cout << "Operation: Trie() -> null\n";
+                    cout << "Operation: Trie() -> null\n";
                 } else if (op == "insert") {
                     trie->insert(arg.value());
-                    std::cout << "Operation: insert(\"" << arg.value() << "\") -> null\n";
+                    cout << "Operation: insert(\"" << arg.value() << "\") -> null\n";
                 } else if (op == "search") {
                     bool result = trie->search(arg.value());
-                    std::cout << "Operation: search(\"" << arg.value() << "\") -> " << (result ? "true" : "false");
+                    cout << "Operation: search(\"" << arg.value() << "\") -> " << (result ? "true" : "false");
                     if (expected.has_value() && result == expected.value()) {
-                        std::cout << " [PASS]\n";
+                        cout << " [PASS]\n";
                     } else {
-                        std::cout << " [FAIL]\n";
+                        cout << " [FAIL]\n";
                     }
                 } else if (op == "startsWith") {
                     bool result = trie->startsWith(arg.value());
-                    std::cout << "Operation: startsWith(\"" << arg.value() << "\") -> " << (result ? "true" : "false");
+                    cout << "Operation: startsWith(\"" << arg.value() << "\") -> " << (result ? "true" : "false");
                     if (expected.has_value() && result == expected.value()) {
-                        std::cout << " [PASS]\n";
+                        cout << " [PASS]\n";
                     } else {
-                        std::cout << " [FAIL]\n";
+                        cout << " [FAIL]\n";
                     }
                 }
             }
 
             delete trie;
-            std::cout << "\n";
+            cout << "\n";
         }
     }
 
     static void kthLargestElement_215_tests()
     {
-        std::vector<KthLargestElementTestCase> testCases = {
+        vector<KthLargestElementTestCase> testCases = {
             // Problem statement examples
             KthLargestElementTestCase({3, 2, 1, 5, 6, 4}, 2, 5),
             KthLargestElementTestCase({3, 2, 3, 1, 2, 4, 5, 5, 6}, 4, 4),
@@ -1423,14 +1425,14 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i)
         {
             int result = solution.findKthLargest(testCases[i].nums, testCases[i].k);
-            std::cout << "Kth Largest Element Test " << (i + 1) << ": res = "
+            cout << "Kth Largest Element Test " << (i + 1) << ": res = "
                       << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
         }
     }
 
     static void minHeap_tests() {
-        std::vector<MinHeapTestCase> testCases = {
+        vector<MinHeapTestCase> testCases = {
             MinHeapTestCase(
                 {{"insert", 5}, {"insert", 3}, {"insert", 8}, {"insert", 1}, {"insert", 2}, {"extractMin", 0}, {"extractMin", 0}},
                 {1, 2} // Expected results of the extractMin calls
@@ -1447,7 +1449,7 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             MinHeap heap;
-            std::vector<int> results;
+            vector<int> results;
 
             for (const auto& op : testCases[i].operations) {
                 if (op.first == "insert") {
@@ -1461,19 +1463,19 @@ public:
 
             // Compare results
             bool pass = results == testCases[i].expectedResults;
-            std::cout << "MinHeap Test " << (i + 1) << ": " << (pass ? "PASS" : "FAIL") << "\n";
+            cout << "MinHeap Test " << (i + 1) << ": " << (pass ? "PASS" : "FAIL") << "\n";
             if (!pass) {
-                std::cout << "Expected: ";
-                for (int r : testCases[i].expectedResults) std::cout << r << " ";
-                std::cout << "\nGot: ";
-                for (int r : results) std::cout << r << " ";
-                std::cout << "\n";
+                cout << "Expected: ";
+                for (int r : testCases[i].expectedResults) cout << r << " ";
+                cout << "\nGot: ";
+                for (int r : results) cout << r << " ";
+                cout << "\n";
             }
         }
     }
 
     static void rotateImage_48_tests() {
-        std::vector<RotateImageTestCase> testCases = {
+        vector<RotateImageTestCase> testCases = {
             // Example 1
             RotateImageTestCase({{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}, {{7, 4, 1}, {8, 5, 2}, {9, 6, 3}}),
             // Example 2
@@ -1493,23 +1495,23 @@ public:
             auto input = testCases[i].inputMatrix;
             rotateImage.rotate(input);
 
-            std::cout << "Rotate Image Test " << (i + 1) << ": res = "
+            cout << "Rotate Image Test " << (i + 1) << ": res = "
                     << (input == testCases[i].expectedMatrix ? "PASS" : "FAIL")
                     << "\nExpected: ";
             for (const auto& row : testCases[i].expectedMatrix) {
-                for (int val : row) std::cout << val << " ";
-                std::cout << "\n";
+                for (int val : row) cout << val << " ";
+                cout << "\n";
             }
-            std::cout << "Got: ";
+            cout << "Got: ";
             for (const auto& row : input) {
-                for (int val : row) std::cout << val << " ";
-                std::cout << "\n";
+                for (int val : row) cout << val << " ";
+                cout << "\n";
             }
         }
     }
 
     static void mergeIntervals_56_tests() {
-        std::vector<MergeIntervalsTestCase> testCases = {
+        vector<MergeIntervalsTestCase> testCases = {
             // Problem statement examples
             MergeIntervalsTestCase({{1, 3}, {2, 6}, {8, 10}, {15, 18}}, {{1, 6}, {8, 10}, {15, 18}}),
             MergeIntervalsTestCase({{1, 4}, {4, 5}}, {{1, 5}}),
@@ -1527,24 +1529,24 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto result = solution.merge(testCases[i].intervals);
 
-            std::cout << "Merge Intervals Test " << (i + 1) << ": res = "
+            cout << "Merge Intervals Test " << (i + 1) << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                     << "\nExpected: ";
             for (const auto& interval : testCases[i].expectedResult) {
-                std::cout << "[" << interval[0] << "," << interval[1] << "] ";
+                cout << "[" << interval[0] << "," << interval[1] << "] ";
             }
-            std::cout << "\nGot: ";
+            cout << "\nGot: ";
             for (const auto& interval : result) {
-                std::cout << "[" << interval[0] << "," << interval[1] << "] ";
+                cout << "[" << interval[0] << "," << interval[1] << "] ";
             }
-            std::cout << "\n\n";
+            cout << "\n\n";
         }
     }
 
     static void mergeKLists_tests() {
         using IntListNode = ListNode<int>;
 
-        std::vector<MergeKListsTestCase> testCases = {
+        vector<MergeKListsTestCase> testCases = {
             // Example 1
             MergeKListsTestCase({{1, 4, 5}, {1, 3, 4}, {2, 6}}, {1, 1, 2, 3, 4, 4, 5, 6}),
             // Example 2
@@ -1561,7 +1563,7 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             // Create input linked lists
-            std::vector<IntListNode*> inputLists;
+            vector<IntListNode*> inputLists;
             for (const auto& list : testCases[i].inputLists) {
                 inputLists.push_back(ListUtils::createLinkedList<int>(list));
             }
@@ -1570,13 +1572,13 @@ public:
             IntListNode* result = solution.mergeKLists(inputLists);
 
             // Convert result to vector
-            std::vector<int> resultVector = ListUtils::toVector<int>(result);
+            vector<int> resultVector = ListUtils::toVector<int>(result);
 
             // Print test results
-            std::cout << "Merge K Lists Test " << i + 1 << ": res = "
+            cout << "Merge K Lists Test " << i + 1 << ": res = "
                     << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
                     << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
-                    << ", Got: " << ListUtils::toString<int>(result) << ")" << std::endl;
+                    << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
 
             // Free allocated memory
             ListUtils::freeList<int>(result);
@@ -1584,7 +1586,7 @@ public:
     }
 
     static void productOfArrayExceptSelf_tests() {
-        std::vector<ProductOfArrayExceptSelfTestCase> testCases = {
+        vector<ProductOfArrayExceptSelfTestCase> testCases = {
             // Example 1
             ProductOfArrayExceptSelfTestCase({1, 2, 3, 4}, {24, 12, 8, 6}),
             // Example 2
@@ -1601,19 +1603,19 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto result = solution.productExceptSelf(testCases[i].nums);
-            std::cout << "Product of Array Except Self Test " << (i + 1) << ": res = "
+            cout << "Product of Array Except Self Test " << (i + 1) << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                     << " (Expected: ";
-            for (int val : testCases[i].expectedResult) std::cout << val << " ";
-            std::cout << ", Got: ";
-            for (int val : result) std::cout << val << " ";
-            std::cout << ")\n";
+            for (int val : testCases[i].expectedResult) cout << val << " ";
+            cout << ", Got: ";
+            for (int val : result) cout << val << " ";
+            cout << ")\n";
         }
     }
 
     static void majorityElement_tests() {
         // Define test cases
-        std::vector<MajorityElementTestCase> testCases = {
+        vector<MajorityElementTestCase> testCases = {
             // Example 1
             MajorityElementTestCase({3, 2, 3}, 3),
             // Example 2
@@ -1628,35 +1630,35 @@ public:
             MajorityElementTestCase({10, 9, 9, 10, 10, 10, 9, 10, 9, 10, 10}, 10)
         };
 
-        std::cout << "-> Boyer–Moore Majority Vote Algorithm:\n";
+        cout << "-> Boyer–Moore Majority Vote Algorithm:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
             MajorityElement_169 solution;
             int result = solution.majorityElement(testCases[i].nums);
-            std::cout << "Test " << (i + 1) << ": ";
+            cout << "Test " << (i + 1) << ": ";
             if (result == testCases[i].expectedResult) {
-                std::cout << "PASS\n";
+                cout << "PASS\n";
             } else {
-                std::cout << "FAIL (Expected: " << testCases[i].expectedResult
+                cout << "FAIL (Expected: " << testCases[i].expectedResult
                         << ", Got: " << result << ")\n";
             }
         }
 
-        std::cout << "-> Frequency Counting with a Hashmap Algorithm:\n";
+        cout << "-> Frequency Counting with a Hashmap Algorithm:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
             MajorityElement_169 solution;
             int result = solution.majorityElementWithHashmap(testCases[i].nums);
-            std::cout << "Test " << (i + 1) << ": ";
+            cout << "Test " << (i + 1) << ": ";
             if (result == testCases[i].expectedResult) {
-                std::cout << "PASS\n";
+                cout << "PASS\n";
             } else {
-                std::cout << "FAIL (Expected: " << testCases[i].expectedResult
+                cout << "FAIL (Expected: " << testCases[i].expectedResult
                         << ", Got: " << result << ")\n";
             }
         }
     }
 
     static void evaluateReversePolishNotation_150_tests() {
-        std::vector<EvaluateRPNTestCase> testCases = {
+        vector<EvaluateRPNTestCase> testCases = {
             EvaluateRPNTestCase({"2", "1", "+", "3", "*"}, 9),  // Example 1
             EvaluateRPNTestCase({"4", "13", "5", "/", "+"}, 6), // Example 2
             EvaluateRPNTestCase({"10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"}, 22), // Example 3
@@ -1669,14 +1671,14 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = evaluator.evalRPN(testCases[i].tokens);
-            std::cout << "Evaluate RPN Test " << (i + 1) << ": res = "
+            cout << "Evaluate RPN Test " << (i + 1) << ": res = "
                       << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")\n";
         }
     }
 
     static void largestRectangleArea_tests() {
-        std::vector<LargestRectangleTestCase> testCases = {
+        vector<LargestRectangleTestCase> testCases = {
             // Example 1
             LargestRectangleTestCase({2, 1, 5, 6, 2, 3}, 10),
             // Example 2
@@ -1693,15 +1695,15 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.largestRectangleArea(testCases[i].heights);
-            std::cout << "Test " << (i + 1) << ": res = "
+            cout << "Test " << (i + 1) << ": res = "
                       << (result == testCases[i].expectedArea ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expectedArea
-                      << ", Got: " << result << ")" << std::endl;
+                      << ", Got: " << result << ")" << endl;
         }
     }
 
     static void runWordSearchTests() {
-        std::vector<WordSearchTestCase> testCases = {
+        vector<WordSearchTestCase> testCases = {
             // Example 1 from problem statement
             WordSearchTestCase({{'A','B','C','E'},
                                 {'S','F','C','S'},
@@ -1741,15 +1743,15 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = solution.exist(testCases[i].board, testCases[i].word);
-            std::cout << "Test " << (i + 1) << ": res = "
+            cout << "Test " << (i + 1) << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                     << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
-                    << ", Got: " << (result ? "true" : "false") << ")" << std::endl;
+                    << ", Got: " << (result ? "true" : "false") << ")" << endl;
         }
     }
 
     static void runValidParenthesesTests() {
-        std::vector<ValidParenthesesTestCase> testCases = {
+        vector<ValidParenthesesTestCase> testCases = {
             {"()", true},
             {"()[]{}", true},
             {"(]", false},
@@ -1761,15 +1763,15 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = solution.isValid(testCases[i].input);
-            std::cout << "Test " << (i + 1) << ": res = "
+            cout << "Test " << (i + 1) << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                     << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
-                    << ", Got: " << (result ? "true" : "false") << ")" << std::endl;
+                    << ", Got: " << (result ? "true" : "false") << ")" << endl;
         }
     }
 
     static void validSudoku_36_tests() {
-        std::vector<ValidSudokuTestCase> testCases = {
+        vector<ValidSudokuTestCase> testCases = {
             // Example 1: Valid Sudoku
             ValidSudokuTestCase({
                 {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
@@ -1840,15 +1842,15 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = solver.isValidSudoku(testCases[i].board);
-            std::cout << "Valid Sudoku Test " << (i + 1) << ": res = "
+            cout << "Valid Sudoku Test " << (i + 1) << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                     << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
-                    << ", Got: " << (result ? "true" : "false") << ")" << std::endl;
+                    << ", Got: " << (result ? "true" : "false") << ")" << endl;
         }
     }
 
     static void binarySearch_704_tests() {
-        std::vector<BinarySearchTestCase> testCases = {
+        vector<BinarySearchTestCase> testCases = {
             // Example 1
             BinarySearchTestCase({-1, 0, 3, 5, 9, 12}, 9, 4),
             // Example 2
@@ -1865,15 +1867,15 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.search(testCases[i].nums, testCases[i].target);
-            std::cout << "Binary Search Test " << (i + 1) << ": res = "
+            cout << "Binary Search Test " << (i + 1) << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                     << " (Expected: " << testCases[i].expectedResult
-                    << ", Got: " << result << ")" << std::endl;
+                    << ", Got: " << result << ")" << endl;
         }
     }
 
     static void searchInsertPosition_35_tests() {
-        std::vector<BinarySearchTestCase> testCases = {
+        vector<BinarySearchTestCase> testCases = {
             // Example 1: Target is found
             BinarySearchTestCase({1, 3, 5, 6}, 5, 2),
             // Example 2: Target is not found, insert at index 1
@@ -1890,15 +1892,15 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.searchInsert(testCases[i].nums, testCases[i].target);
-            std::cout << "Search Insert Position Test " << (i + 1) << ": res = "
+            cout << "Search Insert Position Test " << (i + 1) << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                     << " (Expected: " << testCases[i].expectedResult
-                    << ", Got: " << result << ")" << std::endl;
+                    << ", Got: " << result << ")" << endl;
         }
     }
 
     static void search2DMatrixTests() {
-        std::vector<Search2DMatrixTestCase> testCases = {
+        vector<Search2DMatrixTestCase> testCases = {
             // Provided examples
             Search2DMatrixTestCase({{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}}, 3, true),
             Search2DMatrixTestCase({{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}}, 13, false),
@@ -1913,14 +1915,14 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = solution.searchMatrix(testCases[i].matrix, testCases[i].target);
-            std::cout << "Test " << (i + 1) << ": res = "
+            cout << "Test " << (i + 1) << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                     << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
                     << ", Got: " << (result ? "true" : "false") << ")\n";
         }
     }
 
-    static bool inSet(const std::string& s, std::initializer_list<std::string> candidates) {
+    static bool inSet(const string& s, initializer_list<string> candidates) {
         // Helper to handle the fact that getMaxKey / getMinKey can return any
         // of the keys sharing min/max count
         for (auto& c : candidates) {
@@ -1936,8 +1938,8 @@ public:
             allOne.inc("hello");
             allOne.inc("hello");
             // "hello" now has count 2
-            std::string mx = allOne.getMaxKey();  // expect "hello"
-            std::string mn = allOne.getMinKey();  // expect "hello"
+            string mx = allOne.getMaxKey();  // expect "hello"
+            string mn = allOne.getMinKey();  // expect "hello"
             bool t1a = (mx == "hello") && (mn == "hello");
 
             allOne.inc("leet");
@@ -1947,7 +1949,7 @@ public:
             bool t1b = (mx == "hello") && (mn == "leet");
 
             bool pass = t1a && t1b;
-            std::cout << "Test 1: " << (pass ? "PASS" : "FAIL") << std::endl;
+            cout << "Test 1: " << (pass ? "PASS" : "FAIL") << endl;
         }
 
         // Test 2: Multiple keys with same counts
@@ -1967,7 +1969,7 @@ public:
             bool t2d = inSet(allOne.getMinKey(), {"foo", "bar"});
 
             bool pass = (t2a && t2b && t2c && t2d);
-            std::cout << "Test 2: " << (pass ? "PASS" : "FAIL") << std::endl;
+            cout << "Test 2: " << (pass ? "PASS" : "FAIL") << endl;
         }
 
         // Test 3: Testing dec() and removal
@@ -1992,12 +1994,12 @@ public:
             bool t3d = inSet(allOne.getMinKey(), {"b", "c"});
 
             bool pass = (t3a && t3b && t3c && t3d);
-            std::cout << "Test 3: " << (pass ? "PASS" : "FAIL") << std::endl;
+            cout << "Test 3: " << (pass ? "PASS" : "FAIL") << endl;
         }
     }
 
     static void findMinimumInRotatedSortedArray_153_tests() {
-        std::vector<FindMinTestCase> testCases = {
+        vector<FindMinTestCase> testCases = {
             FindMinTestCase({3, 4, 5, 1, 2}, 1),                     // Example 1
             FindMinTestCase({4, 5, 6, 7, 0, 1, 2}, 0),               // Example 2
             FindMinTestCase({11, 13, 15, 17}, 11),                   // Example 3
@@ -2009,9 +2011,9 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.findMin(testCases[i].nums);
-            std::cout << "Test " << (i + 1) << ": res = "
+            cout << "Test " << (i + 1) << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+                    << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
         }
     }
 
@@ -2021,8 +2023,8 @@ public:
         if (!original || !cloned) return false;
         if (original->val != cloned->val) return false;
 
-        std::unordered_map<GraphNode<int>*, GraphNode<int>*> visited;
-        std::function<bool(GraphNode<int>*, GraphNode<int>*)> dfs = [&](GraphNode<int>* n1, GraphNode<int>* n2) -> bool {
+        unordered_map<GraphNode<int>*, GraphNode<int>*> visited;
+        function<bool(GraphNode<int>*, GraphNode<int>*)> dfs = [&](GraphNode<int>* n1, GraphNode<int>* n2) -> bool {
             if (!n1 || !n2) return n1 == n2;
             if (n1->val != n2->val) return false;
             if (visited.count(n1)) return visited[n1] == n2;
@@ -2040,10 +2042,10 @@ public:
     }
 
     // Utility function to build a graph from adjacency list
-    static GraphNode<int>* buildGraph(const std::vector<std::vector<int>>& adjList) {
+    static GraphNode<int>* buildGraph(const vector<vector<int>>& adjList) {
         if (adjList.empty()) return nullptr;
 
-        std::unordered_map<int, GraphNode<int>*> nodeMap;
+        unordered_map<int, GraphNode<int>*> nodeMap;
         for (int i = 0; i < adjList.size(); ++i) {
             if (!nodeMap.count(i + 1)) nodeMap[i + 1] = new GraphNode<int>(i + 1);
             for (int neighbor : adjList[i]) {
@@ -2055,7 +2057,7 @@ public:
     }
 
     static void cloneGraph_133_tests() {
-        std::vector<std::vector<std::vector<int>>> testCases = {
+        vector<vector<vector<int>>> testCases = {
             {{2, 4}, {1, 3}, {2, 4}, {1, 3}},  // Example 1
             {{}},  // Example 2 (Single node, no neighbors)
             {},    // Example 3 (Empty graph)
@@ -2070,12 +2072,12 @@ public:
             GraphNode<int>* clonedGraph = solver.cloneGraph(originalGraph);
 
             bool result = areGraphsIsomorphic(originalGraph, clonedGraph);
-            std::cout << "Clone Graph Test " << (i + 1) << ": " << (result ? "PASS" : "FAIL") << std::endl;
+            cout << "Clone Graph Test " << (i + 1) << ": " << (result ? "PASS" : "FAIL") << endl;
         }
     }
 
     static void zigzagConversion_6_tests() {
-        std::vector<ZigzagTestCase> testCases = {
+        vector<ZigzagTestCase> testCases = {
             ZigzagTestCase("PAYPALISHIRING", 3, "PAHNAPLSIIGYIR"),
             ZigzagTestCase("PAYPALISHIRING", 4, "PINALSIGYAHRPI"),
             ZigzagTestCase("A", 1, "A"),
@@ -2085,24 +2087,24 @@ public:
 
         ZigzagConversion_6 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            std::string result_rowWise = solution.convert_rowWise(testCases[i].input, testCases[i].numRows);
-            std::string result_jumpPattern = solution.convert_jumpPattern(testCases[i].input, testCases[i].numRows);
+            string result_rowWise = solution.convert_rowWise(testCases[i].input, testCases[i].numRows);
+            string result_jumpPattern = solution.convert_jumpPattern(testCases[i].input, testCases[i].numRows);
 
-            std::cout << "Test " << (i + 1) << " (Row-Wise): "
+            cout << "Test " << (i + 1) << " (Row-Wise): "
                       << (result_rowWise == testCases[i].expected ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expected
-                      << ", Got: " << result_rowWise << ")" << std::endl;
+                      << ", Got: " << result_rowWise << ")" << endl;
 
-            std::cout << "Test " << (i + 1) << " (Jump-Pattern): "
+            cout << "Test " << (i + 1) << " (Jump-Pattern): "
                       << (result_jumpPattern == testCases[i].expected ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expected
-                      << ", Got: " << result_jumpPattern << ")" << std::endl;
+                      << ", Got: " << result_jumpPattern << ")" << endl;
         }
     }
 
     static void hIndex_274_tests() {
         // 5 test cases: the 2 from the LeetCode examples + 3 additional
-        std::vector<HIndexTestCase> testCases = {
+        vector<HIndexTestCase> testCases = {
             // Example 1
             HIndexTestCase({3, 0, 6, 1, 5}, 3),
             // Example 2
@@ -2118,16 +2120,16 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.hIndex(testCases[i].citations);
-            std::cout << "HIndex_274 Test " << (i + 1) << ": res = "
+            cout << "HIndex_274 Test " << (i + 1) << ": res = "
                       << ((result == testCases[i].expectedResult) ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expectedResult
-                      << ", Got: " << result << ")" << std::endl;
+                      << ", Got: " << result << ")" << endl;
         }
     }
 
     static void sortColors_75_tests() {
         // Create test cases (two from the problem statement + three more)
-        std::vector<SortColorsTestCase> testCases = {
+        vector<SortColorsTestCase> testCases = {
             // Example 1
             SortColorsTestCase({2, 0, 2, 1, 1, 0}, {0, 0, 1, 1, 2, 2}),
             // Example 2
@@ -2143,28 +2145,28 @@ public:
         SortColors_75 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            std::vector<int> arr = testCases[i].input;
+            vector<int> arr = testCases[i].input;
             solution.sortColors(arr);
 
             bool pass = (arr == testCases[i].expected);
-            std::cout << "SortColors Test " << (i + 1) << ": "
+            cout << "SortColors Test " << (i + 1) << ": "
                     << (pass ? "PASS" : "FAIL")
                     << " (Expected: [";
             for (size_t j = 0; j < testCases[i].expected.size(); ++j) {
-                std::cout << testCases[i].expected[j]
+                cout << testCases[i].expected[j]
                         << (j + 1 < testCases[i].expected.size() ? ", " : "");
             }
-            std::cout << "], Got: [";
+            cout << "], Got: [";
             for (size_t j = 0; j < arr.size(); ++j) {
-                std::cout << arr[j] << (j + 1 < arr.size() ? ", " : "");
+                cout << arr[j] << (j + 1 < arr.size() ? ", " : "");
             }
-            std::cout << "])" << std::endl;
+            cout << "])" << endl;
         }
     }
 
     static void removeDuplicatesFromSortedArrayII_80_tests() {
         // Prepare test cases:
-        std::vector<RemoveDuplicatesFromSortedArrayIITestCase> testCases = {
+        vector<RemoveDuplicatesFromSortedArrayIITestCase> testCases = {
             // 2 examples from the problem statement:
             RemoveDuplicatesFromSortedArrayIITestCase({1,1,1,2,2,3}, 5, {1,1,2,2,3}),           // Example 1
             RemoveDuplicatesFromSortedArrayIITestCase({0,0,1,1,1,1,2,3,3}, 7, {0,0,1,1,2,3,3}), // Example 2
@@ -2194,15 +2196,15 @@ public:
                 }
             }
 
-            std::cout << "RemoveDuplicatesFromSortedArrayII_80 Test " << (i + 1) << ": "
+            cout << "RemoveDuplicatesFromSortedArrayII_80 Test " << (i + 1) << ": "
                     << (pass ? "PASS" : "FAIL")
                     << " (Expected k=" << testCases[i].expectedK
-                    << ", got k=" << k << ")" << std::endl;
+                    << ", got k=" << k << ")" << endl;
         }
     }
 
     static void bestTimeToBuyAndSellStockII_122_tests() {
-        std::vector<BestTimeToBuyAndSellStockII_122_TestCase> testCases = {
+        vector<BestTimeToBuyAndSellStockII_122_TestCase> testCases = {
             // 3 examples from the problem statement:
             BestTimeToBuyAndSellStockII_122_TestCase({7,1,5,3,6,4}, 7), // Example 1
             BestTimeToBuyAndSellStockII_122_TestCase({1,2,3,4,5}, 4),   // Example 2
@@ -2226,15 +2228,15 @@ public:
             int result = solution.maxProfit(testCases[i].prices);
 
             bool pass = (result == testCases[i].expectedProfit);
-            std::cout << "BestTimeToBuyAndSellStockII_122 Test " << (i + 1) << ": "
+            cout << "BestTimeToBuyAndSellStockII_122 Test " << (i + 1) << ": "
                     << (pass ? "PASS" : "FAIL")
                     << " (Expected " << testCases[i].expectedProfit
-                    << ", got " << result << ")" << std::endl;
+                    << ", got " << result << ")" << endl;
         }
     }
 
     static void validAnagram_242_tests() {
-        std::vector<ValidAnagramTestCase> testCases = {
+        vector<ValidAnagramTestCase> testCases = {
             // Examples from the problem statement
             ValidAnagramTestCase("anagram", "nagaram", true),
             ValidAnagramTestCase("rat", "car", false),
@@ -2242,22 +2244,22 @@ public:
             // Additional complex test cases
             ValidAnagramTestCase("abcdefg", "gfedcba", true), // Reverse order, still an anagram
             ValidAnagramTestCase("aabbcc", "abcabc", true),   // Same frequency, different order
-            ValidAnagramTestCase(std::string(50000, 'a') + "b", std::string(50000, 'a') + "c", false) // Edge case with large input, one character differs
+            ValidAnagramTestCase(string(50000, 'a') + "b", string(50000, 'a') + "c", false) // Edge case with large input, one character differs
         };
 
         ValidAnagram_242 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = solution.isAnagram(testCases[i].s, testCases[i].t);
-            std::cout << "Valid Anagram Test " << (i + 1) << ": res = "
+            cout << "Valid Anagram Test " << (i + 1) << ": res = "
                     << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                     << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
-                    << ", Got: " << (result ? "true" : "false") << ")" << std::endl;
+                    << ", Got: " << (result ? "true" : "false") << ")" << endl;
         }
     }
 
     static void analyzeUserWebsiteVisitPattern_1152_tests() {
-        std::vector<AnalyzeUserWebsiteVisitPatternTestCase> testCases = {
+        vector<AnalyzeUserWebsiteVisitPatternTestCase> testCases = {
             // Example 1 (From Problem Statement)
             AnalyzeUserWebsiteVisitPatternTestCase(
                 {"joe", "joe", "joe", "james", "james", "james", "james", "mary", "mary", "mary"},
@@ -2306,33 +2308,33 @@ public:
         AnalyzeUserWebsiteVisitPattern1152 solver;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            std::vector<std::string> result_map = solver.mostVisitedPattern_usingMap(testCases[i].username, testCases[i].timestamp, testCases[i].website);
-            std::vector<std::string> result_hashmap = solver.mostVisitedPattern_usingHashmap(testCases[i].username, testCases[i].timestamp, testCases[i].website);
+            vector<string> result_map = solver.mostVisitedPattern_usingMap(testCases[i].username, testCases[i].timestamp, testCases[i].website);
+            vector<string> result_hashmap = solver.mostVisitedPattern_usingHashmap(testCases[i].username, testCases[i].timestamp, testCases[i].website);
 
             bool pass_map = (result_map == testCases[i].expectedResult);
             bool pass_hashmap = (result_hashmap == testCases[i].expectedResult);
             bool pass_consistency = (result_map == result_hashmap);
 
-            std::cout << "AnalyzeUserWebsiteVisitPattern Test " << (i + 1) << ": \n";
+            cout << "AnalyzeUserWebsiteVisitPattern Test " << (i + 1) << ": \n";
 
-            std::cout << " - Using Map: " << (pass_map ? "PASS" : "FAIL") << " (Expected: ";
-            for (const auto& s : testCases[i].expectedResult) std::cout << s << " ";
-            std::cout << ", Got: ";
-            for (const auto& s : result_map) std::cout << s << " ";
-            std::cout << ")\n";
+            cout << " - Using Map: " << (pass_map ? "PASS" : "FAIL") << " (Expected: ";
+            for (const auto& s : testCases[i].expectedResult) cout << s << " ";
+            cout << ", Got: ";
+            for (const auto& s : result_map) cout << s << " ";
+            cout << ")\n";
 
-            std::cout << " - Using Hashmap: " << (pass_hashmap ? "PASS" : "FAIL") << " (Expected: ";
-            for (const auto& s : testCases[i].expectedResult) std::cout << s << " ";
-            std::cout << ", Got: ";
-            for (const auto& s : result_hashmap) std::cout << s << " ";
-            std::cout << ")\n";
+            cout << " - Using Hashmap: " << (pass_hashmap ? "PASS" : "FAIL") << " (Expected: ";
+            for (const auto& s : testCases[i].expectedResult) cout << s << " ";
+            cout << ", Got: ";
+            for (const auto& s : result_hashmap) cout << s << " ";
+            cout << ")\n";
 
-            std::cout << " - Consistency Check (Map vs Hashmap): " << (pass_consistency ? "PASS" : "FAIL") << "\n\n";
+            cout << " - Consistency Check (Map vs Hashmap): " << (pass_consistency ? "PASS" : "FAIL") << "\n\n";
         }
     }
 
     static void groupAnagrams_49_tests() {
-        std::vector<GroupAnagramsTestCase> testCases = {
+        vector<GroupAnagramsTestCase> testCases = {
             // Example 1
             GroupAnagramsTestCase({"eat", "tea", "tan", "ate", "nat", "bat"},
                                   {{"bat"}, {"tan", "nat"}, {"eat", "tea", "ate"}}),
@@ -2355,13 +2357,13 @@ public:
         GroupAnagrams_49 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            std::vector<std::vector<std::string>> result_sorting = solution.groupAnagrams_sorting(testCases[i].input);
-            std::vector<std::vector<std::string>> result_counting = solution.groupAnagrams_counting(testCases[i].input);
+            vector<vector<string>> result_sorting = solution.groupAnagrams_sorting(testCases[i].input);
+            vector<vector<string>> result_counting = solution.groupAnagrams_counting(testCases[i].input);
 
             // Convert results to a sorted form for comparison
-            auto sortResult = [](std::vector<std::vector<std::string>>& result) {
-                for (auto& group : result) std::sort(group.begin(), group.end());
-                std::sort(result.begin(), result.end());
+            auto sortResult = [](vector<vector<string>>& result) {
+                for (auto& group : result) sort(group.begin(), group.end());
+                sort(result.begin(), result.end());
             };
 
             sortResult(result_sorting);
@@ -2372,16 +2374,16 @@ public:
             bool pass_counting = (result_counting == testCases[i].expected);
             bool identical_outputs = (result_sorting == result_counting);
 
-            std::cout << "Group Anagrams Test " << i + 1 << ": "
+            cout << "Group Anagrams Test " << i + 1 << ": "
                       << (pass_sorting ? "PASS" : "FAIL") << " (Sorting) | "
                       << (pass_counting ? "PASS" : "FAIL") << " (Counting) | "
                       << (identical_outputs ? "MATCH" : "DIFFERENT") << " (Comparison)"
-                      << std::endl;
+                      << endl;
         }
     }
 
     static void findCelebrity_277_tests() {
-        std::vector<FindCelebrityTestCase> testCases = {
+        vector<FindCelebrityTestCase> testCases = {
             // Easy: A knows B, B knows no one → B is celebrity
             FindCelebrityTestCase({{0, 1}, {0, 0}}, 1),
 
@@ -2420,14 +2422,14 @@ public:
             solver.knowsMatrix = testCases[i].matrix;
             int result = solver.findCelebrity((int)testCases[i].matrix.size());
 
-            std::cout << "FindCelebrity Test " << (i + 1)
+            cout << "FindCelebrity Test " << (i + 1)
                       << ": res = " << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << std::endl;
+                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
         }
     }
 
     static void longestConsecutiveSequence_128_tests() {
-        std::vector<LongestConsecutiveSequenceTestCase> testCases = {
+        vector<LongestConsecutiveSequenceTestCase> testCases = {
             // Examples from problem statement
             LongestConsecutiveSequenceTestCase({100,4,200,1,3,2},         4),
             LongestConsecutiveSequenceTestCase({0,3,7,2,5,8,4,6,0,1},     9),
@@ -2440,16 +2442,16 @@ public:
         LongestConsecutiveSequence_128 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.longestConsecutive(testCases[i].nums);
-            std::cout << "Test " << (i+1) << ": res = "
+            cout << "Test " << (i+1) << ": res = "
                       << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expectedResult
-                      << ", Got: " << result << ")" << std::endl;
+                      << ", Got: " << result << ")" << endl;
         }
     }
 
     static void fizzBuzz_412_tests() {
-        std::vector<int> ns = {3, 5, 15, 16, 30};
-        std::vector<std::vector<std::string>> expected = {
+        vector<int> ns = {3, 5, 15, 16, 30};
+        vector<vector<string>> expected = {
             {"1","2","Fizz"},
             {"1","2","Fizz","4","Buzz"},
             {"1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"},
@@ -2460,15 +2462,15 @@ public:
         FizzBuzz_412 solution;
         for (size_t i = 0; i < ns.size(); ++i) {
             auto result = solution.fizzBuzz(ns[i]);
-            std::cout << "FizzBuzz Test " << (i + 1) << ": res = "
+            cout << "FizzBuzz Test " << (i + 1) << ": res = "
                       << (result == expected[i] ? "PASS" : "FAIL")
-                      << " (n=" << ns[i] << ")" << std::endl;
+                      << " (n=" << ns[i] << ")" << endl;
         }
     }
 
     // Tests for LeetCode #424 Longest Repeating Character Replacement
     static void longestRepeatingCharacterReplacement_424_tests() {
-        std::vector<LongestRepeatingCharReplacementTestCase> testCases = {
+        vector<LongestRepeatingCharReplacementTestCase> testCases = {
             {"ABAB",      2, 4},  // Example 1
             {"AABABBA",   1, 4},  // Example 2
             {"BABABA",    3, 6},  // Transform 3 'A's into 'B's
@@ -2478,7 +2480,7 @@ public:
         LongestRepeatingCharacterReplacement_424 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.characterReplacement(testCases[i].s, testCases[i].k);
-            std::cout << "LRCR_424 Test " << (i + 1) << ": res = "
+            cout << "LRCR_424 Test " << (i + 1) << ": res = "
                       << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expectedResult
                       << ", Got: " << result << ")\n";
@@ -2486,33 +2488,33 @@ public:
     }
 
     static void lRUCache_tests() {
-        std::vector<LRUCacheTestCase> testCases = {
+        vector<LRUCacheTestCase> testCases = {
             // From problem statement
             LRUCacheTestCase(
                 {"LRUCache","put","put","get","put","get","put","get","get","get"},
                 {{2},      {1,1}, {2,2}, {1},  {3,3}, {2},  {4,4}, {1},  {3},   {4}},
-                { std::nullopt, std::nullopt, std::nullopt, 1,
-                  std::nullopt, -1,         std::nullopt, -1,
+                { nullopt, nullopt, nullopt, 1,
+                  nullopt, -1,         nullopt, -1,
                    3,            4 }
             ),
             // Additional: overwrite existing key and capacity=1 edge
             LRUCacheTestCase(
                 {"LRUCache","put","put","get","put","get","get"},
                 {{1},      {1,10},{1,20},{1},  {2,30},{1},  {2}},
-                { std::nullopt, std::nullopt, std::nullopt, 20,
-                  std::nullopt,  -1,           30 }
+                { nullopt, nullopt, nullopt, 20,
+                  nullopt,  -1,           30 }
             ),
             // Additional: complex sequence with capacity = 3 and multiple evictions
             LRUCacheTestCase(
                 {"LRUCache","put","put","put","get","put","get","get","put","get","get"},
                 {{3},      {1,1}, {2,2}, {3,3}, {1},  {4,4}, {2},  {3},  {5,5}, {1},  {4}},
-                { std::nullopt, std::nullopt, std::nullopt, std::nullopt, 1,
-                  std::nullopt, -1,          3,          std::nullopt, -1,        4}
+                { nullopt, nullopt, nullopt, nullopt, 1,
+                  nullopt, -1,          3,          nullopt, -1,        4}
             ),
         };
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            std::cout << "LRUCache Test Case " << (i+1) << ":\n";
+            cout << "LRUCache Test Case " << (i+1) << ":\n";
             LRUCache* cache = nullptr;
             for (size_t j = 0; j < testCases[i].operations.size(); ++j) {
                 const auto& op  = testCases[i].operations[j];
@@ -2521,33 +2523,33 @@ public:
 
                 if (op == "LRUCache") {
                     cache = new LRUCache(arg[0]);
-                    std::cout << "  LRUCache(" << arg[0] << ") -> null\n";
+                    cout << "  LRUCache(" << arg[0] << ") -> null\n";
                 }
                 else if (op == "put") {
                     cache->put(arg[0], arg[1]);
-                    std::cout << "  put(" << arg[0] << ", " << arg[1] << ") -> null\n";
+                    cout << "  put(" << arg[0] << ", " << arg[1] << ") -> null\n";
                 }
                 else if (op == "get") {
                     int res = cache->get(arg[0]);
                     bool pass = exp.has_value() && res == exp.value();
-                    std::cout << "  get(" << arg[0] << ") -> " << res
+                    cout << "  get(" << arg[0] << ") -> " << res
                               << (pass ? " [PASS]\n" : " [FAIL]\n");
                 }
             }
             delete cache;
-            std::cout << "\n";
+            cout << "\n";
         }
     }
 
-    static bool isValidFrequencySort(const std::string& orig, const std::string& res) {
+    static bool isValidFrequencySort(const string& orig, const string& res) {
         if (orig.size() != res.size()) return false;
         // count in orig
-        std::unordered_map<char,int> freqOrig, freqRes;
+        unordered_map<char,int> freqOrig, freqRes;
         for (char c : orig) ++freqOrig[c];
         for (char c : res) ++freqRes[c];
         if (freqOrig != freqRes) return false;
         // extract runs from res
-        std::vector<std::pair<char,int>> runs;
+        vector<pair<char,int>> runs;
         for (size_t i = 0; i < res.size(); ) {
             char c = res[i];
             size_t j = i+1;
@@ -2567,7 +2569,7 @@ public:
     }
 
     static void sortCharactersByFrequency_451_tests() {
-        std::vector<std::string> inputs = {
+        vector<string> inputs = {
             "tree",      // 'e'x2, 'r','t'
             "cccaaa",    // 'c'x3, 'a'x3
             "Aabb",      // 'b'x2, 'A','a'
@@ -2577,16 +2579,16 @@ public:
 
         SortCharactersByFrequency_451 solution;
         for (size_t i = 0; i < inputs.size(); ++i) {
-            std::string result = solution.frequencySort(inputs[i]);
+            string result = solution.frequencySort(inputs[i]);
             bool pass = isValidFrequencySort(inputs[i], result);
-            std::cout << "SortCharactersByFrequency_451 Test " << (i + 1)
+            cout << "SortCharactersByFrequency_451 Test " << (i + 1)
                       << ": " << (pass ? "PASS" : "FAIL")
                       << " (Got: " << result << ")\n";
         }
     }
 
     static void coinChange_322_tests() {
-        std::vector<CoinChangeTestCase> testCases = {
+        vector<CoinChangeTestCase> testCases = {
             // 3 examples from the problem statement
             { {1,2,5},       11,  3  },
             { {2},           3,  -1  },
@@ -2602,7 +2604,7 @@ public:
         CoinChange_322 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int res = solution.coinChange(testCases[i].coins, testCases[i].amount);
-            std::cout << "CoinChange Test " << (i+1)
+            cout << "CoinChange Test " << (i+1)
                       << ": res = " << (res == testCases[i].expectedResult ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expectedResult
                       << ", Got: " << res << ")\n";
@@ -2610,7 +2612,7 @@ public:
     }
 
     static void topKFrequentWords_692_tests() {
-        std::vector<TopKFrequentWordsTestCase> testCases = {
+        vector<TopKFrequentWordsTestCase> testCases = {
             // Examples from problem statement
             {{"i","love","leetcode","i","love","coding"}, 2, {"i","love"}},
             {{"the","day","is","sunny","the","the","the","sunny","is","is"}, 4, {"the","is","sunny","day"}},
@@ -2624,24 +2626,24 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto result = solution.topKFrequent(testCases[i].words, testCases[i].k);
             bool pass = (result == testCases[i].expected);
-            std::cout << "TopKFrequentWords_692 Test " << (i + 1) << ": res = "
+            cout << "TopKFrequentWords_692 Test " << (i + 1) << ": res = "
                       << (pass ? "PASS" : "FAIL")
                       << " (Expected: [";
             for (size_t j = 0; j < testCases[i].expected.size(); ++j) {
-                std::cout << testCases[i].expected[j]
+                cout << testCases[i].expected[j]
                           << (j + 1 < testCases[i].expected.size() ? ", " : "");
             }
-            std::cout << "], Got: [";
+            cout << "], Got: [";
             for (size_t j = 0; j < result.size(); ++j) {
-                std::cout << result[j]
+                cout << result[j]
                           << (j + 1 < result.size() ? ", " : "");
             }
-            std::cout << "])" << std::endl;
+            cout << "])" << endl;
         }
     }
 
     static void longestCycleInGraph_2360_tests() {
-        std::vector<LongestCycleTestCase> testCases = {
+        vector<LongestCycleTestCase> testCases = {
             // 2 examples from the LeetCode problem statement
             LongestCycleTestCase({3, 3, 4, 2, 3}, 3),   // Example 1
             LongestCycleTestCase({2, -1, 3, 1}, -1),    // Example 2
@@ -2656,15 +2658,15 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int res = solver.longestCycle(testCases[i].edges);
-            std::cout << "LongestCycleInGraph_2360 Test " << (i + 1) << ": res = "
+            cout << "LongestCycleInGraph_2360 Test " << (i + 1) << ": res = "
                       << (res == testCases[i].expectedResult ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expectedResult
-                      << ", Got: " << res << ")" << std::endl;
+                      << ", Got: " << res << ")" << endl;
         }
     }
 
     static void shortestCycleInGraph_2608_tests() {
-        std::vector<ShortestCycleTestCase> cases = {
+        vector<ShortestCycleTestCase> cases = {
             // ── 2 examples from the problem statement ───────────────────────────
             ShortestCycleTestCase(
                 7,
@@ -2712,7 +2714,7 @@ public:
 
         for (size_t i = 0; i < cases.size(); ++i) {
             int got = solver.findShortestCycle(cases[i].n, cases[i].edges);
-            std::cout << "  Test " << (i + 1) << ": "
+            cout << "  Test " << (i + 1) << ": "
                       << (got == cases[i].expected ? "PASS" : "FAIL")
                       << "  (expected " << cases[i].expected
                       << ", got " << got << ")\n";
@@ -2720,7 +2722,7 @@ public:
     }
 
     static void uniquePathsII_63_tests() {
-        std::vector<UniquePathsIITestCase> testCases = {
+        vector<UniquePathsIITestCase> testCases = {
             // From the problem statement
             UniquePathsIITestCase({{0,0,0},{0,1,0},{0,0,0}}, 2),
             UniquePathsIITestCase({{0,1},{0,0}}, 1),
@@ -2735,7 +2737,7 @@ public:
             // 3) Larger 10×10 grid with no obstacles:
             //    number of paths = C(18,9) = 48620
             UniquePathsIITestCase(
-                std::vector<std::vector<int>>(10, std::vector<int>(10, 0)),
+                vector<vector<int>>(10, vector<int>(10, 0)),
                 48620
             )
         };
@@ -2743,7 +2745,7 @@ public:
         UniquePathsII_63 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.uniquePathsWithObstacles(testCases[i].grid);
-            std::cout << "Unique Paths II Test " << (i+1)
+            cout << "Unique Paths II Test " << (i+1)
                       << ": " << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
                       << " (Expected: " << testCases[i].expectedResult
                       << ", Got: " << result << ")\n";
@@ -2751,7 +2753,7 @@ public:
     }
 
     static void maximumAverageSubarrayI_643_tests() {
-        std::vector<MaxAvgTestCase> testCases = {
+        vector<MaxAvgTestCase> testCases = {
             // problem examples
             MaxAvgTestCase({1, 12, -5, -6, 50, 3}, 4, 12.75),
             MaxAvgTestCase({5},                    1,  5.0),
@@ -2766,7 +2768,7 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             double result = solution.findMaxAverage(testCases[i].nums, testCases[i].k);
             bool pass = approxEqual(result, testCases[i].expected);
-            std::cout << "MaxAvgSubarrayI_643 Test " << (i + 1) << ": "
+            cout << "MaxAvgSubarrayI_643 Test " << (i + 1) << ": "
                     << (pass ? "PASS" : "FAIL")
                     << " (expected=" << testCases[i].expected
                     << ", got=" << result << ")\n";
@@ -2774,135 +2776,135 @@ public:
     }
 
     static void runAllTests() {
-        std::cout << "Running CourseSchedule_207 tests:\n";
+        cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
-        std::cout << "Running FindIfPathExistsInGraph_1971 tests:\n";
+        cout << "Running FindIfPathExistsInGraph_1971 tests:\n";
         findIfPathExistsInGraph_1971_tests();
-        std::cout << "Running NumberOfIslands_200 tests:\n";
+        cout << "Running NumberOfIslands_200 tests:\n";
         numIslands_200_tests();
-        std::cout << "Running MaxAreaOfIsland_695 tests:\n";
+        cout << "Running MaxAreaOfIsland_695 tests:\n";
         maxAreaOfIsland_695_tests();
-        std::cout << "Running CourseScheduleII_210 tests:\n";
+        cout << "Running CourseScheduleII_210 tests:\n";
         courseScheduleII_210_tests();
-        std::cout << "Running NetworkDelayTime_743 tests:\n";
+        cout << "Running NetworkDelayTime_743 tests:\n";
         networkDelayTime_743_tests();
-        std::cout << "Running RottingOranges_994 tests:\n";
+        cout << "Running RottingOranges_994 tests:\n";
         rottingOranges_994_tests();
-        std::cout << "Running PacificAtlanticWaterFlow_417 tests:\n";
+        cout << "Running PacificAtlanticWaterFlow_417 tests:\n";
         pacificAtlantic_417_tests();
-        std::cout << "Running MinCostToConnectAllPoints_1584 tests:\n";
+        cout << "Running MinCostToConnectAllPoints_1584 tests:\n";
         minCostToConnectAllPoints_1584_tests();
-        std::cout << "Running LongestCommonSubsequence tests:\n";
+        cout << "Running LongestCommonSubsequence tests:\n";
         longestCommonSubsequence_tests();
-        std::cout << "Running LongestIncreasingSubsequence_300 tests:\n";
+        cout << "Running LongestIncreasingSubsequence_300 tests:\n";
         longestIncreasingSubsequence_tests();
-        std::cout << "Running RemoveDuplicatesFromSortedList_83 tests:\n";
+        cout << "Running RemoveDuplicatesFromSortedList_83 tests:\n";
         removeDuplicatesFromSortedList_83_tests();
-        std::cout << "Running ReverseLinkedListLeetcode_206 tests:\n";
+        cout << "Running ReverseLinkedListLeetcode_206 tests:\n";
         reverseLinkedList_206_tests();
-        std::cout << "Running MergeTwoSortedLists_21 tests:\n";
+        cout << "Running MergeTwoSortedLists_21 tests:\n";
         mergeTwoSortedLists_21_tests();
-        std::cout << "Running LinkedListCycle_141 tests:\n";
+        cout << "Running LinkedListCycle_141 tests:\n";
         hasCycle_141_tests();
-        std::cout << "Running MiddleOfLinkedList_876 tests:\n";
+        cout << "Running MiddleOfLinkedList_876 tests:\n";
         middleOfLinkedList_876_tests();
-        std::cout << "Running RemoveNthFromEnd tests:\n";
+        cout << "Running RemoveNthFromEnd tests:\n";
         removeNthFromEnd_tests();
-        std::cout << "Running MaxProfit_121 tests:\n";
+        cout << "Running MaxProfit_121 tests:\n";
         maxProfit_121_tests();
-        std::cout << "Running SpiralMatrix_54 tests:\n";
+        cout << "Running SpiralMatrix_54 tests:\n";
         spiralMatrix_54_tests();
-        std::cout << "Running ValidateBinarySearchTree_98 tests:\n";
+        cout << "Running ValidateBinarySearchTree_98 tests:\n";
         validateBinarySearchTree_98_tests();
-        std::cout << "Running LowestCommonAncestor_235 tests:\n";
+        cout << "Running LowestCommonAncestor_235 tests:\n";
         lowestCommonAncestor_235_tests();
-        std::cout << "Running CopyListWithRandomPointer_138 tests:\n";
+        cout << "Running CopyListWithRandomPointer_138 tests:\n";
         copyRandomList_tests();
-        std::cout << "Running KthSmallestElementInBST_230 tests:\n";
+        cout << "Running KthSmallestElementInBST_230 tests:\n";
         kthSmallestElementInBST_230_tests();
-        std::cout << "Running ImplementTrie_208 tests:\n";
+        cout << "Running ImplementTrie_208 tests:\n";
         implementTrie_208_tests();
-        std::cout << "Running KthLargestElementInArray_215 tests:\n";
+        cout << "Running KthLargestElementInArray_215 tests:\n";
         kthLargestElement_215_tests();
-        std::cout << "Running MinHeap tests:\n";
+        cout << "Running MinHeap tests:\n";
         minHeap_tests();
-        std::cout << "Running RotateImage_48 tests:\n";
+        cout << "Running RotateImage_48 tests:\n";
         rotateImage_48_tests();
-        std::cout << "Running MergeIntervals_56 tests:\n";
+        cout << "Running MergeIntervals_56 tests:\n";
         mergeIntervals_56_tests();
-        std::cout << "Running MergeKSortedLists_23 tests:\n";
+        cout << "Running MergeKSortedLists_23 tests:\n";
         mergeKLists_tests();
-        std::cout << "Running ProductOfArrayExceptSelf_238 tests:\n";
+        cout << "Running ProductOfArrayExceptSelf_238 tests:\n";
         productOfArrayExceptSelf_tests();
-        std::cout << "Running MajorityElement_169 tests:\n";
+        cout << "Running MajorityElement_169 tests:\n";
         majorityElement_tests();
-        std::cout << "Running Evaluate Reverse Polish Notation_150 tests:\n";
+        cout << "Running Evaluate Reverse Polish Notation_150 tests:\n";
         evaluateReversePolishNotation_150_tests();
-        std::cout << "Running LargestRectangleInHistogram_84 tests:\n";
+        cout << "Running LargestRectangleInHistogram_84 tests:\n";
         largestRectangleArea_tests();
-        std::cout << "Running WordSearch_79 tests:\n";
+        cout << "Running WordSearch_79 tests:\n";
         runWordSearchTests();
-        std::cout << "Running ValidParentheses_20 tests:\n";
+        cout << "Running ValidParentheses_20 tests:\n";
         runValidParenthesesTests();
-        std::cout << "Running ValidSudoku_36 tests:\n";
+        cout << "Running ValidSudoku_36 tests:\n";
         validSudoku_36_tests();
-        std::cout << "Running BinarySearch_704 tests:\n";
+        cout << "Running BinarySearch_704 tests:\n";
         binarySearch_704_tests();
-        std::cout << "Running Search Insert Position_35 tests:\n";
+        cout << "Running Search Insert Position_35 tests:\n";
         searchInsertPosition_35_tests();
-        std::cout << "Running Search 2D Matrix_74 tests:\n";
+        cout << "Running Search 2D Matrix_74 tests:\n";
         search2DMatrixTests();
-        std::cout << "Running All O One Data Structure_432) tests:\n";
+        cout << "Running All O One Data Structure_432) tests:\n";
         allOne_432_tests();
-        std::cout << "Running Find Minimum in Rotated Sorted Array_153 tests:\n";
+        cout << "Running Find Minimum in Rotated Sorted Array_153 tests:\n";
         findMinimumInRotatedSortedArray_153_tests();
-        std::cout << "Clone Graph_133 tests:\n";
+        cout << "Clone Graph_133 tests:\n";
         cloneGraph_133_tests();
-        std::cout << "Zigzag Conversion_6 tests:\n";
+        cout << "Zigzag Conversion_6 tests:\n";
         zigzagConversion_6_tests();
-        std::cout << "H-Index_274 tests:\n";
+        cout << "H-Index_274 tests:\n";
         hIndex_274_tests();
-        std::cout << "Sort Colors_75 tests:\n";
+        cout << "Sort Colors_75 tests:\n";
         sortColors_75_tests();
-        std::cout << "Remove Duplicates From Sorted Array II_80 tests:\n";
+        cout << "Remove Duplicates From Sorted Array II_80 tests:\n";
         removeDuplicatesFromSortedArrayII_80_tests();
-        std::cout << "Best Time To Buy And Sell Stock II_122 tests:\n";
+        cout << "Best Time To Buy And Sell Stock II_122 tests:\n";
         bestTimeToBuyAndSellStockII_122_tests();
-        std::cout << "Valid Annagram_242 tests:\n";
+        cout << "Valid Annagram_242 tests:\n";
         validAnagram_242_tests();
-        std::cout << "Analyze User Website Visit Pattern_1152 tests:\n";
+        cout << "Analyze User Website Visit Pattern_1152 tests:\n";
         analyzeUserWebsiteVisitPattern_1152_tests();
-        std::cout << "Group Anagrams_49 tests:\n";
+        cout << "Group Anagrams_49 tests:\n";
         groupAnagrams_49_tests();
-        std::cout << "Find the Celebrity_277 tests:\n";
+        cout << "Find the Celebrity_277 tests:\n";
         findCelebrity_277_tests();
-        std::cout << "Running LongestConsecutiveSequence_128 tests:\n";
+        cout << "Running LongestConsecutiveSequence_128 tests:\n";
         longestConsecutiveSequence_128_tests();
-        std::cout << "Running FizzBuzz_412 tests:\n";
+        cout << "Running FizzBuzz_412 tests:\n";
         fizzBuzz_412_tests();
-        std::cout << "Running Longest Repeating Character Replacement_424 tests:\n";
+        cout << "Running Longest Repeating Character Replacement_424 tests:\n";
         longestRepeatingCharacterReplacement_424_tests();
-        std::cout << "Running LRUCache_146 tests:\n";
+        cout << "Running LRUCache_146 tests:\n";
         lRUCache_tests();
-        std::cout << "Running SortCharactersByFrequency_451 tests:\n";
+        cout << "Running SortCharactersByFrequency_451 tests:\n";
         sortCharactersByFrequency_451_tests();
-        std::cout << "Running Coin Change_322 tests:\n";
+        cout << "Running Coin Change_322 tests:\n";
         TestsRunner::coinChange_322_tests();
-        std::cout << "Running TopKFrequentWords_692 tests:\n";
+        cout << "Running TopKFrequentWords_692 tests:\n";
         TestsRunner::topKFrequentWords_692_tests();
-        std::cout << "Running LongestCycleInGraph_2360 tests:\n";
+        cout << "Running LongestCycleInGraph_2360 tests:\n";
         longestCycleInGraph_2360_tests();
-        std::cout << "2608. Shortest Cycle in a Graph tests:\n";
+        cout << "2608. Shortest Cycle in a Graph tests:\n";
         shortestCycleInGraph_2608_tests();
-        std::cout << "Running Unique Paths II_63 tests:\n";
+        cout << "Running Unique Paths II_63 tests:\n";
         uniquePathsII_63_tests();
-        std::cout << "Running Maximum Average Subarray I_643 tests:\n";
+        cout << "Running Maximum Average Subarray I_643 tests:\n";
         maximumAverageSubarrayI_643_tests();
     }
 };
 
 int main() {
-    std::cout << "Running LeetCodeCpp tests:\n";
+    cout << "Running LeetCodeCpp tests:\n";
     TestsRunner::runAllTests();
     return 0;
 }
