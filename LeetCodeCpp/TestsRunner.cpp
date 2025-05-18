@@ -69,6 +69,7 @@
 #include "UniquePathsII_63.h"
 #include "MaximumAverageSubarrayI_643.h"
 #include "MaxConsecutiveOnesIII_1004.h"
+#include "LongestSubstringWithoutRepeatingCharacters_3.h"
 
 using namespace std;
 
@@ -574,6 +575,14 @@ struct MaxConsecutiveOnesTestCase {
 
     MaxConsecutiveOnesTestCase(vector<int> n, int kk, int e)
         : nums(move(n)), k(kk), expectedResult(e) {}
+};
+
+struct LongestSubstringWithoutRepeatingCharactersTestCase {
+    string s;
+    int expectedResult;
+
+    LongestSubstringWithoutRepeatingCharactersTestCase(string str, int exp)
+        : s(move(str)), expectedResult(exp) {}
 };
 
 class TestsRunner {
@@ -2807,6 +2816,26 @@ public:
         }
     }
 
+    static void longestSubstringWithoutRepeatingCharacters_3_tests() {
+        vector<LongestSubstringWithoutRepeatingCharactersTestCase> testCases = {
+            {"abcabcbb", 3},  // example 1
+            {"bbbbb",    1},  // example 2
+            {"pwwkew",   3},  // example 3
+            // two more complex cases:
+            {"dvdf",     3},  // "vdf"
+            {"anviaj",   5}   // "nviaj"
+        };
+
+        LongestSubstringWithoutRepeatingCharacters_3 solution;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int res = solution.lengthOfLongestSubstring(testCases[i].s);
+            cout << "Longest Substring Test " << (i + 1)
+                << ": res = " << (res == testCases[i].expectedResult ? "PASS" : "FAIL")
+                << " (Expected: " << testCases[i].expectedResult
+                << ", Got: " << res << ")" << endl;
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2934,6 +2963,8 @@ public:
         maximumAverageSubarrayI_643_tests();
         cout << "Running Max Consecutive Ones III_1004 tests:\n";
         maxConsecutiveOnesIII_1004_tests();
+        cout << "Running Longest Substring Without Repeating Characters_3 tests:\n";
+        longestSubstringWithoutRepeatingCharacters_3_tests();
     }
 };
 
