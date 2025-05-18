@@ -68,6 +68,7 @@
 #include "ShortestCycleInGraph_2608.h"
 #include "UniquePathsII_63.h"
 #include "MaximumAverageSubarrayI_643.h"
+#include "MaxConsecutiveOnesIII_1004.h"
 
 using namespace std;
 
@@ -564,6 +565,15 @@ struct MaxAvgTestCase {
     double expected;
     MaxAvgTestCase(vector<int> n, int kk, double e)
         : nums(move(n)), k(kk), expected(e) {}
+};
+
+struct MaxConsecutiveOnesTestCase {
+    vector<int> nums;
+    int k;
+    int expectedResult;
+
+    MaxConsecutiveOnesTestCase(vector<int> n, int kk, int e)
+        : nums(move(n)), k(kk), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -2775,6 +2785,28 @@ public:
         }
     }
 
+    static void maxConsecutiveOnesIII_1004_tests() {
+        vector<MaxConsecutiveOnesTestCase> testCases = {
+            // two examples from the problem statement:
+            MaxConsecutiveOnesTestCase({1,1,1,0,0,0,1,1,1,1,0},           2,  6),
+            MaxConsecutiveOnesTestCase({0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1}, 3, 10),
+
+            // three more:
+            MaxConsecutiveOnesTestCase({1,0,1,0,1,0,1},                   1,  3),  // alternating
+            MaxConsecutiveOnesTestCase({1,1,0,0,1,1,1,0,1},               2,  7),  // mixed blocks
+            MaxConsecutiveOnesTestCase({0,0,0,0},                         0,  0)   // all zeros, no flips
+        };
+
+        MaxConsecutiveOnesIII_1004 solution;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = solution.longestOnes(testCases[i].nums, testCases[i].k);
+            cout << "MaxConsecutiveOnesIII_1004 Test " << (i + 1) << ": res = "
+                << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                << " (Expected: " << testCases[i].expectedResult
+                << ", Got: " << result << ")" << endl;
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2900,6 +2932,8 @@ public:
         uniquePathsII_63_tests();
         cout << "Running Maximum Average Subarray I_643 tests:\n";
         maximumAverageSubarrayI_643_tests();
+        cout << "Running Max Consecutive Ones III_1004 tests:\n";
+        maxConsecutiveOnesIII_1004_tests();
     }
 };
 
