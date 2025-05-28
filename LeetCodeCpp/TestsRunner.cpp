@@ -70,6 +70,7 @@
 #include "MaximumAverageSubarrayI_643.h"
 #include "MaxConsecutiveOnesIII_1004.h"
 #include "LongestSubstringWithoutRepeatingCharacters_3.h"
+#include "MinimumSizeSubarraySum_209.h"
 
 using namespace std;
 
@@ -583,6 +584,15 @@ struct LongestSubstringWithoutRepeatingCharactersTestCase {
 
     LongestSubstringWithoutRepeatingCharactersTestCase(string str, int exp)
         : s(move(str)), expectedResult(exp) {}
+};
+
+struct MinimumSizeSubarraySumTestCase {
+    int target;
+    vector<int> nums;
+    int expectedResult;
+
+    MinimumSizeSubarraySumTestCase(int tgt, vector<int> n, int e)
+        : target(tgt), nums(move(n)), expectedResult(e) {}
 };
 
 class TestsRunner {
@@ -2836,6 +2846,31 @@ public:
         }
     }
 
+    static void minimumSizeSubarraySum_209_tests() {
+        vector<MinimumSizeSubarraySumTestCase> testCases = {
+            // 3 examples from the problem statement
+            {7,  {2, 3, 1, 2, 4, 3},             2},
+            {4,  {1, 4, 4},                      1},
+            {11, {1, 1, 1, 1, 1, 1, 1, 1},       0},
+
+            // 2 additional, more demanding cases
+            //  – overlapping windows, answer = 2  (10+7)
+            {15, {5, 1, 3, 5, 10, 7, 4, 9, 2, 8}, 2},
+            //  – strictly increasing array, answer = 3  (8+9+10)
+            {25, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3}
+        };
+
+        MinimumSizeSubarraySum_209 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = solver.minSubArrayLen(testCases[i].target, testCases[i].nums);
+            cout << "MinimumSizeSubarraySum_209 Test " << (i + 1) << ": res = "
+                << (got == testCases[i].expectedResult ? "PASS" : "FAIL")
+                << " (Expected: " << testCases[i].expectedResult
+                << ", Got: " << got << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -2965,6 +3000,8 @@ public:
         maxConsecutiveOnesIII_1004_tests();
         cout << "Running Longest Substring Without Repeating Characters_3 tests:\n";
         longestSubstringWithoutRepeatingCharacters_3_tests();
+        cout << "Running MinimumSizeSubarraySum_209 tests:\n";
+        minimumSizeSubarraySum_209_tests();
     }
 };
 
