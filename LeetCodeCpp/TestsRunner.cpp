@@ -71,6 +71,7 @@
 #include "MaxConsecutiveOnesIII_1004.h"
 #include "LongestSubstringWithoutRepeatingCharacters_3.h"
 #include "MinimumSizeSubarraySum_209.h"
+#include "PermutationInString_567.h"
 
 using namespace std;
 
@@ -593,6 +594,15 @@ struct MinimumSizeSubarraySumTestCase {
 
     MinimumSizeSubarraySumTestCase(int tgt, vector<int> n, int e)
         : target(tgt), nums(move(n)), expectedResult(e) {}
+};
+
+struct PermutationInStringTestCase {
+    string s1;
+    string s2;
+    bool expectedResult;
+
+    PermutationInStringTestCase(string first, string second, bool expected)
+        : s1(move(first)), s2(move(second)), expectedResult(expected) {}
 };
 
 class TestsRunner {
@@ -2871,6 +2881,28 @@ public:
         }
     }
 
+    static void permutationInString_567_tests() {
+        vector<PermutationInStringTestCase> testCases = {
+            // Two examples from the problem statement
+            {"ab", "eidbaooo", true},
+            {"ab", "eidboaoo", false},
+            // Three extra, increasingly tricky, cases
+            {"adc",  "dcda",              true},   // permutation “cda” present
+            {"xyz",  "afdgzyxksldfm",     true},   // reversed substring “zyx”
+            {"abcd", "abc",               false}   // corner-case: |s1| > |s2|
+        };
+
+        PermutationInString_567 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            bool result = solver.checkInclusion(testCases[i].s1, testCases[i].s2);
+            cout << "PermutationInString Test " << (i + 1) << ": res = "
+                << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
+                << ", Got: "      << (result ? "true" : "false")  << ")" << endl;
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3002,6 +3034,8 @@ public:
         longestSubstringWithoutRepeatingCharacters_3_tests();
         cout << "Running MinimumSizeSubarraySum_209 tests:\n";
         minimumSizeSubarraySum_209_tests();
+        cout << "Running PermutationInString_567 tests:\n";
+        permutationInString_567_tests();
     }
 };
 
