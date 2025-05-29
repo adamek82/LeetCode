@@ -73,6 +73,7 @@
 #include "MinimumSizeSubarraySum_209.h"
 #include "PermutationInString_567.h"
 #include "SquaresOfSortedArray_977.h"
+#include "ReverseString_344.h"
 
 using namespace std;
 
@@ -611,6 +612,13 @@ struct SquaresOfSortedArrayTestCase {
     vector<int> expectedResult;
     SquaresOfSortedArrayTestCase(vector<int> n, vector<int> e)
         : nums(move(n)), expectedResult(move(e)) {}
+};
+
+struct ReverseStringTestCase {
+    vector<char> input;
+    vector<char> expected;
+    ReverseStringTestCase(vector<char> i, vector<char> e)
+        : input(move(i)), expected(move(e)) {}
 };
 
 class TestsRunner {
@@ -2931,6 +2939,32 @@ public:
         }
     }
 
+    static void reverseString_344_tests() {
+        // build a large case up-front so it can be placed inside the uniform-init list
+        vector<char> longIn;
+        for (int i = 0; i < 10000; ++i) longIn.push_back('a' + (i % 26));
+        vector<char> longOut(longIn.rbegin(), longIn.rend());
+
+        vector<ReverseStringTestCase> testCases = {
+            // two examples from the problem statement
+            ReverseStringTestCase({'h','e','l','l','o'},            {'o','l','l','e','h'}),
+            ReverseStringTestCase({'H','a','n','n','a','h'},        {'h','a','n','n','a','H'}),
+
+            // three additional cases
+            ReverseStringTestCase({'a'},                            {'a'}),                       // length-1
+            ReverseStringTestCase({'a','b','c','c','b','a'},        {'a','b','c','c','b','a'}),   // palindrome
+            ReverseStringTestCase(move(longIn),                     move(longOut))                // 10 000 chars
+        };
+
+        ReverseString_344 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto s = testCases[i].input;          // work on a copy
+            solver.reverseString(s);
+            cout << "ReverseString_344 Test " << (i + 1) << ": res = "
+                << (s == testCases[i].expected ? "PASS" : "FAIL") << endl;
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3066,6 +3100,8 @@ public:
         permutationInString_567_tests();
         cout << "Running SquaresOfSortedArray_977 tests:\n";
         squaresOfSortedArray_977_tests();
+        cout << "Running ReverseString_344 tests:\n";
+        reverseString_344_tests();
     }
 };
 
