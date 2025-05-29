@@ -72,6 +72,7 @@
 #include "LongestSubstringWithoutRepeatingCharacters_3.h"
 #include "MinimumSizeSubarraySum_209.h"
 #include "PermutationInString_567.h"
+#include "SquaresOfSortedArray_977.h"
 
 using namespace std;
 
@@ -603,6 +604,13 @@ struct PermutationInStringTestCase {
 
     PermutationInStringTestCase(string first, string second, bool expected)
         : s1(move(first)), s2(move(second)), expectedResult(expected) {}
+};
+
+struct SquaresOfSortedArrayTestCase {
+    vector<int> nums;
+    vector<int> expectedResult;
+    SquaresOfSortedArrayTestCase(vector<int> n, vector<int> e)
+        : nums(move(n)), expectedResult(move(e)) {}
 };
 
 class TestsRunner {
@@ -2903,6 +2911,26 @@ public:
         }
     }
 
+    static void squaresOfSortedArray_977_tests() {
+        vector<SquaresOfSortedArrayTestCase> testCases = {
+            // 2 examples from the problem statement
+            {{-4, -1, 0, 3, 10},      {0, 1, 9, 16, 100}},
+            {{-7, -3, 2, 3, 11},      {4, 9, 9, 49, 121}},
+            // 3 additional (one is a corner case)
+            {{-10, -5, -2, -1},       {1, 4, 25, 100}},               // all negatives
+            {{0},                     {0}},                           // corner: single element
+            {{-10000, -3, -3, 0, 2, 10000},
+                                    {0, 4, 9, 9, 100000000, 100000000}} // extremes & duplicates
+        };
+
+        SquaresOfSortedArray_977 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto result = solver.sortedSquares(testCases[i].nums);
+            cout << "SquaresOfSortedArray_977 Test " << (i + 1) << ": res = "
+                << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3036,6 +3064,8 @@ public:
         minimumSizeSubarraySum_209_tests();
         cout << "Running PermutationInString_567 tests:\n";
         permutationInString_567_tests();
+        cout << "Running SquaresOfSortedArray_977 tests:\n";
+        squaresOfSortedArray_977_tests();
     }
 };
 
