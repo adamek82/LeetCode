@@ -77,6 +77,7 @@
 #include "TwoSumII_167.h"
 #include "ValidPalindrome_125.h"
 #include "ThreeSum_15.h"
+#include "ContainerWithMostWater_11.h"
 
 using namespace std;
 
@@ -644,6 +645,13 @@ struct ThreeSumTestCase {
     vector<vector<int>> expected;
     ThreeSumTestCase(vector<int> n, vector<vector<int>> e)
         : nums(move(n)), expected(move(e)) {}
+};
+
+struct ContainerWithMostWaterTestCase {
+    vector<int> heights;
+    int expected;
+    ContainerWithMostWaterTestCase(vector<int> h, int e)
+        : heights(move(h)), expected(e) {}
 };
 
 class TestsRunner {
@@ -3078,6 +3086,26 @@ public:
         }
     }
 
+    static void containerWithMostWater_11_tests() {
+        vector<ContainerWithMostWaterTestCase> testCases = {
+            // two examples from the statement
+            ContainerWithMostWaterTestCase({1,8,6,2,5,4,8,3,7}, 49),
+            ContainerWithMostWaterTestCase({1,1},                1),
+
+            // three additional cases
+            ContainerWithMostWaterTestCase({4,3,2,1,4},          16), // equal ends
+            ContainerWithMostWaterTestCase({1,2,1},              2),  // small valley
+            ContainerWithMostWaterTestCase({2,3,10,5,7,8,9},     36)  // tall inner peak
+        };
+
+        ContainerWithMostWater_11 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int res = solver.maxArea(testCases[i].heights);
+            cout << "ContainerWithMostWater_11 Test " << (i + 1) << ": res = "
+                << (res == testCases[i].expected ? "PASS" : "FAIL") << endl;
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3221,6 +3249,8 @@ public:
         validPalindrome_125_tests();
         cout << "Running ThreeSum_15 tests:\n";
         threeSum_15_tests();
+        cout << "Running ContainerWithMostWater_11 tests:\n";
+        containerWithMostWater_11_tests();
     }
 };
 
