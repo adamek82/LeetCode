@@ -75,6 +75,7 @@
 #include "SquaresOfSortedArray_977.h"
 #include "ReverseString_344.h"
 #include "TwoSumII_167.h"
+#include "ValidPalindrome_125.h"
 
 using namespace std;
 
@@ -628,6 +629,13 @@ struct TwoSumIITestCase {
     vector<int> expected;   // 1-indexed answer
     TwoSumIITestCase(vector<int> nums, int t, vector<int> exp)
         : numbers(move(nums)), target(t), expected(move(exp)) {}
+};
+
+struct ValidPalindromeTestCase {
+    string input;
+    bool expected;
+    ValidPalindromeTestCase(string i, bool e)
+        : input(move(i)), expected(e) {}
 };
 
 class TestsRunner {
@@ -3000,6 +3008,36 @@ public:
         }
     }
 
+    static void validPalindrome_125_tests() {
+        // Build a long palindrome (10 000 'a' separated by commas)
+        string longStr;
+        longStr.reserve(20000);
+        for (int i = 0; i < 10000; ++i) {
+            longStr.push_back('a');
+            longStr.push_back(',');
+        }
+
+        vector<ValidPalindromeTestCase> testCases = {
+            // two examples from the problem statement
+            ValidPalindromeTestCase("A man, a plan, a canal: Panama", true),
+            ValidPalindromeTestCase("race a car",                     false),
+
+            // third example from the statement
+            ValidPalindromeTestCase(" ",                              true),
+
+            // two additional cases
+            ValidPalindromeTestCase("0P",                             false), // mixed digit/letter
+            ValidPalindromeTestCase(move(longStr),                    true)   // long palindrome
+        };
+
+        ValidPalindrome_125 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            bool res = solver.isPalindrome(testCases[i].input);
+            cout << "ValidPalindrome_125 Test " << (i + 1) << ": res = "
+                << (res == testCases[i].expected ? "PASS" : "FAIL") << endl;
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3139,6 +3177,8 @@ public:
         reverseString_344_tests();
         cout << "Running TwoSumII_167 tests:\n";
         twoSumII_167_tests();
+        cout << "Running ValidPalindrome_125 tests:\n";
+        validPalindrome_125_tests();
     }
 };
 
