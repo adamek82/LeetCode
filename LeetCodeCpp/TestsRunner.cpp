@@ -76,6 +76,7 @@
 #include "ReverseString_344.h"
 #include "TwoSumII_167.h"
 #include "ValidPalindrome_125.h"
+#include "ThreeSum_15.h"
 
 using namespace std;
 
@@ -636,6 +637,13 @@ struct ValidPalindromeTestCase {
     bool expected;
     ValidPalindromeTestCase(string i, bool e)
         : input(move(i)), expected(e) {}
+};
+
+struct ThreeSumTestCase {
+    vector<int> nums;
+    vector<vector<int>> expected;
+    ThreeSumTestCase(vector<int> n, vector<vector<int>> e)
+        : nums(move(n)), expected(move(e)) {}
 };
 
 class TestsRunner {
@@ -3038,6 +3046,38 @@ public:
         }
     }
 
+    static void threeSum_15_tests() {
+        vector<ThreeSumTestCase> testCases = {
+            // two examples from the problem statement
+            ThreeSumTestCase({-1,0,1,2,-1,-4},            {{-1,-1,2},{-1,0,1}}),
+            ThreeSumTestCase({0,1,1},                     {}),
+
+            // third statement example
+            ThreeSumTestCase({0,0,0},                     {{0,0,0}}),
+
+            // two additional cases
+            ThreeSumTestCase({-2,0,1,1,2},                {{-2,0,2},{-2,1,1}}),
+            ThreeSumTestCase({-2,-2,1,3,1,2,0,0},         {{-2,0,2},{-2,1,1}})
+        };
+
+        ThreeSum_15 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto res = solver.threeSum(testCases[i].nums);
+
+            // sort each triplet then the whole vector for stable comparison
+            auto norm = [](vector<vector<int>>& v) {
+                for (auto& t : v) sort(t.begin(), t.end());
+                sort(v.begin(), v.end());
+            };
+            norm(res);
+            auto exp = testCases[i].expected;
+            norm(exp);
+
+            cout << "ThreeSum_15 Test " << (i + 1) << ": res = "
+                << (res == exp ? "PASS" : "FAIL") << endl;
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3179,6 +3219,8 @@ public:
         twoSumII_167_tests();
         cout << "Running ValidPalindrome_125 tests:\n";
         validPalindrome_125_tests();
+        cout << "Running ThreeSum_15 tests:\n";
+        threeSum_15_tests();
     }
 };
 
