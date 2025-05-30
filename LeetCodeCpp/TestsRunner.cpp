@@ -74,6 +74,7 @@
 #include "PermutationInString_567.h"
 #include "SquaresOfSortedArray_977.h"
 #include "ReverseString_344.h"
+#include "TwoSumII_167.h"
 
 using namespace std;
 
@@ -619,6 +620,14 @@ struct ReverseStringTestCase {
     vector<char> expected;
     ReverseStringTestCase(vector<char> i, vector<char> e)
         : input(move(i)), expected(move(e)) {}
+};
+
+struct TwoSumIITestCase {
+    vector<int> numbers;
+    int         target;
+    vector<int> expected;   // 1-indexed answer
+    TwoSumIITestCase(vector<int> nums, int t, vector<int> exp)
+        : numbers(move(nums)), target(t), expected(move(exp)) {}
 };
 
 class TestsRunner {
@@ -2965,6 +2974,32 @@ public:
         }
     }
 
+    static void twoSumII_167_tests() {
+        // long stress-case prepared first so it can go in the init-list
+        vector<int> longNums;
+        for (int v = -1000; v <= 1000; ++v) longNums.push_back(v);  // 2001 elements
+        vector<int> longAns = {1, static_cast<int>(longNums.size())};  // -1000 + 1000 = 0
+
+        vector<TwoSumIITestCase> testCases = {
+            // three examples from the statement
+            TwoSumIITestCase({2,7,11,15},                  9,  {1,2}),
+            TwoSumIITestCase({2,3,4},                      6,  {1,3}),
+            TwoSumIITestCase({-1,0},                      -1,  {1,2}),
+
+            // two additional cases
+            TwoSumIITestCase({1,3,4,7,11,15},             15,  {3,5}),          // mid-array pair
+            TwoSumIITestCase(move(longNums),               0,  move(longAns))   // 2001-element stress
+        };
+
+        TwoSumII_167 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto nums = testCases[i].numbers;  // work on a copy
+            vector<int> res = solver.twoSum(nums, testCases[i].target);
+            cout << "TwoSumII_167 Test " << (i + 1) << ": res = "
+                << (res == testCases[i].expected ? "PASS" : "FAIL") << endl;
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3102,6 +3137,8 @@ public:
         squaresOfSortedArray_977_tests();
         cout << "Running ReverseString_344 tests:\n";
         reverseString_344_tests();
+        cout << "Running TwoSumII_167 tests:\n";
+        twoSumII_167_tests();
     }
 };
 
