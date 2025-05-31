@@ -78,6 +78,7 @@
 #include "ValidPalindrome_125.h"
 #include "ThreeSum_15.h"
 #include "ContainerWithMostWater_11.h"
+#include "TrappingRainWater_42.h"
 
 using namespace std;
 
@@ -651,6 +652,13 @@ struct ContainerWithMostWaterTestCase {
     vector<int> heights;
     int expected;
     ContainerWithMostWaterTestCase(vector<int> h, int e)
+        : heights(move(h)), expected(e) {}
+};
+
+struct TrappingRainWaterTestCase {
+    vector<int> heights;
+    int expected;
+    TrappingRainWaterTestCase(vector<int> h, int e)
         : heights(move(h)), expected(e) {}
 };
 
@@ -3106,6 +3114,27 @@ public:
         }
     }
 
+    static void trappingRainWater_42_tests() {
+        vector<TrappingRainWaterTestCase> testCases = {
+            // two examples from the statement
+            TrappingRainWaterTestCase({0,1,0,2,1,0,1,3,2,1,2,1}, 6),
+            TrappingRainWaterTestCase({4,2,0,3,2,5},             9),
+
+            // three additional cases
+            TrappingRainWaterTestCase({0,0,0},                   0),  // flat
+            TrappingRainWaterTestCase({1,2,3,4,5},               0),  // monotonic
+            TrappingRainWaterTestCase({5,4,1,2},                 1),  // small basin
+            TrappingRainWaterTestCase({4,0,0,0,4},               12)
+        };
+
+        TrappingRainWater_42 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int res = solver.trap(testCases[i].heights);
+            cout << "TrappingRainWater_42 Test " << (i + 1) << ": res = "
+                << (res == testCases[i].expected ? "PASS" : "FAIL") << endl;
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3251,6 +3280,8 @@ public:
         threeSum_15_tests();
         cout << "Running ContainerWithMostWater_11 tests:\n";
         containerWithMostWater_11_tests();
+        cout << "Running TrappingRainWater_42 tests:\n";
+        trappingRainWater_42_tests();
     }
 };
 
