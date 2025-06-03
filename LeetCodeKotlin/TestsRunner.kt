@@ -31,7 +31,7 @@ object TestsRunner {
         testMaximumAverageSubarrayI_643()
         println("Running InvertBinaryTree_226 tests:")
         testInvertBinaryTree_226()
-        println("Running MaximumDepthOfBinaryTree_194 tests:")
+        println("Running MaximumDepthOfBinaryTree_104 tests:")
         testMaximumDepthOfBinaryTree_104()
         println("Running BalancedBinaryTree_110 tests:")
         testBalancedBinaryTree_110()
