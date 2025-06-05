@@ -79,6 +79,7 @@
 #include "ThreeSum_15.h"
 #include "ContainerWithMostWater_11.h"
 #include "TrappingRainWater_42.h"
+#include "MaximalRectangle_85.h"
 
 using namespace std;
 
@@ -660,6 +661,14 @@ struct TrappingRainWaterTestCase {
     int expected;
     TrappingRainWaterTestCase(vector<int> h, int e)
         : heights(move(h)), expected(e) {}
+};
+
+struct MaximalRectangleTestCase {
+    vector<vector<char>> matrix;
+    int expectedArea;
+
+    MaximalRectangleTestCase(vector<vector<char>> m, int area)
+        : matrix(move(m)), expectedArea(area) {}
 };
 
 class TestsRunner {
@@ -3135,6 +3144,37 @@ public:
         }
     }
 
+    static void maximalRectangle_85_tests() {
+        vector<MaximalRectangleTestCase> testCases = {
+            // ── three examples from the problem statement ──
+            MaximalRectangleTestCase({{'1','0','1','0','0'},
+                                    {'1','0','1','1','1'},
+                                    {'1','1','1','1','1'},
+                                    {'1','0','0','1','0'}}, 6),
+            MaximalRectangleTestCase({{'0'}}, 0),
+            MaximalRectangleTestCase({{'1'}}, 1),
+
+            // ── additional, larger & denser cases ──
+            // 1) 8×8 block of 1 s → area 64
+            MaximalRectangleTestCase(vector<vector<char>>(8, vector<char>(8, '1')), 64),
+
+            // 2) 4×10 mixed grid (largest 5×4 block) → area 20
+            MaximalRectangleTestCase({{'1','1','1','1','1','0','0','0','1','1'},
+                                    {'1','1','1','1','1','1','1','1','1','0'},
+                                    {'1','1','1','1','1','1','1','1','0','0'},
+                                    {'1','1','1','1','1','0','0','0','0','0'}}, 20)
+        };
+
+        MaximalRectangle_85 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = solver.maximalRectangle(testCases[i].matrix);
+            cout << "Maximal Rectangle Test " << (i + 1) << ": res = "
+                << (result == testCases[i].expectedArea ? "PASS" : "FAIL")
+                << " (Expected: " << testCases[i].expectedArea
+                << ", Got: " << result << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3282,6 +3322,8 @@ public:
         containerWithMostWater_11_tests();
         cout << "Running TrappingRainWater_42 tests:\n";
         trappingRainWater_42_tests();
+        cout << "Running MaximalRectangle_85 tests:\n";
+        maximalRectangle_85_tests();
     }
 };
 
