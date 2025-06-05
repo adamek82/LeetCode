@@ -80,6 +80,7 @@
 #include "ContainerWithMostWater_11.h"
 #include "TrappingRainWater_42.h"
 #include "MaximalRectangle_85.h"
+#include "MaximumSubarray_53.h"
 
 using namespace std;
 
@@ -669,6 +670,14 @@ struct MaximalRectangleTestCase {
 
     MaximalRectangleTestCase(vector<vector<char>> m, int area)
         : matrix(move(m)), expectedArea(area) {}
+};
+
+struct MaximumSubarrayTestCase {
+    std::vector<int> nums;
+    int expected;
+
+    MaximumSubarrayTestCase(std::vector<int> v, int e)
+        : nums(std::move(v)), expected(e) {}
 };
 
 class TestsRunner {
@@ -3175,6 +3184,29 @@ public:
         }
     }
 
+    static void maximumSubarray_53_tests() {
+        std::vector<MaximumSubarrayTestCase> tc = {
+            // 3 canonical LeetCode examples
+            {{-2,1,-3,4,-1,2,1,-5,4}, 6},
+            {{1}, 1},
+            {{5,4,-1,7,8}, 23},
+
+            // all-negative array → pick single largest element
+            {{-8,-3,-6,-2,-5,-4}, -2},
+
+            // larger mixed array (answer = 25, subarray [10, -2, 3, 14])
+            {{-1,10,-2,3,14,-5,2}, 25}
+        };
+
+        MaximumSubarray_53 solver;
+        for (size_t i = 0; i < tc.size(); ++i) {
+            int got = solver.maxSubArray(tc[i].nums);
+            std::cout << "MaximumSubarray_53 Test " << (i + 1) << ": "
+                    << (got == tc[i].expected ? "PASS" : "FAIL")
+                    << " (expected " << tc[i].expected << ", got " << got << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3324,6 +3356,8 @@ public:
         trappingRainWater_42_tests();
         cout << "Running MaximalRectangle_85 tests:\n";
         maximalRectangle_85_tests();
+        std::cout << "Running MaximumSubarray_53 tests:\n";
+        maximumSubarray_53_tests();
     }
 };
 
