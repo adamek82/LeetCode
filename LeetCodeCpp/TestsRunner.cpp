@@ -673,11 +673,11 @@ struct MaximalRectangleTestCase {
 };
 
 struct MaximumSubarrayTestCase {
-    std::vector<int> nums;
+    vector<int> nums;
     int expected;
 
-    MaximumSubarrayTestCase(std::vector<int> v, int e)
-        : nums(std::move(v)), expected(e) {}
+    MaximumSubarrayTestCase(vector<int> v, int e)
+        : nums(move(v)), expected(e) {}
 };
 
 class TestsRunner {
@@ -3185,7 +3185,7 @@ public:
     }
 
     static void maximumSubarray_53_tests() {
-        std::vector<MaximumSubarrayTestCase> tc = {
+        vector<MaximumSubarrayTestCase> tc = {
             // 3 canonical LeetCode examples
             {{-2,1,-3,4,-1,2,1,-5,4}, 6},
             {{1}, 1},
@@ -3201,7 +3201,7 @@ public:
         MaximumSubarray_53 solver;
         for (size_t i = 0; i < tc.size(); ++i) {
             int got = solver.maxSubArray(tc[i].nums);
-            std::cout << "MaximumSubarray_53 Test " << (i + 1) << ": "
+            cout << "MaximumSubarray_53 Test " << (i + 1) << ": "
                     << (got == tc[i].expected ? "PASS" : "FAIL")
                     << " (expected " << tc[i].expected << ", got " << got << ")\n";
         }
@@ -3356,7 +3356,7 @@ public:
         trappingRainWater_42_tests();
         cout << "Running MaximalRectangle_85 tests:\n";
         maximalRectangle_85_tests();
-        std::cout << "Running MaximumSubarray_53 tests:\n";
+        cout << "Running MaximumSubarray_53 tests:\n";
         maximumSubarray_53_tests();
     }
 };

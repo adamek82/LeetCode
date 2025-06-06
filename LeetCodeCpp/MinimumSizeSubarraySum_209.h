@@ -5,5 +5,5 @@ using namespace std;
 
 class MinimumSizeSubarraySum_209 {
 public:
-    int minSubArrayLen(int target, std::vector<int>& nums);
+    int minSubArrayLen(int target, vector<int>& nums);
 };
