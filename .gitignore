@@ -8,12 +8,12 @@ __pycache__/
 *.ilk
 *.pdb
 
-# Ignore all files in .vscode folder
-.vscode/*
+# Ignore all files in any .vscode folder
+**/.vscode/*
 
 # Exception for launch.json and tasks.json
-!.vscode/launch.json
-!.vscode/tasks.json
+!**/.vscode/launch.json
+!**/.vscode/tasks.json
 
 # Ignore any system-specific files
 .DS_Store

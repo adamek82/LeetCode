@@ -11,19 +11,39 @@ if (!(Test-Path $vscodeDir)) {
 
 # Detect the number of logical processors
 $maxParallel = [System.Environment]::ProcessorCount
-$jobs = @()
-$objFiles = @()
+$jobs       = @()
+$objFiles   = @()
 
 # Start timing
 $startTime = [System.Diagnostics.Stopwatch]::StartNew()
 
-# Load Visual Studio environment once at the start
-Write-Host "Setting up Visual Studio environment..."
-cmd.exe /c "call `"$vcvars64`" && set" | ForEach-Object {
-    if ($_ -match "^(.*?)=(.*)$") {
-        [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2], [System.EnvironmentVariableTarget]::Process)
-    }
+# vcvars environment cache path
+$vcvarsCache = Join-Path $vscodeDir "vcvars_env.ps1"
+
+# Generate and cache vcvars environment if missing
+if (!(Test-Path $vcvarsCache)) {
+    Write-Host "Generating vcvars environment cache..."
+    cmd.exe /c "set" >  (Join-Path $vscodeDir "before_vcvars.txt")
+    cmd.exe /c "call `"$vcvars64`" && set" > (Join-Path $vscodeDir "after_vcvars.txt")
+
+    Compare-Object `
+      (Get-Content (Join-Path $vscodeDir "before_vcvars.txt")) `
+      (Get-Content (Join-Path $vscodeDir "after_vcvars.txt")) |
+      Where-Object { $_.SideIndicator -eq '=>' } |
+      ForEach-Object {
+          if ($_.InputObject -match "^(.*?)=(.*)$") {
+              "Set-Item -Path env:$($matches[1]) -Value `"$($matches[2])`""
+          }
+      } | Out-File -Encoding ASCII $vcvarsCache
+
+    Remove-Item `
+      (Join-Path $vscodeDir "before_vcvars.txt"), `
+      (Join-Path $vscodeDir "after_vcvars.txt")
 }
+
+# Load cached vcvars environment
+Write-Host "Loading cached vcvars environment..."
+. $vcvarsCache
 
 # Compile only changed .cpp files in parallel
 foreach ($file in $cppFiles) {
@@ -35,9 +55,7 @@ foreach ($file in $cppFiles) {
         # Start parallel compilation
         $job = Start-Job -ScriptBlock {
             param ($file, $objFile)
-
             cmd.exe /c "cl.exe /std:c++20 /Zi /Od /EHsc /nologo /FS /c /Fo`"$objFile`" `"$($file.FullName)`""
-
         } -ArgumentList $file, $objFile
 
         $jobs += $job
