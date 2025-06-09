@@ -1603,24 +1603,39 @@ public:
                 {{13, 9, 5, 1}, {14, 10, 6, 2}, {15, 11, 7, 3}, {16, 12, 8, 4}}) // Larger 4x4 matrix
         };
 
-        RotateImage_48 rotateImage;
+        RotateImage_48 rotator;
 
+        auto printMatrix = [](const std::vector<std::vector<int>>& m) {
+            for (const auto& row : m) {
+                for (int v : row) std::cout << v << ' ';
+                std::cout << '\n';
+            }
+        };
+
+        // -------- Transpose-then-Reverse variant --------------------------------
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto input = testCases[i].inputMatrix;
-            rotateImage.rotate(input);
+            auto input = testCases[i].inputMatrix;      // fresh copy
+            rotator.rotateTransposeReverse(input);
 
-            cout << "Rotate Image Test " << (i + 1) << ": res = "
-                    << (input == testCases[i].expectedMatrix ? "PASS" : "FAIL")
-                    << "\nExpected: ";
-            for (const auto& row : testCases[i].expectedMatrix) {
-                for (int val : row) cout << val << " ";
-                cout << "\n";
-            }
-            cout << "Got: ";
-            for (const auto& row : input) {
-                for (int val : row) cout << val << " ";
-                cout << "\n";
-            }
+            std::cout << "[Transpose+Reverse] Test " << (i + 1) << ": res = "
+                    << (input == testCases[i].expectedMatrix ? "PASS" : "FAIL") << '\n';
+            std::cout << "Expected:\n";
+            printMatrix(testCases[i].expectedMatrix);
+            std::cout << "Got:\n";
+            printMatrix(input);
+        }
+
+        // -------- Layer-by-Layer (“onion”) swap variant -------------------------
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto input = testCases[i].inputMatrix;      // fresh copy
+            rotator.rotateLayerSwap(input);
+
+            std::cout << "[LayerSwap]        Test " << (i + 1) << ": res = "
+                    << (input == testCases[i].expectedMatrix ? "PASS" : "FAIL") << '\n';
+            std::cout << "Expected:\n";
+            printMatrix(testCases[i].expectedMatrix);
+            std::cout << "Got:\n";
+            printMatrix(input);
         }
     }
 

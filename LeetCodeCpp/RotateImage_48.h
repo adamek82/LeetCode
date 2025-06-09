@@ -5,5 +5,6 @@ using namespace std;
 
 class RotateImage_48 {
 public:
-    void rotate(vector<vector<int>>& matrix);
+    void rotateTransposeReverse(std::vector<std::vector<int>>& matrix); // transpose-reverse algo
+    void rotateLayerSwap(std::vector<std::vector<int>>& matrix);        // “onion-layers” algo
 };
