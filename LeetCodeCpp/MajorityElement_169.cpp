@@ -1,32 +1,34 @@
 #include "MajorityElement_169.h"
 
 /*
- * Theoretical Proof:
+ * Boyer–Moore Majority Vote — Correctness Sketch
  *
- * Let the majority element be 'M' and let it appear k times in the array,
- * where k > n / 2. All other elements together appear at most n - k times.
+ * Invariant (pair-cancellation):
+ *   After scanning the first i elements, the multiset of those i elements
+ *   can be reduced — by repeatedly deleting pairs of **different** values —
+ *   to exactly ‘count’ copies of the current ‘candidate’.
  *
- * The algorithm works by maintaining a balance:
- * 1. Each occurrence of 'M' increases the count by 1.
- * 2. Each occurrence of a non-'M' element decreases the count by 1.
+ * Why the invariant holds
+ *   – If the next value == candidate  → we add an unmatched copy (count++).
+ *   – Else                            → we delete a mismatching pair (count--).
+ *   – If count hits 0                 → all copies of the old candidate have
+ *                                       been paired away; the next element
+ *                                       starts a new (count = 1) multiset.
  *
- * At any point in the iteration:
- * - The net count is the difference between occurrences of 'M' and
- *   non-'M' elements processed so far.
+ * Consequence at the end of the scan
+ *   • We finish with count > 0, so one value survived all pair deletions:
+ *     the final ‘candidate’.
+ *   • Let M be the true majority element (guaranteed to exist, k > n/2).
+ *     Every time we delete a pair we remove at most one copy of M, but the
+ *     minority elements are exhausted first, so ≥1 copy of M survives.
+ *   • Only one value survives, hence candidate == M.
  *
- * By the end of the array:
- * - Total contribution to the count from 'M' is +k.
- * - Total contribution to the count from other elements is at most -(n - k).
- *
- * Since k > n / 2:
- * - k - (n - k) = 2k - n > 0.
- * - Thus, the count is guaranteed to be positive at the end of the iteration.
- *
- * Therefore, the majority element 'M' remains the final candidate.
+ * Complexity
+ *   – Time:  O(n)  (single pass)
+ *   – Space: O(1)  (two integers)
  */
 int MajorityElement_169::majorityElement(vector<int> &nums)
 {
-    //
     int candidate = nums[0];
     int count = 0;
 
