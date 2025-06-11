@@ -1631,10 +1631,10 @@ public:
 
         RotateImage_48 rotator;
 
-        auto printMatrix = [](const std::vector<std::vector<int>>& m) {
+        auto printMatrix = [](const vector<vector<int>>& m) {
             for (const auto& row : m) {
-                for (int v : row) std::cout << v << ' ';
-                std::cout << '\n';
+                for (int v : row) cout << v << ' ';
+                cout << '\n';
             }
         };
 
@@ -1643,11 +1643,11 @@ public:
             auto input = testCases[i].inputMatrix;      // fresh copy
             rotator.rotateTransposeReverse(input);
 
-            std::cout << "[Transpose+Reverse] Test " << (i + 1) << ": res = "
+            cout << "[Transpose+Reverse] Test " << (i + 1) << ": res = "
                     << (input == testCases[i].expectedMatrix ? "PASS" : "FAIL") << '\n';
-            std::cout << "Expected:\n";
+            cout << "Expected:\n";
             printMatrix(testCases[i].expectedMatrix);
-            std::cout << "Got:\n";
+            cout << "Got:\n";
             printMatrix(input);
         }
 
@@ -1656,11 +1656,11 @@ public:
             auto input = testCases[i].inputMatrix;      // fresh copy
             rotator.rotateLayerSwap(input);
 
-            std::cout << "[LayerSwap]        Test " << (i + 1) << ": res = "
+            cout << "[LayerSwap]        Test " << (i + 1) << ": res = "
                     << (input == testCases[i].expectedMatrix ? "PASS" : "FAIL") << '\n';
-            std::cout << "Expected:\n";
+            cout << "Expected:\n";
             printMatrix(testCases[i].expectedMatrix);
-            std::cout << "Got:\n";
+            cout << "Got:\n";
             printMatrix(input);
         }
     }
