@@ -81,6 +81,7 @@
 #include "TrappingRainWater_42.h"
 #include "MaximalRectangle_85.h"
 #include "MaximumSubarray_53.h"
+#include "TwoSum_1.h"
 
 using namespace std;
 
@@ -678,6 +679,15 @@ struct MaximumSubarrayTestCase {
 
     MaximumSubarrayTestCase(vector<int> v, int e)
         : nums(move(v)), expected(e) {}
+};
+
+struct TwoSumCase {
+    vector<int> nums;
+    int              target;
+    vector<int> expected;   // indices (any order)
+
+    TwoSumCase(vector<int> n, int t, vector<int> e)
+        : nums(move(n)), target(t), expected(move(e)) {}
 };
 
 class TestsRunner {
@@ -3222,6 +3232,37 @@ public:
         }
     }
 
+    static void twoSum_1_tests() {
+        vector<TwoSumCase> cases = {
+            TwoSumCase({2, 7, 11, 15},               9,  {0, 1}),
+            TwoSumCase({3, 2, 4},                    6,  {1, 2}),
+            TwoSumCase({3, 3},                       6,  {0, 1}),
+            // Added tougher / edge scenarios
+            TwoSumCase({-10, -1, 0, 1, 2, 8},       -9,  {0, 3}),           // negative + positive mix
+            TwoSumCase({1000000000, -1000000000, 3, 4, 8}, 12,  {3, 4})     // 4 + 8
+        };
+
+        auto printVec = [](const vector<int>& v) {
+            for (int x : v) cout << x << ' ';
+            cout << '\n';
+        };
+
+        TwoSum_1 solver;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            auto res = solver.twoSum(cases[i].nums, cases[i].target);
+
+            // order-independent check
+            auto exp = cases[i].expected;
+            sort(res.begin(), res.end());
+            sort(exp.begin(), exp.end());
+
+            cout << "[TwoSum] Test " << (i + 1) << ": res = "
+                 << (res == exp ? "PASS" : "FAIL") << '\n';
+            cout << "Expected: "; printVec(exp);
+            cout << "Got:      "; printVec(res);
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3373,6 +3414,8 @@ public:
         maximalRectangle_85_tests();
         cout << "Running MaximumSubarray_53 tests:\n";
         maximumSubarray_53_tests();
+        cout << "Running TwoSum_1 tests:\n";
+        twoSum_1_tests();
     }
 };
 
