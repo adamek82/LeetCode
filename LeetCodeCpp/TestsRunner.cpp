@@ -82,6 +82,7 @@
 #include "MaximalRectangle_85.h"
 #include "MaximumSubarray_53.h"
 #include "TwoSum_1.h"
+#include "MergeSortedArray_88.h"
 
 using namespace std;
 
@@ -688,6 +689,21 @@ struct TwoSumCase {
 
     TwoSumCase(vector<int> n, int t, vector<int> e)
         : nums(move(n)), target(t), expected(move(e)) {}
+};
+
+struct MergeCase {
+    vector<int> nums1;
+    int              m;
+    vector<int> nums2;
+    int              n;
+    vector<int> expected;
+
+    MergeCase(vector<int> a, int ma,
+              vector<int> b, int nb,
+              vector<int> e)
+        : nums1(move(a)), m(ma),
+          nums2(move(b)), n(nb),
+          expected(move(e)) {}
 };
 
 class TestsRunner {
@@ -3263,6 +3279,32 @@ public:
         }
     }
 
+    static void mergeSortedArray_88_tests() {
+        vector<MergeCase> cases = {
+            MergeCase({1,2,3,0,0,0}, 3, {2,5,6}, 3, {1,2,2,3,5,6}),
+            MergeCase({1},           1, {},       0, {1}),
+            MergeCase({0},           0, {1},      1, {1}),
+            MergeCase({2,0},         1, {1},      1, {1,2}),               // reversed order input
+            MergeCase({-3,-1,0,0,0}, 2, {-2,-2,4},3, {-3,-2,-2,-1,4})      // negatives & duplicates
+        };
+
+        auto printVec = [](const vector<int>& v){
+            for (int x : v) cout << x << ' ';
+            cout << '\n';
+        };
+
+        MergeSortedArray_88 merger;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            auto nums1 = cases[i].nums1;   // make a copy; we’ll mutate it
+            merger.merge(nums1, cases[i].m, cases[i].nums2, cases[i].n);
+
+            cout << "[MergeSortedArray] Test " << (i + 1) << ": res = "
+                 << (nums1 == cases[i].expected ? "PASS" : "FAIL") << '\n';
+            cout << "Expected: "; printVec(cases[i].expected);
+            cout << "Got:      "; printVec(nums1);
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3416,6 +3458,8 @@ public:
         maximumSubarray_53_tests();
         cout << "Running TwoSum_1 tests:\n";
         twoSum_1_tests();
+        cout << "Running MergeSortedArray_88 tests:\n";
+        mergeSortedArray_88_tests();
     }
 };
 
