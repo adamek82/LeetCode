@@ -706,6 +706,20 @@ struct MergeCase {
           expected(move(e)) {}
 };
 
+//----------------------------------------------------------------------------
+// Reusable helpers for dumping containers in tests
+//----------------------------------------------------------------------------
+template <typename T>
+void printVec(const std::vector<T>& v) {
+    for (const auto& x : v) std::cout << x << ' ';
+    std::cout << '\n';
+}
+
+template <typename T>
+void printMatrix(const std::vector<std::vector<T>>& m) {
+    for (const auto& row : m) printVec(row);
+}
+
 class TestsRunner {
 public:
     static void courseSchedule_207_tests() {
@@ -1630,13 +1644,6 @@ public:
         };
 
         RotateImage_48 rotator;
-
-        auto printMatrix = [](const vector<vector<int>>& m) {
-            for (const auto& row : m) {
-                for (int v : row) cout << v << ' ';
-                cout << '\n';
-            }
-        };
 
         // -------- Transpose-then-Reverse variant --------------------------------
         for (size_t i = 0; i < testCases.size(); ++i) {
@@ -3258,11 +3265,6 @@ public:
             TwoSumCase({1000000000, -1000000000, 3, 4, 8}, 12,  {3, 4})     // 4 + 8
         };
 
-        auto printVec = [](const vector<int>& v) {
-            for (int x : v) cout << x << ' ';
-            cout << '\n';
-        };
-
         TwoSum_1 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
             auto res = solver.twoSum(cases[i].nums, cases[i].target);
@@ -3286,11 +3288,6 @@ public:
             MergeCase({0},           0, {1},      1, {1}),
             MergeCase({2,0},         1, {1},      1, {1,2}),               // reversed order input
             MergeCase({-3,-1,0,0,0}, 2, {-2,-2,4},3, {-3,-2,-2,-1,4})      // negatives & duplicates
-        };
-
-        auto printVec = [](const vector<int>& v){
-            for (int x : v) cout << x << ' ';
-            cout << '\n';
         };
 
         MergeSortedArray_88 merger;
