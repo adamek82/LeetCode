@@ -83,6 +83,7 @@
 #include "MaximumSubarray_53.h"
 #include "TwoSum_1.h"
 #include "MergeSortedArray_88.h"
+#include "RemoveElement_27.h"
 
 using namespace std;
 
@@ -704,6 +705,17 @@ struct MergeCase {
         : nums1(move(a)), m(ma),
           nums2(move(b)), n(nb),
           expected(move(e)) {}
+};
+
+struct RemCase {
+    vector<int> nums;
+    int         val;
+    int         expectedK;
+    vector<int> expectedElems;   // order-agnostic
+
+    RemCase(vector<int> a, int v, int k, vector<int> e)
+        : nums(move(a)), val(v), expectedK(k),
+          expectedElems(move(e)) {}
 };
 
 //----------------------------------------------------------------------------
@@ -3302,6 +3314,33 @@ public:
         }
     }
 
+    static void removeElement_27_tests() {
+        vector<RemCase> cases = {
+            RemCase({3,2,2,3},           3, 2, {2,2}),           // example 1
+            RemCase({0,1,2,2,3,0,4,2},   2, 5, {0,0,1,3,4}),     // example 2
+            RemCase({},                  0, 0, {}),              // empty array
+            RemCase({1,1,1},             2, 3, {1,1,1}),         // value absent
+            RemCase({4,4,4},             4, 0, {})               // all removed
+        };
+
+        RemoveElement_27 remover;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            auto nums = cases[i].nums;                    // copy to mutate
+            int  k    = remover.removeElement(nums, cases[i].val);
+
+            // prepare comparables (order-independent)
+            vector<int> got(nums.begin(), nums.begin() + k);
+            sort(got.begin(), got.end());
+            auto exp = cases[i].expectedElems;
+            sort(exp.begin(), exp.end());
+
+            cout << "[RemoveElement] Test " << (i + 1) << ": res = "
+                 << ((k == cases[i].expectedK && got == exp) ? "PASS" : "FAIL") << '\n';
+            cout << "Expected k=" << cases[i].expectedK << ", elems: "; printVec(exp);
+            cout << "Got      k=" << k << ", elems: ";      printVec(got);
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3457,6 +3496,8 @@ public:
         twoSum_1_tests();
         cout << "Running MergeSortedArray_88 tests:\n";
         mergeSortedArray_88_tests();
+        cout << "Running RemoveElement_27 tests:\n";
+        removeElement_27_tests();
     }
 };
 
