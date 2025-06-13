@@ -84,6 +84,7 @@
 #include "TwoSum_1.h"
 #include "MergeSortedArray_88.h"
 #include "RemoveElement_27.h"
+#include "MaximumNumberOfBalloons_1189.h"
 
 using namespace std;
 
@@ -718,17 +719,23 @@ struct RemCase {
           expectedElems(move(e)) {}
 };
 
+struct BalloonCase {
+    string text;
+    int         expected;
+    BalloonCase(string t, int e) : text(move(t)), expected(e) {}
+};
+
 //----------------------------------------------------------------------------
 // Reusable helpers for dumping containers in tests
 //----------------------------------------------------------------------------
 template <typename T>
-void printVec(const std::vector<T>& v) {
-    for (const auto& x : v) std::cout << x << ' ';
-    std::cout << '\n';
+void printVec(const vector<T>& v) {
+    for (const auto& x : v) cout << x << ' ';
+    cout << '\n';
 }
 
 template <typename T>
-void printMatrix(const std::vector<std::vector<T>>& m) {
+void printMatrix(const vector<vector<T>>& m) {
     for (const auto& row : m) printVec(row);
 }
 
@@ -3341,6 +3348,27 @@ public:
         }
     }
 
+    static void maximumNumberOfBalloons_1189_tests()
+    {
+        vector<BalloonCase> cases = {
+            {"nlaebolko",            1},   // example 1
+            {"loonbalxballpoon",     2},   // example 2
+            {"leetcode",             0},   // example 3
+            {"balloonballoon",       2},   // two exact words
+            {"balon",                0}    // missing letters
+        };
+
+        MaximumNumberOfBalloons_1189 solver;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            int res = solver.maxNumberOfBalloons(cases[i].text);
+
+            std::cout << "[MaxBalloons] Test " << (i + 1) << ": res = "
+                    << (res == cases[i].expected ? "PASS" : "FAIL") << '\n';
+            std::cout << "Expected: " << cases[i].expected
+                    << ", Got: " << res << '\n';
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3498,6 +3526,8 @@ public:
         mergeSortedArray_88_tests();
         cout << "Running RemoveElement_27 tests:\n";
         removeElement_27_tests();
+        cout << "Running MaximumNumberOfBalloons_1189:\n";
+        maximumNumberOfBalloons_1189_tests();
     }
 };
 
