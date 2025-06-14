@@ -85,6 +85,7 @@
 #include "MergeSortedArray_88.h"
 #include "RemoveElement_27.h"
 #include "MaximumNumberOfBalloons_1189.h"
+#include "AddBinary_67.h"
 
 using namespace std;
 
@@ -723,6 +724,12 @@ struct BalloonCase {
     string text;
     int         expected;
     BalloonCase(string t, int e) : text(move(t)), expected(e) {}
+};
+
+struct ABCase {
+    string a, b, expected;
+    ABCase(string x, string y, string e)
+        : a(move(x)), b(move(y)), expected(move(e)) {}
 };
 
 //----------------------------------------------------------------------------
@@ -3369,6 +3376,27 @@ public:
         }
     }
 
+    static void addBinary_67_tests()
+    {
+        vector<ABCase> cases = {
+            {"11",      "1",       "100"},      // example 1
+            {"1010",    "1011",    "10101"},    // example 2
+            {"0",       "0",       "0"},        // both zero
+            {"1111",    "1",       "10000"},    // carry over entire length
+            {"100",     "110010",  "110110"}    // different lengths
+        };
+
+        AddBinary_67 solver;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            string res = solver.addBinary(cases[i].a, cases[i].b);
+
+            cout << "[AddBinary] Test " << (i + 1) << ": res = "
+                << (res == cases[i].expected ? "PASS" : "FAIL") << '\n';
+            cout << "Expected: " << cases[i].expected
+                << ", Got: " << res << '\n';
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3528,6 +3556,8 @@ public:
         removeElement_27_tests();
         cout << "Running MaximumNumberOfBalloons_1189:\n";
         maximumNumberOfBalloons_1189_tests();
+        cout << "Running AddBinary_67 tests:\n";
+        addBinary_67_tests();
     }
 };
 
