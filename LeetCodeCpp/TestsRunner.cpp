@@ -87,6 +87,7 @@
 #include "MaximumNumberOfBalloons_1189.h"
 #include "AddBinary_67.h"
 #include "FindPivotIndex_724.h"
+#include "NumberOf1Bits_191.h"
 
 using namespace std;
 
@@ -737,6 +738,12 @@ struct PivotCase {
     vector<int> nums;
     int         expected;
     PivotCase(vector<int> n, int e) : nums(move(n)), expected(e) {}
+};
+
+struct HWCase {
+    uint32_t n;
+    int      expected;
+    HWCase(uint32_t x, int e) : n(x), expected(e) {}
 };
 
 //----------------------------------------------------------------------------
@@ -3424,6 +3431,27 @@ public:
         }
     }
 
+    static void numberOf1Bits_191_tests()
+    {
+        vector<HWCase> cases = {
+            {11u,          3},          // 1011
+            {128u,         1},          // 10000000
+            {2147483645u, 30},          // 0x7FFFFFFD
+            {0u,           0},          // edge: zero
+            {0xFFFFFFFFu, 32}           // all ones
+        };
+
+        NumberOf1Bits_191 solver;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            int res = solver.hammingWeight(cases[i].n);
+
+            cout << "[HammingWeight] Test " << (i + 1) << ": res = "
+                << (res == cases[i].expected ? "PASS" : "FAIL") << '\n';
+            cout << "Expected: " << cases[i].expected
+                << ", Got: " << res << '\n';
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3581,12 +3609,14 @@ public:
         mergeSortedArray_88_tests();
         cout << "Running RemoveElement_27 tests:\n";
         removeElement_27_tests();
-        cout << "Running MaximumNumberOfBalloons_1189:\n";
+        cout << "Running MaximumNumberOfBalloons_1189 tests:\n";
         maximumNumberOfBalloons_1189_tests();
         cout << "Running AddBinary_67 tests:\n";
         addBinary_67_tests();
-        cout << "Find Pivot Index_724\n";
+        cout << "Find Pivot Index_724 tests:\n";
         findPivotIndex_724_tests();
+        cout << "Number of 1 Bits_191 tests:\n";
+        numberOf1Bits_191_tests();
     }
 };
 
