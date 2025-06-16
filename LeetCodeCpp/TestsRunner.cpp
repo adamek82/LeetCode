@@ -86,6 +86,7 @@
 #include "RemoveElement_27.h"
 #include "MaximumNumberOfBalloons_1189.h"
 #include "AddBinary_67.h"
+#include "FindPivotIndex_724.h"
 
 using namespace std;
 
@@ -730,6 +731,12 @@ struct ABCase {
     string a, b, expected;
     ABCase(string x, string y, string e)
         : a(move(x)), b(move(y)), expected(move(e)) {}
+};
+
+struct PivotCase {
+    vector<int> nums;
+    int         expected;
+    PivotCase(vector<int> n, int e) : nums(move(n)), expected(e) {}
 };
 
 //----------------------------------------------------------------------------
@@ -3397,6 +3404,26 @@ public:
         }
     }
 
+    static void findPivotIndex_724_tests() {
+        vector<PivotCase> cases = {
+            {{1,7,3,6,5,6},  3},     // example 1
+            {{1,2,3},       -1},     // example 2
+            {{2,1,-1},       0},     // example 3
+            {{0,0,0,0},      0},     // all zeros → first index
+            {{-1,-1,0,1,1,0}, 5}     // negatives & duplicates
+        };
+
+        FindPivotIndex_724 solver;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            int res = solver.pivotIndex(cases[i].nums);
+
+            cout << "[FindPivot] Test " << (i + 1) << ": res = "
+                << (res == cases[i].expected ? "PASS" : "FAIL") << '\n';
+            cout << "Expected: " << cases[i].expected
+                << ", Got: " << res << '\n';
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3558,6 +3585,8 @@ public:
         maximumNumberOfBalloons_1189_tests();
         cout << "Running AddBinary_67 tests:\n";
         addBinary_67_tests();
+        cout << "Find Pivot Index_724\n";
+        findPivotIndex_724_tests();
     }
 };
 
