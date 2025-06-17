@@ -88,6 +88,7 @@
 #include "AddBinary_67.h"
 #include "FindPivotIndex_724.h"
 #include "NumberOf1Bits_191.h"
+#include "DecodeString_GoogleOnsite.h"
 
 using namespace std;
 
@@ -744,6 +745,13 @@ struct HWCase {
     uint32_t n;
     int      expected;
     HWCase(uint32_t x, int e) : n(x), expected(e) {}
+};
+
+struct DecodeStringTestCase {
+    string input;
+    string expected;
+    DecodeStringTestCase(string i, string e)
+        : input(move(i)), expected(move(e)) {}
 };
 
 //----------------------------------------------------------------------------
@@ -3452,6 +3460,26 @@ public:
         }
     }
 
+    static void decodeString_GoogleOnsite_tests() {
+        vector<DecodeStringTestCase> testCases = {
+            {"ab[cd]{2}",                   "abcdcd"},
+            {"def[ab[cd]{2}]{3}ghi",        "defabcdcdabcdcdabcdcdghi"},
+            {"x[y[z]{2}w]{3}",              "xyzzwyzzwyzzw"},
+            {"[ab]{2}[cd]{2}",              "ababcdcd"},
+            {"plain",                       "plain"},
+            {"[a]{5}",                      "aaaaa"}
+        };
+
+        DecodeString_GoogleOnsite solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            string result = solver.decode(testCases[i].input);
+            cout << "DecodeString Test " << (i + 1) << ": res = "
+                << (result == testCases[i].expected ? "PASS" : "FAIL")
+                << " (Expected: " << testCases[i].expected
+                << ", Got: " << result << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3617,6 +3645,8 @@ public:
         findPivotIndex_724_tests();
         cout << "Number of 1 Bits_191 tests:\n";
         numberOf1Bits_191_tests();
+        cout << "Running DecodeString_GoogleOnsite tests:\n";
+        decodeString_GoogleOnsite_tests();
     }
 };
 
