@@ -89,6 +89,7 @@
 #include "FindPivotIndex_724.h"
 #include "NumberOf1Bits_191.h"
 #include "DecodeString_GoogleOnsite.h"
+#include "WildcardMatching_44.h"
 
 using namespace std;
 
@@ -752,6 +753,14 @@ struct DecodeStringTestCase {
     string expected;
     DecodeStringTestCase(string i, string e)
         : input(move(i)), expected(move(e)) {}
+};
+
+struct WildcardMatchingTestCase {
+    string s;
+    string p;
+    bool   expected;
+    WildcardMatchingTestCase(string ss, string pp, bool e)
+        : s(move(ss)), p(move(pp)), expected(e) {}
 };
 
 //----------------------------------------------------------------------------
@@ -3480,6 +3489,29 @@ public:
         }
     }
 
+    static void wildcardMatching_44_tests() {
+        vector<WildcardMatchingTestCase> tc = {
+            /* three examples from the statement */
+            {"aa", "a",       false},
+            {"aa", "*",       true },
+            {"cb", "?a",      false},
+            /* three extra / harder cases */
+            {"adceb",         "*a*b",        true },
+            {"acdcb",         "a*c?b",       false},
+            {"abcabczzzde",   "*abc???de*",  true },
+            {"baaaacxyz",     "*a*?xyz",     true }
+        };
+
+        WildcardMatching_44 solver;
+        for (size_t i = 0; i < tc.size(); ++i) {
+            bool got = solver.isMatch(tc[i].s, tc[i].p);
+            cout << "WildcardMatching_44 Test " << (i + 1) << ": res = "
+                << (got == tc[i].expected ? "PASS" : "FAIL")
+                << " (Expected: " << (tc[i].expected ? "true" : "false")
+                << ", Got: "      << (got          ? "true" : "false") << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3647,6 +3679,8 @@ public:
         numberOf1Bits_191_tests();
         cout << "Running DecodeString_GoogleOnsite tests:\n";
         decodeString_GoogleOnsite_tests();
+        cout << "Running WildcardMatching_44 tests:\n";
+        wildcardMatching_44_tests();
     }
 };
 
