@@ -90,6 +90,7 @@
 #include "NumberOf1Bits_191.h"
 #include "DecodeString_GoogleOnsite.h"
 #include "WildcardMatching_44.h"
+#include "KClosestPointsToOrigin_973.h"
 
 using namespace std;
 
@@ -762,6 +763,60 @@ struct WildcardMatchingTestCase {
     WildcardMatchingTestCase(string ss, string pp, bool e)
         : s(move(ss)), p(move(pp)), expected(e) {}
 };
+
+struct KClosestTestCase {
+    vector<vector<int>> points;
+    int k;
+    vector<vector<int>> expected;   // order-agnostic
+    KClosestTestCase(vector<vector<int>> p, int kk, vector<vector<int>> e)
+        : points(move(p)), k(kk), expected(move(e)) {}
+};
+
+static bool equalMultiset(vector<vector<int>> a, vector<vector<int>> b) {
+    auto key = [](const vector<int>& p){ return make_pair(p[0], p[1]); };
+    sort(a.begin(), a.end(), [&](auto& x, auto& y){ return key(x) < key(y); });
+    sort(b.begin(), b.end(), [&](auto& x, auto& y){ return key(x) < key(y); });
+    return a == b;
+}
+
+/* ---------- generic distance helper ---------------------------------- */
+static long long distSq(const vector<int>& p) {
+    return 1LL * p[0] * p[0] + 1LL * p[1] * p[1];
+}
+
+/* ---------- new validator -------------------------------------------- *
+ * Returns true iff `out`
+ *   1) has exactly k points,
+ *   2) every point comes from the original `input`,
+ *   3) every point’s distance² is ≤ the k-th smallest distance²
+ *      found in the entire input set.
+ */
+static bool isValidKClosest(const vector<vector<int>>& input,
+                            int k,
+                            const vector<vector<int>>& out)
+{
+    if ((int)out.size() != k) return false;
+
+    /*  Build a multiset of all original points for membership check.     */
+    multiset<pair<int,int>> pool;
+    for (auto& p : input) pool.emplace(p[0], p[1]);
+
+    /*  Find the kth smallest distance² in O(n) with nth_element.         */
+    vector<long long> dists;
+    dists.reserve(input.size());
+    for (auto& p : input) dists.push_back(distSq(p));
+    nth_element(dists.begin(), dists.begin() + (k - 1), dists.end());
+    long long kthDist = dists[k - 1];
+
+    /*  Validate every output point.                                      */
+    for (auto& p : out) {
+        auto it = pool.find({p[0], p[1]});
+        if (it == pool.end()) return false;            // not in original set
+        if (distSq(p) > kthDist)   return false;       // too far
+        pool.erase(it);                                // consume one copy
+    }
+    return true;
+}
 
 //----------------------------------------------------------------------------
 // Reusable helpers for dumping containers in tests
@@ -3512,6 +3567,33 @@ public:
         }
     }
 
+    static void kClosestPoints_973_tests() {
+        vector<KClosestTestCase> cases = {
+            // Two official examples
+            KClosestTestCase({{1,3}, {-2,2}}, 1, {{-2,2}}),
+            KClosestTestCase({{3,3}, {5,-1}, {-2,4}}, 2, {{3,3}, {-2,4}}),
+
+            // Three extra, trickier cases
+            // 1) Many symmetrically placed points, ask for almost all
+            KClosestTestCase({{0,1}, {1,0}, {-1,0}, {0,-1}}, 3,
+                            {{0,1}, {1,0}, {-1,0}}),
+            // 2) Points at extreme coordinates
+            KClosestTestCase({{10000,10000}, {-10000,-10000}, {5000,0}, {0,5000}}, 2,
+                            {{5000,0}, {0,5000}}),
+            // 3) Mixed positives and negatives, k near n
+            KClosestTestCase({{2,2}, {1,1}, {3,3}, {-2,-2}, {-1,-1}}, 4,
+                            {{-2,-2}, {-1,-1}, {1,1}, {2,2}})
+        };
+
+        KClosestPointsToOrigin_973 solver;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            auto in  = cases[i].points;                // solver mutates input
+            auto out = solver.kClosest(in, cases[i].k);
+            bool pass = isValidKClosest(cases[i].points, cases[i].k, out);
+            cout << "KClosest Test " << i + 1 << ": " << (pass ? "PASS" : "FAIL") << endl;
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3681,6 +3763,8 @@ public:
         decodeString_GoogleOnsite_tests();
         cout << "Running WildcardMatching_44 tests:\n";
         wildcardMatching_44_tests();
+        cout << "Running K Closest Points_973 tests:\n";
+        kClosestPoints_973_tests();
     }
 };
 
