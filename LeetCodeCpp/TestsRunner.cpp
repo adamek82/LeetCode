@@ -3587,10 +3587,19 @@ public:
 
         KClosestPointsToOrigin_973 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            auto in  = cases[i].points;                // solver mutates input
-            auto out = solver.kClosest(in, cases[i].k);
-            bool pass = isValidKClosest(cases[i].points, cases[i].k, out);
-            cout << "KClosest Test " << i + 1 << ": " << (pass ? "PASS" : "FAIL") << endl;
+            /* test QuickSelect version */
+            auto in1  = cases[i].points;
+            auto out1 = solver.kClosestQuickSelect(in1, cases[i].k);
+            bool pass1 = isValidKClosest(cases[i].points, cases[i].k, out1);
+
+            /* test Heap version */
+            auto in2  = cases[i].points;
+            auto out2 = solver.kClosestHeap(in2, cases[i].k);
+            bool pass2 = isValidKClosest(cases[i].points, cases[i].k, out2);
+
+            cout << "KClosest Test " << i + 1
+                << "  QuickSelect:" << (pass1 ? "PASS" : "FAIL")
+                << "  Heap:"        << (pass2 ? "PASS" : "FAIL") << endl;
         }
     }
 

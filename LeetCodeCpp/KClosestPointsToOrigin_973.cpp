@@ -1,6 +1,7 @@
 #include "KClosestPointsToOrigin_973.h"
 #include <cstdlib>   // rand, srand
 #include <ctime>     // time
+#include <queue>     // priority_queue
 
 /* ---------- Helpers ---------------------------------------------------- */
 // Squared distance from the origin (safer in 64-bit).
@@ -40,12 +41,41 @@ void KClosestPointsToOrigin_973::quickSelect(vector<Point>& a, int k)
     }
 }
 
-/* ---------- public API ------------------------------------------------- */
-
+/* ---------- Public API: QuickSelect ----------------------------------- */
 vector<KClosestPointsToOrigin_973::Point>
-KClosestPointsToOrigin_973::kClosest(vector<Point>& points, int k)
+KClosestPointsToOrigin_973::kClosestQuickSelect(vector<Point>& points, int k)
 {
     srand(static_cast<unsigned>(time(nullptr)));   // Seed RNG once per call.
     quickSelect(points, k);                        // Rearrange in-place
     return {points.begin(), points.begin() + k};   // Copy first k items.
+}
+
+/* ---------- Public API: max-heap / priority_queue --------------------- */
+vector<KClosestPointsToOrigin_973::Point>
+KClosestPointsToOrigin_973::kClosestHeap(vector<Point>& points, int k)
+{
+    using Item = pair<long long, Point>;          // (dist², point)
+    priority_queue<Item> pq;                      // max-heap on distance
+
+    /* seed with first k points */
+    for (int i = 0; i < k; ++i)
+        pq.emplace(distSq(points[i]), points[i]);
+
+    /* scan rest */
+    for (int i = k; i < (int)points.size(); ++i) {
+        long long d = distSq(points[i]);
+        if (d < pq.top().first) {
+            pq.pop();
+            pq.emplace(d, points[i]);
+        }
+    }
+
+    /* extract */
+    vector<Point> res;
+    res.reserve(k);
+    while (!pq.empty()) {
+        res.push_back(move(pq.top().second));
+        pq.pop();
+    }
+    return res;          // any order acceptable
 }

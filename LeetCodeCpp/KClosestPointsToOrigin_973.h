@@ -17,5 +17,6 @@ class KClosestPointsToOrigin_973 {
 
 public:
     /* main API, exactly the same signature you used before */
-    vector<Point> kClosest(vector<Point>& points, int k);
+    vector<Point> kClosestQuickSelect(vector<Point>& points, int k);  // QuickSelect
+    vector<Point> kClosestHeap       (vector<Point>& points, int k);  // max-heap
 };
