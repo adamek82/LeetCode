@@ -1,39 +1,36 @@
 #include "NetworkDelayTime_743.h"
+#include <iostream>
 
 int NetworkDelayTime_743::networkDelayTime(vector<vector<int>> &times, int n, int k)
 {
+    const int INF = numeric_limits<int>::max();
+
     // Build the graph as an adjacency list
-    unordered_map<int, vector<pair<int, int>>> graph;
-    for (const auto& time : times) {
-        int u = time[0], v = time[1], w = time[2];
-        graph[u].emplace_back(v, w);
-    }
+    vector<vector<pair<int,int>>> g(n + 1);
+    for (auto& t : times)
+        g[t[0]].push_back({t[1], t[2]});
 
+    // Dijkstra
+    vector<int> dist(n + 1, INF);
+    dist[k] = 0;
+
+    using State = pair<int,int>;                                // {dist, node}
     // Min-heap to keep track of the minimum time to reach each node
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> min_heap;
-    min_heap.emplace(0, k); // (time from source to node, node)
+    priority_queue<State, vector<State>, greater<State>> pq;
+    pq.emplace(0, k);
 
-    unordered_map<int, int> min_times;
+    while (!pq.empty()) {
+        auto [d, u] = pq.top(); pq.pop();
+        if (d > dist[u]) continue;                  // stale entry
 
-    while (!min_heap.empty()) {
-        auto [time_k_to_i, i] = min_heap.top();
-        min_heap.pop();
-
-        if (min_times.count(i)) continue; // Skip if the node is already visited
-
-        min_times[i] = time_k_to_i;
-
-        for (const auto& [nei, nei_time] : graph[i]) {
-            if (!min_times.count(nei)) {
-                min_heap.emplace(time_k_to_i + nei_time, nei);
+        for (auto [v, w] : g[u]) {
+            if (d + w < dist[v]) {                  // relaxation
+                dist[v] = d + w;
+                pq.emplace(dist[v], v);
             }
         }
     }
 
-    return min_times.size() == n
-               ? max_element(min_times.begin(), min_times.end(),
-                                  [](const auto &a, const auto &b)
-                                  { return a.second < b.second; })
-                     ->second
-               : -1;
+    int ans = *max_element(dist.begin() + 1, dist.end());
+    return ans == INF ? -1 : ans;
 }
