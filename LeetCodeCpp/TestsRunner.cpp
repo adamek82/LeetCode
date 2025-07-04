@@ -91,6 +91,7 @@
 #include "DecodeString_GoogleOnsite.h"
 #include "WildcardMatching_44.h"
 #include "KClosestPointsToOrigin_973.h"
+#include "UniquePaths_62.h"
 
 using namespace std;
 
@@ -770,6 +771,14 @@ struct KClosestTestCase {
     vector<vector<int>> expected;   // order-agnostic
     KClosestTestCase(vector<vector<int>> p, int kk, vector<vector<int>> e)
         : points(move(p)), k(kk), expected(move(e)) {}
+};
+
+struct UniquePaths62TestCase {
+    int m;
+    int n;
+    int expected;
+    UniquePaths62TestCase(int mm, int nn, int e)
+        : m(mm), n(nn), expected(e) {}
 };
 
 static bool equalMultiset(vector<vector<int>> a, vector<vector<int>> b) {
@@ -3603,6 +3612,27 @@ public:
         }
     }
 
+    static void uniquePaths_62_tests() {
+        vector<UniquePaths62TestCase> cases = {
+            /* three official cases from the problem statement */
+            {3, 7, 28},
+            {3, 2, 3},
+            {1, 1, 1},
+            /* two more demanding cases – still ≤ 2 000 000 000 */
+            {12, 23, 193536720},
+            {8, 69, 1984829850}
+        };
+
+        UniquePaths_62 solver;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            int res = solver.uniquePaths(cases[i].m, cases[i].n);
+            cout << "UniquePaths_62 Test " << (i + 1) << ": res = "
+                << (res == cases[i].expected ? "PASS" : "FAIL")
+                << " (Expected: " << cases[i].expected
+                << ", Got: " << res << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3774,6 +3804,8 @@ public:
         wildcardMatching_44_tests();
         cout << "Running K Closest Points_973 tests:\n";
         kClosestPoints_973_tests();
+        cout << "Running Unique Paths_62 tests:\n";
+        uniquePaths_62_tests();
     }
 };
 
