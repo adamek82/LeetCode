@@ -92,6 +92,7 @@
 #include "WildcardMatching_44.h"
 #include "KClosestPointsToOrigin_973.h"
 #include "UniquePaths_62.h"
+#include "BusRoutes_815.h"
 
 using namespace std;
 
@@ -779,6 +780,16 @@ struct UniquePaths62TestCase {
     int expected;
     UniquePaths62TestCase(int mm, int nn, int e)
         : m(mm), n(nn), expected(e) {}
+};
+
+struct BusRoutesTestCase {
+    vector<vector<int>> routes;
+    int source;
+    int target;
+    int expectedResult;
+
+    BusRoutesTestCase(vector<vector<int>> r, int s, int t, int e)
+        : routes(move(r)), source(s), target(t), expectedResult(e) {}
 };
 
 static bool equalMultiset(vector<vector<int>> a, vector<vector<int>> b) {
@@ -3633,6 +3644,27 @@ public:
         }
     }
 
+    static void busRoutes_815_tests() {
+        vector<BusRoutesTestCase> cases = {
+            // Official examples
+            BusRoutesTestCase({{1,2,7},{3,6,7}}, 1, 6, 2),
+            BusRoutesTestCase({{7,12},{4,5,15},{6},{15,19},{9,12,13}}, 15, 12, -1),
+            // Additional tougher cases
+            BusRoutesTestCase({{1,2,3,4,5},{5,6,7,8},{8,9,10,11},{11,12,13,1}}, 1, 13, 1),
+            BusRoutesTestCase({{1,2,3},{4,5,6}}, 5, 5, 0),
+            BusRoutesTestCase({{1,2,3},{3,4,5},{5,6,7},{7,8,9}}, 2, 8, 4)
+        };
+
+        BusRoutes_815 solver;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            auto routesCopy = cases[i].routes;  // Guard against mutation
+            int res = solver.numBusesToDestination(routesCopy, cases[i].source, cases[i].target);
+            cout << "BusRoutes_815 Test " << (i + 1) << ": "
+                << (res == cases[i].expectedResult ? "PASS" : "FAIL")
+                << " (Expected: " << cases[i].expectedResult << ", Got: " << res << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3806,6 +3838,8 @@ public:
         kClosestPoints_973_tests();
         cout << "Running Unique Paths_62 tests:\n";
         uniquePaths_62_tests();
+        cout << "Running BusRoutes_815 tests:\n";
+        busRoutes_815_tests();
     }
 };
 
