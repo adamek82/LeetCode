@@ -93,6 +93,7 @@
 #include "KClosestPointsToOrigin_973.h"
 #include "UniquePaths_62.h"
 #include "BusRoutes_815.h"
+#include "ShortestPathInBinaryMatrix_1091.h"
 
 using namespace std;
 
@@ -790,6 +791,14 @@ struct BusRoutesTestCase {
 
     BusRoutesTestCase(vector<vector<int>> r, int s, int t, int e)
         : routes(move(r)), source(s), target(t), expectedResult(e) {}
+};
+
+struct ShortestPathTestCase {
+    vector<vector<int>> grid;
+    int expected;
+
+    ShortestPathTestCase(vector<vector<int>> g, int e)
+        : grid(move(g)), expected(e) {}
 };
 
 static bool equalMultiset(vector<vector<int>> a, vector<vector<int>> b) {
@@ -3665,6 +3674,43 @@ public:
         }
     }
 
+    static void shortestPathBinaryMatrix_1091_tests() {
+        vector<ShortestPathTestCase> testCases = {
+            /* 3 examples from the problem statement */
+            ShortestPathTestCase({{0, 1},
+                                {1, 0}},                                   2),
+            ShortestPathTestCase({{0, 0, 0},
+                                {1, 1, 0},
+                                {1, 1, 0}},                                4),
+            ShortestPathTestCase({{1, 0, 0},
+                                {1, 1, 0},
+                                {1, 1, 0}},                               -1),
+            /* 2 extra, larger cases */
+            ShortestPathTestCase({{0, 0, 0, 0, 0},
+                                {1, 1, 1, 1, 0},
+                                {0, 0, 0, 1, 0},
+                                {0, 1, 0, 1, 0},
+                                {0, 1, 0, 0, 0}},                          8),   // reachable
+            ShortestPathTestCase({{0, 1, 1, 1, 1},
+                                {1, 1, 1, 1, 1},
+                                {1, 1, 1, 1, 1},
+                                {1, 1, 1, 1, 1},
+                                {1, 1, 1, 1, 0}},                         -1)    // unreachable
+        };
+
+        ShortestPathInBinaryMatrix_1091 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto gCopy = testCases[i].grid;          // solver mutates the grid
+            int res    = solver.shortestPathBinaryMatrix(gCopy);
+
+            cout << "ShortestPathBinaryMatrix_1091 Test " << (i + 1) << ": "
+                 << (res == testCases[i].expected ? "PASS" : "FAIL")
+                 << " (Expected: " << testCases[i].expected
+                 << ", Got: " << res << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3840,6 +3886,8 @@ public:
         uniquePaths_62_tests();
         cout << "Running BusRoutes_815 tests:\n";
         busRoutes_815_tests();
+        cout << "Running ShortestPathBinaryMatrix_1091 tests:\n";
+        shortestPathBinaryMatrix_1091_tests();
     }
 };
 
