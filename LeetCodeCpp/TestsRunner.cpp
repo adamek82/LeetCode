@@ -3,6 +3,7 @@
 #include <vector>
 #include <optional>
 #include <cmath>
+#include <variant>
 #include "CourseSchedule_207.h"
 #include "FindIfPathExistsInGraph_1971.h"
 #include "NumberOfIslands_200.h"
@@ -94,6 +95,7 @@
 #include "UniquePaths_62.h"
 #include "BusRoutes_815.h"
 #include "ShortestPathInBinaryMatrix_1091.h"
+#include "DesignGraphWithShortestPathCalculator_2642.h"
 
 using namespace std;
 
@@ -799,6 +801,25 @@ struct ShortestPathTestCase {
 
     ShortestPathTestCase(vector<vector<int>> g, int e)
         : grid(move(g)), expected(e) {}
+};
+
+struct GraphTC {
+    vector<string> operations;
+    vector<variant<monostate,
+                   int,
+                   vector<int>,
+                   pair<int,int>,
+                   pair<int,vector<vector<int>>>>> arguments;
+    vector<optional<int>> expected;
+
+    GraphTC(vector<string>  op,
+            vector<variant<monostate,
+                           int,
+                           vector<int>,
+                           pair<int,int>,
+                           pair<int,vector<vector<int>>>>> arg,
+            vector<optional<int>> exp)
+        : operations(move(op)), arguments(move(arg)), expected(move(exp)) {}
 };
 
 static bool equalMultiset(vector<vector<int>> a, vector<vector<int>> b) {
@@ -3711,6 +3732,75 @@ public:
         }
     }
 
+    static void designGraphWithShortestPathCalculator_2642_tests() {
+        using EdgeList = vector<vector<int>>;
+
+            vector<GraphTC> testCases = {
+            // Case 1 – official example
+            GraphTC(
+                {"Graph","shortestPath","shortestPath","addEdge","shortestPath"},
+                {
+                    pair<int,EdgeList>{4, {{0,2,5},{0,1,2},{1,2,1},{3,0,3}}},
+                    pair<int,int>{3,2},
+                    pair<int,int>{0,3},
+                    vector<int>{1,3,4},
+                    pair<int,int>{0,3}
+                },
+                {nullopt, 6, -1, nullopt, 6}
+            ),
+            // Case 2 – empty graph, then one edge
+            GraphTC(
+                {"Graph","shortestPath","addEdge","shortestPath"},
+                {
+                    pair<int,EdgeList>{2, {}},
+                    pair<int,int>{0,1},
+                    vector<int>{0,1,10},
+                    pair<int,int>{0,1}
+                },
+                {nullopt, -1, nullopt, 10}
+            ),
+            // Case 3 – cheaper path appears after addEdge
+            GraphTC(
+                {"Graph","shortestPath","addEdge","shortestPath"},
+                {
+                    pair<int,EdgeList>{5, {{0,1,3},{1,2,4},{2,3,5},{3,4,6},{0,4,20}}},
+                    pair<int,int>{0,4},
+                    vector<int>{1,4,1},
+                    pair<int,int>{0,4}
+                },
+                {nullopt, 18, nullopt, 4}
+            )
+        };
+
+        for (size_t t = 0; t < testCases.size(); ++t) {
+            cout << "Graph2642 Test Case " << t + 1 << ":\n";
+            Graph* g = nullptr;
+
+            const auto& tc = testCases[t];
+            for (size_t i = 0; i < tc.operations.size(); ++i) {
+                const auto& op  = tc.operations[i];
+                const auto& arg = tc.arguments[i];
+                const auto& exp = tc.expected[i];
+
+                if (op == "Graph") {
+                    auto [n, edges] = get<pair<int,EdgeList>>(arg);
+                    g = new Graph(n, edges);
+                    cout << "  Graph(" << n << ", edges) -> null\n";
+                } else if (op == "addEdge") {
+                    g->addEdge(get<vector<int>>(arg));
+                    cout << "  addEdge([...]) -> null\n";
+                } else if (op == "shortestPath") {
+                    auto [u, v] = get<pair<int,int>>(arg);
+                    int res = g->shortestPath(u, v);
+                    cout << "  shortestPath(" << u << ',' << v << ") -> " << res;
+                    cout << ((exp && res == *exp) ? "  [PASS]\n" : "  [FAIL]\n");
+                }
+            }
+            delete g;
+            cout << '\n';
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3888,6 +3978,8 @@ public:
         busRoutes_815_tests();
         cout << "Running ShortestPathBinaryMatrix_1091 tests:\n";
         shortestPathBinaryMatrix_1091_tests();
+        cout << "Running DesignGraphWithShortestPathCalculator_2642 tests:\n";
+        designGraphWithShortestPathCalculator_2642_tests();
     }
 };
 
