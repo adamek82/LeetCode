@@ -43,7 +43,7 @@
 int UniquePaths_62::uniquePaths(int m, int n)
 {
     long long N = m + n - 2;              // total moves
-    long long k = std::min(m - 1, n - 1); // choose smaller group
+    long long k = min(m - 1, n - 1); // choose smaller group
 
     long long res = 1;
     for (long long i = 1; i <= k; ++i) {

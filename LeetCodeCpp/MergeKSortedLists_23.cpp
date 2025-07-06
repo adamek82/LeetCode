@@ -71,7 +71,7 @@ ListNode<int> *MergeKSortedLists_23::mergeKLists(vector<ListNode<int> *> &lists)
     // Min-heap to store the smallest elements of each list
     priority_queue minHeap(
         compare,                           // Compare
-        std::vector<ListNode<int>*>{}      // Container (deducts T = ListNode<int>*)
+        vector<ListNode<int>*>{}      // Container (deducts T = ListNode<int>*)
     );
 
     // Add the head of each non-empty list to the heap

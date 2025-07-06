@@ -3484,10 +3484,10 @@ public:
         for (size_t i = 0; i < cases.size(); ++i) {
             int res = solver.maxNumberOfBalloons(cases[i].text);
 
-            std::cout << "[MaxBalloons] Test " << (i + 1) << ": res = "
-                    << (res == cases[i].expected ? "PASS" : "FAIL") << '\n';
-            std::cout << "Expected: " << cases[i].expected
-                    << ", Got: " << res << '\n';
+            cout << "[MaxBalloons] Test " << (i + 1) << ": res = "
+                 << (res == cases[i].expected ? "PASS" : "FAIL") << '\n';
+            cout << "Expected: " << cases[i].expected
+                 << ", Got: " << res << '\n';
         }
     }
 
