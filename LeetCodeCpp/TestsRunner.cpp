@@ -96,6 +96,7 @@
 #include "BusRoutes_815.h"
 #include "ShortestPathInBinaryMatrix_1091.h"
 #include "DesignGraphWithShortestPathCalculator_2642.h"
+#include "FindSafestPathInGrid_2812.h"
 
 using namespace std;
 
@@ -820,6 +821,14 @@ struct GraphTC {
                            pair<int,vector<vector<int>>>>> arg,
             vector<optional<int>> exp)
         : operations(move(op)), arguments(move(arg)), expected(move(exp)) {}
+};
+
+struct SafestPathTestCase {
+    vector<vector<int>> grid;
+    int expectedResult;
+
+    SafestPathTestCase(vector<vector<int>> g, int e)
+        : grid(std::move(g)), expectedResult(e) {}
 };
 
 static bool equalMultiset(vector<vector<int>> a, vector<vector<int>> b) {
@@ -3801,6 +3810,44 @@ public:
         }
     }
 
+    static void findSafestPathInGrid_2812_tests() {
+        vector<SafestPathTestCase> testCases = {
+            // three examples from the statement
+            SafestPathTestCase({{1,0,0},
+                                {0,0,0},
+                                {0,0,1}}, 0),
+            SafestPathTestCase({{0,0,1},
+                                {0,0,0},
+                                {0,0,0}}, 2),
+            SafestPathTestCase({{0,0,0,1},
+                                {0,0,0,0},
+                                {0,0,0,0},
+                                {1,0,0,0}}, 2),
+
+            // extra – single thief in the centre of a 5×5 grid (answer = 2)
+            SafestPathTestCase({{0,0,0,0,0},
+                                {0,0,0,0,0},
+                                {0,0,1,0,0},
+                                {0,0,0,0,0},
+                                {0,0,0,0,0}}, 2),
+
+            // extra – two thieves forcing a bottleneck of 1
+            SafestPathTestCase({{0,0,1},
+                                {0,0,0},
+                                {1,0,0}}, 1)
+        };
+
+        FindSafestPathInGrid_2812 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int res = solver.maximumSafenessFactor(testCases[i].grid);
+            cout << "Safest Path Test " << (i + 1) << ": res = "
+                << (res == testCases[i].expectedResult ? "PASS" : "FAIL")
+                << " (Expected: " << testCases[i].expectedResult
+                << ", Got: " << res << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -3980,6 +4027,8 @@ public:
         shortestPathBinaryMatrix_1091_tests();
         cout << "Running DesignGraphWithShortestPathCalculator_2642 tests:\n";
         designGraphWithShortestPathCalculator_2642_tests();
+        cout << "Running Find Safest Path In Grid_2812 tests:\n";
+        findSafestPathInGrid_2812_tests();
     }
 };
 
