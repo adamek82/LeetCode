@@ -7,7 +7,7 @@ using namespace std;
 
 class FindSafestPathInGrid_2812 {
     using pii = pair<int,int>;
-    static constexpr int INF = std::numeric_limits<int>::max();
+    static constexpr int INF = std::numeric_limits<int>::max() / 2;   // ≈ 1 073 741 823
 
     // 4 possible directions
     static constexpr array<pair<int,int>,4> directions =
