@@ -97,6 +97,7 @@
 #include "ShortestPathInBinaryMatrix_1091.h"
 #include "DesignGraphWithShortestPathCalculator_2642.h"
 #include "FindSafestPathInGrid_2812.h"
+#include "MaximumDepthOfBinaryTree_104.h"
 
 using namespace std;
 
@@ -829,6 +830,14 @@ struct SafestPathTestCase {
 
     SafestPathTestCase(vector<vector<int>> g, int e)
         : grid(std::move(g)), expectedResult(e) {}
+};
+
+struct MaxDepthTestCase {
+    vector<optional<int>> tree;     // level-order representation
+    int expectedDepth;              // ground-truth answer
+
+    MaxDepthTestCase(vector<optional<int>> t, int e)
+        : tree(move(t)), expectedDepth(e) {}
 };
 
 static bool equalMultiset(vector<vector<int>> a, vector<vector<int>> b) {
@@ -3848,6 +3857,45 @@ public:
         }
     }
 
+    static void maximumDepthOfBinaryTree_104_tests() {
+        vector<MaxDepthTestCase> testCases = {
+            // two examples from the problem statement
+            MaxDepthTestCase({3, 9, 20, nullopt, nullopt, 15, 7}, 3),
+            MaxDepthTestCase({1, nullopt, 2},                     2),
+
+            // three extra, increasingly tricky, cases
+            // (a) irregular but shallow left/right mix – depth 4
+            MaxDepthTestCase({1, 2, 3, 4, nullopt, nullopt, 5, nullopt, 6}, 4),
+            // (b) strongly left-skewed – depth 5
+            MaxDepthTestCase({1, 2, nullopt, 3, nullopt, 4, nullopt, 5}, 5),
+            // (c) empty tree – depth 0
+            MaxDepthTestCase({}, 0)
+        };
+
+        MaximumDepthOfBinaryTree_104 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(testCases[i].tree);
+
+            int dRec  = solver.maxDepthRecursive(root);
+            int dStk  = solver.maxDepthDFSStack(root);
+            int dBfs  = solver.maxDepthBFSQueue(root);
+
+            bool pass = (dRec == testCases[i].expectedDepth &&
+                        dStk == testCases[i].expectedDepth &&
+                        dBfs == testCases[i].expectedDepth);
+
+            cout << "MaxDepth Test " << (i + 1) << ": "
+                << (pass ? "PASS" : "FAIL")
+                << " (Expected " << testCases[i].expectedDepth
+                << ", got rec="   << dRec
+                << ", stack="     << dStk
+                << ", queue="     << dBfs << ")\n";
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4029,6 +4077,8 @@ public:
         designGraphWithShortestPathCalculator_2642_tests();
         cout << "Running Find Safest Path In Grid_2812 tests:\n";
         findSafestPathInGrid_2812_tests();
+        cout << "Running Maximum Depth Of Binary Tree_104 tests:\n";
+        maximumDepthOfBinaryTree_104_tests();
     }
 };
 
