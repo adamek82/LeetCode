@@ -98,6 +98,7 @@
 #include "DesignGraphWithShortestPathCalculator_2642.h"
 #include "FindSafestPathInGrid_2812.h"
 #include "MaximumDepthOfBinaryTree_104.h"
+#include "WallsAndGates_286.h"
 
 using namespace std;
 
@@ -838,6 +839,14 @@ struct MaxDepthTestCase {
 
     MaxDepthTestCase(vector<optional<int>> t, int e)
         : tree(move(t)), expectedDepth(e) {}
+};
+
+struct WallsAndGatesTestCase {
+    vector<vector<int>> rooms;
+    vector<vector<int>> expected;
+
+    WallsAndGatesTestCase(vector<vector<int>> r, vector<vector<int>> e)
+        : rooms(move(r)), expected(move(e)) {}
 };
 
 static bool equalMultiset(vector<vector<int>> a, vector<vector<int>> b) {
@@ -3896,6 +3905,65 @@ public:
         }
     }
 
+    static void wallsAndGates_286_tests() {
+        const int INF = 2147483647;          // 2^31-1
+
+        vector<WallsAndGatesTestCase> testCases = {
+            // Example 1
+            WallsAndGatesTestCase(
+                {{INF, -1, 0,   INF},
+                {INF, INF, INF, -1},
+                {INF, -1,  INF, -1},
+                {0,   -1,  INF, INF}},
+                {{3, -1, 0, 1},
+                {2, 2, 1, -1},
+                {1, -1, 2, -1},
+                {0, -1, 3, 4}}
+            ),
+            // Example 2
+            WallsAndGatesTestCase(
+                {{0, INF}},
+                {{0, 1}}
+            ),
+            // Example 3
+            WallsAndGatesTestCase(
+                {{INF}},
+                {{INF}}
+            ),
+            // Complex 1: 4×4 grid, two gates
+            WallsAndGatesTestCase(
+                {{0,   INF, INF, INF},
+                {INF, -1,  INF, INF},
+                {INF, INF, INF, 0  },
+                {INF, -1,  INF, INF}},
+                {{0, 1, 2, 2},
+                {1, -1, 2, 1},
+                {2, 2, 1, 0},
+                {3, -1, 2, 1}}
+            ),
+            // Complex 2: unreachable rooms stay INF
+            WallsAndGatesTestCase(
+                {{INF, -1, 0,   INF, INF},
+                {-1,  INF, -1, INF, -1 },
+                {INF, -1,  INF, -1, INF}},
+                {{INF, -1, 0, 1, 2},
+                {-1,  INF, -1, 2, -1},
+                {INF, -1,  INF, -1, INF}}
+            )
+        };
+
+        WallsAndGates_286 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto rooms = testCases[i].rooms;          // copy so we can mutate
+            solver.wallsAndGates(rooms);
+
+            cout << "Walls & Gates Test " << (i + 1) << ": res = "
+                << (rooms == testCases[i].expected ? "PASS" : "FAIL")
+                << endl;
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4079,6 +4147,8 @@ public:
         findSafestPathInGrid_2812_tests();
         cout << "Running Maximum Depth Of Binary Tree_104 tests:\n";
         maximumDepthOfBinaryTree_104_tests();
+        cout << "Running Walls and Gates_286 tests:\n";
+        wallsAndGates_286_tests();
     }
 };
 
