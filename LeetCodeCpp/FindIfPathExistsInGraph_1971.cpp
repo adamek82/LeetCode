@@ -24,7 +24,7 @@ bool FindIfPathExistsInGraph_1971::validPathIterativeDFS(int n, vector<vector<in
 
     // This time we're going to use a hashmap for graph representation
     unordered_map<int, vector<int>> graph;
-        for (const auto& edge : edges) {
+    for (const auto& edge : edges) {
         graph[edge[0]].push_back(edge[1]);
         graph[edge[1]].push_back(edge[0]);
     }
@@ -58,7 +58,7 @@ bool FindIfPathExistsInGraph_1971::validPathBFS(int n, vector<vector<int>> &edge
 
     // This time we're going to use a hashmap for graph representation
     unordered_map<int, vector<int>> graph;
-        for (const auto& edge : edges) {
+    for (const auto& edge : edges) {
         graph[edge[0]].push_back(edge[1]);
         graph[edge[1]].push_back(edge[0]);
     }
@@ -75,7 +75,7 @@ bool FindIfPathExistsInGraph_1971::validPathBFS(int n, vector<vector<int>> &edge
         queue.pop();
         if (node == destination) return true;
 
-        for(int nei : graph[node]) {
+        for (int nei : graph[node]) {
             if (visited.find(nei) == visited.end()) {
                 visited.insert(nei);
                 queue.push(nei);
