@@ -1046,10 +1046,22 @@ public:
         MaxAreaOfIsland_695 mai695;
 
         for (size_t i = 0; i < testCases.size(); i++) {
-            int result = mai695.maxAreaOfIsland(testCases[i].grid);
-            cout << "Max Area Test " << i + 1 << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
+            // make independent copies because each routine mutates the grid
+            auto gridRec  = testCases[i].grid;
+            auto gridIter = testCases[i].grid;
+
+            int resRec  = mai695.maxAreaOfIslandRecursive(gridRec);
+            int resIter = mai695.maxAreaOfIslandIterative(gridIter);
+
+            cout << "Max Area Test " << (i + 1) << " (recursive): "
+                << (resRec  == testCases[i].expectedResult ? "PASS" : "FAIL")
+                << " (Expected " << testCases[i].expectedResult
+                << ", Got " << resRec  << ")\n";
+
+            cout << "Max Area Test " << (i + 1) << " (iterative): "
+                << (resIter == testCases[i].expectedResult ? "PASS" : "FAIL")
+                << " (Expected " << testCases[i].expectedResult
+                << ", Got " << resIter << ")\n";
         }
     }
 
