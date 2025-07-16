@@ -99,6 +99,7 @@
 #include "FindSafestPathInGrid_2812.h"
 #include "MaximumDepthOfBinaryTree_104.h"
 #include "WallsAndGates_286.h"
+#include "ValidNumber_65.h"
 
 using namespace std;
 
@@ -847,6 +848,13 @@ struct WallsAndGatesTestCase {
 
     WallsAndGatesTestCase(vector<vector<int>> r, vector<vector<int>> e)
         : rooms(move(r)), expected(move(e)) {}
+};
+
+struct ValidNumberTestCase {
+    string s;
+    bool   expectedResult;
+    ValidNumberTestCase(string str, bool exp)
+        : s(move(str)), expectedResult(exp) {}
 };
 
 static bool equalMultiset(vector<vector<int>> a, vector<vector<int>> b) {
@@ -3964,6 +3972,37 @@ public:
         }
     }
 
+    static void validNumber_65_tests() {
+        vector<ValidNumberTestCase> testCases = {
+            {"0",              true},   // example 1
+            {"e",              false},  // example 2
+            {".",              false},  // example 3
+            {"2",              true},
+            {"0089",           true},
+            {"-0.1",           true},
+            {"+3.14",          true},
+            {"4.",             true},
+            {"-.9",            true},
+            {"2e10",           true},
+            {"-90E3",          true},
+            {"3e+7",           true},
+            {"+6e-1",          true},
+            {"53.5e93",        true},
+            {"-123.456e789",   true},
+            {"abc",            false},
+            {"1a",             false},
+            {"99e2.5",         false}
+        };
+
+        ValidNumber_65 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            bool result = solver.isNumber(testCases[i].s);
+            cout << "ValidNumber_65 Test " << (i + 1) << ": res = "
+                << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                << " (input: \"" << testCases[i].s << "\")" << endl;
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4149,6 +4188,8 @@ public:
         maximumDepthOfBinaryTree_104_tests();
         cout << "Running Walls and Gates_286 tests:\n";
         wallsAndGates_286_tests();
+        cout << "Running Valid Number_65 tests:\n";
+        validNumber_65_tests();
     }
 };
 
