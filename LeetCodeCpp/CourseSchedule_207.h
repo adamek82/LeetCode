@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <unordered_map>
+#include <queue>
 
 using namespace std;
 
@@ -9,10 +10,13 @@ public:
     // Enum to track the state of the course in the graph
     enum class State { UNVISITED, VISITING, VISITED };
 
-    // Function to determine if it's possible to finish all courses
-    bool canFinish(int numCourses, vector<vector<int>>& prerequisites);
+    // DFS-based three-state algorithm (formerly canFinish)
+    bool canFinishDFS(int numCourses, vector<vector<int>>& prerequisites);
+
+    // Kahn’s BFS / topological-sort algorithm
+    bool canFinishKahns(int numCourses, vector<vector<int>>& prerequisites);
 
 private:
-    // Helper function for DFS
+    // Helper for the DFS variant
     bool dfs(int node, unordered_map<int, vector<int>>& graph, vector<State>& states);
 };

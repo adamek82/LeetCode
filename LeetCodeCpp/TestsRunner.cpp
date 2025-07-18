@@ -929,10 +929,20 @@ public:
 
         CourseSchedule_207 cs207;
 
+        cout << "-> DFS (three-state) version:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = cs207.canFinish(testCases[i].numCourses, testCases[i].prerequisites);
+            bool result = cs207.canFinishDFS(testCases[i].numCourses,
+                                             testCases[i].prerequisites);
             cout << "Test " << (i + 1) << ": res = "
-                << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
+                 << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
+        }
+
+        cout << "-> Kahn's algorithm version:\n";
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            bool result = cs207.canFinishKahns(testCases[i].numCourses,
+                                               testCases[i].prerequisites);
+            cout << "Test " << (i + 1) << ": res = "
+                 << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
         }
     }
 
