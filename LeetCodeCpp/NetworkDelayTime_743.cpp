@@ -17,7 +17,7 @@ int NetworkDelayTime_743::networkDelayTime(vector<vector<int>> &times, int n, in
     using State = pair<int,int>;                    // {dist, node}
 
     // Min-heap to keep track of the minimum time to reach each node
-    priority_queue<State, vector<State>, greater<State>> pq;
+    priority_queue<State, vector<State>, greater<>> pq;
     pq.emplace(0, k);
 
     while (!pq.empty()) {
