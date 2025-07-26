@@ -5,16 +5,16 @@ int NetworkDelayTime_743::networkDelayTime(vector<vector<int>> &times, int n, in
 {
     const int INF = numeric_limits<int>::max();
 
-    using State = pair<int,int>;                    // {dist, node}
-
     // Build the graph as an adjacency list
-    vector<vector<State>> g(n + 1);
+    vector<vector<pair<int, int>>> g(n + 1);
     for (auto& t : times)
-        g[t[0]].push_back({t[1], t[2]});
+        g[t[0]].emplace_back(t[1], t[2]);
 
     // Dijkstra
     vector<int> dist(n + 1, INF);
     dist[k] = 0;
+
+    using State = pair<int,int>;                    // {dist, node}
 
     // Min-heap to keep track of the minimum time to reach each node
     priority_queue<State, vector<State>, greater<State>> pq;
