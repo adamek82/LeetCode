@@ -1,5 +1,26 @@
 #include "MinCostToConnectAllPoints_1584.h"
 
+/*
+ * This is Prim’s algorithm implemented with a min-heap (lazy updates).
+ *
+ * Educationally it’s fine, but for THIS problem the underlying graph is complete:
+ * every pair of points forms an edge, so |E| ~= n*(n-1)/2 = Θ(n^2).
+ *
+ * Using a binary heap yields time Θ(E log V) = Θ(n^2 log n)
+ * because we push Θ(n) candidates at each of n steps (Θ(n^2) total pushes),
+ * and each push/pop costs O(log V) ~ O(log n). With the lazy pattern
+ * (std::priority_queue has no decrease-key) many stale entries are popped and skipped,
+ * but the asymptotics stay Θ(n^2 log n) and memory can hold Θ(n^2) queued pairs.
+ *
+ * A simple array-based Prim that scans all vertices to find the next minimum
+ * runs in Θ(n^2) time and O(n) extra space, which is asymptotically and
+ * practically better here (n ≤ 1000).
+ *
+ * Notes:
+ * - Result can approach ~4e9 in worst cases, so summing in 64-bit (long long) is safer.
+ * - Keep this heap version if you want to mirror the typical sparse-graph implementation;
+ *   for dense graphs prefer the O(n^2) array variant.
+ */
 int MinCostToConnectAllPoints_1584::minCostConnectPoints(vector<vector<int>> &points)
 {
     int n = points.size();
