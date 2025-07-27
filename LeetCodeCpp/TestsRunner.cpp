@@ -1251,10 +1251,20 @@ public:
         MinCostToConnectAllPoints_1584 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.minCostConnectPoints(testCases[i].points);
-            cout << "Min Cost Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
+            auto ptsHeap  = testCases[i].points;
+            auto ptsArray = testCases[i].points;
+
+            int resHeap  = solution.minCostConnectPointsHeap(testCases[i].points);
+            int resArray = solution.minCostConnectPointsArray(testCases[i].points);
+
+            bool passHeap  = (resHeap  == testCases[i].expectedResult);
+            bool passArray = (resArray == testCases[i].expectedResult);
+
+            cout << "Min Cost Test " << (i + 1) << ":\n"
+                 << "  Heap   : " << (passHeap  ? "PASS" : "FAIL") << " (Expected: "
+                 << testCases[i].expectedResult << ", Got: " << resHeap  << ")\n"
+                 << "  Array  : " << (passArray ? "PASS" : "FAIL") << " (Expected: "
+                 << testCases[i].expectedResult << ", Got: " << resArray << ")\n";
         }
     }
 

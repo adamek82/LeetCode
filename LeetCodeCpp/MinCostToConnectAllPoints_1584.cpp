@@ -21,7 +21,7 @@
  * - Keep this heap version if you want to mirror the typical sparse-graph implementation;
  *   for dense graphs prefer the O(n^2) array variant.
  */
-int MinCostToConnectAllPoints_1584::minCostConnectPoints(vector<vector<int>> &points)
+int MinCostToConnectAllPoints_1584::minCostConnectPointsHeap(vector<vector<int>> &points)
 {
     int n = points.size();
     vector<bool> inMST(n, false); // Tracks if a point is already in the MST
@@ -58,6 +58,58 @@ int MinCostToConnectAllPoints_1584::minCostConnectPoints(vector<vector<int>> &po
     }
 
     return result;
+}
+
+/*
+ * Prim’s MST — array-based O(n^2) variant.
+ *
+ * Idea:
+ * - Maintain S = set of vertices already in the tree.
+ * - minDist[u] stores the cheapest edge from any v ∈ S to u.
+ * - Each iteration:
+ *     1) pick the unused vertex v with the smallest minDist[v] (safe by the cut property),
+ *     2) add its cost to the answer and mark v as used,
+ *     3) relax: for every unused u, set minDist[u] = min(minDist[u], w(v,u)).
+ *
+ * This chooses, in every step, the lightest edge crossing the cut (S, V \ S),
+ * which belongs to some MST (cut property). After n iterations we obtain an MST.
+ *
+ * Complexity: O(n^2) time, O(n) extra space — better than heap O(n^2 log n) on a
+ * complete graph.
+ */
+int MinCostToConnectAllPoints_1584::minCostConnectPointsArray(vector<vector<int>> &points) {
+    int n = (int)points.size();
+    vector<int> minDist(n, INT_MAX);  // For every vertex not yet in the tree: best known cost to connect it to the tree S
+    vector<char> used(n, 0);          // Marks vertices already added to the MST (set S)
+
+    long long total = 0;              // Accumulates MST cost; 64-bit to avoid overflow
+    minDist[0] = 0;                   // Start Prim from node 0: cost to add the first node is 0
+
+    // Repeat n times: each iteration adds exactly one new vertex to the MST.
+    for (int it = 0; it < n; ++it) {
+        // 1) Pick the unused vertex v with the smallest connection cost minDist[v].
+        //    This is the "safe edge" per the cut property.
+        int v = -1;
+        for (int i = 0; i < n; ++i)
+            if (!used[i] && (v == -1 || minDist[i] < minDist[v]))
+                v = i;
+
+        // 2) Add v to the MST and pay its connection cost.
+        used[v] = 1;
+        total += minDist[v];
+
+        // 3) Relax edges from v to every still-unpicked vertex u:
+        //    if connecting u via v is cheaper, update minDist[u].
+        for (int u = 0; u < n; ++u) {
+            if (!used[u]) {
+                int w = manhattanDist(points[v], points[u]);
+                if (w < minDist[u]) minDist[u] = w;
+            }
+        }
+    }
+
+    // The sum of chosen minimal crossing edges is the MST weight.
+    return (int)total;
 }
 
 // Helper function to calculate Manhattan distance between two points
