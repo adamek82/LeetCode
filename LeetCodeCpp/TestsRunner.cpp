@@ -100,6 +100,7 @@
 #include "MaximumDepthOfBinaryTree_104.h"
 #include "WallsAndGates_286.h"
 #include "ValidNumber_65.h"
+#include "JewelsAndStones_771.h"
 
 using namespace std;
 
@@ -855,6 +856,15 @@ struct ValidNumberTestCase {
     bool   expectedResult;
     ValidNumberTestCase(string str, bool exp)
         : s(move(str)), expectedResult(exp) {}
+};
+
+struct JewelsAndStonesTestCase {
+    string jewels;
+    string stones;
+    int    expectedResult;
+
+    JewelsAndStonesTestCase(string j, string s, int e)
+        : jewels(move(j)), stones(move(s)), expectedResult(e) {}
 };
 
 static bool equalMultiset(vector<vector<int>> a, vector<vector<int>> b) {
@@ -4035,6 +4045,32 @@ public:
         }
     }
 
+    static void numJewelsAndStones_771_tests() {
+        vector<JewelsAndStonesTestCase> testCases = {
+            // Problem-statement examples
+            JewelsAndStonesTestCase("aA", "aAAbbbb", 3),
+            JewelsAndStonesTestCase("z",  "ZZ",      0),
+
+            // Extra, more demanding cases
+            JewelsAndStonesTestCase("abc", "aabbccABCabc",                    9),
+            JewelsAndStonesTestCase("abcdefghijklmnopqrstuvwxyz",
+                                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJ",  26),
+            JewelsAndStonesTestCase("Aa",  "aaaaaaaaAAAAAAAaA",              17)
+        };
+
+        JewelsAndStones_771 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = solver.numJewelsInStones(testCases[i].jewels,
+                                                testCases[i].stones);
+
+            cout << "Jewels & Stones Test " << (i + 1) << ": res = "
+                << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                << " (Expected: " << testCases[i].expectedResult
+                << ", Got: "      << result << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4222,6 +4258,8 @@ public:
         wallsAndGates_286_tests();
         cout << "Running Valid Number_65 tests:\n";
         validNumber_65_tests();
+        cout << "Running Jewels and Stones_771 ests:\n";
+        numJewelsAndStones_771_tests();
     }
 };
 
