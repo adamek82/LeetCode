@@ -101,6 +101,7 @@
 #include "WallsAndGates_286.h"
 #include "ValidNumber_65.h"
 #include "JewelsAndStones_771.h"
+#include "ValidPerfectSquare_367.h"
 
 using namespace std;
 
@@ -865,6 +866,12 @@ struct JewelsAndStonesTestCase {
 
     JewelsAndStonesTestCase(string j, string s, int e)
         : jewels(move(j)), stones(move(s)), expectedResult(e) {}
+};
+
+struct PerfectSquareTestCase {
+    int  num;
+    bool expected;
+    PerfectSquareTestCase(int n, bool e) : num(n), expected(e) {}
 };
 
 static bool equalMultiset(vector<vector<int>> a, vector<vector<int>> b) {
@@ -4071,6 +4078,25 @@ public:
         }
     }
 
+    static void validPerfectSquare_367_tests() {
+        vector<PerfectSquareTestCase> cases = {
+            {16,          true},    // example 1
+            {14,          false},   // example 2
+            {2147395600,  true},    // 46340² – largest 32-bit square
+            {2147483647,  false},   // INT_MAX – not a square
+            {808201,      true}     // 899² – non-trivial perfect square
+        };
+
+        ValidPerfectSquare_367 solver;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            bool res = solver.isPerfectSquare(cases[i].num);
+            cout << "ValidPerfectSquare_367 Test " << (i + 1) << ": res = "
+                << (res == cases[i].expected ? "PASS" : "FAIL")
+                << " (Expected: " << (cases[i].expected ? "true" : "false")
+                << ", Got: "      << (res ? "true" : "false") << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4260,6 +4286,8 @@ public:
         validNumber_65_tests();
         cout << "Running Jewels and Stones_771 ests:\n";
         numJewelsAndStones_771_tests();
+        cout << "Running Valid Perfect Square_367 tests:\n";
+        validPerfectSquare_367_tests();
     }
 };
 
