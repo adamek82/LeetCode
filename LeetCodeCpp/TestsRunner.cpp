@@ -102,6 +102,7 @@
 #include "ValidNumber_65.h"
 #include "JewelsAndStones_771.h"
 #include "ValidPerfectSquare_367.h"
+#include "PerfectSquares_279.h"
 
 using namespace std;
 
@@ -872,6 +873,12 @@ struct PerfectSquareTestCase {
     int  num;
     bool expected;
     PerfectSquareTestCase(int n, bool e) : num(n), expected(e) {}
+};
+
+struct PerfectSquares279TestCase {
+    int n;
+    int expected;
+    PerfectSquares279TestCase(int n_, int e) : n(n_), expected(e) {}
 };
 
 static bool equalMultiset(vector<vector<int>> a, vector<vector<int>> b) {
@@ -4097,6 +4104,27 @@ public:
         }
     }
 
+    static void perfectSquares_279_tests() {
+        // 2 from the problem + 3 more complex (incl. edge n = 10^4)
+        vector<PerfectSquares279TestCase> testCases = {
+            {12,    3},  // Example 1: 12 = 4 + 4 + 4
+            {13,    2},  // Example 2: 13 = 9 + 4
+            {3000,  3},  // 3 squares (e.g., 3000 = 1600 + 900 + 500)
+            {9991,  4},  // Legendre form (4^a(8b+7)) ⇒ needs 4 squares
+            {10000, 1}   // Edge case (max n): 10000 = 100^2
+        };
+
+        PerfectSquares_279 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int res = solver.numSquares(testCases[i].n);
+            cout << "PerfectSquares_279 Test " << (i + 1) << ": res = "
+                << (res == testCases[i].expected ? "PASS" : "FAIL")
+                << " (n=" << testCases[i].n
+                << ", Expected: " << testCases[i].expected
+                << ", Got: " << res << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4288,6 +4316,8 @@ public:
         numJewelsAndStones_771_tests();
         cout << "Running Valid Perfect Square_367 tests:\n";
         validPerfectSquare_367_tests();
+        cout << "Running Perfect Squares_279 tests:\n";
+        perfectSquares_279_tests();
     }
 };
 
