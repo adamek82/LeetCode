@@ -9,7 +9,7 @@
  * Using a binary heap yields time Θ(E log V) = Θ(n^2 log n)
  * because we push Θ(n) candidates at each of n steps (Θ(n^2) total pushes),
  * and each push/pop costs O(log V) ~ O(log n). With the lazy pattern
- * (std::priority_queue has no decrease-key) many stale entries are popped and skipped,
+ * (priority_queue has no decrease-key) many stale entries are popped and skipped,
  * but the asymptotics stay Θ(n^2 log n) and memory can hold Θ(n^2) queued pairs.
  *
  * A simple array-based Prim that scans all vertices to find the next minimum

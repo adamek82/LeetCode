@@ -834,7 +834,7 @@ struct SafestPathTestCase {
     int expectedResult;
 
     SafestPathTestCase(vector<vector<int>> g, int e)
-        : grid(std::move(g)), expectedResult(e) {}
+        : grid(move(g)), expectedResult(e) {}
 };
 
 struct MaxDepthTestCase {

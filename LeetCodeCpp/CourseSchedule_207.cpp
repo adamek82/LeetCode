@@ -37,10 +37,10 @@ bool CourseSchedule_207::dfs(int node, unordered_map<int, vector<int>>& graph, v
 
 // ---------- Kahn’s BFS / topological-sort variant -----------------------
 bool CourseSchedule_207::canFinishKahns(int numCourses,
-                                        std::vector<std::vector<int>>& prerequisites) {
+                                        vector<vector<int>>& prerequisites) {
     // Build adjacency list and in-degree array
-    std::vector<std::vector<int>> adj(numCourses);
-    std::vector<int> indeg(numCourses, 0);
+    vector<vector<int>> adj(numCourses);
+    vector<int> indeg(numCourses, 0);
     for (const auto& p : prerequisites) {
         int course = p[0], pre = p[1];
         adj[pre].push_back(course);            // edge pre → course
@@ -48,7 +48,7 @@ bool CourseSchedule_207::canFinishKahns(int numCourses,
     }
 
     // Start with all courses that have no prerequisites
-    std::queue<int> q;
+    queue<int> q;
     for (int i = 0; i < numCourses; ++i)
         if (indeg[i] == 0) q.push(i);
 
