@@ -3695,7 +3695,9 @@ public:
             {"adceb",         "*a*b",        true },
             {"acdcb",         "a*c?b",       false},
             {"abcabczzzde",   "*abc???de*",  true },
-            {"baaaacxyz",     "*a*?xyz",     true }
+            {"baaaacxyz",     "*a*?xyz",     true },
+            {"abcded",        "a*d",         true },
+            {"abcdbcde",      "a*de",        true },
         };
 
         WildcardMatching_44 solver;

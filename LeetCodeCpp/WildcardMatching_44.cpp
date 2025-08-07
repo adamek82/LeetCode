@@ -14,13 +14,13 @@
  * 2. Case-by-case:
  *      a) Characters match exactly OR pattern has '?'  ->  consume both.
  *      b) Pattern shows '*'                            ->  remember where it is,
- *                                                         pretend it matches empty for now,
- *                                                         and move j past '*'.
+ *                                                          pretend it matches empty for now,
+ *                                                          and move j past '*'.
  *      c) Mismatch but we HAVE seen a previous '*'     ->  back-track:
- *                                                         • reset j to char AFTER that '*'
- *                                                         • extend the span matched by '*'
- *                                                           by one more char of s
- *                                                         • continue scanning
+ *                                                          • reset j to char AFTER that '*'
+ *                                                          • extend the span matched by '*'
+ *                                                            by one more char of s
+ *                                                          • continue scanning
  *      d) Mismatch and NO previous '*'                 ->  impossible => return false.
  * 3. When s is exhausted, the remainder of p must be only '*' characters.
  *    If so, every char of p can match an empty suffix and we succeed.
