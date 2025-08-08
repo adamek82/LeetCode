@@ -103,6 +103,7 @@
 #include "JewelsAndStones_771.h"
 #include "ValidPerfectSquare_367.h"
 #include "PerfectSquares_279.h"
+#include "SameTree_100.h"
 
 using namespace std;
 
@@ -887,6 +888,17 @@ static bool equalMultiset(vector<vector<int>> a, vector<vector<int>> b) {
     sort(b.begin(), b.end(), [&](auto& x, auto& y){ return key(x) < key(y); });
     return a == b;
 }
+
+struct SameTreeTestCase {
+    vector<optional<int>> p;
+    vector<optional<int>> q;
+    bool expected;
+
+    SameTreeTestCase(vector<optional<int>> pp,
+                     vector<optional<int>> qq,
+                     bool exp)
+        : p(move(pp)), q(move(qq)), expected(exp) {}
+};
 
 /* ---------- generic distance helper ---------------------------------- */
 static long long distSq(const vector<int>& p) {
@@ -4127,6 +4139,34 @@ public:
         }
     }
 
+    static void sameTree_100_tests()
+    {
+        vector<SameTreeTestCase> cases = {
+            SameTreeTestCase({1,2,3},        {1,2,3},        true),   // Example 1
+            SameTreeTestCase({1,2},          {1,nullopt,2},  false),  // Example 2
+            SameTreeTestCase({1,2,1},        {1,1,2},        false),  // Example 3
+            // a few extra sanity checks
+            SameTreeTestCase({},             {},             true),
+            SameTreeTestCase({1,nullopt,2,3},{1,nullopt,2,3},true)
+        };
+
+        SameTree_100 sol;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            auto pTree = TreeUtils::vectorToTree<int>(cases[i].p);
+            auto qTree = TreeUtils::vectorToTree<int>(cases[i].q);
+
+            bool r1 = sol.isSameTreeRecursive(pTree, qTree);
+            bool r2 = sol.isSameTreeIterativeDFS(pTree, qTree);
+            bool r3 = sol.isSameTreeBFSQueue(pTree, qTree);
+
+            cout << "SameTree_100 Test " << (i + 1) << ": "
+                << ((r1 == cases[i].expected &&
+                    r2 == cases[i].expected &&
+                    r3 == cases[i].expected) ? "PASS" : "FAIL")
+                << endl;
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4320,6 +4360,8 @@ public:
         validPerfectSquare_367_tests();
         cout << "Running Perfect Squares_279 tests:\n";
         perfectSquares_279_tests();
+        cout << "Running Same Tree_100 tests:\n";
+        sameTree_100_tests();
     }
 };
 
