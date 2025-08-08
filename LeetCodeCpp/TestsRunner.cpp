@@ -4147,7 +4147,10 @@ public:
             SameTreeTestCase({1,2,1},        {1,1,2},        false),  // Example 3
             // a few extra sanity checks
             SameTreeTestCase({},             {},             true),
-            SameTreeTestCase({1,nullopt,2,3},{1,nullopt,2,3},true)
+            SameTreeTestCase({1,nullopt,2,3},{1,nullopt,2,3},true),
+            SameTreeTestCase({10,nullopt,20,15,nullopt,nullopt,25,nullopt,nullopt,22,nullopt},
+                             {10,nullopt,20,15,nullopt,nullopt,25,nullopt,nullopt,22,nullopt},
+                             true),
         };
 
         SameTree_100 sol;
