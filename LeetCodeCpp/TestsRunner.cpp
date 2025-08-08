@@ -4284,9 +4284,9 @@ public:
         cout << "Running SortCharactersByFrequency_451 tests:\n";
         sortCharactersByFrequency_451_tests();
         cout << "Running Coin Change_322 tests:\n";
-        TestsRunner::coinChange_322_tests();
+        coinChange_322_tests();
         cout << "Running TopKFrequentWords_692 tests:\n";
-        TestsRunner::topKFrequentWords_692_tests();
+        topKFrequentWords_692_tests();
         cout << "Running LongestCycleInGraph_2360 tests:\n";
         longestCycleInGraph_2360_tests();
         cout << "2608. Shortest Cycle in a Graph tests:\n";
