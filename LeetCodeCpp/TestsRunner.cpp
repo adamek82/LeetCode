@@ -105,6 +105,7 @@
 #include "PerfectSquares_279.h"
 #include "SameTree_100.h"
 #include "MissingNumber_268.h"
+#include "DailyTemperatures_739.h"
 
 using namespace std;
 
@@ -906,6 +907,14 @@ struct MissingNumberTestCase {
     int expected;
     MissingNumberTestCase(vector<int> n, int e)
         : nums(move(n)), expected(e) {}
+};
+
+struct DailyTemperatures739TestCase {
+    vector<int> temperatures;
+    vector<int> expected;
+
+    DailyTemperatures739TestCase(vector<int> t, vector<int> e)
+        : temperatures(move(t)), expected(move(e)) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -4201,6 +4210,40 @@ public:
         }
     }
 
+    static void dailyTemperatures_739_tests() {
+        vector<DailyTemperatures739TestCase> tests = {
+            // Three examples from the problem statement
+            DailyTemperatures739TestCase({73,74,75,71,69,72,76,73}, {1,1,4,2,1,1,0,0}),
+            DailyTemperatures739TestCase({30,40,50,60},             {1,1,1,0}),
+            DailyTemperatures739TestCase({30,60,90},                 {1,1,0}),
+
+            // Three additional, more complex cases
+            DailyTemperatures739TestCase({100,99,98,97},             {0,0,0,0}),            // strictly decreasing: no warmer future day
+            DailyTemperatures739TestCase({70,70,71},                 {2,1,0}),              // plateau followed by a warmer day
+            DailyTemperatures739TestCase({75,71,69,72,76,73,73,74,75},{4,2,1,1,0,2,1,1,0})  // mixed drops, duplicates, multiple pops
+        };
+
+        DailyTemperatures_739 solver;
+
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto out = solver.dailyTemperatures(tests[i].temperatures);
+            bool pass = (out == tests[i].expected);
+
+            cout << "Daily Temperatures Test " << (i + 1) << ": res = "
+                << (pass ? "PASS" : "FAIL");
+
+            // On failure, print both expected and actual for quick inspection
+            if (!pass) {
+                cout << "  (Expected: ";
+                for (int x : tests[i].expected) cout << x << ' ';
+                cout << " | Got: ";
+                for (int x : out) cout << x << ' ';
+                cout << ')';
+            }
+            cout << '\n';
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4398,6 +4441,8 @@ public:
         sameTree_100_tests();
         cout << "Running Missing Number_268 tests:\n";
         missingNumber_268_tests();
+        cout << "Daily Temperatures_739 tests:\n";
+        dailyTemperatures_739_tests();
     }
 };
 
