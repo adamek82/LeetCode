@@ -104,6 +104,7 @@
 #include "ValidPerfectSquare_367.h"
 #include "PerfectSquares_279.h"
 #include "SameTree_100.h"
+#include "MissingNumber_268.h"
 
 using namespace std;
 
@@ -898,6 +899,13 @@ struct SameTreeTestCase {
                      vector<optional<int>> qq,
                      bool exp)
         : p(move(pp)), q(move(qq)), expected(exp) {}
+};
+
+struct MissingNumberTestCase {
+    vector<int> nums;
+    int expected;
+    MissingNumberTestCase(vector<int> n, int e)
+        : nums(move(n)), expected(e) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -4170,6 +4178,29 @@ public:
         }
     }
 
+    static void missingNumber_268_tests() {
+        vector<MissingNumberTestCase> testCases = {
+            // Problem statement examples
+            MissingNumberTestCase({3, 0, 1}, 2),
+            MissingNumberTestCase({0, 1}, 2),
+            MissingNumberTestCase({9, 6, 4, 2, 3, 5, 7, 0, 1}, 8),
+
+            // Additional edge/complex cases
+            MissingNumberTestCase({1, 2, 3}, 0),                 // missing 0
+            MissingNumberTestCase({0, 1, 2, 3}, 4),              // missing n
+            MissingNumberTestCase({10, 9, 8, 7, 5, 4, 3, 2, 1, 0}, 6) // unsorted, includes n
+        };
+
+        MissingNumber_268 solution;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int res = solution.missingNumber(testCases[i].nums);
+            cout << "Missing Number Test " << (i + 1) << ": res = "
+                 << (res == testCases[i].expected ? "PASS" : "FAIL")
+                 << " (Expected: " << testCases[i].expected
+                 << ", Got: " << res << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4365,6 +4396,8 @@ public:
         perfectSquares_279_tests();
         cout << "Running Same Tree_100 tests:\n";
         sameTree_100_tests();
+        cout << "Running Missing Number_268 tests:\n";
+        missingNumber_268_tests();
     }
 };
 
