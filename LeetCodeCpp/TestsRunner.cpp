@@ -107,6 +107,7 @@
 #include "MissingNumber_268.h"
 #include "DailyTemperatures_739.h"
 #include "ContainsDuplicate_217.h"
+#include "FibonacciNumber_509.h"
 
 using namespace std;
 
@@ -923,6 +924,12 @@ struct ContainsDuplicate217TestCase {
     bool expected;
     ContainsDuplicate217TestCase(vector<int> n, bool e)
         : nums(move(n)), expected(e) {}
+};
+
+struct Fibonacci509TestCase {
+    int n;
+    int expected;
+    Fibonacci509TestCase(int n_, int e) : n(n_), expected(e) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -4295,6 +4302,29 @@ public:
             << (got ? "true" : "false") << ")\n";
     }
 
+    static void fibonacci_509_tests() {
+        vector<Fibonacci509TestCase> tests = {
+            // 3 from the statement
+            {2, 1},
+            {3, 2},
+            {4, 3},
+            // 3 additional / edge-ish
+            {0, 0},
+            {1, 1},
+            {30, 832040}
+        };
+
+        FibonacciNumber_509 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            int got = sol.fib(tests[i].n);
+            cout << "Fibonacci 509 Test " << (i + 1) << ": res = "
+                << (got == tests[i].expected ? "PASS" : "FAIL")
+                << " (n=" << tests[i].n
+                << ", Expected: " << tests[i].expected
+                << ", Got: " << got << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4496,6 +4526,8 @@ public:
         dailyTemperatures_739_tests();
         cout << "Contains Duplicate_217 tests:\n";
         containsDuplicate_217_tests();
+        cout << "Fibonacci Number_509 tests:\n";
+        fibonacci_509_tests();
     }
 };
 
