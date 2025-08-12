@@ -106,6 +106,7 @@
 #include "SameTree_100.h"
 #include "MissingNumber_268.h"
 #include "DailyTemperatures_739.h"
+#include "ContainsDuplicate_217.h"
 
 using namespace std;
 
@@ -915,6 +916,13 @@ struct DailyTemperatures739TestCase {
 
     DailyTemperatures739TestCase(vector<int> t, vector<int> e)
         : temperatures(move(t)), expected(move(e)) {}
+};
+
+struct ContainsDuplicate217TestCase {
+    vector<int> nums;
+    bool expected;
+    ContainsDuplicate217TestCase(vector<int> n, bool e)
+        : nums(move(n)), expected(e) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -4244,6 +4252,49 @@ public:
         }
     }
 
+    static void containsDuplicate_217_tests() {
+        vector<ContainsDuplicate217TestCase> tests = {
+            // 3 from the statement
+            ContainsDuplicate217TestCase({1, 2, 3, 1}, true),
+            ContainsDuplicate217TestCase({1, 2, 3, 4}, false),
+            ContainsDuplicate217TestCase({1, 1, 1, 3, 3, 4, 3, 2, 4, 2}, true),
+
+            // 3 “complex”/edge-ish
+            // extremes + duplicate far apart
+            ContainsDuplicate217TestCase({1000000000, -1000000000, 999999999, -999999999, 123456789, 987654321, 123456789}, true),
+            // negative/zero/positive with early & late dup
+            ContainsDuplicate217TestCase({-7, 0, 5, 42, -7}, true),
+            // large unique set
+            ContainsDuplicate217TestCase({}, false) // placeholder, will be replaced by bigUnique below
+        };
+
+        // Build a large unique vector [-5000..4999]
+        vector<int> bigUnique;
+        bigUnique.reserve(10000);
+        for (int i = -5000; i < 5000; ++i) bigUnique.push_back(i);
+        tests.back() = ContainsDuplicate217TestCase(move(bigUnique), false);
+
+        ContainsDuplicate_217 sol;
+
+        for (size_t i = 0; i < tests.size(); ++i) {
+            bool got = sol.containsDuplicate(tests[i].nums);
+            cout << "ContainsDuplicate 217 Test " << (i + 1) << ": res = "
+                << (got == tests[i].expected ? "PASS" : "FAIL")
+                << " (Expected: " << (tests[i].expected ? "true" : "false")
+                << ", Got: " << (got ? "true" : "false") << ")\n";
+        }
+
+        // Bonus: stress variant with a large array + one duplicate appended
+        vector<int> bigWithDup;
+        bigWithDup.reserve(10001);
+        for (int i = -5000; i < 5000; ++i) bigWithDup.push_back(i);
+        bigWithDup.push_back(123); // duplicate
+        bool got = sol.containsDuplicate(bigWithDup);
+        cout << "ContainsDuplicate 217 Stress: "
+            << (got ? "PASS" : "FAIL") << " (Expected: true, Got: "
+            << (got ? "true" : "false") << ")\n";
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4443,6 +4494,8 @@ public:
         missingNumber_268_tests();
         cout << "Daily Temperatures_739 tests:\n";
         dailyTemperatures_739_tests();
+        cout << "Contains Duplicate_217 tests:\n";
+        containsDuplicate_217_tests();
     }
 };
 
