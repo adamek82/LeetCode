@@ -109,6 +109,7 @@
 #include "ContainsDuplicate_217.h"
 #include "FibonacciNumber_509.h"
 #include "ClimbingStairs_70.h"
+#include "MinCostClimbingStairs_746.h"
 
 using namespace std;
 
@@ -937,6 +938,13 @@ struct ClimbingStairs70TestCase {
     int n;
     int expected;
     ClimbingStairs70TestCase(int n_, int e) : n(n_), expected(e) {}
+};
+
+struct MinCostClimbingStairs746TestCase {
+    vector<int> cost;
+    int expected;
+    MinCostClimbingStairs746TestCase(vector<int> c, int e)
+        : cost(move(c)), expected(e) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -4356,6 +4364,29 @@ public:
         }
     }
 
+    static void minCostClimbingStairs_746_tests() {
+        vector<MinCostClimbingStairs746TestCase> tests = {
+            // 2 from the statement
+            MinCostClimbingStairs746TestCase({10,15,20}, 15),
+            MinCostClimbingStairs746TestCase({1,100,1,1,1,100,1,1,100,1}, 6),
+
+            // 4 additional / edge-ish
+            MinCostClimbingStairs746TestCase({5, 6}, 5),                         // n=2, pick cheaper start
+            MinCostClimbingStairs746TestCase({0,0,0,0}, 0),                      // all zeros
+            MinCostClimbingStairs746TestCase({2,2,2,2,2}, 4),                    // uniform costs
+            MinCostClimbingStairs746TestCase({999,1,999,1,999,1,999,1}, 4)       // pick all the 1's
+        };
+
+        MinCostClimbingStairs_746 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            int got = sol.minCostClimbingStairs(tests[i].cost);
+            cout << "Min Cost Climbing Stairs 746 Test " << (i + 1) << ": res = "
+                << (got == tests[i].expected ? "PASS" : "FAIL")
+                << " (Expected: " << tests[i].expected
+                << ", Got: " << got << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4561,6 +4592,8 @@ public:
         fibonacci_509_tests();
         cout << "Climbing Stairs_70 tests:\n";
         climbingStairs_70_tests();
+        cout << "Min Cost Climbing Stairs_746 tests:\n";
+        minCostClimbingStairs_746_tests();
     }
 };
 
