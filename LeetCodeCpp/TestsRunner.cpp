@@ -110,6 +110,7 @@
 #include "FibonacciNumber_509.h"
 #include "ClimbingStairs_70.h"
 #include "MinCostClimbingStairs_746.h"
+#include "HouseRobber_198.h"
 
 using namespace std;
 
@@ -945,6 +946,12 @@ struct MinCostClimbingStairs746TestCase {
     int expected;
     MinCostClimbingStairs746TestCase(vector<int> c, int e)
         : cost(move(c)), expected(e) {}
+};
+
+struct HouseRobber198TestCase {
+    vector<int> nums;
+    int expected;
+    HouseRobber198TestCase(vector<int> a, int e) : nums(move(a)), expected(e) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -4387,6 +4394,29 @@ public:
         }
     }
 
+    static void houseRobber_198_tests() {
+        vector<HouseRobber198TestCase> tests = {
+            // 2 from the statement
+            {{1,2,3,1}, 4},
+            {{2,7,9,3,1}, 12},
+
+            // 4 additional / edge-ish
+            {{2,1,1,2}, 4},                 // choose 2 + 2
+            {{0,0,0,0,0}, 0},               // all zeros
+            {{6,6,4,8,4,3,3,10}, 27},       // mixed values
+            {{100}, 100}                    // single element
+        };
+
+        HouseRobber_198 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            int got = sol.rob(tests[i].nums);
+            cout << "House Robber 198 Test " << (i + 1) << ": res = "
+                << (got == tests[i].expected ? "PASS" : "FAIL")
+                << " (Expected: " << tests[i].expected
+                << ", Got: " << got << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4594,6 +4624,8 @@ public:
         climbingStairs_70_tests();
         cout << "Min Cost Climbing Stairs_746 tests:\n";
         minCostClimbingStairs_746_tests();
+        cout << "House Robber_198 tests:\n";
+        houseRobber_198_tests();
     }
 };
 
