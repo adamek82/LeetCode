@@ -111,6 +111,7 @@
 #include "ClimbingStairs_70.h"
 #include "MinCostClimbingStairs_746.h"
 #include "HouseRobber_198.h"
+#include "LastStoneWeight_1046.h"
 
 using namespace std;
 
@@ -952,6 +953,13 @@ struct HouseRobber198TestCase {
     vector<int> nums;
     int expected;
     HouseRobber198TestCase(vector<int> a, int e) : nums(move(a)), expected(e) {}
+};
+
+struct LastStoneWeight1046TestCase {
+    vector<int> stones;
+    int expected;
+    LastStoneWeight1046TestCase(vector<int> s, int e)
+        : stones(move(s)), expected(e) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -4417,6 +4425,29 @@ public:
         }
     }
 
+    static void lastStoneWeight_1046_tests() {
+        vector<LastStoneWeight1046TestCase> tests = {
+            // 2 from the statement
+            {{2,7,4,1,8,1}, 1},
+            {{1}, 1},
+
+            // 4 additional / edge-ish
+            {{10,10}, 0},                 // equal pair cancels
+            {{9,3,2,10}, 0},              // multiple reductions to zero
+            {{1,1,2,3,5,8,13}, 1},        // mixed, ends with 1
+            {{7,6,7,6,9}, 3}              // nontrivial leftovers
+        };
+
+        LastStoneWeight_1046 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            int got = sol.lastStoneWeight(tests[i].stones);
+            cout << "Last Stone Weight 1046 Test " << (i + 1) << ": res = "
+                << (got == tests[i].expected ? "PASS" : "FAIL")
+                << " (Expected: " << tests[i].expected
+                << ", Got: " << got << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4626,6 +4657,8 @@ public:
         minCostClimbingStairs_746_tests();
         cout << "House Robber_198 tests:\n";
         houseRobber_198_tests();
+        cout << "Last Stone Weight_1046 tests:\n";
+        lastStoneWeight_1046_tests();
     }
 };
 
