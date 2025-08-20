@@ -112,6 +112,7 @@
 #include "MinCostClimbingStairs_746.h"
 #include "HouseRobber_198.h"
 #include "LastStoneWeight_1046.h"
+#include "TopKFrequentElements_347.h"
 
 using namespace std;
 
@@ -960,6 +961,14 @@ struct LastStoneWeight1046TestCase {
     int expected;
     LastStoneWeight1046TestCase(vector<int> s, int e)
         : stones(move(s)), expected(e) {}
+};
+
+struct TopKFrequent347TestCase {
+    vector<int> nums;
+    int k;
+    vector<int> expected_any_order; // order doesn't matter
+    TopKFrequent347TestCase(vector<int> a, int kk, vector<int> e)
+        : nums(move(a)), k(kk), expected_any_order(move(e)) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -4478,6 +4487,66 @@ public:
         }
     }
 
+    static void topKFrequent_347_tests() {
+        // Helper: compare ignoring order
+        auto sameUnordered = [](vector<int> a, vector<int> b) {
+            if (a.size() != b.size()) return false;
+            sort(a.begin(), a.end());
+            sort(b.begin(), b.end());
+            return a == b;
+        };
+
+        vector<TopKFrequent347TestCase> tests = {
+            // 2 from the statement
+            {{1,1,1,2,2,3}, 2, {1,2}},
+            {{1},           1, {1}},
+
+            // 4 additional
+            {{1,1,2,2,2,3}, 1, {2}},                 // single most frequent
+            {{-1,-1,-1,0,0,2,2,2,2,3,3}, 2, {2,-1}}, // mixed signs, distinct freqs
+            {{}, 3, {7,8,9}},                        // placeholder, will fill below
+            {{}, 2, {42,-7}}                         // placeholder, will fill below
+        };
+
+        // Fill test 5: counts 7x'7', 6x'8', 5x'9' → k=3 => {7,8,9}
+        {
+            vector<int> v;
+            v.reserve(7 + 6 + 5 + 4 + 3); // a bit extra
+            v.insert(v.end(), 7, 7);
+            v.insert(v.end(), 6, 8);
+            v.insert(v.end(), 5, 9);
+            v.insert(v.end(), 4, 10);
+            v.insert(v.end(), 3, 11);
+            tests[4] = TopKFrequent347TestCase(move(v), 3, {7,8,9});
+        }
+        // Fill test 6: 42 appears 100x, -7 appears 80x, rest unique once
+        {
+            vector<int> v;
+            v.reserve(100 + 80 + 1000);
+            v.insert(v.end(), 100, 42);
+            v.insert(v.end(),  80, -7);
+            for (int i = 1; i <= 1000; ++i) v.push_back(10000 + i); // many uniques
+            tests[5] = TopKFrequent347TestCase(move(v), 2, {42, -7});
+        }
+
+        TopKFrequentElements_347 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto got = sol.topKFrequent(tests[i].nums, tests[i].k);
+            bool pass = sameUnordered(got, tests[i].expected_any_order);
+
+            cout << "Top K Frequent 347 Test " << (i + 1) << ": "
+                << (pass ? "PASS" : "FAIL")
+                << " (k=" << tests[i].k << ")\n";
+            if (!pass) {
+                auto g = got, e = tests[i].expected_any_order;
+                sort(g.begin(), g.end()); sort(e.begin(), e.end());
+                cout << "  Expected: ["; for (size_t j=0;j<e.size();++j){cout<<e[j]<<(j+1<e.size()?", ":"");}
+                cout << "]  Got: ["; for (size_t j=0;j<g.size();++j){cout<<g[j]<<(j+1<g.size()?", ":"");}
+                cout << "]\n";
+            }
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4689,6 +4758,8 @@ public:
         houseRobber_198_tests();
         cout << "Last Stone Weight_1046 tests:\n";
         lastStoneWeight_1046_tests();
+        cout << "Top K Frequent Elements_347 tests:\n";
+        topKFrequent_347_tests();
     }
 };
 
