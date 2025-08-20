@@ -1898,17 +1898,47 @@ public:
             // Additional test cases
             KthLargestElementTestCase({1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 1, 10), // Largest element
             KthLargestElementTestCase({7, 10, 4, 3, 20, 15}, 3, 10),           // Mixed elements
-            KthLargestElementTestCase({2, 2, 2, 2, 2}, 3, 2)                   // Repeated elements
+            KthLargestElementTestCase({2, 2, 2, 2, 2}, 3, 2),                  // Repeated elements
+
+            // Large ascending [1..10000], k=500 -> 9501 (placeholder, filled below)
+            KthLargestElementTestCase({}, 500, 9501)
         };
+
+        // Fill the large ascending test
+        {
+            vector<int> big;
+            big.reserve(10000);
+            for (int i = 1; i <= 10000; ++i) big.push_back(i);
+            testCases.back() = KthLargestElementTestCase(move(big), 500, 9501);
+        }
 
         KthLargestElementInArray_215 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i)
         {
-            int result = solution.findKthLargest(testCases[i].nums, testCases[i].k);
-            cout << "Kth Largest Element Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
+            // Use copies to be robust if implementations ever mutate input
+            auto v1 = testCases[i].nums;
+            auto v2 = testCases[i].nums;
+
+            int resMax = solution.findKthLargest_MaxHeap(v1, testCases[i].k);
+            int resMin = solution.findKthLargest_MinHeap(v2, testCases[i].k);
+
+            bool passMax = (resMax == testCases[i].expectedResult);
+            bool passMin = (resMin == testCases[i].expectedResult);
+            bool agree   = (resMax == resMin);
+
+            cout << "Kth Largest Element 215 Test " << (i + 1) << " [MaxHeap]: "
+                << (passMax ? "PASS" : "FAIL")
+                << " (k=" << testCases[i].k
+                << ", Expected: " << testCases[i].expectedResult
+                << ", Got: " << resMax << ")\n";
+
+            cout << "Kth Largest Element 215 Test " << (i + 1) << " [MinHeap]: "
+                << (passMin ? "PASS" : "FAIL")
+                << " (k=" << testCases[i].k
+                << ", Expected: " << testCases[i].expectedResult
+                << ", Got: " << resMin << ")"
+                << (agree ? "" : "  <-- mismatch between implementations!") << "\n";
         }
     }
 

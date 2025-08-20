@@ -1,6 +1,6 @@
 #include "KthLargestElementInArray_215.h"
 
-int KthLargestElementInArray_215::findKthLargest(vector<int> &nums, int k)
+int KthLargestElementInArray_215::findKthLargest_MaxHeap(vector<int> &nums, int k)
 {
     // Using a max-heap: O(n log n) time and O(n) space
     priority_queue<int> maxHeap;
@@ -17,4 +17,18 @@ int KthLargestElementInArray_215::findKthLargest(vector<int> &nums, int k)
 
     // The top of the heap is the k-th largest element
     return maxHeap.top();
+}
+
+int KthLargestElementInArray_215::findKthLargest_MinHeap(vector<int> &nums, int k)
+{
+    // min-heap keeps the k largest elements; top() is the smallest among them
+    priority_queue<int, vector<int>, greater<int>> pq;
+
+    for (int x : nums) {
+        pq.push(x);
+        if ((int)pq.size() > k) pq.pop();
+    }
+
+    // Assumes 1 <= k <= nums.size()
+    return pq.top();
 }

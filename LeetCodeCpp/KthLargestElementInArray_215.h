@@ -6,5 +6,6 @@ using namespace std;
 
 class KthLargestElementInArray_215 {
 public:
-     int findKthLargest(vector<int>& nums, int k);
+     int findKthLargest_MaxHeap(vector<int>& nums, int k);
+     int findKthLargest_MinHeap(vector<int>& nums, int k);
 };
