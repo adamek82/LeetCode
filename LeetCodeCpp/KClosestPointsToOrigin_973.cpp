@@ -74,7 +74,7 @@ KClosestPointsToOrigin_973::kClosestHeap(vector<Point>& points, int k)
     vector<Point> res;
     res.reserve(k);
     while (!pq.empty()) {
-        res.push_back(move(pq.top().second));
+        res.push_back(pq.top().second);
         pq.pop();
     }
     return res;          // any order acceptable
