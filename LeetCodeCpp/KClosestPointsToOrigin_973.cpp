@@ -54,27 +54,29 @@ KClosestPointsToOrigin_973::kClosestQuickSelect(vector<Point>& points, int k)
 vector<KClosestPointsToOrigin_973::Point>
 KClosestPointsToOrigin_973::kClosestHeap(vector<Point>& points, int k)
 {
-    using Item = pair<long long, Point>;          // (dist², point)
-    priority_queue<Item> pq;                      // max-heap on distance
+    // Use a max-heap of (distance^2, index) to avoid storing/copying full points in the heap.
+    using Item = pair<long long, int>;            // (dist², index into `points`)
+    priority_queue<Item> pq;                      // max-heap by dist²
 
     /* seed with first k points */
     for (int i = 0; i < k; ++i)
-        pq.emplace(distSq(points[i]), points[i]);
+        pq.emplace(distSq(points[i]), i);
 
-    /* scan rest */
+    // Process the remaining points: keep only the k closest seen so far.
     for (int i = k; i < (int)points.size(); ++i) {
         long long d = distSq(points[i]);
         if (d < pq.top().first) {
             pq.pop();
-            pq.emplace(d, points[i]);
+            pq.emplace(d, i);
         }
     }
 
-    /* extract */
+    // Extract indices; order is arbitrary (any order is acceptable).
     vector<Point> res;
     res.reserve(k);
     while (!pq.empty()) {
-        res.push_back(pq.top().second);
+        int idx = pq.top().second;
+        res.push_back(points[idx]);               // copies two ints; moving is unnecessary
         pq.pop();
     }
     return res;          // any order acceptable
