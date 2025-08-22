@@ -34,32 +34,6 @@
  *  • The algorithm mutates the `next` pointers of the original nodes but
  *    performs no new allocations or value copies.
  *
- *  Optimality Proof Sketch – why Ω(N log k) is a lower bound
- *  ---------------------------------------------------------
- *  Model:  comparison–based; the algorithm may only inspect elements via
- *          < or > (no hashing, counting sort, etc.).
- *
- *  1.  Reduction to sorting
- *      –  Put each of the N values into its own 1-element list.
- *      –  Now k = N and merging the k lists produces those N values in
- *        sorted order.
- *
- *  2.  Consequence
- *      –  If a k-way merge ran in T(N,k) comparisons, we could sort N
- *        arbitrary items in T(N,N) comparisons.
- *
- *  3.  Known lower bound
- *      –  Any comparison-based sorting of N items requires Ω(N log N)
- *        comparisons.
- *
- *  4.  Therefore
- *      T(N,N) ≥ c·N log N  ⇒  T(N,k) ≥ c·N log k  for all k ≤ N
- *        (monotonicity in k: merging becomes easier, never harder, as k
- *         decreases).
- *
- *  Conclusion:  Θ(N log k) algorithms (heap or tournament tree) are
- *  asymptotically optimal; no purely comparison-based method can be faster
- *  in the worst case.
  *  ------------------------------------------------------------------------- */
 ListNode<int> *MergeKSortedLists_23::mergeKLists(vector<ListNode<int> *> &lists)
 {
