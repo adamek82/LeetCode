@@ -113,6 +113,7 @@
 #include "HouseRobber_198.h"
 #include "LastStoneWeight_1046.h"
 #include "TopKFrequentElements_347.h"
+#include "FindClosestNumberToZero_2239.h"
 
 using namespace std;
 
@@ -969,6 +970,13 @@ struct TopKFrequent347TestCase {
     vector<int> expected_any_order; // order doesn't matter
     TopKFrequent347TestCase(vector<int> a, int kk, vector<int> e)
         : nums(move(a)), k(kk), expected_any_order(move(e)) {}
+};
+
+struct FindClosest2239TestCase {
+    vector<int> nums;
+    int expected;
+    FindClosest2239TestCase(vector<int> a, int e)
+        : nums(move(a)), expected(e) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -4547,6 +4555,29 @@ public:
         }
     }
 
+    static void findClosestNumber_2239_tests() {
+        vector<FindClosest2239TestCase> tests = {
+            // From the statement
+            {{-4,-2,1,4,8}, 1},
+            {{2,-1,1},      1},
+
+            // Additional
+            {{0,5,-5},              0},   // zero present → always closest
+            {{-7,-3,-2,-2},        -2},   // all negatives; tie between -2s → -2
+            {{-100000,100000}, 100000},   // extremes; tie → prefer positive
+            {{-1,1,2,-2},          1}     // tie at distance 1 → prefer +1
+        };
+
+        FindClosestNumberToZero_2239 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            int got = sol.findClosestNumber(tests[i].nums);
+            cout << "Find Closest Number to Zero 2239 Test " << (i + 1) << ": "
+                << ((got == tests[i].expected) ? "PASS" : "FAIL")
+                << " (Expected: " << tests[i].expected
+                << ", Got: " << got << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4760,6 +4791,8 @@ public:
         lastStoneWeight_1046_tests();
         cout << "Top K Frequent Elements_347 tests:\n";
         topKFrequent_347_tests();
+        cout << "Find Closest Number to Zero_2239 tests:\n";
+        findClosestNumber_2239_tests();
     }
 };
 
