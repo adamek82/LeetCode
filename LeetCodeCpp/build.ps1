@@ -80,9 +80,23 @@ if ($jobs.Count -gt 0) {
 }
 
 # Linking step
-Write-Host "Linking executable..."
-$linkCmd = "cl.exe /nologo " + ($objFiles -join " ") + " /link /DEBUG /OUT:`"$vscodeDir\TestsRunner.exe`" /LTCG:OFF"
-cmd.exe /c $linkCmd
+Write-Host "Linking executable (via response file)..."
+
+$linkRsp = Join-Path $vscodeDir "link.rsp"
+$exeOut  = Join-Path $vscodeDir "TestsRunner.exe"
+
+# Build RSP contents: each .obj on a separate line + linker options
+$lines = @()
+$lines += ($objFiles | ForEach-Object { '"{0}"' -f $_ })
+$lines += '/DEBUG'
+$lines += ('/OUT:"{0}"' -f $exeOut)
+$lines += '/LTCG:OFF'
+
+# Important: use ASCII/utf8NoBOM, NOT the default UTF-16
+Set-Content -Path $linkRsp -Value ($lines -join [Environment]::NewLine) -Encoding ASCII
+
+# Run the linker with the RSP (if vcvars64 is needed: call vcvars before link)
+cmd.exe /c "link.exe /nologo @`"$linkRsp`""
 
 # Stop timing
 $endTime = $startTime.Elapsed
