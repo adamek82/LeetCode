@@ -115,6 +115,7 @@
 #include "TopKFrequentElements_347.h"
 #include "FindClosestNumberToZero_2239.h"
 #include "MergeStringsAlternately_1768.h"
+#include "RomanToInteger_13.h"
 
 using namespace std;
 
@@ -984,6 +985,12 @@ struct MergeStringsAlternately1768TestCase {
     string w1, w2, expected;
     MergeStringsAlternately1768TestCase(string a, string b, string e)
         : w1(move(a)), w2(move(b)), expected(move(e)) {}
+};
+
+struct RomanToInteger13TestCase {
+    string s;
+    int expected;
+    RomanToInteger13TestCase(string ss, int e) : s(move(ss)), expected(e) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -4606,6 +4613,28 @@ public:
         }
     }
 
+    static void romanToInteger_13_tests() {
+        vector<RomanToInteger13TestCase> tests = {
+            // From the statement
+            {"III", 3},
+            {"LVIII", 58},
+            {"MCMXCIV", 1994},
+            // Additional
+            {"IX", 9},             // simple subtractive
+            {"CDXLIV", 444},       // multiple subtractive pairs (CD + XL + IV)
+            {"MMMCMXCIX", 3999}    // maximum in range
+        };
+
+        RomanToInteger_13 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            int got = sol.romanToInt(tests[i].s);
+            cout << "Roman to Integer 13 Test " << (i + 1) << ": "
+                << ((got == tests[i].expected) ? "PASS" : "FAIL")
+                << " (\"" << tests[i].s << "\" -> Expected: " << tests[i].expected
+                << ", Got: " << got << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4823,6 +4852,8 @@ public:
         findClosestNumber_2239_tests();
         cout << "Merge Strings Alternately_1768 tests:\n";
         mergeStringsAlternately_1768_tests();
+        cout << "Roman to Integer_13 tests:\n";
+        romanToInteger_13_tests();
     }
 };
 
