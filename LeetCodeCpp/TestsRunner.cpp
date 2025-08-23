@@ -114,6 +114,7 @@
 #include "LastStoneWeight_1046.h"
 #include "TopKFrequentElements_347.h"
 #include "FindClosestNumberToZero_2239.h"
+#include "MergeStringsAlternately_1768.h"
 
 using namespace std;
 
@@ -977,6 +978,12 @@ struct FindClosest2239TestCase {
     int expected;
     FindClosest2239TestCase(vector<int> a, int e)
         : nums(move(a)), expected(e) {}
+};
+
+struct MergeStringsAlternately1768TestCase {
+    string w1, w2, expected;
+    MergeStringsAlternately1768TestCase(string a, string b, string e)
+        : w1(move(a)), w2(move(b)), expected(move(e)) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -4578,6 +4585,27 @@ public:
         }
     }
 
+    static void mergeStringsAlternately_1768_tests() {
+        vector<MergeStringsAlternately1768TestCase> tests = {
+            // From the statement
+            {"abc",   "pqr",   "apbqcr"},
+            {"ab",    "pqrs",  "apbqrs"},
+            {"abcd",  "pq",    "apbqcd"},
+            // Additional
+            {"z",     "abcdef","zabcdef"},  // word1 shorter by far
+            {"ace",   "bdf",   "abcdef"},   // equal lengths
+            {"aaaaa", "b",     "abaaaa"}    // word2 very short
+        };
+
+        MergeStringsAlternately_1768 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            string got = sol.mergeAlternately(tests[i].w1, tests[i].w2);
+            cout << "Merge Strings Alternately 1768 Test " << (i + 1) << ": "
+                << ((got == tests[i].expected) ? "PASS" : "FAIL")
+                << " (Expected: \"" << tests[i].expected << "\", Got: \"" << got << "\")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4793,6 +4821,8 @@ public:
         topKFrequent_347_tests();
         cout << "Find Closest Number to Zero_2239 tests:\n";
         findClosestNumber_2239_tests();
+        cout << "Merge Strings Alternately_1768 tests:\n";
+        mergeStringsAlternately_1768_tests();
     }
 };
 
