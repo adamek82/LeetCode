@@ -4737,6 +4737,7 @@ public:
                 for (char c = 'a'; c <= 'z'; ++c) s.push_back(c);
             qs.push_back({move(s), true});
         }
+        qs.push_back({string(384, 'z'), true});
         qs.push_back({string(385, 'z'), false});
         qs.push_back({"leetcode", true});
         qs.push_back({"zzzay", true});
