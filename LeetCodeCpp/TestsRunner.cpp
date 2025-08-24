@@ -4651,13 +4651,6 @@ public:
     }
 
     static void isSubsequence_392_tests() {
-        struct IsSubsequence392TestCase {
-            string s, t;
-            bool expected;
-            IsSubsequence392TestCase(string ss, string tt, bool e)
-                : s(move(ss)), t(move(tt)), expected(e) {}
-        };
-
         vector<IsSubsequence392TestCase> tests = {
             {"abc", "ahbgdc", true},
             {"axc", "ahbgdc", false},
