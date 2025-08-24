@@ -1001,6 +1001,13 @@ struct IsSubsequence392TestCase {
         : s(move(ss)), t(move(tt)), expected(e) {}
 };
 
+struct IsSubsequence392FollowUpCase {
+    string t;
+    vector<pair<string,bool>> queries;
+    IsSubsequence392FollowUpCase(string tt, vector<pair<string,bool>> qs)
+        : t(move(tt)), queries(move(qs)) {}
+};
+
 /* ---------- generic distance helper ---------------------------------- */
 static long long distSq(const vector<int>& p) {
     return 1LL * p[0] * p[0] + 1LL * p[1] * p[1];
@@ -4686,13 +4693,6 @@ public:
             pr("pos-index",   b);
             pr("next-table",  c);
         }
-
-        struct IsSubsequence392FollowUpCase {
-            string t;
-            vector<pair<string,bool>> queries;
-            IsSubsequence392FollowUpCase(string tt, vector<pair<string,bool>> qs)
-                : t(move(tt)), queries(move(qs)) {}
-        };
 
         vector<IsSubsequence392FollowUpCase> futests = {
             {"ahbgdc", { {"abc", true}, {"axc", false}, {"agc", true}, {"", true}, {"aaaa", false} }},
