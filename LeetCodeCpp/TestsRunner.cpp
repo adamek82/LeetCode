@@ -116,6 +116,7 @@
 #include "FindClosestNumberToZero_2239.h"
 #include "MergeStringsAlternately_1768.h"
 #include "RomanToInteger_13.h"
+#include "IsSubsequence_392.h"
 
 using namespace std;
 
@@ -991,6 +992,13 @@ struct RomanToInteger13TestCase {
     string s;
     int expected;
     RomanToInteger13TestCase(string ss, int e) : s(move(ss)), expected(e) {}
+};
+
+struct IsSubsequence392TestCase {
+    string s, t;
+    bool expected;
+    IsSubsequence392TestCase(string ss, string tt, bool e)
+        : s(move(ss)), t(move(tt)), expected(e) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -4635,6 +4643,127 @@ public:
         }
     }
 
+    static void isSubsequence_392_tests() {
+        struct IsSubsequence392TestCase {
+            string s, t;
+            bool expected;
+            IsSubsequence392TestCase(string ss, string tt, bool e)
+                : s(move(ss)), t(move(tt)), expected(e) {}
+        };
+
+        vector<IsSubsequence392TestCase> tests = {
+            {"abc", "ahbgdc", true},
+            {"axc", "ahbgdc", false},
+            {"",    "ahbgdc", true},
+            {"a",   "",        false},
+            {"aaaaaa", "baaaacaa", true},
+            {"abc", "acb", false}
+        };
+
+        for (size_t i = 0; i < tests.size(); ++i) {
+            // (1) Two-pointer: no preprocessing
+            IsSubsequence_392 plain;
+            bool a = plain.isSubsequence_TwoPointer(tests[i].s, tests[i].t);
+
+            // (2) Preprocess pos-index once, then query
+            IsSubsequence_392 idxPos;
+            idxPos.preprocess_PosIndex(tests[i].t);
+            bool b = idxPos.isSubsequence_PosIndex(tests[i].s);
+
+            // (3) Preprocess next-position table once, then query
+            IsSubsequence_392 idxNext;
+            idxNext.preprocess_NextTable(tests[i].t);
+            bool c = idxNext.isSubsequence_NextTable(tests[i].s);
+
+            auto pr = [&](const char* tag, bool got) {
+                cout << "Is Subsequence 392 Test " << (i + 1) << " [" << tag << "]: "
+                    << ((got == tests[i].expected) ? "PASS" : "FAIL")
+                    << " (s=\"" << tests[i].s << "\", t=\"" << tests[i].t
+                    << "\", Expected: " << (tests[i].expected ? "true" : "false")
+                    << ", Got: " << (got ? "true" : "false") << ")\n";
+            };
+            pr("two-pointer", a);
+            pr("pos-index",   b);
+            pr("next-table",  c);
+        }
+
+        struct IsSubsequence392FollowUpCase {
+            string t;
+            vector<pair<string,bool>> queries;
+            IsSubsequence392FollowUpCase(string tt, vector<pair<string,bool>> qs)
+                : t(move(tt)), queries(move(qs)) {}
+        };
+
+        vector<IsSubsequence392FollowUpCase> futests = {
+            {"ahbgdc", { {"abc", true}, {"axc", false}, {"agc", true}, {"", true}, {"aaaa", false} }},
+            {"leetcode", { {"leet", true}, {"code", true}, {"leot", false}, {"leetcode", true} }}
+        };
+
+        for (size_t b = 0; b < futests.size(); ++b) {
+            IsSubsequence_392 idxPos, idxNext;
+            idxPos.preprocess_PosIndex(futests[b].t);
+            idxNext.preprocess_NextTable(futests[b].t);
+
+            for (size_t qi = 0; qi < futests[b].queries.size(); ++qi) {
+                const auto& [qs, expected] = futests[b].queries[qi];
+                bool a = IsSubsequence_392().isSubsequence_TwoPointer(qs, futests[b].t);
+                bool p = idxPos.isSubsequence_PosIndex(qs);
+                bool n = idxNext.isSubsequence_NextTable(qs);
+
+                auto pr = [&](const char* tag, bool got) {
+                    cout << "Is Subsequence 392 Follow-up Block " << (b + 1)
+                        << " Query " << (qi + 1) << " [" << tag << "]: "
+                        << ((got == expected) ? "PASS" : "FAIL")
+                        << " (s=\"" << qs << "\", t=\"" << futests[b].t
+                        << "\", Expected: " << (expected ? "true" : "false")
+                        << ", Got: " << (got ? "true" : "false") << ")\n";
+                };
+                pr("two-pointer", a);
+                pr("pos-index",   p);
+                pr("next-table",  n);
+            }
+        }
+    }
+
+    // Big test focusing on next-position DP (also cross-check pos-index)
+    static void isSubsequence_392_nextpos_tests() {
+        string t;
+        t.reserve(10000);
+        for (int i = 0; i < 10000; ++i) t.push_back(char('a' + (i % 26)));
+
+        IsSubsequence_392 idxNext, idxPos;
+        idxNext.preprocess_NextTable(t);
+        idxPos.preprocess_PosIndex(t);
+
+        struct Q { string s; bool expected; };
+        vector<Q> qs;
+        {
+            string s;
+            s.reserve(26 * 100);
+            for (int rep = 0; rep < 100; ++rep)
+                for (char c = 'a'; c <= 'z'; ++c) s.push_back(c);
+            qs.push_back({move(s), true});
+        }
+        qs.push_back({string(385, 'z'), false});
+        qs.push_back({"leetcode", true});
+        qs.push_back({"zzzay", true});
+        qs.push_back({"", true});
+
+        for (size_t i = 0; i < qs.size(); ++i) {
+            bool gotN = idxNext.isSubsequence_NextTable(qs[i].s);
+            bool gotP = idxPos .isSubsequence_PosIndex  (qs[i].s);
+            bool pass = (gotN == qs[i].expected) && (gotP == qs[i].expected);
+
+            cout << "Is Subsequence 392 (nextPos) Big Test " << (i + 1) << ": "
+                << (pass ? "PASS" : "FAIL")
+                << " (|s|=" << qs[i].s.size()
+                << ", Expected: " << (qs[i].expected ? "true" : "false")
+                << ", Got(next)=" << (gotN ? "true" : "false")
+                << ", Got(pos)="  << (gotP ? "true" : "false")
+                << ")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4854,6 +4983,10 @@ public:
         mergeStringsAlternately_1768_tests();
         cout << "Roman to Integer_13 tests:\n";
         romanToInteger_13_tests();
+        cout << "Is Subsequence_392 tests:\n";
+        isSubsequence_392_tests();
+        cout << "Is Subsequence_392 (next-position table) tests:\n";
+        isSubsequence_392_nextpos_tests();
     }
 };
 
