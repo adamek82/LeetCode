@@ -52,7 +52,6 @@ bool IsSubsequence_392::isSubsequence_PosIndex(const string& s) const {
 bool IsSubsequence_392::isSubsequence_NextTable(const string& s) const {
     assert(hasNextTable_ && "Call preprocess_NextTable(t) before using this method.");
     int i = 0;                              // search start in t_
-    const int n = (int)nextPos_.size() - 1; // original |t_|
     for (char c : s) {
         int nxt = nextPos_[i][col(c)];      // row 'n' exists and is all -1
         if (nxt == -1) return false;
