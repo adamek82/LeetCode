@@ -117,6 +117,7 @@
 #include "MergeStringsAlternately_1768.h"
 #include "RomanToInteger_13.h"
 #include "IsSubsequence_392.h"
+#include "LongestCommonPrefix_14.h"
 
 using namespace std;
 
@@ -1006,6 +1007,13 @@ struct IsSubsequence392FollowUpCase {
     vector<pair<string,bool>> queries;
     IsSubsequence392FollowUpCase(string tt, vector<pair<string,bool>> qs)
         : t(move(tt)), queries(move(qs)) {}
+};
+
+struct LongestCommonPrefix14TestCase {
+    vector<string> strs;
+    string expected;
+    LongestCommonPrefix14TestCase(vector<string> s, string e)
+        : strs(move(s)), expected(move(e)) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -4758,6 +4766,42 @@ public:
         }
     }
 
+    static void longestCommonPrefix_14_tests() {
+        vector<LongestCommonPrefix14TestCase> tcs = {
+            // Provided examples
+            LongestCommonPrefix14TestCase({"flower","flow","flight"}, "fl"),
+            LongestCommonPrefix14TestCase({"dog","racecar","car"}, ""),
+
+            // Edge cases / extras
+            LongestCommonPrefix14TestCase({""}, ""),
+            LongestCommonPrefix14TestCase({"a"}, "a"),
+            LongestCommonPrefix14TestCase({"", "b"}, ""),
+            LongestCommonPrefix14TestCase({"interspecies","interstellar","interstate"}, "inters"),
+            LongestCommonPrefix14TestCase({"throne","throne"}, "throne"),
+            LongestCommonPrefix14TestCase({"throne","throne","throne"}, "throne"),
+            LongestCommonPrefix14TestCase({"cir","car"}, "c"),
+            LongestCommonPrefix14TestCase({"reflower","flow","flight"}, ""),
+            LongestCommonPrefix14TestCase({"aa","a"}, "a"),
+            LongestCommonPrefix14TestCase({"leetcode","leet","le","l"}, "l")
+        };
+
+        LongestCommonPrefix_14 sol;
+        for (size_t i = 0; i < tcs.size(); ++i) {
+            string got = sol.longestCommonPrefix_Linear(tcs[i].strs);
+
+            // Cross-check against the sort variant
+            string got2 = sol.longestCommonPrefix_Sort(tcs[i].strs);
+            if (got != got2) {
+                cout << "[WARN] Sort-variant mismatch on case " << (i+1)
+                     << "  primary='" << got << "' sort='" << got2 << "'\n";
+            }
+
+            cout << "LCP14 Test " << (i + 1) << ": res = "
+                << (got == tcs[i].expected ? "PASS" : "FAIL")
+                << " (Expected: \"" << tcs[i].expected << "\", Got: \"" << got << "\")\n";
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4981,6 +5025,8 @@ public:
         isSubsequence_392_tests();
         cout << "Is Subsequence_392 (next-position table) tests:\n";
         isSubsequence_392_nextpos_tests();
+        cout << "Longest Common Prefix 14 tests:\n";
+        longestCommonPrefix_14_tests();
     }
 };
 
