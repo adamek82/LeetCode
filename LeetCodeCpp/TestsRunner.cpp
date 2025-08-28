@@ -1,3 +1,4 @@
+#include <climits>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -118,6 +119,7 @@
 #include "RomanToInteger_13.h"
 #include "IsSubsequence_392.h"
 #include "LongestCommonPrefix_14.h"
+#include "SummaryRanges_228.h"
 
 using namespace std;
 
@@ -1014,6 +1016,13 @@ struct LongestCommonPrefix14TestCase {
     string expected;
     LongestCommonPrefix14TestCase(vector<string> s, string e)
         : strs(move(s)), expected(move(e)) {}
+};
+
+struct SummaryRanges228TestCase {
+    vector<int> nums;
+    vector<string> expected;
+    SummaryRanges228TestCase(vector<int> n, vector<string> e)
+        : nums(move(n)), expected(move(e)) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -4802,6 +4811,43 @@ public:
         }
     }
 
+    static void summaryRanges_228_tests() {
+        vector<SummaryRanges228TestCase> tests = {
+            // From the statement
+            {{0,1,2,4,5,7},                  {"0->2","4->5","7"}},
+            {{0,2,3,4,6,8,9},                {"0","2->4","6","8->9"}},
+            // Additional / edge-ish
+            {{},                              {}},
+            {{5},                             {"5"}},
+            {{-3,-2,-1,0,2},                 {"-3->0","2"}},
+            {{INT_MAX-1, INT_MAX},           {to_string(INT_MAX-1) + "->" + to_string(INT_MAX)}},
+            {{INT_MIN, INT_MIN+1, INT_MIN+3},{to_string(INT_MIN) + "->" + to_string(INT_MIN+1), to_string(INT_MIN+3)}},
+            {{1,3,5},                         {"1","3","5"}}
+        };
+
+        SummaryRanges_228 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto in  = tests[i].nums;              // method takes non-const ref
+            auto got = sol.summaryRanges(in);
+            bool pass = (got == tests[i].expected);
+            cout << "Summary Ranges 228 Test " << (i + 1) << ": "
+                << (pass ? "PASS" : "FAIL") << '\n';
+            if (!pass) {
+                cout << "  Expected: [";
+                for (size_t j=0;j<tests[i].expected.size();++j){
+                    cout << '"' << tests[i].expected[j] << '"'
+                        << (j+1<tests[i].expected.size() ? ", " : "");
+                }
+                cout << "]  Got: [";
+                for (size_t j=0;j<got.size();++j){
+                    cout << '"' << got[j] << '"'
+                        << (j+1<got.size() ? ", " : "");
+                }
+                cout << "]\n";
+            }
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -5027,6 +5073,8 @@ public:
         isSubsequence_392_nextpos_tests();
         cout << "Longest Common Prefix 14 tests:\n";
         longestCommonPrefix_14_tests();
+        cout << "Running Summary Ranges_228 tests:\n";
+        summaryRanges_228_tests();
     }
 };
 
