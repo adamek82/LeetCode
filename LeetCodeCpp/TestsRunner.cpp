@@ -120,6 +120,7 @@
 #include "IsSubsequence_392.h"
 #include "LongestCommonPrefix_14.h"
 #include "SummaryRanges_228.h"
+#include "RemoveDuplicates_26.h"
 
 using namespace std;
 
@@ -1022,6 +1023,13 @@ struct SummaryRanges228TestCase {
     vector<int> nums;
     vector<string> expected;
     SummaryRanges228TestCase(vector<int> n, vector<string> e)
+        : nums(move(n)), expected(move(e)) {}
+};
+
+struct RemoveDuplicates26TestCase {
+    vector<int> nums;
+    vector<int> expected; // expected first k unique values
+    RemoveDuplicates26TestCase(vector<int> n, vector<int> e)
         : nums(move(n)), expected(move(e)) {}
 };
 
@@ -4848,6 +4856,46 @@ public:
         }
     }
 
+    static void removeDuplicates_26_tests() {
+        vector<RemoveDuplicates26TestCase> tests = {
+            {{1,1,2},                             {1,2}},
+            {{0,0,1,1,1,2,2,3,3,4},               {0,1,2,3,4}},
+            {{42},                                {42}},
+            {{7,7,7},                             {7}},
+            {{-1,0,1},                            {-1,0,1}},
+            {{-3,-3,-2,-2,-2,-1,-1,0,0,0,1,1,2},  {-3,-2,-1,0,1,2}}
+        };
+
+        RemoveDuplicates_26 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto arr = tests[i].nums; // copy — function mutates in place
+            int k = sol.removeDuplicates(arr);
+
+            bool pass = (k == (int)tests[i].expected.size());
+            if (pass) {
+                for (int j = 0; j < k; ++j) {
+                    if (arr[j] != tests[i].expected[j]) {
+                        pass = false; break;
+                    }
+                }
+            }
+
+            cout << "Remove Duplicates 26 Test " << (i + 1) << ": "
+                << (pass ? "PASS" : "FAIL") << '\n';
+            if (!pass) {
+                cout << "  Expected k=" << tests[i].expected.size() << ", prefix=[";
+                for (size_t j = 0; j < tests[i].expected.size(); ++j) {
+                    cout << tests[i].expected[j] << (j + 1 < tests[i].expected.size() ? ", " : "");
+                }
+                cout << "]  Got k=" << k << ", prefix=[";
+                for (int j = 0; j < k; ++j) {
+                    cout << arr[j] << (j + 1 < k ? ", " : "");
+                }
+                cout << "]\n";
+            }
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -5075,6 +5123,8 @@ public:
         longestCommonPrefix_14_tests();
         cout << "Running Summary Ranges_228 tests:\n";
         summaryRanges_228_tests();
+        cout << "Remove Duplicates 26 tests:\n";
+        removeDuplicates_26_tests();
     }
 };
 
