@@ -121,6 +121,7 @@
 #include "LongestCommonPrefix_14.h"
 #include "SummaryRanges_228.h"
 #include "RemoveDuplicates_26.h"
+#include "JumpGameII_45.h"
 
 using namespace std;
 
@@ -1031,6 +1032,13 @@ struct RemoveDuplicates26TestCase {
     vector<int> expected; // expected first k unique values
     RemoveDuplicates26TestCase(vector<int> n, vector<int> e)
         : nums(move(n)), expected(move(e)) {}
+};
+
+struct JumpGameII45TestCase {
+    vector<int> nums;
+    int expected;
+    JumpGameII45TestCase(vector<int> n, int e)
+        : nums(move(n)), expected(e) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -4896,6 +4904,34 @@ public:
         }
     }
 
+    static void jumpGameII_45_tests() {
+        vector<JumpGameII45TestCase> tests = {
+            {{2,3,1,1,4}, 2},            // example 1
+            {{2,3,0,1,4}, 2},            // example 2
+            {{0}, 0},                    // single element
+            {{1}, 0},                    // single element
+            {{1,1,1,1}, 3},              // need to hop each step
+            {{5,0,0,0,0}, 1},            // one jump covers all
+            {{1,4,1,1,1,1}, 2},          // to index 1, then to end
+            {{3,2,1}, 1},                // first jump reaches the end
+            {{9,8,7,6,5,4,3,2,1,0}, 1}   // giant first jump
+        };
+
+        JumpGameII_45 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto arr = tests[i].nums;  // method takes non-const ref by signature style
+            int got = sol.jump(arr);
+            bool pass = (got == tests[i].expected);
+
+            cout << "Jump Game II 45 Test " << (i + 1) << ": "
+                << (pass ? "PASS" : "FAIL") << '\n';
+            if (!pass) {
+                cout << "  Expected: " << tests[i].expected
+                    << "  Got: " << got << '\n';
+            }
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -5125,6 +5161,8 @@ public:
         summaryRanges_228_tests();
         cout << "Remove Duplicates 26 tests:\n";
         removeDuplicates_26_tests();
+        cout << "Jump Game II 45 tests:\n";
+        jumpGameII_45_tests();
     }
 };
 
