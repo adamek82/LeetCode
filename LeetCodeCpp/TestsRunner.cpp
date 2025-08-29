@@ -5202,7 +5202,6 @@ public:
         removeDuplicates_26_tests();
         cout << "Jump Game II 45 tests:\n";
         jumpGameII_45_tests();
-        jumpGameII_45_tests();
         cout << "Jump Game 55 tests:\n";
     }
 };
