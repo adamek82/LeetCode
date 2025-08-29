@@ -122,6 +122,7 @@
 #include "SummaryRanges_228.h"
 #include "RemoveDuplicates_26.h"
 #include "JumpGameII_45.h"
+#include "JumpGame_55.h"
 
 using namespace std;
 
@@ -1038,6 +1039,13 @@ struct JumpGameII45TestCase {
     vector<int> nums;
     int expected;
     JumpGameII45TestCase(vector<int> n, int e)
+        : nums(move(n)), expected(e) {}
+};
+
+struct JumpGame55TestCase {
+    vector<int> nums;
+    bool expected;
+    JumpGame55TestCase(vector<int> n, bool e)
         : nums(move(n)), expected(e) {}
 };
 
@@ -4932,6 +4940,37 @@ public:
         }
     }
 
+    static void jumpGame_55_tests() {
+        vector<JumpGame55TestCase> tests = {
+            {{2,3,1,1,4}, true},     // example 1
+            {{3,2,1,0,4}, false},    // example 2
+            {{0}, true},             // single element is trivially reachable
+            {{1}, true},
+            {{1,0,1}, false},        // stuck at index 1
+            {{2,0}, true},           // one jump to end
+            {{2,0,0}, true},         // reach=2 at i=0 covers the end
+            {{1,1,0,1}, false},      // stuck at index 2
+            {{5,0,0,0,0}, true},     // first jump covers all
+            {{2,5,0,0}, true},       // reach grows via index 1
+            {{2,0,2,0,1}, true},     // detours but reachable
+            {{2,0,1,0,0}, false}     // reach stalls before the end
+        };
+
+        JumpGame_55 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto arr = tests[i].nums;  // method takes non-const ref by project style
+            bool got = sol.canJump(arr);
+            bool pass = (got == tests[i].expected);
+
+            cout << "Jump Game 55 Test " << (i + 1) << ": "
+                << (pass ? "PASS" : "FAIL") << '\n';
+            if (!pass) {
+                cout << "  Expected: " << (tests[i].expected ? "true" : "false")
+                    << "  Got: " << (got ? "true" : "false") << '\n';
+            }
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -5163,6 +5202,8 @@ public:
         removeDuplicates_26_tests();
         cout << "Jump Game II 45 tests:\n";
         jumpGameII_45_tests();
+        jumpGameII_45_tests();
+        cout << "Jump Game 55 tests:\n";
     }
 };
 
