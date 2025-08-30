@@ -123,6 +123,7 @@
 #include "RemoveDuplicates_26.h"
 #include "JumpGameII_45.h"
 #include "JumpGame_55.h"
+#include "Subsets_78.h"
 
 using namespace std;
 
@@ -1047,6 +1048,13 @@ struct JumpGame55TestCase {
     bool expected;
     JumpGame55TestCase(vector<int> n, bool e)
         : nums(move(n)), expected(e) {}
+};
+
+struct Subsets78TestCase {
+    vector<int> nums;
+    vector<vector<int>> expected; // expected in mask-order to match implementation order
+    Subsets78TestCase(vector<int> n, vector<vector<int>> e)
+        : nums(move(n)), expected(move(e)) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -4971,6 +4979,49 @@ public:
         }
     }
 
+    static void subsets_78_tests() {
+        // Helper to pretty-print vector<vector<int>>
+        auto printVV = [](const vector<vector<int>>& vv) {
+            cout << '[';
+            for (size_t i = 0; i < vv.size(); ++i) {
+                cout << '[';
+                for (size_t j = 0; j < vv[i].size(); ++j) {
+                    cout << vv[i][j] << (j + 1 < vv[i].size() ? ',' : '\0');
+                }
+                cout << ']';
+                if (i + 1 < vv.size()) cout << ',';
+            }
+            cout << ']';
+        };
+
+        vector<Subsets78TestCase> tests = {
+            // Example 1 (mask order)
+            {{1,2,3}, { {}, {1}, {2}, {1,2}, {3}, {1,3}, {2,3}, {1,2,3} }},
+            // Example 2
+            {{0},     { {}, {0} }},
+            // More
+            {{5,6},   { {}, {5}, {6}, {5,6} }},
+            {{-1,2},  { {}, {-1}, {2}, {-1,2} }},
+        };
+
+        Subsets_78 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto in = tests[i].nums;         // signature takes non-const ref
+            auto got = sol.subsets(in);
+
+            bool pass = (got == tests[i].expected);
+            cout << "Subsets 78 Test " << (i + 1) << ": "
+                << (pass ? "PASS" : "FAIL") << '\n';
+            if (!pass) {
+                cout << "  Expected: ";
+                printVV(tests[i].expected);
+                cout << "  Got: ";
+                printVV(got);
+                cout << '\n';
+            }
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -5203,6 +5254,9 @@ public:
         cout << "Jump Game II 45 tests:\n";
         jumpGameII_45_tests();
         cout << "Jump Game 55 tests:\n";
+        jumpGame_55_tests();
+        cout << "Subsets 78 tests:\n";
+        subsets_78_tests();
     }
 };
 
