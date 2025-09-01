@@ -4980,7 +4980,7 @@ public:
     }
 
     static void subsets_78_tests() {
-        // Helper to pretty-print vector<vector<int>>
+        // Pretty-print helper for vector<vector<int>>
         auto printVV = [](const vector<vector<int>>& vv) {
             cout << '[';
             for (size_t i = 0; i < vv.size(); ++i) {
@@ -4994,30 +4994,64 @@ public:
             cout << ']';
         };
 
+        // Order-insensitive normalizer: sort each subset ascending,
+        // then sort all subsets by (size, lexicographic).
+        auto normalizeVV = [](vector<vector<int>> vv) {
+            for (auto& v : vv) sort(v.begin(), v.end());
+            sort(vv.begin(), vv.end(), [](const vector<int>& a, const vector<int>& b){
+                if (a.size() != b.size()) return a.size() < b.size();
+                return lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
+            });
+            return vv;
+        };
+
         vector<Subsets78TestCase> tests = {
-            // Example 1 (mask order)
+            // Example 1 (mask order for the bitmask method)
             {{1,2,3}, { {}, {1}, {2}, {1,2}, {3}, {1,3}, {2,3}, {1,2,3} }},
             // Example 2
             {{0},     { {}, {0} }},
-            // More
+            // Additional
             {{5,6},   { {}, {5}, {6}, {5,6} }},
             {{-1,2},  { {}, {-1}, {2}, {-1,2} }},
         };
 
         Subsets_78 sol;
-        for (size_t i = 0; i < tests.size(); ++i) {
-            auto in = tests[i].nums;         // signature takes non-const ref
-            auto got = sol.subsets(in);
+        for (size_t idx = 0; idx < tests.size(); ++idx) {
+            // Bitmask: compare exact mask order
+            {
+                auto in = tests[idx].nums;
+                auto got = sol.subsets_bitmask(in);
+                bool pass = (got == tests[idx].expected);
 
-            bool pass = (got == tests[i].expected);
-            cout << "Subsets 78 Test " << (i + 1) << ": "
-                << (pass ? "PASS" : "FAIL") << '\n';
-            if (!pass) {
-                cout << "  Expected: ";
-                printVV(tests[i].expected);
-                cout << "  Got: ";
-                printVV(got);
-                cout << '\n';
+                cout << "Subsets 78 (bitmask) Test " << (idx + 1) << ": "
+                    << (pass ? "PASS" : "FAIL") << '\n';
+                if (!pass) {
+                    cout << "  Expected: ";
+                    printVV(tests[idx].expected);
+                    cout << "  Got: ";
+                    printVV(got);
+                    cout << '\n';
+                }
+            }
+
+            // Recursive: compare order-insensitively
+            {
+                auto in = tests[idx].nums;
+                auto got = sol.subsets_recursive(in);
+
+                auto normExpected = normalizeVV(tests[idx].expected);
+                auto normGot      = normalizeVV(got);
+                bool pass = (normGot == normExpected);
+
+                cout << "Subsets 78 (recursive) Test " << (idx + 1) << ": "
+                    << (pass ? "PASS" : "FAIL") << '\n';
+                if (!pass) {
+                    cout << "  Expected: ";
+                    printVV(normExpected);
+                    cout << "  Got: ";
+                    printVV(normGot);
+                    cout << '\n';
+                }
             }
         }
     }

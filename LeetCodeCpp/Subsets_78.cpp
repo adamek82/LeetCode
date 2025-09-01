@@ -2,8 +2,9 @@
 
 /*
  * Bitmask power set: for each mask, collect elements with set bits.
+ * Complexity: O(n * 2^n) time, O(n) aux (excluding output).
  */
-vector<vector<int>> Subsets_78::subsets(vector<int>& nums) {
+vector<vector<int>> Subsets_78::subsets_bitmask(vector<int>& nums) {
     const int n = (int)nums.size();
     const int total = 1 << n;
 
@@ -18,5 +19,32 @@ vector<vector<int>> Subsets_78::subsets(vector<int>& nums) {
         }
         out.push_back(move(cur));
     }
+    return out;
+}
+
+/*
+ * Recursive backtracking (DFS include/exclude via forward 'start' index).
+ * Emits the current partial subset on entry, then tries adding each nums[i]
+ * for i in [start..n-1], recursing with start = i + 1 and backtracking.
+ */
+static void subsetsDfs(const vector<int>& nums,
+                       int start,
+                       vector<int>& partial_sol,
+                       vector<vector<int>>& out)
+{
+    out.push_back(partial_sol);         // record the current subset
+
+    for (int i = start; i < (int)nums.size(); ++i) {
+        partial_sol.push_back(nums[i]); // choose
+        subsetsDfs(nums, i + 1, partial_sol, out);
+        partial_sol.pop_back();         // backtrack
+    }
+}
+
+vector<vector<int>> Subsets_78::subsets_recursive(vector<int>& nums) {
+    vector<vector<int>> out;
+    vector<int> partial_sol;
+    partial_sol.reserve(nums.size());
+    subsetsDfs(nums, 0, partial_sol, out);
     return out;
 }
