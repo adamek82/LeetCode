@@ -125,6 +125,7 @@
 #include "JumpGame_55.h"
 #include "Subsets_78.h"
 #include "Permutations_46.h"
+#include "Combinations_77.h"
 
 using namespace std;
 
@@ -1063,6 +1064,14 @@ struct Permutations46TestCase {
     vector<vector<int>> expected;  // expected permutations, order-insensitive
     Permutations46TestCase(vector<int> n, vector<vector<int>> e)
         : nums(move(n)), expected(move(e)) {}
+};
+
+struct Combinations77TestCase {
+    int n;
+    int k;
+    vector<vector<int>> expected;  // combinations; order-insensitive
+    Combinations77TestCase(int n_, int k_, vector<vector<int>> e)
+        : n(n_), k(k_), expected(move(e)) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -5120,6 +5129,61 @@ public:
         }
     }
 
+    static void combinations_77_tests() {
+        // Pretty-print helper for vector<vector<int>>
+        auto printVV = [](const vector<vector<int>>& vv) {
+            cout << '[';
+            for (size_t i = 0; i < vv.size(); ++i) {
+                cout << '[';
+                for (size_t j = 0; j < vv[i].size(); ++j) {
+                    cout << vv[i][j] << (j + 1 < vv[i].size() ? ',' : '\0');
+                }
+                cout << ']';
+                if (i + 1 < vv.size()) cout << ',';
+            }
+            cout << ']';
+        };
+
+        // Order-insensitive normalizer: each combo already increasing;
+        // sort list of combos lexicographically (size is always k).
+        auto normalizeVV = [](vector<vector<int>> vv) {
+            sort(vv.begin(), vv.end(), [](const vector<int>& a, const vector<int>& b){
+                return lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
+            });
+            return vv;
+        };
+
+        vector<Combinations77TestCase> tests = {
+            // Example 1
+            {4, 2, {{1,2},{1,3},{1,4},{2,3},{2,4},{3,4}}},
+            // Example 2
+            {1, 1, {{1}}},
+            // Additional sanity
+            {3, 1, {{1},{2},{3}}},
+            {3, 3, {{1,2,3}}},
+            {5, 3, {{1,2,3},{1,2,4},{1,2,5},{1,3,4},{1,3,5},{1,4,5},{2,3,4},{2,3,5},{2,4,5},{3,4,5}}}
+        };
+
+        Combinations_77 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto got = sol.combine(tests[i].n, tests[i].k);
+
+            auto normExpected = normalizeVV(tests[i].expected);
+            auto normGot      = normalizeVV(got);
+            bool pass = (normGot == normExpected);
+
+            cout << "Combinations 77 Test " << (i + 1) << ": "
+                << (pass ? "PASS" : "FAIL") << '\n';
+            if (!pass) {
+                cout << "  Expected: ";
+                printVV(normExpected);
+                cout << "  Got: ";
+                printVV(normGot);
+                cout << '\n';
+            }
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -5357,6 +5421,8 @@ public:
         subsets_78_tests();
         cout << "Permutations 46 tests:\n";
         permutations_46_tests();
+        cout << "Combinations 77 tests:\n";
+        combinations_77_tests();
     }
 };
 
