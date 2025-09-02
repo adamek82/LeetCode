@@ -4827,20 +4827,20 @@ public:
     static void longestCommonPrefix_14_tests() {
         vector<LongestCommonPrefix14TestCase> tcs = {
             // Provided examples
-            LongestCommonPrefix14TestCase({"flower","flow","flight"}, "fl"),
-            LongestCommonPrefix14TestCase({"dog","racecar","car"}, ""),
+            {{"flower","flow","flight"}, "fl"},
+            {{"dog","racecar","car"}, ""},
 
             // Edge cases / extras
-            LongestCommonPrefix14TestCase({""}, ""),
-            LongestCommonPrefix14TestCase({"a"}, "a"),
-            LongestCommonPrefix14TestCase({"", "b"}, ""),
-            LongestCommonPrefix14TestCase({"interspecies","interstellar","interstate"}, "inters"),
-            LongestCommonPrefix14TestCase({"throne","throne"}, "throne"),
-            LongestCommonPrefix14TestCase({"throne","throne","throne"}, "throne"),
-            LongestCommonPrefix14TestCase({"cir","car"}, "c"),
-            LongestCommonPrefix14TestCase({"reflower","flow","flight"}, ""),
-            LongestCommonPrefix14TestCase({"aa","a"}, "a"),
-            LongestCommonPrefix14TestCase({"leetcode","leet","le","l"}, "l")
+            {{""}, ""},
+            {{"a"}, "a"},
+            {{"", "b"}, ""},
+            {{"interspecies","interstellar","interstate"}, "inters"},
+            {{"throne","throne"}, "throne"},
+            {{"throne","throne","throne"}, "throne"},
+            {{"cir","car"}, "c"},
+            {{"reflower","flow","flight"}, ""},
+            {{"aa","a"}, "a"},
+            {{"leetcode","leet","le","l"}, "l"}
         };
 
         LongestCommonPrefix_14 sol;
