@@ -124,6 +124,7 @@
 #include "JumpGameII_45.h"
 #include "JumpGame_55.h"
 #include "Subsets_78.h"
+#include "Permutations_46.h"
 
 using namespace std;
 
@@ -1054,6 +1055,13 @@ struct Subsets78TestCase {
     vector<int> nums;
     vector<vector<int>> expected; // expected in mask-order to match implementation order
     Subsets78TestCase(vector<int> n, vector<vector<int>> e)
+        : nums(move(n)), expected(move(e)) {}
+};
+
+struct Permutations46TestCase {
+    vector<int> nums;
+    vector<vector<int>> expected;  // expected permutations, order-insensitive
+    Permutations46TestCase(vector<int> n, vector<vector<int>> e)
         : nums(move(n)), expected(move(e)) {}
 };
 
@@ -5056,6 +5064,62 @@ public:
         }
     }
 
+    static void permutations_46_tests() {
+        // Pretty-print helper for vector<vector<int>>
+        auto printVV = [](const vector<vector<int>>& vv) {
+            cout << '[';
+            for (size_t i = 0; i < vv.size(); ++i) {
+                cout << '[';
+                for (size_t j = 0; j < vv[i].size(); ++j) {
+                    cout << vv[i][j] << (j + 1 < vv[i].size() ? ',' : '\0');
+                }
+                cout << ']';
+                if (i + 1 < vv.size()) cout << ',';
+            }
+            cout << ']';
+        };
+
+        // Order-insensitive normalizer: sort the list of permutations
+        // lexicographically; inner vectors keep their element order (permutation).
+        auto normalizeVV = [](vector<vector<int>> vv) {
+            sort(vv.begin(), vv.end(), [](const vector<int>& a, const vector<int>& b){
+                return lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
+            });
+            return vv;
+        };
+
+        vector<Permutations46TestCase> tests = {
+            // Example 1
+            {{1,2,3}, {{1,2,3},{1,3,2},{2,1,3},{2,3,1},{3,1,2},{3,2,1}}},
+            // Example 2
+            {{0,1},   {{0,1},{1,0}}},
+            // Example 3
+            {{1},     {{1}}},
+            // Additional
+            {{-1,2},  {{-1,2},{2,-1}}},
+        };
+
+        Permutations_46 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto in  = tests[i].nums;  // method takes non-const ref by project style
+            auto got = sol.permute(in);
+
+            auto normExpected = normalizeVV(tests[i].expected);
+            auto normGot      = normalizeVV(got);
+            bool pass = (normGot == normExpected);
+
+            cout << "Permutations 46 Test " << (i + 1) << ": "
+                << (pass ? "PASS" : "FAIL") << '\n';
+            if (!pass) {
+                cout << "  Expected: ";
+                printVV(normExpected);
+                cout << "  Got: ";
+                printVV(normGot);
+                cout << '\n';
+            }
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -5291,6 +5355,8 @@ public:
         jumpGame_55_tests();
         cout << "Subsets 78 tests:\n";
         subsets_78_tests();
+        cout << "Permutations 46 tests:\n";
+        permutations_46_tests();
     }
 };
 
