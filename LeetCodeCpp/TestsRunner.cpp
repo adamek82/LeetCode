@@ -126,6 +126,7 @@
 #include "Subsets_78.h"
 #include "Permutations_46.h"
 #include "Combinations_77.h"
+#include "LetterCombinations_17.h"
 
 using namespace std;
 
@@ -1072,6 +1073,13 @@ struct Combinations77TestCase {
     vector<vector<int>> expected;  // combinations; order-insensitive
     Combinations77TestCase(int n_, int k_, vector<vector<int>> e)
         : n(n_), k(k_), expected(move(e)) {}
+};
+
+struct LetterCombinations17TestCase {
+    string digits;
+    vector<string> expected; // order-insensitive
+    LetterCombinations17TestCase(string d, vector<string> e)
+        : digits(move(d)), expected(move(e)) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -5184,6 +5192,60 @@ public:
         }
     }
 
+    static void letterCombinations_17_tests() {
+        // Pretty-print helper for vector<string>
+        auto printVS = [](const vector<string>& vs) {
+            cout << '[';
+            for (size_t i = 0; i < vs.size(); ++i) {
+                cout << '"' << vs[i] << '"';
+                if (i + 1 < vs.size()) cout << ',';
+            }
+            cout << ']';
+        };
+
+        // Order-insensitive normalization: sort lexicographically
+        auto normalize = [](vector<string> v) {
+            sort(v.begin(), v.end());
+            return v;
+        };
+
+        vector<LetterCombinations17TestCase> tests = {
+            // Example 1
+            {"23", {"ad","ae","af","bd","be","bf","cd","ce","cf"}},
+            // Example 2
+            {"",   {}},
+            // Example 3
+            {"2",  {"a","b","c"}},
+            // Additional
+            {"9",  {"w","x","y","z"}},
+            {"79", {
+                "pw","px","py","pz",
+                "qw","qx","qy","qz",
+                "rw","rx","ry","rz",
+                "sw","sx","sy","sz"
+            }}
+        };
+
+        LetterCombinations_17 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto got = sol.letterCombinations(tests[i].digits);
+
+            auto normExpected = normalize(tests[i].expected);
+            auto normGot      = normalize(got);
+            bool pass = (normGot == normExpected);
+
+            cout << "Letter Combinations 17 Test " << (i + 1) << ": "
+                << (pass ? "PASS" : "FAIL") << '\n';
+            if (!pass) {
+                cout << "  Expected: ";
+                printVS(normExpected);
+                cout << "  Got: ";
+                printVS(normGot);
+                cout << '\n';
+            }
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -5423,6 +5485,8 @@ public:
         permutations_46_tests();
         cout << "Combinations 77 tests:\n";
         combinations_77_tests();
+        cout << "Letter Combinations 17 tests:\n";
+        letterCombinations_17_tests();
     }
 };
 
