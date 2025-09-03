@@ -127,6 +127,7 @@
 #include "Permutations_46.h"
 #include "Combinations_77.h"
 #include "LetterCombinations_17.h"
+#include "CombinationSum_39.h"
 
 using namespace std;
 
@@ -1080,6 +1081,14 @@ struct LetterCombinations17TestCase {
     vector<string> expected; // order-insensitive
     LetterCombinations17TestCase(string d, vector<string> e)
         : digits(move(d)), expected(move(e)) {}
+};
+
+struct CombinationSum39TestCase {
+    vector<int> candidates;
+    int target;
+    vector<vector<int>> expected; // order-insensitive
+    CombinationSum39TestCase(vector<int> c, int t, vector<vector<int>> e)
+        : candidates(move(c)), target(t), expected(move(e)) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -5246,6 +5255,66 @@ public:
         }
     }
 
+    static void combinationSum_39_tests() {
+        // Pretty-print helper for vector<vector<int>>
+        auto printVV = [](const vector<vector<int>>& vv) {
+            cout << '[';
+            for (size_t i = 0; i < vv.size(); ++i) {
+                cout << '[';
+                for (size_t j = 0; j < vv[i].size(); ++j) {
+                    cout << vv[i][j] << (j + 1 < vv[i].size() ? ',' : '\0');
+                }
+                cout << ']';
+                if (i + 1 < vv.size()) cout << ',';
+            }
+            cout << ']';
+        };
+
+        // Order-insensitive normalizer:
+        // 1) Each combo sorted ascending (generation already yields non-decreasing).
+        // 2) Sort the list of combos lexicographically.
+        auto normalizeVV = [](vector<vector<int>> vv) {
+            for (auto& v : vv) sort(v.begin(), v.end());
+            sort(vv.begin(), vv.end(), [](const vector<int>& a, const vector<int>& b){
+                return lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
+            });
+            return vv;
+        };
+
+        vector<CombinationSum39TestCase> tests = {
+            // Example 1
+            {{2,3,6,7}, 7, {{2,2,3},{7}}},
+            // Example 2
+            {{2,3,5}, 8, {{2,2,2,2},{2,3,3},{3,5}}},
+            // Example 3
+            {{2}, 1, {}},
+            // Additional
+            {{2}, 2, {{2}}},
+            {{2,4,6}, 6, {{2,2,2},{2,4},{6}}},
+            {{8,7,4,3}, 11, {{3,4,4},{3,8},{7,4}}}
+        };
+
+        CombinationSum_39 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto cand = tests[i].candidates;
+            auto got  = sol.combinationSum(cand, tests[i].target);
+
+            auto normExpected = normalizeVV(tests[i].expected);
+            auto normGot      = normalizeVV(got);
+            bool pass = (normGot == normExpected);
+
+            cout << "Combination Sum 39 Test " << (i + 1) << ": "
+                << (pass ? "PASS" : "FAIL") << '\n';
+            if (!pass) {
+                cout << "  Expected: ";
+                printVV(normExpected);
+                cout << "  Got: ";
+                printVV(normGot);
+                cout << '\n';
+            }
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -5487,6 +5556,8 @@ public:
         combinations_77_tests();
         cout << "Letter Combinations 17 tests:\n";
         letterCombinations_17_tests();
+        cout << "Combination Sum 39 tests:\n";
+        combinationSum_39_tests();
     }
 };
 
