@@ -3751,12 +3751,12 @@ public:
 
     static void twoSum_1_tests() {
         vector<TwoSumCase> cases = {
-            TwoSumCase({2, 7, 11, 15},               9,  {0, 1}),
-            TwoSumCase({3, 2, 4},                    6,  {1, 2}),
-            TwoSumCase({3, 3},                       6,  {0, 1}),
+            {{2, 7, 11, 15},               9,  {0, 1}},
+            {{3, 2, 4},                    6,  {1, 2}},
+            {{3, 3},                       6,  {0, 1}},
             // Added tougher / edge scenarios
-            TwoSumCase({-10, -1, 0, 1, 2, 8},       -9,  {0, 3}),           // negative + positive mix
-            TwoSumCase({1000000000, -1000000000, 3, 4, 8}, 12,  {3, 4})     // 4 + 8
+            {{-10, -1, 0, 1, 2, 8},       -9,  {0, 3}},           // negative + positive mix
+            {{1000000000, -1000000000, 3, 4, 8}, 12,  {3, 4}}     // 4 + 8
         };
 
         TwoSum_1 solver;
@@ -3777,11 +3777,11 @@ public:
 
     static void mergeSortedArray_88_tests() {
         vector<MergeCase> cases = {
-            MergeCase({1,2,3,0,0,0}, 3, {2,5,6}, 3, {1,2,2,3,5,6}),
-            MergeCase({1},           1, {},       0, {1}),
-            MergeCase({0},           0, {1},      1, {1}),
-            MergeCase({2,0},         1, {1},      1, {1,2}),               // reversed order input
-            MergeCase({-3,-1,0,0,0}, 2, {-2,-2,4},3, {-3,-2,-2,-1,4})      // negatives & duplicates
+            {{1,2,3,0,0,0}, 3, {2,5,6}, 3, {1,2,2,3,5,6}},
+            {{1},           1, {},       0, {1}},
+            {{0},           0, {1},      1, {1}},
+            {{2,0},         1, {1},      1, {1,2}},               // reversed order input
+            {{-3,-1,0,0,0}, 2, {-2,-2,4},3, {-3,-2,-2,-1,4}}      // negatives & duplicates
         };
 
         MergeSortedArray_88 merger;
@@ -3798,11 +3798,11 @@ public:
 
     static void removeElement_27_tests() {
         vector<RemCase> cases = {
-            RemCase({3,2,2,3},           3, 2, {2,2}),           // example 1
-            RemCase({0,1,2,2,3,0,4,2},   2, 5, {0,0,1,3,4}),     // example 2
-            RemCase({},                  0, 0, {}),              // empty array
-            RemCase({1,1,1},             2, 3, {1,1,1}),         // value absent
-            RemCase({4,4,4},             4, 0, {})               // all removed
+            {{3,2,2,3},           3, 2, {2,2}},           // example 1
+            {{0,1,2,2,3,0,4,2},   2, 5, {0,0,1,3,4}},     // example 2
+            {{},                  0, 0, {}},              // empty array
+            {{1,1,1},             2, 3, {1,1,1}},         // value absent
+            {{4,4,4},             4, 0, {}}               // all removed
         };
 
         RemoveElement_27 remover;
@@ -3954,19 +3954,19 @@ public:
     static void kClosestPoints_973_tests() {
         vector<KClosestTestCase> cases = {
             // Two official examples
-            KClosestTestCase({{1,3}, {-2,2}}, 1, {{-2,2}}),
-            KClosestTestCase({{3,3}, {5,-1}, {-2,4}}, 2, {{3,3}, {-2,4}}),
+            {{{1,3}, {-2,2}}, 1, {{-2,2}}},
+            {{{3,3}, {5,-1}, {-2,4}}, 2, {{3,3}, {-2,4}}},
 
             // Three extra, trickier cases
             // 1) Many symmetrically placed points, ask for almost all
-            KClosestTestCase({{0,1}, {1,0}, {-1,0}, {0,-1}}, 3,
-                            {{0,1}, {1,0}, {-1,0}}),
+            {{{0,1}, {1,0}, {-1,0}, {0,-1}}, 3,
+                            {{0,1}, {1,0}, {-1,0}}},
             // 2) Points at extreme coordinates
-            KClosestTestCase({{10000,10000}, {-10000,-10000}, {5000,0}, {0,5000}}, 2,
-                            {{5000,0}, {0,5000}}),
+            {{{10000,10000}, {-10000,-10000}, {5000,0}, {0,5000}}, 2,
+                            {{5000,0}, {0,5000}}},
             // 3) Mixed positives and negatives, k near n
-            KClosestTestCase({{2,2}, {1,1}, {3,3}, {-2,-2}, {-1,-1}}, 4,
-                            {{-2,-2}, {-1,-1}, {1,1}, {2,2}})
+            {{{2,2}, {1,1}, {3,3}, {-2,-2}, {-1,-1}}, 4,
+                            {{-2,-2}, {-1,-1}, {1,1}, {2,2}}}
         };
 
         KClosestPointsToOrigin_973 solver;
@@ -4011,12 +4011,12 @@ public:
     static void busRoutes_815_tests() {
         vector<BusRoutesTestCase> cases = {
             // Official examples
-            BusRoutesTestCase({{1,2,7},{3,6,7}}, 1, 6, 2),
-            BusRoutesTestCase({{7,12},{4,5,15},{6},{15,19},{9,12,13}}, 15, 12, -1),
+            {{{1,2,7},{3,6,7}}, 1, 6, 2},
+            {{{7,12},{4,5,15},{6},{15,19},{9,12,13}}, 15, 12, -1},
             // Additional tougher cases
-            BusRoutesTestCase({{1,2,3,4,5},{5,6,7,8},{8,9,10,11},{11,12,13,1}}, 1, 13, 1),
-            BusRoutesTestCase({{1,2,3},{4,5,6}}, 5, 5, 0),
-            BusRoutesTestCase({{1,2,3},{3,4,5},{5,6,7},{7,8,9}}, 2, 8, 4)
+            {{{1,2,3,4,5},{5,6,7,8},{8,9,10,11},{11,12,13,1}}, 1, 13, 1},
+            {{{1,2,3},{4,5,6}}, 5, 5, 0},
+            {{{1,2,3},{3,4,5},{5,6,7},{7,8,9}}, 2, 8, 4}
         };
 
         BusRoutes_815 solver;
@@ -4032,25 +4032,35 @@ public:
     static void shortestPathBinaryMatrix_1091_tests() {
         vector<ShortestPathTestCase> testCases = {
             /* 3 examples from the problem statement */
-            ShortestPathTestCase({{0, 1},
-                                {1, 0}},                                   2),
-            ShortestPathTestCase({{0, 0, 0},
-                                {1, 1, 0},
-                                {1, 1, 0}},                                4),
-            ShortestPathTestCase({{1, 0, 0},
-                                {1, 1, 0},
-                                {1, 1, 0}},                               -1),
+            {
+             {{0, 1},
+              {1, 0}},
+             2},
+            {
+             {{0, 0, 0},
+              {1, 1, 0},
+              {1, 1, 0}},
+             4},
+            {
+             {{1, 0, 0},
+              {1, 1, 0},
+              {1, 1, 0}},
+             -1},
             /* 2 extra, larger cases */
-            ShortestPathTestCase({{0, 0, 0, 0, 0},
-                                {1, 1, 1, 1, 0},
-                                {0, 0, 0, 1, 0},
-                                {0, 1, 0, 1, 0},
-                                {0, 1, 0, 0, 0}},                          8),   // reachable
-            ShortestPathTestCase({{0, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 1},
-                                {1, 1, 1, 1, 0}},                         -1)    // unreachable
+            {
+              {{0, 0, 0, 0, 0},
+              {1, 1, 1, 1, 0},
+              {0, 0, 0, 1, 0},
+              {0, 1, 0, 1, 0},
+              {0, 1, 0, 0, 0}},
+             8}, // reachable
+            {
+             {{0, 1, 1, 1, 1},
+              {1, 1, 1, 1, 1},
+              {1, 1, 1, 1, 1},
+              {1, 1, 1, 1, 1},
+              {1, 1, 1, 1, 0}},
+             -1} // unreachable
         };
 
         ShortestPathInBinaryMatrix_1091 solver;
@@ -4069,9 +4079,9 @@ public:
     static void designGraphWithShortestPathCalculator_2642_tests() {
         using EdgeList = vector<vector<int>>;
 
-            vector<GraphTC> testCases = {
+        vector<GraphTC> testCases = {
             // Case 1 – official example
-            GraphTC(
+            {
                 {"Graph","shortestPath","shortestPath","addEdge","shortestPath"},
                 {
                     pair<int,EdgeList>{4, {{0,2,5},{0,1,2},{1,2,1},{3,0,3}}},
@@ -4081,9 +4091,9 @@ public:
                     pair<int,int>{0,3}
                 },
                 {nullopt, 6, -1, nullopt, 6}
-            ),
+            },
             // Case 2 – empty graph, then one edge
-            GraphTC(
+            {
                 {"Graph","shortestPath","addEdge","shortestPath"},
                 {
                     pair<int,EdgeList>{2, {}},
@@ -4092,9 +4102,9 @@ public:
                     pair<int,int>{0,1}
                 },
                 {nullopt, -1, nullopt, 10}
-            ),
+            },
             // Case 3 – cheaper path appears after addEdge
-            GraphTC(
+            {
                 {"Graph","shortestPath","addEdge","shortestPath"},
                 {
                     pair<int,EdgeList>{5, {{0,1,3},{1,2,4},{2,3,5},{3,4,6},{0,4,20}}},
@@ -4103,7 +4113,7 @@ public:
                     pair<int,int>{0,4}
                 },
                 {nullopt, 18, nullopt, 4}
-            )
+            }
         };
 
         for (size_t t = 0; t < testCases.size(); ++t) {
@@ -4138,29 +4148,33 @@ public:
     static void findSafestPathInGrid_2812_tests() {
         vector<SafestPathTestCase> testCases = {
             // three examples from the statement
-            SafestPathTestCase({{1,0,0},
-                                {0,0,0},
-                                {0,0,1}}, 0),
-            SafestPathTestCase({{0,0,1},
-                                {0,0,0},
-                                {0,0,0}}, 2),
-            SafestPathTestCase({{0,0,0,1},
-                                {0,0,0,0},
-                                {0,0,0,0},
-                                {1,0,0,0}}, 2),
+            {{{1, 0, 0},
+              {0, 0, 0},
+              {0, 0, 1}},
+             0},
+            {{{0, 0, 1},
+              {0, 0, 0},
+              {0, 0, 0}},
+             2},
+            {{{0, 0, 0, 1},
+              {0, 0, 0, 0},
+              {0, 0, 0, 0},
+              {1, 0, 0, 0}},
+             2},
 
             // extra – single thief in the centre of a 5×5 grid (answer = 2)
-            SafestPathTestCase({{0,0,0,0,0},
-                                {0,0,0,0,0},
-                                {0,0,1,0,0},
-                                {0,0,0,0,0},
-                                {0,0,0,0,0}}, 2),
+            {{{0, 0, 0, 0, 0},
+              {0, 0, 0, 0, 0},
+              {0, 0, 1, 0, 0},
+              {0, 0, 0, 0, 0},
+              {0, 0, 0, 0, 0}},
+             2},
 
             // extra – two thieves forcing a bottleneck of 1
-            SafestPathTestCase({{0,0,1},
-                                {0,0,0},
-                                {1,0,0}}, 1)
-        };
+            {{{0, 0, 1},
+              {0, 0, 0},
+              {1, 0, 0}},
+             1}};
 
         FindSafestPathInGrid_2812 solver;
 
@@ -4176,16 +4190,16 @@ public:
     static void maximumDepthOfBinaryTree_104_tests() {
         vector<MaxDepthTestCase> testCases = {
             // two examples from the problem statement
-            MaxDepthTestCase({3, 9, 20, nullopt, nullopt, 15, 7}, 3),
-            MaxDepthTestCase({1, nullopt, 2},                     2),
+            {{3, 9, 20, nullopt, nullopt, 15, 7}, 3},
+            {{1, nullopt, 2},                     2},
 
             // three extra, increasingly tricky, cases
             // (a) irregular but shallow left/right mix – depth 4
-            MaxDepthTestCase({1, 2, 3, 4, nullopt, nullopt, 5, nullopt, 6}, 4),
+            {{1, 2, 3, 4, nullopt, nullopt, 5, nullopt, 6}, 4},
             // (b) strongly left-skewed – depth 5
-            MaxDepthTestCase({1, 2, nullopt, 3, nullopt, 4, nullopt, 5}, 5),
+            {{1, 2, nullopt, 3, nullopt, 4, nullopt, 5}, 5},
             // (c) empty tree – depth 0
-            MaxDepthTestCase({}, 0)
+            {{}, 0}
         };
 
         MaximumDepthOfBinaryTree_104 solver;
@@ -4217,7 +4231,7 @@ public:
 
         vector<WallsAndGatesTestCase> testCases = {
             // Example 1
-            WallsAndGatesTestCase(
+            {
                 {{INF, -1, 0,   INF},
                 {INF, INF, INF, -1},
                 {INF, -1,  INF, -1},
@@ -4226,19 +4240,19 @@ public:
                 {2, 2, 1, -1},
                 {1, -1, 2, -1},
                 {0, -1, 3, 4}}
-            ),
+            },
             // Example 2
-            WallsAndGatesTestCase(
+            {
                 {{0, INF}},
                 {{0, 1}}
-            ),
+            },
             // Example 3
-            WallsAndGatesTestCase(
+            {
                 {{INF}},
                 {{INF}}
-            ),
+            },
             // Complex 1: 4×4 grid, two gates
-            WallsAndGatesTestCase(
+            {
                 {{0,   INF, INF, INF},
                 {INF, -1,  INF, INF},
                 {INF, INF, INF, 0  },
@@ -4247,16 +4261,16 @@ public:
                 {1, -1, 2, 1},
                 {2, 2, 1, 0},
                 {3, -1, 2, 1}}
-            ),
+            },
             // Complex 2: unreachable rooms stay INF
-            WallsAndGatesTestCase(
+            {
                 {{INF, -1, 0,   INF, INF},
                 {-1,  INF, -1, INF, -1 },
                 {INF, -1,  INF, -1, INF}},
                 {{INF, -1, 0, 1, 2},
                 {-1,  INF, -1, 2, -1},
                 {INF, -1,  INF, -1, INF}}
-            )
+            }
         };
 
         WallsAndGates_286 solver;
@@ -4305,14 +4319,14 @@ public:
     static void numJewelsAndStones_771_tests() {
         vector<JewelsAndStonesTestCase> testCases = {
             // Problem-statement examples
-            JewelsAndStonesTestCase("aA", "aAAbbbb", 3),
-            JewelsAndStonesTestCase("z",  "ZZ",      0),
+            {"aA", "aAAbbbb", 3},
+            {"z",  "ZZ",      0},
 
             // Extra, more demanding cases
-            JewelsAndStonesTestCase("abc", "aabbccABCabc",                    9),
-            JewelsAndStonesTestCase("abcdefghijklmnopqrstuvwxyz",
-                                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJ",  26),
-            JewelsAndStonesTestCase("Aa",  "aaaaaaaaAAAAAAAaA",              17)
+            {"abc", "aabbccABCabc",                    9},
+            {"abcdefghijklmnopqrstuvwxyz",
+             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJ",  26},
+            {"Aa",  "aaaaaaaaAAAAAAAaA",              17}
         };
 
         JewelsAndStones_771 solver;
@@ -4371,15 +4385,15 @@ public:
     static void sameTree_100_tests()
     {
         vector<SameTreeTestCase> cases = {
-            SameTreeTestCase({1,2,3},        {1,2,3},        true),   // Example 1
-            SameTreeTestCase({1,2},          {1,nullopt,2},  false),  // Example 2
-            SameTreeTestCase({1,2,1},        {1,1,2},        false),  // Example 3
+            {{1,2,3},        {1,2,3},        true},   // Example 1
+            {{1,2},          {1,nullopt,2},  false},  // Example 2
+            {{1,2,1},        {1,1,2},        false},  // Example 3
             // a few extra sanity checks
-            SameTreeTestCase({},             {},             true),
-            SameTreeTestCase({1,nullopt,2,3},{1,nullopt,2,3},true),
-            SameTreeTestCase({10,nullopt,20,15,nullopt,nullopt,25,nullopt,nullopt,22,nullopt},
+            {{},             {},             true},
+            {{1,nullopt,2,3},{1,nullopt,2,3},true},
+            {{10,nullopt,20,15,nullopt,nullopt,25,nullopt,nullopt,22,nullopt},
                              {10,nullopt,20,15,nullopt,nullopt,25,nullopt,nullopt,22,nullopt},
-                             true),
+                             true},
         };
 
         SameTree_100 sol;
@@ -4402,14 +4416,14 @@ public:
     static void missingNumber_268_tests() {
         vector<MissingNumberTestCase> testCases = {
             // Problem statement examples
-            MissingNumberTestCase({3, 0, 1}, 2),
-            MissingNumberTestCase({0, 1}, 2),
-            MissingNumberTestCase({9, 6, 4, 2, 3, 5, 7, 0, 1}, 8),
+            {{3, 0, 1}, 2},
+            {{0, 1}, 2},
+            {{9, 6, 4, 2, 3, 5, 7, 0, 1}, 8},
 
             // Additional edge/complex cases
-            MissingNumberTestCase({1, 2, 3}, 0),                 // missing 0
-            MissingNumberTestCase({0, 1, 2, 3}, 4),              // missing n
-            MissingNumberTestCase({10, 9, 8, 7, 5, 4, 3, 2, 1, 0}, 6) // unsorted, includes n
+            {{1, 2, 3}, 0},                 // missing 0
+            {{0, 1, 2, 3}, 4},              // missing n
+            {{10, 9, 8, 7, 5, 4, 3, 2, 1, 0}, 6} // unsorted, includes n
         };
 
         MissingNumber_268 solution;
@@ -4425,14 +4439,14 @@ public:
     static void dailyTemperatures_739_tests() {
         vector<DailyTemperatures739TestCase> tests = {
             // Three examples from the problem statement
-            DailyTemperatures739TestCase({73,74,75,71,69,72,76,73}, {1,1,4,2,1,1,0,0}),
-            DailyTemperatures739TestCase({30,40,50,60},             {1,1,1,0}),
-            DailyTemperatures739TestCase({30,60,90},                 {1,1,0}),
+            {{73,74,75,71,69,72,76,73}, {1,1,4,2,1,1,0,0}},
+            {{30,40,50,60},             {1,1,1,0}},
+            {{30,60,90},                 {1,1,0}},
 
             // Three additional, more complex cases
-            DailyTemperatures739TestCase({100,99,98,97},             {0,0,0,0}),            // strictly decreasing: no warmer future day
-            DailyTemperatures739TestCase({70,70,71},                 {2,1,0}),              // plateau followed by a warmer day
-            DailyTemperatures739TestCase({75,71,69,72,76,73,73,74,75},{4,2,1,1,0,2,1,1,0})  // mixed drops, duplicates, multiple pops
+            {{100,99,98,97},             {0,0,0,0}},            // strictly decreasing: no warmer future day
+            {{70,70,71},                 {2,1,0}},              // plateau followed by a warmer day
+            {{75,71,69,72,76,73,73,74,75},{4,2,1,1,0,2,1,1,0}}  // mixed drops, duplicates, multiple pops
         };
 
         DailyTemperatures_739 solver;
@@ -4459,17 +4473,17 @@ public:
     static void containsDuplicate_217_tests() {
         vector<ContainsDuplicate217TestCase> tests = {
             // 3 from the statement
-            ContainsDuplicate217TestCase({1, 2, 3, 1}, true),
-            ContainsDuplicate217TestCase({1, 2, 3, 4}, false),
-            ContainsDuplicate217TestCase({1, 1, 1, 3, 3, 4, 3, 2, 4, 2}, true),
+            {{1, 2, 3, 1}, true},
+            {{1, 2, 3, 4}, false},
+            {{1, 1, 1, 3, 3, 4, 3, 2, 4, 2}, true},
 
             // 3 “complex”/edge-ish
             // extremes + duplicate far apart
-            ContainsDuplicate217TestCase({1000000000, -1000000000, 999999999, -999999999, 123456789, 987654321, 123456789}, true),
+            {{1000000000, -1000000000, 999999999, -999999999, 123456789, 987654321, 123456789}, true},
             // negative/zero/positive with early & late dup
-            ContainsDuplicate217TestCase({-7, 0, 5, 42, -7}, true),
+            {{-7, 0, 5, 42, -7}, true},
             // large unique set
-            ContainsDuplicate217TestCase({}, false) // placeholder, will be replaced by bigUnique below
+            {{}, false} // placeholder, will be replaced by bigUnique below
         };
 
         // Build a large unique vector [-5000..4999]
@@ -4549,14 +4563,14 @@ public:
     static void minCostClimbingStairs_746_tests() {
         vector<MinCostClimbingStairs746TestCase> tests = {
             // 2 from the statement
-            MinCostClimbingStairs746TestCase({10,15,20}, 15),
-            MinCostClimbingStairs746TestCase({1,100,1,1,1,100,1,1,100,1}, 6),
+            {{10,15,20}, 15},
+            {{1,100,1,1,1,100,1,1,100,1}, 6},
 
             // 4 additional / edge-ish
-            MinCostClimbingStairs746TestCase({5, 6}, 5),                         // n=2, pick cheaper start
-            MinCostClimbingStairs746TestCase({0,0,0,0}, 0),                      // all zeros
-            MinCostClimbingStairs746TestCase({2,2,2,2,2}, 4),                    // uniform costs
-            MinCostClimbingStairs746TestCase({999,1,999,1,999,1,999,1}, 4)       // pick all the 1's
+            {{5, 6}, 5},                         // n=2, pick cheaper start
+            {{0,0,0,0}, 0},                      // all zeros
+            {{2,2,2,2,2}, 4},                    // uniform costs
+            {{999,1,999,1,999,1,999,1}, 4}       // pick all the 1's
         };
 
         MinCostClimbingStairs_746 sol;
