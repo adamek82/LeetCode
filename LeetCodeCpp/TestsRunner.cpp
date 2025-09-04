@@ -128,6 +128,7 @@
 #include "Combinations_77.h"
 #include "LetterCombinations_17.h"
 #include "CombinationSum_39.h"
+#include "GenerateParentheses_22.h"
 
 using namespace std;
 
@@ -1089,6 +1090,13 @@ struct CombinationSum39TestCase {
     vector<vector<int>> expected; // order-insensitive
     CombinationSum39TestCase(vector<int> c, int t, vector<vector<int>> e)
         : candidates(move(c)), target(t), expected(move(e)) {}
+};
+
+struct GenerateParentheses22TestCase {
+    int n;
+    vector<string> expected; // order-insensitive
+    GenerateParentheses22TestCase(int n_, vector<string> e)
+        : n(n_), expected(move(e)) {}
 };
 
 /* ---------- generic distance helper ---------------------------------- */
@@ -5315,6 +5323,49 @@ public:
         }
     }
 
+    static void generateParentheses_22_tests() {
+        auto printVS = [](const vector<string>& vs) {
+            cout << '[';
+            for (size_t i = 0; i < vs.size(); ++i) {
+                cout << '"' << vs[i] << '"';
+                if (i + 1 < vs.size()) cout << ',';
+            }
+            cout << ']';
+        };
+        auto normalize = [](vector<string> v) {
+            sort(v.begin(), v.end());
+            return v;
+        };
+
+        vector<GenerateParentheses22TestCase> tests = {
+            {3, {"((()))","(()())","(())()","()(())","()()()"}},
+            {1, {"()"}},
+            {2, {"(())","()()"}},
+            {4, {"(((())))","((()()))","((())())","((()))()",
+                "(()(()))","(()()())","(()())()","(())(())","(())()()",
+                "()((()))","()(()())","()(())()","()()(())","()()()()"}}
+        };
+
+        GenerateParentheses_22 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto got = sol.generateParenthesis(tests[i].n);
+
+            auto normExpected = normalize(tests[i].expected);
+            auto normGot      = normalize(got);
+            bool pass = (normGot == normExpected);
+
+            cout << "Generate Parentheses 22 Test " << (i + 1) << ": "
+                << (pass ? "PASS" : "FAIL") << '\n';
+            if (!pass) {
+                cout << "  Expected: ";
+                printVS(normExpected);
+                cout << "  Got: ";
+                printVS(normGot);
+                cout << '\n';
+            }
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -5558,6 +5609,8 @@ public:
         letterCombinations_17_tests();
         cout << "Combination Sum 39 tests:\n";
         combinationSum_39_tests();
+        cout << "Generate Parentheses 22 tests:\n";
+        generateParentheses_22_tests();
     }
 };
 
