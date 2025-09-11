@@ -3146,27 +3146,27 @@ public:
     static void lRUCache_tests() {
         vector<LRUCacheTestCase> testCases = {
             // From problem statement
-            LRUCacheTestCase(
+            {
                 {"LRUCache","put","put","get","put","get","put","get","get","get"},
                 {{2},      {1,1}, {2,2}, {1},  {3,3}, {2},  {4,4}, {1},  {3},   {4}},
                 { nullopt, nullopt, nullopt, 1,
                   nullopt, -1,         nullopt, -1,
                    3,            4 }
-            ),
+            },
             // Additional: overwrite existing key and capacity=1 edge
-            LRUCacheTestCase(
+            {
                 {"LRUCache","put","put","get","put","get","get"},
                 {{1},      {1,10},{1,20},{1},  {2,30},{1},  {2}},
                 { nullopt, nullopt, nullopt, 20,
                   nullopt,  -1,           30 }
-            ),
+            },
             // Additional: complex sequence with capacity = 3 and multiple evictions
-            LRUCacheTestCase(
+            {
                 {"LRUCache","put","put","put","get","put","get","get","put","get","get"},
                 {{3},      {1,1}, {2,2}, {3,3}, {1},  {4,4}, {2},  {3},  {5,5}, {1},  {4}},
                 { nullopt, nullopt, nullopt, nullopt, 1,
                   nullopt, -1,          3,          nullopt, -1,        4}
-            ),
+            },
         };
 
         for (size_t i = 0; i < testCases.size(); ++i) {
@@ -3301,13 +3301,13 @@ public:
     static void longestCycleInGraph_2360_tests() {
         vector<LongestCycleTestCase> testCases = {
             // 2 examples from the LeetCode problem statement
-            LongestCycleTestCase({3, 3, 4, 2, 3}, 3),   // Example 1
-            LongestCycleTestCase({2, -1, 3, 1}, -1),    // Example 2
+            {{3, 3, 4, 2, 3}, 3},   // Example 1
+            {{2, -1, 3, 1}, -1},    // Example 2
 
             // 3 additional, more complex cases
-            LongestCycleTestCase({1, 2, 3, 4, 0}, 5),         // single 5-node cycle
-            LongestCycleTestCase({1, 0, 4, 2, 3}, 3),         // two cycles, longest = 3
-            LongestCycleTestCase({1, 2, 3, 4, 5, 6, 0}, 7)    // single 7-node cycle
+            {{1, 2, 3, 4, 0}, 5},         // single 5-node cycle
+            {{1, 0, 4, 2, 3}, 3},         // two cycles, longest = 3
+            {{1, 2, 3, 4, 5, 6, 0}, 7}    // single 7-node cycle
         };
 
         LongestCycleInGraph_2360 solver;
@@ -3324,32 +3324,36 @@ public:
     static void shortestCycleInGraph_2608_tests() {
         vector<ShortestCycleTestCase> cases = {
             // ── 2 examples from the problem statement ───────────────────────────
-            ShortestCycleTestCase(
+            {
                 7,
                 {{0,1},{1,2},{2,0},{3,4},{4,5},{5,6},{6,3}},
-                3),
-            ShortestCycleTestCase(
+                3
+            },
+            {
                 4,
                 {{0,1},{0,2}},
-                -1),
+                -1
+            },
 
             // ── extra #1 : tiny corner-case – only one edge, no cycle ───────────
-            ShortestCycleTestCase(
+            {
                 2,
                 {{0,1}},
-                -1),
+                -1
+            },
 
             /* ── extra #2 : larger, multiple cycles, shortest = 3 ───────────────
                    triangle 0-1-2-0  (len 3)
                    square   3-4-5-6-3 (len 4)
                    edges 2-3 and 4-7-5 add inter-connections                  */
-            ShortestCycleTestCase(
+            {
                 8,
                 {{0,1},{1,2},{2,0},
                  {3,4},{4,5},{5,6},{6,3},
                  {2,3},
                  {4,7},{7,5}},
-                3),
+                3
+            },
 
             /* ── extra #3 : “outer-loop needed” case (path + remote triangle) ───
                0-1-2-3-4-5-6   long arm
@@ -3359,11 +3363,12 @@ public:
                         8 - 6          shortest = 3 (6-7-8-6)
                With BFS from 0 the first detected cycle would be very long,
                so we need one BFS per start vertex to get the true minimum.      */
-            ShortestCycleTestCase(
+            {
                 9,
                 {{0,1},{1,2},{2,3},{3,4},{4,5},{5,6},   // path
                  {6,7},{7,8},{8,6}},                    // triangle at the end
-                3)
+                3
+            }
         };
 
         ShortestCycleInGraph_2608 solver;
@@ -3380,22 +3385,22 @@ public:
     static void uniquePathsII_63_tests() {
         vector<UniquePathsIITestCase> testCases = {
             // From the problem statement
-            UniquePathsIITestCase({{0,0,0},{0,1,0},{0,0,0}}, 2),
-            UniquePathsIITestCase({{0,1},{0,0}}, 1),
+            {{{0,0,0},{0,1,0},{0,0,0}}, 2},
+            {{{0,1},{0,0}}, 1},
 
             // Additional complex cases
             // 1) Single‐row with an obstacle blocking all paths past it
-            UniquePathsIITestCase({{0,1,0,0,0}}, 0),
+            {{{0,1,0,0,0}}, 0},
 
             // 2) 3×3 with no obstacles: C(4,2)=6
-            UniquePathsIITestCase({{0,0,0},{0,0,0},{0,0,0}}, 6),
+            {{{0,0,0},{0,0,0},{0,0,0}}, 6},
 
             // 3) Larger 10×10 grid with no obstacles:
             //    number of paths = C(18,9) = 48620
-            UniquePathsIITestCase(
+            {
                 vector<vector<int>>(10, vector<int>(10, 0)),
                 48620
-            )
+            }
         };
 
         UniquePathsII_63 solution;
@@ -3411,13 +3416,13 @@ public:
     static void maximumAverageSubarrayI_643_tests() {
         vector<MaxAvgTestCase> testCases = {
             // problem examples
-            MaxAvgTestCase({1, 12, -5, -6, 50, 3}, 4, 12.75),
-            MaxAvgTestCase({5},                    1,  5.0),
+            {{1, 12, -5, -6, 50, 3}, 4, 12.75},
+            {{5},                    1,  5.0},
 
             // additional complex tests
-            MaxAvgTestCase({1,2,3,4,5,6,7,8,9,10},   5,  8.0),          // increasing sequence
-            MaxAvgTestCase({-5,-10,-3,-4,-1,-2},     3, -2.3333333333), // all negatives
-            MaxAvgTestCase({0,100,0,100,0,100},      2,  50.0)          // alternating highs/lows
+            {{1,2,3,4,5,6,7,8,9,10},   5,  8.0},          // increasing sequence
+            {{-5,-10,-3,-4,-1,-2},     3, -2.3333333333}, // all negatives
+            {{0,100,0,100,0,100},      2,  50.0}          // alternating highs/lows
         };
 
         MaximumAverageSubarrayI_643 solution;
@@ -3434,13 +3439,13 @@ public:
     static void maxConsecutiveOnesIII_1004_tests() {
         vector<MaxConsecutiveOnesTestCase> testCases = {
             // two examples from the problem statement:
-            MaxConsecutiveOnesTestCase({1,1,1,0,0,0,1,1,1,1,0},           2,  6),
-            MaxConsecutiveOnesTestCase({0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1}, 3, 10),
+            {{1,1,1,0,0,0,1,1,1,1,0},           2,  6},
+            {{0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1}, 3, 10},
 
             // three more:
-            MaxConsecutiveOnesTestCase({1,0,1,0,1,0,1},                   1,  3),  // alternating
-            MaxConsecutiveOnesTestCase({1,1,0,0,1,1,1,0,1},               2,  7),  // mixed blocks
-            MaxConsecutiveOnesTestCase({0,0,0,0},                         0,  0)   // all zeros, no flips
+            {{1,0,1,0,1,0,1},                   1,  3},  // alternating
+            {{1,1,0,0,1,1,1,0,1},               2,  7},  // mixed blocks
+            {{0,0,0,0},                         0,  0}   // all zeros, no flips
         };
 
         MaxConsecutiveOnesIII_1004 solution;
@@ -3548,13 +3553,13 @@ public:
 
         vector<ReverseStringTestCase> testCases = {
             // two examples from the problem statement
-            ReverseStringTestCase({'h','e','l','l','o'},            {'o','l','l','e','h'}),
-            ReverseStringTestCase({'H','a','n','n','a','h'},        {'h','a','n','n','a','H'}),
+            {{'h','e','l','l','o'},            {'o','l','l','e','h'}},
+            {{'H','a','n','n','a','h'},        {'h','a','n','n','a','H'}},
 
             // three additional cases
-            ReverseStringTestCase({'a'},                            {'a'}),                       // length-1
-            ReverseStringTestCase({'a','b','c','c','b','a'},        {'a','b','c','c','b','a'}),   // palindrome
-            ReverseStringTestCase(move(longIn),                     move(longOut))                // 10 000 chars
+            {{'a'},                            {'a'}},                       // length-1
+            {{'a','b','c','c','b','a'},        {'a','b','c','c','b','a'}},   // palindrome
+            {move(longIn),                     move(longOut)}                // 10 000 chars
         };
 
         ReverseString_344 solver;
@@ -3574,13 +3579,13 @@ public:
 
         vector<TwoSumIITestCase> testCases = {
             // three examples from the statement
-            TwoSumIITestCase({2,7,11,15},                  9,  {1,2}),
-            TwoSumIITestCase({2,3,4},                      6,  {1,3}),
-            TwoSumIITestCase({-1,0},                      -1,  {1,2}),
+            {{2,7,11,15},                  9,  {1,2}},
+            {{2,3,4},                      6,  {1,3}},
+            {{-1,0},                      -1,  {1,2}},
 
             // two additional cases
-            TwoSumIITestCase({1,3,4,7,11,15},             15,  {3,5}),          // mid-array pair
-            TwoSumIITestCase(move(longNums),               0,  move(longAns))   // 2001-element stress
+            {{1,3,4,7,11,15},             15,  {3,5}},          // mid-array pair
+            {move(longNums),               0,  move(longAns)}   // 2001-element stress
         };
 
         TwoSumII_167 solver;
@@ -3603,15 +3608,15 @@ public:
 
         vector<ValidPalindromeTestCase> testCases = {
             // two examples from the problem statement
-            ValidPalindromeTestCase("A man, a plan, a canal: Panama", true),
-            ValidPalindromeTestCase("race a car",                     false),
+            {"A man, a plan, a canal: Panama", true},
+            {"race a car",                     false},
 
             // third example from the statement
-            ValidPalindromeTestCase(" ",                              true),
+            {" ",                              true},
 
             // two additional cases
-            ValidPalindromeTestCase("0P",                             false), // mixed digit/letter
-            ValidPalindromeTestCase(move(longStr),                    true)   // long palindrome
+            {"0P",                             false}, // mixed digit/letter
+            {move(longStr),                    true}   // long palindrome
         };
 
         ValidPalindrome_125 solver;
@@ -3625,15 +3630,15 @@ public:
     static void threeSum_15_tests() {
         vector<ThreeSumTestCase> testCases = {
             // two examples from the problem statement
-            ThreeSumTestCase({-1,0,1,2,-1,-4},            {{-1,-1,2},{-1,0,1}}),
-            ThreeSumTestCase({0,1,1},                     {}),
+            {{-1,0,1,2,-1,-4},            {{-1,-1,2},{-1,0,1}}},
+            {{0,1,1},                     {}},
 
             // third statement example
-            ThreeSumTestCase({0,0,0},                     {{0,0,0}}),
+            {{0,0,0},                     {{0,0,0}}},
 
             // two additional cases
-            ThreeSumTestCase({-2,0,1,1,2},                {{-2,0,2},{-2,1,1}}),
-            ThreeSumTestCase({-2,-2,1,3,1,2,0,0},         {{-2,0,2},{-2,1,1}})
+            {{-2,0,1,1,2},                {{-2,0,2},{-2,1,1}}},
+            {{-2,-2,1,3,1,2,0,0},         {{-2,0,2},{-2,1,1}}}
         };
 
         ThreeSum_15 solver;
@@ -3657,13 +3662,13 @@ public:
     static void containerWithMostWater_11_tests() {
         vector<ContainerWithMostWaterTestCase> testCases = {
             // two examples from the statement
-            ContainerWithMostWaterTestCase({1,8,6,2,5,4,8,3,7}, 49),
-            ContainerWithMostWaterTestCase({1,1},                1),
+            {{1,8,6,2,5,4,8,3,7}, 49},
+            {{1,1},                1},
 
             // three additional cases
-            ContainerWithMostWaterTestCase({4,3,2,1,4},          16), // equal ends
-            ContainerWithMostWaterTestCase({1,2,1},              2),  // small valley
-            ContainerWithMostWaterTestCase({2,3,10,5,7,8,9},     36)  // tall inner peak
+            {{4,3,2,1,4},          16}, // equal ends
+            {{1,2,1},              2},  // small valley
+            {{2,3,10,5,7,8,9},     36}  // tall inner peak
         };
 
         ContainerWithMostWater_11 solver;
@@ -3677,14 +3682,14 @@ public:
     static void trappingRainWater_42_tests() {
         vector<TrappingRainWaterTestCase> testCases = {
             // two examples from the statement
-            TrappingRainWaterTestCase({0,1,0,2,1,0,1,3,2,1,2,1}, 6),
-            TrappingRainWaterTestCase({4,2,0,3,2,5},             9),
+            {{0,1,0,2,1,0,1,3,2,1,2,1}, 6},
+            {{4,2,0,3,2,5},             9},
 
             // three additional cases
-            TrappingRainWaterTestCase({0,0,0},                   0),  // flat
-            TrappingRainWaterTestCase({1,2,3,4,5},               0),  // monotonic
-            TrappingRainWaterTestCase({5,4,1,2},                 1),  // small basin
-            TrappingRainWaterTestCase({4,0,0,0,4},               12)
+            {{0,0,0},                   0},  // flat
+            {{1,2,3,4,5},               0},  // monotonic
+            {{5,4,1,2},                 1},  // small basin
+            {{4,0,0,0,4},               12}
         };
 
         TrappingRainWater_42 solver;
@@ -3698,22 +3703,22 @@ public:
     static void maximalRectangle_85_tests() {
         vector<MaximalRectangleTestCase> testCases = {
             // ── three examples from the problem statement ──
-            MaximalRectangleTestCase({{'1','0','1','0','0'},
+            {{{'1','0','1','0','0'},
                                     {'1','0','1','1','1'},
                                     {'1','1','1','1','1'},
-                                    {'1','0','0','1','0'}}, 6),
-            MaximalRectangleTestCase({{'0'}}, 0),
-            MaximalRectangleTestCase({{'1'}}, 1),
+                                    {'1','0','0','1','0'}}, 6},
+            {{{'0'}}, 0},
+            {{{'1'}}, 1},
 
             // ── additional, larger & denser cases ──
             // 1) 8×8 block of 1 s → area 64
-            MaximalRectangleTestCase(vector<vector<char>>(8, vector<char>(8, '1')), 64),
+            {vector<vector<char>>(8, vector<char>(8, '1')), 64},
 
             // 2) 4×10 mixed grid (largest 5×4 block) → area 20
-            MaximalRectangleTestCase({{'1','1','1','1','1','0','0','0','1','1'},
+            {{{'1','1','1','1','1','0','0','0','1','1'},
                                     {'1','1','1','1','1','1','1','1','1','0'},
                                     {'1','1','1','1','1','1','1','1','0','0'},
-                                    {'1','1','1','1','1','0','0','0','0','0'}}, 20)
+                                    {'1','1','1','1','1','0','0','0','0','0'}}, 20}
         };
 
         MaximalRectangle_85 solver;
