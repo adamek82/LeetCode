@@ -2429,7 +2429,7 @@ public:
     static void validSudoku_36_tests() {
         vector<ValidSudokuTestCase> testCases = {
             // Example 1: Valid Sudoku
-            ValidSudokuTestCase({
+            {{
                 {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
                 {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
                 {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
@@ -2439,10 +2439,10 @@ public:
                 {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
                 {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
                 {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
-            }, true),
+            }, true},
 
             // Example 2: Invalid Sudoku (Duplicate in Sub-box)
-            ValidSudokuTestCase({
+            {{
                 {'8', '3', '.', '.', '7', '.', '.', '.', '.'},
                 {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
                 {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
@@ -2452,10 +2452,10 @@ public:
                 {'.', '6', '.', '.', '.', '.', '2', '8', '.'},
                 {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
                 {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
-            }, false),
+            }, false},
 
             // Example 3: Valid Complex Sudoku
-            ValidSudokuTestCase({
+            {{
                 {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
                 {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
                 {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
@@ -2465,10 +2465,10 @@ public:
                 {'1', '6', '.', '.', '.', '.', '2', '8', '.'},
                 {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
                 {'2', '.', '.', '.', '8', '.', '.', '7', '9'}
-            }, true),
+            }, true},
 
             // Example 4: Invalid Sudoku (Duplicate in Row)
-            ValidSudokuTestCase({
+            {{
                 {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
                 {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
                 {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
@@ -2478,10 +2478,10 @@ public:
                 {'1', '6', '.', '.', '.', '.', '2', '8', '.'},
                 {'.', '.', '.', '4', '1', '9', '.', '1', '5'},
                 {'2', '.', '.', '.', '8', '.', '.', '7', '9'}
-            }, false),
+            }, false},
 
             // Example 5: Invalid Sudoku (Duplicate in Column)
-            ValidSudokuTestCase({
+            {{
                 {'5', '3', '.', '.', '7', '.', '.', '.', '.'},
                 {'6', '.', '.', '1', '9', '5', '.', '.', '.'},
                 {'.', '9', '8', '.', '.', '.', '.', '6', '.'},
@@ -2491,7 +2491,7 @@ public:
                 {'1', '6', '.', '.', '.', '.', '2', '8', '.'},
                 {'.', '.', '.', '4', '1', '9', '.', '.', '5'},
                 {'2', '.', '.', '.', '8', '.', '.', '7', '5'}
-            }, false),
+            }, false},
         };
 
         ValidSudoku_36 solver;
@@ -2508,15 +2508,15 @@ public:
     static void binarySearch_704_tests() {
         vector<BinarySearchTestCase> testCases = {
             // Example 1
-            BinarySearchTestCase({-1, 0, 3, 5, 9, 12}, 9, 4),
+            {{-1, 0, 3, 5, 9, 12}, 9, 4},
             // Example 2
-            BinarySearchTestCase({-1, 0, 3, 5, 9, 12}, 2, -1),
+            {{-1, 0, 3, 5, 9, 12}, 2, -1},
             // Complex Case 1: Large range with the target in the middle
-            BinarySearchTestCase({-10000, -5000, 0, 5000, 10000}, 0, 2),
+            {{-10000, -5000, 0, 5000, 10000}, 0, 2},
             // Complex Case 2: Target near boundaries
-            BinarySearchTestCase({1, 3, 5, 7, 9, 11}, 11, 5), // Target is the last element
+            {{1, 3, 5, 7, 9, 11}, 11, 5}, // Target is the last element
             // Corner Case: Single element, no match
-            BinarySearchTestCase({1}, 0, -1)
+            {{1}, 0, -1}
         };
 
         BinarySearch_704 solution;
@@ -2533,15 +2533,15 @@ public:
     static void searchInsertPosition_35_tests() {
         vector<BinarySearchTestCase> testCases = {
             // Example 1: Target is found
-            BinarySearchTestCase({1, 3, 5, 6}, 5, 2),
+            {{1, 3, 5, 6}, 5, 2},
             // Example 2: Target is not found, insert at index 1
-            BinarySearchTestCase({1, 3, 5, 6}, 2, 1),
+            {{1, 3, 5, 6}, 2, 1},
             // Example 3: Target is not found, insert at the end
-            BinarySearchTestCase({1, 3, 5, 6}, 7, 4),
+            {{1, 3, 5, 6}, 7, 4},
             // Complex Case 1: Large range with insertion at the beginning
-            BinarySearchTestCase({10, 20, 30, 40, 50}, 5, 0),
+            {{10, 20, 30, 40, 50}, 5, 0},
             // Complex Case 2: Large range with insertion in the middle
-            BinarySearchTestCase({10, 20, 30, 40, 50, 60, 70, 80, 90, 100}, 55, 5)
+            {{10, 20, 30, 40, 50, 60, 70, 80, 90, 100}, 55, 5}
         };
 
         SearchInsertPosition_35 solution;
@@ -2558,13 +2558,13 @@ public:
     static void search2DMatrixTests() {
         vector<Search2DMatrixTestCase> testCases = {
             // Provided examples
-            Search2DMatrixTestCase({{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}}, 3, true),
-            Search2DMatrixTestCase({{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}}, 13, false),
+            {{{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}}, 3, true},
+            {{{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}}, 13, false},
 
             // Additional complex test cases
-            Search2DMatrixTestCase({{1, 5, 9}, {14, 20, 23}, {30, 34, 50}}, 20, true),
-            Search2DMatrixTestCase({{1, 3, 6, 10}, {15, 20, 25, 30}, {35, 40, 45, 50}}, 7, false),
-            Search2DMatrixTestCase({{5, 7, 9, 11}, {13, 15, 17, 19}, {21, 23, 25, 27}}, 27, true),
+            {{{1, 5, 9}, {14, 20, 23}, {30, 34, 50}}, 20, true},
+            {{{1, 3, 6, 10}, {15, 20, 25, 30}, {35, 40, 45, 50}}, 7, false},
+            {{{5, 7, 9, 11}, {13, 15, 17, 19}, {21, 23, 25, 27}}, 27, true},
         };
 
         Search2DMatrix_74 solution;
@@ -2656,11 +2656,11 @@ public:
 
     static void findMinimumInRotatedSortedArray_153_tests() {
         vector<FindMinTestCase> testCases = {
-            FindMinTestCase({3, 4, 5, 1, 2}, 1),                     // Example 1
-            FindMinTestCase({4, 5, 6, 7, 0, 1, 2}, 0),               // Example 2
-            FindMinTestCase({11, 13, 15, 17}, 11),                   // Example 3
-            FindMinTestCase({5, 6, 7, 8, 9, 1, 2, 3, 4}, 1),         // Additional Test 1
-            FindMinTestCase({30, 40, 50, 5, 10, 20}, 5)              // Additional Test 2
+            {{3, 4, 5, 1, 2}, 1},                     // Example 1
+            {{4, 5, 6, 7, 0, 1, 2}, 0},               // Example 2
+            {{11, 13, 15, 17}, 11},                   // Example 3
+            {{5, 6, 7, 8, 9, 1, 2, 3, 4}, 1},         // Additional Test 1
+            {{30, 40, 50, 5, 10, 20}, 5}              // Additional Test 2
         };
 
         FindMinimumInRotatedSortedArray_153 solution;
@@ -2734,11 +2734,11 @@ public:
 
     static void zigzagConversion_6_tests() {
         vector<ZigzagTestCase> testCases = {
-            ZigzagTestCase("PAYPALISHIRING", 3, "PAHNAPLSIIGYIR"),
-            ZigzagTestCase("PAYPALISHIRING", 4, "PINALSIGYAHRPI"),
-            ZigzagTestCase("A", 1, "A"),
-            ZigzagTestCase("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 5, "AIQYBHJPRXZCGKOSWDFLNTVEMU"),
-            ZigzagTestCase("THISISAZIGZAGCONVERSIONTEST", 6, "TZIHGASOIIGRNSZCETIAOVETSNS")
+            {"PAYPALISHIRING", 3, "PAHNAPLSIIGYIR"},
+            {"PAYPALISHIRING", 4, "PINALSIGYAHRPI"},
+            {"A", 1, "A"},
+            {"ABCDEFGHIJKLMNOPQRSTUVWXYZ", 5, "AIQYBHJPRXZCGKOSWDFLNTVEMU"},
+            {"THISISAZIGZAGCONVERSIONTEST", 6, "TZIHGASOIIGRNSZCETIAOVETSNS"}
         };
 
         ZigzagConversion_6 solution;
@@ -2762,14 +2762,14 @@ public:
         // 5 test cases: the 2 from the LeetCode examples + 3 additional
         vector<HIndexTestCase> testCases = {
             // Example 1
-            HIndexTestCase({3, 0, 6, 1, 5}, 3),
+            {{3, 0, 6, 1, 5}, 3},
             // Example 2
-            HIndexTestCase({1, 3, 1}, 1),
+            {{1, 3, 1}, 1},
 
             // Additional (more complex) test cases
-            HIndexTestCase({10, 8, 5, 4, 3}, 4),  // H-index should be 4
-            HIndexTestCase({0, 0, 0, 0}, 0),      // H-index should be 0
-            HIndexTestCase({4, 4, 4, 4, 4}, 4)    // H-index should be 4
+            {{10, 8, 5, 4, 3}, 4},  // H-index should be 4
+            {{0, 0, 0, 0}, 0},      // H-index should be 0
+            {{4, 4, 4, 4, 4}, 4}    // H-index should be 4
         };
 
         HIndex_274 solution;
@@ -2787,15 +2787,15 @@ public:
         // Create test cases (two from the problem statement + three more)
         vector<SortColorsTestCase> testCases = {
             // Example 1
-            SortColorsTestCase({2, 0, 2, 1, 1, 0}, {0, 0, 1, 1, 2, 2}),
+            {{2, 0, 2, 1, 1, 0}, {0, 0, 1, 1, 2, 2}},
             // Example 2
-            SortColorsTestCase({2, 0, 1}, {0, 1, 2}),
+            {{2, 0, 1}, {0, 1, 2}},
             // Additional Test 1: Single element
-            SortColorsTestCase({0}, {0}),
+            {{0}, {0}},
             // Additional Test 2: All the same element
-            SortColorsTestCase({2, 2, 2, 2}, {2, 2, 2, 2}),
+            {{2, 2, 2, 2}, {2, 2, 2, 2}},
             // Additional Test 3: Mixed with more 1s
-            SortColorsTestCase({1, 0, 2, 2, 1, 0}, {0, 0, 1, 1, 2, 2})
+            {{1, 0, 2, 2, 1, 0}, {0, 0, 1, 1, 2, 2}}
         };
 
         SortColors_75 solution;
@@ -2824,13 +2824,13 @@ public:
         // Prepare test cases:
         vector<RemoveDuplicatesFromSortedArrayIITestCase> testCases = {
             // 2 examples from the problem statement:
-            RemoveDuplicatesFromSortedArrayIITestCase({1,1,1,2,2,3}, 5, {1,1,2,2,3}),           // Example 1
-            RemoveDuplicatesFromSortedArrayIITestCase({0,0,1,1,1,1,2,3,3}, 7, {0,0,1,1,2,3,3}), // Example 2
+            {{1,1,1,2,2,3}, 5, {1,1,2,2,3}},           // Example 1
+            {{0,0,1,1,1,1,2,3,3}, 7, {0,0,1,1,2,3,3}}, // Example 2
 
             // 3 additional (one corner case):
-            RemoveDuplicatesFromSortedArrayIITestCase({42}, 1, {42}),                       // Corner: single element
-            RemoveDuplicatesFromSortedArrayIITestCase({2,2,2,2}, 2, {2,2}),                 // All duplicates
-            RemoveDuplicatesFromSortedArrayIITestCase({1,1,2,2,2,3,3}, 6, {1,1,2,2,3,3})    // Mixed duplicates
+            {{42}, 1, {42}},                       // Corner: single element
+            {{2,2,2,2}, 2, {2,2}},                 // All duplicates
+            {{1,1,2,2,2,3,3}, 6, {1,1,2,2,3,3}}    // Mixed duplicates
         };
 
         // Instantiate your solution class
@@ -2862,18 +2862,18 @@ public:
     static void bestTimeToBuyAndSellStockII_122_tests() {
         vector<BestTimeToBuyAndSellStockII_122_TestCase> testCases = {
             // 3 examples from the problem statement:
-            BestTimeToBuyAndSellStockII_122_TestCase({7,1,5,3,6,4}, 7), // Example 1
-            BestTimeToBuyAndSellStockII_122_TestCase({1,2,3,4,5}, 4),   // Example 2
-            BestTimeToBuyAndSellStockII_122_TestCase({7,6,4,3,1}, 0),   // Example 3
+            {{7,1,5,3,6,4}, 7}, // Example 1
+            {{1,2,3,4,5}, 4},   // Example 2
+            {{7,6,4,3,1}, 0},   // Example 3
 
             // 2 additional, more complicated examples:
             // For prices = [2,4,1,10,9,11]:
             // Day-to-day profit breakdown: (4-2)=2, (10-1)=9, (11-9)=2, total profit = 2+9+2 = 13.
-            BestTimeToBuyAndSellStockII_122_TestCase({2,4,1,10,9,11}, 13),
+            {{2,4,1,10,9,11}, 13},
 
             // For prices = [3,3,5,0,0,3,1,4]:
             // Day-to-day profit breakdown: (5-3)=2, (3-0)=3, (4-1)=3, total profit = 2+3+3 = 8.
-            BestTimeToBuyAndSellStockII_122_TestCase({3,3,5,0,0,3,1,4}, 8)
+            {{3,3,5,0,0,3,1,4}, 8}
         };
 
         // Instantiate the solution class
@@ -2894,13 +2894,13 @@ public:
     static void validAnagram_242_tests() {
         vector<ValidAnagramTestCase> testCases = {
             // Examples from the problem statement
-            ValidAnagramTestCase("anagram", "nagaram", true),
-            ValidAnagramTestCase("rat", "car", false),
+            {"anagram", "nagaram", true},
+            {"rat", "car", false},
 
             // Additional complex test cases
-            ValidAnagramTestCase("abcdefg", "gfedcba", true), // Reverse order, still an anagram
-            ValidAnagramTestCase("aabbcc", "abcabc", true),   // Same frequency, different order
-            ValidAnagramTestCase(string(50000, 'a') + "b", string(50000, 'a') + "c", false) // Edge case with large input, one character differs
+            {"abcdefg", "gfedcba", true}, // Reverse order, still an anagram
+            {"aabbcc", "abcabc", true},   // Same frequency, different order
+            {string(50000, 'a') + "b", string(50000, 'a') + "c", false} // Edge case with large input, one character differs
         };
 
         ValidAnagram_242 solution;
@@ -2917,48 +2917,48 @@ public:
     static void analyzeUserWebsiteVisitPattern_1152_tests() {
         vector<AnalyzeUserWebsiteVisitPatternTestCase> testCases = {
             // Example 1 (From Problem Statement)
-            AnalyzeUserWebsiteVisitPatternTestCase(
+            {
                 {"joe", "joe", "joe", "james", "james", "james", "james", "mary", "mary", "mary"},
                 {1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
                 {"home", "about", "career", "home", "cart", "maps", "home", "home", "about", "career"},
                 {"home", "about", "career"}
-            ),
+            },
             // Example 2 (From Problem Statement)
-            AnalyzeUserWebsiteVisitPatternTestCase(
+            {
                 {"ua", "ua", "ua", "ub", "ub", "ub"},
                 {1, 2, 3, 4, 5, 6},
                 {"a", "b", "a", "a", "b", "c"},
                 {"a", "b", "a"}
-            ),
+            },
             // Corner Case: Only one user with exactly three visits
-            AnalyzeUserWebsiteVisitPatternTestCase(
+            {
                 {"alice", "alice", "alice"},
                 {1, 2, 3},
                 {"x", "y", "z"},
                 {"x", "y", "z"}
-            ),
+            },
             // Large Complex Case: Multiple users with different patterns
-            AnalyzeUserWebsiteVisitPatternTestCase(
+            {
                 {"u1", "u1", "u1", "u1", "u2", "u2", "u2", "u3", "u3", "u3", "u3", "u3"},
                 {1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5},
                 {"alpha", "beta", "gamma", "delta", "alpha", "beta", "gamma", "beta", "gamma", "alpha", "delta", "beta"},
                 {"alpha", "beta", "gamma"}
-            ),
+            },
             // Another more complex test
-            AnalyzeUserWebsiteVisitPatternTestCase(
+            {
                 {"u1", "u1", "u1", "u2", "u2", "u2", "u3", "u3", "u3", "u4", "u4", "u4"},
                 {1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3},
                 {"home", "about", "career", "home", "about", "career", "home", "career", "about", "career", "about", "home"},
                 {"home", "about", "career"}
-            ),
+            },
             // Complex case with a tie, forcing lexicographical sorting
-            AnalyzeUserWebsiteVisitPatternTestCase(
+            {
                 {"u1", "u1", "u1", "u2", "u2", "u2", "u3", "u3", "u3", "u4", "u4", "u4", "u5", "u5", "u5", "u6", "u6", "u6"},
                 {1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3},
                 {"alpha", "beta", "gamma", "alpha", "beta", "gamma", "beta", "gamma", "delta",
                  "beta", "gamma", "delta", "alpha", "beta", "gamma", "alpha", "beta", "gamma"},
                 {"alpha", "beta", "gamma"}  // Lexicographically smaller, tie-breaking case
-            )
+            }
         };
 
         AnalyzeUserWebsiteVisitPattern1152 solver;
@@ -2992,22 +2992,22 @@ public:
     static void groupAnagrams_49_tests() {
         vector<GroupAnagramsTestCase> testCases = {
             // Example 1
-            GroupAnagramsTestCase({"eat", "tea", "tan", "ate", "nat", "bat"},
-                                  {{"bat"}, {"tan", "nat"}, {"eat", "tea", "ate"}}),
+            {{"eat", "tea", "tan", "ate", "nat", "bat"},
+             {{"bat"}, {"tan", "nat"}, {"eat", "tea", "ate"}}},
 
             // Example 2
-            GroupAnagramsTestCase({""}, { {""} }),
+            {{""}, { {""} }},
 
             // Example 3
-            GroupAnagramsTestCase({"a"}, { {"a"} }),
+            {{"a"}, { {"a"} }},
 
             // Large test case: Multiple anagram groups with long words
-            GroupAnagramsTestCase({"abcdefg", "gfedcba", "xyz", "zxy", "yxz", "longword", "wordlong"},
-                                  {{"abcdefg", "gfedcba"}, {"xyz", "zxy", "yxz"}, {"longword", "wordlong"}}),
+            {{"abcdefg", "gfedcba", "xyz", "zxy", "yxz", "longword", "wordlong"},
+             {{"abcdefg", "gfedcba"}, {"xyz", "zxy", "yxz"}, {"longword", "wordlong"}}},
 
             // Large test case: Many unique words (no anagrams)
-            GroupAnagramsTestCase({"abcd", "efgh", "ijkl", "mnop", "qrst", "uvwx", "yz"},
-                                  {{"abcd"}, {"efgh"}, {"ijkl"}, {"mnop"}, {"qrst"}, {"uvwx"}, {"yz"}})
+            {{"abcd", "efgh", "ijkl", "mnop", "qrst", "uvwx", "yz"},
+             {{"abcd"}, {"efgh"}, {"ijkl"}, {"mnop"}, {"qrst"}, {"uvwx"}, {"yz"}}}
         };
 
         GroupAnagrams_49 solution;
@@ -3041,28 +3041,28 @@ public:
     static void findCelebrity_277_tests() {
         vector<FindCelebrityTestCase> testCases = {
             // Easy: A knows B, B knows no one → B is celebrity
-            FindCelebrityTestCase({{0, 1}, {0, 0}}, 1),
+            {{{0, 1}, {0, 0}}, 1},
 
             // Edge: 1 person only
-            FindCelebrityTestCase({{0}}, 0),
+            {{{0}}, 0},
 
             // Edge: 3 people, 2 is celeb
-            FindCelebrityTestCase({
+            {{
                 {0, 1, 1},
                 {0, 0, 1},
                 {0, 0, 0}
-            }, 2),
+            }, 2},
 
             // 4x4 complex
-            FindCelebrityTestCase({
+            {{
                 {0, 1, 1, 1},
                 {0, 0, 1, 1},
                 {0, 0, 0, 1},
                 {0, 0, 0, 0}
-            }, 3),
+            }, 3},
 
             // 7x7 larger case, celebrity at 6
-            FindCelebrityTestCase({
+            {{
                 {0,1,1,1,1,1,1},
                 {0,0,1,1,1,1,1},
                 {0,0,0,1,1,1,1},
@@ -3070,7 +3070,7 @@ public:
                 {0,0,0,0,0,1,1},
                 {0,0,0,0,0,0,1},
                 {0,0,0,0,0,0,0}
-            }, 6)
+            }, 6}
         };
 
         for (size_t i = 0; i < testCases.size(); ++i) {
@@ -3087,12 +3087,12 @@ public:
     static void longestConsecutiveSequence_128_tests() {
         vector<LongestConsecutiveSequenceTestCase> testCases = {
             // Examples from problem statement
-            LongestConsecutiveSequenceTestCase({100,4,200,1,3,2},         4),
-            LongestConsecutiveSequenceTestCase({0,3,7,2,5,8,4,6,0,1},     9),
-            LongestConsecutiveSequenceTestCase({1,0,1,2},                 3),
+            {{100,4,200,1,3,2},         4},
+            {{0,3,7,2,5,8,4,6,0,1},     9},
+            {{1,0,1,2},                 3},
             // Additional complex cases
-            LongestConsecutiveSequenceTestCase({-1,-2,-3,7,6,5,4,3,2,1},   7),          // 1,2,3,4,5,6,7
-            LongestConsecutiveSequenceTestCase({10,5,12,3,55,30,4,11,11,5,13,14,6}, 5)  // 10–14
+            {{-1,-2,-3,7,6,5,4,3,2,1},   7},          // 1,2,3,4,5,6,7
+            {{10,5,12,3,55,30,4,11,11,5,13,14,6}, 5}  // 10–14
         };
 
         LongestConsecutiveSequence_128 solution;
