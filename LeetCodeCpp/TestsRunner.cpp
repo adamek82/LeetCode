@@ -1156,10 +1156,10 @@ class TestsRunner {
 public:
     static void courseSchedule_207_tests() {
         vector<ScheduleTestCase> testCases = {
-            ScheduleTestCase(2, {{1, 0}}, true),
-            ScheduleTestCase(2, {{1, 0}, {0, 1}}, false),
-            ScheduleTestCase(5, {{0, 1}, {2, 3}, {3, 4}, {2, 1}}, true),
-            ScheduleTestCase(5, {{0, 1}, {2, 3}, {3, 4}, {2, 1}, {4, 2}}, false),
+            {2, {{1, 0}}, true},
+            {2, {{1, 0}, {0, 1}}, false},
+            {5, {{0, 1}, {2, 3}, {3, 4}, {2, 1}}, true},
+            {5, {{0, 1}, {2, 3}, {3, 4}, {2, 1}, {4, 2}}, false},
         };
 
         CourseSchedule_207 cs207;
@@ -1183,11 +1183,11 @@ public:
 
     static void findIfPathExistsInGraph_1971_tests() {
         vector<PathTestCase> testCases = {
-            PathTestCase(3, {{0, 1}, {1, 2}, {2, 0}}, 0, 2, true),
-            PathTestCase(6, {{0, 1}, {0, 2}, {3, 5}, {5, 4}, {4, 3}}, 0, 5, false),
-            PathTestCase(4, {{0, 1}, {1, 2}, {2, 3}}, 0, 3, true),
-            PathTestCase(5, {{0, 4}, {4, 3}, {3, 2}, {2, 1}}, 0, 1, true),
-            PathTestCase(4, {{0, 1}, {1, 2}}, 0, 3, false),
+            {3, {{0, 1}, {1, 2}, {2, 0}}, 0, 2, true},
+            {6, {{0, 1}, {0, 2}, {3, 5}, {5, 4}, {4, 3}}, 0, 5, false},
+            {4, {{0, 1}, {1, 2}, {2, 3}}, 0, 3, true},
+            {5, {{0, 4}, {4, 3}, {3, 2}, {2, 1}}, 0, 1, true},
+            {4, {{0, 1}, {1, 2}}, 0, 3, false},
         };
 
         FindIfPathExistsInGraph_1971 fp1971;
@@ -1225,30 +1225,30 @@ public:
     {
         // Define test cases
         vector<NumIslandsTestCase> testCases = {
-            NumIslandsTestCase({{'1', '1', '1', '1', '0'},
-                                {'1', '1', '0', '1', '0'},
-                                {'1', '1', '0', '0', '0'},
-                                {'0', '0', '0', '0', '0'}},
-                               1),
+            {{{'1', '1', '1', '1', '0'},
+              {'1', '1', '0', '1', '0'},
+              {'1', '1', '0', '0', '0'},
+              {'0', '0', '0', '0', '0'}},
+             1},
 
-            NumIslandsTestCase({{'1', '1', '0', '0', '0'},
-                                {'1', '1', '0', '0', '0'},
-                                {'0', '0', '1', '0', '0'},
-                                {'0', '0', '0', '1', '1'}},
-                               3),
+            {{{'1', '1', '0', '0', '0'},
+              {'1', '1', '0', '0', '0'},
+              {'0', '0', '1', '0', '0'},
+              {'0', '0', '0', '1', '1'}},
+             3},
 
             // Additional test case 1
-            NumIslandsTestCase({{'1', '0', '0', '0', '1'},
-                                {'0', '1', '1', '1', '0'},
-                                {'0', '1', '0', '1', '0'},
-                                {'1', '0', '0', '0', '1'}},
-                               5), // Expected output: 5 (each isolated "1" or group of "1"s is an island)
+            {{{'1', '0', '0', '0', '1'},
+              {'0', '1', '1', '1', '0'},
+              {'0', '1', '0', '1', '0'},
+              {'1', '0', '0', '0', '1'}},
+             5}, // Expected output: 5 (each isolated "1" or group of "1"s is an island)
 
             // Additional test case 2
-            NumIslandsTestCase({{'1', '1', '1'},
-                                {'0', '1', '0'},
-                                {'1', '1', '1'}},
-                               1) // Expected output: 1 (entire grid is a single connected island)
+            {{{'1', '1', '1'},
+              {'0', '1', '0'},
+              {'1', '1', '1'}},
+             1} // Expected output: 1 (entire grid is a single connected island)
         };
 
         NumberOfIslands_200 noi200;
@@ -1264,28 +1264,31 @@ public:
 
     static void maxAreaOfIsland_695_tests() {
         vector<MaxAreaTestCase> testCases = {
-            MaxAreaTestCase({{0,0,1,0,0,0,0,1,0,0,0,0,0},
-                             {0,0,0,0,0,0,0,1,1,1,0,0,0},
-                             {0,1,1,0,1,0,0,0,0,0,0,0,0},
-                             {0,1,0,0,1,1,0,0,1,0,1,0,0},
-                             {0,1,0,0,1,1,0,0,1,1,1,0,0},
-                             {0,0,0,0,0,0,0,0,0,0,1,0,0},
-                             {0,0,0,0,0,0,0,1,1,1,0,0,0},
-                             {0,0,0,0,0,0,0,1,1,0,0,0,0}}, 6),
+            {{{0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+              {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0},
+              {0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+              {0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0},
+              {0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0},
+              {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+              {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0},
+              {0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0}},
+             6},
 
-            MaxAreaTestCase({{0,0,0,0,0,0,0,0}}, 0),  // Expected output: 0 (no land)
+            {{{0, 0, 0, 0, 0, 0, 0, 0}}, 0}, // Expected output: 0 (no land)
 
             // Additional test case 1
-            MaxAreaTestCase({{1, 1, 0, 0, 1, 1},
-                             {1, 0, 0, 0, 1, 1},
-                             {0, 0, 1, 1, 1, 0},
-                             {0, 0, 1, 0, 1, 1}}, 10), // Expected output: 10
+            {{{1, 1, 0, 0, 1, 1},
+              {1, 0, 0, 0, 1, 1},
+              {0, 0, 1, 1, 1, 0},
+              {0, 0, 1, 0, 1, 1}},
+             10}, // Expected output: 10
 
             // Additional test case 2
-            MaxAreaTestCase({{0, 1, 1, 1},
-                             {1, 1, 0, 0},
-                             {1, 0, 0, 1},
-                             {1, 1, 1, 0}}, 9)  // Expected output: 9
+            {{{0, 1, 1, 1},
+              {1, 1, 0, 0},
+              {1, 0, 0, 1},
+              {1, 1, 1, 0}},
+             9} // Expected output: 9
         };
 
         MaxAreaOfIsland_695 mai695;
