@@ -5111,244 +5111,94 @@ public:
     }
 
     static void permutations_46_tests() {
-        // Pretty-print helper for vector<vector<int>>
-        auto printVV = [](const vector<vector<int>>& vv) {
-            cout << '[';
-            for (size_t i = 0; i < vv.size(); ++i) {
-                cout << '[';
-                for (size_t j = 0; j < vv[i].size(); ++j) {
-                    cout << vv[i][j] << (j + 1 < vv[i].size() ? ',' : '\0');
-                }
-                cout << ']';
-                if (i + 1 < vv.size()) cout << ',';
-            }
-            cout << ']';
-        };
-
-        // Order-insensitive normalizer: sort the list of permutations
-        // lexicographically; inner vectors keep their element order (permutation).
-        auto normalizeVV = [](vector<vector<int>> vv) {
-            sort(vv.begin(), vv.end(), [](const vector<int>& a, const vector<int>& b){
-                return lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
-            });
-            return vv;
-        };
-
         vector<Permutations46TestCase> tests = {
-            // Example 1
             {{1,2,3}, {{1,2,3},{1,3,2},{2,1,3},{2,3,1},{3,1,2},{3,2,1}}},
-            // Example 2
             {{0,1},   {{0,1},{1,0}}},
-            // Example 3
             {{1},     {{1}}},
-            // Additional
             {{-1,2},  {{-1,2},{2,-1}}},
         };
 
         Permutations_46 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
-            auto in  = tests[i].nums;  // method takes non-const ref by project style
+            auto in  = tests[i].nums;               // method takes non-const ref
             auto got = sol.permute(in);
 
-            auto normExpected = normalizeVV(tests[i].expected);
-            auto normGot      = normalizeVV(got);
-            bool pass = (normGot == normExpected);
-
-            cout << "Permutations 46 Test " << (i + 1) << ": "
-                << (pass ? "PASS" : "FAIL") << '\n';
-            if (!pass) {
-                cout << "  Expected: ";
-                printVV(normExpected);
-                cout << "  Got: ";
-                printVV(normGot);
-                cout << '\n';
-            }
+            TestUtils::assertEqVVIntPermutations(
+                "Permutations 46 Test " + to_string(i + 1),
+                tests[i].expected,
+                got
+            );
         }
     }
 
     static void combinations_77_tests() {
-        // Pretty-print helper for vector<vector<int>>
-        auto printVV = [](const vector<vector<int>>& vv) {
-            cout << '[';
-            for (size_t i = 0; i < vv.size(); ++i) {
-                cout << '[';
-                for (size_t j = 0; j < vv[i].size(); ++j) {
-                    cout << vv[i][j] << (j + 1 < vv[i].size() ? ',' : '\0');
-                }
-                cout << ']';
-                if (i + 1 < vv.size()) cout << ',';
-            }
-            cout << ']';
-        };
-
-        // Order-insensitive normalizer: each combo already increasing;
-        // sort list of combos lexicographically (size is always k).
-        auto normalizeVV = [](vector<vector<int>> vv) {
-            sort(vv.begin(), vv.end(), [](const vector<int>& a, const vector<int>& b){
-                return lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
-            });
-            return vv;
-        };
-
         vector<Combinations77TestCase> tests = {
-            // Example 1
             {4, 2, {{1,2},{1,3},{1,4},{2,3},{2,4},{3,4}}},
-            // Example 2
             {1, 1, {{1}}},
-            // Additional sanity
             {3, 1, {{1},{2},{3}}},
             {3, 3, {{1,2,3}}},
-            {5, 3, {{1,2,3},{1,2,4},{1,2,5},{1,3,4},{1,3,5},{1,4,5},{2,3,4},{2,3,5},{2,4,5},{3,4,5}}}
+            {5, 3, {{1,2,3},{1,2,4},{1,2,5},{1,3,4},{1,3,5},
+                    {1,4,5},{2,3,4},{2,3,5},{2,4,5},{3,4,5}}},
         };
 
         Combinations_77 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = sol.combine(tests[i].n, tests[i].k);
 
-            auto normExpected = normalizeVV(tests[i].expected);
-            auto normGot      = normalizeVV(got);
-            bool pass = (normGot == normExpected);
-
-            cout << "Combinations 77 Test " << (i + 1) << ": "
-                << (pass ? "PASS" : "FAIL") << '\n';
-            if (!pass) {
-                cout << "  Expected: ";
-                printVV(normExpected);
-                cout << "  Got: ";
-                printVV(normGot);
-                cout << '\n';
-            }
+            TestUtils::assertEqVVIntAnyOrder(
+                "Combinations 77 Test " + to_string(i + 1),
+                tests[i].expected,
+                got
+            );
         }
     }
 
     static void letterCombinations_17_tests() {
-        // Pretty-print helper for vector<string>
-        auto printVS = [](const vector<string>& vs) {
-            cout << '[';
-            for (size_t i = 0; i < vs.size(); ++i) {
-                cout << '"' << vs[i] << '"';
-                if (i + 1 < vs.size()) cout << ',';
-            }
-            cout << ']';
-        };
-
-        // Order-insensitive normalization: sort lexicographically
-        auto normalize = [](vector<string> v) {
-            sort(v.begin(), v.end());
-            return v;
-        };
-
         vector<LetterCombinations17TestCase> tests = {
-            // Example 1
             {"23", {"ad","ae","af","bd","be","bf","cd","ce","cf"}},
-            // Example 2
             {"",   {}},
-            // Example 3
             {"2",  {"a","b","c"}},
-            // Additional
             {"9",  {"w","x","y","z"}},
-            {"79", {
-                "pw","px","py","pz",
-                "qw","qx","qy","qz",
-                "rw","rx","ry","rz",
-                "sw","sx","sy","sz"
-            }}
+            {"79", {"pw","px","py","pz","qw","qx","qy","qz",
+                    "rw","rx","ry","rz","sw","sx","sy","sz"}}
         };
 
         LetterCombinations_17 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = sol.letterCombinations(tests[i].digits);
 
-            auto normExpected = normalize(tests[i].expected);
-            auto normGot      = normalize(got);
-            bool pass = (normGot == normExpected);
-
-            cout << "Letter Combinations 17 Test " << (i + 1) << ": "
-                << (pass ? "PASS" : "FAIL") << '\n';
-            if (!pass) {
-                cout << "  Expected: ";
-                printVS(normExpected);
-                cout << "  Got: ";
-                printVS(normGot);
-                cout << '\n';
-            }
+            TestUtils::assertEqStringsAnyOrder(
+                "Letter Combinations 17 Test " + to_string(i + 1),
+                tests[i].expected,
+                got
+            );
         }
     }
 
     static void combinationSum_39_tests() {
-        // Pretty-print helper for vector<vector<int>>
-        auto printVV = [](const vector<vector<int>>& vv) {
-            cout << '[';
-            for (size_t i = 0; i < vv.size(); ++i) {
-                cout << '[';
-                for (size_t j = 0; j < vv[i].size(); ++j) {
-                    cout << vv[i][j] << (j + 1 < vv[i].size() ? ',' : '\0');
-                }
-                cout << ']';
-                if (i + 1 < vv.size()) cout << ',';
-            }
-            cout << ']';
-        };
-
-        // Order-insensitive normalizer:
-        // 1) Each combo sorted ascending (generation already yields non-decreasing).
-        // 2) Sort the list of combos lexicographically.
-        auto normalizeVV = [](vector<vector<int>> vv) {
-            for (auto& v : vv) sort(v.begin(), v.end());
-            sort(vv.begin(), vv.end(), [](const vector<int>& a, const vector<int>& b){
-                return lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
-            });
-            return vv;
-        };
-
         vector<CombinationSum39TestCase> tests = {
-            // Example 1
             {{2,3,6,7}, 7, {{2,2,3},{7}}},
-            // Example 2
-            {{2,3,5}, 8, {{2,2,2,2},{2,3,3},{3,5}}},
-            // Example 3
-            {{2}, 1, {}},
-            // Additional
-            {{2}, 2, {{2}}},
-            {{2,4,6}, 6, {{2,2,2},{2,4},{6}}},
-            {{8,7,4,3}, 11, {{3,4,4},{3,8},{7,4}}}
+            {{2,3,5},   8, {{2,2,2,2},{2,3,3},{3,5}}},
+            {{2},       1, {}},
+            {{2},       2, {{2}}},
+            {{2,4,6},   6, {{2,2,2},{2,4},{6}}},
+            {{8,7,4,3},11, {{3,4,4},{3,8},{7,4}}}
         };
 
         CombinationSum_39 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
-            auto cand = tests[i].candidates;
+            auto cand = tests[i].candidates;       // method takes non-const ref
             auto got  = sol.combinationSum(cand, tests[i].target);
 
-            auto normExpected = normalizeVV(tests[i].expected);
-            auto normGot      = normalizeVV(got);
-            bool pass = (normGot == normExpected);
-
-            cout << "Combination Sum 39 Test " << (i + 1) << ": "
-                << (pass ? "PASS" : "FAIL") << '\n';
-            if (!pass) {
-                cout << "  Expected: ";
-                printVV(normExpected);
-                cout << "  Got: ";
-                printVV(normGot);
-                cout << '\n';
-            }
+            TestUtils::assertEqVVIntAnyOrder(
+                "Combination Sum 39 Test " + to_string(i + 1),
+                tests[i].expected,
+                got
+            );
         }
     }
 
     static void generateParentheses_22_tests() {
-        auto printVS = [](const vector<string>& vs) {
-            cout << '[';
-            for (size_t i = 0; i < vs.size(); ++i) {
-                cout << '"' << vs[i] << '"';
-                if (i + 1 < vs.size()) cout << ',';
-            }
-            cout << ']';
-        };
-        auto normalize = [](vector<string> v) {
-            sort(v.begin(), v.end());
-            return v;
-        };
-
         vector<GenerateParentheses22TestCase> tests = {
             {3, {"((()))","(()())","(())()","()(())","()()()"}},
             {1, {"()"}},
@@ -5362,19 +5212,11 @@ public:
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = sol.generateParenthesis(tests[i].n);
 
-            auto normExpected = normalize(tests[i].expected);
-            auto normGot      = normalize(got);
-            bool pass = (normGot == normExpected);
-
-            cout << "Generate Parentheses 22 Test " << (i + 1) << ": "
-                << (pass ? "PASS" : "FAIL") << '\n';
-            if (!pass) {
-                cout << "  Expected: ";
-                printVS(normExpected);
-                cout << "  Got: ";
-                printVS(normGot);
-                cout << '\n';
-            }
+            TestUtils::assertEqStringsAnyOrder(
+                "Generate Parentheses 22 Test " + to_string(i + 1),
+                tests[i].expected,
+                got
+            );
         }
     }
 
