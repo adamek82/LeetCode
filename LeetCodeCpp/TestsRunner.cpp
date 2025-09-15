@@ -5,6 +5,7 @@
 #include <optional>
 #include <cmath>
 #include <variant>
+#include "TestUtils.h"
 #include "CourseSchedule_207.h"
 #include "FindIfPathExistsInGraph_1971.h"
 #include "NumberOfIslands_200.h"
@@ -4912,16 +4913,14 @@ public:
     }
 
     static void summaryRanges_228_tests() {
-        vector<SummaryRanges228TestCase> tests = {
-            // From the statement
+        std::vector<SummaryRanges228TestCase> tests = {
             {{0,1,2,4,5,7},                  {"0->2","4->5","7"}},
             {{0,2,3,4,6,8,9},                {"0","2->4","6","8->9"}},
-            // Additional / edge-ish
             {{},                              {}},
             {{5},                             {"5"}},
             {{-3,-2,-1,0,2},                 {"-3->0","2"}},
-            {{INT_MAX-1, INT_MAX},           {to_string(INT_MAX-1) + "->" + to_string(INT_MAX)}},
-            {{INT_MIN, INT_MIN+1, INT_MIN+3},{to_string(INT_MIN) + "->" + to_string(INT_MIN+1), to_string(INT_MIN+3)}},
+            {{INT_MAX-1, INT_MAX},           {std::to_string(INT_MAX-1) + "->" + std::to_string(INT_MAX)}},
+            {{INT_MIN, INT_MIN+1, INT_MIN+3},{std::to_string(INT_MIN) + "->" + std::to_string(INT_MIN+1), std::to_string(INT_MIN+3)}},
             {{1,3,5},                         {"1","3","5"}}
         };
 
@@ -4929,22 +4928,9 @@ public:
         for (size_t i = 0; i < tests.size(); ++i) {
             auto in  = tests[i].nums;              // method takes non-const ref
             auto got = sol.summaryRanges(in);
-            bool pass = (got == tests[i].expected);
-            cout << "Summary Ranges 228 Test " << (i + 1) << ": "
-                << (pass ? "PASS" : "FAIL") << '\n';
-            if (!pass) {
-                cout << "  Expected: [";
-                for (size_t j=0;j<tests[i].expected.size();++j){
-                    cout << '"' << tests[i].expected[j] << '"'
-                        << (j+1<tests[i].expected.size() ? ", " : "");
-                }
-                cout << "]  Got: [";
-                for (size_t j=0;j<got.size();++j){
-                    cout << '"' << got[j] << '"'
-                        << (j+1<got.size() ? ", " : "");
-                }
-                cout << "]\n";
-            }
+
+            TestUtils::assertEqStrings("Summary Ranges 228 Test " + std::to_string(i + 1),
+                                    tests[i].expected, got);
         }
     }
 
