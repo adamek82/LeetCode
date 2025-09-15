@@ -1313,15 +1313,15 @@ public:
     static void courseScheduleII_210_tests() {
         vector<CourseScheduleIITestCase> testCases = {
             // Example 1
-            CourseScheduleIITestCase({2, {{1, 0}}, {0, 1}}),
+            {2, {{1, 0}}, {0, 1}},
             // Example 2
-            CourseScheduleIITestCase({4, {{1, 0}, {2, 0}, {3, 1}, {3, 2}}, {0, 1, 2, 3}}),
+            {4, {{1, 0}, {2, 0}, {3, 1}, {3, 2}}, {0, 1, 2, 3}},
             // Example 3
-            CourseScheduleIITestCase({1, {}, {0}}),
+            {1, {}, {0}},
             // Additional Complex Test 1: A graph with two independent subgraphs
-            CourseScheduleIITestCase({6, {{1, 0}, {2, 0}, {3, 4}, {5, 4}}, {0, 4, 1, 2, 3, 5}}),
+            {6, {{1, 0}, {2, 0}, {3, 4}, {5, 4}}, {0, 4, 1, 2, 3, 5}},
             // Additional Complex Test 2: A cycle detection case
-            CourseScheduleIITestCase({5, {{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 0}}, {}})
+            {5, {{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 0}}, {}}
         };
 
         CourseScheduleII_210 cs210;
@@ -1373,15 +1373,15 @@ public:
     static void networkDelayTime_743_tests() {
         vector<NetworkDelayTimeTestCase> testCases = {
             // Provided Examples
-            NetworkDelayTimeTestCase({{ {2, 1, 1}, {2, 3, 1}, {3, 4, 1} }, 4, 2, 2}),
-            NetworkDelayTimeTestCase({{ {1, 2, 1} }, 2, 1, 1}),
-            NetworkDelayTimeTestCase({{ {1, 2, 1} }, 2, 2, -1}),
+            {{ {2, 1, 1}, {2, 3, 1}, {3, 4, 1} }, 4, 2, 2},
+            {{ {1, 2, 1} }, 2, 1, 1},
+            {{ {1, 2, 1} }, 2, 2, -1},
 
             // Additional Complex Example 1: 6 nodes, complex network
-            NetworkDelayTimeTestCase({{ {1, 2, 2}, {1, 3, 4}, {2, 4, 7}, {3, 4, 1}, {2, 5, 5}, {5, 6, 3}, {4, 6, 2} }, 6, 1, 7}),
+            {{ {1, 2, 2}, {1, 3, 4}, {2, 4, 7}, {3, 4, 1}, {2, 5, 5}, {5, 6, 3}, {4, 6, 2} }, 6, 1, 7},
 
             // Additional Complex Example 2: 8 nodes, complex network
-            NetworkDelayTimeTestCase({{ {1, 2, 2}, {1, 3, 1}, {3, 4, 4}, {2, 5, 7}, {5, 6, 1}, {6, 7, 5}, {7, 8, 2}, {4, 8, 3} }, 8, 1, 15}),
+            {{ {1, 2, 2}, {1, 3, 1}, {3, 4, 4}, {2, 5, 7}, {5, 6, 1}, {6, 7, 5}, {7, 8, 2}, {4, 8, 3} }, 8, 1, 15},
         };
 
         NetworkDelayTime_743 ndt743;
@@ -1397,22 +1397,22 @@ public:
     static void rottingOranges_994_tests()
     {
         vector<RottingOrangesTestCase> testCases = {
-            RottingOrangesTestCase({{2, 1, 1}, {1, 1, 0}, {0, 1, 1}}, 4),  // Example 1
-            RottingOrangesTestCase({{2, 1, 1}, {0, 1, 1}, {1, 0, 1}}, -1), // Example 2
-            RottingOrangesTestCase({{0, 2}}, 0),                           // Example 3
+            {{{2, 1, 1}, {1, 1, 0}, {0, 1, 1}}, 4},  // Example 1
+            {{{2, 1, 1}, {0, 1, 1}, {1, 0, 1}}, -1}, // Example 2
+            {{{0, 2}}, 0},                           // Example 3
             // Additional Test Case 1
-            RottingOrangesTestCase({{2, 1, 1, 0, 0, 1, 2},
-                                    {1, 0, 0, 0, 1, 1, 0},
-                                    {0, 1, 2, 1, 0, 1, 0},
-                                    {0, 1, 0, 2, 2, 1, 0}},
-                                   3),
+            {{{2, 1, 1, 0, 0, 1, 2},
+              {1, 0, 0, 0, 1, 1, 0},
+              {0, 1, 2, 1, 0, 1, 0},
+              {0, 1, 0, 2, 2, 1, 0}},
+             3},
             // Additional Test Case 2
-            RottingOrangesTestCase({{2, 2, 1, 1, 1, 0, 0},
-                                    {0, 1, 1, 2, 1, 1, 0},
-                                    {1, 1, 0, 1, 1, 2, 1},
-                                    {2, 0, 0, 1, 1, 1, 1},
-                                    {0, 0, 1, 1, 0, 0, 0}},
-                                   4)};
+            {{{2, 2, 1, 1, 1, 0, 0},
+              {0, 1, 1, 2, 1, 1, 0},
+              {1, 1, 0, 1, 1, 2, 1},
+              {2, 0, 0, 1, 1, 1, 1},
+              {0, 0, 1, 1, 0, 0, 0}},
+             4}};
 
         RottingOranges_994 solution;
 
@@ -1429,36 +1429,36 @@ public:
     {
         vector<PacificAtlanticTestCase> testCases = {
             // Example 1
-            PacificAtlanticTestCase({{1, 2, 2, 3, 5},
-                                     {3, 2, 3, 4, 4},
-                                     {2, 4, 5, 3, 1},
-                                     {6, 7, 1, 4, 5},
-                                     {5, 1, 1, 2, 4}},
-                                    {{0, 4}, {1, 3}, {1, 4}, {2, 2}, {3, 0}, {3, 1}, {4, 0}}),
+            {{{1, 2, 2, 3, 5},
+              {3, 2, 3, 4, 4},
+              {2, 4, 5, 3, 1},
+              {6, 7, 1, 4, 5},
+              {5, 1, 1, 2, 4}},
+             {{0, 4}, {1, 3}, {1, 4}, {2, 2}, {3, 0}, {3, 1}, {4, 0}}},
 
             // Example 2
-            PacificAtlanticTestCase({{1}}, {{0, 0}}),
+            {{{1}}, {{0, 0}}},
 
             // Additional Test Case 1
-            PacificAtlanticTestCase({{10, 10, 10},
-                                     {10, 1, 10},
-                                     {10, 10, 10}},
-                                    {{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 2}, {2, 0}, {2, 1}, {2, 2}}),
+            {{{10, 10, 10},
+              {10, 1, 10},
+              {10, 10, 10}},
+             {{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 2}, {2, 0}, {2, 1}, {2, 2}}},
 
             // Additional Test Case 2
-            PacificAtlanticTestCase({{1, 2, 2, 3, 5},
-                                     {3, 2, 3, 4, 4},
-                                     {2, 4, 5, 6, 7},
-                                     {6, 7, 8, 9, 10}},
-                                    {{0, 4}, {1, 3}, {1, 4}, {2, 3}, {2, 4}, {3, 0}, {3, 1}, {3, 2}, {3, 3}, {3, 4}}),
+            {{{1, 2, 2, 3, 5},
+              {3, 2, 3, 4, 4},
+              {2, 4, 5, 6, 7},
+              {6, 7, 8, 9, 10}},
+             {{0, 4}, {1, 3}, {1, 4}, {2, 3}, {2, 4}, {3, 0}, {3, 1}, {3, 2}, {3, 3}, {3, 4}}},
 
             // Additional Test Case 3
-            PacificAtlanticTestCase({{5, 5, 5, 5, 5},
-                                     {5, 1, 1, 1, 5},
-                                     {5, 1, 1, 1, 5},
-                                     {5, 1, 1, 1, 5},
-                                     {5, 5, 5, 5, 5}},
-                                    {{0, 0}, {0, 1}, {0, 2}, {0, 3}, {0, 4}, {1, 0}, {1, 4}, {2, 0}, {2, 4}, {3, 0}, {3, 4}, {4, 0}, {4, 1}, {4, 2}, {4, 3}, {4, 4}})};
+            {{{5, 5, 5, 5, 5},
+              {5, 1, 1, 1, 5},
+              {5, 1, 1, 1, 5},
+              {5, 1, 1, 1, 5},
+              {5, 5, 5, 5, 5}},
+             {{0, 0}, {0, 1}, {0, 2}, {0, 3}, {0, 4}, {1, 0}, {1, 4}, {2, 0}, {2, 4}, {3, 0}, {3, 4}, {4, 0}, {4, 1}, {4, 2}, {4, 3}, {4, 4}}}};
 
         PacificAtlanticWaterFlow_417 pacificAtlanticSolution;
 
@@ -1474,13 +1474,13 @@ public:
     static void minCostToConnectAllPoints_1584_tests() {
         vector<MinCostToConnectAllPointsTestCase> testCases = {
             // Provided examples
-            MinCostToConnectAllPointsTestCase({{0, 0}, {2, 2}, {3, 10}, {5, 2}, {7, 0}}, 20),
-            MinCostToConnectAllPointsTestCase({{3, 12}, {-2, 5}, {-4, 1}}, 18),
+            {{{0, 0}, {2, 2}, {3, 10}, {5, 2}, {7, 0}}, 20},
+            {{{3, 12}, {-2, 5}, {-4, 1}}, 18},
 
             // Additional complex examples
-            MinCostToConnectAllPointsTestCase({{1, 1}, {3, 3}, {7, 7}, {10, 10}, {15, 15}}, 28), // Sequential points
-            MinCostToConnectAllPointsTestCase({{0, 0}, {1, 1}, {1, 0}, {0, 1}, {2, 2}}, 5), // Compact grid
-            MinCostToConnectAllPointsTestCase({{-100, -100}, {100, 100}, {-100, 100}, {100, -100}}, 600), // Distant points
+            {{{1, 1}, {3, 3}, {7, 7}, {10, 10}, {15, 15}}, 28}, // Sequential points
+            {{{0, 0}, {1, 1}, {1, 0}, {0, 1}, {2, 2}}, 5}, // Compact grid
+            {{{-100, -100}, {100, 100}, {-100, 100}, {100, -100}}, 600}, // Distant points
         };
 
         MinCostToConnectAllPoints_1584 solution;
@@ -1506,13 +1506,13 @@ public:
     static void longestCommonSubsequence_tests() {
         vector<LongestCommonSubsequenceTestCase> testCases = {
             // Provided examples
-            LongestCommonSubsequenceTestCase("abcde", "ace", 3), // Example 1
-            LongestCommonSubsequenceTestCase("abc", "abc", 3),   // Example 2
-            LongestCommonSubsequenceTestCase("abc", "def", 0),   // Example 3
+            {"abcde", "ace", 3}, // Example 1
+            {"abc", "abc", 3},   // Example 2
+            {"abc", "def", 0},   // Example 3
 
             // Additional complex examples
-            LongestCommonSubsequenceTestCase("abcdefghijabcdefghij", "acegikacegik", 10), // Alternating match
-            LongestCommonSubsequenceTestCase("abcdefghijklmnopqrst", "zyxwvutsrqponmlkjih", 1) // No common subsequence
+            {"abcdefghijabcdefghij", "acegikacegik", 10}, // Alternating match
+            {"abcdefghijklmnopqrst", "zyxwvutsrqponmlkjih", 1} // No common subsequence
         };
 
         LongestCommonSubsequence_1143 solution;
@@ -1529,13 +1529,13 @@ public:
     static void longestIncreasingSubsequence_tests() {
         vector<LongestIncreasingSubsequenceTestCase> testCases = {
             // Provided examples
-            LongestIncreasingSubsequenceTestCase({10, 9, 2, 5, 3, 7, 101, 18}, 4), // Example 1
-            LongestIncreasingSubsequenceTestCase({0, 1, 0, 3, 2, 3}, 4),           // Example 2
-            LongestIncreasingSubsequenceTestCase({7, 7, 7, 7, 7, 7, 7}, 1),        // Example 3
+            {{10, 9, 2, 5, 3, 7, 101, 18}, 4}, // Example 1
+            {{0, 1, 0, 3, 2, 3}, 4},           // Example 2
+            {{7, 7, 7, 7, 7, 7, 7}, 1},        // Example 3
 
             // Additional complex examples
-            LongestIncreasingSubsequenceTestCase({3, 10, 2, 1, 20, 4, 6, 21, 22, 23}, 6), // Example 4
-            LongestIncreasingSubsequenceTestCase({9, 2, 5, 3, 7, 101, 18, 9, 4, 5, 6, 7, 8}, 7) // Example 5
+            {{3, 10, 2, 1, 20, 4, 6, 21, 22, 23}, 6}, // Example 4
+            {{9, 2, 5, 3, 7, 101, 18, 9, 4, 5, 6, 7, 8}, 7} // Example 5
         };
 
         LongestIncreasingSubsequence_300 solution; // Assuming your LIS solution is implemented in this class
@@ -1555,13 +1555,13 @@ public:
         // Define test cases
         vector<RemoveDuplicatesTestCase> testCases = {
             // Provided examples
-            RemoveDuplicatesTestCase({1, 1, 2}, {1, 2}),
-            RemoveDuplicatesTestCase({1, 1, 2, 3, 3}, {1, 2, 3}),
+            {{1, 1, 2}, {1, 2}},
+            {{1, 1, 2, 3, 3}, {1, 2, 3}},
 
             // Additional complex test cases
-            RemoveDuplicatesTestCase({1, 1, 1, 1, 1}, {1}),                         // Single value repeated many times
-            RemoveDuplicatesTestCase({1, 2, 2, 3, 3, 4, 4, 5, 5, 6}, {1, 2, 3, 4, 5, 6}), // Alternating duplicates
-            RemoveDuplicatesTestCase({-10, -10, -5, 0, 0, 1, 1, 2, 2, 2, 100}, {-10, -5, 0, 1, 2, 100}), // Mixed negative and positive numbers
+            {{1, 1, 1, 1, 1}, {1}},                         // Single value repeated many times
+            {{1, 2, 2, 3, 3, 4, 4, 5, 5, 6}, {1, 2, 3, 4, 5, 6}}, // Alternating duplicates
+            {{-10, -10, -5, 0, 0, 1, 1, 2, 2, 2, 100}, {-10, -5, 0, 1, 2, 100}}, // Mixed negative and positive numbers
         };
 
         RemoveDuplicatesFromSortedList_83 solution;
@@ -1593,13 +1593,13 @@ public:
         // Define test cases
         vector<ReverseListTestCase> testCases = {
             // Provided examples
-            ReverseListTestCase({1, 2, 3, 4, 5}, {5, 4, 3, 2, 1}),
-            ReverseListTestCase({1, 2}, {2, 1}),
-            ReverseListTestCase({}, {}),
+            {{1, 2, 3, 4, 5}, {5, 4, 3, 2, 1}},
+            {{1, 2}, {2, 1}},
+            {{}, {}},
 
             // Additional complex test cases
-            ReverseListTestCase({-5, -4, -3, -2, -1}, {-1, -2, -3, -4, -5}), // Negative values
-            ReverseListTestCase({10, 20, 30, 40, 50, 60}, {60, 50, 40, 30, 20, 10}) // Longer list
+            {{-5, -4, -3, -2, -1}, {-1, -2, -3, -4, -5}}, // Negative values
+            {{10, 20, 30, 40, 50, 60}, {60, 50, 40, 30, 20, 10}} // Longer list
         };
 
         ReverseLinkedList_206 solution;
@@ -1631,13 +1631,13 @@ public:
         // Define test cases
         vector<MergeTwoListsTestCase> testCases = {
             // Provided examples
-            MergeTwoListsTestCase({1, 2, 4}, {1, 3, 4}, {1, 1, 2, 3, 4, 4}),
-            MergeTwoListsTestCase({}, {}, {}),
-            MergeTwoListsTestCase({}, {0}, {0}),
+            {{1, 2, 4}, {1, 3, 4}, {1, 1, 2, 3, 4, 4}},
+            {{}, {}, {}},
+            {{}, {0}, {0}},
 
             // Additional complex test cases
-            MergeTwoListsTestCase({-10, -5, 0, 3}, {-8, -6, 2, 4}, {-10, -8, -6, -5, 0, 2, 3, 4}),
-            MergeTwoListsTestCase({1, 3, 5, 7}, {2, 4, 6, 8, 10}, {1, 2, 3, 4, 5, 6, 7, 8, 10})
+            {{-10, -5, 0, 3}, {-8, -6, 2, 4}, {-10, -8, -6, -5, 0, 2, 3, 4}},
+            {{1, 3, 5, 7}, {2, 4, 6, 8, 10}, {1, 2, 3, 4, 5, 6, 7, 8, 10}}
         };
 
         MergeTwoSortedLists_21 solution;
@@ -1667,13 +1667,13 @@ public:
     static void hasCycle_141_tests() {
         vector<LinkedListCycleTestCase> testCases = {
             // Provided examples
-            LinkedListCycleTestCase({3, 2, 0, -4}, 1, true),
-            LinkedListCycleTestCase({1, 2}, 0, true),
-            LinkedListCycleTestCase({1}, -1, false),
+            {{3, 2, 0, -4}, 1, true},
+            {{1, 2}, 0, true},
+            {{1}, -1, false},
 
             // Additional examples
-            LinkedListCycleTestCase({1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 4, true),
-            LinkedListCycleTestCase({10, 20, 30, 40, 50, 60, 70, 80}, 2, true)
+            {{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 4, true},
+            {{10, 20, 30, 40, 50, 60, 70, 80}, 2, true}
         };
 
         LinkedListCycle_141 solution;
@@ -1702,13 +1702,13 @@ public:
 
         vector<MiddleOfLinkedListTestCase> testCases = {
             // Provided examples
-            MiddleOfLinkedListTestCase({1, 2, 3, 4, 5}, {3, 4, 5}),
-            MiddleOfLinkedListTestCase({1, 2, 3, 4, 5, 6}, {4, 5, 6}),
+            {{1, 2, 3, 4, 5}, {3, 4, 5}},
+            {{1, 2, 3, 4, 5, 6}, {4, 5, 6}},
 
             // Additional test cases
-            MiddleOfLinkedListTestCase({}, {}),                         // Edge case: empty list
-            MiddleOfLinkedListTestCase({1}, {1}),                       // Edge case: single element
-            MiddleOfLinkedListTestCase({1, 2, 3, 4, 5, 6, 7}, {4, 5, 6, 7}) // Odd-length list
+            {{}, {}},                         // Edge case: empty list
+            {{1}, {1}},                       // Edge case: single element
+            {{1, 2, 3, 4, 5, 6, 7}, {4, 5, 6, 7}} // Odd-length list
         };
 
         MiddleOfLinkedList_876 solution;
@@ -1739,13 +1739,13 @@ public:
 
         vector<RemoveNthNodeTestCase> testCases = {
             // Provided examples
-            RemoveNthNodeTestCase({1, 2, 3, 4, 5}, 2, {1, 2, 3, 5}),
-            RemoveNthNodeTestCase({1}, 1, {}),
-            RemoveNthNodeTestCase({1, 2}, 1, {1}),
+            {{1, 2, 3, 4, 5}, 2, {1, 2, 3, 5}},
+            {{1}, 1, {}},
+            {{1, 2}, 1, {1}},
 
             // Additional test cases
-            RemoveNthNodeTestCase({10, 20, 30, 40, 50, 60, 70}, 3, {10, 20, 30, 40, 60, 70}), // Bigger list
-            RemoveNthNodeTestCase({5, 10, 15, 20}, 4, {10, 15, 20}) // Removing the head
+            {{10, 20, 30, 40, 50, 60, 70}, 3, {10, 20, 30, 40, 60, 70}}, // Bigger list
+            {{5, 10, 15, 20}, 4, {10, 15, 20}} // Removing the head
         };
 
         RemoveNthNodeFromEndOfList_19 solution;
@@ -1774,15 +1774,15 @@ public:
     static void maxProfit_121_tests() {
         vector<MaxProfitTestCase> testCases = {
             // Provided examples
-            MaxProfitTestCase({7, 1, 5, 3, 6, 4}, 5),  // Example 1
-            MaxProfitTestCase({7, 6, 4, 3, 1}, 0),    // Example 2
+            {{7, 1, 5, 3, 6, 4}, 5},  // Example 1
+            {{7, 6, 4, 3, 1}, 0},    // Example 2
 
             // Additional complex test cases
-            MaxProfitTestCase({1, 2, 3, 4, 5, 6, 7, 8, 9}, 8),       // Buy on day 1, sell on day 9
-            MaxProfitTestCase({9, 8, 7, 1, 5, 3, 6, 4}, 5),          // Buy on day 4, sell on day 7
+            {{1, 2, 3, 4, 5, 6, 7, 8, 9}, 8},       // Buy on day 1, sell on day 9
+            {{9, 8, 7, 1, 5, 3, 6, 4}, 5},          // Buy on day 4, sell on day 7
 
             // Edge case
-            MaxProfitTestCase({5}, 0)  // Single price: no transactions possible
+            {{5}, 0}  // Single price: no transactions possible
         };
 
         BestTimeToBuyAndSellStock_121 solution;
@@ -1798,18 +1798,18 @@ public:
     static void spiralMatrix_54_tests() {
         vector<SpiralMatrixTestCase> testCases = {
             // Provided examples
-            SpiralMatrixTestCase({{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}, {1, 2, 3, 6, 9, 8, 7, 4, 5}),
-            SpiralMatrixTestCase({{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}}, {1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7}),
+            {{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}, {1, 2, 3, 6, 9, 8, 7, 4, 5}},
+            {{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}}, {1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7}},
 
             // Additional test cases
             // Edge case: Single element matrix
-            SpiralMatrixTestCase({{1}}, {1}),
+            {{{1}}, {1}},
 
             // More complicated matrix: Rectangular (more rows)
-            SpiralMatrixTestCase({{1, 2}, {3, 4}, {5, 6}, {7, 8}}, {1, 2, 4, 6, 8, 7, 5, 3}),
+            {{{1, 2}, {3, 4}, {5, 6}, {7, 8}}, {1, 2, 4, 6, 8, 7, 5, 3}},
 
             // More complicated matrix: Rectangular (more columns)
-            SpiralMatrixTestCase({{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}}, {1, 2, 3, 4, 5, 10, 9, 8, 7, 6}),
+            {{{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}}, {1, 2, 3, 4, 5, 10, 9, 8, 7, 6}},
         };
 
         SpiralMatrix_54 sm54;
@@ -1829,13 +1829,13 @@ public:
     static void validateBinarySearchTree_98_tests() {
         vector<ValidateBinarySearchTreeTestCase> testCases = {
             // Provided examples
-            ValidateBinarySearchTreeTestCase({2, 1, 3}, true),
-            ValidateBinarySearchTreeTestCase({5, 1, 4, nullopt, nullopt, 3, 6}, false),
+            {{2, 1, 3}, true},
+            {{5, 1, 4, nullopt, nullopt, 3, 6}, false},
 
             // Additional complex test cases
-            ValidateBinarySearchTreeTestCase({10, 5, 15, nullopt, nullopt, 6, 20}, false), // Violates BST in right subtree
-            ValidateBinarySearchTreeTestCase({3, 1, 5, 0, 2, 4, 6}, true),                          // Valid BST
-            ValidateBinarySearchTreeTestCase({1, nullopt, 2, nullopt, 3, nullopt, 4}, true) // Skewed right
+            {{10, 5, 15, nullopt, nullopt, 6, 20}, false}, // Violates BST in right subtree
+            {{3, 1, 5, 0, 2, 4, 6}, true},                          // Valid BST
+            {{1, nullopt, 2, nullopt, 3, nullopt, 4}, true} // Skewed right
         };
 
         ValidateBinarySearchTree_98 validator;
@@ -1860,15 +1860,15 @@ public:
     static void lowestCommonAncestor_235_tests() {
         vector<LowestCommonAncestorTestCase> testCases = {
             // Example 1
-            LowestCommonAncestorTestCase({6, 2, 8, 0, 4, 7, 9, nullopt, nullopt, 3, 5}, 2, 8, 6),
+            {{6, 2, 8, 0, 4, 7, 9, nullopt, nullopt, 3, 5}, 2, 8, 6},
             // Example 2
-            LowestCommonAncestorTestCase({6, 2, 8, 0, 4, 7, 9, nullopt, nullopt, 3, 5}, 2, 4, 2),
+            {{6, 2, 8, 0, 4, 7, 9, nullopt, nullopt, 3, 5}, 2, 4, 2},
             // Example 3
-            LowestCommonAncestorTestCase({2, 1}, 2, 1, 2),
+            {{2, 1}, 2, 1, 2},
             // Additional Complex Test 1
-            LowestCommonAncestorTestCase({10, 5, 15, 3, 8, 12, 20, 1, 4, 7, 9, nullopt, nullopt, 18, 25}, 4, 9, 5),
+            {{10, 5, 15, 3, 8, 12, 20, 1, 4, 7, 9, nullopt, nullopt, 18, 25}, 4, 9, 5},
             // Additional Complex Test 2
-            LowestCommonAncestorTestCase({30, 10, 50, 5, 20, 40, 60, nullopt, 8, 15, 25, 35, 45, nullopt, 70}, 15, 45, 30),
+            {{30, 10, 50, 5, 20, 40, 60, nullopt, 8, 15, 25, 35, 45, nullopt, 70}, 15, 45, 30},
         };
 
         LowestCommonAncestorOfBST_235 lcaSolver;
@@ -1893,17 +1893,17 @@ public:
 
         vector<CopyRandomListTestCase> testCases = {
             // Provided test cases
-            CopyRandomListTestCase({{7, nullopt}, {13, 0}, {11, 4}, {10, 2}, {1, 0}},
-                                {{7, nullopt}, {13, 0}, {11, 4}, {10, 2}, {1, 0}}),
-            CopyRandomListTestCase({{1, 1}, {2, 1}}, {{1, 1}, {2, 1}}),
-            CopyRandomListTestCase({{3, nullopt}, {3, 0}, {3, nullopt}},
-                                {{3, nullopt}, {3, 0}, {3, nullopt}}),
+            {{{7, nullopt}, {13, 0}, {11, 4}, {10, 2}, {1, 0}},
+             {{7, nullopt}, {13, 0}, {11, 4}, {10, 2}, {1, 0}}},
+            {{{1, 1}, {2, 1}}, {{1, 1}, {2, 1}}},
+            {{{3, nullopt}, {3, 0}, {3, nullopt}},
+             {{3, nullopt}, {3, 0}, {3, nullopt}}},
 
             // Additional complex test cases
-            CopyRandomListTestCase({{1, nullopt}, {2, 0}, {3, 1}, {4, 3}, {5, 2}},
-                                {{1, nullopt}, {2, 0}, {3, 1}, {4, 3}, {5, 2}}),
-            CopyRandomListTestCase({{10, 4}, {20, 3}, {30, 2}, {40, 1}, {50, nullopt}},
-                                {{10, 4}, {20, 3}, {30, 2}, {40, 1}, {50, nullopt}})
+            {{{1, nullopt}, {2, 0}, {3, 1}, {4, 3}, {5, 2}},
+             {{1, nullopt}, {2, 0}, {3, 1}, {4, 3}, {5, 2}}},
+            {{{10, 4}, {20, 3}, {30, 2}, {40, 1}, {50, nullopt}},
+             {{10, 4}, {20, 3}, {30, 2}, {40, 1}, {50, nullopt}}}
         };
 
         CopyListWithRandomPointer_138 solution;
@@ -1927,15 +1927,15 @@ public:
     static void kthSmallestElementInBST_230_tests() {
         vector<KthSmallestTestCase> testCases = {
             // Example 1
-            KthSmallestTestCase({3, 1, 4, nullopt, 2}, 1, 1),
+            {{3, 1, 4, nullopt, 2}, 1, 1},
             // Example 2
-            KthSmallestTestCase({5, 3, 6, 2, 4, nullopt, nullopt, 1}, 3, 3),
+            {{5, 3, 6, 2, 4, nullopt, nullopt, 1}, 3, 3},
             // Additional Test 1: Larger balanced tree
-            KthSmallestTestCase({15, 10, 20, 5, 13, 17, 25, 3, 8, nullopt, 14, 16, 18}, 6, 14),
+            {{15, 10, 20, 5, 13, 17, 25, 3, 8, nullopt, 14, 16, 18}, 6, 14},
             // Additional Test 2: Single node tree
-            KthSmallestTestCase({42}, 1, 42),
+            {{42}, 1, 42},
             // Additional Test 3: Skewed tree
-            KthSmallestTestCase({1, nullopt, 2, nullopt, 3, nullopt, 4}, 4, 4)
+            {{1, nullopt, 2, nullopt, 3, nullopt, 4}, 4, 4}
         };
 
         KthSmallestElementInBST_230 solution;
@@ -1955,35 +1955,35 @@ public:
     static void implementTrie_208_tests() {
         vector<TrieTestCase> testCases = {
             // Example 1
-            TrieTestCase(
+            {
                 {"Trie", "insert", "search", "search", "startsWith", "insert", "search"},
                 {nullopt, "apple", "apple", "app", "app", "app", "app"},
                 {nullopt, nullopt, true, false, true, nullopt, true}
-            ),
+            },
             // Example 2: Overlapping words
-            TrieTestCase(
+            {
                 {"Trie", "insert", "insert", "search", "search", "startsWith"},
                 {nullopt, "apple", "applause", "apple", "applause", "app"},
                 {nullopt, nullopt, nullopt, true, true, true}
-            ),
+            },
             // Example 3: Single-character operations
-            TrieTestCase(
+            {
                 {"Trie", "insert", "search", "startsWith", "search"},
                 {nullopt, "a", "a", "a", "b"},
                 {nullopt, nullopt, true, true, false}
-            ),
+            },
             // Example 4: No matching prefix
-            TrieTestCase(
+            {
                 {"Trie", "insert", "insert", "startsWith", "startsWith", "search"},
                 {nullopt, "car", "cart", "ca", "cat", "carrot"},
                 {nullopt, nullopt, nullopt, true, false, false}
-            ),
+            },
             // Example 5: Large input set
-            TrieTestCase(
+            {
                 {"Trie", "insert", "insert", "insert", "search", "search", "startsWith"},
                 {nullopt, "dictionary", "dictionaries", "dictator", "dictionary", "dictionaries", "dict"},
                 {nullopt, nullopt, nullopt, nullopt, true, true, true}
-            )
+            }
         };
 
         for (size_t i = 0; i < testCases.size(); ++i) {
@@ -2029,16 +2029,16 @@ public:
     {
         vector<KthLargestElementTestCase> testCases = {
             // Problem statement examples
-            KthLargestElementTestCase({3, 2, 1, 5, 6, 4}, 2, 5),
-            KthLargestElementTestCase({3, 2, 3, 1, 2, 4, 5, 5, 6}, 4, 4),
+            {{3, 2, 1, 5, 6, 4}, 2, 5},
+            {{3, 2, 3, 1, 2, 4, 5, 5, 6}, 4, 4},
 
             // Additional test cases
-            KthLargestElementTestCase({1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 1, 10), // Largest element
-            KthLargestElementTestCase({7, 10, 4, 3, 20, 15}, 3, 10),           // Mixed elements
-            KthLargestElementTestCase({2, 2, 2, 2, 2}, 3, 2),                  // Repeated elements
+            {{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 1, 10}, // Largest element
+            {{7, 10, 4, 3, 20, 15}, 3, 10},           // Mixed elements
+            {{2, 2, 2, 2, 2}, 3, 2},                  // Repeated elements
 
             // Large ascending [1..10000], k=500 -> 9501 (placeholder, filled below)
-            KthLargestElementTestCase({}, 500, 9501)
+            {{}, 500, 9501}
         };
 
         // Fill the large ascending test
@@ -2081,18 +2081,18 @@ public:
 
     static void minHeap_tests() {
         vector<MinHeapTestCase> testCases = {
-            MinHeapTestCase(
+            {
                 {{"insert", 5}, {"insert", 3}, {"insert", 8}, {"insert", 1}, {"insert", 2}, {"extractMin", 0}, {"extractMin", 0}},
                 {1, 2} // Expected results of the extractMin calls
-            ),
-            MinHeapTestCase(
+            },
+            {
                 {{"insert", 10}, {"insert", 20}, {"insert", 5}, {"update", 1}, {"extractMin", 0}},
                 {1} // Updated root is extracted
-            ),
-            MinHeapTestCase(
+            },
+            {
                 {{"insert", 100}, {"insert", 50}, {"insert", 25}, {"extractMin", 0}, {"extractMin", 0}},
                 {25, 50} // Both extractions
-            )
+            }
         };
 
         for (size_t i = 0; i < testCases.size(); ++i) {
@@ -2125,16 +2125,16 @@ public:
     static void rotateImage_48_tests() {
         vector<RotateImageTestCase> testCases = {
             // Example 1
-            RotateImageTestCase({{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}, {{7, 4, 1}, {8, 5, 2}, {9, 6, 3}}),
+            {{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}, {{7, 4, 1}, {8, 5, 2}, {9, 6, 3}}},
             // Example 2
-            RotateImageTestCase({{5, 1, 9, 11}, {2, 4, 8, 10}, {13, 3, 6, 7}, {15, 14, 12, 16}},
-                                {{15, 13, 2, 5}, {14, 3, 4, 1}, {12, 6, 8, 9}, {16, 7, 10, 11}}),
+            {{{5, 1, 9, 11}, {2, 4, 8, 10}, {13, 3, 6, 7}, {15, 14, 12, 16}},
+             {{15, 13, 2, 5}, {14, 3, 4, 1}, {12, 6, 8, 9}, {16, 7, 10, 11}}},
             // Additional Test Cases
-            RotateImageTestCase({{1}}, {{1}}), // Single element
-            RotateImageTestCase({{1, 2}, {3, 4}}, {{3, 1}, {4, 2}}), // 2x2 matrix
-            RotateImageTestCase(
+            {{{1}}, {{1}}},                       // Single element
+            {{{1, 2}, {3, 4}}, {{3, 1}, {4, 2}}}, // 2x2 matrix
+            {
                 {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}},
-                {{13, 9, 5, 1}, {14, 10, 6, 2}, {15, 11, 7, 3}, {16, 12, 8, 4}}) // Larger 4x4 matrix
+                {{13, 9, 5, 1}, {14, 10, 6, 2}, {15, 11, 7, 3}, {16, 12, 8, 4}}} // Larger 4x4 matrix
         };
 
         RotateImage_48 rotator;
@@ -2169,15 +2169,15 @@ public:
     static void mergeIntervals_56_tests() {
         vector<MergeIntervalsTestCase> testCases = {
             // Problem statement examples
-            MergeIntervalsTestCase({{1, 3}, {2, 6}, {8, 10}, {15, 18}}, {{1, 6}, {8, 10}, {15, 18}}),
-            MergeIntervalsTestCase({{1, 4}, {4, 5}}, {{1, 5}}),
+            {{{1, 3}, {2, 6}, {8, 10}, {15, 18}}, {{1, 6}, {8, 10}, {15, 18}}},
+            {{{1, 4}, {4, 5}}, {{1, 5}}},
 
             // Additional complex test cases
-            MergeIntervalsTestCase({{1, 4}, {0, 2}, {3, 5}}, {{0, 5}}),
-            MergeIntervalsTestCase({{1, 10}, {2, 6}, {8, 9}, {15, 20}, {18, 22}}, {{1, 10}, {15, 22}}),
+            {{{1, 4}, {0, 2}, {3, 5}}, {{0, 5}}},
+            {{{1, 10}, {2, 6}, {8, 9}, {15, 20}, {18, 22}}, {{1, 10}, {15, 22}}},
 
             // Edge case: Single interval
-            MergeIntervalsTestCase({{5, 10}}, {{5, 10}})
+            {{{5, 10}}, {{5, 10}}}
         };
 
         MergeIntervals_56 solution;
@@ -2204,15 +2204,15 @@ public:
 
         vector<MergeKListsTestCase> testCases = {
             // Example 1
-            MergeKListsTestCase({{1, 4, 5}, {1, 3, 4}, {2, 6}}, {1, 1, 2, 3, 4, 4, 5, 6}),
+            {{{1, 4, 5}, {1, 3, 4}, {2, 6}}, {1, 1, 2, 3, 4, 4, 5, 6}},
             // Example 2
-            MergeKListsTestCase({}, {}),
+            {{}, {}},
             // Example 3
-            MergeKListsTestCase({{}}, {}),
+            {{{}}, {}},
             // Additional Test 1: Single long list
-            MergeKListsTestCase({{1, 2, 3, 4, 5}}, {1, 2, 3, 4, 5}),
+            {{{1, 2, 3, 4, 5}}, {1, 2, 3, 4, 5}},
             // Additional Test 2: Large overlapping lists
-            MergeKListsTestCase({{1, 3, 5}, {2, 4, 6}, {0, 7, 8, 9}}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9})
+            {{{1, 3, 5}, {2, 4, 6}, {0, 7, 8, 9}}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}}
         };
 
         MergeKSortedLists_23 solution;
@@ -2244,15 +2244,15 @@ public:
     static void productOfArrayExceptSelf_tests() {
         vector<ProductOfArrayExceptSelfTestCase> testCases = {
             // Example 1
-            ProductOfArrayExceptSelfTestCase({1, 2, 3, 4}, {24, 12, 8, 6}),
+            {{1, 2, 3, 4}, {24, 12, 8, 6}},
             // Example 2
-            ProductOfArrayExceptSelfTestCase({-1, 1, 0, -3, 3}, {0, 0, 9, 0, 0}),
+            {{-1, 1, 0, -3, 3}, {0, 0, 9, 0, 0}},
             // Corner Case: All ones
-            ProductOfArrayExceptSelfTestCase({1, 1, 1, 1}, {1, 1, 1, 1}),
+            {{1, 1, 1, 1}, {1, 1, 1, 1}},
             // Complex Case 1: Mixed positive and negative numbers
-            ProductOfArrayExceptSelfTestCase({-2, -3, 4, 5}, {-60, -40, 30, 24}),
+            {{-2, -3, 4, 5}, {-60, -40, 30, 24}},
             // Complex Case 2: Large array
-            ProductOfArrayExceptSelfTestCase({10, 20, 30, 40, 50}, {1200000, 600000, 400000, 300000, 240000})
+            {{10, 20, 30, 40, 50}, {1200000, 600000, 400000, 300000, 240000}}
         };
 
         ProductOfArrayExceptSelf solution;
@@ -2273,17 +2273,17 @@ public:
         // Define test cases
         vector<MajorityElementTestCase> testCases = {
             // Example 1
-            MajorityElementTestCase({3, 2, 3}, 3),
+            {{3, 2, 3}, 3},
             // Example 2
-            MajorityElementTestCase({2, 2, 1, 1, 1, 2, 2}, 2),
+            {{2, 2, 1, 1, 1, 2, 2}, 2},
             // Edge Case: Single element
-            MajorityElementTestCase({1}, 1),
+            {{1}, 1},
             // Complex Case 1: Large input with clear majority
-            MajorityElementTestCase({1, 1, 1, 1, 2, 2, 2, 2, 1, 1}, 1),
+            {{1, 1, 1, 1, 2, 2, 2, 2, 1, 1}, 1},
             // Complex Case 2: Alternating majority
-            MajorityElementTestCase({5, 1, 5, 1, 5, 5, 5, 2, 5, 3, 5, 5}, 5),
+            {{5, 1, 5, 1, 5, 5, 5, 2, 5, 3, 5, 5}, 5},
             // Complex Case 3: Majority in large data
-            MajorityElementTestCase({10, 9, 9, 10, 10, 10, 9, 10, 9, 10, 10}, 10)
+            {{10, 9, 9, 10, 10, 10, 9, 10, 9, 10, 10}, 10}
         };
 
         cout << "-> Boyer–Moore Majority Vote Algorithm:\n";
@@ -2315,12 +2315,12 @@ public:
 
     static void evaluateReversePolishNotation_150_tests() {
         vector<EvaluateRPNTestCase> testCases = {
-            EvaluateRPNTestCase({"2", "1", "+", "3", "*"}, 9),  // Example 1
-            EvaluateRPNTestCase({"4", "13", "5", "/", "+"}, 6), // Example 2
-            EvaluateRPNTestCase({"10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"}, 22), // Example 3
+            {{"2", "1", "+", "3", "*"}, 9},  // Example 1
+            {{"4", "13", "5", "/", "+"}, 6}, // Example 2
+            {{"10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"}, 22}, // Example 3
             // Additional test cases
-            EvaluateRPNTestCase({"3", "4", "+", "2", "*", "7", "/"}, 2), // Complex case: (((3+4)*2)/7)
-            EvaluateRPNTestCase({"5", "-2", "4", "+", "*", "3", "+"}, 13) // Complex case: ((5*(-2+4))+3)
+            {{"3", "4", "+", "2", "*", "7", "/"}, 2}, // Complex case: (((3+4)*2)/7)
+            {{"5", "-2", "4", "+", "*", "3", "+"}, 13} // Complex case: ((5*(-2+4))+3)
         };
 
         EvaluateReversePolishNotation_150 evaluator;
@@ -2336,15 +2336,15 @@ public:
     static void largestRectangleArea_tests() {
         vector<LargestRectangleTestCase> testCases = {
             // Example 1
-            LargestRectangleTestCase({2, 1, 5, 6, 2, 3}, 10),
+            {{2, 1, 5, 6, 2, 3}, 10},
             // Example 2
-            LargestRectangleTestCase({2, 4}, 4),
+            {{2, 4}, 4},
             // Additional Test 1: All bars of the same height
-            LargestRectangleTestCase({1, 1, 1, 1, 1}, 5),
+            {{1, 1, 1, 1, 1}, 5},
             // Additional Test 2: Decreasing heights
-            LargestRectangleTestCase({5, 4, 3, 2, 1}, 9),
+            {{5, 4, 3, 2, 1}, 9},
             // Additional Test 3: Complex case
-            LargestRectangleTestCase({2, 1, 4, 5, 1, 3, 3}, 8)
+            {{2, 1, 4, 5, 1, 3, 3}, 8}
         };
 
         LargestRectangleInHistogram_84 solution;
@@ -2361,39 +2361,43 @@ public:
     static void runWordSearchTests() {
         vector<WordSearchTestCase> testCases = {
             // Example 1 from problem statement
-            WordSearchTestCase({{'A','B','C','E'},
-                                {'S','F','C','S'},
-                                {'A','D','E','E'}},
-                            "ABCCED", true),
+            {{{'A', 'B', 'C', 'E'},
+              {'S', 'F', 'C', 'S'},
+              {'A', 'D', 'E', 'E'}},
+             "ABCCED",
+             true},
 
             // Example 2 from problem statement
-            WordSearchTestCase({{'A','B','C','E'},
-                                {'S','F','C','S'},
-                                {'A','D','E','E'}},
-                            "SEE", true),
+            {{{'A', 'B', 'C', 'E'},
+              {'S', 'F', 'C', 'S'},
+              {'A', 'D', 'E', 'E'}},
+             "SEE",
+             true},
 
             // Example 3 from problem statement
-            WordSearchTestCase({{'A','B','C','E'},
-                                {'S','F','C','S'},
-                                {'A','D','E','E'}},
-                            "ABCB", false),
+            {{{'A', 'B', 'C', 'E'},
+              {'S', 'F', 'C', 'S'},
+              {'A', 'D', 'E', 'E'}},
+             "ABCB",
+             false},
 
             // Additional complex test case 1
-            WordSearchTestCase({{'A','B','C','E','F','G'},
-                                {'H','I','J','K','L','M'},
-                                {'N','O','P','Q','R','S'},
-                                {'T','U','V','W','X','Y'},
-                                {'Z','A','B','C','D','E'}},
-                            "ABCEFGMLKJIHNT", true),
+            {{{'A', 'B', 'C', 'E', 'F', 'G'},
+              {'H', 'I', 'J', 'K', 'L', 'M'},
+              {'N', 'O', 'P', 'Q', 'R', 'S'},
+              {'T', 'U', 'V', 'W', 'X', 'Y'},
+              {'Z', 'A', 'B', 'C', 'D', 'E'}},
+             "ABCEFGMLKJIHNT",
+             true},
 
             // Additional complex test case 2
-            WordSearchTestCase({{'A','B','C','E','F','G'},
-                                {'H','I','J','K','L','M'},
-                                {'N','O','P','Q','R','S'},
-                                {'T','U','V','W','X','Y'},
-                                {'Z','A','B','C','D','E'}},
-                            "ZYXWVUTSRQPONMLK", false)
-        };
+            {{{'A', 'B', 'C', 'E', 'F', 'G'},
+              {'H', 'I', 'J', 'K', 'L', 'M'},
+              {'N', 'O', 'P', 'Q', 'R', 'S'},
+              {'T', 'U', 'V', 'W', 'X', 'Y'},
+              {'Z', 'A', 'B', 'C', 'D', 'E'}},
+             "ZYXWVUTSRQPONMLK",
+             false}};
 
         WordSearch_79 solution;
 
