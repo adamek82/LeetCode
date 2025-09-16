@@ -133,12 +133,8 @@
 #include "GenerateParentheses_22.h"
 
 using namespace std;
+using namespace TestUtils;
 using namespace TestCases;
-
-// Helper to compare two doubles within 1e-5
-static bool approxEqual(double a, double b, double eps = 1e-5) {
-    return fabs(a - b) < eps;
-}
 
 struct MiddleOfLinkedListTestCase {
     vector<int> inputList;
@@ -1009,15 +1005,6 @@ static bool isValidKClosest(const vector<vector<int>>& input,
         pool.erase(it);                                // consume one copy
     }
     return true;
-}
-
-//----------------------------------------------------------------------------
-// Reusable helpers for dumping containers in tests
-//----------------------------------------------------------------------------
-template <typename T>
-void printVec(const vector<T>& v) {
-    for (const auto& x : v) cout << x << ' ';
-    cout << '\n';
 }
 
 template <typename T>
