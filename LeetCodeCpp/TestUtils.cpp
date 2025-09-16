@@ -178,4 +178,38 @@ bool assertApprox(const string& label,
     return pass;
 }
 
+bool assertEqVIntExact(const std::string& label,
+                       const std::vector<int>& expected,
+                       const std::vector<int>& got) {
+    bool pass = (expected == got);
+    std::cout << label << ": " << (pass ? "PASS" : "FAIL") << '\n';
+    if (!pass) {
+        std::cout << "  Expected: ";
+        printVec(expected);
+        std::cout << "  Got: ";
+        printVec(got);
+        std::cout << '\n';
+    }
+    return pass;
+}
+
+bool assertEqVIntPrefix(const std::string& label,
+                        const std::vector<int>& expected,
+                        const std::vector<int>& vec, int k) {
+    if (k < 0) k = 0;
+    if (k > static_cast<int>(vec.size())) k = static_cast<int>(vec.size());
+    std::vector<int> prefix(vec.begin(), vec.begin() + k);
+    bool pass = (static_cast<int>(expected.size()) == k) && (expected == prefix);
+
+    std::cout << label << ": " << (pass ? "PASS" : "FAIL") << '\n';
+    if (!pass) {
+        std::cout << "  Expected k=" << expected.size() << ", prefix=";
+        printVec(expected);
+        std::cout << "\n  Got      k=" << k << ", prefix=";
+        printVec(prefix);
+        std::cout << '\n';
+    }
+    return pass;
+}
+
 } // namespace TestUtils

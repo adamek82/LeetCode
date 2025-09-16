@@ -4945,32 +4945,15 @@ public:
         };
 
         RemoveDuplicates_26 sol;
+        vector<int> a; // reuse to avoid realloc chatter
+
         for (size_t i = 0; i < tests.size(); ++i) {
-            auto arr = tests[i].nums; // copy — function mutates in place
-            int k = sol.removeDuplicates(arr);
-
-            bool pass = (k == (int)tests[i].expected.size());
-            if (pass) {
-                for (int j = 0; j < k; ++j) {
-                    if (arr[j] != tests[i].expected[j]) {
-                        pass = false; break;
-                    }
-                }
-            }
-
-            cout << "Remove Duplicates 26 Test " << (i + 1) << ": "
-                << (pass ? "PASS" : "FAIL") << '\n';
-            if (!pass) {
-                cout << "  Expected k=" << tests[i].expected.size() << ", prefix=[";
-                for (size_t j = 0; j < tests[i].expected.size(); ++j) {
-                    cout << tests[i].expected[j] << (j + 1 < tests[i].expected.size() ? ", " : "");
-                }
-                cout << "]  Got k=" << k << ", prefix=[";
-                for (int j = 0; j < k; ++j) {
-                    cout << arr[j] << (j + 1 < k ? ", " : "");
-                }
-                cout << "]\n";
-            }
+            a = tests[i].nums;                      // the solver mutates in place
+            int k = sol.removeDuplicates(a);
+            TestUtils::assertEqVIntPrefix(
+                "Remove Duplicates 26 Test " + to_string(i + 1),
+                tests[i].expected, a, k
+            );
         }
     }
 
