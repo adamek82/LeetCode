@@ -162,4 +162,112 @@ namespace TestCases {
         LinkedListCycleTestCase(List in, int cyclePos, bool exp)
             : input(move(in)), pos(cyclePos), expected(exp) {}
     };
+
+    // 876. Middle of the Linked List
+    struct MiddleOfLinkedListTestCase {
+        vector<int> input;
+        vector<int> expected;
+
+        MiddleOfLinkedListTestCase(vector<int> in, vector<int> exp)
+            : input(move(in)), expected(move(exp)) {}
+    };
+
+    // 19. Remove Nth Node From End of List
+    struct RemoveNthNodeTestCase {
+        vector<int> input;
+        int n;
+        vector<int> expected;
+
+        RemoveNthNodeTestCase(vector<int> in, int nth, vector<int> exp)
+            : input(move(in)), n(nth), expected(move(exp)) {}
+    };
+
+    // 121. Best Time to Buy and Sell Stock
+    struct MaxProfitTestCase {
+        vector<int> prices;
+        int expected;
+
+        MaxProfitTestCase(vector<int> p, int e)
+            : prices(move(p)), expected(e) {}
+    };
+
+    // 54. Spiral Matrix
+    struct SpiralMatrixTestCase {
+        vector<vector<int>> matrix;
+        vector<int> expected;
+
+        SpiralMatrixTestCase(vector<vector<int>> m, vector<int> exp)
+            : matrix(move(m)), expected(move(exp)) {}
+    };
+
+    // 98. Validate Binary Search Tree
+    struct ValidateBinarySearchTreeTestCase {
+        vector<optional<int>> tree; // level-order input
+        bool expected;
+
+        ValidateBinarySearchTreeTestCase(vector<optional<int>> t, bool e)
+            : tree(move(t)), expected(e) {}
+    };
+
+    // 235. Lowest Common Ancestor of a BST
+    struct LowestCommonAncestorTestCase {
+        vector<optional<int>> tree; // level-order input
+        int p;
+        int q;
+        int expected;
+
+        LowestCommonAncestorTestCase(vector<optional<int>> t, int node1, int node2, int lca)
+            : tree(move(t)), p(node1), q(node2), expected(lca) {}
+    };
+
+    // 138. Copy List with Random Pointer
+    struct CopyRandomListTestCase {
+        vector<pair<int, optional<int>>> input;    // {val, randomIndex or nullopt}
+        vector<pair<int, optional<int>>> expected;
+
+        CopyRandomListTestCase(vector<pair<int, optional<int>>> in,
+                            vector<pair<int, optional<int>>> exp)
+            : input(move(in)), expected(move(exp)) {}
+    };
+
+    // 230. Kth Smallest Element in a BST
+    struct KthSmallestTestCase {
+        vector<optional<int>> tree; // BST as vector
+        int k;
+        int expected;
+
+        KthSmallestTestCase(vector<optional<int>> t, int kVal, int e)
+            : tree(move(t)), k(kVal), expected(e) {}
+    };
+
+    // 208. Implement Trie (Prefix Tree)
+    struct TrieTestCase {
+        vector<string> operations;
+        vector<optional<string>> arguments;
+        vector<optional<bool>> expected;
+
+        TrieTestCase(vector<string> ops,
+                    vector<optional<string>> args,
+                    vector<optional<bool>> exp)
+            : operations(move(ops)), arguments(move(args)), expected(move(exp)) {}
+    };
+
+    // 215. Kth Largest Element in an Array
+    struct KthLargestElementTestCase {
+        vector<int> nums;
+        int k;
+        int expected;
+
+        KthLargestElementTestCase(vector<int> n, int kVal, int e)
+            : nums(move(n)), k(kVal), expected(e) {}
+    };
+
+    // Min Heap (custom)
+    struct MinHeapTestCase {
+        vector<pair<string, int>> operations; // {op, value(if any)}
+        vector<int> expected;
+
+        MinHeapTestCase(vector<pair<string, int>> ops, vector<int> exp)
+            : operations(move(ops)), expected(move(exp)) {}
+    };
 } // namespace TestCases

@@ -136,100 +136,6 @@ using namespace std;
 using namespace TestUtils;
 using namespace TestCases;
 
-struct MiddleOfLinkedListTestCase {
-    vector<int> inputList;
-    vector<int> expectedList;
-
-    MiddleOfLinkedListTestCase(vector<int> input, vector<int> expected)
-        : inputList(move(input)), expectedList(move(expected)) {}
-};
-
-struct RemoveNthNodeTestCase {
-    vector<int> inputList;
-    int n;
-    vector<int> expectedList;
-
-    RemoveNthNodeTestCase(vector<int> input, int nth, vector<int> expected)
-        : inputList(move(input)), n(nth), expectedList(move(expected)) {}
-};
-
-struct MaxProfitTestCase {
-    vector<int> prices;
-    int expectedResult;
-
-    MaxProfitTestCase(vector<int> p, int e) : prices(move(p)), expectedResult(e) {}
-};
-
-struct SpiralMatrixTestCase {
-    vector<vector<int>> matrix;
-    vector<int> expectedResult;
-
-    SpiralMatrixTestCase(vector<vector<int>> m, vector<int> e)
-        : matrix(move(m)), expectedResult(move(e)) {}
-};
-
-struct ValidateBinarySearchTreeTestCase {
-    vector<optional<int>> tree; // Input as vector
-    bool expectedResult;                  // Expected output
-
-    ValidateBinarySearchTreeTestCase(vector<optional<int>> t, bool e)
-        : tree(move(t)), expectedResult(e) {}
-};
-
-struct LowestCommonAncestorTestCase {
-    vector<optional<int>> tree; // Tree represented as a vector
-    int p;                                // Value of the first node
-    int q;                                // Value of the second node
-    int expectedLCA;                      // Expected LCA value
-
-    LowestCommonAncestorTestCase(const vector<optional<int>>& t, int node1, int node2, int lca)
-        : tree(move(t)), p(node1), q(node2), expectedLCA(lca) {}
-};
-
-struct CopyRandomListTestCase {
-    vector<pair<int, optional<int>>> inputList;
-    vector<pair<int, optional<int>>> expectedList;
-
-    CopyRandomListTestCase(vector<pair<int, optional<int>>> input,
-                           vector<pair<int, optional<int>>> expected)
-        : inputList(move(input)), expectedList(move(expected)) {}
-};
-
-struct KthSmallestTestCase {
-    vector<optional<int>> tree; // Tree represented as a vector
-    int k;                                // kth position
-    int expectedResult;                   // Expected result
-
-    KthSmallestTestCase(const vector<optional<int>>& t, int kVal, int e)
-        : tree(move(t)), k(kVal), expectedResult(e) {}
-};
-
-struct TrieTestCase {
-    vector<string> operations;
-    vector<optional<string>> arguments;
-    vector<optional<bool>> expectedResults;
-
-    TrieTestCase(const vector<string> ops, const vector<optional<string>> args, const vector<optional<bool>> expected)
-        : operations(move(ops)), arguments(move(args)), expectedResults(move(expected)) {}
-};
-
-struct KthLargestElementTestCase {
-    vector<int> nums;
-    int k;
-    int expectedResult;
-
-    KthLargestElementTestCase(vector<int> n, int kVal, int e)
-        : nums(move(n)), k(kVal), expectedResult(e) {}
-};
-
-struct MinHeapTestCase {
-    vector<pair<string, int>> operations; // {operation, value (if any)}
-    vector<int> expectedResults;                   // Expected results for operations
-
-    MinHeapTestCase(vector<pair<string, int>> ops, vector<int> results)
-        : operations(move(ops)), expectedResults(move(results)) {}
-};
-
 struct RotateImageTestCase {
     vector<vector<int>> inputMatrix;
     vector<vector<int>> expectedMatrix;
@@ -1578,7 +1484,7 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             // Create a linked list using ListUtils
-            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].inputList);
+            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].input);
 
             // Run the solution
             IntListNode* result = solution.middleNode(input);
@@ -1588,8 +1494,8 @@ public:
 
             // Print test results
             cout << "Middle of Linked List Test " << i + 1 << ": res = "
-                    << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
-                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
+                    << (resultVector == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expected))
                     << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
 
             // Free the allocated linked list
@@ -1615,7 +1521,7 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             // Create a linked list using ListUtils
-            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].inputList);
+            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].input);
 
             // Run the solution
             IntListNode* result = solution.removeNthFromEnd(input, testCases[i].n);
@@ -1625,8 +1531,8 @@ public:
 
             // Print test results
             cout << "Remove Nth Node From End Test " << i + 1 << ": res = "
-                    << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
-                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
+                    << (resultVector == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expected))
                     << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
 
             // Free the allocated linked list
@@ -1653,8 +1559,8 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.maxProfit(testCases[i].prices);
             cout << "Max Profit Test " << i + 1 << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
+                    << (result == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expected << ", Got: " << result << ")" << endl;
         }
     }
 
@@ -1680,9 +1586,9 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             vector<int> result = sm54.spiralOrder(testCases[i].matrix);
             cout << "Spiral Matrix Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << (result == testCases[i].expected ? "PASS" : "FAIL")
                     << " (Expected: ";
-            for (int val : testCases[i].expectedResult) cout << val << " ";
+            for (int val : testCases[i].expected) cout << val << " ";
             cout << ", Got: ";
             for (int val : result) cout << val << " ";
             cout << ")" << endl;
@@ -1712,8 +1618,8 @@ public:
             bool result = validator.isValidBST(root);
 
             cout << "Validate BST Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
+                    << (result == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << (testCases[i].expected ? "true" : "false")
                     << ", Got: " << (result ? "true" : "false") << ")" << endl;
 
             TreeUtils::freeTree(root); // Free the memory after use
@@ -1744,8 +1650,8 @@ public:
             TreeNode<int>* result = lcaSolver.lowestCommonAncestor(root, p, q);
 
             cout << "LCA Test " << (i + 1) << ": res = "
-                    << ((result && result->val == testCases[i].expectedLCA) ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expectedLCA << ", Got: " << (result ? result->val : -1) << ")" << endl;
+                    << ((result && result->val == testCases[i].expected) ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expected << ", Got: " << (result ? result->val : -1) << ")" << endl;
 
             TreeUtils::freeTree(root);
         }
@@ -1772,8 +1678,8 @@ public:
         CopyListWithRandomPointer_138 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* input = ListUtils::createLinkedListWithRandom<int>(testCases[i].inputList);
-            IntListNode* expected = ListUtils::createLinkedListWithRandom<int>(testCases[i].expectedList);
+            IntListNode* input = ListUtils::createLinkedListWithRandom<int>(testCases[i].input);
+            IntListNode* expected = ListUtils::createLinkedListWithRandom<int>(testCases[i].expected);
 
             IntListNode* result = solution.copyRandomList(input);
 
@@ -1808,8 +1714,8 @@ public:
 
             int result = solution.kthSmallest(root, testCases[i].k);
             cout << "Kth Smallest Element Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
+                    << (result == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expected << ", Got: " << result << ")" << endl;
 
             TreeUtils::freeTree(root); // Free tree memory
         }
@@ -1856,7 +1762,7 @@ public:
             for (size_t j = 0; j < testCases[i].operations.size(); ++j) {
                 const auto& op = testCases[i].operations[j];
                 const auto& arg = testCases[i].arguments[j];
-                const auto& expected = testCases[i].expectedResults[j];
+                const auto& expected = testCases[i].expected[j];
 
                 if (op == "Trie") {
                     trie = new Trie();
@@ -1923,20 +1829,20 @@ public:
             int resMax = solution.findKthLargest_MaxHeap(v1, testCases[i].k);
             int resMin = solution.findKthLargest_MinHeap(v2, testCases[i].k);
 
-            bool passMax = (resMax == testCases[i].expectedResult);
-            bool passMin = (resMin == testCases[i].expectedResult);
+            bool passMax = (resMax == testCases[i].expected);
+            bool passMin = (resMin == testCases[i].expected);
             bool agree   = (resMax == resMin);
 
             cout << "Kth Largest Element 215 Test " << (i + 1) << " [MaxHeap]: "
                 << (passMax ? "PASS" : "FAIL")
                 << " (k=" << testCases[i].k
-                << ", Expected: " << testCases[i].expectedResult
+                << ", Expected: " << testCases[i].expected
                 << ", Got: " << resMax << ")\n";
 
             cout << "Kth Largest Element 215 Test " << (i + 1) << " [MinHeap]: "
                 << (passMin ? "PASS" : "FAIL")
                 << " (k=" << testCases[i].k
-                << ", Expected: " << testCases[i].expectedResult
+                << ", Expected: " << testCases[i].expected
                 << ", Got: " << resMin << ")"
                 << (agree ? "" : "  <-- mismatch between implementations!") << "\n";
         }
@@ -1973,11 +1879,11 @@ public:
             }
 
             // Compare results
-            bool pass = results == testCases[i].expectedResults;
+            bool pass = results == testCases[i].expected;
             cout << "MinHeap Test " << (i + 1) << ": " << (pass ? "PASS" : "FAIL") << "\n";
             if (!pass) {
                 cout << "Expected: ";
-                for (int r : testCases[i].expectedResults) cout << r << " ";
+                for (int r : testCases[i].expected) cout << r << " ";
                 cout << "\nGot: ";
                 for (int r : results) cout << r << " ";
                 cout << "\n";
