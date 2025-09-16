@@ -5,6 +5,7 @@
 #include <optional>
 #include <cmath>
 #include <variant>
+#include "TestCases.h"
 #include "TestUtils.h"
 #include "CourseSchedule_207.h"
 #include "FindIfPathExistsInGraph_1971.h"
@@ -132,56 +133,12 @@
 #include "GenerateParentheses_22.h"
 
 using namespace std;
+using namespace TestCases;
 
 // Helper to compare two doubles within 1e-5
 static bool approxEqual(double a, double b, double eps = 1e-5) {
     return fabs(a - b) < eps;
 }
-
-struct ScheduleTestCase {
-    int numCourses;
-    vector<vector<int>> prerequisites;
-    bool expectedResult;
-
-    ScheduleTestCase(int num, vector<vector<int>> prereq, bool result)
-        : numCourses(num), prerequisites(move(prereq)), expectedResult(result) {}
-};
-
-struct PathTestCase {
-    int n;
-    vector<vector<int>> edges;
-    int source;
-    int destination;
-    bool expectedResult;
-
-    PathTestCase(int nodes, vector<vector<int>> edg, int src, int dest, bool result)
-        : n(nodes), edges(move(edg)), source(src), destination(dest), expectedResult(result) {}
-};
-
-struct NumIslandsTestCase {
-    vector<vector<char>> grid;
-    int expectedResult;
-
-    NumIslandsTestCase(vector<vector<char>> g, int e)
-        : grid(move(g)), expectedResult(e) {}
-};
-
-struct MaxAreaTestCase {
-    vector<vector<int>> grid;
-    int expectedResult;
-
-    MaxAreaTestCase(vector<vector<int>> g, int e)
-        : grid(move(g)), expectedResult(e) {}
-};
-
-struct CourseScheduleIITestCase {
-    int numCourses;
-    vector<vector<int>> prerequisites;
-    vector<int> expectedOrder;
-
-    CourseScheduleIITestCase(int num, vector<vector<int>> prereq, vector<int> order)
-        : numCourses(num), prerequisites(move(prereq)), expectedOrder(move(order)) {}
-};
 
 struct NetworkDelayTimeTestCase {
     vector<vector<int>> times;
@@ -1258,8 +1215,8 @@ public:
         for (size_t i = 0; i < testCases.size(); i++)
         {
             int result = noi200.numIslands(testCases[i].grid);
-            cout << "Test " << i + 1 << ": res = " << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
+            cout << "Test " << i + 1 << ": res = " << (result == testCases[i].expected ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expected << ", Got: " << result << ")" << endl;
         }
     }
 
@@ -1303,13 +1260,13 @@ public:
             int resIter = mai695.maxAreaOfIslandIterative(gridIter);
 
             cout << "Max Area Test " << (i + 1) << " (recursive): "
-                << (resRec  == testCases[i].expectedResult ? "PASS" : "FAIL")
-                << " (Expected " << testCases[i].expectedResult
+                << (resRec  == testCases[i].expected ? "PASS" : "FAIL")
+                << " (Expected " << testCases[i].expected
                 << ", Got " << resRec  << ")\n";
 
             cout << "Max Area Test " << (i + 1) << " (iterative): "
-                << (resIter == testCases[i].expectedResult ? "PASS" : "FAIL")
-                << " (Expected " << testCases[i].expectedResult
+                << (resIter == testCases[i].expected ? "PASS" : "FAIL")
+                << " (Expected " << testCases[i].expected
                 << ", Got " << resIter << ")\n";
         }
     }
