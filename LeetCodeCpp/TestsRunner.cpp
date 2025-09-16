@@ -140,91 +140,6 @@ static bool approxEqual(double a, double b, double eps = 1e-5) {
     return fabs(a - b) < eps;
 }
 
-struct NetworkDelayTimeTestCase {
-    vector<vector<int>> times;
-    int n;
-    int k;
-    int expectedResult;
-
-    NetworkDelayTimeTestCase(vector<vector<int>> t, int nodes, int start, int result)
-        : times(move(t)), n(nodes), k(start), expectedResult(result) {}
-};
-
-struct RottingOrangesTestCase {
-    vector<vector<int>> grid;
-    int expectedResult;
-
-    RottingOrangesTestCase(vector<vector<int>> g, int e)
-        : grid(move(g)), expectedResult(e) {}
-};
-
-struct PacificAtlanticTestCase {
-    vector<vector<int>> heights;
-    vector<vector<int>> expectedResult;
-
-    PacificAtlanticTestCase(vector<vector<int>> h, vector<vector<int>> e)
-        : heights(move(h)), expectedResult(move(e)) {}
-};
-
-struct MinCostToConnectAllPointsTestCase {
-    vector<vector<int>> points;
-    int expectedResult;
-
-    MinCostToConnectAllPointsTestCase(vector<vector<int>> p, int e)
-        : points(move(p)), expectedResult(e) {}
-};
-
-struct LongestCommonSubsequenceTestCase {
-    string text1;
-    string text2;
-    int expectedResult;
-
-    LongestCommonSubsequenceTestCase(string t1, string t2, int e)
-        : text1(move(t1)), text2(move(t2)), expectedResult(e) {}
-};
-
-struct LongestIncreasingSubsequenceTestCase {
-    vector<int> nums;
-    int expectedResult;
-
-    LongestIncreasingSubsequenceTestCase(vector<int> n, int e)
-        : nums(move(n)), expectedResult(e) {}
-};
-
-struct RemoveDuplicatesTestCase {
-    vector<int> inputList;
-    vector<int> expectedList;
-
-    RemoveDuplicatesTestCase(vector<int> input, vector<int> expected)
-        : inputList(move(input)), expectedList(move(expected)) {}
-};
-
-struct ReverseListTestCase {
-    vector<int> inputList;
-    vector<int> expectedList;
-
-    ReverseListTestCase(vector<int> input, vector<int> expected)
-        : inputList(move(input)), expectedList(move(expected)) {}
-};
-
-struct MergeTwoListsTestCase {
-    vector<int> list1;
-    vector<int> list2;
-    vector<int> expectedList;
-
-    MergeTwoListsTestCase(vector<int> l1, vector<int> l2, vector<int> expected)
-        : list1(move(l1)), list2(move(l2)), expectedList(move(expected)) {}
-};
-
-struct LinkedListCycleTestCase {
-    vector<int> inputList;
-    int pos;
-    bool expectedResult;
-
-    LinkedListCycleTestCase(vector<int> input, int cyclePos, bool expected)
-        : inputList(move(input)), pos(cyclePos), expectedResult(expected) {}
-};
-
 struct MiddleOfLinkedListTestCase {
     vector<int> inputList;
     vector<int> expectedList;
@@ -1350,8 +1265,8 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = ndt743.networkDelayTime(testCases[i].times, testCases[i].n, testCases[i].k);
             cout << "Network Delay Time Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
+                      << (result == testCases[i].expected ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expected << ", Got: " << result << ")" << endl;
         }
     }
 
@@ -1381,8 +1296,8 @@ public:
         {
             int result = solution.orangesRotting(testCases[i].grid);
             cout << "Rotting Oranges Test " << i + 1 << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
+                      << (result == testCases[i].expected ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expected << ", Got: " << result << ")" << endl;
         }
     }
 
@@ -1428,7 +1343,7 @@ public:
             auto result = pacificAtlanticSolution.pacificAtlantic(testCases[i].heights);
 
             cout << "Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
+                      << (result == testCases[i].expected ? "PASS" : "FAIL") << endl;
         }
     }
 
@@ -1453,14 +1368,14 @@ public:
             int resHeap  = solution.minCostConnectPointsHeap(testCases[i].points);
             int resArray = solution.minCostConnectPointsArray(testCases[i].points);
 
-            bool passHeap  = (resHeap  == testCases[i].expectedResult);
-            bool passArray = (resArray == testCases[i].expectedResult);
+            bool passHeap  = (resHeap  == testCases[i].expected);
+            bool passArray = (resArray == testCases[i].expected);
 
             cout << "Min Cost Test " << (i + 1) << ":\n"
                  << "  Heap   : " << (passHeap  ? "PASS" : "FAIL") << " (Expected: "
-                 << testCases[i].expectedResult << ", Got: " << resHeap  << ")\n"
+                 << testCases[i].expected << ", Got: " << resHeap  << ")\n"
                  << "  Array  : " << (passArray ? "PASS" : "FAIL") << " (Expected: "
-                 << testCases[i].expectedResult << ", Got: " << resArray << ")\n";
+                 << testCases[i].expected << ", Got: " << resArray << ")\n";
         }
     }
 
@@ -1481,8 +1396,8 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.longestCommonSubsequence(testCases[i].text1, testCases[i].text2);
             cout << "LCS Test " << i + 1 << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expectedResult
+                    << (result == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expected
                     << ", Got: " << result << ")" << endl;
         }
     }
@@ -1504,8 +1419,8 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.lengthOfLIS(testCases[i].nums);
             cout << "LIS Test " << i + 1 << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expectedResult
+                    << (result == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expected
                     << ", Got: " << result << ")" << endl;
         }
     }
@@ -1529,7 +1444,7 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             // Create a linked list using ListUtils
-            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].inputList);
+            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].input);
 
             // Run the solution
             IntListNode* result = solution.deleteDuplicates(input);
@@ -1539,8 +1454,8 @@ public:
 
             // Print test results
             cout << "Remove Duplicates Test " << i + 1 << ": res = "
-                    << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
-                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
+                    << (resultVector == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expected))
                     << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
 
             // Free the allocated linked list
@@ -1567,7 +1482,7 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             // Create a linked list using ListUtils
-            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].inputList);
+            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].input);
 
             // Run the solution
             IntListNode* result = solution.reverseList(input);
@@ -1577,8 +1492,8 @@ public:
 
             // Print test results
             cout << "Reverse Linked List Test " << i + 1 << ": res = "
-                    << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
-                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
+                    << (resultVector == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expected))
                     << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
 
             // Free the allocated linked list
@@ -1616,8 +1531,8 @@ public:
 
             // Print test results
             cout << "Merge Two Sorted Lists Test " << i + 1 << ": res = "
-                    << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
-                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
+                    << (resultVector == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expected))
                     << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
 
             // Free the allocated merged list
@@ -1641,15 +1556,15 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             // Create a linked list with a cycle
-            ListNode<int>* head = ListUtils::createLinkedListWithCycle<int>(testCases[i].inputList, testCases[i].pos);
+            ListNode<int>* head = ListUtils::createLinkedListWithCycle<int>(testCases[i].input, testCases[i].pos);
 
             // Run the hasCycle function
             bool result = solution.hasCycle(head);
 
             // Print test results
             cout << "Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult
+                      << (result == testCases[i].expected ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expected
                       << ", Got: " << result << ")\n"
                       << "List: " << ListUtils::toString<int>(head) << endl;
 
