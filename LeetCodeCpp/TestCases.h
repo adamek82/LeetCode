@@ -270,4 +270,95 @@ namespace TestCases {
         MinHeapTestCase(vector<pair<string, int>> ops, vector<int> exp)
             : operations(move(ops)), expected(move(exp)) {}
     };
+
+    // 48. Rotate Image
+    struct RotateImageTestCase {
+        vector<vector<int>> input;
+        vector<vector<int>> expected;
+
+        RotateImageTestCase(vector<vector<int>> in, vector<vector<int>> exp)
+            : input(move(in)), expected(move(exp)) {}
+    };
+
+    // 56. Merge Intervals
+    struct MergeIntervalsTestCase {
+        vector<vector<int>> input;
+        vector<vector<int>> expected;
+
+        MergeIntervalsTestCase(vector<vector<int>> in, vector<vector<int>> exp)
+            : input(move(in)), expected(move(exp)) {}
+    };
+
+    // 23. Merge k Sorted Lists
+    struct MergeKListsTestCase {
+        vector<vector<int>> input;
+        vector<int> expected;
+
+        MergeKListsTestCase(vector<vector<int>> in, vector<int> exp)
+            : input(move(in)), expected(move(exp)) {}
+    };
+
+    // 238. Product of Array Except Self
+    struct ProductOfArrayExceptSelfTestCase {
+        vector<int> input;
+        vector<int> expected;
+
+        ProductOfArrayExceptSelfTestCase(vector<int> in, vector<int> exp)
+            : input(move(in)), expected(move(exp)) {}
+    };
+
+    // 169. Majority Element
+    struct MajorityElementTestCase {
+        vector<int> input;
+        int expected;
+
+        MajorityElementTestCase(vector<int> in, int exp)
+            : input(move(in)), expected(exp) {}
+    };
+
+    // 150. Evaluate Reverse Polish Notation
+    struct EvaluateRPNTestCase {
+        vector<string> input;
+        int expected;
+
+        EvaluateRPNTestCase(vector<string> in, int exp)
+            : input(move(in)), expected(exp) {}
+    };
+
+    // 84. Largest Rectangle in Histogram
+    struct LargestRectangleTestCase {
+        vector<int> input;
+        int expected;
+
+        LargestRectangleTestCase(vector<int> in, int exp)
+            : input(move(in)), expected(exp) {}
+    };
+
+    // 79. Word Search
+    struct WordSearchTestCase {
+        vector<vector<char>> board;
+        string word;
+        bool expected;
+
+        WordSearchTestCase(vector<vector<char>> b, string w, bool exp)
+            : board(move(b)), word(move(w)), expected(exp) {}
+    };
+
+    // 20. Valid Parentheses
+    struct ValidParenthesesTestCase {
+        string input;
+        bool expected;
+
+        ValidParenthesesTestCase(string in, bool exp)
+            : input(move(in)), expected(exp) {}
+    };
+
+    // 36. Valid Sudoku
+    struct ValidSudokuTestCase {
+        vector<vector<char>> board;
+        bool expected;
+
+        ValidSudokuTestCase(vector<vector<char>> b, bool exp)
+            : board(move(b)), expected(exp) {}
+    };
 } // namespace TestCases

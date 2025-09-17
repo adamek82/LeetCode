@@ -136,87 +136,6 @@ using namespace std;
 using namespace TestUtils;
 using namespace TestCases;
 
-struct RotateImageTestCase {
-    vector<vector<int>> inputMatrix;
-    vector<vector<int>> expectedMatrix;
-
-    RotateImageTestCase(vector<vector<int>> input, vector<vector<int>> expected)
-        : inputMatrix(move(input)), expectedMatrix(move(expected)) {}
-};
-
-struct MergeIntervalsTestCase {
-    vector<vector<int>> intervals;
-    vector<vector<int>> expectedResult;
-
-    MergeIntervalsTestCase(vector<vector<int>> input, vector<vector<int>> expected)
-        : intervals(move(input)), expectedResult(move(expected)) {}
-};
-
-struct MergeKListsTestCase {
-    vector<vector<int>> inputLists;
-    vector<int> expectedList;
-
-    MergeKListsTestCase(vector<vector<int>> inputs, vector<int> expected)
-        : inputLists(move(inputs)), expectedList(move(expected)) {}
-};
-
-struct ProductOfArrayExceptSelfTestCase {
-    vector<int> nums;
-    vector<int> expectedResult;
-
-    ProductOfArrayExceptSelfTestCase(vector<int> input, vector<int> expected)
-        : nums(move(input)), expectedResult(move(expected)) {}
-};
-
-struct MajorityElementTestCase {
-    vector<int> nums;
-    int expectedResult;
-
-    MajorityElementTestCase(vector<int> nums, int result)
-        : nums(move(nums)), expectedResult(result) {}
-};
-
-struct EvaluateRPNTestCase {
-    vector<string> tokens;
-    int expectedResult;
-
-    EvaluateRPNTestCase(vector<string> t, int e)
-        : tokens(move(t)), expectedResult(e) {}
-};
-
-struct LargestRectangleTestCase {
-    vector<int> heights;
-    int expectedArea;
-
-    LargestRectangleTestCase(vector<int> h, int area)
-        : heights(move(h)), expectedArea(area) {}
-};
-
-struct WordSearchTestCase {
-    vector<vector<char>> board;
-    string word;
-    bool expectedResult;
-
-    WordSearchTestCase(vector<vector<char>> b, string w, bool e)
-        : board(move(b)), word(move(w)), expectedResult(e) {}
-};
-
-struct ValidParenthesesTestCase {
-    string input;
-    bool expectedResult;
-
-    ValidParenthesesTestCase(string in, bool result)
-        : input(move(in)), expectedResult(result) {}
-};
-
-struct ValidSudokuTestCase {
-    vector<vector<char>> board;
-    bool expectedResult;
-
-    ValidSudokuTestCase(vector<vector<char>> b, bool e)
-        : board(move(b)), expectedResult(e) {}
-};
-
 struct BinarySearchTestCase {
     vector<int> nums;
     int target;
@@ -1910,26 +1829,26 @@ public:
 
         // -------- Transpose-then-Reverse variant --------------------------------
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto input = testCases[i].inputMatrix;      // fresh copy
+            auto input = testCases[i].input;      // fresh copy
             rotator.rotateTransposeReverse(input);
 
             cout << "[Transpose+Reverse] Test " << (i + 1) << ": res = "
-                    << (input == testCases[i].expectedMatrix ? "PASS" : "FAIL") << '\n';
+                    << (input == testCases[i].expected ? "PASS" : "FAIL") << '\n';
             cout << "Expected:\n";
-            printMatrix(testCases[i].expectedMatrix);
+            printMatrix(testCases[i].expected);
             cout << "Got:\n";
             printMatrix(input);
         }
 
         // -------- Layer-by-Layer (“onion”) swap variant -------------------------
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto input = testCases[i].inputMatrix;      // fresh copy
+            auto input = testCases[i].input;      // fresh copy
             rotator.rotateLayerSwap(input);
 
             cout << "[LayerSwap]        Test " << (i + 1) << ": res = "
-                    << (input == testCases[i].expectedMatrix ? "PASS" : "FAIL") << '\n';
+                    << (input == testCases[i].expected ? "PASS" : "FAIL") << '\n';
             cout << "Expected:\n";
-            printMatrix(testCases[i].expectedMatrix);
+            printMatrix(testCases[i].expected);
             cout << "Got:\n";
             printMatrix(input);
         }
@@ -1952,12 +1871,12 @@ public:
         MergeIntervals_56 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto result = solution.merge(testCases[i].intervals);
+            auto result = solution.merge(testCases[i].input);
 
             cout << "Merge Intervals Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << (result == testCases[i].expected ? "PASS" : "FAIL")
                     << "\nExpected: ";
-            for (const auto& interval : testCases[i].expectedResult) {
+            for (const auto& interval : testCases[i].expected) {
                 cout << "[" << interval[0] << "," << interval[1] << "] ";
             }
             cout << "\nGot: ";
@@ -1989,7 +1908,7 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             // Create input linked lists
             vector<IntListNode*> inputLists;
-            for (const auto& list : testCases[i].inputLists) {
+            for (const auto& list : testCases[i].input) {
                 inputLists.push_back(ListUtils::createLinkedList<int>(list));
             }
 
@@ -2001,8 +1920,8 @@ public:
 
             // Print test results
             cout << "Merge K Lists Test " << i + 1 << ": res = "
-                    << (resultVector == testCases[i].expectedList ? "PASS" : "FAIL")
-                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expectedList))
+                    << (resultVector == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expected))
                     << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
 
             // Free allocated memory
@@ -2027,11 +1946,11 @@ public:
         ProductOfArrayExceptSelf solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto result = solution.productExceptSelf(testCases[i].nums);
+            auto result = solution.productExceptSelf(testCases[i].input);
             cout << "Product of Array Except Self Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
+                    << (result == testCases[i].expected ? "PASS" : "FAIL")
                     << " (Expected: ";
-            for (int val : testCases[i].expectedResult) cout << val << " ";
+            for (int val : testCases[i].expected) cout << val << " ";
             cout << ", Got: ";
             for (int val : result) cout << val << " ";
             cout << ")\n";
@@ -2058,12 +1977,12 @@ public:
         cout << "-> Boyer–Moore Majority Vote Algorithm:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
             MajorityElement_169 solution;
-            int result = solution.majorityElement(testCases[i].nums);
+            int result = solution.majorityElement(testCases[i].input);
             cout << "Test " << (i + 1) << ": ";
-            if (result == testCases[i].expectedResult) {
+            if (result == testCases[i].expected) {
                 cout << "PASS\n";
             } else {
-                cout << "FAIL (Expected: " << testCases[i].expectedResult
+                cout << "FAIL (Expected: " << testCases[i].expected
                         << ", Got: " << result << ")\n";
             }
         }
@@ -2071,12 +1990,12 @@ public:
         cout << "-> Frequency Counting with a Hashmap Algorithm:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
             MajorityElement_169 solution;
-            int result = solution.majorityElementWithHashmap(testCases[i].nums);
+            int result = solution.majorityElementWithHashmap(testCases[i].input);
             cout << "Test " << (i + 1) << ": ";
-            if (result == testCases[i].expectedResult) {
+            if (result == testCases[i].expected) {
                 cout << "PASS\n";
             } else {
-                cout << "FAIL (Expected: " << testCases[i].expectedResult
+                cout << "FAIL (Expected: " << testCases[i].expected
                         << ", Got: " << result << ")\n";
             }
         }
@@ -2095,10 +2014,10 @@ public:
         EvaluateReversePolishNotation_150 evaluator;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = evaluator.evalRPN(testCases[i].tokens);
+            int result = evaluator.evalRPN(testCases[i].input);
             cout << "Evaluate RPN Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")\n";
+                      << (result == testCases[i].expected ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expected << ", Got: " << result << ")\n";
         }
     }
 
@@ -2119,10 +2038,10 @@ public:
         LargestRectangleInHistogram_84 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.largestRectangleArea(testCases[i].heights);
+            int result = solution.largestRectangleArea(testCases[i].input);
             cout << "Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expectedArea ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedArea
+                      << (result == testCases[i].expected ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expected
                       << ", Got: " << result << ")" << endl;
         }
     }
@@ -2173,8 +2092,8 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = solution.exist(testCases[i].board, testCases[i].word);
             cout << "Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
+                    << (result == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << (testCases[i].expected ? "true" : "false")
                     << ", Got: " << (result ? "true" : "false") << ")" << endl;
         }
     }
@@ -2193,8 +2112,8 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = solution.isValid(testCases[i].input);
             cout << "Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
+                    << (result == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << (testCases[i].expected ? "true" : "false")
                     << ", Got: " << (result ? "true" : "false") << ")" << endl;
         }
     }
@@ -2272,8 +2191,8 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = solver.isValidSudoku(testCases[i].board);
             cout << "Valid Sudoku Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
+                    << (result == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << (testCases[i].expected ? "true" : "false")
                     << ", Got: " << (result ? "true" : "false") << ")" << endl;
         }
     }
