@@ -552,4 +552,11 @@ namespace TestCases {
         UniquePathsIITestCase(vector<vector<int>> in, int exp)
             : input(move(in)), expected(exp) {}
     };
+
+    // 855. Exam Room
+    struct ExamRoomTestCase {
+        vector<string> operations;
+        vector<vector<int>> arguments;       // each op's int args
+        vector<optional<int>> expected;      // nullopt for void ops
+    };
 } // namespace TestCases

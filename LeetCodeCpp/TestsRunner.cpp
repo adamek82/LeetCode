@@ -131,6 +131,7 @@
 #include "LetterCombinations_17.h"
 #include "CombinationSum_39.h"
 #include "GenerateParentheses_22.h"
+#include "ExamRoom_855.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4669,6 +4670,60 @@ public:
         }
     }
 
+    static void examRoom_855_tests() {
+        // Case 1: EXACT sequence from the statement.
+        ExamRoomTestCase c1{
+            /* ops */ {"ExamRoom", "seat", "seat", "seat", "seat", "leave", "seat"},
+            /* args*/ {{10},        {},      {},      {},      {},      {4},    {}},
+            /* exp */ {nullopt,      0,       9,       4,       2,      nullopt, 5}
+        };
+
+        // Case 2: Edges cleared then re-filled; checks tie-breaking and edges.
+        // n = 8
+        // seat -> 0; seat -> 7; seat -> 3; leave(0); leave(7); seat -> 7; seat -> 0; seat -> 5
+        ExamRoomTestCase c2{
+            /* ops */ {"ExamRoom", "seat", "seat", "seat", "leave", "leave", "seat", "seat", "seat"},
+            /* args*/ {{8},         {},     {},     {},     {0},     {7},     {},     {},     {}},
+            /* exp */ {nullopt,      0,      7,      3,     nullopt, nullopt,  7,      0,      5}
+        };
+
+        // Case 3: Interleaved interior leaves and inserts; exercises mid-splits.
+        // n = 10
+        ExamRoomTestCase c3{
+            /* ops */ {"ExamRoom", "seat","seat","seat","seat","leave","seat","leave","seat","seat","leave","seat"},
+            /* args*/ {{10},        {},    {},    {},    {},    {4},    {},    {2},    {},    {},    {5},    {}},
+            /* exp */ {nullopt,      0,     9,     4,     2,    nullopt, 5,    nullopt, 2,     7,    nullopt, 4}
+        };
+
+        vector<ExamRoomTestCase> cases = {c1, c2, c3};
+
+        for (size_t t = 0; t < cases.size(); ++t) {
+            std::cout << "ExamRoom_855 Case " << (t + 1) << ":\n";
+
+            optional<ExamRoom_855> er; // automatic storage, constructed on demand
+
+            const auto& C = cases[t];
+            for (size_t i = 0; i < C.operations.size(); ++i) {
+                const auto& op  = C.operations[i];
+                const auto& a   = C.arguments[i];
+                const auto& exp = C.expected[i];
+
+                if (op == "ExamRoom" || op == "ExamRoom_855") {
+                    er.emplace(a[0]);
+                    std::cout << "  ExamRoom_855(" << a[0] << ") -> null\n";
+                } else if (op == "seat") {
+                    int res = er->seat();
+                    bool pass = (exp && res == *exp);
+                    std::cout << "  seat() -> " << res << (pass ? " [PASS]\n" : " [FAIL]\n");
+                } else if (op == "leave") {
+                    er->leave(a[0]);
+                    std::cout << "  leave(" << a[0] << ") -> null\n";
+                }
+            }
+            std::cout << '\n';
+        }
+    }
+
     static void runAllTests() {
         cout << "Running CourseSchedule_207 tests:\n";
         courseSchedule_207_tests();
@@ -4914,6 +4969,8 @@ public:
         combinationSum_39_tests();
         cout << "Generate Parentheses 22 tests:\n";
         generateParentheses_22_tests();
+        cout << "ExamRoom_855 tests:\n";
+        examRoom_855_tests();
     }
 };
 
