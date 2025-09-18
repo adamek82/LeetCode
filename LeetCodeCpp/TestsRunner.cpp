@@ -136,91 +136,6 @@ using namespace std;
 using namespace TestUtils;
 using namespace TestCases;
 
-struct BinarySearchTestCase {
-    vector<int> nums;
-    int target;
-    int expectedResult;
-
-    BinarySearchTestCase(vector<int> n, int t, int e)
-        : nums(move(n)), target(t), expectedResult(e) {}
-};
-
-struct Search2DMatrixTestCase {
-    vector<vector<int>> matrix;
-    int target;
-    bool expectedResult;
-
-    Search2DMatrixTestCase(vector<vector<int>> mat, int tgt, bool result)
-        : matrix(move(mat)), target(tgt), expectedResult(result) {}
-};
-
-struct FindMinTestCase {
-    vector<int> nums;
-    int expectedResult;
-
-    FindMinTestCase(vector<int> n, int e) : nums(move(n)), expectedResult(e) {}
-};
-
-struct ZigzagTestCase {
-    string input;
-    int numRows;
-    string expected;
-
-    ZigzagTestCase(string s, int n, string e)
-        : input(move(s)), numRows(n), expected(move(e)) {}
-};
-
-struct HIndexTestCase {
-    vector<int> citations;
-    int expectedResult;
-
-    HIndexTestCase(vector<int> c, int e)
-        : citations(move(c)), expectedResult(e) {}
-};
-
-struct SortColorsTestCase {
-    vector<int> input;
-    vector<int> expected;
-
-    SortColorsTestCase(vector<int> in, vector<int> exp)
-        : input(move(in)), expected(move(exp)) {}
-};
-
-struct RemoveDuplicatesFromSortedArrayIITestCase {
-    vector<int> input;
-    int expectedK;
-    vector<int> expectedResult;
-
-    RemoveDuplicatesFromSortedArrayIITestCase(vector<int> in, int k, vector<int> exp)
-        : input(move(in)), expectedK(k), expectedResult(move(exp)) {}
-};
-
-struct BestTimeToBuyAndSellStockII_122_TestCase {
-    vector<int> prices;
-    int expectedProfit;
-
-    BestTimeToBuyAndSellStockII_122_TestCase(vector<int> p, int e)
-        : prices(move(p)), expectedProfit(e) {}
-};
-
-struct ValidAnagramTestCase {
-    string s;
-    string t;
-    bool expectedResult;
-
-    ValidAnagramTestCase(string str1, string str2, bool result)
-        : s(move(str1)), t(move(str2)), expectedResult(result) {}
-};
-
-struct TopKFrequentWordsTestCase {
-    vector<string> words;
-    int k;
-    vector<string> expected;
-
-    TopKFrequentWordsTestCase(vector<string> w, int kk, vector<string> e)
-        : words(move(w)), k(kk), expected(move(e)) {}
-};
-
 struct AnalyzeUserWebsiteVisitPatternTestCase {
     vector<string> username;
     vector<int> timestamp;
@@ -2214,10 +2129,10 @@ public:
         BinarySearch_704 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.search(testCases[i].nums, testCases[i].target);
+            int result = solution.search(testCases[i].input, testCases[i].target);
             cout << "Binary Search Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expectedResult
+                    << (result == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expected
                     << ", Got: " << result << ")" << endl;
         }
     }
@@ -2239,10 +2154,10 @@ public:
         SearchInsertPosition_35 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.searchInsert(testCases[i].nums, testCases[i].target);
+            int result = solution.searchInsert(testCases[i].input, testCases[i].target);
             cout << "Search Insert Position Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expectedResult
+                    << (result == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expected
                     << ", Got: " << result << ")" << endl;
         }
     }
@@ -2264,8 +2179,8 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = solution.searchMatrix(testCases[i].matrix, testCases[i].target);
             cout << "Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
+                    << (result == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << (testCases[i].expected ? "true" : "false")
                     << ", Got: " << (result ? "true" : "false") << ")\n";
         }
     }
@@ -2358,10 +2273,10 @@ public:
         FindMinimumInRotatedSortedArray_153 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.findMin(testCases[i].nums);
+            int result = solution.findMin(testCases[i].input);
             cout << "Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
+                    << (result == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << testCases[i].expected << ", Got: " << result << ")" << endl;
         }
     }
 
@@ -2467,10 +2382,10 @@ public:
         HIndex_274 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.hIndex(testCases[i].citations);
+            int result = solution.hIndex(testCases[i].input);
             cout << "HIndex_274 Test " << (i + 1) << ": res = "
-                      << ((result == testCases[i].expectedResult) ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult
+                      << ((result == testCases[i].expected) ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expected
                       << ", Got: " << result << ")" << endl;
         }
     }
@@ -2537,7 +2452,7 @@ public:
             bool pass = (k == testCases[i].expectedK);
             if (pass) {
                 for (int idx = 0; idx < k; ++idx) {
-                    if (nums[idx] != testCases[i].expectedResult[idx]) {
+                    if (nums[idx] != testCases[i].expected[idx]) {
                         pass = false;
                         break;
                     }
@@ -2575,10 +2490,10 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.maxProfit(testCases[i].prices);
 
-            bool pass = (result == testCases[i].expectedProfit);
+            bool pass = (result == testCases[i].expected);
             cout << "BestTimeToBuyAndSellStockII_122 Test " << (i + 1) << ": "
                     << (pass ? "PASS" : "FAIL")
-                    << " (Expected " << testCases[i].expectedProfit
+                    << " (Expected " << testCases[i].expected
                     << ", got " << result << ")" << endl;
         }
     }
@@ -2600,8 +2515,8 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = solution.isAnagram(testCases[i].s, testCases[i].t);
             cout << "Valid Anagram Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                    << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
+                    << (result == testCases[i].expected ? "PASS" : "FAIL")
+                    << " (Expected: " << (testCases[i].expected ? "true" : "false")
                     << ", Got: " << (result ? "true" : "false") << ")" << endl;
         }
     }
@@ -2972,7 +2887,7 @@ public:
 
         TopKFrequentWords_692 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto result = solution.topKFrequent(testCases[i].words, testCases[i].k);
+            auto result = solution.topKFrequent(testCases[i].input, testCases[i].k);
             bool pass = (result == testCases[i].expected);
             cout << "TopKFrequentWords_692 Test " << (i + 1) << ": res = "
                       << (pass ? "PASS" : "FAIL")

@@ -361,4 +361,99 @@ namespace TestCases {
         ValidSudokuTestCase(vector<vector<char>> b, bool exp)
             : board(move(b)), expected(exp) {}
     };
+
+    // 704. Binary Search
+    struct BinarySearchTestCase {
+        vector<int> input;
+        int target;
+        int expected;
+
+        BinarySearchTestCase(vector<int> in, int tgt, int exp)
+            : input(move(in)), target(tgt), expected(exp) {}
+    };
+
+    // 74. Search a 2D Matrix
+    struct Search2DMatrixTestCase {
+        vector<vector<int>> matrix;
+        int target;
+        bool expected;
+
+        Search2DMatrixTestCase(vector<vector<int>> mat, int tgt, bool exp)
+            : matrix(move(mat)), target(tgt), expected(exp) {}
+    };
+
+    // 153. Find Minimum in Rotated Sorted Array
+    struct FindMinTestCase {
+        vector<int> input;
+        int expected;
+
+        FindMinTestCase(vector<int> in, int exp) : input(move(in)), expected(exp) {}
+    };
+
+    // 6. Zigzag Conversion
+    struct ZigzagTestCase {
+        string input;
+        int numRows;
+        string expected;
+
+        ZigzagTestCase(string s, int n, string exp)
+            : input(move(s)), numRows(n), expected(move(exp)) {}
+    };
+
+    // 274. H-Index
+    struct HIndexTestCase {
+        vector<int> input;
+        int expected;
+
+        HIndexTestCase(vector<int> in, int exp)
+            : input(move(in)), expected(exp) {}
+    };
+
+    // 75. Sort Colors
+    struct SortColorsTestCase {
+        vector<int> input;
+        vector<int> expected;
+
+        SortColorsTestCase(vector<int> in, vector<int> exp)
+            : input(move(in)), expected(move(exp)) {}
+    };
+
+    // 80. Remove Duplicates from Sorted Array II
+    struct RemoveDuplicatesFromSortedArrayIITestCase {
+        vector<int> input;
+        int expectedK;
+        vector<int> expected;
+
+        RemoveDuplicatesFromSortedArrayIITestCase(vector<int> in, int k, vector<int> exp)
+            : input(move(in)), expectedK(k), expected(move(exp)) {}
+    };
+
+    // 122. Best Time to Buy and Sell Stock II
+    struct BestTimeToBuyAndSellStockII_122_TestCase {
+        vector<int> prices;
+        int expected;
+
+        BestTimeToBuyAndSellStockII_122_TestCase(vector<int> p, int exp)
+            : prices(move(p)), expected(exp) {}
+    };
+
+    // 242. Valid Anagram
+    struct ValidAnagramTestCase {
+        string s;
+        string t;
+        bool expected;
+
+        ValidAnagramTestCase(string s1, string s2, bool exp)
+            : s(move(s1)), t(move(s2)), expected(exp) {}
+    };
+
+    // 692. Top K Frequent Words
+    struct TopKFrequentWordsTestCase {
+        vector<string> input;
+        int k;
+        vector<string> expected;
+
+        TopKFrequentWordsTestCase(vector<string> in, int kk, vector<string> exp)
+            : input(move(in)), k(kk), expected(move(exp)) {}
+    };
 } // namespace TestCases
