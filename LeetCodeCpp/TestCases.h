@@ -456,4 +456,100 @@ namespace TestCases {
         TopKFrequentWordsTestCase(vector<string> in, int kk, vector<string> exp)
             : input(move(in)), k(kk), expected(move(exp)) {}
     };
+
+    // 1152. Analyze User Website Visit Pattern
+    struct AnalyzeUserWebsiteVisitPatternTestCase {
+        vector<string> username;
+        vector<int> timestamp;
+        vector<string> website;
+        vector<string> expected;
+
+        AnalyzeUserWebsiteVisitPatternTestCase(vector<string> u, vector<int> t, vector<string> w, vector<string> exp)
+            : username(move(u)), timestamp(move(t)), website(move(w)), expected(move(exp)) {}
+    };
+
+    // 49. Group Anagrams
+    struct GroupAnagramsTestCase {
+        vector<string> input;
+        vector<vector<string>> expected;
+
+        GroupAnagramsTestCase(vector<string> in, vector<vector<string>> exp)
+            : input(move(in)), expected(move(exp)) {}
+    };
+
+    // 277. Find the Celebrity
+    struct FindCelebrityTestCase {
+        vector<vector<int>> matrix;
+        int expected;
+
+        FindCelebrityTestCase(vector<vector<int>> m, int exp)
+            : matrix(move(m)), expected(exp) {}
+    };
+
+    // 128. Longest Consecutive Sequence
+    struct LongestConsecutiveSequenceTestCase {
+        vector<int> input;
+        int expected;
+
+        LongestConsecutiveSequenceTestCase(vector<int> in, int exp)
+            : input(move(in)), expected(exp) {}
+    };
+
+    // 424. Longest Repeating Character Replacement
+    struct LongestRepeatingCharReplacementTestCase {
+        string input;
+        int k;
+        int expected;
+
+        LongestRepeatingCharReplacementTestCase(string s, int kk, int exp)
+            : input(move(s)), k(kk), expected(exp) {}
+    };
+
+    // 146. LRU Cache
+    struct LRUCacheTestCase {
+        vector<string> operations;
+        vector<vector<int>> arguments;
+        vector<optional<int>> expected;
+
+        LRUCacheTestCase(vector<string> ops, vector<vector<int>> args, vector<optional<int>> exp)
+            : operations(move(ops)), arguments(move(args)), expected(move(exp)) {}
+    };
+
+    // 322. Coin Change
+    struct CoinChangeTestCase {
+        vector<int> coins;
+        int amount;
+        int expected;
+
+        CoinChangeTestCase(vector<int> c, int a, int exp)
+            : coins(move(c)), amount(a), expected(exp) {}
+    };
+
+    // 2360. Longest Cycle in a Graph
+    struct LongestCycleTestCase {
+        vector<int> edges;
+        int expected;
+
+        LongestCycleTestCase(vector<int> e, int exp)
+            : edges(move(e)), expected(exp) {}
+    };
+
+    // 2608. Shortest Cycle in a Graph
+    struct ShortestCycleTestCase {
+        int n;
+        vector<vector<int>> edges;
+        int expected;
+
+        ShortestCycleTestCase(int nn, vector<vector<int>> e, int exp)
+            : n(nn), edges(move(e)), expected(exp) {}
+    };
+
+    // 63. Unique Paths II
+    struct UniquePathsIITestCase {
+        vector<vector<int>> input;
+        int expected;
+
+        UniquePathsIITestCase(vector<vector<int>> in, int exp)
+            : input(move(in)), expected(exp) {}
+    };
 } // namespace TestCases

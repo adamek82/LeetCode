@@ -136,98 +136,6 @@ using namespace std;
 using namespace TestUtils;
 using namespace TestCases;
 
-struct AnalyzeUserWebsiteVisitPatternTestCase {
-    vector<string> username;
-    vector<int> timestamp;
-    vector<string> website;
-    vector<string> expectedResult;
-
-    AnalyzeUserWebsiteVisitPatternTestCase(vector<string> u, vector<int> t, vector<string> w, vector<string> e)
-        : username(move(u)), timestamp(move(t)), website(move(w)), expectedResult(move(e)) {}
-};
-
-struct GroupAnagramsTestCase {
-    vector<string> input;
-    vector<vector<string>> expected;
-
-    GroupAnagramsTestCase(vector<string> in, vector<vector<string>> exp)
-        : input(move(in)), expected(move(exp)) {}
-};
-
-struct FindCelebrityTestCase {
-    vector<vector<int>> matrix;
-    int expectedResult;
-
-    FindCelebrityTestCase(vector<vector<int>> m, int e)
-        : matrix(move(m)), expectedResult(e) {}
-};
-
-struct LongestConsecutiveSequenceTestCase {
-    vector<int> nums;
-    int expectedResult;
-    LongestConsecutiveSequenceTestCase(vector<int> n, int e)
-        : nums(move(n)), expectedResult(e) {}
-};
-
-struct LongestRepeatingCharReplacementTestCase {
-    string s;
-    int k;
-    int expectedResult;
-    LongestRepeatingCharReplacementTestCase(string str, int kk, int exp)
-        : s(move(str)), k(kk), expectedResult(exp) {}
-};
-
-struct LRUCacheTestCase {
-    vector<string> operations;
-    vector<vector<int>> arguments;
-    vector<optional<int>> expectedResults;
-
-    LRUCacheTestCase(
-        vector<string> ops,
-        vector<vector<int>> args,
-        vector<optional<int>> exps
-    )
-      : operations(move(ops))
-      , arguments(move(args))
-      , expectedResults(move(exps))
-    {}
-};
-
-struct CoinChangeTestCase {
-    vector<int> coins;
-    int amount;
-    int expectedResult;
-
-    CoinChangeTestCase(vector<int> c, int a, int e)
-        : coins(move(c)), amount(a), expectedResult(e) {}
-};
-
-struct LongestCycleTestCase {
-    vector<int> edges;
-    int expectedResult;
-
-    LongestCycleTestCase(vector<int> e, int r)
-        : edges(move(e)), expectedResult(r) {}
-};
-
-struct ShortestCycleTestCase {
-    int n;
-    vector<vector<int>> edges;
-    int expected;
-
-    ShortestCycleTestCase(int nn,
-                          vector<vector<int>> e,
-                          int exp)
-        : n(nn), edges(move(e)), expected(exp) {}
-};
-
-struct UniquePathsIITestCase {
-    vector<vector<int>> grid;
-    int expectedResult;
-    UniquePathsIITestCase(vector<vector<int>> g, int e)
-        : grid(move(g)), expectedResult(e) {}
-};
-
 struct MaxAvgTestCase {
     vector<int> nums;
     int k;
@@ -2574,20 +2482,20 @@ public:
             vector<string> result_map = solver.mostVisitedPattern_usingMap(testCases[i].username, testCases[i].timestamp, testCases[i].website);
             vector<string> result_hashmap = solver.mostVisitedPattern_usingHashmap(testCases[i].username, testCases[i].timestamp, testCases[i].website);
 
-            bool pass_map = (result_map == testCases[i].expectedResult);
-            bool pass_hashmap = (result_hashmap == testCases[i].expectedResult);
+            bool pass_map = (result_map == testCases[i].expected);
+            bool pass_hashmap = (result_hashmap == testCases[i].expected);
             bool pass_consistency = (result_map == result_hashmap);
 
             cout << "AnalyzeUserWebsiteVisitPattern Test " << (i + 1) << ": \n";
 
             cout << " - Using Map: " << (pass_map ? "PASS" : "FAIL") << " (Expected: ";
-            for (const auto& s : testCases[i].expectedResult) cout << s << " ";
+            for (const auto& s : testCases[i].expected) cout << s << " ";
             cout << ", Got: ";
             for (const auto& s : result_map) cout << s << " ";
             cout << ")\n";
 
             cout << " - Using Hashmap: " << (pass_hashmap ? "PASS" : "FAIL") << " (Expected: ";
-            for (const auto& s : testCases[i].expectedResult) cout << s << " ";
+            for (const auto& s : testCases[i].expected) cout << s << " ";
             cout << ", Got: ";
             for (const auto& s : result_hashmap) cout << s << " ";
             cout << ")\n";
@@ -2686,8 +2594,8 @@ public:
             int result = solver.findCelebrity((int)testCases[i].matrix.size());
 
             cout << "FindCelebrity Test " << (i + 1)
-                      << ": res = " << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult << ", Got: " << result << ")" << endl;
+                      << ": res = " << (result == testCases[i].expected ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expected << ", Got: " << result << ")" << endl;
         }
     }
 
@@ -2704,10 +2612,10 @@ public:
 
         LongestConsecutiveSequence_128 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.longestConsecutive(testCases[i].nums);
+            int result = solution.longestConsecutive(testCases[i].input);
             cout << "Test " << (i+1) << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult
+                      << (result == testCases[i].expected ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expected
                       << ", Got: " << result << ")" << endl;
         }
     }
@@ -2742,10 +2650,10 @@ public:
         };
         LongestRepeatingCharacterReplacement_424 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.characterReplacement(testCases[i].s, testCases[i].k);
+            int result = solution.characterReplacement(testCases[i].input, testCases[i].k);
             cout << "LRCR_424 Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult
+                      << (result == testCases[i].expected ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expected
                       << ", Got: " << result << ")\n";
         }
     }
@@ -2782,7 +2690,7 @@ public:
             for (size_t j = 0; j < testCases[i].operations.size(); ++j) {
                 const auto& op  = testCases[i].operations[j];
                 const auto& arg = testCases[i].arguments[j];
-                const auto& exp = testCases[i].expectedResults[j];
+                const auto& exp = testCases[i].expected[j];
 
                 if (op == "LRUCache") {
                     cache = new LRUCache(arg[0]);
@@ -2868,8 +2776,8 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             int res = solution.coinChange(testCases[i].coins, testCases[i].amount);
             cout << "CoinChange Test " << (i+1)
-                      << ": res = " << (res == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult
+                      << ": res = " << (res == testCases[i].expected ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expected
                       << ", Got: " << res << ")\n";
         }
     }
@@ -2922,8 +2830,8 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             int res = solver.longestCycle(testCases[i].edges);
             cout << "LongestCycleInGraph_2360 Test " << (i + 1) << ": res = "
-                      << (res == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult
+                      << (res == testCases[i].expected ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expected
                       << ", Got: " << res << ")" << endl;
         }
     }
@@ -3012,10 +2920,10 @@ public:
 
         UniquePathsII_63 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.uniquePathsWithObstacles(testCases[i].grid);
+            int result = solution.uniquePathsWithObstacles(testCases[i].input);
             cout << "Unique Paths II Test " << (i+1)
-                      << ": " << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expectedResult
+                      << ": " << (result == testCases[i].expected ? "PASS" : "FAIL")
+                      << " (Expected: " << testCases[i].expected
                       << ", Got: " << result << ")\n";
         }
     }
