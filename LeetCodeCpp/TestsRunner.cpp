@@ -1558,7 +1558,7 @@ public:
             vector<int> big;
             big.reserve(10000);
             for (int i = 1; i <= 10000; ++i) big.push_back(i);
-            testCases.back() = KthLargestElementTestCase(move(big), 500, 9501);
+            testCases.back() = {move(big), 500, 9501};
         }
 
         KthLargestElementInArray_215 solution;
