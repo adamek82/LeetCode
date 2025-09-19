@@ -137,89 +137,6 @@ using namespace std;
 using namespace TestUtils;
 using namespace TestCases;
 
-struct ContainerWithMostWaterTestCase {
-    vector<int> heights;
-    int expected;
-    ContainerWithMostWaterTestCase(vector<int> h, int e)
-        : heights(move(h)), expected(e) {}
-};
-
-struct TrappingRainWaterTestCase {
-    vector<int> heights;
-    int expected;
-    TrappingRainWaterTestCase(vector<int> h, int e)
-        : heights(move(h)), expected(e) {}
-};
-
-struct MaximalRectangleTestCase {
-    vector<vector<char>> matrix;
-    int expectedArea;
-
-    MaximalRectangleTestCase(vector<vector<char>> m, int area)
-        : matrix(move(m)), expectedArea(area) {}
-};
-
-struct MaximumSubarrayTestCase {
-    vector<int> nums;
-    int expected;
-
-    MaximumSubarrayTestCase(vector<int> v, int e)
-        : nums(move(v)), expected(e) {}
-};
-
-struct TwoSumCase {
-    vector<int> nums;
-    int              target;
-    vector<int> expected;   // indices (any order)
-
-    TwoSumCase(vector<int> n, int t, vector<int> e)
-        : nums(move(n)), target(t), expected(move(e)) {}
-};
-
-struct MergeCase {
-    vector<int> nums1;
-    int              m;
-    vector<int> nums2;
-    int              n;
-    vector<int> expected;
-
-    MergeCase(vector<int> a, int ma,
-              vector<int> b, int nb,
-              vector<int> e)
-        : nums1(move(a)), m(ma),
-          nums2(move(b)), n(nb),
-          expected(move(e)) {}
-};
-
-struct RemCase {
-    vector<int> nums;
-    int         val;
-    int         expectedK;
-    vector<int> expectedElems;   // order-agnostic
-
-    RemCase(vector<int> a, int v, int k, vector<int> e)
-        : nums(move(a)), val(v), expectedK(k),
-          expectedElems(move(e)) {}
-};
-
-struct BalloonCase {
-    string text;
-    int         expected;
-    BalloonCase(string t, int e) : text(move(t)), expected(e) {}
-};
-
-struct ABCase {
-    string a, b, expected;
-    ABCase(string x, string y, string e)
-        : a(move(x)), b(move(y)), expected(move(e)) {}
-};
-
-struct PivotCase {
-    vector<int> nums;
-    int         expected;
-    PivotCase(vector<int> n, int e) : nums(move(n)), expected(e) {}
-};
-
 struct HWCase {
     uint32_t n;
     int      expected;
@@ -3110,7 +3027,7 @@ public:
 
         ContainerWithMostWater_11 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int res = solver.maxArea(testCases[i].heights);
+            int res = solver.maxArea(testCases[i].input);
             cout << "ContainerWithMostWater_11 Test " << (i + 1) << ": res = "
                 << (res == testCases[i].expected ? "PASS" : "FAIL") << endl;
         }
@@ -3131,7 +3048,7 @@ public:
 
         TrappingRainWater_42 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int res = solver.trap(testCases[i].heights);
+            int res = solver.trap(testCases[i].input);
             cout << "TrappingRainWater_42 Test " << (i + 1) << ": res = "
                 << (res == testCases[i].expected ? "PASS" : "FAIL") << endl;
         }
@@ -3162,8 +3079,8 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solver.maximalRectangle(testCases[i].matrix);
             cout << "Maximal Rectangle Test " << (i + 1) << ": res = "
-                << (result == testCases[i].expectedArea ? "PASS" : "FAIL")
-                << " (Expected: " << testCases[i].expectedArea
+                << (result == testCases[i].expected ? "PASS" : "FAIL")
+                << " (Expected: " << testCases[i].expected
                 << ", Got: " << result << ")\n";
         }
     }
@@ -3184,7 +3101,7 @@ public:
 
         MaximumSubarray_53 solver;
         for (size_t i = 0; i < tc.size(); ++i) {
-            int got = solver.maxSubArray(tc[i].nums);
+            int got = solver.maxSubArray(tc[i].input);
             cout << "MaximumSubarray_53 Test " << (i + 1) << ": "
                     << (got == tc[i].expected ? "PASS" : "FAIL")
                     << " (expected " << tc[i].expected << ", got " << got << ")\n";
@@ -3203,7 +3120,7 @@ public:
 
         TwoSum_1 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            auto res = solver.twoSum(cases[i].nums, cases[i].target);
+            auto res = solver.twoSum(cases[i].input, cases[i].target);
 
             // order-independent check
             auto exp = cases[i].expected;
@@ -3249,13 +3166,13 @@ public:
 
         RemoveElement_27 remover;
         for (size_t i = 0; i < cases.size(); ++i) {
-            auto nums = cases[i].nums;                    // copy to mutate
+            auto nums = cases[i].input;                    // copy to mutate
             int  k    = remover.removeElement(nums, cases[i].val);
 
             // prepare comparables (order-independent)
             vector<int> got(nums.begin(), nums.begin() + k);
             sort(got.begin(), got.end());
-            auto exp = cases[i].expectedElems;
+            auto exp = cases[i].expected;
             sort(exp.begin(), exp.end());
 
             cout << "[RemoveElement] Test " << (i + 1) << ": res = "
@@ -3277,7 +3194,7 @@ public:
 
         MaximumNumberOfBalloons_1189 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            int res = solver.maxNumberOfBalloons(cases[i].text);
+            int res = solver.maxNumberOfBalloons(cases[i].input);
 
             cout << "[MaxBalloons] Test " << (i + 1) << ": res = "
                  << (res == cases[i].expected ? "PASS" : "FAIL") << '\n';
@@ -3318,7 +3235,7 @@ public:
 
         FindPivotIndex_724 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            int res = solver.pivotIndex(cases[i].nums);
+            int res = solver.pivotIndex(cases[i].input);
 
             cout << "[FindPivot] Test " << (i + 1) << ": res = "
                 << (res == cases[i].expected ? "PASS" : "FAIL") << '\n';

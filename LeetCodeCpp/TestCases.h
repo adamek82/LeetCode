@@ -455,4 +455,71 @@ namespace TestCases {
         std::vector<int> input;
         std::vector<std::vector<int>> expected;
     };
+
+    // 11. Container With Most Water
+    struct ContainerWithMostWaterTestCase {
+        std::vector<int> input;
+        int expected;
+    };
+
+    // 42. Trapping Rain Water
+    struct TrappingRainWaterTestCase {
+        std::vector<int> input;
+        int expected;
+    };
+
+    // 85. Maximal Rectangle
+    struct MaximalRectangleTestCase {
+        std::vector<std::vector<char>> matrix;
+        int expected;
+    };
+
+    // 53. Maximum Subarray
+    struct MaximumSubarrayTestCase {
+        std::vector<int> input;
+        int expected;
+    };
+
+    // 1. Two Sum
+    struct TwoSumCase {
+        std::vector<int> input;
+        int target;
+        std::vector<int> expected; // indices (any order)
+    };
+
+    // 88. Merge Sorted Array
+    struct MergeCase {
+        std::vector<int> nums1;
+        int m;
+        std::vector<int> nums2;
+        int n;
+        std::vector<int> expected;
+    };
+
+    // 27. Remove Element
+    struct RemCase {
+        std::vector<int> input;
+        int val;
+        int expectedK;
+        std::vector<int> expected; // order-agnostic
+    };
+
+    // 1189. Maximum Number of Balloons
+    struct BalloonCase {
+        std::string input;
+        int expected;
+    };
+
+    // 1768. Merge Strings Alternately
+    struct ABCase {
+        std::string a;
+        std::string b;
+        std::string expected;
+    };
+
+    // 724. Find Pivot Index
+    struct PivotCase {
+        std::vector<int> input;
+        int expected;
+    };
 } // namespace TestCases
