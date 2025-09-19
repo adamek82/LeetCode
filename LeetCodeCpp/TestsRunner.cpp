@@ -137,85 +137,6 @@ using namespace std;
 using namespace TestUtils;
 using namespace TestCases;
 
-struct MaxAvgTestCase {
-    vector<int> nums;
-    int k;
-    double expected;
-    MaxAvgTestCase(vector<int> n, int kk, double e)
-        : nums(move(n)), k(kk), expected(e) {}
-};
-
-struct MaxConsecutiveOnesTestCase {
-    vector<int> nums;
-    int k;
-    int expectedResult;
-
-    MaxConsecutiveOnesTestCase(vector<int> n, int kk, int e)
-        : nums(move(n)), k(kk), expectedResult(e) {}
-};
-
-struct LongestSubstringWithoutRepeatingCharactersTestCase {
-    string s;
-    int expectedResult;
-
-    LongestSubstringWithoutRepeatingCharactersTestCase(string str, int exp)
-        : s(move(str)), expectedResult(exp) {}
-};
-
-struct MinimumSizeSubarraySumTestCase {
-    int target;
-    vector<int> nums;
-    int expectedResult;
-
-    MinimumSizeSubarraySumTestCase(int tgt, vector<int> n, int e)
-        : target(tgt), nums(move(n)), expectedResult(e) {}
-};
-
-struct PermutationInStringTestCase {
-    string s1;
-    string s2;
-    bool expectedResult;
-
-    PermutationInStringTestCase(string first, string second, bool expected)
-        : s1(move(first)), s2(move(second)), expectedResult(expected) {}
-};
-
-struct SquaresOfSortedArrayTestCase {
-    vector<int> nums;
-    vector<int> expectedResult;
-    SquaresOfSortedArrayTestCase(vector<int> n, vector<int> e)
-        : nums(move(n)), expectedResult(move(e)) {}
-};
-
-struct ReverseStringTestCase {
-    vector<char> input;
-    vector<char> expected;
-    ReverseStringTestCase(vector<char> i, vector<char> e)
-        : input(move(i)), expected(move(e)) {}
-};
-
-struct TwoSumIITestCase {
-    vector<int> numbers;
-    int         target;
-    vector<int> expected;   // 1-indexed answer
-    TwoSumIITestCase(vector<int> nums, int t, vector<int> exp)
-        : numbers(move(nums)), target(t), expected(move(exp)) {}
-};
-
-struct ValidPalindromeTestCase {
-    string input;
-    bool expected;
-    ValidPalindromeTestCase(string i, bool e)
-        : input(move(i)), expected(e) {}
-};
-
-struct ThreeSumTestCase {
-    vector<int> nums;
-    vector<vector<int>> expected;
-    ThreeSumTestCase(vector<int> n, vector<vector<int>> e)
-        : nums(move(n)), expected(move(e)) {}
-};
-
 struct ContainerWithMostWaterTestCase {
     vector<int> heights;
     int expected;
@@ -2943,7 +2864,7 @@ public:
 
         MaximumAverageSubarrayI_643 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            double result = solution.findMaxAverage(testCases[i].nums, testCases[i].k);
+            double result = solution.findMaxAverage(testCases[i].input, testCases[i].k);
             bool pass = approxEqual(result, testCases[i].expected);
             cout << "MaxAvgSubarrayI_643 Test " << (i + 1) << ": "
                     << (pass ? "PASS" : "FAIL")
@@ -2966,10 +2887,10 @@ public:
 
         MaxConsecutiveOnesIII_1004 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.longestOnes(testCases[i].nums, testCases[i].k);
+            int result = solution.longestOnes(testCases[i].input, testCases[i].k);
             cout << "MaxConsecutiveOnesIII_1004 Test " << (i + 1) << ": res = "
-                << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                << " (Expected: " << testCases[i].expectedResult
+                << (result == testCases[i].expected ? "PASS" : "FAIL")
+                << " (Expected: " << testCases[i].expected
                 << ", Got: " << result << ")" << endl;
         }
     }
@@ -2986,10 +2907,10 @@ public:
 
         LongestSubstringWithoutRepeatingCharacters_3 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int res = solution.lengthOfLongestSubstring(testCases[i].s);
+            int res = solution.lengthOfLongestSubstring(testCases[i].input);
             cout << "Longest Substring Test " << (i + 1)
-                << ": res = " << (res == testCases[i].expectedResult ? "PASS" : "FAIL")
-                << " (Expected: " << testCases[i].expectedResult
+                << ": res = " << (res == testCases[i].expected ? "PASS" : "FAIL")
+                << " (Expected: " << testCases[i].expected
                 << ", Got: " << res << ")" << endl;
         }
     }
@@ -3011,10 +2932,10 @@ public:
         MinimumSizeSubarraySum_209 solver;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solver.minSubArrayLen(testCases[i].target, testCases[i].nums);
+            int got = solver.minSubArrayLen(testCases[i].target, testCases[i].input);
             cout << "MinimumSizeSubarraySum_209 Test " << (i + 1) << ": res = "
-                << (got == testCases[i].expectedResult ? "PASS" : "FAIL")
-                << " (Expected: " << testCases[i].expectedResult
+                << (got == testCases[i].expected ? "PASS" : "FAIL")
+                << " (Expected: " << testCases[i].expected
                 << ", Got: " << got << ")\n";
         }
     }
@@ -3035,8 +2956,8 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = solver.checkInclusion(testCases[i].s1, testCases[i].s2);
             cout << "PermutationInString Test " << (i + 1) << ": res = "
-                << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                << " (Expected: " << (testCases[i].expectedResult ? "true" : "false")
+                << (result == testCases[i].expected ? "PASS" : "FAIL")
+                << " (Expected: " << (testCases[i].expected ? "true" : "false")
                 << ", Got: "      << (result ? "true" : "false")  << ")" << endl;
         }
     }
@@ -3055,9 +2976,9 @@ public:
 
         SquaresOfSortedArray_977 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto result = solver.sortedSquares(testCases[i].nums);
+            auto result = solver.sortedSquares(testCases[i].input);
             cout << "SquaresOfSortedArray_977 Test " << (i + 1) << ": res = "
-                << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
+                << (result == testCases[i].expected ? "PASS" : "FAIL") << endl;
         }
     }
 
@@ -3106,7 +3027,7 @@ public:
 
         TwoSumII_167 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto nums = testCases[i].numbers;  // work on a copy
+            auto nums = testCases[i].input;  // work on a copy
             vector<int> res = solver.twoSum(nums, testCases[i].target);
             cout << "TwoSumII_167 Test " << (i + 1) << ": res = "
                 << (res == testCases[i].expected ? "PASS" : "FAIL") << endl;
@@ -3159,7 +3080,7 @@ public:
 
         ThreeSum_15 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto res = solver.threeSum(testCases[i].nums);
+            auto res = solver.threeSum(testCases[i].input);
 
             // sort each triplet then the whole vector for stable comparison
             auto norm = [](vector<vector<int>>& v) {

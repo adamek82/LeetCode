@@ -390,4 +390,69 @@ namespace TestCases {
         vector<vector<int>> arguments;       // each op's int args
         vector<optional<int>> expected;      // nullopt for void ops
     };
+
+    // 643. Maximum Average Subarray I
+    struct MaxAvgTestCase {
+        std::vector<int> input;
+        int k;
+        double expected;
+    };
+
+    // 1004. Max Consecutive Ones III
+    struct MaxConsecutiveOnesTestCase {
+        std::vector<int> input;
+        int k;
+        int expected;
+    };
+
+    // 3. Longest Substring Without Repeating Characters
+    struct LongestSubstringWithoutRepeatingCharactersTestCase {
+        std::string input;
+        int expected;
+    };
+
+    // 209. Minimum Size Subarray Sum
+    struct MinimumSizeSubarraySumTestCase {
+        int target;
+        std::vector<int> input;
+        int expected;
+    };
+
+    // 567. Permutation in String
+    struct PermutationInStringTestCase {
+        std::string s1;
+        std::string s2;
+        bool expected;
+    };
+
+    // 977. Squares of a Sorted Array
+    struct SquaresOfSortedArrayTestCase {
+        std::vector<int> input;
+        std::vector<int> expected;
+    };
+
+    // 344. Reverse String
+    struct ReverseStringTestCase {
+        std::vector<char> input;
+        std::vector<char> expected;
+    };
+
+    // 167. Two Sum II – Input Array Is Sorted
+    struct TwoSumIITestCase {
+        std::vector<int> input;   // sorted
+        int target;
+        std::vector<int> expected; // 1-indexed result
+    };
+
+    // 125. Valid Palindrome
+    struct ValidPalindromeTestCase {
+        std::string input;
+        bool expected;
+    };
+
+    // 15. 3Sum
+    struct ThreeSumTestCase {
+        std::vector<int> input;
+        std::vector<std::vector<int>> expected;
+    };
 } // namespace TestCases
