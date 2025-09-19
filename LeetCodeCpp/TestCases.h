@@ -522,4 +522,76 @@ namespace TestCases {
         std::vector<int> input;
         int expected;
     };
+
+    // 191. Number of 1 Bits
+    struct HWCase {
+        uint32_t n;
+        int expected;
+    };
+
+    // 394. Decode String
+    struct DecodeStringTestCase {
+        std::string input;
+        std::string expected;
+    };
+
+    // 44. Wildcard Matching
+    struct WildcardMatchingTestCase {
+        std::string s;
+        std::string p;
+        bool expected;
+    };
+
+    // 973. K Closest Points to Origin
+    struct KClosestTestCase {
+        std::vector<std::vector<int>> points;
+        int k;
+        std::vector<std::vector<int>> expected; // order-agnostic
+    };
+
+    // 62. Unique Paths
+    struct UniquePaths62TestCase {
+        int m;
+        int n;
+        int expected;
+    };
+
+    // 815. Bus Routes
+    struct BusRoutesTestCase {
+        std::vector<std::vector<int>> routes;
+        int source;
+        int target;
+        int expected;
+    };
+
+    // 1091. Shortest Path in Binary Matrix
+    struct ShortestPathTestCase {
+        std::vector<std::vector<int>> grid;
+        int expected;
+    };
+
+    // 2642. Design Graph With Shortest Path Calculator
+    struct GraphTC {
+        std::vector<std::string> operations;
+        std::vector<std::variant<
+            std::monostate,
+            int,
+            std::vector<int>,
+            std::pair<int,int>,
+            std::pair<int,std::vector<std::vector<int>>>>>
+            arguments;
+        std::vector<std::optional<int>> expected;
+    };
+
+    // 2812. Find Safest Path in Grid
+    struct SafestPathTestCase {
+        std::vector<std::vector<int>> grid;
+        int expected;
+    };
+
+    // 104. Maximum Depth of Binary Tree
+    struct MaxDepthTestCase {
+        std::vector<std::optional<int>> tree; // level-order
+        int expected;
+    };
 } // namespace TestCases

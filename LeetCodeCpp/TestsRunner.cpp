@@ -137,96 +137,6 @@ using namespace std;
 using namespace TestUtils;
 using namespace TestCases;
 
-struct HWCase {
-    uint32_t n;
-    int      expected;
-    HWCase(uint32_t x, int e) : n(x), expected(e) {}
-};
-
-struct DecodeStringTestCase {
-    string input;
-    string expected;
-    DecodeStringTestCase(string i, string e)
-        : input(move(i)), expected(move(e)) {}
-};
-
-struct WildcardMatchingTestCase {
-    string s;
-    string p;
-    bool   expected;
-    WildcardMatchingTestCase(string ss, string pp, bool e)
-        : s(move(ss)), p(move(pp)), expected(e) {}
-};
-
-struct KClosestTestCase {
-    vector<vector<int>> points;
-    int k;
-    vector<vector<int>> expected;   // order-agnostic
-    KClosestTestCase(vector<vector<int>> p, int kk, vector<vector<int>> e)
-        : points(move(p)), k(kk), expected(move(e)) {}
-};
-
-struct UniquePaths62TestCase {
-    int m;
-    int n;
-    int expected;
-    UniquePaths62TestCase(int mm, int nn, int e)
-        : m(mm), n(nn), expected(e) {}
-};
-
-struct BusRoutesTestCase {
-    vector<vector<int>> routes;
-    int source;
-    int target;
-    int expectedResult;
-
-    BusRoutesTestCase(vector<vector<int>> r, int s, int t, int e)
-        : routes(move(r)), source(s), target(t), expectedResult(e) {}
-};
-
-struct ShortestPathTestCase {
-    vector<vector<int>> grid;
-    int expected;
-
-    ShortestPathTestCase(vector<vector<int>> g, int e)
-        : grid(move(g)), expected(e) {}
-};
-
-struct GraphTC {
-    vector<string> operations;
-    vector<variant<monostate,
-                   int,
-                   vector<int>,
-                   pair<int,int>,
-                   pair<int,vector<vector<int>>>>> arguments;
-    vector<optional<int>> expected;
-
-    GraphTC(vector<string>  op,
-            vector<variant<monostate,
-                           int,
-                           vector<int>,
-                           pair<int,int>,
-                           pair<int,vector<vector<int>>>>> arg,
-            vector<optional<int>> exp)
-        : operations(move(op)), arguments(move(arg)), expected(move(exp)) {}
-};
-
-struct SafestPathTestCase {
-    vector<vector<int>> grid;
-    int expectedResult;
-
-    SafestPathTestCase(vector<vector<int>> g, int e)
-        : grid(move(g)), expectedResult(e) {}
-};
-
-struct MaxDepthTestCase {
-    vector<optional<int>> tree;     // level-order representation
-    int expectedDepth;              // ground-truth answer
-
-    MaxDepthTestCase(vector<optional<int>> t, int e)
-        : tree(move(t)), expectedDepth(e) {}
-};
-
 struct WallsAndGatesTestCase {
     vector<vector<int>> rooms;
     vector<vector<int>> expected;
@@ -3383,8 +3293,8 @@ public:
             auto routesCopy = cases[i].routes;  // Guard against mutation
             int res = solver.numBusesToDestination(routesCopy, cases[i].source, cases[i].target);
             cout << "BusRoutes_815 Test " << (i + 1) << ": "
-                << (res == cases[i].expectedResult ? "PASS" : "FAIL")
-                << " (Expected: " << cases[i].expectedResult << ", Got: " << res << ")\n";
+                << (res == cases[i].expected ? "PASS" : "FAIL")
+                << " (Expected: " << cases[i].expected << ", Got: " << res << ")\n";
         }
     }
 
@@ -3540,8 +3450,8 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             int res = solver.maximumSafenessFactor(testCases[i].grid);
             cout << "Safest Path Test " << (i + 1) << ": res = "
-                << (res == testCases[i].expectedResult ? "PASS" : "FAIL")
-                << " (Expected: " << testCases[i].expectedResult
+                << (res == testCases[i].expected ? "PASS" : "FAIL")
+                << " (Expected: " << testCases[i].expected
                 << ", Got: " << res << ")\n";
         }
     }
@@ -3570,13 +3480,13 @@ public:
             int dStk  = solver.maxDepthDFSStack(root);
             int dBfs  = solver.maxDepthBFSQueue(root);
 
-            bool pass = (dRec == testCases[i].expectedDepth &&
-                        dStk == testCases[i].expectedDepth &&
-                        dBfs == testCases[i].expectedDepth);
+            bool pass = (dRec == testCases[i].expected &&
+                        dStk == testCases[i].expected &&
+                        dBfs == testCases[i].expected);
 
             cout << "MaxDepth Test " << (i + 1) << ": "
                 << (pass ? "PASS" : "FAIL")
-                << " (Expected " << testCases[i].expectedDepth
+                << " (Expected " << testCases[i].expected
                 << ", got rec="   << dRec
                 << ", stack="     << dStk
                 << ", queue="     << dBfs << ")\n";
