@@ -178,36 +178,36 @@ bool assertApprox(const string& label,
     return pass;
 }
 
-bool assertEqVIntExact(const std::string& label,
-                       const std::vector<int>& expected,
-                       const std::vector<int>& got) {
+bool assertEqVIntExact(const string& label,
+                       const vector<int>& expected,
+                       const vector<int>& got) {
     bool pass = (expected == got);
-    std::cout << label << ": " << (pass ? "PASS" : "FAIL") << '\n';
+    cout << label << ": " << (pass ? "PASS" : "FAIL") << '\n';
     if (!pass) {
-        std::cout << "  Expected: ";
+        cout << "  Expected: ";
         printVec(expected);
-        std::cout << "  Got: ";
+        cout << "  Got: ";
         printVec(got);
-        std::cout << '\n';
+        cout << '\n';
     }
     return pass;
 }
 
-bool assertEqVIntPrefix(const std::string& label,
-                        const std::vector<int>& expected,
-                        const std::vector<int>& vec, int k) {
+bool assertEqVIntPrefix(const string& label,
+                        const vector<int>& expected,
+                        const vector<int>& vec, int k) {
     if (k < 0) k = 0;
     if (k > static_cast<int>(vec.size())) k = static_cast<int>(vec.size());
-    std::vector<int> prefix(vec.begin(), vec.begin() + k);
+    vector<int> prefix(vec.begin(), vec.begin() + k);
     bool pass = (static_cast<int>(expected.size()) == k) && (expected == prefix);
 
-    std::cout << label << ": " << (pass ? "PASS" : "FAIL") << '\n';
+    cout << label << ": " << (pass ? "PASS" : "FAIL") << '\n';
     if (!pass) {
-        std::cout << "  Expected k=" << expected.size() << ", prefix=";
+        cout << "  Expected k=" << expected.size() << ", prefix=";
         printVec(expected);
-        std::cout << "\n  Got      k=" << k << ", prefix=";
+        cout << "\n  Got      k=" << k << ", prefix=";
         printVec(prefix);
-        std::cout << '\n';
+        cout << '\n';
     }
     return pass;
 }

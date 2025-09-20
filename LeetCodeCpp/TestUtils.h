@@ -99,13 +99,13 @@ bool assertEqVVIntPermutations(const string& label,
 bool assertApprox(const string& label,
                   double expected, double got, double eps = 1e-5);
 
-bool assertEqVIntExact(const std::string& label,
-                       const std::vector<int>& expected,
-                       const std::vector<int>& got);
+bool assertEqVIntExact(const string& label,
+                       const vector<int>& expected,
+                       const vector<int>& got);
 
 // Compares only the first k elements of `vec` with `expected` and logs k.
-bool assertEqVIntPrefix(const std::string& label,
-                        const std::vector<int>& expected,
-                        const std::vector<int>& vec, int k);
+bool assertEqVIntPrefix(const string& label,
+                        const vector<int>& expected,
+                        const vector<int>& vec, int k);
 
 } // namespace TestUtils

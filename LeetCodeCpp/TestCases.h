@@ -719,4 +719,72 @@ namespace TestCases {
         string t;
         vector<pair<string, bool>> queries;
     };
+
+    // 14. Longest Common Prefix
+    struct LongestCommonPrefix14TestCase {
+        vector<string> strs;
+        string expected;
+    };
+
+    // 228. Summary Ranges
+    struct SummaryRanges228TestCase {
+        vector<int> nums;
+        vector<string> expected;
+    };
+
+    // 26. Remove Duplicates from Sorted Array
+    struct RemoveDuplicates26TestCase {
+        vector<int> nums;
+        vector<int> expected; // expected first k unique values
+    };
+
+    // 45. Jump Game II
+    struct JumpGameII45TestCase {
+        vector<int> nums;
+        int expected;
+    };
+
+    // 55. Jump Game
+    struct JumpGame55TestCase {
+        vector<int> nums;
+        bool expected;
+    };
+
+    // 78. Subsets
+    struct Subsets78TestCase {
+        vector<int> nums;
+        vector<vector<int>> expected; // mask-order to match implementation
+    };
+
+    // 46. Permutations
+    struct Permutations46TestCase {
+        vector<int> nums;
+        vector<vector<int>> expected; // order-insensitive
+    };
+
+    // 77. Combinations
+    struct Combinations77TestCase {
+        int n;
+        int k;
+        vector<vector<int>> expected; // order-insensitive
+    };
+
+    // 17. Letter Combinations of a Phone Number
+    struct LetterCombinations17TestCase {
+        string digits;
+        vector<string> expected; // order-insensitive
+    };
+
+    // 39. Combination Sum
+    struct CombinationSum39TestCase {
+        vector<int> candidates;
+        int target;
+        vector<vector<int>> expected; // order-insensitive
+    };
+
+    // 22. Generate Parentheses
+    struct GenerateParentheses22TestCase {
+        int n;
+        vector<string> expected; // order-insensitive
+    };
 } // namespace TestCases
