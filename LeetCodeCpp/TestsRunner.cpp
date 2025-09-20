@@ -137,57 +137,6 @@ using namespace std;
 using namespace TestUtils;
 using namespace TestCases;
 
-static bool equalMultiset(vector<vector<int>> a, vector<vector<int>> b) {
-    auto key = [](const vector<int>& p){ return make_pair(p[0], p[1]); };
-    sort(a.begin(), a.end(), [&](auto& x, auto& y){ return key(x) < key(y); });
-    sort(b.begin(), b.end(), [&](auto& x, auto& y){ return key(x) < key(y); });
-    return a == b;
-}
-
-/* ---------- generic distance helper ---------------------------------- */
-static long long distSq(const vector<int>& p) {
-    return 1LL * p[0] * p[0] + 1LL * p[1] * p[1];
-}
-
-/* ---------- new validator -------------------------------------------- *
- * Returns true iff `out`
- *   1) has exactly k points,
- *   2) every point comes from the original `input`,
- *   3) every point’s distance² is ≤ the k-th smallest distance²
- *      found in the entire input set.
- */
-static bool isValidKClosest(const vector<vector<int>>& input,
-                            int k,
-                            const vector<vector<int>>& out)
-{
-    if ((int)out.size() != k) return false;
-
-    /*  Build a multiset of all original points for membership check.     */
-    multiset<pair<int,int>> pool;
-    for (auto& p : input) pool.emplace(p[0], p[1]);
-
-    /*  Find the kth smallest distance² in O(n) with nth_element.         */
-    vector<long long> dists;
-    dists.reserve(input.size());
-    for (auto& p : input) dists.push_back(distSq(p));
-    nth_element(dists.begin(), dists.begin() + (k - 1), dists.end());
-    long long kthDist = dists[k - 1];
-
-    /*  Validate every output point.                                      */
-    for (auto& p : out) {
-        auto it = pool.find({p[0], p[1]});
-        if (it == pool.end()) return false;            // not in original set
-        if (distSq(p) > kthDist)   return false;       // too far
-        pool.erase(it);                                // consume one copy
-    }
-    return true;
-}
-
-template <typename T>
-void printMatrix(const vector<vector<T>>& m) {
-    for (const auto& row : m) printVec(row);
-}
-
 class TestsRunner {
 public:
     static void courseSchedule_207_tests() {
@@ -3022,12 +2971,12 @@ public:
             /* test QuickSelect version */
             auto in1  = cases[i].points;
             auto out1 = solver.kClosestQuickSelect(in1, cases[i].k);
-            bool pass1 = isValidKClosest(cases[i].points, cases[i].k, out1);
+            bool pass1 = isValidKClosestPoints(cases[i].points, cases[i].k, out1);
 
             /* test Heap version */
             auto in2  = cases[i].points;
             auto out2 = solver.kClosestHeap(in2, cases[i].k);
-            bool pass2 = isValidKClosest(cases[i].points, cases[i].k, out2);
+            bool pass2 = isValidKClosestPoints(cases[i].points, cases[i].k, out2);
 
             cout << "KClosest Test " << i + 1
                 << "  QuickSelect:" << (pass1 ? "PASS" : "FAIL")
@@ -3964,7 +3913,7 @@ public:
             auto in  = tests[i].nums;              // method takes non-const ref
             auto got = sol.summaryRanges(in);
 
-            TestUtils::assertEqStrings("Summary Ranges 228 Test " + to_string(i + 1),
+            assertEqStrings("Summary Ranges 228 Test " + to_string(i + 1),
                                     tests[i].expected, got);
         }
     }
@@ -3985,7 +3934,7 @@ public:
         for (size_t i = 0; i < tests.size(); ++i) {
             a = tests[i].nums;                      // the solver mutates in place
             int k = sol.removeDuplicates(a);
-            TestUtils::assertEqVIntPrefix(
+            assertEqVIntPrefix(
                 "Remove Duplicates 26 Test " + to_string(i + 1),
                 tests[i].expected, a, k
             );
@@ -4072,7 +4021,7 @@ public:
             // Bitmask variant: exact order comparison (matches mask enumeration order).
             in  = tests[i].nums;               // solver takes non-const ref by project style
             got = sol.subsets_bitmask(in);
-            TestUtils::assertEqVVIntExact(
+            assertEqVVIntExact(
                 "Subsets 78 (bitmask) Test " + to_string(i + 1),
                 tests[i].expected, got
             );
@@ -4080,7 +4029,7 @@ public:
             // Recursive/backtracking variant: order-insensitive comparison.
             in  = tests[i].nums;
             got = sol.subsets_recursive(in);
-            TestUtils::assertEqVVIntAnyOrder(
+            assertEqVVIntAnyOrder(
                 "Subsets 78 (recursive) Test " + to_string(i + 1),
                 tests[i].expected, got
             );
@@ -4100,7 +4049,7 @@ public:
             auto in  = tests[i].nums;               // method takes non-const ref
             auto got = sol.permute(in);
 
-            TestUtils::assertEqVVIntPermutations(
+            assertEqVVIntPermutations(
                 "Permutations 46 Test " + to_string(i + 1),
                 tests[i].expected,
                 got
@@ -4122,7 +4071,7 @@ public:
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = sol.combine(tests[i].n, tests[i].k);
 
-            TestUtils::assertEqVVIntAnyOrder(
+            assertEqVVIntAnyOrder(
                 "Combinations 77 Test " + to_string(i + 1),
                 tests[i].expected,
                 got
@@ -4144,7 +4093,7 @@ public:
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = sol.letterCombinations(tests[i].digits);
 
-            TestUtils::assertEqStringsAnyOrder(
+            assertEqStringsAnyOrder(
                 "Letter Combinations 17 Test " + to_string(i + 1),
                 tests[i].expected,
                 got
@@ -4167,7 +4116,7 @@ public:
             auto cand = tests[i].candidates;       // method takes non-const ref
             auto got  = sol.combinationSum(cand, tests[i].target);
 
-            TestUtils::assertEqVVIntAnyOrder(
+            assertEqVVIntAnyOrder(
                 "Combination Sum 39 Test " + to_string(i + 1),
                 tests[i].expected,
                 got
@@ -4189,7 +4138,7 @@ public:
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = sol.generateParenthesis(tests[i].n);
 
-            TestUtils::assertEqStringsAnyOrder(
+            assertEqStringsAnyOrder(
                 "Generate Parentheses 22 Test " + to_string(i + 1),
                 tests[i].expected,
                 got

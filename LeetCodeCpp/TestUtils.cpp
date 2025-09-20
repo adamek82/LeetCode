@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <utility>
 #include <cmath>
+#include <set>
 
 namespace TestUtils {
 
@@ -210,6 +211,37 @@ bool assertEqVIntPrefix(const string& label,
         cout << '\n';
     }
     return pass;
+}
+
+// distance^2 helper kept file-local
+inline long long distSq2D(const vector<int>& p) {
+    return 1LL * p[0] * p[0] + 1LL * p[1] * p[1];
+}
+
+bool isValidKClosestPoints(const vector<vector<int>>& input,
+                           int k,
+                           const vector<vector<int>>& out) {
+    if ((int)out.size() != k) return false;
+
+    // Build multiset of original points to check membership & multiplicity.
+    multiset<pair<int,int>> pool;
+    for (const auto& p : input) pool.emplace(p[0], p[1]);
+
+    // Find k-th smallest distance^2 via nth_element.
+    vector<long long> dists;
+    dists.reserve(input.size());
+    for (const auto& p : input) dists.push_back(distSq2D(p));
+    nth_element(dists.begin(), dists.begin() + (k - 1), dists.end());
+    const long long kth = dists[k - 1];
+
+    // Validate output points.
+    for (const auto& p : out) {
+        auto it = pool.find({p[0], p[1]});
+        if (it == pool.end()) return false;        // not present
+        if (distSq2D(p) > kth) return false;       // too far
+        pool.erase(it);                            // consume one copy
+    }
+    return true;
 }
 
 } // namespace TestUtils

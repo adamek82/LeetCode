@@ -31,6 +31,12 @@ void printQuoted(const vector<string>& v,
 void printVVInt(const vector<vector<int>>& vv,
                 ostream& os = cout);
 
+// --- print a 2D matrix with rows on separate lines ---
+template <typename T>
+inline void printMatrix(const vector<vector<T>>& m, ostream& os = cout) {
+    for (const auto& row : m) printVec(row, os);
+}
+
 /* ===========================================================
  * Normalizers (for order-insensitive comparisons)
  * =========================================================== */
@@ -107,5 +113,18 @@ bool assertEqVIntExact(const string& label,
 bool assertEqVIntPrefix(const string& label,
                         const vector<int>& expected,
                         const vector<int>& vec, int k);
+
+/*
+ * Validate k-closest result for 2D points (order agnostic, multiplicities respected).
+ *
+ * Returns true iff `out`
+ *   1) has exactly k points,
+ *   2) every point comes from the original `input`,
+ *   3) every point’s distance² is ≤ the k-th smallest distance²
+ *      found in the entire input set.
+ */
+bool isValidKClosestPoints(const vector<vector<int>>& input,
+                           int k,
+                           const vector<vector<int>>& out);
 
 } // namespace TestUtils
