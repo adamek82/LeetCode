@@ -137,87 +137,12 @@ using namespace std;
 using namespace TestUtils;
 using namespace TestCases;
 
-struct WallsAndGatesTestCase {
-    vector<vector<int>> rooms;
-    vector<vector<int>> expected;
-
-    WallsAndGatesTestCase(vector<vector<int>> r, vector<vector<int>> e)
-        : rooms(move(r)), expected(move(e)) {}
-};
-
-struct ValidNumberTestCase {
-    string s;
-    bool   expectedResult;
-    ValidNumberTestCase(string str, bool exp)
-        : s(move(str)), expectedResult(exp) {}
-};
-
-struct JewelsAndStonesTestCase {
-    string jewels;
-    string stones;
-    int    expectedResult;
-
-    JewelsAndStonesTestCase(string j, string s, int e)
-        : jewels(move(j)), stones(move(s)), expectedResult(e) {}
-};
-
-struct PerfectSquareTestCase {
-    int  num;
-    bool expected;
-    PerfectSquareTestCase(int n, bool e) : num(n), expected(e) {}
-};
-
-struct PerfectSquares279TestCase {
-    int n;
-    int expected;
-    PerfectSquares279TestCase(int n_, int e) : n(n_), expected(e) {}
-};
-
 static bool equalMultiset(vector<vector<int>> a, vector<vector<int>> b) {
     auto key = [](const vector<int>& p){ return make_pair(p[0], p[1]); };
     sort(a.begin(), a.end(), [&](auto& x, auto& y){ return key(x) < key(y); });
     sort(b.begin(), b.end(), [&](auto& x, auto& y){ return key(x) < key(y); });
     return a == b;
 }
-
-struct SameTreeTestCase {
-    vector<optional<int>> p;
-    vector<optional<int>> q;
-    bool expected;
-
-    SameTreeTestCase(vector<optional<int>> pp,
-                     vector<optional<int>> qq,
-                     bool exp)
-        : p(move(pp)), q(move(qq)), expected(exp) {}
-};
-
-struct MissingNumberTestCase {
-    vector<int> nums;
-    int expected;
-    MissingNumberTestCase(vector<int> n, int e)
-        : nums(move(n)), expected(e) {}
-};
-
-struct DailyTemperatures739TestCase {
-    vector<int> temperatures;
-    vector<int> expected;
-
-    DailyTemperatures739TestCase(vector<int> t, vector<int> e)
-        : temperatures(move(t)), expected(move(e)) {}
-};
-
-struct ContainsDuplicate217TestCase {
-    vector<int> nums;
-    bool expected;
-    ContainsDuplicate217TestCase(vector<int> n, bool e)
-        : nums(move(n)), expected(e) {}
-};
-
-struct Fibonacci509TestCase {
-    int n;
-    int expected;
-    Fibonacci509TestCase(int n_, int e) : n(n_), expected(e) {}
-};
 
 struct ClimbingStairs70TestCase {
     int n;
@@ -3578,10 +3503,10 @@ public:
 
         ValidNumber_65 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = solver.isNumber(testCases[i].s);
+            bool result = solver.isNumber(testCases[i].input);
             cout << "ValidNumber_65 Test " << (i + 1) << ": res = "
-                << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                << " (input: \"" << testCases[i].s << "\")" << endl;
+                << (result == testCases[i].expected ? "PASS" : "FAIL")
+                << " (input: \"" << testCases[i].input << "\")" << endl;
         }
     }
 
@@ -3605,8 +3530,8 @@ public:
                                                 testCases[i].stones);
 
             cout << "Jewels & Stones Test " << (i + 1) << ": res = "
-                << (result == testCases[i].expectedResult ? "PASS" : "FAIL")
-                << " (Expected: " << testCases[i].expectedResult
+                << (result == testCases[i].expected ? "PASS" : "FAIL")
+                << " (Expected: " << testCases[i].expected
                 << ", Got: "      << result << ")\n";
         }
     }
@@ -3622,7 +3547,7 @@ public:
 
         ValidPerfectSquare_367 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            bool res = solver.isPerfectSquare(cases[i].num);
+            bool res = solver.isPerfectSquare(cases[i].input);
             cout << "ValidPerfectSquare_367 Test " << (i + 1) << ": res = "
                 << (res == cases[i].expected ? "PASS" : "FAIL")
                 << " (Expected: " << (cases[i].expected ? "true" : "false")
@@ -3642,10 +3567,10 @@ public:
 
         PerfectSquares_279 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int res = solver.numSquares(testCases[i].n);
+            int res = solver.numSquares(testCases[i].input);
             cout << "PerfectSquares_279 Test " << (i + 1) << ": res = "
                 << (res == testCases[i].expected ? "PASS" : "FAIL")
-                << " (n=" << testCases[i].n
+                << " (n=" << testCases[i].input
                 << ", Expected: " << testCases[i].expected
                 << ", Got: " << res << ")\n";
         }
@@ -3697,7 +3622,7 @@ public:
 
         MissingNumber_268 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int res = solution.missingNumber(testCases[i].nums);
+            int res = solution.missingNumber(testCases[i].input);
             cout << "Missing Number Test " << (i + 1) << ": res = "
                  << (res == testCases[i].expected ? "PASS" : "FAIL")
                  << " (Expected: " << testCases[i].expected
@@ -3721,7 +3646,7 @@ public:
         DailyTemperatures_739 solver;
 
         for (size_t i = 0; i < tests.size(); ++i) {
-            auto out = solver.dailyTemperatures(tests[i].temperatures);
+            auto out = solver.dailyTemperatures(tests[i].input);
             bool pass = (out == tests[i].expected);
 
             cout << "Daily Temperatures Test " << (i + 1) << ": res = "
@@ -3759,12 +3684,12 @@ public:
         vector<int> bigUnique;
         bigUnique.reserve(10000);
         for (int i = -5000; i < 5000; ++i) bigUnique.push_back(i);
-        tests.back() = ContainsDuplicate217TestCase(move(bigUnique), false);
+        tests.push_back({ std::move(bigUnique), false });
 
         ContainsDuplicate_217 sol;
 
         for (size_t i = 0; i < tests.size(); ++i) {
-            bool got = sol.containsDuplicate(tests[i].nums);
+            bool got = sol.containsDuplicate(tests[i].input);
             cout << "ContainsDuplicate 217 Test " << (i + 1) << ": res = "
                 << (got == tests[i].expected ? "PASS" : "FAIL")
                 << " (Expected: " << (tests[i].expected ? "true" : "false")

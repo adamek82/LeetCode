@@ -594,4 +594,66 @@ namespace TestCases {
         std::vector<std::optional<int>> tree; // level-order
         int expected;
     };
+
+    // 286. Walls and Gates
+    struct WallsAndGatesTestCase {
+        std::vector<std::vector<int>> rooms;
+        std::vector<std::vector<int>> expected;
+    };
+
+    // 65. Valid Number
+    struct ValidNumberTestCase {
+        std::string input;
+        bool expected;
+    };
+
+    // 771. Jewels and Stones
+    struct JewelsAndStonesTestCase {
+        std::string jewels;
+        std::string stones;
+        int expected;
+    };
+
+    // 367. Valid Perfect Square
+    struct PerfectSquareTestCase {
+        int input;
+        bool expected;
+    };
+
+    // 279. Perfect Squares
+    struct PerfectSquares279TestCase {
+        int input;
+        int expected;
+    };
+
+    // 100. Same Tree
+    struct SameTreeTestCase {
+        std::vector<std::optional<int>> p;
+        std::vector<std::optional<int>> q;
+        bool expected;
+    };
+
+    // 268. Missing Number
+    struct MissingNumberTestCase {
+        std::vector<int> input;
+        int expected;
+    };
+
+    // 739. Daily Temperatures
+    struct DailyTemperatures739TestCase {
+        std::vector<int> input;
+        std::vector<int> expected;
+    };
+
+    // 217. Contains Duplicate
+    struct ContainsDuplicate217TestCase {
+        std::vector<int> input;
+        bool expected;
+    };
+
+    // 509. Fibonacci Number
+    struct Fibonacci509TestCase {
+        int n;
+        int expected;
+    };
 } // namespace TestCases
