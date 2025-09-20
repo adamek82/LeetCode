@@ -144,73 +144,6 @@ static bool equalMultiset(vector<vector<int>> a, vector<vector<int>> b) {
     return a == b;
 }
 
-struct ClimbingStairs70TestCase {
-    int n;
-    int expected;
-    ClimbingStairs70TestCase(int n_, int e) : n(n_), expected(e) {}
-};
-
-struct MinCostClimbingStairs746TestCase {
-    vector<int> cost;
-    int expected;
-    MinCostClimbingStairs746TestCase(vector<int> c, int e)
-        : cost(move(c)), expected(e) {}
-};
-
-struct HouseRobber198TestCase {
-    vector<int> nums;
-    int expected;
-    HouseRobber198TestCase(vector<int> a, int e) : nums(move(a)), expected(e) {}
-};
-
-struct LastStoneWeight1046TestCase {
-    vector<int> stones;
-    int expected;
-    LastStoneWeight1046TestCase(vector<int> s, int e)
-        : stones(move(s)), expected(e) {}
-};
-
-struct TopKFrequent347TestCase {
-    vector<int> nums;
-    int k;
-    vector<int> expected_any_order; // order doesn't matter
-    TopKFrequent347TestCase(vector<int> a, int kk, vector<int> e)
-        : nums(move(a)), k(kk), expected_any_order(move(e)) {}
-};
-
-struct FindClosest2239TestCase {
-    vector<int> nums;
-    int expected;
-    FindClosest2239TestCase(vector<int> a, int e)
-        : nums(move(a)), expected(e) {}
-};
-
-struct MergeStringsAlternately1768TestCase {
-    string w1, w2, expected;
-    MergeStringsAlternately1768TestCase(string a, string b, string e)
-        : w1(move(a)), w2(move(b)), expected(move(e)) {}
-};
-
-struct RomanToInteger13TestCase {
-    string s;
-    int expected;
-    RomanToInteger13TestCase(string ss, int e) : s(move(ss)), expected(e) {}
-};
-
-struct IsSubsequence392TestCase {
-    string s, t;
-    bool expected;
-    IsSubsequence392TestCase(string ss, string tt, bool e)
-        : s(move(ss)), t(move(tt)), expected(e) {}
-};
-
-struct IsSubsequence392FollowUpCase {
-    string t;
-    vector<pair<string,bool>> queries;
-    IsSubsequence392FollowUpCase(string tt, vector<pair<string,bool>> qs)
-        : t(move(tt)), queries(move(qs)) {}
-};
-
 struct LongestCommonPrefix14TestCase {
     vector<string> strs;
     string expected;
@@ -3684,7 +3617,7 @@ public:
         vector<int> bigUnique;
         bigUnique.reserve(10000);
         for (int i = -5000; i < 5000; ++i) bigUnique.push_back(i);
-        tests.push_back({ std::move(bigUnique), false });
+        tests.push_back({ move(bigUnique), false });
 
         ContainsDuplicate_217 sol;
 
@@ -3792,7 +3725,7 @@ public:
 
         HouseRobber_198 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
-            int got = sol.rob(tests[i].nums);
+            int got = sol.rob(tests[i].input);
             cout << "House Robber 198 Test " << (i + 1) << ": res = "
                 << (got == tests[i].expected ? "PASS" : "FAIL")
                 << " (Expected: " << tests[i].expected
@@ -3815,7 +3748,7 @@ public:
 
         LastStoneWeight_1046 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
-            int got = sol.lastStoneWeight(tests[i].stones);
+            int got = sol.lastStoneWeight(tests[i].input);
             cout << "Last Stone Weight 1046 Test " << (i + 1) << ": res = "
                 << (got == tests[i].expected ? "PASS" : "FAIL")
                 << " (Expected: " << tests[i].expected
@@ -3853,7 +3786,7 @@ public:
             v.insert(v.end(), 5, 9);
             v.insert(v.end(), 4, 10);
             v.insert(v.end(), 3, 11);
-            tests[4] = TopKFrequent347TestCase(move(v), 3, {7,8,9});
+            tests[4] = { move(v), 3, {7,8,9} };
         }
         // Fill test 6: 42 appears 100x, -7 appears 80x, rest unique once
         {
@@ -3862,19 +3795,19 @@ public:
             v.insert(v.end(), 100, 42);
             v.insert(v.end(),  80, -7);
             for (int i = 1; i <= 1000; ++i) v.push_back(10000 + i); // many uniques
-            tests[5] = TopKFrequent347TestCase(move(v), 2, {42, -7});
+            tests[5] = { move(v), 2, {42, -7} };
         }
 
         TopKFrequentElements_347 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
-            auto got = sol.topKFrequent(tests[i].nums, tests[i].k);
-            bool pass = sameUnordered(got, tests[i].expected_any_order);
+            auto got = sol.topKFrequent(tests[i].input, tests[i].k);
+            bool pass = sameUnordered(got, tests[i].expected);
 
             cout << "Top K Frequent 347 Test " << (i + 1) << ": "
                 << (pass ? "PASS" : "FAIL")
                 << " (k=" << tests[i].k << ")\n";
             if (!pass) {
-                auto g = got, e = tests[i].expected_any_order;
+                auto g = got, e = tests[i].expected;
                 sort(g.begin(), g.end()); sort(e.begin(), e.end());
                 cout << "  Expected: ["; for (size_t j=0;j<e.size();++j){cout<<e[j]<<(j+1<e.size()?", ":"");}
                 cout << "]  Got: ["; for (size_t j=0;j<g.size();++j){cout<<g[j]<<(j+1<g.size()?", ":"");}
@@ -3898,7 +3831,7 @@ public:
 
         FindClosestNumberToZero_2239 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
-            int got = sol.findClosestNumber(tests[i].nums);
+            int got = sol.findClosestNumber(tests[i].input);
             cout << "Find Closest Number to Zero 2239 Test " << (i + 1) << ": "
                 << ((got == tests[i].expected) ? "PASS" : "FAIL")
                 << " (Expected: " << tests[i].expected
@@ -3920,7 +3853,7 @@ public:
 
         MergeStringsAlternately_1768 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
-            string got = sol.mergeAlternately(tests[i].w1, tests[i].w2);
+            string got = sol.mergeAlternately(tests[i].a, tests[i].b);
             cout << "Merge Strings Alternately 1768 Test " << (i + 1) << ": "
                 << ((got == tests[i].expected) ? "PASS" : "FAIL")
                 << " (Expected: \"" << tests[i].expected << "\", Got: \"" << got << "\")\n";
@@ -3941,10 +3874,10 @@ public:
 
         RomanToInteger_13 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
-            int got = sol.romanToInt(tests[i].s);
+            int got = sol.romanToInt(tests[i].input);
             cout << "Roman to Integer 13 Test " << (i + 1) << ": "
                 << ((got == tests[i].expected) ? "PASS" : "FAIL")
-                << " (\"" << tests[i].s << "\" -> Expected: " << tests[i].expected
+                << " (\"" << tests[i].input << "\" -> Expected: " << tests[i].expected
                 << ", Got: " << got << ")\n";
         }
     }
@@ -4094,14 +4027,14 @@ public:
     }
 
     static void summaryRanges_228_tests() {
-        std::vector<SummaryRanges228TestCase> tests = {
+        vector<SummaryRanges228TestCase> tests = {
             {{0,1,2,4,5,7},                  {"0->2","4->5","7"}},
             {{0,2,3,4,6,8,9},                {"0","2->4","6","8->9"}},
             {{},                              {}},
             {{5},                             {"5"}},
             {{-3,-2,-1,0,2},                 {"-3->0","2"}},
-            {{INT_MAX-1, INT_MAX},           {std::to_string(INT_MAX-1) + "->" + std::to_string(INT_MAX)}},
-            {{INT_MIN, INT_MIN+1, INT_MIN+3},{std::to_string(INT_MIN) + "->" + std::to_string(INT_MIN+1), std::to_string(INT_MIN+3)}},
+            {{INT_MAX-1, INT_MAX},           {to_string(INT_MAX-1) + "->" + to_string(INT_MAX)}},
+            {{INT_MIN, INT_MIN+1, INT_MIN+3},{to_string(INT_MIN) + "->" + to_string(INT_MIN+1), to_string(INT_MIN+3)}},
             {{1,3,5},                         {"1","3","5"}}
         };
 
@@ -4110,7 +4043,7 @@ public:
             auto in  = tests[i].nums;              // method takes non-const ref
             auto got = sol.summaryRanges(in);
 
-            TestUtils::assertEqStrings("Summary Ranges 228 Test " + std::to_string(i + 1),
+            TestUtils::assertEqStrings("Summary Ranges 228 Test " + to_string(i + 1),
                                     tests[i].expected, got);
         }
     }
@@ -4371,7 +4304,7 @@ public:
         vector<ExamRoomTestCase> cases = {c1, c2, c3};
 
         for (size_t t = 0; t < cases.size(); ++t) {
-            std::cout << "ExamRoom_855 Case " << (t + 1) << ":\n";
+            cout << "ExamRoom_855 Case " << (t + 1) << ":\n";
 
             optional<ExamRoom_855> er; // automatic storage, constructed on demand
 
@@ -4383,17 +4316,17 @@ public:
 
                 if (op == "ExamRoom" || op == "ExamRoom_855") {
                     er.emplace(a[0]);
-                    std::cout << "  ExamRoom_855(" << a[0] << ") -> null\n";
+                    cout << "  ExamRoom_855(" << a[0] << ") -> null\n";
                 } else if (op == "seat") {
                     int res = er->seat();
                     bool pass = (exp && res == *exp);
-                    std::cout << "  seat() -> " << res << (pass ? " [PASS]\n" : " [FAIL]\n");
+                    cout << "  seat() -> " << res << (pass ? " [PASS]\n" : " [FAIL]\n");
                 } else if (op == "leave") {
                     er->leave(a[0]);
-                    std::cout << "  leave(" << a[0] << ") -> null\n";
+                    cout << "  leave(" << a[0] << ") -> null\n";
                 }
             }
-            std::cout << '\n';
+            cout << '\n';
         }
     }
 

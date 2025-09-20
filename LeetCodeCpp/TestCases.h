@@ -393,133 +393,133 @@ namespace TestCases {
 
     // 643. Maximum Average Subarray I
     struct MaxAvgTestCase {
-        std::vector<int> input;
+        vector<int> input;
         int k;
         double expected;
     };
 
     // 1004. Max Consecutive Ones III
     struct MaxConsecutiveOnesTestCase {
-        std::vector<int> input;
+        vector<int> input;
         int k;
         int expected;
     };
 
     // 3. Longest Substring Without Repeating Characters
     struct LongestSubstringWithoutRepeatingCharactersTestCase {
-        std::string input;
+        string input;
         int expected;
     };
 
     // 209. Minimum Size Subarray Sum
     struct MinimumSizeSubarraySumTestCase {
         int target;
-        std::vector<int> input;
+        vector<int> input;
         int expected;
     };
 
     // 567. Permutation in String
     struct PermutationInStringTestCase {
-        std::string s1;
-        std::string s2;
+        string s1;
+        string s2;
         bool expected;
     };
 
     // 977. Squares of a Sorted Array
     struct SquaresOfSortedArrayTestCase {
-        std::vector<int> input;
-        std::vector<int> expected;
+        vector<int> input;
+        vector<int> expected;
     };
 
     // 344. Reverse String
     struct ReverseStringTestCase {
-        std::vector<char> input;
-        std::vector<char> expected;
+        vector<char> input;
+        vector<char> expected;
     };
 
     // 167. Two Sum II – Input Array Is Sorted
     struct TwoSumIITestCase {
-        std::vector<int> input;   // sorted
+        vector<int> input;   // sorted
         int target;
-        std::vector<int> expected; // 1-indexed result
+        vector<int> expected; // 1-indexed result
     };
 
     // 125. Valid Palindrome
     struct ValidPalindromeTestCase {
-        std::string input;
+        string input;
         bool expected;
     };
 
     // 15. 3Sum
     struct ThreeSumTestCase {
-        std::vector<int> input;
-        std::vector<std::vector<int>> expected;
+        vector<int> input;
+        vector<vector<int>> expected;
     };
 
     // 11. Container With Most Water
     struct ContainerWithMostWaterTestCase {
-        std::vector<int> input;
+        vector<int> input;
         int expected;
     };
 
     // 42. Trapping Rain Water
     struct TrappingRainWaterTestCase {
-        std::vector<int> input;
+        vector<int> input;
         int expected;
     };
 
     // 85. Maximal Rectangle
     struct MaximalRectangleTestCase {
-        std::vector<std::vector<char>> matrix;
+        vector<vector<char>> matrix;
         int expected;
     };
 
     // 53. Maximum Subarray
     struct MaximumSubarrayTestCase {
-        std::vector<int> input;
+        vector<int> input;
         int expected;
     };
 
     // 1. Two Sum
     struct TwoSumCase {
-        std::vector<int> input;
+        vector<int> input;
         int target;
-        std::vector<int> expected; // indices (any order)
+        vector<int> expected; // indices (any order)
     };
 
     // 88. Merge Sorted Array
     struct MergeCase {
-        std::vector<int> nums1;
+        vector<int> nums1;
         int m;
-        std::vector<int> nums2;
+        vector<int> nums2;
         int n;
-        std::vector<int> expected;
+        vector<int> expected;
     };
 
     // 27. Remove Element
     struct RemCase {
-        std::vector<int> input;
+        vector<int> input;
         int val;
         int expectedK;
-        std::vector<int> expected; // order-agnostic
+        vector<int> expected; // order-agnostic
     };
 
     // 1189. Maximum Number of Balloons
     struct BalloonCase {
-        std::string input;
+        string input;
         int expected;
     };
 
     // 1768. Merge Strings Alternately
     struct ABCase {
-        std::string a;
-        std::string b;
-        std::string expected;
+        string a;
+        string b;
+        string expected;
     };
 
     // 724. Find Pivot Index
     struct PivotCase {
-        std::vector<int> input;
+        vector<int> input;
         int expected;
     };
 
@@ -531,22 +531,22 @@ namespace TestCases {
 
     // 394. Decode String
     struct DecodeStringTestCase {
-        std::string input;
-        std::string expected;
+        string input;
+        string expected;
     };
 
     // 44. Wildcard Matching
     struct WildcardMatchingTestCase {
-        std::string s;
-        std::string p;
+        string s;
+        string p;
         bool expected;
     };
 
     // 973. K Closest Points to Origin
     struct KClosestTestCase {
-        std::vector<std::vector<int>> points;
+        vector<vector<int>> points;
         int k;
-        std::vector<std::vector<int>> expected; // order-agnostic
+        vector<vector<int>> expected; // order-agnostic
     };
 
     // 62. Unique Paths
@@ -558,7 +558,7 @@ namespace TestCases {
 
     // 815. Bus Routes
     struct BusRoutesTestCase {
-        std::vector<std::vector<int>> routes;
+        vector<vector<int>> routes;
         int source;
         int target;
         int expected;
@@ -566,51 +566,51 @@ namespace TestCases {
 
     // 1091. Shortest Path in Binary Matrix
     struct ShortestPathTestCase {
-        std::vector<std::vector<int>> grid;
+        vector<vector<int>> grid;
         int expected;
     };
 
     // 2642. Design Graph With Shortest Path Calculator
     struct GraphTC {
-        std::vector<std::string> operations;
-        std::vector<std::variant<
-            std::monostate,
+        vector<string> operations;
+        vector<variant<
+            monostate,
             int,
-            std::vector<int>,
-            std::pair<int,int>,
-            std::pair<int,std::vector<std::vector<int>>>>>
+            vector<int>,
+            pair<int,int>,
+            pair<int,vector<vector<int>>>>>
             arguments;
-        std::vector<std::optional<int>> expected;
+        vector<optional<int>> expected;
     };
 
     // 2812. Find Safest Path in Grid
     struct SafestPathTestCase {
-        std::vector<std::vector<int>> grid;
+        vector<vector<int>> grid;
         int expected;
     };
 
     // 104. Maximum Depth of Binary Tree
     struct MaxDepthTestCase {
-        std::vector<std::optional<int>> tree; // level-order
+        vector<optional<int>> tree; // level-order
         int expected;
     };
 
     // 286. Walls and Gates
     struct WallsAndGatesTestCase {
-        std::vector<std::vector<int>> rooms;
-        std::vector<std::vector<int>> expected;
+        vector<vector<int>> rooms;
+        vector<vector<int>> expected;
     };
 
     // 65. Valid Number
     struct ValidNumberTestCase {
-        std::string input;
+        string input;
         bool expected;
     };
 
     // 771. Jewels and Stones
     struct JewelsAndStonesTestCase {
-        std::string jewels;
-        std::string stones;
+        string jewels;
+        string stones;
         int expected;
     };
 
@@ -628,26 +628,26 @@ namespace TestCases {
 
     // 100. Same Tree
     struct SameTreeTestCase {
-        std::vector<std::optional<int>> p;
-        std::vector<std::optional<int>> q;
+        vector<optional<int>> p;
+        vector<optional<int>> q;
         bool expected;
     };
 
     // 268. Missing Number
     struct MissingNumberTestCase {
-        std::vector<int> input;
+        vector<int> input;
         int expected;
     };
 
     // 739. Daily Temperatures
     struct DailyTemperatures739TestCase {
-        std::vector<int> input;
-        std::vector<int> expected;
+        vector<int> input;
+        vector<int> expected;
     };
 
     // 217. Contains Duplicate
     struct ContainsDuplicate217TestCase {
-        std::vector<int> input;
+        vector<int> input;
         bool expected;
     };
 
@@ -655,5 +655,68 @@ namespace TestCases {
     struct Fibonacci509TestCase {
         int n;
         int expected;
+    };
+
+    // 70. Climbing Stairs
+    struct ClimbingStairs70TestCase {
+        int n;
+        int expected;
+    };
+
+    // 746. Min Cost Climbing Stairs
+    struct MinCostClimbingStairs746TestCase {
+        vector<int> cost;
+        int expected;
+    };
+
+    // 198. House Robber
+    struct HouseRobber198TestCase {
+        vector<int> input;
+        int expected;
+    };
+
+    // 1046. Last Stone Weight
+    struct LastStoneWeight1046TestCase {
+        vector<int> input;
+        int expected;
+    };
+
+    // 347. Top K Frequent Elements
+    struct TopKFrequent347TestCase {
+        vector<int> input;
+        int k;
+        vector<int> expected; // order-agnostic
+    };
+
+    // 2239. Find Closest Number to Zero
+    struct FindClosest2239TestCase {
+        vector<int> input;
+        int expected;
+    };
+
+    // 1768. Merge Strings Alternately
+    struct MergeStringsAlternately1768TestCase {
+        string a;
+        string b;
+        string expected;
+    };
+
+    // 13. Roman to Integer
+    struct RomanToInteger13TestCase {
+        string input;
+        int expected;
+    };
+
+    // 392. Is Subsequence
+    struct IsSubsequence392TestCase {
+        string s;
+        string t;
+        bool expected;
+    };
+
+    // 392. Is Subsequence (follow-up with next-position table)
+    struct IsSubsequence392FollowUpCase {
+        string t;
+        vector<pair<string, bool>> queries;
     };
 } // namespace TestCases
