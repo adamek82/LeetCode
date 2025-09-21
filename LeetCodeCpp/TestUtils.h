@@ -82,32 +82,8 @@ bool approxEqual(double a, double b, double eps = 1e-5);
  * Assert & log shortcuts (print PASS/FAIL + diff on mismatch)
  * =========================================================== */
 
-bool assertEqStrings(const string& label,
-                     const vector<string>& expected,
-                     const vector<string>& got);
-
-bool assertEqStringsAnyOrder(const string& label,
-                             vector<string> expected,
-                             vector<string> got);
-
-bool assertEqVVIntExact(const string& label,
-                        const vector<vector<int>>& expected,
-                        const vector<vector<int>>& got);
-
-bool assertEqVVIntAnyOrder(const string& label,
-                           vector<vector<int>> expected,
-                           vector<vector<int>> got);
-
-bool assertEqVVIntPermutations(const string& label,
-                               vector<vector<int>> expected,
-                               vector<vector<int>> got);
-
 bool assertApprox(const string& label,
                   double expected, double got, double eps = 1e-5);
-
-bool assertEqVIntExact(const string& label,
-                       const vector<int>& expected,
-                       const vector<int>& got);
 
 // Compares only the first k elements of `vec` with `expected` and logs k.
 bool assertEqVIntPrefix(const string& label,
