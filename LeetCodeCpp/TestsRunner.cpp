@@ -491,7 +491,7 @@ public:
         }
     }
 
-    static void longestCommonSubsequence_tests() {
+    static void longestCommonSubsequence_1143_tests() {
         vector<LongestCommonSubsequenceTestCase> testCases = {
             // Provided examples
             {"abcde", "ace", 3}, // Example 1
@@ -514,7 +514,7 @@ public:
         }
     }
 
-    static void longestIncreasingSubsequence_tests() {
+    static void longestIncreasingSubsequence_300_tests() {
         vector<LongestIncreasingSubsequenceTestCase> testCases = {
             // Provided examples
             {{10, 9, 2, 5, 3, 7, 101, 18}, 4}, // Example 1
@@ -685,7 +685,7 @@ public:
         }
     }
 
-    static void middleOfLinkedList_876_tests() {
+    static void middleOfTheLinkedList_876_tests() {
         using IntListNode = ListNode<int>;
 
         vector<MiddleOfLinkedListTestCase> testCases = {
@@ -722,7 +722,7 @@ public:
         }
     }
 
-    static void removeNthFromEnd_tests() {
+    static void removeNthNodeFromEndOfList_19_tests() {
         using IntListNode = ListNode<int>;
 
         vector<RemoveNthNodeTestCase> testCases = {
@@ -759,7 +759,7 @@ public:
         }
     }
 
-    static void maxProfit_121_tests() {
+    static void bestTimeToBuyAndSellStock_121_tests() {
         vector<MaxProfitTestCase> testCases = {
             // Provided examples
             {{7, 1, 5, 3, 6, 4}, 5},  // Example 1
@@ -876,7 +876,7 @@ public:
         }
     }
 
-    static void copyRandomList_tests() {
+    static void copyRandomList_138_tests() {
         using IntListNode = ListNode<int>;
 
         vector<CopyRandomListTestCase> testCases = {
@@ -1013,7 +1013,7 @@ public:
         }
     }
 
-    static void kthLargestElement_215_tests()
+    static void kthLargestElementInArray_215_tests()
     {
         vector<KthLargestElementTestCase> testCases = {
             // Problem statement examples
@@ -1229,7 +1229,7 @@ public:
         }
     }
 
-    static void productOfArrayExceptSelf_tests() {
+    static void productOfArrayExceptSelf_238_tests() {
         vector<ProductOfArrayExceptSelfTestCase> testCases = {
             // Example 1
             {{1, 2, 3, 4}, {24, 12, 8, 6}},
@@ -1257,7 +1257,7 @@ public:
         }
     }
 
-    static void majorityElement_tests() {
+    static void majorityElement_169_tests() {
         // Define test cases
         vector<MajorityElementTestCase> testCases = {
             // Example 1
@@ -1321,7 +1321,7 @@ public:
         }
     }
 
-    static void largestRectangleArea_tests() {
+    static void largestRectangleInHistogram_84_tests() {
         vector<LargestRectangleTestCase> testCases = {
             // Example 1
             {{2, 1, 5, 6, 2, 3}, 10},
@@ -1346,7 +1346,7 @@ public:
         }
     }
 
-    static void runWordSearchTests() {
+    static void wordSearch_79_tests() {
         vector<WordSearchTestCase> testCases = {
             // Example 1 from problem statement
             {{{'A', 'B', 'C', 'E'},
@@ -1398,7 +1398,7 @@ public:
         }
     }
 
-    static void runValidParenthesesTests() {
+    static void validParentheses_20_tests() {
         vector<ValidParenthesesTestCase> testCases = {
             {"()", true},
             {"()[]{}", true},
@@ -1547,7 +1547,7 @@ public:
         }
     }
 
-    static void search2DMatrixTests() {
+    static void search2DMatrix_74_tests() {
         vector<Search2DMatrixTestCase> testCases = {
             // Provided examples
             {{{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}}, 3, true},
@@ -1579,7 +1579,7 @@ public:
         return false;
     }
 
-    static void allOne_432_tests() {
+    static void allOOneDataStructure_432_tests() {
         // Test 1: Basic example from problem statement
         {
             AllOOneDataStructure_432 allOne;
@@ -2135,7 +2135,7 @@ public:
         }
     }
 
-    static void lRUCache_tests() {
+    static void lruCache_146_tests() {
         vector<LRUCacheTestCase> testCases = {
             // From problem statement
             {
@@ -2948,7 +2948,7 @@ public:
         }
     }
 
-    static void kClosestPoints_973_tests() {
+    static void kClosestPointsToOrigin_973_tests() {
         vector<KClosestTestCase> cases = {
             // Two official examples
             {{{1,3}, {-2,2}}, 1, {{-2,2}}},
@@ -3142,7 +3142,7 @@ public:
         }
     }
 
-    static void findSafestPathInGrid_2812_tests() {
+    static void findTheSafestPathInGrid_2812_tests() {
         vector<SafestPathTestCase> testCases = {
             // three examples from the statement
             {{{1, 0, 0},
@@ -4201,251 +4201,251 @@ public:
     }
 
     static void runAllTests() {
-        cout << "Running CourseSchedule_207 tests:\n";
+        cout << "Running Course Schedule (#207) tests:\n";
         courseSchedule_207_tests();
-        cout << "Running FindIfPathExistsInGraph_1971 tests:\n";
+        cout << "Running Find if Path Exists in Graph (#1971) tests:\n";
         findIfPathExistsInGraph_1971_tests();
-        cout << "Running NumberOfIslands_200 tests:\n";
+        cout << "Running Number of Islands (#200) tests:\n";
         numIslands_200_tests();
-        cout << "Running MaxAreaOfIsland_695 tests:\n";
+        cout << "Running Max Area of Island (#695) tests:\n";
         maxAreaOfIsland_695_tests();
-        cout << "Running CourseScheduleII_210 tests:\n";
+        cout << "Running Course Schedule II (#210) tests:\n";
         courseScheduleII_210_tests();
-        cout << "Running NetworkDelayTime_743 tests:\n";
+        cout << "Running Network Delay Time (#743) tests:\n";
         networkDelayTime_743_tests();
-        cout << "Running RottingOranges_994 tests:\n";
+        cout << "Running Rotting Oranges (#994) tests:\n";
         rottingOranges_994_tests();
-        cout << "Running PacificAtlanticWaterFlow_417 tests:\n";
+        cout << "Running Pacific Atlantic Water Flow (#417) tests:\n";
         pacificAtlantic_417_tests();
-        cout << "Running MinCostToConnectAllPoints_1584 tests:\n";
+        cout << "Running Min Cost to Connect All Points (#1584) tests:\n";
         minCostToConnectAllPoints_1584_tests();
-        cout << "Running LongestCommonSubsequence tests:\n";
-        longestCommonSubsequence_tests();
-        cout << "Running LongestIncreasingSubsequence_300 tests:\n";
-        longestIncreasingSubsequence_tests();
-        cout << "Running RemoveDuplicatesFromSortedList_83 tests:\n";
+        cout << "Running Longest Common Subsequence (#1143) tests:\n";
+        longestCommonSubsequence_1143_tests();
+        cout << "Running Longest Increasing Subsequence (#300) tests:\n";
+        longestIncreasingSubsequence_300_tests();
+        cout << "Running Remove Duplicates from Sorted List (#83) tests:\n";
         removeDuplicatesFromSortedList_83_tests();
-        cout << "Running ReverseLinkedListLeetcode_206 tests:\n";
+        cout << "Running Reverse Linked List (#206) tests:\n";
         reverseLinkedList_206_tests();
-        cout << "Running MergeTwoSortedLists_21 tests:\n";
+        cout << "Running Merge Two Sorted Lists (#21) tests:\n";
         mergeTwoSortedLists_21_tests();
-        cout << "Running LinkedListCycle_141 tests:\n";
+        cout << "Running Linked List Cycle (#141) tests:\n";
         hasCycle_141_tests();
-        cout << "Running MiddleOfLinkedList_876 tests:\n";
-        middleOfLinkedList_876_tests();
-        cout << "Running RemoveNthFromEnd tests:\n";
-        removeNthFromEnd_tests();
-        cout << "Running MaxProfit_121 tests:\n";
-        maxProfit_121_tests();
-        cout << "Running SpiralMatrix_54 tests:\n";
+        cout << "Running Middle of the Linked List (#876) tests:\n";
+        middleOfTheLinkedList_876_tests();
+        cout << "Running Remove Nth Node From End of List (#19) tests:\n";
+        removeNthNodeFromEndOfList_19_tests();
+        cout << "Running Best Time to Buy and Sell Stock (#121) tests:\n";
+        bestTimeToBuyAndSellStock_121_tests();
+        cout << "Running Spiral Matrix (#54) tests:\n";
         spiralMatrix_54_tests();
-        cout << "Running ValidateBinarySearchTree_98 tests:\n";
+        cout << "Running Validate Binary Search Tree (#98) tests:\n";
         validateBinarySearchTree_98_tests();
-        cout << "Running LowestCommonAncestor_235 tests:\n";
+        cout << "Running Lowest Common Ancestor (#235) tests:\n";
         lowestCommonAncestor_235_tests();
-        cout << "Running CopyListWithRandomPointer_138 tests:\n";
-        copyRandomList_tests();
-        cout << "Running KthSmallestElementInBST_230 tests:\n";
+        cout << "Running Copy List With Random Pointer (#138) tests:\n";
+        copyRandomList_138_tests();
+        cout << "Running Kth Smallest Element in a BST (#230) tests:\n";
         kthSmallestElementInBST_230_tests();
-        cout << "Running ImplementTrie_208 tests:\n";
+        cout << "Running Implement Trie (#208) tests:\n";
         implementTrie_208_tests();
-        cout << "Running KthLargestElementInArray_215 tests:\n";
-        kthLargestElement_215_tests();
+        cout << "Running Kth Largest Element in an Array (#215) tests:\n";
+        kthLargestElementInArray_215_tests();
         cout << "Running MinHeap tests:\n";
         minHeap_tests();
-        cout << "Running RotateImage_48 tests:\n";
+        cout << "Running Rotate Image (#48) tests:\n";
         rotateImage_48_tests();
-        cout << "Running MergeIntervals_56 tests:\n";
+        cout << "Running Merge Intervals (#56) tests:\n";
         mergeIntervals_56_tests();
-        cout << "Running MergeKSortedLists_23 tests:\n";
+        cout << "Running Merge K Sorted Lists (#23) tests:\n";
         mergeKLists_tests();
-        cout << "Running ProductOfArrayExceptSelf_238 tests:\n";
-        productOfArrayExceptSelf_tests();
-        cout << "Running MajorityElement_169 tests:\n";
-        majorityElement_tests();
-        cout << "Running Evaluate Reverse Polish Notation_150 tests:\n";
+        cout << "Running Product of Array Except Self (#238) tests:\n";
+        productOfArrayExceptSelf_238_tests();
+        cout << "Running Majority Element (#169) tests:\n";
+        majorityElement_169_tests();
+        cout << "Running Evaluate Reverse Polish Notation (#150) tests:\n";
         evaluateReversePolishNotation_150_tests();
-        cout << "Running LargestRectangleInHistogram_84 tests:\n";
-        largestRectangleArea_tests();
-        cout << "Running WordSearch_79 tests:\n";
-        runWordSearchTests();
-        cout << "Running ValidParentheses_20 tests:\n";
-        runValidParenthesesTests();
-        cout << "Running ValidSudoku_36 tests:\n";
+        cout << "Running Largest Rectangle in Histogram (#84) tests:\n";
+        largestRectangleInHistogram_84_tests();
+        cout << "Running Word Search (#79) tests:\n";
+        wordSearch_79_tests();
+        cout << "Running Valid Parentheses (#20) tests:\n";
+        validParentheses_20_tests();
+        cout << "Running Valid Sudoku (#36) tests:\n";
         validSudoku_36_tests();
-        cout << "Running BinarySearch_704 tests:\n";
+        cout << "Running Binary Search (#704) tests:\n";
         binarySearch_704_tests();
-        cout << "Running Search Insert Position_35 tests:\n";
+        cout << "Running Search Insert Position (#35) tests:\n";
         searchInsertPosition_35_tests();
-        cout << "Running Search 2D Matrix_74 tests:\n";
-        search2DMatrixTests();
-        cout << "Running All O One Data Structure_432) tests:\n";
-        allOne_432_tests();
-        cout << "Running Find Minimum in Rotated Sorted Array_153 tests:\n";
+        cout << "Running Search a 2D Matrix (#74) tests:\n";
+        search2DMatrix_74_tests();
+        cout << "Running All O`one Data Structure (#432) tests:\n";
+        allOOneDataStructure_432_tests();
+        cout << "Running Find Minimum in Rotated Sorted Array (#153) tests:\n";
         findMinimumInRotatedSortedArray_153_tests();
-        cout << "Clone Graph_133 tests:\n";
+        cout << "Running Clone Graph (#133) tests:\n";
         cloneGraph_133_tests();
-        cout << "Zigzag Conversion_6 tests:\n";
+        cout << "Running Zigzag Conversion (#6) tests:\n";
         zigzagConversion_6_tests();
-        cout << "H-Index_274 tests:\n";
+        cout << "Running H-Index (#274) tests:\n";
         hIndex_274_tests();
-        cout << "Sort Colors_75 tests:\n";
+        cout << "Running Sort Colors (#75) tests:\n";
         sortColors_75_tests();
-        cout << "Remove Duplicates From Sorted Array II_80 tests:\n";
+        cout << "Running Remove Duplicates from Sorted Array II (#80) tests:\n";
         removeDuplicatesFromSortedArrayII_80_tests();
-        cout << "Best Time To Buy And Sell Stock II_122 tests:\n";
+        cout << "Running Best Time to Buy and Sell Stock II (#122) tests:\n";
         bestTimeToBuyAndSellStockII_122_tests();
-        cout << "Valid Annagram_242 tests:\n";
+        cout << "Running Valid Anagram (#242) tests:\n";
         validAnagram_242_tests();
-        cout << "Analyze User Website Visit Pattern_1152 tests:\n";
+        cout << "Running Analyze User Website Visit Pattern (#1152) tests:\n";
         analyzeUserWebsiteVisitPattern_1152_tests();
-        cout << "Group Anagrams_49 tests:\n";
+        cout << "Running Group Anagrams (#49) tests:\n";
         groupAnagrams_49_tests();
-        cout << "Find the Celebrity_277 tests:\n";
+        cout << "Running Find the Celebrity (#277) tests:\n";
         findCelebrity_277_tests();
-        cout << "Running LongestConsecutiveSequence_128 tests:\n";
+        cout << "Running Longest Consecutive Sequence (#128) tests:\n";
         longestConsecutiveSequence_128_tests();
-        cout << "Running FizzBuzz_412 tests:\n";
+        cout << "Running FizzBuzz (#412) tests:\n";
         fizzBuzz_412_tests();
-        cout << "Running Longest Repeating Character Replacement_424 tests:\n";
+        cout << "Running Longest Repeating Character Replacement (#424) tests:\n";
         longestRepeatingCharacterReplacement_424_tests();
-        cout << "Running LRUCache_146 tests:\n";
-        lRUCache_tests();
-        cout << "Running SortCharactersByFrequency_451 tests:\n";
+        cout << "Running LRU Cache (#146) tests:\n";
+        lruCache_146_tests();
+        cout << "Running Sort Characters by Frequency (#451) tests:\n";
         sortCharactersByFrequency_451_tests();
-        cout << "Running Coin Change_322 tests:\n";
+        cout << "Running Coin Change (#322) tests:\n";
         coinChange_322_tests();
-        cout << "Running TopKFrequentWords_692 tests:\n";
+        cout << "Running Top K Frequent Words (#692) tests:\n";
         topKFrequentWords_692_tests();
-        cout << "Running LongestCycleInGraph_2360 tests:\n";
+        cout << "Running Longest Cycle in a Graph (#2360) tests:\n";
         longestCycleInGraph_2360_tests();
-        cout << "2608. Shortest Cycle in a Graph tests:\n";
+        cout << "Running Shortest Cycle in a Graph (#2608) tests:\n";
         shortestCycleInGraph_2608_tests();
-        cout << "Running Unique Paths II_63 tests:\n";
+        cout << "Running Unique Paths II (#63) tests:\n";
         uniquePathsII_63_tests();
-        cout << "Running Maximum Average Subarray I_643 tests:\n";
+        cout << "Running Maximum Average Subarray I (#643) tests:\n";
         maximumAverageSubarrayI_643_tests();
-        cout << "Running Max Consecutive Ones III_1004 tests:\n";
+        cout << "Running Max Consecutive Ones III (#1004) tests:\n";
         maxConsecutiveOnesIII_1004_tests();
-        cout << "Running Longest Substring Without Repeating Characters_3 tests:\n";
+        cout << "Running Longest Substring Without Repeating Characters (#3) tests:\n";
         longestSubstringWithoutRepeatingCharacters_3_tests();
-        cout << "Running MinimumSizeSubarraySum_209 tests:\n";
+        cout << "Running Minimum Size Subarray Sum (#209) tests:\n";
         minimumSizeSubarraySum_209_tests();
-        cout << "Running PermutationInString_567 tests:\n";
+        cout << "Running Permutation in String (#567) tests:\n";
         permutationInString_567_tests();
-        cout << "Running SquaresOfSortedArray_977 tests:\n";
+        cout << "Running Squares of a Sorted Array (#977) tests:\n";
         squaresOfSortedArray_977_tests();
-        cout << "Running ReverseString_344 tests:\n";
+        cout << "Running Reverse String (#344) tests:\n";
         reverseString_344_tests();
-        cout << "Running TwoSumII_167 tests:\n";
+        cout << "Running Two Sum II (#167) tests:\n";
         twoSumII_167_tests();
-        cout << "Running ValidPalindrome_125 tests:\n";
+        cout << "Running Valid Palindrome (#125) tests:\n";
         validPalindrome_125_tests();
-        cout << "Running ThreeSum_15 tests:\n";
+        cout << "Running 3Sum (#15) tests:\n";
         threeSum_15_tests();
-        cout << "Running ContainerWithMostWater_11 tests:\n";
+        cout << "Running Container With Most Water (#11) tests:\n";
         containerWithMostWater_11_tests();
-        cout << "Running TrappingRainWater_42 tests:\n";
+        cout << "Running Trapping Rain Water (#42) tests:\n";
         trappingRainWater_42_tests();
-        cout << "Running MaximalRectangle_85 tests:\n";
+        cout << "Running Maximal Rectangle (#85) tests:\n";
         maximalRectangle_85_tests();
-        cout << "Running MaximumSubarray_53 tests:\n";
+        cout << "Running Maximum Subarray (#53) tests:\n";
         maximumSubarray_53_tests();
-        cout << "Running TwoSum_1 tests:\n";
+        cout << "Running Two Sum (#1) tests:\n";
         twoSum_1_tests();
-        cout << "Running MergeSortedArray_88 tests:\n";
+        cout << "Running Merge Sorted Array (#88) tests:\n";
         mergeSortedArray_88_tests();
-        cout << "Running RemoveElement_27 tests:\n";
+        cout << "Running Remove Element (#27) tests:\n";
         removeElement_27_tests();
-        cout << "Running MaximumNumberOfBalloons_1189 tests:\n";
+        cout << "Running Maximum Number of Balloons (#1189) tests:\n";
         maximumNumberOfBalloons_1189_tests();
-        cout << "Running AddBinary_67 tests:\n";
+        cout << "Running Add Binary (#67) tests:\n";
         addBinary_67_tests();
-        cout << "Find Pivot Index_724 tests:\n";
+        cout << "Running Find Pivot Index (#724) tests:\n";
         findPivotIndex_724_tests();
-        cout << "Number of 1 Bits_191 tests:\n";
+        cout << "Running Number of 1 Bits (#191) tests:\n";
         numberOf1Bits_191_tests();
-        cout << "Running DecodeString_GoogleOnsite tests:\n";
+        cout << "Running Decode String (Google Onsite) tests:\n";
         decodeString_GoogleOnsite_tests();
-        cout << "Running WildcardMatching_44 tests:\n";
+        cout << "Running Wildcard Matching (#44) tests:\n";
         wildcardMatching_44_tests();
-        cout << "Running K Closest Points_973 tests:\n";
-        kClosestPoints_973_tests();
-        cout << "Running Unique Paths_62 tests:\n";
+        cout << "Running K Closest Points to Origin (#973) tests:\n";
+        kClosestPointsToOrigin_973_tests();
+        cout << "Running Unique Paths (#62) tests:\n";
         uniquePaths_62_tests();
-        cout << "Running BusRoutes_815 tests:\n";
+        cout << "Running Bus Routes (#815) tests:\n";
         busRoutes_815_tests();
-        cout << "Running ShortestPathBinaryMatrix_1091 tests:\n";
+        cout << "Running Shortest Path Binary Matrix (#1091) tests:\n";
         shortestPathBinaryMatrix_1091_tests();
-        cout << "Running DesignGraphWithShortestPathCalculator_2642 tests:\n";
+        cout << "Running Design Graph With Shortest Path Calculator (#2642) tests:\n";
         designGraphWithShortestPathCalculator_2642_tests();
-        cout << "Running Find Safest Path In Grid_2812 tests:\n";
-        findSafestPathInGrid_2812_tests();
-        cout << "Running Maximum Depth Of Binary Tree_104 tests:\n";
+        cout << "Running Find the Safest Path in a Grid (#2812) tests:\n";
+        findTheSafestPathInGrid_2812_tests();
+        cout << "Running Maximum Depth of Binary Tree (#104) tests:\n";
         maximumDepthOfBinaryTree_104_tests();
-        cout << "Running Walls and Gates_286 tests:\n";
+        cout << "Running Walls and Gates (#286) tests:\n";
         wallsAndGates_286_tests();
-        cout << "Running Valid Number_65 tests:\n";
+        cout << "Running Valid Number (#65) tests:\n";
         validNumber_65_tests();
-        cout << "Running Jewels and Stones_771 ests:\n";
+        cout << "Running Jewels and Stones (#771) tests:\n";
         numJewelsAndStones_771_tests();
-        cout << "Running Valid Perfect Square_367 tests:\n";
+        cout << "Running Valid Perfect Square (#367) tests:\n";
         validPerfectSquare_367_tests();
-        cout << "Running Perfect Squares_279 tests:\n";
+        cout << "Running Perfect Squares (#279) tests:\n";
         perfectSquares_279_tests();
-        cout << "Running Same Tree_100 tests:\n";
+        cout << "Running Same Tree (#100) tests:\n";
         sameTree_100_tests();
-        cout << "Running Missing Number_268 tests:\n";
+        cout << "Running Missing Number (#268) tests:\n";
         missingNumber_268_tests();
-        cout << "Daily Temperatures_739 tests:\n";
+        cout << "Running Daily Temperatures (#739) tests:\n";
         dailyTemperatures_739_tests();
-        cout << "Contains Duplicate_217 tests:\n";
+        cout << "Running Contains Duplicate (#217) tests:\n";
         containsDuplicate_217_tests();
-        cout << "Fibonacci Number_509 tests:\n";
+        cout << "Running Fibonacci Number (#509) tests:\n";
         fibonacci_509_tests();
-        cout << "Climbing Stairs_70 tests:\n";
+        cout << "Running Climbing Stairs (#70) tests:\n";
         climbingStairs_70_tests();
-        cout << "Min Cost Climbing Stairs_746 tests:\n";
+        cout << "Running Min Cost Climbing Stairs (#746) tests:\n";
         minCostClimbingStairs_746_tests();
-        cout << "House Robber_198 tests:\n";
+        cout << "Running House Robber (#198) tests:\n";
         houseRobber_198_tests();
-        cout << "Last Stone Weight_1046 tests:\n";
+        cout << "Running Last Stone Weight (#1046) tests:\n";
         lastStoneWeight_1046_tests();
-        cout << "Top K Frequent Elements_347 tests:\n";
+        cout << "Running Top K Frequent Elements (#347) tests:\n";
         topKFrequent_347_tests();
-        cout << "Find Closest Number to Zero_2239 tests:\n";
+        cout << "Running Find Closest Number to Zero (#2239) tests:\n";
         findClosestNumber_2239_tests();
-        cout << "Merge Strings Alternately_1768 tests:\n";
+        cout << "Running Merge Strings Alternately (#1768) tests:\n";
         mergeStringsAlternately_1768_tests();
-        cout << "Roman to Integer_13 tests:\n";
+        cout << "Running Roman to Integer (#13) tests:\n";
         romanToInteger_13_tests();
-        cout << "Is Subsequence_392 tests:\n";
+        cout << "Running Is Subsequence (#392) tests:\n";
         isSubsequence_392_tests();
-        cout << "Is Subsequence_392 (next-position table) tests:\n";
+        cout << "Running Is Subsequence (next-position table) (#392) tests:\n";
         isSubsequence_392_nextpos_tests();
-        cout << "Longest Common Prefix 14 tests:\n";
+        cout << "Running Longest Common Prefix (#14) tests:\n";
         longestCommonPrefix_14_tests();
-        cout << "Running Summary Ranges_228 tests:\n";
+        cout << "Running Summary Ranges (#228) tests:\n";
         summaryRanges_228_tests();
-        cout << "Remove Duplicates 26 tests:\n";
+        cout << "Running Remove Duplicates (#26) tests:\n";
         removeDuplicates_26_tests();
-        cout << "Jump Game II 45 tests:\n";
+        cout << "Running Jump Game II (#45) tests:\n";
         jumpGameII_45_tests();
-        cout << "Jump Game 55 tests:\n";
+        cout << "Running Jump Game (#55) tests:\n";
         jumpGame_55_tests();
-        cout << "Subsets 78 tests:\n";
+        cout << "Running Subsets (#78) tests:\n";
         subsets_78_tests();
-        cout << "Permutations 46 tests:\n";
+        cout << "Running Permutations (#46) tests:\n";
         permutations_46_tests();
-        cout << "Combinations 77 tests:\n";
+        cout << "Running Combinations (#77) tests:\n";
         combinations_77_tests();
-        cout << "Letter Combinations 17 tests:\n";
+        cout << "Running Letter Combinations (#17) tests:\n";
         letterCombinations_17_tests();
-        cout << "Combination Sum 39 tests:\n";
+        cout << "Running Combination Sum (#39) tests:\n";
         combinationSum_39_tests();
-        cout << "Generate Parentheses 22 tests:\n";
+        cout << "Running Generate Parentheses (#22) tests:\n";
         generateParentheses_22_tests();
-        cout << "ExamRoom_855 tests:\n";
+        cout << "Running Exam Room (#855) tests:\n";
         examRoom_855_tests();
     }
 };
