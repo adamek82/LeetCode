@@ -114,6 +114,88 @@ bool assertEqVIntPrefix(const string& label,
                         const vector<int>& expected,
                         const vector<int>& vec, int k);
 
+/* ===========================================================
+ * Generic assertion core & thin wrappers (inline)
+ * =========================================================== */
+
+// Core comparator that normalizes and prints on failure.
+template <typename T, typename Normalizer, typename Printer>
+inline bool assertEqGeneric(const string& label,
+                            T expected, T got,
+                            Normalizer normalize,
+                            Printer print) {
+    expected = normalize(std::move(expected));
+    got      = normalize(std::move(got));
+    const bool pass = (expected == got);
+    cout << label << ": " << (pass ? "PASS" : "FAIL") << '\n';
+    if (!pass) {
+        cout << "  Expected: "; print(expected);
+        cout << "  Got: ";      print(got);
+        cout << '\n';
+    }
+    return pass;
+}
+
+// No-op normalizer for exact comparisons.
+struct NoNormalize {
+    template <typename U>
+    U operator()(U v) const { return v; }
+};
+
+// Printers adapted to existing helpers.
+struct PrintVecInt {
+    void operator()(const vector<int>& v) const { printVec(v); }
+};
+struct PrintVVInt {
+    void operator()(const vector<vector<int>>& vv) const { printVVInt(vv); }
+};
+struct PrintQuotedStrings {
+    void operator()(const vector<string>& v) const { printQuoted(v); }
+};
+
+// ----- Thin wrappers that keep the public API names -----
+
+// ----- Public API: thin wrappers kept as function names used in the runner -----
+
+inline bool assertEqVIntExact(const string& label,
+                              const vector<int>& expected,
+                              const vector<int>& got) {
+    return assertEqGeneric(label, expected, got, NoNormalize{}, PrintVecInt{});
+}
+
+inline bool assertEqVVIntExact(const string& label,
+                               const vector<vector<int>>& expected,
+                               const vector<vector<int>>& got) {
+    return assertEqGeneric(label, expected, got, NoNormalize{}, PrintVVInt{});
+}
+
+inline bool assertEqVVIntAnyOrder(const string& label,
+                                  vector<vector<int>> expected,
+                                  vector<vector<int>> got) {
+    return assertEqGeneric(label, std::move(expected), std::move(got),
+                           normalizeVV_SizeThenLex, PrintVVInt{});
+}
+
+inline bool assertEqVVIntPermutations(const string& label,
+                                      vector<vector<int>> expected,
+                                      vector<vector<int>> got) {
+    return assertEqGeneric(label, std::move(expected), std::move(got),
+                           normalizeVV_LexOnly, PrintVVInt{});
+}
+
+inline bool assertEqStrings(const string& label,
+                            const vector<string>& expected,
+                            const vector<string>& got) {
+    return assertEqGeneric(label, expected, got, NoNormalize{}, PrintQuotedStrings{});
+}
+
+inline bool assertEqStringsAnyOrder(const string& label,
+                                    vector<string> expected,
+                                    vector<string> got) {
+    return assertEqGeneric(label, std::move(expected), std::move(got),
+                           normalizeStrings, PrintQuotedStrings{});
+}
+
 /*
  * Validate k-closest result for 2D points (order agnostic, multiplicities respected).
  *

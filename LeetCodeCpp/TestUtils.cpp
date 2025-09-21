@@ -89,108 +89,12 @@ bool approxEqual(double a, double b, double eps) {
 
 /* --------------------- Assert + logging ------------------- */
 
-bool assertEqStrings(const string& label,
-                     const vector<string>& expected,
-                     const vector<string>& got) {
-    bool pass = (expected == got);
-    cout << label << ": " << (pass ? "PASS" : "FAIL") << '\n';
-    if (!pass) {
-        cout << "  Expected: ";
-        printQuoted(expected);
-        cout << "  Got: ";
-        printQuoted(got);
-        cout << '\n';
-    }
-    return pass;
-}
-
-bool assertEqStringsAnyOrder(const string& label,
-                             vector<string> expected,
-                             vector<string> got) {
-    expected = normalizeStrings(move(expected));
-    got      = normalizeStrings(move(got));
-    bool pass = (expected == got);
-    cout << label << ": " << (pass ? "PASS" : "FAIL") << '\n';
-    if (!pass) {
-        cout << "  Expected: ";
-        printQuoted(expected);
-        cout << "  Got: ";
-        printQuoted(got);
-        cout << '\n';
-    }
-    return pass;
-}
-
-bool assertEqVVIntExact(const string& label,
-                        const vector<vector<int>>& expected,
-                        const vector<vector<int>>& got) {
-    bool pass = (expected == got);
-    cout << label << ": " << (pass ? "PASS" : "FAIL") << '\n';
-    if (!pass) {
-        cout << "  Expected: ";
-        printVVInt(expected);
-        cout << "  Got: ";
-        printVVInt(got);
-        cout << '\n';
-    }
-    return pass;
-}
-
-bool assertEqVVIntAnyOrder(const string& label,
-                           vector<vector<int>> expected,
-                           vector<vector<int>> got) {
-    expected = normalizeVV_SizeThenLex(move(expected));
-    got      = normalizeVV_SizeThenLex(move(got));
-    bool pass = (expected == got);
-    cout << label << ": " << (pass ? "PASS" : "FAIL") << '\n';
-    if (!pass) {
-        cout << "  Expected: ";
-        printVVInt(expected);
-        cout << "  Got: ";
-        printVVInt(got);
-        cout << '\n';
-    }
-    return pass;
-}
-
-bool assertEqVVIntPermutations(const string& label,
-                               vector<vector<int>> expected,
-                               vector<vector<int>> got) {
-    expected = normalizeVV_LexOnly(move(expected));
-    got      = normalizeVV_LexOnly(move(got));
-    bool pass = (expected == got);
-    cout << label << ": " << (pass ? "PASS" : "FAIL") << '\n';
-    if (!pass) {
-        cout << "  Expected: ";
-        printVVInt(expected);
-        cout << "  Got: ";
-        printVVInt(got);
-        cout << '\n';
-    }
-    return pass;
-}
-
 bool assertApprox(const string& label,
                   double expected, double got, double eps) {
     bool pass = approxEqual(expected, got, eps);
     cout << label << ": " << (pass ? "PASS" : "FAIL")
               << " (Expected: " << expected << ", Got: " << got
               << ", eps: " << eps << ")\n";
-    return pass;
-}
-
-bool assertEqVIntExact(const string& label,
-                       const vector<int>& expected,
-                       const vector<int>& got) {
-    bool pass = (expected == got);
-    cout << label << ": " << (pass ? "PASS" : "FAIL") << '\n';
-    if (!pass) {
-        cout << "  Expected: ";
-        printVec(expected);
-        cout << "  Got: ";
-        printVec(got);
-        cout << '\n';
-    }
     return pass;
 }
 
