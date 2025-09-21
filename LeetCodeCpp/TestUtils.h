@@ -129,8 +129,6 @@ struct PrintQuotedStrings {
     void operator()(const vector<string>& v) const { printQuoted(v); }
 };
 
-// ----- Thin wrappers that keep the public API names -----
-
 // ----- Public API: thin wrappers kept as function names used in the runner -----
 
 inline bool assertEqVIntExact(const string& label,
