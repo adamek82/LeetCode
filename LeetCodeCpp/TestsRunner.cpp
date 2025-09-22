@@ -511,10 +511,7 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.lengthOfLIS(testCases[i].nums);
-            cout << "LIS Test " << i + 1 << ": res = "
-                    << (result == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expected
-                    << ", Got: " << result << ")" << endl;
+            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
         }
     }
 
@@ -536,22 +533,12 @@ public:
         RemoveDuplicatesFromSortedList_83 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            // Create a linked list using ListUtils
             IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].input);
-
-            // Run the solution
             IntListNode* result = solution.deleteDuplicates(input);
-
-            // Convert result to vector
             vector<int> resultVector = ListUtils::toVector<int>(result);
 
-            // Print test results
-            cout << "Remove Duplicates Test " << i + 1 << ": res = "
-                    << (resultVector == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expected))
-                    << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
+            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
 
-            // Free the allocated linked list
             ListUtils::freeList<int>(result);
         }
     }
@@ -574,22 +561,12 @@ public:
         ReverseLinkedList_206 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            // Create a linked list using ListUtils
             IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].input);
-
-            // Run the solution
             IntListNode* result = solution.reverseList(input);
-
-            // Convert result to vector
             vector<int> resultVector = ListUtils::toVector<int>(result);
 
-            // Print test results
-            cout << "Reverse Linked List Test " << i + 1 << ": res = "
-                    << (resultVector == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expected))
-                    << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
+            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
 
-            // Free the allocated linked list
             ListUtils::freeList<int>(result);
         }
     }
@@ -612,23 +589,14 @@ public:
         MergeTwoSortedLists_21 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            // Create linked lists using ListUtils
             IntListNode* list1 = ListUtils::createLinkedList<int>(testCases[i].list1);
             IntListNode* list2 = ListUtils::createLinkedList<int>(testCases[i].list2);
 
-            // Run the solution
             IntListNode* result = solution.mergeTwoLists(list1, list2);
-
-            // Convert result to vector
             vector<int> resultVector = ListUtils::toVector<int>(result);
 
-            // Print test results
-            cout << "Merge Two Sorted Lists Test " << i + 1 << ": res = "
-                    << (resultVector == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expected))
-                    << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
+            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
 
-            // Free the allocated merged list
             ListUtils::freeList<int>(result);
         }
     }
@@ -648,20 +616,11 @@ public:
         LinkedListCycle_141 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            // Create a linked list with a cycle
             ListNode<int>* head = ListUtils::createLinkedListWithCycle<int>(testCases[i].input, testCases[i].pos);
-
-            // Run the hasCycle function
             bool result = solution.hasCycle(head);
 
-            // Print test results
-            cout << "Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expected ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expected
-                      << ", Got: " << result << ")\n"
-                      << "List: " << ListUtils::toString<int>(head) << endl;
+            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
 
-            // Free the linked list
             ListUtils::freeList<int>(head);
         }
     }
@@ -683,22 +642,12 @@ public:
         MiddleOfLinkedList_876 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            // Create a linked list using ListUtils
             IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].input);
-
-            // Run the solution
             IntListNode* result = solution.middleNode(input);
-
-            // Convert result to vector
             vector<int> resultVector = ListUtils::toVector<int>(result);
 
-            // Print test results
-            cout << "Middle of Linked List Test " << i + 1 << ": res = "
-                    << (resultVector == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expected))
-                    << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
+            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
 
-            // Free the allocated linked list
             ListUtils::freeList<int>(input);
         }
     }
@@ -720,22 +669,12 @@ public:
         RemoveNthNodeFromEndOfList_19 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            // Create a linked list using ListUtils
             IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].input);
-
-            // Run the solution
             IntListNode* result = solution.removeNthFromEnd(input, testCases[i].n);
-
-            // Convert result to vector
             vector<int> resultVector = ListUtils::toVector<int>(result);
 
-            // Print test results
-            cout << "Remove Nth Node From End Test " << i + 1 << ": res = "
-                    << (resultVector == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expected))
-                    << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
+            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
 
-            // Free the allocated linked list
             ListUtils::freeList<int>(result);
         }
     }
@@ -758,9 +697,7 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.maxProfit(testCases[i].prices);
-            cout << "Max Profit Test " << i + 1 << ": res = "
-                    << (result == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expected << ", Got: " << result << ")" << endl;
+            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
         }
     }
 
@@ -785,13 +722,7 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             vector<int> result = sm54.spiralOrder(testCases[i].matrix);
-            cout << "Spiral Matrix Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: ";
-            for (int val : testCases[i].expected) cout << val << " ";
-            cout << ", Got: ";
-            for (int val : result) cout << val << " ";
-            cout << ")" << endl;
+            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, result);
         }
     }
 
@@ -810,19 +741,15 @@ public:
         ValidateBinarySearchTree_98 validator;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            TreeNode<int>* root = TreeUtils::vectorToTree(testCases[i].tree);
-
-            cout << "Test Case " << (i + 1) << " Tree:" << endl;
-            TreeUtils::printTree(root); // Print the tree
-
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(testCases[i].tree);
             bool result = validator.isValidBST(root);
 
-            cout << "Validate BST Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << (testCases[i].expected ? "true" : "false")
-                    << ", Got: " << (result ? "true" : "false") << ")" << endl;
+            if (!TestUtils::assertEqScalar("Validate BST Test " + to_string(i + 1), testCases[i].expected, result)) {
+                cout << "  Input tree:\n";
+                TreeUtils::printTree(root);
+            }
 
-            TreeUtils::freeTree(root); // Free the memory after use
+            TreeUtils::freeTree(root);
         }
     }
 
