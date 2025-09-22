@@ -19,7 +19,7 @@ namespace TestCases {
     struct ScheduleTestCase {
         int   numCourses;
         Edges prerequisites;
-        bool  expectedResult;
+        bool  expected;
     };
 
     // 1971. Find if Path Exists in Graph
@@ -28,7 +28,7 @@ namespace TestCases {
         Edges edges;
         int   source;
         int   destination;
-        bool  expectedResult;
+        bool  expected;
     };
 
     // 200. Number of Islands

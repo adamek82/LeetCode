@@ -13,7 +13,7 @@ typedef struct {
     int *edgesColSize;
     int source;
     int destination;
-    bool expectedResult;
+    bool expected;
 } PathTestCase;
 
 // Helper function to allocate and initialize an edge (an array of 2 ints)
@@ -55,7 +55,7 @@ void runValidPathTests() {
             .edgesColSize = (int[]){2, 2, 2},
             .source = 0,
             .destination = 2,
-            .expectedResult = true
+            .expected = true
         },
         {
             .n = 6,
@@ -70,7 +70,7 @@ void runValidPathTests() {
             .edgesColSize = (int[]){2, 2, 2, 2, 2},
             .source = 0,
             .destination = 5,
-            .expectedResult = false
+            .expected = false
         },
         {
             .n = 4,
@@ -83,7 +83,7 @@ void runValidPathTests() {
             .edgesColSize = (int[]){2, 2, 2},
             .source = 0,
             .destination = 3,
-            .expectedResult = true
+            .expected = true
         },
         {
             .n = 5,
@@ -97,7 +97,7 @@ void runValidPathTests() {
             .edgesColSize = (int[]){2, 2, 2, 2},
             .source = 0,
             .destination = 1,
-            .expectedResult = true
+            .expected = true
         },
         {
             .n = 4,
@@ -109,7 +109,7 @@ void runValidPathTests() {
             .edgesColSize = (int[]){2, 2},
             .source = 0,
             .destination = 3,
-            .expectedResult = false
+            .expected = false
         }
     };
 
@@ -128,8 +128,8 @@ void runValidPathTests() {
                                                   testCases[i].source,
                                                   testCases[i].destination);
         printf("Test %d: Original = %s, Optimized = %s\n", i + 1,
-               (resultOriginal == testCases[i].expectedResult) ? "PASS" : "FAIL",
-               (resultOptimized == testCases[i].expectedResult) ? "PASS" : "FAIL");
+               (resultOriginal == testCases[i].expected) ? "PASS" : "FAIL",
+               (resultOptimized == testCases[i].expected) ? "PASS" : "FAIL");
     }
 }
 

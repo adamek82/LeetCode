@@ -118,6 +118,18 @@ struct NoNormalize {
     U operator()(U v) const { return v; }
 };
 
+struct PrintScalar {
+    template <typename U>
+    void operator()(const U& v) const { cout << v; }
+};
+
+template <typename T>
+inline bool assertEqScalar(const string& label,
+                           const T& expected,
+                           const T& got) {
+    return assertEqGeneric(label, expected, got, NoNormalize{}, PrintScalar{});
+}
+
 // Printers adapted to existing helpers.
 struct PrintVecInt {
     void operator()(const vector<int>& v) const { printVec(v); }

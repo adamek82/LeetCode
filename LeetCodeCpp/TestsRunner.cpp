@@ -162,18 +162,14 @@ public:
 
         cout << "-> DFS (three-state) version:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = cs207.canFinishDFS(testCases[i].numCourses,
-                                             testCases[i].prerequisites);
-            cout << "Test " << (i + 1) << ": res = "
-                 << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
+            bool result = cs207.canFinishDFS(testCases[i].numCourses, testCases[i].prerequisites);
+            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
         }
 
         cout << "-> Kahn's algorithm version:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = cs207.canFinishKahns(testCases[i].numCourses,
-                                               testCases[i].prerequisites);
-            cout << "Test " << (i + 1) << ": res = "
-                 << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
+            bool result = cs207.canFinishKahns(testCases[i].numCourses, testCases[i].prerequisites);
+            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
         }
     }
 
@@ -191,29 +187,25 @@ public:
         cout << "-> Recursive DFS version:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = fp1971.validPathRecursiveDFS(testCases[i].n, testCases[i].edges, testCases[i].source, testCases[i].destination);
-            cout << "Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
+            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
         }
 
         cout << "-> Iterative DFS version with a stack:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = fp1971.validPathIterativeDFS(testCases[i].n, testCases[i].edges, testCases[i].source, testCases[i].destination);
-            cout << "Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
+            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
         }
 
         cout << "-> BFS version with a queue:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = fp1971.validPathBFS(testCases[i].n, testCases[i].edges, testCases[i].source, testCases[i].destination);
-            cout << "Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
+            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
         }
 
         cout << "-> Union-find version:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool result = fp1971.validPathUnionFind(testCases[i].n, testCases[i].edges, testCases[i].source, testCases[i].destination);
-            cout << "Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expectedResult ? "PASS" : "FAIL") << endl;
+            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
         }
     }
 
@@ -253,8 +245,7 @@ public:
         for (size_t i = 0; i < testCases.size(); i++)
         {
             int result = noi200.numIslands(testCases[i].grid);
-            cout << "Test " << i + 1 << ": res = " << (result == testCases[i].expected ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expected << ", Got: " << result << ")" << endl;
+            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
         }
     }
 
@@ -297,15 +288,8 @@ public:
             int resRec  = mai695.maxAreaOfIslandRecursive(gridRec);
             int resIter = mai695.maxAreaOfIslandIterative(gridIter);
 
-            cout << "Max Area Test " << (i + 1) << " (recursive): "
-                << (resRec  == testCases[i].expected ? "PASS" : "FAIL")
-                << " (Expected " << testCases[i].expected
-                << ", Got " << resRec  << ")\n";
-
-            cout << "Max Area Test " << (i + 1) << " (iterative): "
-                << (resIter == testCases[i].expected ? "PASS" : "FAIL")
-                << " (Expected " << testCases[i].expected
-                << ", Got " << resIter << ")\n";
+            assertEqScalar("Max Area Test" + to_string(i + 1) + " (recursive)", testCases[i].expected, resRec);
+            assertEqScalar("Max Area Test" + to_string(i + 1) + " (iterative)", testCases[i].expected, resIter);
         }
     }
 
@@ -355,7 +339,6 @@ public:
             vector<int> result = cs210.findOrderByDFSTraversal(testCases[i].numCourses, testCases[i].prerequisites);
 
             bool pass = isValidOrder(result, testCases[i].numCourses, testCases[i].prerequisites, testCases[i].expectedOrder);
-
             cout << "Test " << (i + 1) << ": res = " << (pass ? "PASS" : "FAIL") << endl;
         }
 
@@ -364,7 +347,6 @@ public:
             vector<int> result = cs210.findOrderByKahnsAlgorithm(testCases[i].numCourses, testCases[i].prerequisites);
 
             bool pass = isValidOrder(result, testCases[i].numCourses, testCases[i].prerequisites, testCases[i].expectedOrder);
-
             cout << "Test " << (i + 1) << ": res = " << (pass ? "PASS" : "FAIL") << endl;
         }
     }
@@ -387,9 +369,7 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = ndt743.networkDelayTime(testCases[i].times, testCases[i].n, testCases[i].k);
-            cout << "Network Delay Time Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expected ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expected << ", Got: " << result << ")" << endl;
+            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
         }
     }
 
@@ -418,9 +398,7 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i)
         {
             int result = solution.orangesRotting(testCases[i].grid);
-            cout << "Rotting Oranges Test " << i + 1 << ": res = "
-                      << (result == testCases[i].expected ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expected << ", Got: " << result << ")" << endl;
+            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
         }
     }
 
@@ -464,9 +442,7 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i)
         {
             auto result = pacificAtlanticSolution.pacificAtlantic(testCases[i].heights);
-
-            cout << "Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expected ? "PASS" : "FAIL") << endl;
+            assertEqVVIntExact("Test " + to_string(i + 1), testCases[i].expected, result);
         }
     }
 
@@ -491,14 +467,8 @@ public:
             int resHeap  = solution.minCostConnectPointsHeap(testCases[i].points);
             int resArray = solution.minCostConnectPointsArray(testCases[i].points);
 
-            bool passHeap  = (resHeap  == testCases[i].expected);
-            bool passArray = (resArray == testCases[i].expected);
-
-            cout << "Min Cost Test " << (i + 1) << ":\n"
-                 << "  Heap   : " << (passHeap  ? "PASS" : "FAIL") << " (Expected: "
-                 << testCases[i].expected << ", Got: " << resHeap  << ")\n"
-                 << "  Array  : " << (passArray ? "PASS" : "FAIL") << " (Expected: "
-                 << testCases[i].expected << ", Got: " << resArray << ")\n";
+            assertEqScalar("Min Cost Test" + to_string(i + 1) + " (heap)", testCases[i].expected, resHeap);
+            assertEqScalar("Min Cost Test" + to_string(i + 1) + " (array)", testCases[i].expected, resArray);
         }
     }
 
