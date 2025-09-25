@@ -5,6 +5,7 @@
 #include <optional>
 #include <cmath>
 #include <variant>
+#include <numeric>
 #include "TestCases.h"
 #include "TestUtils.h"
 #include "CourseSchedule_207.h"
@@ -930,17 +931,14 @@ public:
             {{7, 10, 4, 3, 20, 15}, 3, 10},           // Mixed elements
             {{2, 2, 2, 2, 2}, 3, 2},                  // Repeated elements
 
-            // Large ascending [1..10000], k=500 -> 9501 (placeholder, filled below)
+            // Large ascending [1..10000], k=500 -> 9501 (filled below)
             {{}, 500, 9501}
         };
 
-        // Fill the large ascending test
-        {
-            vector<int> big;
-            big.reserve(10000);
-            for (int i = 1; i <= 10000; ++i) big.push_back(i);
-            testCases.back() = {move(big), 500, 9501};
-        }
+        // Fill the large ascending test (no extra scope)
+        auto& bigCase = testCases.back();
+        bigCase.nums.resize(10000);
+        iota(bigCase.nums.begin(), bigCase.nums.end(), 1); // 1..10000
 
         KthLargestElementInArray_215 solution;
 
@@ -950,68 +948,49 @@ public:
             auto v1 = testCases[i].nums;
             auto v2 = testCases[i].nums;
 
-            int resMax = solution.findKthLargest_MaxHeap(v1, testCases[i].k);
-            int resMin = solution.findKthLargest_MinHeap(v2, testCases[i].k);
+            const int resMax = solution.findKthLargest_MaxHeap(v1, testCases[i].k);
+            const int resMin = solution.findKthLargest_MinHeap(v2, testCases[i].k);
 
-            bool passMax = (resMax == testCases[i].expected);
-            bool passMin = (resMin == testCases[i].expected);
-            bool agree   = (resMax == resMin);
-
-            cout << "Kth Largest Element 215 Test " << (i + 1) << " [MaxHeap]: "
-                << (passMax ? "PASS" : "FAIL")
-                << " (k=" << testCases[i].k
-                << ", Expected: " << testCases[i].expected
-                << ", Got: " << resMax << ")\n";
-
-            cout << "Kth Largest Element 215 Test " << (i + 1) << " [MinHeap]: "
-                << (passMin ? "PASS" : "FAIL")
-                << " (k=" << testCases[i].k
-                << ", Expected: " << testCases[i].expected
-                << ", Got: " << resMin << ")"
-                << (agree ? "" : "  <-- mismatch between implementations!") << "\n";
+            // Assertions instead of manual cout formatting
+            assertEqScalar("Kth Largest 215 Test " + to_string(i + 1) + " [MaxHeap]", testCases[i].expected, resMax);
+            assertEqScalar("Kth Largest 215 Test " + to_string(i + 1) + " [MinHeap]", testCases[i].expected, resMin);
         }
+    }
+
+    static vector<int> runMinHeapScenario(const vector<pair<string,int>>& ops) {
+        MinHeap heap;
+        vector<int> out;
+        for (const auto& [op, x] : ops) {
+            if (op == "insert") {
+                heap.insert(x);
+            } else if (op == "extractMin") {
+                out.push_back(heap.extractMin());
+            } else if (op == "update") {
+                heap.update(x, x);
+            }
+        }
+        return out;
     }
 
     static void minHeap_tests() {
         vector<MinHeapTestCase> testCases = {
             {
-                {{"insert", 5}, {"insert", 3}, {"insert", 8}, {"insert", 1}, {"insert", 2}, {"extractMin", 0}, {"extractMin", 0}},
-                {1, 2} // Expected results of the extractMin calls
+                {{"insert",5},{"insert",3},{"insert",8},{"insert",1},{"insert",2},{"extractMin",0},{"extractMin",0}},
+                {1,2}       // Expected results of the extractMin calls
             },
             {
-                {{"insert", 10}, {"insert", 20}, {"insert", 5}, {"update", 1}, {"extractMin", 0}},
-                {1} // Updated root is extracted
+                {{"insert",10},{"insert",20},{"insert",5},{"update",1},{"extractMin",0}},
+                {1}         // Updated root is extracted
             },
             {
-                {{"insert", 100}, {"insert", 50}, {"insert", 25}, {"extractMin", 0}, {"extractMin", 0}},
-                {25, 50} // Both extractions
+                {{"insert",100},{"insert",50},{"insert",25},{"extractMin",0},{"extractMin",0}},
+                {25,50}     // Both extractions
             }
         };
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            MinHeap heap;
-            vector<int> results;
-
-            for (const auto& op : testCases[i].operations) {
-                if (op.first == "insert") {
-                    heap.insert(op.second);
-                } else if (op.first == "extractMin") {
-                    results.push_back(heap.extractMin());
-                } else if (op.first == "update") {
-                    heap.update(op.second, op.second); // Use parameters as necessary
-                }
-            }
-
-            // Compare results
-            bool pass = results == testCases[i].expected;
-            cout << "MinHeap Test " << (i + 1) << ": " << (pass ? "PASS" : "FAIL") << "\n";
-            if (!pass) {
-                cout << "Expected: ";
-                for (int r : testCases[i].expected) cout << r << " ";
-                cout << "\nGot: ";
-                for (int r : results) cout << r << " ";
-                cout << "\n";
-            }
+            const auto got = runMinHeapScenario(testCases[i].operations);
+            assertEqVIntExact("MinHeap Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
