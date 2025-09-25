@@ -3,6 +3,7 @@
 #include <string>
 #include <ostream>
 #include <iostream>
+#include <optional>
 
 using namespace std;
 
@@ -195,4 +196,10 @@ bool isValidKClosestPoints(const vector<vector<int>>& input,
                            int k,
                            const vector<vector<int>>& out);
 
+// Build a step label like: "<suite> X #Y op("arg")" or "<suite> X #Y op()"
+string makeStepLabel(const string& suite,
+                     size_t caseIdx,
+                     size_t stepIdx,
+                     const string& op,
+                     const optional<string>& arg = nullopt);
 } // namespace TestUtils

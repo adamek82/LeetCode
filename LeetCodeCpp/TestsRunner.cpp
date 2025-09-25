@@ -744,7 +744,7 @@ public:
             TreeNode<int>* root = TreeUtils::vectorToTree<int>(testCases[i].tree);
             bool result = validator.isValidBST(root);
 
-            if (!TestUtils::assertEqScalar("Validate BST Test " + to_string(i + 1), testCases[i].expected, result)) {
+            if (!assertEqScalar("Validate BST Test " + to_string(i + 1), testCases[i].expected, result)) {
                 cout << "  Input tree:\n";
                 TreeUtils::printTree(root);
             }
@@ -774,11 +774,14 @@ public:
             TreeNode<int>* p = TreeUtils::findNode(root, testCases[i].p);
             TreeNode<int>* q = TreeUtils::findNode(root, testCases[i].q);
 
-            TreeNode<int>* result = lcaSolver.lowestCommonAncestor(root, p, q);
+            TreeNode<int>* lca = lcaSolver.lowestCommonAncestor(root, p, q);
+            int got = lca ? lca->val : numeric_limits<int>::min();
 
-            cout << "LCA Test " << (i + 1) << ": res = "
-                    << ((result && result->val == testCases[i].expected) ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expected << ", Got: " << (result ? result->val : -1) << ")" << endl;
+            if (!assertEqScalar("LCA Test " + to_string(i + 1), testCases[i].expected, got)) {
+                cout << "  Input tree:\n";
+                TreeUtils::printTree(root);
+                cout << "  p=" << testCases[i].p << ", q=" << testCases[i].q << "\n";
+            }
 
             TreeUtils::freeTree(root);
         }
@@ -809,10 +812,9 @@ public:
             IntListNode* expected = ListUtils::createLinkedListWithRandom<int>(testCases[i].expected);
 
             IntListNode* result = solution.copyRandomList(input);
-
             bool isCorrect = ListUtils::compareListsWithRandom<int>(result, expected);
 
-            cout << "Test " << (i + 1) << ": " << (isCorrect ? "PASS" : "FAIL") << endl;
+            assertEqScalar("Copy Random List Test " + to_string(i + 1), true, isCorrect);
 
             ListUtils::freeList(input);
             ListUtils::freeList(result);
@@ -837,14 +839,16 @@ public:
         KthSmallestElementInBST_230 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            TreeNode<int>* root = TreeUtils::vectorToTree(testCases[i].tree);
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(testCases[i].tree);
+            int got = solution.kthSmallest(root, testCases[i].k);
 
-            int result = solution.kthSmallest(root, testCases[i].k);
-            cout << "Kth Smallest Element Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expected << ", Got: " << result << ")" << endl;
+            if (!assertEqScalar("Kth Smallest Element Test " + to_string(i + 1), testCases[i].expected, got)) {
+                cout << "  Input tree:\n";
+                TreeUtils::printTree(root);
+                cout << "  k=" << testCases[i].k << "\n";
+            }
 
-            TreeUtils::freeTree(root); // Free tree memory
+            TreeUtils::freeTree(root);
         }
     }
 
@@ -887,31 +891,24 @@ public:
             Trie* trie = nullptr;
 
             for (size_t j = 0; j < testCases[i].operations.size(); ++j) {
-                const auto& op = testCases[i].operations[j];
+                const auto& op  = testCases[i].operations[j];
                 const auto& arg = testCases[i].arguments[j];
-                const auto& expected = testCases[i].expected[j];
+                const auto& exp = testCases[i].expected[j];
 
-                if (op == "Trie") {
-                    trie = new Trie();
-                    cout << "Operation: Trie() -> null\n";
-                } else if (op == "insert") {
-                    trie->insert(arg.value());
-                    cout << "Operation: insert(\"" << arg.value() << "\") -> null\n";
-                } else if (op == "search") {
-                    bool result = trie->search(arg.value());
-                    cout << "Operation: search(\"" << arg.value() << "\") -> " << (result ? "true" : "false");
-                    if (expected.has_value() && result == expected.value()) {
-                        cout << " [PASS]\n";
-                    } else {
-                        cout << " [FAIL]\n";
-                    }
-                } else if (op == "startsWith") {
-                    bool result = trie->startsWith(arg.value());
-                    cout << "Operation: startsWith(\"" << arg.value() << "\") -> " << (result ? "true" : "false");
-                    if (expected.has_value() && result == expected.value()) {
-                        cout << " [PASS]\n";
-                    } else {
-                        cout << " [FAIL]\n";
+                if (op == "Trie") { trie = new Trie(); continue; }
+                if (op == "insert") { trie->insert(arg.value()); continue; }
+
+                if (op == "search" || op == "startsWith") {
+                    bool got = (op == "search")
+                            ? trie->search(arg.value())
+                            : trie->startsWith(arg.value());
+
+                    bool expected = exp.value();
+                    const string label = makeStepLabel("Trie Case", i, j, op, arg);
+
+                    if (!assertEqScalar(label, expected, got)) {
+                        // opcjonalny kontekst na FAIL
+                        cout << "  (debug) op=" << op << " arg=\"" << arg.value() << "\"\n";
                     }
                 }
             }

@@ -148,4 +148,23 @@ bool isValidKClosestPoints(const vector<vector<int>>& input,
     return true;
 }
 
+string makeStepLabel(const string& suite,
+                     size_t caseIdx,
+                     size_t stepIdx,
+                     const string& op,
+                     const optional<string>& arg) {
+    string label;
+    label.reserve(suite.size() + op.size() + 32);
+    label.append(suite).append(" ")
+         .append(to_string(caseIdx + 1))
+         .append(" #").append(to_string(stepIdx + 1))
+         .append(" ").append(op);
+    if (arg && !arg->empty()) {
+        label.append("(\"").append(*arg).append("\")");
+    } else {
+        label.append("()");
+    }
+    return label;
+}
+
 } // namespace TestUtils
