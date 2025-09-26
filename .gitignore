@@ -21,3 +21,6 @@ __pycache__/
 # Ignore Node.js dependencies
 node_modules/
 LeetCodeKotlin/.vscode/TestsRunner.jar
+
+# VSCode Counter reports
+**/.VSCodeCounter/
