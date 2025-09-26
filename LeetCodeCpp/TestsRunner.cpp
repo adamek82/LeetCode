@@ -1013,28 +1013,16 @@ public:
 
         // -------- Transpose-then-Reverse variant --------------------------------
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto input = testCases[i].input;      // fresh copy
-            rotator.rotateTransposeReverse(input);
-
-            cout << "[Transpose+Reverse] Test " << (i + 1) << ": res = "
-                    << (input == testCases[i].expected ? "PASS" : "FAIL") << '\n';
-            cout << "Expected:\n";
-            printMatrix(testCases[i].expected);
-            cout << "Got:\n";
-            printMatrix(input);
+            auto m = testCases[i].input; // fresh copy
+            rotator.rotateTransposeReverse(m);
+            assertEqVVIntExact("[Transpose+Reverse] Test " + to_string(i + 1), testCases[i].expected, m);
         }
 
         // -------- Layer-by-Layer (“onion”) swap variant -------------------------
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto input = testCases[i].input;      // fresh copy
-            rotator.rotateLayerSwap(input);
-
-            cout << "[LayerSwap]        Test " << (i + 1) << ": res = "
-                    << (input == testCases[i].expected ? "PASS" : "FAIL") << '\n';
-            cout << "Expected:\n";
-            printMatrix(testCases[i].expected);
-            cout << "Got:\n";
-            printMatrix(input);
+            auto m = testCases[i].input; // fresh copy
+            rotator.rotateLayerSwap(m);
+            assertEqVVIntExact("[LayerSwap]        Test " + to_string(i + 1), testCases[i].expected, m);
         }
     }
 
@@ -1055,19 +1043,8 @@ public:
         MergeIntervals_56 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto result = solution.merge(testCases[i].input);
-
-            cout << "Merge Intervals Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expected ? "PASS" : "FAIL")
-                    << "\nExpected: ";
-            for (const auto& interval : testCases[i].expected) {
-                cout << "[" << interval[0] << "," << interval[1] << "] ";
-            }
-            cout << "\nGot: ";
-            for (const auto& interval : result) {
-                cout << "[" << interval[0] << "," << interval[1] << "] ";
-            }
-            cout << "\n\n";
+            auto got = solution.merge(testCases[i].input);
+            assertEqVVIntExact("Merge Intervals Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -1090,26 +1067,19 @@ public:
         MergeKSortedLists_23 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            // Create input linked lists
-            vector<IntListNode*> inputLists;
-            for (const auto& list : testCases[i].input) {
-                inputLists.push_back(ListUtils::createLinkedList<int>(list));
+            vector<IntListNode*> lists;
+            lists.reserve(testCases[i].input.size());
+            for (const auto& v : testCases[i].input) {
+                lists.push_back(ListUtils::createLinkedList<int>(v));
             }
 
-            // Run the solution
-            IntListNode* result = solution.mergeKLists(inputLists);
+            IntListNode* merged = solution.mergeKLists(lists);
 
-            // Convert result to vector
-            vector<int> resultVector = ListUtils::toVector<int>(result);
+            assertEqVIntExact("Merge K Lists Test " + to_string(i + 1),
+                            testCases[i].expected,
+                            ListUtils::toVector<int>(merged));
 
-            // Print test results
-            cout << "Merge K Lists Test " << i + 1 << ": res = "
-                    << (resultVector == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << ListUtils::toString<int>(ListUtils::createLinkedList<int>(testCases[i].expected))
-                    << ", Got: " << ListUtils::toString<int>(result) << ")" << endl;
-
-            // Free allocated memory
-            ListUtils::freeList<int>(result);
+            ListUtils::freeList<int>(merged);
         }
     }
 
