@@ -1075,8 +1075,7 @@ public:
 
             IntListNode* merged = solution.mergeKLists(lists);
 
-            assertEqVIntExact("Merge K Lists Test " + to_string(i + 1),
-                            testCases[i].expected,
+            assertEqVIntExact("Merge K Lists Test " + to_string(i + 1), testCases[i].expected,
                             ListUtils::toVector<int>(merged));
 
             ListUtils::freeList<int>(merged);
@@ -1100,14 +1099,8 @@ public:
         ProductOfArrayExceptSelf solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto result = solution.productExceptSelf(testCases[i].input);
-            cout << "Product of Array Except Self Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: ";
-            for (int val : testCases[i].expected) cout << val << " ";
-            cout << ", Got: ";
-            for (int val : result) cout << val << " ";
-            cout << ")\n";
+            auto got = solution.productExceptSelf(testCases[i].input);
+            assertEqVIntExact("Product Except Self Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -1128,30 +1121,18 @@ public:
             {{10, 9, 9, 10, 10, 10, 9, 10, 9, 10, 10}, 10}
         };
 
-        cout << "-> Boyer–Moore Majority Vote Algorithm:\n";
+        // Boyer–Moore Majority Vote
         for (size_t i = 0; i < testCases.size(); ++i) {
-            MajorityElement_169 solution;
-            int result = solution.majorityElement(testCases[i].input);
-            cout << "Test " << (i + 1) << ": ";
-            if (result == testCases[i].expected) {
-                cout << "PASS\n";
-            } else {
-                cout << "FAIL (Expected: " << testCases[i].expected
-                        << ", Got: " << result << ")\n";
-            }
+            MajorityElement_169 sol;
+            int got = sol.majorityElement(testCases[i].input);
+            assertEqScalar("MajorityElement_169 Boyer–Moore Test " + to_string(i + 1), testCases[i].expected, got);
         }
 
-        cout << "-> Frequency Counting with a Hashmap Algorithm:\n";
+        // Frequency Counting (hashmap)
         for (size_t i = 0; i < testCases.size(); ++i) {
-            MajorityElement_169 solution;
-            int result = solution.majorityElementWithHashmap(testCases[i].input);
-            cout << "Test " << (i + 1) << ": ";
-            if (result == testCases[i].expected) {
-                cout << "PASS\n";
-            } else {
-                cout << "FAIL (Expected: " << testCases[i].expected
-                        << ", Got: " << result << ")\n";
-            }
+            MajorityElement_169 sol;
+            int got = sol.majorityElementWithHashmap(testCases[i].input);
+            assertEqScalar("MajorityElement_169 Hashmap Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -1168,10 +1149,8 @@ public:
         EvaluateReversePolishNotation_150 evaluator;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = evaluator.evalRPN(testCases[i].input);
-            cout << "Evaluate RPN Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expected ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expected << ", Got: " << result << ")\n";
+            int got = evaluator.evalRPN(testCases[i].input);
+            assertEqScalar("Evaluate RPN Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -1191,13 +1170,10 @@ public:
 
         LargestRectangleInHistogram_84 solution;
 
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.largestRectangleArea(testCases[i].input);
-            cout << "Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expected ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expected
-                      << ", Got: " << result << ")" << endl;
-        }
+            for (size_t i = 0; i < testCases.size(); ++i) {
+                int got = solution.largestRectangleArea(testCases[i].input);
+                assertEqScalar("Largest Rectangle Test " + to_string(i + 1), testCases[i].expected, got);
+            }
     }
 
     static void wordSearch_79_tests() {
@@ -1244,11 +1220,8 @@ public:
         WordSearch_79 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = solution.exist(testCases[i].board, testCases[i].word);
-            cout << "Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << (testCases[i].expected ? "true" : "false")
-                    << ", Got: " << (result ? "true" : "false") << ")" << endl;
+            bool got = solution.exist(testCases[i].board, testCases[i].word);
+            assertEqScalar("Word Search Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -1264,11 +1237,8 @@ public:
         ValidParentheses_20 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = solution.isValid(testCases[i].input);
-            cout << "Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << (testCases[i].expected ? "true" : "false")
-                    << ", Got: " << (result ? "true" : "false") << ")" << endl;
+            bool got = solution.isValid(testCases[i].input);
+            assertEqScalar("Valid Parentheses Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -1343,11 +1313,8 @@ public:
         ValidSudoku_36 solver;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = solver.isValidSudoku(testCases[i].board);
-            cout << "Valid Sudoku Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << (testCases[i].expected ? "true" : "false")
-                    << ", Got: " << (result ? "true" : "false") << ")" << endl;
+            bool got = solver.isValidSudoku(testCases[i].board);
+            assertEqScalar("Valid Sudoku Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -1368,11 +1335,8 @@ public:
         BinarySearch_704 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.search(testCases[i].input, testCases[i].target);
-            cout << "Binary Search Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expected
-                    << ", Got: " << result << ")" << endl;
+            int got = solution.search(testCases[i].input, testCases[i].target);
+            assertEqScalar("Binary Search Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -1393,11 +1357,8 @@ public:
         SearchInsertPosition_35 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.searchInsert(testCases[i].input, testCases[i].target);
-            cout << "Search Insert Position Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expected
-                    << ", Got: " << result << ")" << endl;
+            int got = solution.searchInsert(testCases[i].input, testCases[i].target);
+            assertEqScalar("Search Insert Position Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -1416,11 +1377,8 @@ public:
         Search2DMatrix_74 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = solution.searchMatrix(testCases[i].matrix, testCases[i].target);
-            cout << "Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << (testCases[i].expected ? "true" : "false")
-                    << ", Got: " << (result ? "true" : "false") << ")\n";
+            bool got = solution.searchMatrix(testCases[i].matrix, testCases[i].target);
+            assertEqScalar("Search 2D Matrix Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -1434,70 +1392,43 @@ public:
     }
 
     static void allOOneDataStructure_432_tests() {
-        // Test 1: Basic example from problem statement
-        {
-            AllOOneDataStructure_432 allOne;
-            allOne.inc("hello");
-            allOne.inc("hello");
-            // "hello" now has count 2
-            string mx = allOne.getMaxKey();  // expect "hello"
-            string mn = allOne.getMinKey();  // expect "hello"
-            bool t1a = (mx == "hello") && (mn == "hello");
+        // Test 1: basic
+        AllOOneDataStructure_432 ds1;
+        ds1.inc("hello"); ds1.inc("hello");
+        assertMaxMin("AllOOne T1/A",
+                    [&]{ return ds1.getMaxKey(); }, [&]{ return ds1.getMinKey(); },
+                    {"hello"}, {"hello"});
 
-            allOne.inc("leet");
-            // "hello"=2, "leet"=1
-            mx = allOne.getMaxKey(); // still "hello"
-            mn = allOne.getMinKey(); // now "leet"
-            bool t1b = (mx == "hello") && (mn == "leet");
+        ds1.inc("leet");
+        assertMaxMin("AllOOne T1/B",
+                    [&]{ return ds1.getMaxKey(); }, [&]{ return ds1.getMinKey(); },
+                    {"hello"}, {"leet"});
 
-            bool pass = t1a && t1b;
-            cout << "Test 1: " << (pass ? "PASS" : "FAIL") << endl;
-        }
+        // Test 2: ties
+        AllOOneDataStructure_432 ds2;
+        ds2.inc("foo");
+        ds2.inc("bar"); ds2.inc("bar");
+        assertMaxMin("AllOOne T2/A",
+                    [&]{ return ds2.getMaxKey(); }, [&]{ return ds2.getMinKey(); },
+                    {"bar"}, {"foo"});
 
-        // Test 2: Multiple keys with same counts
-        {
-            AllOOneDataStructure_432 allOne;
-            allOne.inc("foo"); // foo=1
-            allOne.inc("bar"); // bar=1
-            allOne.inc("bar"); // bar=2
-            // So bar=2, foo=1
-            bool t2a = inSet(allOne.getMaxKey(), {"bar"}); // Only "bar" has count=2
-            bool t2b = inSet(allOne.getMinKey(), {"foo"}); // Only "foo" has count=1
+        ds2.inc("foo"); // both = 2
+        assertMaxMin("AllOOne T2/B",
+                    [&]{ return ds2.getMaxKey(); }, [&]{ return ds2.getMinKey(); },
+                    {"foo","bar"}, {"foo","bar"});
 
-            // Now bring foo up to 2
-            allOne.inc("foo"); // foo=2, bar=2
-            // Both foo & bar have count=2, so min & max can be either
-            bool t2c = inSet(allOne.getMaxKey(), {"foo", "bar"});
-            bool t2d = inSet(allOne.getMinKey(), {"foo", "bar"});
+        // Test 3: dec() & removal
+        AllOOneDataStructure_432 ds3;
+        ds3.inc("a"); ds3.inc("a"); ds3.inc("a"); // a=3
+        ds3.inc("b"); ds3.inc("c");               // b=1, c=1
+        assertMaxMin("AllOOne T3/A",
+                    [&]{ return ds3.getMaxKey(); }, [&]{ return ds3.getMinKey(); },
+                    {"a"}, {"b","c"});
 
-            bool pass = (t2a && t2b && t2c && t2d);
-            cout << "Test 2: " << (pass ? "PASS" : "FAIL") << endl;
-        }
-
-        // Test 3: Testing dec() and removal
-        {
-            AllOOneDataStructure_432 allOne;
-            // a=3, b=1, c=1
-            allOne.inc("a");  allOne.inc("a");  allOne.inc("a");
-            allOne.inc("b");
-            allOne.inc("c");
-
-            // Check max/min
-            bool t3a = inSet(allOne.getMaxKey(), {"a"});          // a=3 is max
-            bool t3b = inSet(allOne.getMinKey(), {"b", "c"});     // b=1, c=1
-
-            // Decrement "a" 3 times => "a" removed from structure
-            allOne.dec("a"); // now a=2
-            allOne.dec("a"); // now a=1
-            allOne.dec("a"); // now removed
-            // left with b=1, c=1
-
-            bool t3c = inSet(allOne.getMaxKey(), {"b", "c"});  // both b,c => count=1
-            bool t3d = inSet(allOne.getMinKey(), {"b", "c"});
-
-            bool pass = (t3a && t3b && t3c && t3d);
-            cout << "Test 3: " << (pass ? "PASS" : "FAIL") << endl;
-        }
+        ds3.dec("a"); ds3.dec("a"); ds3.dec("a"); // a removed
+        assertMaxMin("AllOOne T3/B",
+                    [&]{ return ds3.getMaxKey(); }, [&]{ return ds3.getMinKey(); },
+                    {"b","c"}, {"b","c"});
     }
 
     static void findMinimumInRotatedSortedArray_153_tests() {

@@ -4,6 +4,9 @@
 #include <ostream>
 #include <iostream>
 #include <optional>
+#include <functional>
+#include <initializer_list>
+#include <algorithm>
 
 using namespace std;
 
@@ -101,8 +104,8 @@ inline bool assertEqGeneric(const string& label,
                             T expected, T got,
                             Normalizer normalize,
                             Printer print) {
-    expected = normalize(std::move(expected));
-    got      = normalize(std::move(got));
+    expected = normalize(move(expected));
+    got      = normalize(move(got));
     const bool pass = (expected == got);
     cout << label << ": " << (pass ? "PASS" : "FAIL") << '\n';
     if (!pass) {
@@ -159,14 +162,14 @@ inline bool assertEqVVIntExact(const string& label,
 inline bool assertEqVVIntAnyOrder(const string& label,
                                   vector<vector<int>> expected,
                                   vector<vector<int>> got) {
-    return assertEqGeneric(label, std::move(expected), std::move(got),
+    return assertEqGeneric(label, move(expected), move(got),
                            normalizeVV_SizeThenLex, PrintVVInt{});
 }
 
 inline bool assertEqVVIntPermutations(const string& label,
                                       vector<vector<int>> expected,
                                       vector<vector<int>> got) {
-    return assertEqGeneric(label, std::move(expected), std::move(got),
+    return assertEqGeneric(label, move(expected), move(got),
                            normalizeVV_LexOnly, PrintVVInt{});
 }
 
@@ -179,9 +182,15 @@ inline bool assertEqStrings(const string& label,
 inline bool assertEqStringsAnyOrder(const string& label,
                                     vector<string> expected,
                                     vector<string> got) {
-    return assertEqGeneric(label, std::move(expected), std::move(got),
+    return assertEqGeneric(label, move(expected), move(got),
                            normalizeStrings, PrintQuotedStrings{});
 }
+
+void assertMaxMin(const string& label,
+                  const function<string()>& getMax,
+                  const function<string()>& getMin,
+                  initializer_list<string> maxSet,
+                  initializer_list<string> minSet);
 
 /*
  * Validate k-closest result for 2D points (order agnostic, multiplicities respected).
