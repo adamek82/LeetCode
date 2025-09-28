@@ -3092,10 +3092,9 @@ public:
 
         ValidNumber_65 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = solver.isNumber(testCases[i].input);
-            cout << "ValidNumber_65 Test " << (i + 1) << ": res = "
-                << (result == testCases[i].expected ? "PASS" : "FAIL")
-                << " (input: \"" << testCases[i].input << "\")" << endl;
+            bool got = solver.isNumber(testCases[i].input);
+            assertEqScalar("Valid Number 65 Test " + to_string(i + 1) + " [\"" + testCases[i].input + "\"]",
+                testCases[i].expected, got);
         }
     }
 
@@ -3113,15 +3112,9 @@ public:
         };
 
         JewelsAndStones_771 solver;
-
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solver.numJewelsInStones(testCases[i].jewels,
-                                                testCases[i].stones);
-
-            cout << "Jewels & Stones Test " << (i + 1) << ": res = "
-                << (result == testCases[i].expected ? "PASS" : "FAIL")
-                << " (Expected: " << testCases[i].expected
-                << ", Got: "      << result << ")\n";
+            int got = solver.numJewelsInStones(testCases[i].jewels, testCases[i].stones);
+            assertEqScalar("Jewels & Stones 771 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -3136,11 +3129,8 @@ public:
 
         ValidPerfectSquare_367 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            bool res = solver.isPerfectSquare(cases[i].input);
-            cout << "ValidPerfectSquare_367 Test " << (i + 1) << ": res = "
-                << (res == cases[i].expected ? "PASS" : "FAIL")
-                << " (Expected: " << (cases[i].expected ? "true" : "false")
-                << ", Got: "      << (res ? "true" : "false") << ")\n";
+            bool got = solver.isPerfectSquare(cases[i].input);
+            assertEqScalar("Valid Perfect Square 367 Test " + to_string(i + 1), cases[i].expected, got);
         }
     }
 
@@ -3156,43 +3146,46 @@ public:
 
         PerfectSquares_279 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int res = solver.numSquares(testCases[i].input);
-            cout << "PerfectSquares_279 Test " << (i + 1) << ": res = "
-                << (res == testCases[i].expected ? "PASS" : "FAIL")
-                << " (n=" << testCases[i].input
-                << ", Expected: " << testCases[i].expected
-                << ", Got: " << res << ")\n";
+            int got = solver.numSquares(testCases[i].input);
+            assertEqScalar("Perfect Squares 279 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
     static void sameTree_100_tests()
     {
         vector<SameTreeTestCase> cases = {
-            {{1,2,3},        {1,2,3},        true},   // Example 1
-            {{1,2},          {1,nullopt,2},  false},  // Example 2
-            {{1,2,1},        {1,1,2},        false},  // Example 3
-            // a few extra sanity checks
-            {{},             {},             true},
-            {{1,nullopt,2,3},{1,nullopt,2,3},true},
-            {{10,nullopt,20,15,nullopt,nullopt,25,nullopt,nullopt,22,nullopt},
-                             {10,nullopt,20,15,nullopt,nullopt,25,nullopt,nullopt,22,nullopt},
-                             true},
+            // Examples
+            { {1, 2, 3},                  {1, 2, 3},                  true  }, // Example 1
+            { {1, 2},                     {1, nullopt, 2},            false }, // Example 2
+            { {1, 2, 1},                  {1, 1, 2},                  false }, // Example 3
+
+            // A few extra sanity checks
+            { {},                         {},                         true  },
+            { {1, nullopt, 2, 3},         {1, nullopt, 2, 3},         true  },
+            {
+                {10, nullopt, 20, 15, nullopt, nullopt, 25, nullopt, nullopt, 22, nullopt},
+                {10, nullopt, 20, 15, nullopt, nullopt, 25, nullopt, nullopt, 22, nullopt},
+                true
+            },
         };
 
         SameTree_100 sol;
         for (size_t i = 0; i < cases.size(); ++i) {
-            auto pTree = TreeUtils::vectorToTree<int>(cases[i].p);
-            auto qTree = TreeUtils::vectorToTree<int>(cases[i].q);
+            auto* p = TreeUtils::vectorToTree<int>(cases[i].p);
+            auto* q = TreeUtils::vectorToTree<int>(cases[i].q);
 
-            bool r1 = sol.isSameTreeRecursive(pTree, qTree);
-            bool r2 = sol.isSameTreeIterativeDFS(pTree, qTree);
-            bool r3 = sol.isSameTreeBFSQueue(pTree, qTree);
+            const string base = "SameTree_100 Test " + to_string(i + 1);
 
-            cout << "SameTree_100 Test " << (i + 1) << ": "
-                << ((r1 == cases[i].expected &&
-                    r2 == cases[i].expected &&
-                    r3 == cases[i].expected) ? "PASS" : "FAIL")
-                << endl;
+            bool g1 = sol.isSameTreeRecursive(p, q);
+            bool g2 = sol.isSameTreeIterativeDFS(p, q);
+            bool g3 = sol.isSameTreeBFSQueue(p, q);
+
+            assertEqScalar(base + " [recursive]",     cases[i].expected, g1);
+            assertEqScalar(base + " [iterative DFS]", cases[i].expected, g2);
+            assertEqScalar(base + " [BFS queue]",     cases[i].expected, g3);
+
+            TreeUtils::freeTree(p);
+            TreeUtils::freeTree(q);
         }
     }
 
@@ -3211,11 +3204,8 @@ public:
 
         MissingNumber_268 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int res = solution.missingNumber(testCases[i].input);
-            cout << "Missing Number Test " << (i + 1) << ": res = "
-                 << (res == testCases[i].expected ? "PASS" : "FAIL")
-                 << " (Expected: " << testCases[i].expected
-                 << ", Got: " << res << ")\n";
+            int got = solution.missingNumber(testCases[i].input);
+            assertEqScalar("Missing Number 268 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -3233,23 +3223,9 @@ public:
         };
 
         DailyTemperatures_739 solver;
-
         for (size_t i = 0; i < tests.size(); ++i) {
-            auto out = solver.dailyTemperatures(tests[i].input);
-            bool pass = (out == tests[i].expected);
-
-            cout << "Daily Temperatures Test " << (i + 1) << ": res = "
-                << (pass ? "PASS" : "FAIL");
-
-            // On failure, print both expected and actual for quick inspection
-            if (!pass) {
-                cout << "  (Expected: ";
-                for (int x : tests[i].expected) cout << x << ' ';
-                cout << " | Got: ";
-                for (int x : out) cout << x << ' ';
-                cout << ')';
-            }
-            cout << '\n';
+            auto got = solver.dailyTemperatures(tests[i].input);
+            assertEqVIntExact("Daily Temperatures 739 Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
 
@@ -3270,30 +3246,23 @@ public:
         };
 
         // Build a large unique vector [-5000..4999]
-        vector<int> bigUnique;
-        bigUnique.reserve(10000);
-        for (int i = -5000; i < 5000; ++i) bigUnique.push_back(i);
+        vector<int> bigUnique(10000);
+        iota(bigUnique.begin(), bigUnique.end(), -5000);
         tests.push_back({ move(bigUnique), false });
 
         ContainsDuplicate_217 sol;
 
         for (size_t i = 0; i < tests.size(); ++i) {
             bool got = sol.containsDuplicate(tests[i].input);
-            cout << "ContainsDuplicate 217 Test " << (i + 1) << ": res = "
-                << (got == tests[i].expected ? "PASS" : "FAIL")
-                << " (Expected: " << (tests[i].expected ? "true" : "false")
-                << ", Got: " << (got ? "true" : "false") << ")\n";
+            assertEqScalar("ContainsDuplicate 217 Test " + to_string(i + 1), tests[i].expected, got);
         }
 
-        // Bonus: stress variant with a large array + one duplicate appended
-        vector<int> bigWithDup;
-        bigWithDup.reserve(10001);
-        for (int i = -5000; i < 5000; ++i) bigWithDup.push_back(i);
+        // Stress: large array + one duplicate appended
+        vector<int> bigWithDup(10000);
+        iota(bigWithDup.begin(), bigWithDup.end(), -5000);
         bigWithDup.push_back(123); // duplicate
         bool got = sol.containsDuplicate(bigWithDup);
-        cout << "ContainsDuplicate 217 Stress: "
-            << (got ? "PASS" : "FAIL") << " (Expected: true, Got: "
-            << (got ? "true" : "false") << ")\n";
+        assertEqScalar("ContainsDuplicate 217 Stress", true, got);
     }
 
     static void fibonacci_509_tests() {
@@ -3311,11 +3280,8 @@ public:
         FibonacciNumber_509 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             int got = sol.fib(tests[i].n);
-            cout << "Fibonacci 509 Test " << (i + 1) << ": res = "
-                << (got == tests[i].expected ? "PASS" : "FAIL")
-                << " (n=" << tests[i].n
-                << ", Expected: " << tests[i].expected
-                << ", Got: " << got << ")\n";
+            assertEqScalar("Fibonacci 509 Test " + to_string(i + 1) + " (n=" + to_string(tests[i].n) + ")",
+                tests[i].expected, got);
         }
     }
 
@@ -3335,11 +3301,8 @@ public:
         ClimbingStairs_70 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             int got = sol.climbStairs(tests[i].n);
-            cout << "Climbing Stairs 70 Test " << (i + 1) << ": res = "
-                << (got == tests[i].expected ? "PASS" : "FAIL")
-                << " (n=" << tests[i].n
-                << ", Expected: " << tests[i].expected
-                << ", Got: " << got << ")\n";
+            assertEqScalar("Climbing Stairs 70 Test " + to_string(i + 1) + " (n=" + to_string(tests[i].n) + ")",
+                tests[i].expected, got);
         }
     }
 
@@ -3359,10 +3322,7 @@ public:
         MinCostClimbingStairs_746 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             int got = sol.minCostClimbingStairs(tests[i].cost);
-            cout << "Min Cost Climbing Stairs 746 Test " << (i + 1) << ": res = "
-                << (got == tests[i].expected ? "PASS" : "FAIL")
-                << " (Expected: " << tests[i].expected
-                << ", Got: " << got << ")\n";
+            assertEqScalar("Min Cost Climbing Stairs 746 Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
 
@@ -3382,10 +3342,7 @@ public:
         HouseRobber_198 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             int got = sol.rob(tests[i].input);
-            cout << "House Robber 198 Test " << (i + 1) << ": res = "
-                << (got == tests[i].expected ? "PASS" : "FAIL")
-                << " (Expected: " << tests[i].expected
-                << ", Got: " << got << ")\n";
+            assertEqScalar("House Robber 198 Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
 
@@ -3405,10 +3362,7 @@ public:
         LastStoneWeight_1046 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             int got = sol.lastStoneWeight(tests[i].input);
-            cout << "Last Stone Weight 1046 Test " << (i + 1) << ": res = "
-                << (got == tests[i].expected ? "PASS" : "FAIL")
-                << " (Expected: " << tests[i].expected
-                << ", Got: " << got << ")\n";
+            assertEqScalar("Last Stone Weight 1046 Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
 
