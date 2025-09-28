@@ -3413,62 +3413,39 @@ public:
     }
 
     static void topKFrequent_347_tests() {
-        // Helper: compare ignoring order
-        auto sameUnordered = [](vector<int> a, vector<int> b) {
-            if (a.size() != b.size()) return false;
-            sort(a.begin(), a.end());
-            sort(b.begin(), b.end());
-            return a == b;
+        // helper: build a multiset vector from (value,count) pairs
+        auto bag = [](initializer_list<pair<int,int>> spec) {
+            vector<int> v; size_t tot = 0;
+            for (auto [val,c]: spec) tot += c;
+            v.reserve(tot);
+            for (auto [val,c]: spec) v.insert(v.end(), c, val);
+            return v;
         };
 
         vector<TopKFrequent347TestCase> tests = {
-            // 2 from the statement
             {{1,1,1,2,2,3}, 2, {1,2}},
             {{1},           1, {1}},
-
-            // 4 additional
-            {{1,1,2,2,2,3}, 1, {2}},                 // single most frequent
-            {{-1,-1,-1,0,0,2,2,2,2,3,3}, 2, {2,-1}}, // mixed signs, distinct freqs
-            {{}, 3, {7,8,9}},                        // placeholder, will fill below
-            {{}, 2, {42,-7}}                         // placeholder, will fill below
+            {{1,1,2,2,2,3}, 1, {2}},
+            {{-1,-1,-1,0,0,2,2,2,2,3,3}, 2, {2,-1}},
+            // 7×7, 6×8, 5×9, 4×10, 3×11  -> k=3 => {7,8,9}
+            { bag({{7,7},{8,6},{9,5},{10,4},{11,3}}), 3, {7,8,9} },
+            // 42×100, -7×80, plus 1000 uniques -> k=2 => {42,-7}
+            { [&]{
+                auto v = bag({{42,100},{-7,80}});
+                v.resize(v.size()+1000);
+                iota(v.end()-1000, v.end(), 10001);
+                return v;
+            }(), 2, {42,-7} }
         };
-
-        // Fill test 5: counts 7x'7', 6x'8', 5x'9' → k=3 => {7,8,9}
-        {
-            vector<int> v;
-            v.reserve(7 + 6 + 5 + 4 + 3); // a bit extra
-            v.insert(v.end(), 7, 7);
-            v.insert(v.end(), 6, 8);
-            v.insert(v.end(), 5, 9);
-            v.insert(v.end(), 4, 10);
-            v.insert(v.end(), 3, 11);
-            tests[4] = { move(v), 3, {7,8,9} };
-        }
-        // Fill test 6: 42 appears 100x, -7 appears 80x, rest unique once
-        {
-            vector<int> v;
-            v.reserve(100 + 80 + 1000);
-            v.insert(v.end(), 100, 42);
-            v.insert(v.end(),  80, -7);
-            for (int i = 1; i <= 1000; ++i) v.push_back(10000 + i); // many uniques
-            tests[5] = { move(v), 2, {42, -7} };
-        }
 
         TopKFrequentElements_347 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = sol.topKFrequent(tests[i].input, tests[i].k);
-            bool pass = sameUnordered(got, tests[i].expected);
-
-            cout << "Top K Frequent 347 Test " << (i + 1) << ": "
-                << (pass ? "PASS" : "FAIL")
-                << " (k=" << tests[i].k << ")\n";
-            if (!pass) {
-                auto g = got, e = tests[i].expected;
-                sort(g.begin(), g.end()); sort(e.begin(), e.end());
-                cout << "  Expected: ["; for (size_t j=0;j<e.size();++j){cout<<e[j]<<(j+1<e.size()?", ":"");}
-                cout << "]  Got: ["; for (size_t j=0;j<g.size();++j){cout<<g[j]<<(j+1<g.size()?", ":"");}
-                cout << "]\n";
-            }
+            auto e   = tests[i].expected;
+            sort(got.begin(), got.end());
+            sort(e.begin(),   e.end());
+            assertEqVIntExact("Top K Frequent 347 Test " + to_string(i+1) +
+                              " (k=" + to_string(tests[i].k) + ")", e, got);
         }
     }
 
@@ -3482,16 +3459,14 @@ public:
             {{0,5,-5},              0},   // zero present → always closest
             {{-7,-3,-2,-2},        -2},   // all negatives; tie between -2s → -2
             {{-100000,100000}, 100000},   // extremes; tie → prefer positive
-            {{-1,1,2,-2},          1}     // tie at distance 1 → prefer +1
+            {{-1,1,2,-2},           1}    // tie at distance 1 → prefer +1
         };
 
         FindClosestNumberToZero_2239 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             int got = sol.findClosestNumber(tests[i].input);
-            cout << "Find Closest Number to Zero 2239 Test " << (i + 1) << ": "
-                << ((got == tests[i].expected) ? "PASS" : "FAIL")
-                << " (Expected: " << tests[i].expected
-                << ", Got: " << got << ")\n";
+            const string label = "Find Closest Number to Zero 2239 Test " + to_string(i + 1);
+            assertEqScalar(label, tests[i].expected, got);
         }
     }
 
@@ -3510,9 +3485,8 @@ public:
         MergeStringsAlternately_1768 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             string got = sol.mergeAlternately(tests[i].a, tests[i].b);
-            cout << "Merge Strings Alternately 1768 Test " << (i + 1) << ": "
-                << ((got == tests[i].expected) ? "PASS" : "FAIL")
-                << " (Expected: \"" << tests[i].expected << "\", Got: \"" << got << "\")\n";
+            const string label = "Merge Strings Alternately 1768 Test " + to_string(i + 1);
+            assertEqScalar(label, tests[i].expected, got);
         }
     }
 
@@ -3531,10 +3505,8 @@ public:
         RomanToInteger_13 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             int got = sol.romanToInt(tests[i].input);
-            cout << "Roman to Integer 13 Test " << (i + 1) << ": "
-                << ((got == tests[i].expected) ? "PASS" : "FAIL")
-                << " (\"" << tests[i].input << "\" -> Expected: " << tests[i].expected
-                << ", Got: " << got << ")\n";
+            const string label = "Roman to Integer 13 Test " + to_string(i + 1) + " [\"" + tests[i].input + "\"]";
+            assertEqScalar(label, tests[i].expected, got);
         }
     }
 
