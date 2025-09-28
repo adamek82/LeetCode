@@ -2900,31 +2900,25 @@ public:
         };
 
         for (size_t t = 0; t < testCases.size(); ++t) {
-            cout << "Graph2642 Test Case " << t + 1 << ":\n";
-            Graph* g = nullptr;
-
+            unique_ptr<Graph> g;
             const auto& tc = testCases[t];
+
             for (size_t i = 0; i < tc.operations.size(); ++i) {
-                const auto& op  = tc.operations[i];
-                const auto& arg = tc.arguments[i];
-                const auto& exp = tc.expected[i];
+                const string& op = tc.operations[i];
 
                 if (op == "Graph") {
-                    auto [n, edges] = get<pair<int,EdgeList>>(arg);
-                    g = new Graph(n, edges);
-                    cout << "  Graph(" << n << ", edges) -> null\n";
+                    auto [n, edges] = get<pair<int,EdgeList>>(tc.arguments[i]);
+                    g = make_unique<Graph>(n, edges);
                 } else if (op == "addEdge") {
-                    g->addEdge(get<vector<int>>(arg));
-                    cout << "  addEdge([...]) -> null\n";
+                    g->addEdge(get<vector<int>>(tc.arguments[i]));
                 } else if (op == "shortestPath") {
-                    auto [u, v] = get<pair<int,int>>(arg);
-                    int res = g->shortestPath(u, v);
-                    cout << "  shortestPath(" << u << ',' << v << ") -> " << res;
-                    cout << ((exp && res == *exp) ? "  [PASS]\n" : "  [FAIL]\n");
+                    auto [u, v] = get<pair<int,int>>(tc.arguments[i]);
+                    int got = g->shortestPath(u, v);
+                    const string label = makeStepLabel("Graph_2642", t, i, "shortestPath",
+                        to_string(u) + "," + to_string(v));
+                    assertEqScalar(label, tc.expected[i].value(), got);
                 }
             }
-            delete g;
-            cout << '\n';
         }
     }
 
@@ -2960,13 +2954,9 @@ public:
              1}};
 
         FindSafestPathInGrid_2812 solver;
-
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int res = solver.maximumSafenessFactor(testCases[i].grid);
-            cout << "Safest Path Test " << (i + 1) << ": res = "
-                << (res == testCases[i].expected ? "PASS" : "FAIL")
-                << " (Expected: " << testCases[i].expected
-                << ", Got: " << res << ")\n";
+            int got = solver.maximumSafenessFactor(testCases[i].grid);
+            assertEqScalar("Safest Path 2812 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -2986,24 +2976,17 @@ public:
         };
 
         MaximumDepthOfBinaryTree_104 solver;
-
         for (size_t i = 0; i < testCases.size(); ++i) {
             TreeNode<int>* root = TreeUtils::vectorToTree<int>(testCases[i].tree);
 
-            int dRec  = solver.maxDepthRecursive(root);
-            int dStk  = solver.maxDepthDFSStack(root);
-            int dBfs  = solver.maxDepthBFSQueue(root);
+            int dRec = solver.maxDepthRecursive(root);
+            int dStk = solver.maxDepthDFSStack(root);
+            int dBfs = solver.maxDepthBFSQueue(root);
 
-            bool pass = (dRec == testCases[i].expected &&
-                        dStk == testCases[i].expected &&
-                        dBfs == testCases[i].expected);
-
-            cout << "MaxDepth Test " << (i + 1) << ": "
-                << (pass ? "PASS" : "FAIL")
-                << " (Expected " << testCases[i].expected
-                << ", got rec="   << dRec
-                << ", stack="     << dStk
-                << ", queue="     << dBfs << ")\n";
+            const string base = "Max Depth 104 Test " + to_string(i + 1);
+            assertEqScalar(base + " [recursive]", testCases[i].expected, dRec);
+            assertEqScalar(base + " [DFS stack]", testCases[i].expected, dStk);
+            assertEqScalar(base + " [BFS queue]", testCases[i].expected, dBfs);
 
             TreeUtils::freeTree(root);
         }
@@ -3057,14 +3040,10 @@ public:
         };
 
         WallsAndGates_286 solver;
-
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto rooms = testCases[i].rooms;          // copy so we can mutate
+            auto rooms = testCases[i].rooms;    // copy so we can mutate
             solver.wallsAndGates(rooms);
-
-            cout << "Walls & Gates Test " << (i + 1) << ": res = "
-                << (rooms == testCases[i].expected ? "PASS" : "FAIL")
-                << endl;
+            assertEqVVIntExact("Walls & Gates 286 Test " + to_string(i + 1), testCases[i].expected, rooms);
         }
     }
 
