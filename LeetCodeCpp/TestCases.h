@@ -787,4 +787,10 @@ namespace TestCases {
         int n;
         vector<string> expected; // order-insensitive
     };
+
+    // 209. Game of Life
+    struct GameOfLifeTestCase {
+        vector<vector<int>> input;
+        vector<vector<int>> expected;
+    };
 } // namespace TestCases

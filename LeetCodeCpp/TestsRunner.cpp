@@ -133,6 +133,7 @@
 #include "CombinationSum_39.h"
 #include "GenerateParentheses_22.h"
 #include "ExamRoom_855.h"
+#include "GameOfLife_289.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -3985,6 +3986,62 @@ public:
         }
     }
 
+    static void gameOfLife_289_tests() {
+        vector<GameOfLifeTestCase> testCases = {
+            // Example 1
+            {
+                {{0,1,0},{0,0,1},{1,1,1},{0,0,0}},
+                {{0,0,0},{1,0,1},{0,1,1},{0,1,0}}
+            },
+            // Example 2
+            {
+                {{1,1},{1,0}},
+                {{1,1},{1,1}}
+            },
+            // Complex 1: Blinker (oscillator) — horizontal -> vertical
+            {
+                {{0,0,0},
+                {1,1,1},
+                {0,0,0}},
+                {{0,1,0},
+                {0,1,0},
+                {0,1,0}}
+            },
+            // Complex 2: Stable block (still life) — unchanged
+            {
+                {{0,0,0,0},
+                {0,1,1,0},
+                {0,1,1,0},
+                {0,0,0,0}},
+                {{0,0,0,0},
+                {0,1,1,0},
+                {0,1,1,0},
+                {0,0,0,0}}
+            },
+            // Complex 3: Glider — first step
+            {
+                {{0,1,0,0,0},
+                {0,0,1,0,0},
+                {1,1,1,0,0},
+                {0,0,0,0,0},
+                {0,0,0,0,0}},
+                {{0,0,0,0,0},
+                {1,0,1,0,0},
+                {0,1,1,0,0},
+                {0,1,0,0,0},
+                {0,0,0,0,0}}
+            }
+        };
+
+        GameOfLife_289 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto board = testCases[i].input;  // in-place update required
+            solver.gameOfLife(board);
+            assertEqVVIntExact("Game of Life Test " + to_string(i + 1), testCases[i].expected, board);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -4109,6 +4166,7 @@ public:
         TEST(39,   "Combination Sum",                                combinationSum_39_tests),
         TEST(22,   "Generate Parentheses",                           generateParentheses_22_tests),
         TEST(855,  "Exam Room",                                      examRoom_855_tests),
+        TEST(289,  "Game of Life",                                   gameOfLife_289_tests),
     };
 
     static void runAllTests() {
