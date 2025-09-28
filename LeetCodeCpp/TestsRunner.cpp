@@ -2783,11 +2783,12 @@ public:
 
         UniquePaths_62 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            int res = solver.uniquePaths(cases[i].m, cases[i].n);
-            cout << "UniquePaths_62 Test " << (i + 1) << ": res = "
-                << (res == cases[i].expected ? "PASS" : "FAIL")
-                << " (Expected: " << cases[i].expected
-                << ", Got: " << res << ")\n";
+            int got = solver.uniquePaths(cases[i].m, cases[i].n);
+            assertEqScalar(
+                "Unique Paths 62 Test " + to_string(i + 1) +
+                " (m=" + to_string(cases[i].m) + ", n=" + to_string(cases[i].n) + ")",
+                cases[i].expected, got
+            );
         }
     }
 
@@ -2804,11 +2805,9 @@ public:
 
         BusRoutes_815 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            auto routesCopy = cases[i].routes;  // Guard against mutation
-            int res = solver.numBusesToDestination(routesCopy, cases[i].source, cases[i].target);
-            cout << "BusRoutes_815 Test " << (i + 1) << ": "
-                << (res == cases[i].expected ? "PASS" : "FAIL")
-                << " (Expected: " << cases[i].expected << ", Got: " << res << ")\n";
+            auto routes = cases[i].routes; // solver may mutate
+            int got = solver.numBusesToDestination(routes, cases[i].source, cases[i].target);
+            assertEqScalar("Bus Routes 815 Test " + to_string(i + 1), cases[i].expected, got);
         }
     }
 
@@ -2847,15 +2846,10 @@ public:
         };
 
         ShortestPathInBinaryMatrix_1091 solver;
-
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto gCopy = testCases[i].grid;          // solver mutates the grid
-            int res    = solver.shortestPathBinaryMatrix(gCopy);
-
-            cout << "ShortestPathBinaryMatrix_1091 Test " << (i + 1) << ": "
-                 << (res == testCases[i].expected ? "PASS" : "FAIL")
-                 << " (Expected: " << testCases[i].expected
-                 << ", Got: " << res << ")\n";
+            auto grid = testCases[i].grid;  // solver mutates the grid
+            int got = solver.shortestPathBinaryMatrix(grid);
+            assertEqScalar("Shortest Path Binary Matrix 1091 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
