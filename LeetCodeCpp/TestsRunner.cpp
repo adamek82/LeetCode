@@ -3960,29 +3960,29 @@ public:
         vector<ExamRoomTestCase> cases = {c1, c2, c3};
 
         for (size_t t = 0; t < cases.size(); ++t) {
-            cout << "ExamRoom_855 Case " << (t + 1) << ":\n";
-
-            optional<ExamRoom_855> er; // automatic storage, constructed on demand
-
+            optional<ExamRoom_855> er;
             const auto& C = cases[t];
-            for (size_t i = 0; i < C.operations.size(); ++i) {
-                const auto& op  = C.operations[i];
-                const auto& a   = C.arguments[i];
-                const auto& exp = C.expected[i];
 
-                if (op == "ExamRoom" || op == "ExamRoom_855") {
+            for (size_t i = 0; i < C.operations.size(); ++i) {
+                const string& op = C.operations[i];
+                const auto&    a = C.arguments[i];
+                const auto&   ex = C.expected[i];
+
+                if (op == "ExamRoom") {
                     er.emplace(a[0]);
-                    cout << "  ExamRoom_855(" << a[0] << ") -> null\n";
-                } else if (op == "seat") {
-                    int res = er->seat();
-                    bool pass = (exp && res == *exp);
-                    cout << "  seat() -> " << res << (pass ? " [PASS]\n" : " [FAIL]\n");
-                } else if (op == "leave") {
+                    continue;
+                }
+                if (op == "leave") {
                     er->leave(a[0]);
-                    cout << "  leave(" << a[0] << ") -> null\n";
+                    continue;
+                }
+                if (op == "seat") {
+                    int got = er->seat();
+                    const string label = makeStepLabel("ExamRoom_855", t, i, op, nullopt);
+                    assertEqScalar(label, ex.value(), got);
+                    continue;
                 }
             }
-            cout << '\n';
         }
     }
 
