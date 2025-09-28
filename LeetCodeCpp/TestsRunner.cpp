@@ -3540,68 +3540,62 @@ public:
 
     static void isSubsequence_392_tests() {
         vector<IsSubsequence392TestCase> tests = {
-            {"abc", "ahbgdc", true},
-            {"axc", "ahbgdc", false},
-            {"",    "ahbgdc", true},
-            {"a",   "",        false},
-            {"aaaaaa", "baaaacaa", true},
-            {"abc", "acb", false}
+            {"abc",     "ahbgdc",   true},
+            {"axc",     "ahbgdc",   false},
+            {"",        "ahbgdc",   true},
+            {"a",       "",         false},
+            {"aaaaaa",  "baaaacaa", true},
+            {"abc",     "acb",      false}
         };
 
+        // Single-query tests across all three methods
         for (size_t i = 0; i < tests.size(); ++i) {
-            // (1) Two-pointer: no preprocessing
+            const string& s = tests[i].s;
+            const string& t = tests[i].t;
+
             IsSubsequence_392 plain;
-            bool a = plain.isSubsequence_TwoPointer(tests[i].s, tests[i].t);
+            bool a = plain.isSubsequence_TwoPointer(s, t);
 
-            // (2) Preprocess pos-index once, then query
             IsSubsequence_392 idxPos;
-            idxPos.preprocess_PosIndex(tests[i].t);
-            bool b = idxPos.isSubsequence_PosIndex(tests[i].s);
+            idxPos.preprocess_PosIndex(t);
+            bool b = idxPos.isSubsequence_PosIndex(s);
 
-            // (3) Preprocess next-position table once, then query
             IsSubsequence_392 idxNext;
-            idxNext.preprocess_NextTable(tests[i].t);
-            bool c = idxNext.isSubsequence_NextTable(tests[i].s);
+            idxNext.preprocess_NextTable(t);
+            bool c = idxNext.isSubsequence_NextTable(s);
 
-            auto pr = [&](const char* tag, bool got) {
-                cout << "Is Subsequence 392 Test " << (i + 1) << " [" << tag << "]: "
-                    << ((got == tests[i].expected) ? "PASS" : "FAIL")
-                    << " (s=\"" << tests[i].s << "\", t=\"" << tests[i].t
-                    << "\", Expected: " << (tests[i].expected ? "true" : "false")
-                    << ", Got: " << (got ? "true" : "false") << ")\n";
-            };
-            pr("two-pointer", a);
-            pr("pos-index",   b);
-            pr("next-table",  c);
+            const string base = "Is Subsequence 392 Test " + to_string(i + 1);
+            assertEqScalar(base + " [two-pointer]", tests[i].expected, a);
+            assertEqScalar(base + " [pos-index]",   tests[i].expected, b);
+            assertEqScalar(base + " [next-table]",  tests[i].expected, c);
+            assertEqScalar(base + " [consistency pos vs next]", b, c);
         }
 
+        // Follow-up: many queries for the same t (reuse preprocessed data)
         vector<IsSubsequence392FollowUpCase> futests = {
             {"ahbgdc", { {"abc", true}, {"axc", false}, {"agc", true}, {"", true}, {"aaaa", false} }},
             {"leetcode", { {"leet", true}, {"code", true}, {"leot", false}, {"leetcode", true} }}
         };
 
         for (size_t b = 0; b < futests.size(); ++b) {
+            const string& t = futests[b].t;
+
             IsSubsequence_392 idxPos, idxNext;
-            idxPos.preprocess_PosIndex(futests[b].t);
-            idxNext.preprocess_NextTable(futests[b].t);
+            idxPos.preprocess_PosIndex(t);
+            idxNext.preprocess_NextTable(t);
 
             for (size_t qi = 0; qi < futests[b].queries.size(); ++qi) {
                 const auto& [qs, expected] = futests[b].queries[qi];
-                bool a = IsSubsequence_392().isSubsequence_TwoPointer(qs, futests[b].t);
+
+                bool a = IsSubsequence_392().isSubsequence_TwoPointer(qs, t);
                 bool p = idxPos.isSubsequence_PosIndex(qs);
                 bool n = idxNext.isSubsequence_NextTable(qs);
 
-                auto pr = [&](const char* tag, bool got) {
-                    cout << "Is Subsequence 392 Follow-up Block " << (b + 1)
-                        << " Query " << (qi + 1) << " [" << tag << "]: "
-                        << ((got == expected) ? "PASS" : "FAIL")
-                        << " (s=\"" << qs << "\", t=\"" << futests[b].t
-                        << "\", Expected: " << (expected ? "true" : "false")
-                        << ", Got: " << (got ? "true" : "false") << ")\n";
-                };
-                pr("two-pointer", a);
-                pr("pos-index",   p);
-                pr("next-table",  n);
+                const string base = "Is Subsequence 392 FU " + to_string(b + 1) + " Q" + to_string(qi + 1);
+                assertEqScalar(base + " [two-pointer]", expected, a);
+                assertEqScalar(base + " [pos-index]",   expected, p);
+                assertEqScalar(base + " [next-table]",  expected, n);
+                assertEqScalar(base + " [consistency pos vs next]", p, n);
             }
         }
     }
@@ -3633,16 +3627,13 @@ public:
 
         for (size_t i = 0; i < qs.size(); ++i) {
             bool gotN = idxNext.isSubsequence_NextTable(qs[i].s);
-            bool gotP = idxPos .isSubsequence_PosIndex  (qs[i].s);
-            bool pass = (gotN == qs[i].expected) && (gotP == qs[i].expected);
+            bool gotP = idxPos .isSubsequence_PosIndex(qs[i].s);
 
-            cout << "Is Subsequence 392 (nextPos) Big Test " << (i + 1) << ": "
-                << (pass ? "PASS" : "FAIL")
-                << " (|s|=" << qs[i].s.size()
-                << ", Expected: " << (qs[i].expected ? "true" : "false")
-                << ", Got(next)=" << (gotN ? "true" : "false")
-                << ", Got(pos)="  << (gotP ? "true" : "false")
-                << ")\n";
+            const string base = "Is Subsequence 392 Big Test " + to_string(i + 1);
+
+            assertEqScalar(base + " [NextTable]", qs[i].expected, gotN);
+            assertEqScalar(base + " [PosIndex]",  qs[i].expected, gotP);
+            assertEqScalar(base + " [Consistency]", gotN, gotP);
         }
     }
 
@@ -3667,18 +3658,15 @@ public:
 
         LongestCommonPrefix_14 sol;
         for (size_t i = 0; i < tcs.size(); ++i) {
-            string got = sol.longestCommonPrefix_Linear(tcs[i].strs);
+            string got  = sol.longestCommonPrefix_Linear(tcs[i].strs);
+            string got2 = sol.longestCommonPrefix_Sort(tcs[i].strs); // cross-check
 
-            // Cross-check against the sort variant
-            string got2 = sol.longestCommonPrefix_Sort(tcs[i].strs);
             if (got != got2) {
-                cout << "[WARN] Sort-variant mismatch on case " << (i+1)
-                     << "  primary='" << got << "' sort='" << got2 << "'\n";
+                cout << "[WARN] LCP variants disagree on case " << (i + 1)
+                    << "  primary=\"" << got << "\" sort=\"" << got2 << "\"\n";
             }
 
-            cout << "LCP14 Test " << (i + 1) << ": res = "
-                << (got == tcs[i].expected ? "PASS" : "FAIL")
-                << " (Expected: \"" << tcs[i].expected << "\", Got: \"" << got << "\")\n";
+            assertEqScalar("LCP14 Test " + to_string(i + 1), tcs[i].expected, got);
         }
     }
 
@@ -3698,9 +3686,7 @@ public:
         for (size_t i = 0; i < tests.size(); ++i) {
             auto in  = tests[i].nums;              // method takes non-const ref
             auto got = sol.summaryRanges(in);
-
-            assertEqStrings("Summary Ranges 228 Test " + to_string(i + 1),
-                                    tests[i].expected, got);
+            assertEqStrings("Summary Ranges 228 Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
 
@@ -3720,10 +3706,7 @@ public:
         for (size_t i = 0; i < tests.size(); ++i) {
             a = tests[i].nums;                      // the solver mutates in place
             int k = sol.removeDuplicates(a);
-            assertEqVIntPrefix(
-                "Remove Duplicates 26 Test " + to_string(i + 1),
-                tests[i].expected, a, k
-            );
+            assertEqVIntPrefix("Remove Duplicates 26 Test " + to_string(i + 1), tests[i].expected, a, k);
         }
     }
 
@@ -3742,16 +3725,9 @@ public:
 
         JumpGameII_45 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
-            auto arr = tests[i].nums;  // method takes non-const ref by signature style
+            auto arr = tests[i].nums;           // method takes non-const ref
             int got = sol.jump(arr);
-            bool pass = (got == tests[i].expected);
-
-            cout << "Jump Game II 45 Test " << (i + 1) << ": "
-                << (pass ? "PASS" : "FAIL") << '\n';
-            if (!pass) {
-                cout << "  Expected: " << tests[i].expected
-                    << "  Got: " << got << '\n';
-            }
+            assertEqScalar("Jump Game II 45 Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
 
@@ -3773,16 +3749,10 @@ public:
 
         JumpGame_55 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
-            auto arr = tests[i].nums;  // method takes non-const ref by project style
+            auto arr = tests[i].nums;                  // method takes non-const ref
             bool got = sol.canJump(arr);
-            bool pass = (got == tests[i].expected);
-
-            cout << "Jump Game 55 Test " << (i + 1) << ": "
-                << (pass ? "PASS" : "FAIL") << '\n';
-            if (!pass) {
-                cout << "  Expected: " << (tests[i].expected ? "true" : "false")
-                    << "  Got: " << (got ? "true" : "false") << '\n';
-            }
+            const string label = "Jump Game 55 Test " + to_string(i + 1);
+            assertEqScalar(label, tests[i].expected, got);
         }
     }
 
@@ -3807,18 +3777,12 @@ public:
             // Bitmask variant: exact order comparison (matches mask enumeration order).
             in  = tests[i].nums;               // solver takes non-const ref by project style
             got = sol.subsets_bitmask(in);
-            assertEqVVIntExact(
-                "Subsets 78 (bitmask) Test " + to_string(i + 1),
-                tests[i].expected, got
-            );
+            assertEqVVIntExact("Subsets 78 (bitmask) Test " + to_string(i + 1), tests[i].expected, got);
 
             // Recursive/backtracking variant: order-insensitive comparison.
             in  = tests[i].nums;
             got = sol.subsets_recursive(in);
-            assertEqVVIntAnyOrder(
-                "Subsets 78 (recursive) Test " + to_string(i + 1),
-                tests[i].expected, got
-            );
+            assertEqVVIntAnyOrder("Subsets 78 (recursive) Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
 
@@ -3834,12 +3798,7 @@ public:
         for (size_t i = 0; i < tests.size(); ++i) {
             auto in  = tests[i].nums;               // method takes non-const ref
             auto got = sol.permute(in);
-
-            assertEqVVIntPermutations(
-                "Permutations 46 Test " + to_string(i + 1),
-                tests[i].expected,
-                got
-            );
+            assertEqVVIntPermutations("Permutations 46 Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
 
@@ -3856,12 +3815,7 @@ public:
         Combinations_77 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = sol.combine(tests[i].n, tests[i].k);
-
-            assertEqVVIntAnyOrder(
-                "Combinations 77 Test " + to_string(i + 1),
-                tests[i].expected,
-                got
-            );
+            assertEqVVIntAnyOrder("Combinations 77 Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
 
@@ -3878,12 +3832,7 @@ public:
         LetterCombinations_17 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = sol.letterCombinations(tests[i].digits);
-
-            assertEqStringsAnyOrder(
-                "Letter Combinations 17 Test " + to_string(i + 1),
-                tests[i].expected,
-                got
-            );
+            assertEqStringsAnyOrder("Letter Combinations 17 Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
 
@@ -3901,12 +3850,7 @@ public:
         for (size_t i = 0; i < tests.size(); ++i) {
             auto cand = tests[i].candidates;       // method takes non-const ref
             auto got  = sol.combinationSum(cand, tests[i].target);
-
-            assertEqVVIntAnyOrder(
-                "Combination Sum 39 Test " + to_string(i + 1),
-                tests[i].expected,
-                got
-            );
+            assertEqVVIntAnyOrder("Combination Sum 39 Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
 
@@ -3923,12 +3867,7 @@ public:
         GenerateParentheses_22 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = sol.generateParenthesis(tests[i].n);
-
-            assertEqStringsAnyOrder(
-                "Generate Parentheses 22 Test " + to_string(i + 1),
-                tests[i].expected,
-                got
-            );
+            assertEqStringsAnyOrder("Generate Parentheses 22 Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
 
