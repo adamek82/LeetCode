@@ -1738,13 +1738,11 @@ public:
         };
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            FindCelebrity_277 solver;
-            solver.knowsMatrix = testCases[i].matrix;
-            int result = solver.findCelebrity((int)testCases[i].matrix.size());
-
-            cout << "FindCelebrity Test " << (i + 1)
-                      << ": res = " << (result == testCases[i].expected ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expected << ", Got: " << result << ")" << endl;
+            FindCelebrity_277 sol;
+            sol.knowsMatrix = testCases[i].matrix;
+            int got = sol.findCelebrity(static_cast<int>(testCases[i].matrix.size()));
+            assertEqScalar("Find Celebrity 277 Test " + to_string(i + 1),
+                        testCases[i].expected, got);
         }
     }
 
@@ -1759,13 +1757,11 @@ public:
             {{10,5,12,3,55,30,4,11,11,5,13,14,6}, 5}  // 10–14
         };
 
-        LongestConsecutiveSequence_128 solution;
+        LongestConsecutiveSequence_128 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.longestConsecutive(testCases[i].input);
-            cout << "Test " << (i+1) << ": res = "
-                      << (result == testCases[i].expected ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expected
-                      << ", Got: " << result << ")" << endl;
+            int got = sol.longestConsecutive(testCases[i].input);
+            assertEqScalar("Longest Consecutive Sequence 128 Test " + to_string(i + 1),
+                        testCases[i].expected, got);
         }
     }
 
@@ -1779,12 +1775,14 @@ public:
             {"1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz","16","17","Fizz","19","Buzz","Fizz","22","23","Fizz","Buzz","26","Fizz","28","29","FizzBuzz"}
         };
 
-        FizzBuzz_412 solution;
+        FizzBuzz_412 sol;
         for (size_t i = 0; i < ns.size(); ++i) {
-            auto result = solution.fizzBuzz(ns[i]);
-            cout << "FizzBuzz Test " << (i + 1) << ": res = "
-                      << (result == expected[i] ? "PASS" : "FAIL")
-                      << " (n=" << ns[i] << ")" << endl;
+            auto got = sol.fizzBuzz(ns[i]);
+            const string label = "FizzBuzz 412 Test " + to_string(i + 1) + " (n=" + to_string(ns[i]) + ")";
+            // exact order comparison
+            assertEqGeneric(label, expected[i], got,
+                            [](vector<string> v){ return v; },  // identity normalize
+                            PrintQuotedStrings{});
         }
     }
 
