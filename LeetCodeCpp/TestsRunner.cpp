@@ -1442,12 +1442,9 @@ public:
         };
 
         FindMinimumInRotatedSortedArray_153 solution;
-
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.findMin(testCases[i].input);
-            cout << "Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expected << ", Got: " << result << ")" << endl;
+            int got = solution.findMin(testCases[i].input);
+            assertEqScalar("Find Min Rotated Array 153 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -1461,16 +1458,15 @@ public:
         };
 
         CloneGraph_133 solver;
-
         for (size_t i = 0; i < testCases.size(); ++i) {
-            GraphNode<int>* originalGraph = GraphUtils::buildGraph(testCases[i]);
-            GraphNode<int>* clonedGraph = solver.cloneGraph(originalGraph);
+            GraphNode<int>* original = GraphUtils::buildGraph(testCases[i]);
+            GraphNode<int>* cloned   = solver.cloneGraph(original);
 
-            bool result = GraphUtils::areGraphsIsomorphic(originalGraph, clonedGraph);
-            cout << "Clone Graph Test " << (i + 1) << ": " << (result ? "PASS" : "FAIL") << endl;
+            bool iso = GraphUtils::areGraphsIsomorphic(original, cloned);
+            assertEqScalar("Clone Graph 133 Test " + to_string(i + 1), true, iso);
 
-            GraphUtils::freeGraph(originalGraph);
-            GraphUtils::freeGraph(clonedGraph);
+            GraphUtils::freeGraph(original);
+            GraphUtils::freeGraph(cloned);
         }
     }
 
@@ -1483,20 +1479,19 @@ public:
             {"THISISAZIGZAGCONVERSIONTEST", 6, "TZIHGASOIIGRNSZCETIAOVETSNS"}
         };
 
-        ZigzagConversion_6 solution;
+        ZigzagConversion_6 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            string result_rowWise = solution.convert_rowWise(testCases[i].input, testCases[i].numRows);
-            string result_jumpPattern = solution.convert_jumpPattern(testCases[i].input, testCases[i].numRows);
+            const auto& tc = testCases[i];
 
-            cout << "Test " << (i + 1) << " (Row-Wise): "
-                      << (result_rowWise == testCases[i].expected ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expected
-                      << ", Got: " << result_rowWise << ")" << endl;
+            string gotRow  = sol.convert_rowWise(tc.input, tc.numRows);
+            string gotJump = sol.convert_jumpPattern(tc.input, tc.numRows);
 
-            cout << "Test " << (i + 1) << " (Jump-Pattern): "
-                      << (result_jumpPattern == testCases[i].expected ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expected
-                      << ", Got: " << result_jumpPattern << ")" << endl;
+            const string base = "Zigzag Conversion 6 Test " + to_string(i + 1)
+                              + " (rows=" + to_string(tc.numRows) + ")";
+
+            assertEqScalar(base + " [row-wise]",    tc.expected, gotRow);
+            assertEqScalar(base + " [jump-pattern]",tc.expected, gotJump);
+            assertEqScalar(base + " [consistency]", gotRow,      gotJump);
         }
     }
 
@@ -1514,14 +1509,10 @@ public:
             {{4, 4, 4, 4, 4}, 4}    // H-index should be 4
         };
 
-        HIndex_274 solution;
-
+        HIndex_274 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.hIndex(testCases[i].input);
-            cout << "HIndex_274 Test " << (i + 1) << ": res = "
-                      << ((result == testCases[i].expected) ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expected
-                      << ", Got: " << result << ")" << endl;
+            int got = sol.hIndex(testCases[i].input);
+            assertEqScalar("H-Index 274 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -1540,25 +1531,11 @@ public:
             {{1, 0, 2, 2, 1, 0}, {0, 0, 1, 1, 2, 2}}
         };
 
-        SortColors_75 solution;
-
+        SortColors_75 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            vector<int> arr = testCases[i].input;
-            solution.sortColors(arr);
-
-            bool pass = (arr == testCases[i].expected);
-            cout << "SortColors Test " << (i + 1) << ": "
-                    << (pass ? "PASS" : "FAIL")
-                    << " (Expected: [";
-            for (size_t j = 0; j < testCases[i].expected.size(); ++j) {
-                cout << testCases[i].expected[j]
-                        << (j + 1 < testCases[i].expected.size() ? ", " : "");
-            }
-            cout << "], Got: [";
-            for (size_t j = 0; j < arr.size(); ++j) {
-                cout << arr[j] << (j + 1 < arr.size() ? ", " : "");
-            }
-            cout << "])" << endl;
+            auto arr = testCases[i].input;   // work on a copy
+            sol.sortColors(arr);
+            assertEqVIntExact("Sort Colors 75 Test " + to_string(i + 1), testCases[i].expected, arr);
         }
     }
 
@@ -1575,29 +1552,14 @@ public:
             {{1,1,2,2,2,3,3}, 6, {1,1,2,2,3,3}}    // Mixed duplicates
         };
 
-        // Instantiate your solution class
-        RemoveDuplicatesFromSortedArrayII_80 solution;
-
-        // Run each test
+        RemoveDuplicatesFromSortedArrayII_80 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto nums = testCases[i].input;  // Make a local copy we can modify
-            int k = solution.removeDuplicates(nums);
+            auto nums = testCases[i].input;           // work on a copy
+            int k = sol.removeDuplicates(nums);
 
-            // Check if k matches expectedK, and also if the first k elements match expectedResult
-            bool pass = (k == testCases[i].expectedK);
-            if (pass) {
-                for (int idx = 0; idx < k; ++idx) {
-                    if (nums[idx] != testCases[i].expected[idx]) {
-                        pass = false;
-                        break;
-                    }
-                }
-            }
-
-            cout << "RemoveDuplicatesFromSortedArrayII_80 Test " << (i + 1) << ": "
-                    << (pass ? "PASS" : "FAIL")
-                    << " (Expected k=" << testCases[i].expectedK
-                    << ", got k=" << k << ")" << endl;
+            const string base = "Remove Duplicates II 80 Test " + to_string(i + 1);
+            assertEqScalar(base + " [k]", testCases[i].expectedK, k);
+            assertEqVIntPrefix(base + " [prefix]", testCases[i].expected, nums, k);
         }
     }
 
@@ -1618,18 +1580,11 @@ public:
             {{3,3,5,0,0,3,1,4}, 8}
         };
 
-        // Instantiate the solution class
-        BestTimeToBuyAndSellStockII_122 solution;
-
-        // Test each case
+        BestTimeToBuyAndSellStockII_122 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.maxProfit(testCases[i].prices);
-
-            bool pass = (result == testCases[i].expected);
-            cout << "BestTimeToBuyAndSellStockII_122 Test " << (i + 1) << ": "
-                    << (pass ? "PASS" : "FAIL")
-                    << " (Expected " << testCases[i].expected
-                    << ", got " << result << ")" << endl;
+            int got = sol.maxProfit(testCases[i].prices);
+            assertEqScalar("Best Time to Buy and Sell Stock II 122 Test " + to_string(i + 1),
+                        testCases[i].expected, got);
         }
     }
 
@@ -1645,14 +1600,10 @@ public:
             {string(50000, 'a') + "b", string(50000, 'a') + "c", false} // Edge case with large input, one character differs
         };
 
-        ValidAnagram_242 solution;
-
+        ValidAnagram_242 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = solution.isAnagram(testCases[i].s, testCases[i].t);
-            cout << "Valid Anagram Test " << (i + 1) << ": res = "
-                    << (result == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << (testCases[i].expected ? "true" : "false")
-                    << ", Got: " << (result ? "true" : "false") << ")" << endl;
+            bool got = sol.isAnagram(testCases[i].s, testCases[i].t);
+            assertEqScalar("Valid Anagram 242 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -1703,31 +1654,17 @@ public:
             }
         };
 
-        AnalyzeUserWebsiteVisitPattern1152 solver;
-
+        AnalyzeUserWebsiteVisitPattern1152 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            vector<string> result_map = solver.mostVisitedPattern_usingMap(testCases[i].username, testCases[i].timestamp, testCases[i].website);
-            vector<string> result_hashmap = solver.mostVisitedPattern_usingHashmap(testCases[i].username, testCases[i].timestamp, testCases[i].website);
+            auto m = sol.mostVisitedPattern_usingMap(
+                testCases[i].username, testCases[i].timestamp, testCases[i].website);
+            auto h = sol.mostVisitedPattern_usingHashmap(
+                testCases[i].username, testCases[i].timestamp, testCases[i].website);
 
-            bool pass_map = (result_map == testCases[i].expected);
-            bool pass_hashmap = (result_hashmap == testCases[i].expected);
-            bool pass_consistency = (result_map == result_hashmap);
-
-            cout << "AnalyzeUserWebsiteVisitPattern Test " << (i + 1) << ": \n";
-
-            cout << " - Using Map: " << (pass_map ? "PASS" : "FAIL") << " (Expected: ";
-            for (const auto& s : testCases[i].expected) cout << s << " ";
-            cout << ", Got: ";
-            for (const auto& s : result_map) cout << s << " ";
-            cout << ")\n";
-
-            cout << " - Using Hashmap: " << (pass_hashmap ? "PASS" : "FAIL") << " (Expected: ";
-            for (const auto& s : testCases[i].expected) cout << s << " ";
-            cout << ", Got: ";
-            for (const auto& s : result_hashmap) cout << s << " ";
-            cout << ")\n";
-
-            cout << " - Consistency Check (Map vs Hashmap): " << (pass_consistency ? "PASS" : "FAIL") << "\n\n";
+            const string base = "Analyze User Website Visit Pattern 1152 Test " + to_string(i + 1);
+            assertEqStrings(base + " [map]",     testCases[i].expected, m);
+            assertEqStrings(base + " [hashmap]", testCases[i].expected, h);
+            assertEqStrings(base + " [consistency]", m, h);
         }
     }
 
@@ -1753,30 +1690,15 @@ public:
         };
 
         GroupAnagrams_49 solution;
-
         for (size_t i = 0; i < testCases.size(); ++i) {
-            vector<vector<string>> result_sorting = solution.groupAnagrams_sorting(testCases[i].input);
-            vector<vector<string>> result_counting = solution.groupAnagrams_counting(testCases[i].input);
+            auto got_sorting  = solution.groupAnagrams_sorting (testCases[i].input);
+            auto got_counting = solution.groupAnagrams_counting(testCases[i].input);
 
-            // Convert results to a sorted form for comparison
-            auto sortResult = [](vector<vector<string>>& result) {
-                for (auto& group : result) sort(group.begin(), group.end());
-                sort(result.begin(), result.end());
-            };
+            const string base = "Group Anagrams 49 Test " + to_string(i + 1);
 
-            sortResult(result_sorting);
-            sortResult(result_counting);
-            sortResult(testCases[i].expected);
-
-            bool pass_sorting = (result_sorting == testCases[i].expected);
-            bool pass_counting = (result_counting == testCases[i].expected);
-            bool identical_outputs = (result_sorting == result_counting);
-
-            cout << "Group Anagrams Test " << i + 1 << ": "
-                      << (pass_sorting ? "PASS" : "FAIL") << " (Sorting) | "
-                      << (pass_counting ? "PASS" : "FAIL") << " (Counting) | "
-                      << (identical_outputs ? "MATCH" : "DIFFERENT") << " (Comparison)"
-                      << endl;
+            assertEqVVStrAnyOrder(base + " [sorting]",     testCases[i].expected, got_sorting);
+            assertEqVVStrAnyOrder(base + " [counting]",    testCases[i].expected, got_counting);
+            assertEqVVStrAnyOrder(base + " [consistency]", got_sorting,           got_counting);
         }
     }
 

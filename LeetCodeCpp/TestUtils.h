@@ -35,6 +35,10 @@ void printQuoted(const vector<string>& v,
 void printVVInt(const vector<vector<int>>& vv,
                 ostream& os = cout);
 
+// Pretty-print vector<vector<string>> as [[...],[...]] to the provided stream.
+void printVVString(const vector<vector<string>>& vv,
+                   ostream& os = cout);
+
 // --- print a 2D matrix with rows on separate lines ---
 template <typename T>
 inline void printMatrix(const vector<vector<T>>& m, ostream& os = cout) {
@@ -49,6 +53,9 @@ inline void printMatrix(const vector<vector<T>>& m, ostream& os = cout) {
 /// Use this when each inner vector is a *set/combination* (order inside shouldn't matter).
 vector<vector<int>>
 normalizeVV_SizeThenLex(vector<vector<int>> vv);
+
+vector<vector<string>>
+normalizeVVStr_SizeThenLex(vector<vector<string>> vv);
 
 /// Sort the outer list lexicographically; *do not* modify inner order.
 /// Use this for permutations: inner order matters, outer order does not.
@@ -184,6 +191,23 @@ inline bool assertEqStringsAnyOrder(const string& label,
                                     vector<string> got) {
     return assertEqGeneric(label, move(expected), move(got),
                            normalizeStrings, PrintQuotedStrings{});
+}
+
+// Compare vector<vector<string>> ignoring order of groups and words within groups.
+inline bool assertEqVVStrAnyOrder(const string& label,
+                                  vector<vector<string>> expected,
+                                  vector<vector<string>> got) {
+    expected = normalizeVVStr_SizeThenLex(move(expected));
+    got      = normalizeVVStr_SizeThenLex(move(got));
+
+    const bool pass = (expected == got);
+    cout << label << ": " << (pass ? "PASS" : "FAIL") << '\n';
+    if (!pass) {
+        cout << "  Expected: "; printVVString(expected);
+        cout << "  Got: ";      printVVString(got);
+        cout << '\n';
+    }
+    return pass;
 }
 
 void assertMaxMin(const string& label,

@@ -26,6 +26,21 @@ void printVVInt(const vector<vector<int>>& vv, ostream& os) {
     os << ']';
 }
 
+// Print nested string vectors as [[ "a","b" ],[ "c" ]]
+void printVVString(const vector<vector<string>>& vv, ostream& os) {
+    os << '[';
+    for (size_t i = 0; i < vv.size(); ++i) {
+        os << '[';
+        for (size_t j = 0; j < vv[i].size(); ++j) {
+            os << '"' << vv[i][j] << '"';
+            if (j + 1 < vv[i].size()) os << ',';
+        }
+        os << ']';
+        if (i + 1 < vv.size()) os << ',';
+    }
+    os << ']';
+}
+
 /* ---------------------- Normalization --------------------- */
 
 vector<vector<int>>
@@ -43,6 +58,19 @@ normalizeVV_LexOnly(vector<vector<int>> vv) {
     sort(vv.begin(), vv.end(), [](const vector<int>& a, const vector<int>& b){
         return lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
     });
+    return vv;
+}
+
+// Normalize vector<vector<string>> by sorting within groups and then sorting groups
+// by (size asc, lexicographical order).
+vector<vector<string>>
+normalizeVVStr_SizeThenLex(vector<vector<string>> vv) {
+    for (auto& grp : vv) sort(grp.begin(), grp.end());
+    sort(vv.begin(), vv.end(),
+        [](const vector<string>& a, const vector<string>& b){
+            if (a.size() != b.size()) return a.size() < b.size();
+            return lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
+        });
     return vv;
 }
 
