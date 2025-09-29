@@ -2308,8 +2308,11 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto s = testCases[i].input;          // work on a copy
             solver.reverseString(s);
-            cout << "ReverseString_344 Test " << (i + 1) << ": res = "
-                << (s == testCases[i].expected ? "PASS" : "FAIL") << endl;
+
+            const string label = "Reverse String 344 Test " + to_string(i + 1);
+            const string got(s.begin(), s.end());
+            const string exp(testCases[i].expected.begin(), testCases[i].expected.end());
+            assertEqScalar(label, exp, got);
         }
     }
 
@@ -2332,21 +2335,17 @@ public:
 
         TwoSumII_167 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto nums = testCases[i].input;  // work on a copy
-            vector<int> res = solver.twoSum(nums, testCases[i].target);
-            cout << "TwoSumII_167 Test " << (i + 1) << ": res = "
-                << (res == testCases[i].expected ? "PASS" : "FAIL") << endl;
+            auto nums = testCases[i].input; // solve on a copy
+            auto got  = solver.twoSum(nums, testCases[i].target);
+            assertEqVIntExact("Two Sum II 167 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
     static void validPalindrome_125_tests() {
-        // Build a long palindrome (10 000 'a' separated by commas)
-        string longStr;
-        longStr.reserve(20000);
-        for (int i = 0; i < 10000; ++i) {
-            longStr.push_back('a');
-            longStr.push_back(',');
-        }
+        // Build a long palindrome of 10,000 'a' with commas between (punctuation ignored by checker)
+        constexpr int N = 10000;
+        string longStr(2 * N, ',');
+        for (int i = 0; i < 2 * N; i += 2) longStr[i] = 'a';
 
         vector<ValidPalindromeTestCase> testCases = {
             // two examples from the problem statement
@@ -2363,9 +2362,8 @@ public:
 
         ValidPalindrome_125 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool res = solver.isPalindrome(testCases[i].input);
-            cout << "ValidPalindrome_125 Test " << (i + 1) << ": res = "
-                << (res == testCases[i].expected ? "PASS" : "FAIL") << endl;
+            bool got = solver.isPalindrome(testCases[i].input);
+            assertEqScalar("Valid Palindrome 125 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -2385,19 +2383,8 @@ public:
 
         ThreeSum_15 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto res = solver.threeSum(testCases[i].input);
-
-            // sort each triplet then the whole vector for stable comparison
-            auto norm = [](vector<vector<int>>& v) {
-                for (auto& t : v) sort(t.begin(), t.end());
-                sort(v.begin(), v.end());
-            };
-            norm(res);
-            auto exp = testCases[i].expected;
-            norm(exp);
-
-            cout << "ThreeSum_15 Test " << (i + 1) << ": res = "
-                << (res == exp ? "PASS" : "FAIL") << endl;
+            auto got = solver.threeSum(testCases[i].input);
+            assertEqVVIntAnyOrder("Three Sum 15 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -2415,9 +2402,8 @@ public:
 
         ContainerWithMostWater_11 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int res = solver.maxArea(testCases[i].input);
-            cout << "ContainerWithMostWater_11 Test " << (i + 1) << ": res = "
-                << (res == testCases[i].expected ? "PASS" : "FAIL") << endl;
+            int got = solver.maxArea(testCases[i].input);
+            assertEqScalar("Container With Most Water 11 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -2436,9 +2422,8 @@ public:
 
         TrappingRainWater_42 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int res = solver.trap(testCases[i].input);
-            cout << "TrappingRainWater_42 Test " << (i + 1) << ": res = "
-                << (res == testCases[i].expected ? "PASS" : "FAIL") << endl;
+            int got = solver.trap(testCases[i].input);
+            assertEqScalar("Trapping Rain Water 42 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -2446,9 +2431,9 @@ public:
         vector<MaximalRectangleTestCase> testCases = {
             // ── three examples from the problem statement ──
             {{{'1','0','1','0','0'},
-                                    {'1','0','1','1','1'},
-                                    {'1','1','1','1','1'},
-                                    {'1','0','0','1','0'}}, 6},
+              {'1','0','1','1','1'},
+              {'1','1','1','1','1'},
+              {'1','0','0','1','0'}}, 6},
             {{{'0'}}, 0},
             {{{'1'}}, 1},
 
@@ -2458,18 +2443,15 @@ public:
 
             // 2) 4×10 mixed grid (largest 5×4 block) → area 20
             {{{'1','1','1','1','1','0','0','0','1','1'},
-                                    {'1','1','1','1','1','1','1','1','1','0'},
-                                    {'1','1','1','1','1','1','1','1','0','0'},
-                                    {'1','1','1','1','1','0','0','0','0','0'}}, 20}
+              {'1','1','1','1','1','1','1','1','1','0'},
+              {'1','1','1','1','1','1','1','1','0','0'},
+              {'1','1','1','1','1','0','0','0','0','0'}}, 20}
         };
 
         MaximalRectangle_85 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solver.maximalRectangle(testCases[i].matrix);
-            cout << "Maximal Rectangle Test " << (i + 1) << ": res = "
-                << (result == testCases[i].expected ? "PASS" : "FAIL")
-                << " (Expected: " << testCases[i].expected
-                << ", Got: " << result << ")\n";
+            int got = solver.maximalRectangle(testCases[i].matrix);
+            assertEqScalar("Maximal Rectangle 85 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -2490,9 +2472,7 @@ public:
         MaximumSubarray_53 solver;
         for (size_t i = 0; i < tc.size(); ++i) {
             int got = solver.maxSubArray(tc[i].input);
-            cout << "MaximumSubarray_53 Test " << (i + 1) << ": "
-                    << (got == tc[i].expected ? "PASS" : "FAIL")
-                    << " (expected " << tc[i].expected << ", got " << got << ")\n";
+            assertEqScalar("Maximum Subarray 53 Test " + to_string(i + 1), tc[i].expected, got);
         }
     }
 
@@ -2508,17 +2488,14 @@ public:
 
         TwoSum_1 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            auto res = solver.twoSum(cases[i].input, cases[i].target);
+            auto got = solver.twoSum(cases[i].input, cases[i].target);
 
-            // order-independent check
-            auto exp = cases[i].expected;
-            sort(res.begin(), res.end());
-            sort(exp.begin(), exp.end());
+            // Order-independent compare of index pairs
+            auto expected = cases[i].expected;
+            sort(got.begin(), got.end());
+            sort(expected.begin(), expected.end());
 
-            cout << "[TwoSum] Test " << (i + 1) << ": res = "
-                 << (res == exp ? "PASS" : "FAIL") << '\n';
-            cout << "Expected: "; printVec(exp);
-            cout << "Got:      "; printVec(res);
+            assertEqVIntExact("Two Sum 1 Test " + to_string(i + 1), expected, got);
         }
     }
 
@@ -2533,13 +2510,11 @@ public:
 
         MergeSortedArray_88 merger;
         for (size_t i = 0; i < cases.size(); ++i) {
-            auto nums1 = cases[i].nums1;   // make a copy; we’ll mutate it
+            auto nums1 = cases[i].nums1; // copy; merge mutates in place
             merger.merge(nums1, cases[i].m, cases[i].nums2, cases[i].n);
 
-            cout << "[MergeSortedArray] Test " << (i + 1) << ": res = "
-                 << (nums1 == cases[i].expected ? "PASS" : "FAIL") << '\n';
-            cout << "Expected: "; printVec(cases[i].expected);
-            cout << "Got:      "; printVec(nums1);
+            const string label = "Merge Sorted Array 88 Test " + to_string(i + 1);
+            assertEqVIntExact(label, cases[i].expected, nums1);
         }
     }
 
@@ -2554,19 +2529,18 @@ public:
 
         RemoveElement_27 remover;
         for (size_t i = 0; i < cases.size(); ++i) {
-            auto nums = cases[i].input;                    // copy to mutate
+            auto nums = cases[i].input;                // copy to mutate
             int  k    = remover.removeElement(nums, cases[i].val);
 
-            // prepare comparables (order-independent)
+            // Compare length and (order-insensitive) contents of the kept prefix
             vector<int> got(nums.begin(), nums.begin() + k);
+            auto        exp = cases[i].expected;
             sort(got.begin(), got.end());
-            auto exp = cases[i].expected;
             sort(exp.begin(), exp.end());
 
-            cout << "[RemoveElement] Test " << (i + 1) << ": res = "
-                 << ((k == cases[i].expectedK && got == exp) ? "PASS" : "FAIL") << '\n';
-            cout << "Expected k=" << cases[i].expectedK << ", elems: "; printVec(exp);
-            cout << "Got      k=" << k << ", elems: ";      printVec(got);
+            const string base = "Remove Element 27 Test " + to_string(i + 1);
+            assertEqScalar(base + " [k]", cases[i].expectedK, k);
+            assertEqVIntExact(base + " [elems unordered]", exp, got);
         }
     }
 
@@ -2582,12 +2556,8 @@ public:
 
         MaximumNumberOfBalloons_1189 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            int res = solver.maxNumberOfBalloons(cases[i].input);
-
-            cout << "[MaxBalloons] Test " << (i + 1) << ": res = "
-                 << (res == cases[i].expected ? "PASS" : "FAIL") << '\n';
-            cout << "Expected: " << cases[i].expected
-                 << ", Got: " << res << '\n';
+            int got = solver.maxNumberOfBalloons(cases[i].input);
+            assertEqScalar("Maximum Number of Balloons 1189 Test " + to_string(i + 1), cases[i].expected, got);
         }
     }
 
@@ -2603,12 +2573,8 @@ public:
 
         AddBinary_67 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            string res = solver.addBinary(cases[i].a, cases[i].b);
-
-            cout << "[AddBinary] Test " << (i + 1) << ": res = "
-                << (res == cases[i].expected ? "PASS" : "FAIL") << '\n';
-            cout << "Expected: " << cases[i].expected
-                << ", Got: " << res << '\n';
+            string got = solver.addBinary(cases[i].a, cases[i].b);
+            assertEqScalar("Add Binary 67 Test " + to_string(i + 1), cases[i].expected, got);
         }
     }
 
@@ -2623,12 +2589,8 @@ public:
 
         FindPivotIndex_724 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            int res = solver.pivotIndex(cases[i].input);
-
-            cout << "[FindPivot] Test " << (i + 1) << ": res = "
-                << (res == cases[i].expected ? "PASS" : "FAIL") << '\n';
-            cout << "Expected: " << cases[i].expected
-                << ", Got: " << res << '\n';
+            int got = solver.pivotIndex(cases[i].input);
+            assertEqScalar("Find Pivot Index 724 Test " + to_string(i + 1), cases[i].expected, got);
         }
     }
 
@@ -2644,12 +2606,9 @@ public:
 
         NumberOf1Bits_191 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            int res = solver.hammingWeight(cases[i].n);
-
-            cout << "[HammingWeight] Test " << (i + 1) << ": res = "
-                << (res == cases[i].expected ? "PASS" : "FAIL") << '\n';
-            cout << "Expected: " << cases[i].expected
-                << ", Got: " << res << '\n';
+            int got = solver.hammingWeight(cases[i].n);
+            assertEqScalar("Number of 1 Bits 191 Test " + to_string(i + 1) +
+                           " (n=" + to_string(cases[i].n) + ")", cases[i].expected, got);
         }
     }
 
@@ -2665,11 +2624,8 @@ public:
 
         DecodeString_GoogleOnsite solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            string result = solver.decode(testCases[i].input);
-            cout << "DecodeString Test " << (i + 1) << ": res = "
-                << (result == testCases[i].expected ? "PASS" : "FAIL")
-                << " (Expected: " << testCases[i].expected
-                << ", Got: " << result << ")\n";
+            string got = solver.decode(testCases[i].input);
+            assertEqScalar("Decode String (Google Onsite) Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -2691,10 +2647,7 @@ public:
         WildcardMatching_44 solver;
         for (size_t i = 0; i < tc.size(); ++i) {
             bool got = solver.isMatch(tc[i].s, tc[i].p);
-            cout << "WildcardMatching_44 Test " << (i + 1) << ": res = "
-                << (got == tc[i].expected ? "PASS" : "FAIL")
-                << " (Expected: " << (tc[i].expected ? "true" : "false")
-                << ", Got: "      << (got          ? "true" : "false") << ")\n";
+            assertEqScalar("Wildcard Matching 44 Test " + to_string(i + 1), tc[i].expected, got);
         }
     }
 
@@ -2718,19 +2671,17 @@ public:
 
         KClosestPointsToOrigin_973 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            /* test QuickSelect version */
-            auto in1  = cases[i].points;
+            // QuickSelect
+            auto in1  = cases[i].points;                 // solver may mutate
             auto out1 = solver.kClosestQuickSelect(in1, cases[i].k);
-            bool pass1 = isValidKClosestPoints(cases[i].points, cases[i].k, out1);
+            assertEqScalar("K Closest 973 Test " + to_string(i + 1) + " [QuickSelect]", true,
+                isValidKClosestPoints(cases[i].points, cases[i].k, out1));
 
-            /* test Heap version */
+            // Heap
             auto in2  = cases[i].points;
             auto out2 = solver.kClosestHeap(in2, cases[i].k);
-            bool pass2 = isValidKClosestPoints(cases[i].points, cases[i].k, out2);
-
-            cout << "KClosest Test " << i + 1
-                << "  QuickSelect:" << (pass1 ? "PASS" : "FAIL")
-                << "  Heap:"        << (pass2 ? "PASS" : "FAIL") << endl;
+            assertEqScalar("K Closest 973 Test " + to_string(i + 1) + " [Heap]", true,
+                isValidKClosestPoints(cases[i].points, cases[i].k, out2));
         }
     }
 
@@ -3335,8 +3286,7 @@ public:
             auto e   = tests[i].expected;
             sort(got.begin(), got.end());
             sort(e.begin(),   e.end());
-            assertEqVIntExact("Top K Frequent 347 Test " + to_string(i+1) +
-                              " (k=" + to_string(tests[i].k) + ")", e, got);
+            assertEqVIntExact("Top K Frequent 347 Test " + to_string(i+1) + " (k=" + to_string(tests[i].k) + ")", e, got);
         }
     }
 
@@ -3772,17 +3722,14 @@ public:
 
                 if (op == "ExamRoom") {
                     er.emplace(a[0]);
-                    continue;
                 }
-                if (op == "leave") {
+                else if (op == "leave") {
                     er->leave(a[0]);
-                    continue;
                 }
-                if (op == "seat") {
+                else if (op == "seat") {
                     int got = er->seat();
                     const string label = makeStepLabel("ExamRoom_855", t, i, op, nullopt);
                     assertEqScalar(label, ex.value(), got);
-                    continue;
                 }
             }
         }
