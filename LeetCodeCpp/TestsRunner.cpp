@@ -910,7 +910,6 @@ public:
                     const string label = makeStepLabel("Trie Case", i, j, op, arg);
 
                     if (!assertEqScalar(label, expected, got)) {
-                        // opcjonalny kontekst na FAIL
                         cout << "  (debug) op=" << op << " arg=\"" << arg.value() << "\"\n";
                     }
                 }
