@@ -310,47 +310,32 @@ public:
             {5, {{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 0}}, {}}
         };
 
-        CourseScheduleII_210 cs210;
-
-        // Define the isValidOrder function inside the test function
-        function<bool(const vector<int>&, int, const vector<vector<int>>&, const vector<int>&)>
-        isValidOrder = [](const vector<int>& order, int numCourses,
-                          const vector<vector<int>>& prerequisites,
-                          const vector<int>& expectedOrder) {
-            // If expectedOrder is empty, we expect an empty result (cycle case)
-            if (expectedOrder.empty()) return order.empty();
-
-            // Create a position map to check the order of prerequisites
-            unordered_map<int, int> position;
-            for (int i = 0; i < order.size(); ++i) {
-                position[order[i]] = i;
-            }
-
-            // Verify each prerequisite pair to ensure order is correct
-            for (const auto& prereq : prerequisites) {
-                int course = prereq[0], prerequisite = prereq[1];
-                if (position[prerequisite] > position[course]) {
-                    return false; // If prerequisite appears after the course, order is invalid
-                }
-            }
-
-            return true; // All prerequisites are satisfied in the given order
+        auto validTopo = [](int n, const vector<vector<int>>& pre, const vector<int>& order) {
+            if (order.empty()) return pre.empty() ? n == 0 : false;        // empty only for cycle (or trivial n==0)
+            if ((int)order.size() != n) return false;
+            unordered_map<int,int> pos; pos.reserve(order.size());
+            for (int i = 0; i < (int)order.size(); ++i) pos[order[i]] = i;
+            for (const auto& e : pre) if (pos[e[1]] > pos[e[0]]) return false;
+            return true;
         };
 
-        cout << "-> DFS-based topological sort version:\n";
+        CourseScheduleII_210 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            vector<int> result = cs210.findOrderByDFSTraversal(testCases[i].numCourses, testCases[i].prerequisites);
+            const auto& tc = testCases[i];
 
-            bool pass = isValidOrder(result, testCases[i].numCourses, testCases[i].prerequisites, testCases[i].expectedOrder);
-            cout << "Test " << (i + 1) << ": res = " << (pass ? "PASS" : "FAIL") << endl;
-        }
+            // DFS version (make a mutable copy for the non-const ref parameter)
+            auto pre1 = tc.prerequisites;
+            auto a    = sol.findOrderByDFSTraversal(tc.numCourses, pre1);
+            bool okA  = tc.expectedOrder.empty() ? a.empty()
+                                                : validTopo(tc.numCourses, tc.prerequisites, a);
+            assertEqScalar("Course Schedule II 210 [DFS] Test " + to_string(i + 1), true, okA);
 
-        cout << "-> Kahn's algorithm version:\n";
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            vector<int> result = cs210.findOrderByKahnsAlgorithm(testCases[i].numCourses, testCases[i].prerequisites);
-
-            bool pass = isValidOrder(result, testCases[i].numCourses, testCases[i].prerequisites, testCases[i].expectedOrder);
-            cout << "Test " << (i + 1) << ": res = " << (pass ? "PASS" : "FAIL") << endl;
+            // Kahn version (another mutable copy)
+            auto pre2 = tc.prerequisites;
+            auto b    = sol.findOrderByKahnsAlgorithm(tc.numCourses, pre2);
+            bool okB  = tc.expectedOrder.empty() ? b.empty()
+                                                : validTopo(tc.numCourses, tc.prerequisites, b);
+            assertEqScalar("Course Schedule II 210 [Kahn] Test " + to_string(i + 1), true, okB);
         }
     }
 
