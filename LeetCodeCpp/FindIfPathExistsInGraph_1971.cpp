@@ -1,7 +1,7 @@
 #include "FindIfPathExistsInGraph_1971.h"
 #include "UnionFind.h"
 
-bool FindIfPathExistsInGraph_1971::validPathRecursiveDFS(int n, vector<vector<int>>& edges, int source, int destination) {
+bool FindIfPathExistsInGraph_1971::validPathRecursiveDFS(int n, const vector<vector<int>>& edges, int source, int destination) {
     if (source == destination) return true;
 
     // Create an adjacency list using a vector of vectors
@@ -18,7 +18,7 @@ bool FindIfPathExistsInGraph_1971::validPathRecursiveDFS(int n, vector<vector<in
     return recursive_dfs(source, destination, graph, visited);
 }
 
-bool FindIfPathExistsInGraph_1971::validPathIterativeDFS(int n, vector<vector<int>> &edges, int source, int destination)
+bool FindIfPathExistsInGraph_1971::validPathIterativeDFS(int n, const vector<vector<int>> &edges, int source, int destination)
 {
     if (source == destination) return true;
 
@@ -52,7 +52,7 @@ bool FindIfPathExistsInGraph_1971::validPathIterativeDFS(int n, vector<vector<in
     return false;
 }
 
-bool FindIfPathExistsInGraph_1971::validPathBFS(int n, vector<vector<int>> &edges, int source, int destination)
+bool FindIfPathExistsInGraph_1971::validPathBFS(int n, const vector<vector<int>> &edges, int source, int destination)
 {
     if (source == destination) return true;
 
@@ -86,7 +86,7 @@ bool FindIfPathExistsInGraph_1971::validPathBFS(int n, vector<vector<int>> &edge
     return false;
 }
 
-bool FindIfPathExistsInGraph_1971::validPathUnionFind(int n, vector<vector<int>> &edges, int source, int destination)
+bool FindIfPathExistsInGraph_1971::validPathUnionFind(int n, const vector<vector<int>> &edges, int source, int destination)
 {
     UnionFind uf(n);
 

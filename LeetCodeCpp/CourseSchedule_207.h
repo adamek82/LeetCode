@@ -11,10 +11,10 @@ public:
     enum class State { UNVISITED, VISITING, VISITED };
 
     // DFS-based three-state algorithm (formerly canFinish)
-    bool canFinishDFS(int numCourses, vector<vector<int>>& prerequisites);
+    bool canFinishDFS(int numCourses, const vector<vector<int>>& prerequisites);
 
     // Kahn’s BFS / topological-sort algorithm
-    bool canFinishKahns(int numCourses, vector<vector<int>>& prerequisites);
+    bool canFinishKahns(int numCourses, const vector<vector<int>>& prerequisites);
 
 private:
     // Helper for the DFS variant

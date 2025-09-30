@@ -1,7 +1,7 @@
 #include "CourseSchedule_207.h"
 
 // ---------- DFS three-state variant (renamed) ---------------------------
-bool CourseSchedule_207::canFinishDFS(int numCourses, vector<vector<int>>& prerequisites) {
+bool CourseSchedule_207::canFinishDFS(int numCourses, const vector<vector<int>>& prerequisites) {
     unordered_map<int, vector<int>> graph;
     for (const auto& pair : prerequisites) {
         graph[pair[0]].push_back(pair[1]);
@@ -37,7 +37,7 @@ bool CourseSchedule_207::dfs(int node, unordered_map<int, vector<int>>& graph, v
 
 // ---------- Kahn’s BFS / topological-sort variant -----------------------
 bool CourseSchedule_207::canFinishKahns(int numCourses,
-                                        vector<vector<int>>& prerequisites) {
+                                        const vector<vector<int>>& prerequisites) {
     // Build adjacency list and in-degree array
     vector<vector<int>> adj(numCourses);
     vector<int> indeg(numCourses, 0);

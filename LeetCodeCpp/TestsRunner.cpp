@@ -163,16 +163,16 @@ public:
 
         CourseSchedule_207 cs207;
 
-        cout << "-> DFS (three-state) version:\n";
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = cs207.canFinishDFS(testCases[i].numCourses, testCases[i].prerequisites);
-            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
-        }
+        const vector<pair<string, function<bool(const ScheduleTestCase&)>>> impls = {
+            {"DFS",  [&](const ScheduleTestCase& tc){ return cs207.canFinishDFS(tc.numCourses, tc.prerequisites); }},
+            {"Kahn", [&](const ScheduleTestCase& tc){ return cs207.canFinishKahns(tc.numCourses, tc.prerequisites); }},
+        };
 
-        cout << "-> Kahn's algorithm version:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = cs207.canFinishKahns(testCases[i].numCourses, testCases[i].prerequisites);
-            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
+            const auto& tc = testCases[i];
+            for (const auto& [name, run] : impls) {
+                assertEqScalar("Course Schedule 207 [" + name + "] " + to_string(i + 1), tc.expected, run(tc));
+            }
         }
     }
 
@@ -187,28 +187,27 @@ public:
 
         FindIfPathExistsInGraph_1971 fp1971;
 
-        cout << "-> Recursive DFS version:\n";
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = fp1971.validPathRecursiveDFS(testCases[i].n, testCases[i].edges, testCases[i].source, testCases[i].destination);
-            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
-        }
+        const vector<pair<string, function<bool(const PathTestCase&)>>> impls = {
+            {"DFS-rec", [&](const PathTestCase& tc){
+                return fp1971.validPathRecursiveDFS(tc.n, tc.edges, tc.source, tc.destination);
+            }},
+            {"DFS-iter", [&](const PathTestCase& tc){
+                return fp1971.validPathIterativeDFS(tc.n, tc.edges, tc.source, tc.destination);
+            }},
+            {"BFS", [&](const PathTestCase& tc){
+                return fp1971.validPathBFS(tc.n, tc.edges, tc.source, tc.destination);
+            }},
+            {"UnionFind", [&](const PathTestCase& tc){
+                return fp1971.validPathUnionFind(tc.n, tc.edges, tc.source, tc.destination);
+            }},
+        };
 
-        cout << "-> Iterative DFS version with a stack:\n";
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = fp1971.validPathIterativeDFS(testCases[i].n, testCases[i].edges, testCases[i].source, testCases[i].destination);
-            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
-        }
-
-        cout << "-> BFS version with a queue:\n";
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = fp1971.validPathBFS(testCases[i].n, testCases[i].edges, testCases[i].source, testCases[i].destination);
-            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
-        }
-
-        cout << "-> Union-find version:\n";
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = fp1971.validPathUnionFind(testCases[i].n, testCases[i].edges, testCases[i].source, testCases[i].destination);
-            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
+            const auto& tc = testCases[i];
+            for (const auto& [name, run] : impls) {
+                assertEqScalar("Find Path 1971 [" + name + "] " + to_string(i + 1),
+                            tc.expected, run(tc));
+            }
         }
     }
 
