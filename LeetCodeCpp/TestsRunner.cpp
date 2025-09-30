@@ -2014,13 +2014,10 @@ public:
             {{0,0,0,0},                         0,  0}   // all zeros, no flips
         };
 
-        MaxConsecutiveOnesIII_1004 solution;
+        MaxConsecutiveOnesIII_1004 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.longestOnes(testCases[i].input, testCases[i].k);
-            cout << "MaxConsecutiveOnesIII_1004 Test " << (i + 1) << ": res = "
-                << (result == testCases[i].expected ? "PASS" : "FAIL")
-                << " (Expected: " << testCases[i].expected
-                << ", Got: " << result << ")" << endl;
+            int got = sol.longestOnes(testCases[i].input, testCases[i].k);
+            assertEqScalar("Max Consecutive Ones III 1004 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -2034,13 +2031,11 @@ public:
             {"anviaj",   5}   // "nviaj"
         };
 
-        LongestSubstringWithoutRepeatingCharacters_3 solution;
+        LongestSubstringWithoutRepeatingCharacters_3 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int res = solution.lengthOfLongestSubstring(testCases[i].input);
-            cout << "Longest Substring Test " << (i + 1)
-                << ": res = " << (res == testCases[i].expected ? "PASS" : "FAIL")
-                << " (Expected: " << testCases[i].expected
-                << ", Got: " << res << ")" << endl;
+            int got = sol.lengthOfLongestSubstring(testCases[i].input);
+            assertEqScalar("Longest Substring Without Repeating Characters 3 Test " + to_string(i + 1),
+                        testCases[i].expected, got);
         }
     }
 
@@ -2058,14 +2053,10 @@ public:
             {25, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3}
         };
 
-        MinimumSizeSubarraySum_209 solver;
-
+        MinimumSizeSubarraySum_209 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solver.minSubArrayLen(testCases[i].target, testCases[i].input);
-            cout << "MinimumSizeSubarraySum_209 Test " << (i + 1) << ": res = "
-                << (got == testCases[i].expected ? "PASS" : "FAIL")
-                << " (Expected: " << testCases[i].expected
-                << ", Got: " << got << ")\n";
+            int got = sol.minSubArrayLen(testCases[i].target, testCases[i].input);
+            assertEqScalar("Minimum Size Subarray Sum 209 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -2080,14 +2071,10 @@ public:
             {"abcd", "abc",               false}   // corner-case: |s1| > |s2|
         };
 
-        PermutationInString_567 solver;
-
+        PermutationInString_567 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool result = solver.checkInclusion(testCases[i].s1, testCases[i].s2);
-            cout << "PermutationInString Test " << (i + 1) << ": res = "
-                << (result == testCases[i].expected ? "PASS" : "FAIL")
-                << " (Expected: " << (testCases[i].expected ? "true" : "false")
-                << ", Got: "      << (result ? "true" : "false")  << ")" << endl;
+            bool got = sol.checkInclusion(testCases[i].s1, testCases[i].s2);
+            assertEqScalar("Permutation in String 567 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -2103,11 +2090,11 @@ public:
                                     {0, 4, 9, 9, 100000000, 100000000}} // extremes & duplicates
         };
 
-        SquaresOfSortedArray_977 solver;
+        SquaresOfSortedArray_977 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto result = solver.sortedSquares(testCases[i].input);
-            cout << "SquaresOfSortedArray_977 Test " << (i + 1) << ": res = "
-                << (result == testCases[i].expected ? "PASS" : "FAIL") << endl;
+            auto got = sol.sortedSquares(testCases[i].input);
+            assertEqVIntExact("Squares of Sorted Array 977 Test " + to_string(i + 1),
+                            testCases[i].expected, got);
         }
     }
 
