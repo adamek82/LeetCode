@@ -3,6 +3,7 @@
 #include <utility>
 #include <cmath>
 #include <set>
+#include <unordered_map>
 
 namespace TestUtils {
 
@@ -205,6 +206,39 @@ string makeStepLabel(const string& suite,
         label.append("()");
     }
     return label;
+}
+
+bool isValidFrequencySort(const string& orig, const string& res) {
+    if (orig.size() != res.size()) return false;
+
+    // Count chars in original and result
+    unordered_map<char,int> freqOrig, freqRes;
+    for (char c : orig) ++freqOrig[c];
+    for (char c : res)  ++freqRes[c];
+    if (freqOrig != freqRes) return false;
+
+    // Extract contiguous runs in result: [(char, run_length), ...]
+    vector<pair<char,int>> runs;
+    for (size_t i = 0; i < res.size();) {
+        char c = res[i];
+        size_t j = i + 1;
+        while (j < res.size() && res[j] == c) ++j;
+        runs.emplace_back(c, int(j - i));
+        i = j;
+    }
+
+    // Each run must consume the full frequency for that char (no split runs)
+    for (const auto& p : runs) {
+        char c = p.first;
+        int  cnt = p.second;
+        if (freqOrig[c] != cnt) return false;
+    }
+
+    // Runs must be in non-increasing frequency order
+    for (size_t i = 1; i < runs.size(); ++i) {
+        if (runs[i - 1].second < runs[i].second) return false;
+    }
+    return true;
 }
 
 } // namespace TestUtils

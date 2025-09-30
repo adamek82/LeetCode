@@ -474,12 +474,10 @@ public:
 
         LongestCommonSubsequence_1143 solution;
 
+        LongestCommonSubsequence_1143 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.longestCommonSubsequence(testCases[i].text1, testCases[i].text2);
-            cout << "LCS Test " << i + 1 << ": res = "
-                    << (result == testCases[i].expected ? "PASS" : "FAIL")
-                    << " (Expected: " << testCases[i].expected
-                    << ", Got: " << result << ")" << endl;
+            int got = sol.longestCommonSubsequence(testCases[i].text1, testCases[i].text2);
+            assertEqScalar("LCS 1143 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -682,7 +680,6 @@ public:
         };
 
         BestTimeToBuyAndSellStock_121 solution;
-
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.maxProfit(testCases[i].prices);
             assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
@@ -707,7 +704,6 @@ public:
         };
 
         SpiralMatrix_54 sm54;
-
         for (size_t i = 0; i < testCases.size(); ++i) {
             vector<int> result = sm54.spiralOrder(testCases[i].matrix);
             assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, result);
@@ -1155,11 +1151,10 @@ public:
         };
 
         LargestRectangleInHistogram_84 solution;
-
-            for (size_t i = 0; i < testCases.size(); ++i) {
-                int got = solution.largestRectangleArea(testCases[i].input);
-                assertEqScalar("Largest Rectangle Test " + to_string(i + 1), testCases[i].expected, got);
-            }
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = solution.largestRectangleArea(testCases[i].input);
+            assertEqScalar("Largest Rectangle Test " + to_string(i + 1), testCases[i].expected, got);
+        }
     }
 
     static void wordSearch_79_tests() {
@@ -1204,7 +1199,6 @@ public:
              false}};
 
         WordSearch_79 solution;
-
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool got = solution.exist(testCases[i].board, testCases[i].word);
             assertEqScalar("Word Search Test " + to_string(i + 1), testCases[i].expected, got);
@@ -1221,7 +1215,6 @@ public:
         };
 
         ValidParentheses_20 solution;
-
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool got = solution.isValid(testCases[i].input);
             assertEqScalar("Valid Parentheses Test " + to_string(i + 1), testCases[i].expected, got);
@@ -1297,7 +1290,6 @@ public:
         };
 
         ValidSudoku_36 solver;
-
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool got = solver.isValidSudoku(testCases[i].board);
             assertEqScalar("Valid Sudoku Test " + to_string(i + 1), testCases[i].expected, got);
@@ -1319,7 +1311,6 @@ public:
         };
 
         BinarySearch_704 solution;
-
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.search(testCases[i].input, testCases[i].target);
             assertEqScalar("Binary Search Test " + to_string(i + 1), testCases[i].expected, got);
@@ -1341,7 +1332,6 @@ public:
         };
 
         SearchInsertPosition_35 solution;
-
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.searchInsert(testCases[i].input, testCases[i].target);
             assertEqScalar("Search Insert Position Test " + to_string(i + 1), testCases[i].expected, got);
@@ -1361,20 +1351,10 @@ public:
         };
 
         Search2DMatrix_74 solution;
-
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool got = solution.searchMatrix(testCases[i].matrix, testCases[i].target);
             assertEqScalar("Search 2D Matrix Test " + to_string(i + 1), testCases[i].expected, got);
         }
-    }
-
-    static bool inSet(const string& s, initializer_list<string> candidates) {
-        // Helper to handle the fact that getMaxKey / getMinKey can return any
-        // of the keys sharing min/max count
-        for (auto& c : candidates) {
-            if (s == c) return true;
-        }
-        return false;
     }
 
     static void allOOneDataStructure_432_tests() {
@@ -1780,13 +1760,12 @@ public:
             {"ABCDE",     2, 3},  // Best substring length 3 by 2 changes
             {"ABBBBAA",   2, 6}   // 6-length window after 2 changes
         };
-        LongestRepeatingCharacterReplacement_424 solution;
+
+        LongestRepeatingCharacterReplacement_424 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.characterReplacement(testCases[i].input, testCases[i].k);
-            cout << "LRCR_424 Test " << (i + 1) << ": res = "
-                      << (result == testCases[i].expected ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expected
-                      << ", Got: " << result << ")\n";
+            int got = sol.characterReplacement(testCases[i].input, testCases[i].k);
+            assertEqScalar("Longest Repeating Character Replacement 424 Test " + to_string(i + 1),
+                        testCases[i].expected, got);
         }
     }
 
@@ -1816,59 +1795,25 @@ public:
             },
         };
 
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            cout << "LRUCache Test Case " << (i+1) << ":\n";
-            LRUCache* cache = nullptr;
-            for (size_t j = 0; j < testCases[i].operations.size(); ++j) {
-                const auto& op  = testCases[i].operations[j];
-                const auto& arg = testCases[i].arguments[j];
-                const auto& exp = testCases[i].expected[j];
+        for (size_t t = 0; t < testCases.size(); ++t) {
+            unique_ptr<LRUCache> cache;
+            const auto& C = testCases[t];
+
+            for (size_t i = 0; i < C.operations.size(); ++i) {
+                const string& op = C.operations[i];
 
                 if (op == "LRUCache") {
-                    cache = new LRUCache(arg[0]);
-                    cout << "  LRUCache(" << arg[0] << ") -> null\n";
-                }
-                else if (op == "put") {
-                    cache->put(arg[0], arg[1]);
-                    cout << "  put(" << arg[0] << ", " << arg[1] << ") -> null\n";
-                }
-                else if (op == "get") {
-                    int res = cache->get(arg[0]);
-                    bool pass = exp.has_value() && res == exp.value();
-                    cout << "  get(" << arg[0] << ") -> " << res
-                              << (pass ? " [PASS]\n" : " [FAIL]\n");
+                    cache = make_unique<LRUCache>(C.arguments[i][0]);
+                } else if (op == "put") {
+                    cache->put(C.arguments[i][0], C.arguments[i][1]);
+                } else if (op == "get") {
+                    int key = C.arguments[i][0];
+                    int got = cache->get(key);
+                    const string label = makeStepLabel("LRUCache_146", t, i, "get", to_string(key));
+                    assertEqScalar(label, C.expected[i].value(), got);
                 }
             }
-            delete cache;
-            cout << "\n";
         }
-    }
-
-    static bool isValidFrequencySort(const string& orig, const string& res) {
-        if (orig.size() != res.size()) return false;
-        // count in orig
-        unordered_map<char,int> freqOrig, freqRes;
-        for (char c : orig) ++freqOrig[c];
-        for (char c : res) ++freqRes[c];
-        if (freqOrig != freqRes) return false;
-        // extract runs from res
-        vector<pair<char,int>> runs;
-        for (size_t i = 0; i < res.size(); ) {
-            char c = res[i];
-            size_t j = i+1;
-            while (j < res.size() && res[j]==c) ++j;
-            runs.emplace_back(c, int(j-i));
-            i = j;
-        }
-        // ensure each run length matches freq
-        for (auto& [c, cnt] : runs) {
-            if (freqOrig[c] != cnt) return false;
-        }
-        // ensure non-increasing frequencies
-        for (size_t i = 1; i < runs.size(); ++i) {
-            if (runs[i-1].second < runs[i].second) return false;
-        }
-        return true;
     }
 
     static void sortCharactersByFrequency_451_tests() {
@@ -1880,13 +1825,11 @@ public:
             "srrqqqpppp" // p4,q3,r2,s1
         };
 
-        SortCharactersByFrequency_451 solution;
+        SortCharactersByFrequency_451 sol;
         for (size_t i = 0; i < inputs.size(); ++i) {
-            string result = solution.frequencySort(inputs[i]);
-            bool pass = isValidFrequencySort(inputs[i], result);
-            cout << "SortCharactersByFrequency_451 Test " << (i + 1)
-                      << ": " << (pass ? "PASS" : "FAIL")
-                      << " (Got: " << result << ")\n";
+            std::string got = sol.frequencySort(inputs[i]);
+            const std::string label = "Sort Characters by Frequency 451 Test " + std::to_string(i + 1);
+            assertEqScalar(label, true, isValidFrequencySort(inputs[i], got));
         }
     }
 
@@ -1904,13 +1847,12 @@ public:
             { {2,3,5,7,11,13,17,19}, 100,  6  }
         };
 
-        CoinChange_322 solution;
+        CoinChange_322 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int res = solution.coinChange(testCases[i].coins, testCases[i].amount);
-            cout << "CoinChange Test " << (i+1)
-                      << ": res = " << (res == testCases[i].expected ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expected
-                      << ", Got: " << res << ")\n";
+            int got = sol.coinChange(testCases[i].coins, testCases[i].amount);
+            const string label = "Coin Change 322 Test " + to_string(i + 1) +
+                                " (amount=" + to_string(testCases[i].amount) + ")";
+            assertEqScalar(label, testCases[i].expected, got);
         }
     }
 
@@ -1925,23 +1867,12 @@ public:
             {{"z","y","z","x","y"},                       3, {"y","z","x"}}                // z,y freq tie, x last
         };
 
-        TopKFrequentWords_692 solution;
+        TopKFrequentWords_692 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto result = solution.topKFrequent(testCases[i].input, testCases[i].k);
-            bool pass = (result == testCases[i].expected);
-            cout << "TopKFrequentWords_692 Test " << (i + 1) << ": res = "
-                      << (pass ? "PASS" : "FAIL")
-                      << " (Expected: [";
-            for (size_t j = 0; j < testCases[i].expected.size(); ++j) {
-                cout << testCases[i].expected[j]
-                          << (j + 1 < testCases[i].expected.size() ? ", " : "");
-            }
-            cout << "], Got: [";
-            for (size_t j = 0; j < result.size(); ++j) {
-                cout << result[j]
-                          << (j + 1 < result.size() ? ", " : "");
-            }
-            cout << "])" << endl;
+            auto got = sol.topKFrequent(testCases[i].input, testCases[i].k);
+            const string label = "Top K Frequent Words 692 Test " + to_string(i + 1) +
+                                " (k=" + to_string(testCases[i].k) + ")";
+            assertEqStrings(label, testCases[i].expected, got);  // exact order matters
         }
     }
 
@@ -1957,14 +1888,11 @@ public:
             {{1, 2, 3, 4, 5, 6, 0}, 7}    // single 7-node cycle
         };
 
-        LongestCycleInGraph_2360 solver;
-
+        LongestCycleInGraph_2360 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int res = solver.longestCycle(testCases[i].edges);
-            cout << "LongestCycleInGraph_2360 Test " << (i + 1) << ": res = "
-                      << (res == testCases[i].expected ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expected
-                      << ", Got: " << res << ")" << endl;
+            int got = sol.longestCycle(testCases[i].edges);
+            const string label = "Longest Cycle in Graph 2360 Test " + to_string(i + 1);
+            assertEqScalar(label, testCases[i].expected, got);
         }
     }
 
@@ -2018,14 +1946,10 @@ public:
             }
         };
 
-        ShortestCycleInGraph_2608 solver;
-
+        ShortestCycleInGraph_2608 sol;
         for (size_t i = 0; i < cases.size(); ++i) {
-            int got = solver.findShortestCycle(cases[i].n, cases[i].edges);
-            cout << "  Test " << (i + 1) << ": "
-                      << (got == cases[i].expected ? "PASS" : "FAIL")
-                      << "  (expected " << cases[i].expected
-                      << ", got " << got << ")\n";
+            int got = sol.findShortestCycle(cases[i].n, cases[i].edges);
+            assertEqScalar("Shortest Cycle in Graph 2608 Test " + to_string(i + 1), cases[i].expected, got);
         }
     }
 
@@ -2050,13 +1974,10 @@ public:
             }
         };
 
-        UniquePathsII_63 solution;
+        UniquePathsII_63 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.uniquePathsWithObstacles(testCases[i].input);
-            cout << "Unique Paths II Test " << (i+1)
-                      << ": " << (result == testCases[i].expected ? "PASS" : "FAIL")
-                      << " (Expected: " << testCases[i].expected
-                      << ", Got: " << result << ")\n";
+            int got = sol.uniquePathsWithObstacles(testCases[i].input);
+            assertEqScalar("Unique Paths II 63 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -2072,14 +1993,12 @@ public:
             {{0,100,0,100,0,100},      2,  50.0}          // alternating highs/lows
         };
 
-        MaximumAverageSubarrayI_643 solution;
+        MaximumAverageSubarrayI_643 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            double result = solution.findMaxAverage(testCases[i].input, testCases[i].k);
-            bool pass = approxEqual(result, testCases[i].expected);
-            cout << "MaxAvgSubarrayI_643 Test " << (i + 1) << ": "
-                    << (pass ? "PASS" : "FAIL")
-                    << " (expected=" << testCases[i].expected
-                    << ", got=" << result << ")\n";
+            double got = sol.findMaxAverage(testCases[i].input, testCases[i].k);
+            const string label = "Max Avg Subarray I 643 Test " + to_string(i + 1);
+            // keep tolerance via approxEqual, assert on the boolean
+            assertEqScalar(label, true, approxEqual(got, testCases[i].expected));
         }
     }
 

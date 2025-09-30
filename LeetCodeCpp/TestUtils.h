@@ -216,6 +216,9 @@ void assertMaxMin(const string& label,
                   initializer_list<string> maxSet,
                   initializer_list<string> minSet);
 
+
+// ----- Validators -----
+
 /*
  * Validate k-closest result for 2D points (order agnostic, multiplicities respected).
  *
@@ -228,6 +231,14 @@ void assertMaxMin(const string& label,
 bool isValidKClosestPoints(const vector<vector<int>>& input,
                            int k,
                            const vector<vector<int>>& out);
+
+/**
+ * Validate that 'res' is a correct frequency-sort of 'orig':
+ * - Same multiset of characters as 'orig'
+ * - Characters appear in contiguous runs (no splitting a char into multiple runs)
+ * - Runs are ordered by non-increasing frequency
+ */
+bool isValidFrequencySort(const string& orig, const string& res);
 
 // Build a step label like: "<suite> X #Y op("arg")" or "<suite> X #Y op()"
 string makeStepLabel(const string& suite,
