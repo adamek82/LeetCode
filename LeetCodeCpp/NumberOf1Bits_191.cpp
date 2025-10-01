@@ -10,7 +10,7 @@
  *   – Time:  O(k)   where k = number of set bits (≤32) — fast for sparse ints.
  *   – Space: O(1)
  *
- * Follow-up optimisation
+ * Follow-up optimization
  *   For many calls, pre-compute popcount of all 256 possible bytes and sum
  *   four table lookups per 32-bit word; reduces to O(1) with tiny constant.
  */

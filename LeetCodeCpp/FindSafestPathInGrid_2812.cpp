@@ -31,7 +31,7 @@ int FindSafestPathInGrid_2812::maximumSafenessFactor(vector<vector<int>>& grid) 
     using State = tuple<int,int,int>;                 // (bottleneck, r, c)
     int initial = dist[0][0];
     best[0][0] = initial;
-    priority_queue<State> pq{ less<State>(), { {initial, 0, 0} } };     // in-place initialisation
+    priority_queue<State> pq{ less<State>(), { {initial, 0, 0} } };     // in-place initialization
 
     while (!pq.empty()) {
         auto [safe, r, c] = pq.top(); pq.pop();
