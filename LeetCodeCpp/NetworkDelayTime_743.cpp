@@ -48,15 +48,18 @@
  * ignored safely since dist[u] already records a ≤-better distance that will (or
  * already did) propagate relaxations.
  *
- * Why not drop d == dist[u] as well?
- *  - Using `>` is conservative: equal-key entries are *not* worse than dist[u],
- *    so processing them is harmless. At least one of the equal entries will be
- *    the first optimal extraction of u and will perform the necessary relaxations.
- *    Any later equal duplicates will re-process u but cannot change dist[·].
- *  - You *may* tighten the guard to `if (d != dist[u]) continue;` to skip equal
- *    duplicates too. That is also correct and usually a tad faster (fewer edge
- *    scans). The version with `>` just trades a tiny amount of extra work for
- *    a simpler mental model; either way correctness is unchanged.
+ * Stale-entry guard
+ * -----------------
+ * We never perform decrease-key; instead we push a new (d',u) only when we
+ * discover a strictly better distance: if (d_new < dist[u]). Therefore any
+ * old heap entries for u have d_old > dist[u] and are safe to skip:
+ *
+ *     if (d > dist[u]) continue;   // skip strictly-worse entries
+ *
+ * Do NOT skip d == dist[u]: the first optimal extraction of u has exactly
+ * this equality and must perform relaxations. Because relax() uses strict
+ * '<', we never insert an equal-key duplicate for the same vertex, so the
+ * d == dist[u] case is the fresh, correct one to process.
  *
  * Time complexity
  * ---------------
