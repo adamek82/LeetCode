@@ -48,8 +48,6 @@
  * ignored safely since dist[u] already records a ≤-better distance that will (or
  * already did) propagate relaxations.
  *
- * Stale-entry guard
- * -----------------
  * We never perform decrease-key; instead we push a new (d',u) only when we
  * discover a strictly better distance: if (d_new < dist[u]). Therefore any
  * old heap entries for u have d_old > dist[u] and are safe to skip:
