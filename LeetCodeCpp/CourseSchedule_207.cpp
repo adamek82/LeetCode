@@ -1,4 +1,7 @@
 #include "CourseSchedule_207.h"
+#include <vector>
+#include <unordered_map>
+#include <queue>
 
 /*
  * Algorithm: DFS with three-state coloring to detect cycles in a directed graph
@@ -110,9 +113,63 @@ bool CourseSchedule_207::dfs(int node, unordered_map<int, vector<int>>& graph, v
     return true;
 }
 
-// ---------- Kahn’s BFS / topological-sort variant -----------------------
-bool CourseSchedule_207::canFinishKahns(int numCourses,
-                                        const vector<vector<int>>& prerequisites) {
+/*
+ * Algorithm: Kahn’s topological sort (BFS on in-degree-0 vertices)
+ * ----------------------------------------------------------------
+ * Problem restatement:
+ *   Each pair [a, b] means: course a depends on course b (b must be taken before a).
+ *   We can finish all courses iff the prerequisite graph is a DAG (has no directed cycle).
+ *
+ * Graph orientation (crucial):
+ *   For Kahn’s algorithm to work, edges must point from prerequisite to dependent:
+ *     pre -> course
+ *   Reason: the in-degree of a node must count “how many prerequisites remain”.
+ *   If we reversed edges (course -> pre), in-degree 0 would mean “no dependents”,
+ *   which is irrelevant for scheduling; the queue wouldn’t reflect “ready to take” courses.
+ *
+ * Data structures:
+ *   - adj[pre] lists courses unlocked after completing `pre` (out-neighbors).
+ *   - indeg[v] is the number of prerequisites still required for course v.
+ *   - queue<int> q contains all courses currently ready to be taken (indeg == 0).
+ *
+ * Core procedure:
+ *   1) Initialize indeg and adj using edges pre -> course.
+ *   2) Push all indeg==0 courses to q (they have no unmet prerequisites).
+ *   3) While q is not empty:
+ *        - Pop a ready course `cur` and count it as visited (taken).
+ *        - For every dependent `nxt` in adj[cur], decrement indeg[nxt]
+ *          (one prerequisite satisfied). If indeg[nxt] becomes 0, push it to q.
+ *   4) Return (visited == numCourses). If all courses were visited, no cycle exists.
+ *
+ * Correctness (proof sketch):
+ *   - Soundness (no false positives): We return true only when every course is dequeued.
+ *     Dequeue occurs solely at indeg==0, i.e., after all its prerequisites have been
+ *     decremented away by previously dequeued courses. Thus the produced order obeys
+ *     all prerequisite constraints.
+ *   - Completeness (no missed cycles): If a directed cycle exists, every node on the cycle
+ *     has indeg ≥ 1 (each requires a predecessor on the same cycle). No node from that cycle
+ *     can ever reach indeg==0 because none is dequeued first; hence they never enter q.
+ *     The loop terminates with visited < numCourses, so we correctly return false.
+ *   - DAG acceptance: In a DAG, there exists at least one node with indeg==0
+ *     (a standard DAG property). The algorithm repeatedly removes such nodes and reduces
+ *     in-degrees of their out-neighbors. This process never stalls until all nodes are taken.
+ *
+ * Loop invariant:
+ *   At each iteration, q contains exactly the set of courses whose remaining prerequisites
+ *   are all satisfied. Dequeuing `cur` preserves the invariant because we immediately
+ *   propagate its completion via indeg decrements and enqueue any newly satisfied courses.
+ *
+ * Complexity:
+ *   Let n = numCourses and m = prerequisites.size().
+ *   - Time: O(n + m). Each node is enqueued/dequeued once; each edge causes one indeg decrement.
+ *   - Space: O(n + m) for adj, indeg, and the queue in the worst case.
+ *
+ * Practical notes:
+ *   - The final equality (visited == numCourses) is equivalent to “graph is acyclic”.
+ *   - Using pre -> course is what makes indeg count “unsatisfied prerequisites” and is the
+ *     reason q models “ready” tasks; with course -> pre, the method fails to expose readiness.
+ */
+bool CourseSchedule_207::canFinishKahns(int numCourses, const vector<vector<int>>& prerequisites) {
     // Build adjacency list and in-degree array
     vector<vector<int>> adj(numCourses);
     vector<int> indeg(numCourses, 0);
