@@ -1,4 +1,5 @@
 #include "NumberOfIslands_200.h"
+#include <vector>
 
 /*
  * Incremental notes vs MaxAreaOfIsland_695 (recursive flood-fill)
