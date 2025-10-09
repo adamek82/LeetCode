@@ -37,7 +37,8 @@
  * Complexity:
  *   Let m = grid height, n = grid width.
  *   - Time: O(m·n). Each cell is visited at most once; each edge (adjacency) is examined O(1) times.
- *   - Space: O(m·n) in the worst case due to recursion stack depth (e.g., a snake-shaped island).
+ *   - Space: O(m·n) in the worst case due to recursion stack depth — e.g., when the entire grid is
+ *            land (a single island of size m·n).
  *            Extra auxiliary space beyond recursion is O(1) (the fixed directions array).
  *            An iterative DFS/BFS with an explicit stack/queue achieves the same O(m·n) time and
  *            O(m·n) worst-case space but avoids call-stack overflows on large grids.
