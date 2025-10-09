@@ -1,4 +1,7 @@
 #include "MaxAreaOfIsland_695.h"
+#include <algorithm>
+#include <vector>
+#include <stack>
 
 /*
  * Algorithm: Flood-fill via DFS to compute the largest 4-connected component (island) of 1s
