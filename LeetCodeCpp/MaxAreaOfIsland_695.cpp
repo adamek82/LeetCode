@@ -81,17 +81,57 @@ int MaxAreaOfIsland_695::dfsRecursive(vector<vector<int>> &grid, int i, int j) {
          + dfsRecursive(grid, i, j-1);      // left
 }
 
-// Iterative DFS, public entry point
+/*
+ * Algorithm: Iterative DFS (explicit stack) flood-fill for maximum island area
+ * ---------------------------------------------------------------------------
+ * Problem restatement:
+ *   Given a binary grid (0 = water, 1 = land), an island is a maximal 4-connected
+ *   component of 1s (up/down/left/right). Return the size of the largest island.
+ *
+ * Approach:
+ *   - Scan all cells; upon encountering an unvisited land cell (1), run an iterative
+ *     DFS using an explicit stack to flood-fill that island and compute its area.
+ *   - Mark cells as visited by flipping grid[x][y] = 0 (in-place) to prevent revisits.
+ *   - Track the maximum area over all flood-fills.
+ *
+ * Stack-based flood-fill (floodFillIterative):
+ *   - Initialize a stack with the seed cell (r,c) and immediately mark it 0.
+ *   - While the stack is not empty:
+ *       • Pop a cell, increment area.
+ *       • For each of its four neighbors, if in bounds and equal to 1, mark it 0 and push.
+ *   - Returning area yields the size of this island’s 4-connected component.
+ *
+ * Why mark before push:
+ *   - Marking a neighbor as visited (set to 0) at the time of pushing guarantees that no cell
+ *     enters the stack more than once, preventing duplicates and ensuring linear complexity.
+ *
+ * Correctness (proof sketch):
+ *   - Soundness: We only count cells that were 1 and each is marked 0 exactly once, so no cell
+ *     is double-counted. Pushing occurs only for valid, in-bounds land neighbors.
+ *   - Completeness: Starting from every yet-unvisited land cell triggers exactly one flood-fill
+ *     per island; the stack expansion explores the entire 4-connected component before finishing.
+ *   - Max selection: Taking the maximum of all returned areas yields the largest island by definition.
+ *
+ * Relation to recursive DFS:
+ *   - This is behaviorally equivalent to the recursive version but uses an explicit stack instead
+ *     of the call stack, avoiding recursion-depth limits on large or snaking islands.
+ *
+ * Complexity:
+ *   Let m = grid height, n = grid width.
+ *   - Time: O(m·n). Each cell is pushed/popped at most once; each adjacency is checked O(1).
+ *   - Space: O(m·n) in the worst case for the explicit stack when one island spans all cells.
+ *            Extra auxiliary space beyond the stack is O(1) (fixed directions array and a few locals).
+ *
+ * Edge cases:
+ *   - All water → result 0.
+ *   - Single cell grid → 0 or 1 accordingly.
+ *   - Assumes non-empty grid with consistent row lengths.
+ */
 int MaxAreaOfIsland_695::maxAreaOfIslandIterative(vector<vector<int>>& grid)
 {
     int m = grid.size();
     int n = grid[0].size();
     int best = 0;
-
-    // Directions for moving in the grid (right, left, down, up)
-    static const vector<pair<int, int>> directions = {
-        {0, 1}, {0, -1}, {1, 0}, {-1, 0}
-    };
 
     for (int r = 0; r < m; ++r)
         for (int c = 0; c < n; ++c)
