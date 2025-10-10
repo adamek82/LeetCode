@@ -1,7 +1,8 @@
 #pragma once
-#include <vector>
 #include <unordered_map>
-#include "GraphNode.h"
+
+template <typename T>
+struct GraphNode;
 
 using namespace std;
 
