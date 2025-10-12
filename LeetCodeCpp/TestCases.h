@@ -793,4 +793,10 @@ namespace TestCases {
         vector<vector<int>> input;
         vector<vector<int>> expected;
     };
+
+    // 329. Longest Increasing Path in a Matrix
+    struct LongestIncreasingPathInMatrixTestCase {
+        GridInt matrix;
+        int expected;
+    };
 } // namespace TestCases

@@ -135,6 +135,7 @@
 #include "GenerateParentheses_22.h"
 #include "ExamRoom_855.h"
 #include "GameOfLife_289.h"
+#include "LongestIncreasingPathInMatrix_329.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -3601,6 +3602,42 @@ public:
         }
     }
 
+    static void longestIncreasingPathInMatrix_329_tests() {
+        using TestCases::LongestIncreasingPathInMatrixTestCase;
+
+        vector<LongestIncreasingPathInMatrixTestCase> testCases = {
+            // Example 1
+            {{{9,9,4},
+            {6,6,8},
+            {2,1,1}}, 4},
+
+            // Example 2
+            {{{3,4,5},
+            {3,2,6},
+            {2,2,1}}, 4},
+
+            // Example 3
+            {{{1}}, 1},
+
+            // Complex 1: snake-like 3x3 increasing path of length 9
+            {{{1,2,3},
+            {6,5,4},
+            {7,8,9}}, 9},
+
+            // Complex 2: rectangular with plateaus, optimal path length 6
+            {{{1,2,3,4},
+            {2,2,3,5},
+            {2,2,4,6}}, 6},
+        };
+
+        LongestIncreasingPathInMatrix_329 lip329;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = lip329.longestIncreasingPath(testCases[i].matrix);
+            assertEqScalar("Longest Increasing Path in Matrix 329 Test " + to_string(i + 1),
+                        testCases[i].expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -3726,6 +3763,7 @@ public:
         TEST(22,   "Generate Parentheses",                           generateParentheses_22_tests),
         TEST(855,  "Exam Room",                                      examRoom_855_tests),
         TEST(289,  "Game of Life",                                   gameOfLife_289_tests),
+        TEST(329,  "Longest Increasing Path in a Matrix",            longestIncreasingPathInMatrix_329_tests),
     };
 
     static void runAllTests() {
