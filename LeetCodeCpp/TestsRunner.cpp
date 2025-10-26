@@ -493,11 +493,17 @@ public:
             {{9, 2, 5, 3, 7, 101, 18, 9, 4, 5, 6, 7, 8}, 7} // Example 5
         };
 
-        LongestIncreasingSubsequence_300 solution; // Assuming your LIS solution is implemented in this class
+        LongestIncreasingSubsequence_300 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = solution.lengthOfLIS(testCases[i].nums);
-            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
+            // Run both implementations and check against expected, then cross-check equality.
+            auto nums1 = testCases[i].nums;              // tails version takes non-const ref
+            int got_tails = solution.lengthOfLIS_tails(nums1);
+            int got_dp    = solution.lengthOfLIS_dp(testCases[i].nums);
+
+            assertEqScalar("LIS 300 [tails]  Test " + to_string(i + 1), testCases[i].expected, got_tails);
+            assertEqScalar("LIS 300 [dp]     Test " + to_string(i + 1), testCases[i].expected, got_dp);
+            assertEqScalar("LIS 300 [agree]  Test " + to_string(i + 1), got_tails, got_dp);
         }
     }
 

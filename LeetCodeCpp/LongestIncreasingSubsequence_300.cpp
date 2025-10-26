@@ -98,7 +98,7 @@
  *       ... stays [7]        ⇒ answer = 1
  *
  */
-int LongestIncreasingSubsequence_300::lengthOfLIS(vector<int> &nums)
+int LongestIncreasingSubsequence_300::lengthOfLIS_tails(vector<int> &nums)
 {
     vector<int> tails;              // tails[i] = min tail of length i+1
     tails.reserve(nums.size());
@@ -115,4 +115,24 @@ int LongestIncreasingSubsequence_300::lengthOfLIS(vector<int> &nums)
         }
     }
     return tails.size();
+}
+
+// O(N^2) dynamic programming: dp[i] = LIS length ending at i
+int LongestIncreasingSubsequence_300::lengthOfLIS_dp(const vector<int>& nums)
+{
+    const int n = static_cast<int>(nums.size());
+    if (n == 0) return 0;
+
+    vector<int> dp(n, 1);
+    int best = 1;
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < i; ++j) {
+            if (nums[j] < nums[i]) {
+                dp[i] = max(dp[i], dp[j] + 1);
+            }
+        }
+        best = max(best, dp[i]);
+    }
+    return best;
 }
