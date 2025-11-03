@@ -1834,8 +1834,8 @@ public:
 
         SortCharactersByFrequency_451 sol;
         for (size_t i = 0; i < inputs.size(); ++i) {
-            std::string got = sol.frequencySort(inputs[i]);
-            const std::string label = "Sort Characters by Frequency 451 Test " + std::to_string(i + 1);
+            string got = sol.frequencySort(inputs[i]);
+            const string label = "Sort Characters by Frequency 451 Test " + to_string(i + 1);
             assertEqScalar(label, true, isValidFrequencySort(inputs[i], got));
         }
     }
@@ -3646,9 +3646,9 @@ public:
     }
 
     static void minStack_155_tests() {
-        auto run = [](const std::vector<std::pair<std::string,int>>& ops) {
+        auto run = [](const vector<pair<string,int>>& ops) {
             MinStack_155 ms;
-            std::vector<int> out;
+            vector<int> out;
             for (const auto& [op, val] : ops) {
                 if (op == "push") {
                     ms.push(val);
@@ -3663,7 +3663,7 @@ public:
             return out;
         };
 
-        std::vector<MinStackTestCase> tests = {
+        vector<MinStackTestCase> tests = {
             // Example from the prompt
             {
                 {{"push",-2},{"push",0},{"push",-3},{"getMin",0},{"pop",0},{"top",0},{"getMin",0}},
@@ -3697,7 +3697,7 @@ public:
 
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = run(tests[i].ops);
-            assertEqVIntExact("Min Stack 155 Test " + std::to_string(i + 1), tests[i].expected, got);
+            assertEqVIntExact("Min Stack 155 Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
 
