@@ -136,6 +136,7 @@
 #include "ExamRoom_855.h"
 #include "GameOfLife_289.h"
 #include "LongestIncreasingPathInMatrix_329.h"
+#include "MinStack_155.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -3644,6 +3645,62 @@ public:
         }
     }
 
+    static void minStack_155_tests() {
+        auto run = [](const std::vector<std::pair<std::string,int>>& ops) {
+            MinStack_155 ms;
+            std::vector<int> out;
+            for (const auto& [op, val] : ops) {
+                if (op == "push") {
+                    ms.push(val);
+                } else if (op == "pop") {
+                    ms.pop();
+                } else if (op == "top") {
+                    out.push_back(ms.top());
+                } else if (op == "getMin") {
+                    out.push_back(ms.getMin());
+                }
+            }
+            return out;
+        };
+
+        std::vector<MinStackTestCase> tests = {
+            // Example from the prompt
+            {
+                {{"push",-2},{"push",0},{"push",-3},{"getMin",0},{"pop",0},{"top",0},{"getMin",0}},
+                {-3, 0, -2}
+            },
+            // Monotonic decreasing pushes, verify min changes on pops
+            {
+                {{"push",5},{"push",3},{"push",1},{"getMin",0},{"pop",0},{"getMin",0},{"pop",0},{"getMin",0},{"top",0}},
+                {1, 3, 5, 5}
+            },
+            // Duplicated minima; ensure min persists through equal values
+            {
+                {{"push",5},{"push",5},{"push",-1},{"push",-1},{"push",7},
+                {"getMin",0},{"pop",0},{"getMin",0},{"pop",0},{"getMin",0},{"pop",0},{"getMin",0},{"top",0}},
+                {-1, -1, -1, 5, 5}
+            },
+            // Interleaved stress: push/pop/top/getMin in mixed order
+            {
+                {{"push",2},{"push",0},{"push",3},{"push",0},{"getMin",0}, // min=0
+                {"pop",0},{"getMin",0},                                   // min=0
+                {"pop",0},{"getMin",0},                                   // min=0
+                {"pop",0},{"getMin",0}},                                  // min=2
+                {0, 0, 0, 2}
+            },
+            // Single element edge pattern
+            {
+                {{"push",42},{"getMin",0},{"top",0},{"pop",0}},
+                {42, 42}
+            }
+        };
+
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto got = run(tests[i].ops);
+            assertEqVIntExact("Min Stack 155 Test " + std::to_string(i + 1), tests[i].expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -3770,6 +3827,7 @@ public:
         TEST(855,  "Exam Room",                                      examRoom_855_tests),
         TEST(289,  "Game of Life",                                   gameOfLife_289_tests),
         TEST(329,  "Longest Increasing Path in a Matrix",            longestIncreasingPathInMatrix_329_tests),
+        TEST(155,  "Min Stack",                                      minStack_155_tests),
     };
 
     static void runAllTests() {

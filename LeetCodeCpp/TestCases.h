@@ -799,4 +799,11 @@ namespace TestCases {
         GridInt matrix;
         int expected;
     };
+
+    // 155. Min Stack
+    struct MinStackTestCase {
+        // operations that produce outputs in order: only "top" and "getMin"
+        vector<pair<string, int>> ops; // {op, arg}; arg ignored for ops without arg
+        vector<int> expected;
+    };
 } // namespace TestCases
