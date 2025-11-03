@@ -1154,7 +1154,9 @@ public:
             // Additional Test 2: Decreasing heights
             {{5, 4, 3, 2, 1}, 9},
             // Additional Test 3: Complex case
-            {{2, 1, 4, 5, 1, 3, 3}, 8}
+            {{2, 1, 4, 5, 1, 3, 3}, 8},
+            // Additional Test 4: Plateau with equal heights (ties).
+            {{1, 2, 3, 3, 3, 1}, 9}
         };
 
         LargestRectangleInHistogram_84 solution;
