@@ -137,6 +137,7 @@
 #include "GameOfLife_289.h"
 #include "LongestIncreasingPathInMatrix_329.h"
 #include "MinStack_155.h"
+#include "BaseballGame_682.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -3703,6 +3704,32 @@ public:
         }
     }
 
+    static void baseballGame_682_tests() {
+        using namespace TestCases;
+        vector<BaseballGameTestCase> testCases = {
+            {{"5","2","C","D","+"}, 30},                      // Example 1
+            {{"5","-2","4","C","D","9","+","+"}, 27},         // Example 2
+            {{"1","C"}, 0},                                   // Example 3
+            {{"10"}, 10},                                     // Simple single score
+            {{"5","-2","C","C","10"}, 10},                    // Consecutive cancellations then a value
+            {{"3","4","+","+"}, 25},                          // Multiple '+' in a row
+            {{"-5","D","+"}, -30},                            // Negatives with D and +
+            {{"1","C","2","C"}, 0},                           // Ends empty again
+            {{"1","2","3","D","+","C","D","+"}, 42},          // Rich sequence with interleaved ops
+            {{"-1","-2","+","D","C","C"}, -3},                // Many ops with cancels near the end
+            {{"30000","30000","+","D","C"}, 120000},          // Large values near bounds to verify 32-bit-safe math
+            {{"1","D","D","C","+"}, 6},                       // Alternating D and C
+        };
+
+        BaseballGame_682 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto ops = testCases[i].ops; // calPoints takes non-const ref
+            int got = sol.calPoints(ops);
+            assertEqScalar("Baseball Game 682 Test " + to_string(i + 1),
+                           testCases[i].expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -3830,6 +3857,7 @@ public:
         TEST(289,  "Game of Life",                                   gameOfLife_289_tests),
         TEST(329,  "Longest Increasing Path in a Matrix",            longestIncreasingPathInMatrix_329_tests),
         TEST(155,  "Min Stack",                                      minStack_155_tests),
+        TEST(682,  "Baseball Game",                                  baseballGame_682_tests),
     };
 
     static void runAllTests() {

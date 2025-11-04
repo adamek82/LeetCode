@@ -806,4 +806,10 @@ namespace TestCases {
         vector<pair<string, int>> ops; // {op, arg}; arg ignored for ops without arg
         vector<int> expected;
     };
+
+    // 682. Baseball Game
+    struct BaseballGameTestCase {
+        vector<string> ops;
+        int expected;
+    };
 } // namespace TestCases
