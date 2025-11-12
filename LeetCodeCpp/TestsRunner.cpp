@@ -138,6 +138,7 @@
 #include "LongestIncreasingPathInMatrix_329.h"
 #include "MinStack_155.h"
 #include "BaseballGame_682.h"
+#include "SplitTheArray_3046.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -3730,6 +3731,25 @@ public:
         }
     }
 
+    static void splitTheArray_3046_tests() {
+        vector<SplitTheArrayTestCase> tests = {
+            {{1,1,2,2,3,4}, true},   // example 1
+            {{1,1,1,1},     false},  // example 2
+            {{1,2},         true},   // minimal even length, trivially split [1] | [2]
+            {{1,1},         true},   // [1] | [1] — each half has distinct elements
+            {{2,2,3,3},     true},   // all counts <= 2
+            {{5,5,5,6,7,8}, false},  // a value appears 3 times
+            {{10,20,30,40}, true},   // all unique
+        };
+        SplitTheArray_3046 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto v = tests[i].nums;
+            bool got = sol.isPossibleToSplit(v);
+            assertEqScalar("Split the Array 3046 Test " + to_string(i + 1),
+                           tests[i].expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -3858,6 +3878,7 @@ public:
         TEST(329,  "Longest Increasing Path in a Matrix",            longestIncreasingPathInMatrix_329_tests),
         TEST(155,  "Min Stack",                                      minStack_155_tests),
         TEST(682,  "Baseball Game",                                  baseballGame_682_tests),
+        TEST(3046, "Split the Array",                                splitTheArray_3046_tests),
     };
 
     static void runAllTests() {

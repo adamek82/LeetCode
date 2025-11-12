@@ -812,4 +812,10 @@ namespace TestCases {
         vector<string> ops;
         int expected;
     };
+
+    // 3046. Split the Array
+    struct SplitTheArrayTestCase {
+        vector<int> nums;
+        bool expected;
+    };
 } // namespace TestCases
