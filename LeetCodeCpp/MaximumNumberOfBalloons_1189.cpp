@@ -33,6 +33,12 @@ int MaximumNumberOfBalloons_1189::maxNumberOfBalloons(string &text)
     array<int, 26> freq{};                // zero-initialized
     for (char c : text) freq[c - 'a']++;
 
+    // Initialize the requirement vector using an immediately-invoked lambda.
+    // This lets us build a non-trivial std::array (with specific counts for
+    // 'b','a','l','o','n') in a small local scope and return it as a single
+    // expression. The lambda constructs a zero-initialized array, sets the
+    // needed entries, and returns it; the trailing () immediately invokes
+    // the lambda, so its result is used to initialize `need`.
     const array<int, 26> need = []{
         array<int, 26> a{};               // requirement vector
         a['b' - 'a'] = 1;
