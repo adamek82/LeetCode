@@ -2,9 +2,35 @@
 #include <array>
 #include <limits>
 
+/*
+ * Fixed-size frequency counting for the word "balloon".
+ *
+ * We first build a frequency table freq[0..25] for all lowercase letters
+ * in the input text (freq['a' - 'a'] counts 'a', freq['b' - 'a'] counts 'b', etc.).
+ *
+ * Next, we define a requirement vector need[0..25] that encodes how many times
+ * each letter is needed to form one occurrence of the word "balloon":
+ *   b:1, a:1, l:2, o:2, n:1, all other letters:0.
+ *
+ * To find how many times we can form "balloon", we compute for every letter
+ * that is required (need[i] > 0) how many full copies it supports:
+ *   freq[i] / need[i]
+ * and take the minimum over all required letters. That minimum is the answer,
+ * because it is the bottleneck letter (the one we run out of first).
+ * If no required letter is present at all, we return 0.
+ *
+ * Time complexity:
+ * Let n be the length of text. We do one pass over the string (O(n)) and
+ * one pass over the fixed alphabet of 26 letters (O(26) = O(1)), so the
+ * total time is O(n).
+ *
+ * Space complexity:
+ * We use only two fixed-size arrays of length 26 and a couple of scalars,
+ * so the space usage is O(1).
+ */
 int MaximumNumberOfBalloons_1189::maxNumberOfBalloons(string &text)
 {
-    array<int, 26> freq{};                // zero-initialised
+    array<int, 26> freq{};                // zero-initialized
     for (char c : text) freq[c - 'a']++;
 
     const array<int, 26> need = []{
