@@ -139,6 +139,7 @@
 #include "MinStack_155.h"
 #include "BaseballGame_682.h"
 #include "SplitTheArray_3046.h"
+#include "RansomNote_383.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -3750,6 +3751,26 @@ public:
         }
     }
 
+    static void ransomNote_383_tests() {
+        vector<RansomNote383TestCase> testCases = {
+            // Examples from the problem statement
+            {"a",  "b",   false},
+            {"aa", "ab",  false},
+            {"aa", "aab", true},
+
+            // Additional tests
+            {"abc", "cba",  true},   // same letters, different order
+            {"aaa", "aa",   false}   // not enough copies of 'a' in magazine
+        };
+
+        RansomNote_383 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            bool got = sol.canConstruct(testCases[i].ransomNote, testCases[i].magazine);
+            assertEqScalar("Ransom Note 383 Test " + to_string(i + 1),
+                           testCases[i].expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -3879,6 +3900,7 @@ public:
         TEST(155,  "Min Stack",                                      minStack_155_tests),
         TEST(682,  "Baseball Game",                                  baseballGame_682_tests),
         TEST(3046, "Split the Array",                                splitTheArray_3046_tests),
+        TEST(383,  "Ransom Note",                                    ransomNote_383_tests),
     };
 
     static void runAllTests() {

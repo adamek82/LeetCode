@@ -818,4 +818,11 @@ namespace TestCases {
         vector<int> nums;
         bool expected;
     };
+
+    // 383. Ransom Note
+    struct RansomNote383TestCase {
+        string ransomNote;
+        string magazine;
+        bool expected;
+    };
 } // namespace TestCases
