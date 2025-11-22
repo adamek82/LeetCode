@@ -141,6 +141,7 @@
 #include "SplitTheArray_3046.h"
 #include "RansomNote_383.h"
 #include "ThreeSumClosest_16.h"
+#include "FourSum_18.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -3801,6 +3802,47 @@ public:
         }
     }
 
+    static void fourSum_18_tests() {
+        vector<FourSumTestCase> testCases = {
+            // two examples from the problem statement
+            {{1, 0, -1, 0, -2, 2}, 0,
+             {
+                 {-2, -1, 1, 2},
+                 {-2,  0, 0, 2},
+                 {-1,  0, 0, 1},
+             }},
+            {{2, 2, 2, 2, 2}, 8,
+             {
+                 {2, 2, 2, 2},
+             }},
+
+            // no solution
+            {{1, 2, 3, 4}, 100, {}},
+
+            // mixed positives/negatives, single solution
+            {{-3, -1, 0, 2, 4, 5}, 2,
+             {
+                 {-3, -1, 2, 4},
+             }},
+
+            // duplicates and multiple distinct quadruplets
+            {{-3, -1, -1, 0, 2, 2, 2, 4}, 0,
+             {
+                 {-3, -1, 0, 4},
+                 {-3, -1, 2, 2},
+                 {-1, -1, 0, 2},
+             }},
+        };
+
+        FourSum_18 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto nums = testCases[i].input; // work on a copy
+            auto got  = solver.fourSum(nums, testCases[i].target);
+            const string label = "Four Sum 18 Test " + to_string(i + 1);
+            assertEqVVIntAnyOrder(label, testCases[i].expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -3932,6 +3974,7 @@ public:
         TEST(3046, "Split the Array",                                splitTheArray_3046_tests),
         TEST(383,  "Ransom Note",                                    ransomNote_383_tests),
         TEST(16,   "3Sum Closest",                                   threeSumClosest_16_tests),
+        TEST(18,   "4Sum",                                           fourSum_18_tests),
     };
 
     static void runAllTests() {

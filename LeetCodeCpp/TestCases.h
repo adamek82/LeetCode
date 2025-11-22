@@ -832,4 +832,11 @@ namespace TestCases {
         int target;
         int expected;
     };
+
+    // 18. 4Sum
+    struct FourSumTestCase {
+        vector<int> input;
+        int target;
+        vector<vector<int>> expected;
+    };
 } // namespace TestCases
