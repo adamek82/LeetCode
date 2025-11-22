@@ -48,13 +48,19 @@
  *   - As a result, each distinct quadruplet is generated exactly once.
  *
  * 64-bit arithmetic:
- *   - nums[i] can be as large as 1e9, so the quadruple sum can reach 4e9,
- *     which does not fit in a 32-bit signed int.
- *   - We compute the sum in long long and compare it against a long long
- *     copy of target to avoid overflow:
+ *   - nums[i] can be as large as 1e9, so the quadruple sum can reach up to
+ *     about 4e9, which does not fit in a 32-bit signed int.
+ *   - We compute the sum in long long so that the addition itself cannot
+ *     overflow:
  *
- *         long long sum = (long long)nums[i] + nums[j] + nums[l] + nums[r];
- *         long long targetLL = target;
+ *         long long sum =
+ *             static_cast<long long>(nums[i]) +
+ *             nums[j] +
+ *             nums[l] +
+ *             nums[r];
+ *
+ *     Comparisons with target are safe because the int target is
+ *     automatically promoted to long long in the relational operators.
  *
  * Complexity:
  *   - Sorting: O(n log n).
@@ -70,7 +76,6 @@ vector<vector<int>> FourSum_18::fourSum(vector<int>& nums, int target)
     vector<vector<int>> res;
     sort(nums.begin(), nums.end());
     const int n = static_cast<int>(nums.size());
-    const long long targetLL = static_cast<long long>(target);
 
     for (int i = 0; i < n - 3; ++i) {
         if (i > 0 && nums[i] == nums[i - 1]) continue; // skip duplicate first
@@ -88,7 +93,7 @@ vector<vector<int>> FourSum_18::fourSum(vector<int>& nums, int target)
                     nums[l] +
                     nums[r];
 
-                if (sum == targetLL) {
+                if (sum == target) {
                     res.push_back({nums[i], nums[j], nums[l], nums[r]});
 
                     // skip duplicates for l and r
@@ -96,7 +101,7 @@ vector<vector<int>> FourSum_18::fourSum(vector<int>& nums, int target)
                     while (l < r && nums[r] == nums[r - 1]) --r;
                     ++l;
                     --r;
-                } else if (sum < targetLL) {
+                } else if (sum < target) {
                     ++l;
                 } else { // sum > targetLL
                     --r;
