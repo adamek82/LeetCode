@@ -140,6 +140,7 @@
 #include "BaseballGame_682.h"
 #include "SplitTheArray_3046.h"
 #include "RansomNote_383.h"
+#include "ThreeSumClosest_16.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -3771,6 +3772,35 @@ public:
         }
     }
 
+    static void threeSumClosest_16_tests() {
+        vector<ThreeSumClosestTestCase> testCases = {
+            // two examples from the problem statement
+            {{-1, 2, 1, -4}, 1, 2},
+            {{0, 0, 0},      1, 0},
+
+            // additional cases
+            // all positive, target smaller than all sums
+            {{1, 1, 1, 0},  -100, 2},
+
+            // exact match exists
+            {{1, 2, 3, 4},   6, 6},    // 1 + 2 + 3
+
+            // mixed positives/negatives, more spread out
+            {{1, 2, 5, 10, 11}, 12, 13}, // closest is 1 + 2 + 10 = 13
+
+            // duplicate values, multiple triplets with same distance
+            {{-1, -1, 1, 1, 3}, 0, -1}    // sums closest to 0 are -1 and 1 (distance 1)
+        };
+
+        ThreeSumClosest_16 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto nums = testCases[i].input; // solve on a copy (project style)
+            int got   = solver.threeSumClosest(nums, testCases[i].target);
+            const string label = "Three Sum Closest 16 Test " + to_string(i + 1);
+            assertEqScalar(label, testCases[i].expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -3901,6 +3931,7 @@ public:
         TEST(682,  "Baseball Game",                                  baseballGame_682_tests),
         TEST(3046, "Split the Array",                                splitTheArray_3046_tests),
         TEST(383,  "Ransom Note",                                    ransomNote_383_tests),
+        TEST(16,   "3Sum Closest",                                   threeSumClosest_16_tests),
     };
 
     static void runAllTests() {

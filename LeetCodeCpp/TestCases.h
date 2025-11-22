@@ -825,4 +825,11 @@ namespace TestCases {
         string magazine;
         bool expected;
     };
+
+    // 16. 3Sum Closest
+    struct ThreeSumClosestTestCase {
+        vector<int> input;
+        int target;
+        int expected;
+    };
 } // namespace TestCases
