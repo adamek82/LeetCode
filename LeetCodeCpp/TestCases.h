@@ -839,4 +839,10 @@ namespace TestCases {
         int target;
         vector<vector<int>> expected;
     };
+
+    // 226. Invert Binary Tree
+    struct InvertBinaryTreeTestCase {
+        vector<optional<int>> input;    // level-order representation of the original tree
+        vector<optional<int>> expected; // level-order representation of the inverted tree
+    };
 } // namespace TestCases

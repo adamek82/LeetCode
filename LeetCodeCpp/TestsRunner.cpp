@@ -142,6 +142,7 @@
 #include "RansomNote_383.h"
 #include "ThreeSumClosest_16.h"
 #include "FourSum_18.h"
+#include "InvertBinaryTree_226.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -3843,6 +3844,79 @@ public:
         }
     }
 
+    static void invertBinaryTree_226_tests() {
+        vector<InvertBinaryTreeTestCase> testCases = {
+            // Example 1 from the problem statement
+            {{4, 2, 7, 1, 3, 6, 9},
+             {4, 7, 2, 9, 6, 3, 1}},
+
+            // Example 2 from the problem statement
+            {{2, 1, 3},
+             {2, 3, 1}},
+
+            // Example 3: empty tree
+            {{},
+             {}},
+
+            // Single-node tree
+            {{42},
+             {42}},
+
+            // Left-skewed tree turns into right-skewed tree
+            // input:  1
+            //        /
+            //       2
+            //      /
+            //     3
+            //
+            // output:
+            //     1
+            //      \
+            //       2
+            //        \
+            //         3
+            {{1, 2, nullopt, 3},
+             {1, nullopt, 2, nullopt, 3}},
+
+            // Irregular tree with nulls in the middle
+            //    Input:
+            //          1
+            //        /   \
+            //       2     3
+            //      /       \
+            //     4         5
+            //
+            //    Output:
+            //          1
+            //        /   \
+            //       3     2
+            //      /       \
+            //     5         4
+            {{1, 2, 3, 4, nullopt, nullopt, 5},
+             {1, 3, 2, 5, nullopt, nullopt, 4}},
+        };
+
+        InvertBinaryTree_226 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+
+            TreeNode<int>* root     = TreeUtils::vectorToTree<int>(tc.input);
+            TreeNode<int>* expected = TreeUtils::vectorToTree<int>(tc.expected);
+
+            TreeNode<int>* result = solver.invertTree(root);
+
+            string gotStr = TreeUtils::toLevelOrderString(result);
+            string expStr = TreeUtils::toLevelOrderString(expected);
+
+            const string label = "Invert Binary Tree 226 Test " + to_string(i + 1);
+            assertEqScalar(label, expStr, gotStr);
+
+            TreeUtils::freeTree(expected);
+            TreeUtils::freeTree(root);      // free the input tree
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -3975,6 +4049,7 @@ public:
         TEST(383,  "Ransom Note",                                    ransomNote_383_tests),
         TEST(16,   "3Sum Closest",                                   threeSumClosest_16_tests),
         TEST(18,   "4Sum",                                           fourSum_18_tests),
+        TEST(226,  "Invert Binary Tree",                             invertBinaryTree_226_tests),
     };
 
     static void runAllTests() {
