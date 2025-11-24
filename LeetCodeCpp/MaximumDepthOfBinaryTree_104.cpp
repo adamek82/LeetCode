@@ -1,5 +1,16 @@
 #include "MaximumDepthOfBinaryTree_104.h"
 
+/*
+ * Recursive DFS:
+ * - Base case: a null node has depth 0.
+ * - Otherwise the depth is 1 plus the maximum depth of the left and right subtree.
+ * This directly mirrors the definition of the height of a binary tree.
+ *
+ * Complexity:
+ * - Time:  O(n), each node is visited exactly once.
+ * - Space: O(h) for the recursion stack, where h is the tree height
+ *          (O(n) worst case for a skewed tree, O(log n) for a balanced tree).
+ */
 int MaximumDepthOfBinaryTree_104::maxDepthRecursive(TreeNode<int> *root)
 {
     if (!root) return 0;
@@ -7,6 +18,17 @@ int MaximumDepthOfBinaryTree_104::maxDepthRecursive(TreeNode<int> *root)
                    maxDepthRecursive(root->right));
 }
 
+/*
+ * Iterative DFS with an explicit stack:
+ * - Store (node, depth) pairs on the stack, starting from (root, 1).
+ * - Pop a node, update the best depth, then push its non-null children with depth + 1.
+ * This simulates the recursive DFS but avoids using the call stack directly.
+ *
+ * Complexity:
+ * - Time:  O(n), each node is pushed and popped at most once.
+ * - Space: O(h) in the worst case, where h is the tree height
+ *          (stack can hold up to all nodes on a root-to-leaf path).
+ */
 int MaximumDepthOfBinaryTree_104::maxDepthDFSStack(TreeNode<int> *root)
 {
     if (!root) return 0;
@@ -26,6 +48,17 @@ int MaximumDepthOfBinaryTree_104::maxDepthDFSStack(TreeNode<int> *root)
     return result;
 }
 
+/*
+ * BFS (level-order traversal):
+ * - Use a queue and process the tree level by level.
+ * - For each level, pop all nodes currently in the queue and push their children.
+ * - The number of levels processed is exactly the maximum depth of the tree.
+ *
+ * Complexity:
+ * - Time:  O(n), every node is enqueued and dequeued once.
+ * - Space: O(w), where w is the maximum width of the tree
+ *          (O(n) in the worst case when the last level is full).
+ */
 int MaximumDepthOfBinaryTree_104::maxDepthBFSQueue(TreeNode<int> *root)
 {
     if (!root) return 0;
