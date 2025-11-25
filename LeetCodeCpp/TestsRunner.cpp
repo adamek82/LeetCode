@@ -144,6 +144,7 @@
 #include "FourSum_18.h"
 #include "InvertBinaryTree_226.h"
 #include "BalancedBinaryTree_110.h"
+#include "DiameterOfBinaryTree_543.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -3964,6 +3965,56 @@ public:
         }
     }
 
+    static void diameterOfBinaryTree_543_tests() {
+        vector<DiameterOfBinaryTreeTestCase> testCases = {
+            // Example 1: [4,2,1,3,5] diameter = 3
+            {{1, 2, 3, 4, 5}, 3},
+
+            // Example 2: [1,2] diameter = 1
+            {{1, 2}, 1},
+
+            // Single node: diameter = 0
+            {{1}, 0},
+
+            // Left-skewed chain: 1-2-3-4, diameter = 3
+            {{1, 2, nullopt, 3, nullopt, 4}, 3},
+
+            // Balanced-ish tree
+            //        1
+            //      /   \
+            //     2     3
+            //    / \   /
+            //   4   5 6
+            // Longest path: 4-2-1-3-6 => 4 edges
+            {{1, 2, 3, 4, 5, 6}, 4},
+
+            // Diameter inside a subtree (not through root)
+            //        1
+            //       /
+            //      2
+            //     / \
+            //    3   4
+            //   /
+            //  5
+            // Longest path: 5-3-2-4 => 3 edges
+            {{1, 2, nullopt, 3, 4, 5}, 3},
+        };
+
+        DiameterOfBinaryTree_543 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
+            int got = solver.diameterOfBinaryTree(root);
+
+            const string label = "Diameter of Binary Tree 543 Test " + to_string(i + 1);
+            assertEqScalar(label, tc.expected, got);
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -4098,6 +4149,7 @@ public:
         TEST(18,   "4Sum",                                           fourSum_18_tests),
         TEST(226,  "Invert Binary Tree",                             invertBinaryTree_226_tests),
         TEST(110,  "Balanced Binary Tree",                           balancedBinaryTree_110_tests),
+        TEST(543,  "Diameter of Binary Tree",                        diameterOfBinaryTree_543_tests),
     };
 
     static void runAllTests() {

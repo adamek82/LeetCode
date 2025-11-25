@@ -851,4 +851,10 @@ namespace TestCases {
         vector<optional<int>> tree;     // level-order input
         bool expected;
     };
+
+    // 543. Diameter of Binary Tree
+    struct DiameterOfBinaryTreeTestCase {
+        vector<optional<int>> tree;     // level-order input
+        int expected;                   // diameter in edges
+    };
 } // namespace TestCases
