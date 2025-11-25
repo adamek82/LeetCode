@@ -145,6 +145,7 @@
 #include "InvertBinaryTree_226.h"
 #include "BalancedBinaryTree_110.h"
 #include "DiameterOfBinaryTree_543.h"
+#include "SymmetricTree_101.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4015,6 +4016,56 @@ public:
         }
     }
 
+    static void symmetricTree_101_tests() {
+        vector<SymmetricTreeTestCase> cases = {
+            // Example 1
+            {{1, 2, 2, 3, 4, 4, 3}, true},
+
+            // Example 2
+            {{1, 2, 2, nullopt, 3, nullopt, 3}, false},
+
+            // Empty tree
+            {{}, true},
+
+            // Single node
+            {{1}, true},
+
+            // Symmetric but not perfect, with interior nulls
+            //        1
+            //      /   \
+            //     2     2
+            //    /       \
+            //   3         3
+            //  /           \
+            // 4             4
+            {{1, 2, 2, 3, nullopt, nullopt, 3, 4, nullopt, nullopt, 4}, true},
+
+            // Same shape on both sides but values break symmetry
+            //        1
+            //      /   \
+            //     2     2
+            //    / \   / \
+            //   3   4 3   4   (not symmetric: mirrored nodes differ)
+            {{1, 2, 2, 3, 4, 3, 4}, false},
+        };
+
+        SymmetricTree_101 sol;
+
+        for (size_t i = 0; i < cases.size(); ++i) {
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(cases[i].tree);
+
+            const string base = "SymmetricTree_101 Test " + to_string(i + 1);
+
+            bool g1 = sol.isSymmetricRecursive(root);
+            bool g2 = sol.isSymmetricIterative(root);
+
+            assertEqScalar(base + " [recursive]", cases[i].expected, g1);
+            assertEqScalar(base + " [iterative]", cases[i].expected, g2);
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -4150,6 +4201,7 @@ public:
         TEST(226,  "Invert Binary Tree",                             invertBinaryTree_226_tests),
         TEST(110,  "Balanced Binary Tree",                           balancedBinaryTree_110_tests),
         TEST(543,  "Diameter of Binary Tree",                        diameterOfBinaryTree_543_tests),
+        TEST(101,  "Symmetric Tree",                                 symmetricTree_101_tests),
     };
 
     static void runAllTests() {
