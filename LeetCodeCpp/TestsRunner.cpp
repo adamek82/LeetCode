@@ -143,6 +143,7 @@
 #include "ThreeSumClosest_16.h"
 #include "FourSum_18.h"
 #include "InvertBinaryTree_226.h"
+#include "BalancedBinaryTree_110.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -3917,6 +3918,52 @@ public:
         }
     }
 
+    static void balancedBinaryTree_110_tests() {
+        vector<BalancedBinaryTreeTestCase> testCases = {
+            // Example 1
+            {{3, 9, 20, nullopt, nullopt, 15, 7}, true},
+
+            // Example 2
+            {{1, 2, 2, 3, 3, nullopt, nullopt, 4, 4}, false},
+
+            // Example 3: empty tree
+            {{}, true},
+
+            // Single node
+            {{1}, true},
+
+            // Balanced but not perfect
+            //      1
+            //     / \
+            //    2   3
+            //   / \   \
+            //  4   5   6
+            {{1, 2, 3, 4, 5, nullopt, 6}, true},
+
+            // Right-skewed chain (unbalanced)
+            // 1
+            //  \
+            //   2
+            //    \
+            //     3
+            {{1, nullopt, 2, nullopt, 3}, false},
+        };
+
+        BalancedBinaryTree_110 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
+            bool got = solver.isBalanced(root);
+
+            const string label = "Balanced Binary Tree 110 Test " + to_string(i + 1);
+            assertEqScalar(label, tc.expected, got);
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -4050,6 +4097,7 @@ public:
         TEST(16,   "3Sum Closest",                                   threeSumClosest_16_tests),
         TEST(18,   "4Sum",                                           fourSum_18_tests),
         TEST(226,  "Invert Binary Tree",                             invertBinaryTree_226_tests),
+        TEST(110,  "Balanced Binary Tree",                           balancedBinaryTree_110_tests),
     };
 
     static void runAllTests() {

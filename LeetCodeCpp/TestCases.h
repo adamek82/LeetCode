@@ -845,4 +845,10 @@ namespace TestCases {
         vector<optional<int>> input;    // level-order representation of the original tree
         vector<optional<int>> expected; // level-order representation of the inverted tree
     };
+
+    // 110. Balanced Binary Tree
+    struct BalancedBinaryTreeTestCase {
+        vector<optional<int>> tree;     // level-order input
+        bool expected;
+    };
 } // namespace TestCases
