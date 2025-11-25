@@ -27,11 +27,14 @@ bool SameTree_100::isSameTreeRecursive(TreeNode<int>* p, TreeNode<int>* q)
            isSameTreeRecursive(p->right, q->right);
 }
 
-// NOTE on iterative DFS variants:
-// Besides the stack-of-pairs approach below, a two-stacks version (stack<TreeNode<int>*> sp, sq)
-// is equivalent. The critical invariant is to push corresponding children in IDENTICAL order
-// on both stacks (e.g., push right then left on both). If the order diverges, the stacks can
-// become misaligned, producing false mismatches.
+/*
+ * NOTE on iterative DFS variants:
+ *
+ * Besides the stack-of-pairs approach below, a two-stacks version (stack<TreeNode<int>*> sp, sq)
+ * is equivalent. The critical invariant is to push corresponding children in IDENTICAL order
+ * on both stacks (e.g., push right then left on both). If the order diverges, the stacks can
+ * become misaligned, producing false mismatches.
+ */
 
 /* 2. Iterative DFS (stack) ---------------------------------------------------- */
 bool SameTree_100::isSameTreeIterativeDFS(TreeNode<int>* p, TreeNode<int>* q)
@@ -55,11 +58,14 @@ bool SameTree_100::isSameTreeIterativeDFS(TreeNode<int>* p, TreeNode<int>* q)
     return true;
 }
 
-// NOTE on iterative BFS variants:
-// We currently keep TWO queues (one per tree). A single queue of pairs
-// (queue<pair<TreeNode<int>*, TreeNode<int>*>>) is an equivalent drop-in approach
-// that tends to be more compact and eliminates any chance of queue desynchronization.
-// Both forms have identical asymptotic complexity.
+/*
+ * NOTE on iterative BFS variants:
+ *
+ * We currently keep TWO queues (one per tree). A single queue of pairs
+ * (queue<pair<TreeNode<int>*, TreeNode<int>*>>) is an equivalent drop-in approach
+ * that tends to be more compact and eliminates any chance of queue desynchronization.
+ * Both forms have identical asymptotic complexity.
+ */
 
 /* 3. Iterative BFS (queue) ---------------------------------------------------- */
 bool SameTree_100::isSameTreeBFSQueue(TreeNode<int>* p, TreeNode<int>* q)
