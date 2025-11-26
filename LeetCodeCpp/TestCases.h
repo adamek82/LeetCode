@@ -863,4 +863,11 @@ namespace TestCases {
         vector<optional<int>> tree;     // level-order input
         bool expected;
     };
+
+    // 112. Path Sum
+    struct PathSumTestCase {
+        vector<optional<int>> tree;     // level-order input
+        int target;
+        bool expected;
+    };
 } // namespace TestCases

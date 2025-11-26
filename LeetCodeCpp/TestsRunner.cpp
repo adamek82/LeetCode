@@ -146,6 +146,7 @@
 #include "BalancedBinaryTree_110.h"
 #include "DiameterOfBinaryTree_543.h"
 #include "SymmetricTree_101.h"
+#include "PathSum_112.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4066,6 +4067,58 @@ public:
         }
     }
 
+    static void pathSum_112_tests() {
+        vector<PathSumTestCase> cases = {
+            // Example 1
+            {{5, 4, 8, 11, nullopt, 13, 4, 7, 2, nullopt, nullopt, nullopt, 1}, 22, true},
+
+            // Example 2
+            {{1, 2, 3}, 5, false},
+
+            // Example 3: empty tree
+            {{}, 0, false},
+
+            // Single node: matches target
+            {{5}, 5, true},
+
+            // Single node: does not match target
+            {{5}, 4, false},
+
+            // Intermediate sum equals target but only full root-to-leaf should count
+            //       1
+            //      /
+            //     2
+            //    /
+            //   1
+            // Path 1->2 = 3 (not a leaf), leaf path 1->2->1 = 4
+            {{1, 2, nullopt, 1}, 3, false},
+
+            // Tree with negative values, path exists:
+            //         1
+            //       /   \
+            //     -2    -3
+            //     / \   /
+            //    1   3 -2
+            //   /
+            //  -1
+            // Path: 1 + (-2) + 1 + (-1) = -1
+            {{1, -2, -3, 1, 3, -2, nullopt, -1}, -1, true},
+        };
+
+        PathSum_112 sol;
+
+        for (size_t i = 0; i < cases.size(); ++i) {
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(cases[i].tree);
+
+            const string label = "PathSum_112 Test " + to_string(i + 1);
+
+            bool got = sol.hasPathSum(root, cases[i].target);
+            assertEqScalar(label, cases[i].expected, got);
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -4202,6 +4255,7 @@ public:
         TEST(110,  "Balanced Binary Tree",                           balancedBinaryTree_110_tests),
         TEST(543,  "Diameter of Binary Tree",                        diameterOfBinaryTree_543_tests),
         TEST(101,  "Symmetric Tree",                                 symmetricTree_101_tests),
+        TEST(112,  "Path Sum",                                       pathSum_112_tests),
     };
 
     static void runAllTests() {
