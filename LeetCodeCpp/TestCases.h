@@ -870,4 +870,11 @@ namespace TestCases {
         int target;
         bool expected;
     };
+
+    // 572. Subtree of Another Tree
+    struct SubtreeOfAnotherTreeTestCase {
+        vector<optional<int>> root;     // level-order representation of main tree
+        vector<optional<int>> subRoot;  // level-order representation of subtree
+        bool expected;
+    };
 } // namespace TestCases

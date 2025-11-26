@@ -147,6 +147,7 @@
 #include "DiameterOfBinaryTree_543.h"
 #include "SymmetricTree_101.h"
 #include "PathSum_112.h"
+#include "SubtreeOfAnotherTree_572.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4119,6 +4120,90 @@ public:
         }
     }
 
+    static void subtreeOfAnotherTree_572_tests() {
+        vector<SubtreeOfAnotherTreeTestCase> cases = {
+            // Example 1
+            {{3, 4, 5, 1, 2},
+             {4, 1, 2},
+             true},
+
+            // Example 2
+            {{3, 4, 5, 1, 2, nullopt, nullopt, nullopt, nullopt, 0},
+             {4, 1, 2},
+             false},
+
+            // Whole tree equals subRoot
+            {{1, 2, 3, 4, 5},
+             {1, 2, 3, 4, 5},
+             true},
+
+            // Single-node subRoot present multiple times
+            {{1, 1, 2},
+             {1},
+             true},
+
+            // Single-node subRoot absent
+            {{1, 2, 3},
+             {4},
+             false},
+
+            // The tree could also be considered as a subtree of itself.
+            // root:    1
+            //         / \
+            //        1   1
+            // sub:    1
+            //        / \
+            //       1   1
+            {{1, 1, 1},
+             {1, 1, 1},
+             true},
+
+            // Same multiset of values but different structure should NOT count
+            // root:   1
+            //        /
+            //       1
+            //      /
+            //     1
+            //
+            // sub:    1
+            //        / \
+            //       1   1
+            {{1, 1, nullopt, 1},
+             {1, 1, 1},
+             false},
+
+            // Match deeper in the tree
+            // root:      5
+            //           / \
+            //          3   8
+            //         / \
+            //        2   4
+            // subRoot:   3
+            //           / \
+            //          2   4
+            {{5, 3, 8, 2, 4},
+             {3, 2, 4},
+             true},
+        };
+
+        SubtreeOfAnotherTree_572 sol;
+
+        for (size_t i = 0; i < cases.size(); ++i) {
+            const auto& tc = cases[i];
+
+            TreeNode<int>* root    = TreeUtils::vectorToTree<int>(tc.root);
+            TreeNode<int>* subRoot = TreeUtils::vectorToTree<int>(tc.subRoot);
+
+            const string label = "SubtreeOfAnotherTree_572 Test " + to_string(i + 1);
+            bool got = sol.isSubtree(root, subRoot);
+
+            assertEqScalar(label, tc.expected, got);
+
+            TreeUtils::freeTree(root);
+            TreeUtils::freeTree(subRoot);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -4256,6 +4341,7 @@ public:
         TEST(543,  "Diameter of Binary Tree",                        diameterOfBinaryTree_543_tests),
         TEST(101,  "Symmetric Tree",                                 symmetricTree_101_tests),
         TEST(112,  "Path Sum",                                       pathSum_112_tests),
+        TEST(572,  "Subtree of Another Tree",                        subtreeOfAnotherTree_572_tests),
     };
 
     static void runAllTests() {
