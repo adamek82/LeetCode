@@ -889,4 +889,10 @@ namespace TestCases {
         vector<optional<int>> tree;     // level-order input
         vector<double> expected;        // averages per level
     };
+
+    // 530. Minimum Absolute Difference in BST
+    struct MinimumAbsoluteDifferenceInBSTTestCase {
+        vector<optional<int>> tree;     // level-order input (BST)
+        int expected;                   // minimum absolute difference
+    };
 } // namespace TestCases

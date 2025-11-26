@@ -150,6 +150,7 @@
 #include "SubtreeOfAnotherTree_572.h"
 #include "BinaryTreeLevelOrderTraversal_102.h"
 #include "AverageOfLevelsInBinaryTree_637.h"
+#include "MinimumAbsoluteDifferenceInBST_530.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4328,6 +4329,54 @@ public:
         }
     }
 
+    static void minimumAbsoluteDifferenceInBST_530_tests() {
+        vector<MinimumAbsoluteDifferenceInBSTTestCase> cases = {
+            // Example 1
+            {{4, 2, 6, 1, 3}, 1},
+
+            // Example 2
+            {{1, 0, 48, nullopt, nullopt, 12, 49}, 1},
+
+            // Simple two-node tree
+            {{1, nullopt, 3}, 2},
+
+            // Skewed increasing tree: consecutive integers → min diff = 1
+            //    1
+            //     \
+            //      2
+            //       \
+            //        3
+            //         \
+            //          4
+            {{1, nullopt, 2, nullopt, 3, nullopt, 4}, 1},
+
+            // Typical LC-style example with more nodes:
+            //       90
+            //      /
+            //    69
+            //   /  \
+            // 49   89
+            //   \
+            //   52
+            // Sorted: [49, 52, 69, 89, 90] → min diff = 1
+            {{90, 69, nullopt, 49, 89, nullopt, 52}, 1},
+        };
+
+        MinimumAbsoluteDifferenceInBST_530 sol;
+
+        for (size_t i = 0; i < cases.size(); ++i) {
+            const auto& tc = cases[i];
+
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
+            int got = sol.getMinimumDifference(root);
+
+            const string label = "MinimumAbsoluteDifferenceInBST_530 Test " + to_string(i + 1);
+            assertEqScalar(label, tc.expected, got);
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -4468,6 +4517,7 @@ public:
         TEST(572,  "Subtree of Another Tree",                        subtreeOfAnotherTree_572_tests),
         TEST(102,  "Binary Tree Level Order Traversal",              binaryTreeLevelOrderTraversal_102_tests),
         TEST(637,  "Average of Levels in Binary Tree",               averageOfLevelsInBinaryTree_637_tests),
+        TEST(530,  "Minimum Absolute Difference in BST",             minimumAbsoluteDifferenceInBST_530_tests),
     };
 
     static void runAllTests() {
