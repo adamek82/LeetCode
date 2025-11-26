@@ -149,6 +149,7 @@
 #include "PathSum_112.h"
 #include "SubtreeOfAnotherTree_572.h"
 #include "BinaryTreeLevelOrderTraversal_102.h"
+#include "AverageOfLevelsInBinaryTree_637.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4262,6 +4263,71 @@ public:
         }
     }
 
+    static void averageOfLevelsInBinaryTree_637_tests() {
+        vector<AverageOfLevelsInBinaryTreeTestCase> cases = {
+            // Example 1
+            {{3, 9, 20, nullopt, nullopt, 15, 7},
+             {3.0, 14.5, 11.0}},
+
+            // Example 2
+            {{3, 9, 20, 15, 7},
+             {3.0, 14.5, 11.0}},
+
+            // Single node
+            {{1},
+             {1.0}},
+
+            // Left-skewed tree: levels [[1], [2], [3]]
+            //     1
+            //    /
+            //   2
+            //  /
+            // 3
+            {{1, 2, nullopt, 3},
+             {1.0, 2.0, 3.0}},
+
+            // Mixed positive/negative values
+            //       1
+            //      / \
+            //    -2   3
+            // Averages: [1], [0.5]
+            {{1, -2, 3},
+             {1.0, 0.5}},
+
+            // Deeper unbalanced tree
+            //        5
+            //       / \
+            //      3   8
+            //     /   / \
+            //    1   7  10
+            // Averages: [5], [5.5], [6.0]
+            {{5, 3, 8, 1, nullopt, 7, 10},
+             {5.0, 5.5, 6.0}},
+        };
+
+        AverageOfLevelsInBinaryTree_637 sol;
+
+        for (size_t i = 0; i < cases.size(); ++i) {
+            const auto& tc = cases[i];
+
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
+            vector<double> got  = sol.averageOfLevels(root);
+
+            const string base = "AverageOfLevelsInBinaryTree_637 Test " + to_string(i + 1);
+
+            // First check length
+            assertEqScalar(base + " [size]", tc.expected.size(), got.size());
+
+            // Then check each level with approximate comparison
+            for (size_t j = 0; j < tc.expected.size() && j < got.size(); ++j) {
+                const string label = base + " [level " + to_string(j) + "]";
+                assertApprox(label, tc.expected[j], got[j], 1e-5);
+            }
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -4401,6 +4467,7 @@ public:
         TEST(112,  "Path Sum",                                       pathSum_112_tests),
         TEST(572,  "Subtree of Another Tree",                        subtreeOfAnotherTree_572_tests),
         TEST(102,  "Binary Tree Level Order Traversal",              binaryTreeLevelOrderTraversal_102_tests),
+        TEST(637,  "Average of Levels in Binary Tree",               averageOfLevelsInBinaryTree_637_tests),
     };
 
     static void runAllTests() {

@@ -883,4 +883,10 @@ namespace TestCases {
         vector<optional<int>> tree;     // level-order input
         vector<vector<int>> expected;   // values per level, left-to-right
     };
+
+    // 637. Average of Levels in Binary Tree
+    struct AverageOfLevelsInBinaryTreeTestCase {
+        vector<optional<int>> tree;     // level-order input
+        vector<double> expected;        // averages per level
+    };
 } // namespace TestCases
