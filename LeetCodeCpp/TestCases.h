@@ -877,4 +877,10 @@ namespace TestCases {
         vector<optional<int>> subRoot;  // level-order representation of subtree
         bool expected;
     };
+
+    // 102. Binary Tree Level Order Traversal
+    struct BinaryTreeLevelOrderTraversalTestCase {
+        vector<optional<int>> tree;     // level-order input
+        vector<vector<int>> expected;   // values per level, left-to-right
+    };
 } // namespace TestCases

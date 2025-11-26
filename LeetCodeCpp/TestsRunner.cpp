@@ -148,6 +148,7 @@
 #include "SymmetricTree_101.h"
 #include "PathSum_112.h"
 #include "SubtreeOfAnotherTree_572.h"
+#include "BinaryTreeLevelOrderTraversal_102.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4204,6 +4205,63 @@ public:
         }
     }
 
+    static void binaryTreeLevelOrderTraversal_102_tests() {
+        vector<BinaryTreeLevelOrderTraversalTestCase> cases = {
+            // Example 1
+            {{3, 9, 20, nullopt, nullopt, 15, 7},
+             {{3}, {9, 20}, {15, 7}}},
+
+            // Example 2
+            {{1},
+             {{1}}},
+
+            // Example 3: empty tree
+            {{},
+             {}},
+
+            // Left-skewed tree
+            //   1
+            //  /
+            // 2
+            ///
+            //3
+            {{1, 2, nullopt, 3},
+             {{1}, {2}, {3}}},
+
+            // Unbalanced tree with missing children
+            //        1
+            //      /   \
+            //     2     3
+            //      \     \
+            //       4     5
+            {{1, 2, 3, nullopt, 4, nullopt, 5},
+             {{1}, {2, 3}, {4, 5}}},
+
+            // Tree with a deeper left subtree
+            //        10
+            //       /  \
+            //      5    15
+            //     /    /  \
+            //    3    12  18
+            {{10, 5, 15, 3, nullopt, 12, 18},
+             {{10}, {5, 15}, {3, 12, 18}}},
+        };
+
+        BinaryTreeLevelOrderTraversal_102 sol;
+
+        for (size_t i = 0; i < cases.size(); ++i) {
+            const auto& tc = cases[i];
+
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
+            vector<vector<int>> got = sol.levelOrder(root);
+
+            const string label = "BinaryTreeLevelOrderTraversal_102 Test " + to_string(i + 1);
+            assertEqVVIntExact(label, tc.expected, got);
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -4342,6 +4400,7 @@ public:
         TEST(101,  "Symmetric Tree",                                 symmetricTree_101_tests),
         TEST(112,  "Path Sum",                                       pathSum_112_tests),
         TEST(572,  "Subtree of Another Tree",                        subtreeOfAnotherTree_572_tests),
+        TEST(102,  "Binary Tree Level Order Traversal",              binaryTreeLevelOrderTraversal_102_tests),
     };
 
     static void runAllTests() {
