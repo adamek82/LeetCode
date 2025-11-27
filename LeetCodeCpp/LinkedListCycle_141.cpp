@@ -17,6 +17,25 @@
  * - If there is a cycle, `fast` will eventually "lap" `slow` and they will
  *   point to the same node inside the cycle ⇒ return true.
  *
+ * Structural note (why the cycle is always a “suffix”):
+ * - In a standard singly linked list, each node has at most one outgoing `next`
+ *   pointer (or null for the end). Consider the sequence obtained by starting
+ *   at the head and repeatedly following `next`:
+ *       v0 = head, v1 = v0->next, v2 = v1->next, ...
+ * - Because the list is finite and each step has exactly one successor, there
+ *   are only two possibilities:
+ *     • We eventually reach null  → no cycle.
+ *     • At some step, a node repeats (say v_i == v_j for 0 ≤ i < j).
+ * - By minimality of the first repetition, v_i, v_{i+1}, ..., v_{j-1} are all
+ *   distinct and form a directed cycle. From v_i onward, following `next`
+ *   never leaves this cycle, because each node on that cycle has exactly one
+ *   outgoing edge that stays within it. Hence the list decomposes uniquely
+ *   into:
+ *       μ = number of nodes before the cycle (the prefix),
+ *       λ = length of the cycle (the suffix),
+ *   and there cannot be any “tail after the cycle” or a cycle “in the middle”
+ *   with nodes beyond it without violating the one-next-pointer structure.
+ *
  * Correctness (proof sketch):
  * - No cycle:
  *   The `fast` pointer always advances strictly faster than `slow` and can
