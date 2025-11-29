@@ -31,7 +31,7 @@
  *       Prefix check implemented as contains(prefix, false).
  *
  * Ownership & lifetime:
- *   - The Trie allocates the root in its constructors and destroys it
+ *   - The Trie allocates the root in its default constructor and destroys it
  *     in the destructor.
  *   - TrieNode::~TrieNode recursively deletes children, so deleting the
  *     root is sufficient to free the entire structure.
@@ -43,22 +43,17 @@
  *     plus the overhead of the child maps.
  */
 
-Trie::Trie() {
-    root = new TrieNode();
+Trie::Trie()
+    : root(new TrieNode()) {}
+
+Trie::Trie(const vector<string>& list)
+    : Trie() {
+    insertAll(list);
 }
 
-Trie::Trie(const vector<string>& list) {
-    root = new TrieNode();
-    for (const auto& word : list) {
-        root->addWord(word);
-    }
-}
-
-Trie::Trie(const initializer_list<string>& list) {
-    root = new TrieNode();
-    for (const auto& word : list) {
-        root->addWord(word);
-    }
+Trie::Trie(const initializer_list<string>& list)
+    : Trie() {
+    insertAll(list);
 }
 
 void Trie::insert(const string& word) {

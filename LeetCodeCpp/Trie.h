@@ -27,7 +27,34 @@ private:
      */
     TrieNode* root;
 
+    /*
+     * Helper used by range-based constructors to insert a batch of words
+     * from any iterable range of strings (e.g. vector<string>,
+     * initializer_list<string>, etc.).
+     */
+    template <typename Range>
+    void insertAll(const Range& list) {
+        for (const auto& word : list) {
+            root->addWord(word);
+        }
+    }
+
 public:
+    /*
+     * Constructs an empty trie.
+     */
+    Trie();
+
+    /*
+     * Constructs a trie and inserts all words from the given vector.
+     */
+    Trie(const vector<string>& list);
+
+    /*
+     * Constructs a trie and inserts all words from the given initializer list.
+     */
+    Trie(const initializer_list<string>& list);
+
     /*
      * Inserts a single word into the trie.
      */
@@ -43,21 +70,6 @@ public:
      * starts with the given prefix.
      */
     bool startsWith(const string& prefix);
-
-    /*
-     * Constructs an empty trie.
-     */
-    Trie();
-
-    /*
-     * Constructs a trie and inserts all words from the given vector.
-     */
-    Trie(const vector<string>& list);
-
-    /*
-     * Constructs a trie and inserts all words from the given initializer list.
-     */
-    Trie(const initializer_list<string>& list);
 
     /*
      * Internal helper for both search() and startsWith().
