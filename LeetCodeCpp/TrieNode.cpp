@@ -1,6 +1,22 @@
 #include "TrieNode.h"
 
-TrieNode::TrieNode() : character(0), terminates(false) {}
+/*
+ * Implementation notes for TrieNode
+ * ---------------------------------
+ * addWord() consumes the input string one character at a time:
+ *   - It looks up (or creates) the child node for the first character.
+ *   - If more characters remain, it recurses on the remainder of the string.
+ *   - If this is the last character, it sets the terminates flag on
+ *     the final node.
+ *
+ * getChild() is a thin wrapper around the children map lookup.
+ *
+ * The destructor iterates over all entries in children and deletes each
+ * child pointer, which recursively frees the entire subtree underneath
+ * this node.
+ */
+
+ TrieNode::TrieNode() : character(0), terminates(false) {}
 
 TrieNode::TrieNode(char character) : character(character), terminates(false) {}
 
@@ -27,19 +43,25 @@ void TrieNode::addWord(const string& word) {
     }
 }
 
-// Find a child node of this node that has the char argument as its
-// data. Return null if no such child node is present in the trie.
+/*
+ * Finds a child node of this node that stores character c.
+ * Returns nullptr if no such child is present in the trie.
+ */
 TrieNode* TrieNode::getChild(char c) {
     auto it = children.find(c);
     return it != children.end() ? it->second : nullptr;
 }
 
-// Returns whether this node represents the end of a complete word.
+/*
+ * Returns whether this node represents the end of a complete word.
+ */
 bool TrieNode::terminatesWord() const {
     return terminates;
 }
 
-// Set whether this node is the end of a complete word.
+/*
+ * Marks this node as terminating (or not) a complete word.
+ */
 void TrieNode::setTerminates(bool t) {
     terminates = t;
 }
