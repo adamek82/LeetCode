@@ -895,4 +895,10 @@ namespace TestCases {
         vector<optional<int>> tree;     // level-order input (BST)
         int expected;                   // minimum absolute difference
     };
+
+    // 463. Island Perimeter
+    struct IslandPerimeterTestCase {
+        GridInt grid;
+        int expected;
+    };
 } // namespace TestCases

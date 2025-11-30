@@ -151,6 +151,7 @@
 #include "BinaryTreeLevelOrderTraversal_102.h"
 #include "AverageOfLevelsInBinaryTree_637.h"
 #include "MinimumAbsoluteDifferenceInBST_530.h"
+#include "IslandPerimeter_463.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4377,6 +4378,66 @@ public:
         }
     }
 
+    static void islandPerimeter_463_tests() {
+        vector<IslandPerimeterTestCase> testCases = {
+            // Example 1 from the statement
+            {
+                {
+                    {0,1,0,0},
+                    {1,1,1,0},
+                    {0,1,0,0},
+                    {1,1,0,0}
+                },
+                16
+            },
+            // Example 2
+            {
+                {
+                    {1}
+                },
+                4
+            },
+            // Example 3
+            {
+                {
+                    {1,0}
+                },
+                4
+            },
+            // Single land cell surrounded by water in a larger grid
+            {
+                {
+                    {0,0,0},
+                    {0,1,0},
+                    {0,0,0}
+                },
+                4
+            },
+            // Two adjacent horizontal land cells
+            {
+                {
+                    {1,1}
+                },
+                6
+            },
+            // Two adjacent vertical land cells
+            {
+                {
+                    {1},
+                    {1}
+                },
+                6
+            }
+        };
+
+        IslandPerimeter_463 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = solver.islandPerimeter(testCases[i].grid);
+            const string label = "Island Perimeter 463 Test " + to_string(i + 1);
+            assertEqScalar(label, testCases[i].expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -4518,6 +4579,7 @@ public:
         TEST(102,  "Binary Tree Level Order Traversal",              binaryTreeLevelOrderTraversal_102_tests),
         TEST(637,  "Average of Levels in Binary Tree",               averageOfLevelsInBinaryTree_637_tests),
         TEST(530,  "Minimum Absolute Difference in BST",             minimumAbsoluteDifferenceInBST_530_tests),
+        TEST(463,  "Island Perimeter",                               islandPerimeter_463_tests),
     };
 
     static void runAllTests() {
