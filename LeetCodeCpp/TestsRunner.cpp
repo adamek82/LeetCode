@@ -152,6 +152,7 @@
 #include "AverageOfLevelsInBinaryTree_637.h"
 #include "MinimumAbsoluteDifferenceInBST_530.h"
 #include "IslandPerimeter_463.h"
+#include "FirstBadVersion_278.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4438,6 +4439,31 @@ public:
         }
     }
 
+    static void firstBadVersion_278_tests() {
+        vector<FirstBadVersionTestCase> testCases = {
+            // Example: first bad in the middle
+            {5, 4, 4},
+            // Edge: only one version, and it's bad
+            {1, 1, 1},
+            // Edge: first version is bad
+            {10, 1, 1},
+            // Edge: last version is first bad
+            {10, 10, 10},
+            // Larger range: first bad somewhere in the interior
+            {1000, 537, 537}
+        };
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+            FirstBadVersion_278 sol;
+            sol.firstBad = tc.firstBad;
+
+            int got = sol.firstBadVersion(tc.n);
+            assertEqScalar("First Bad Version 278 Test " + to_string(i + 1),
+                           tc.expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -4580,6 +4606,7 @@ public:
         TEST(637,  "Average of Levels in Binary Tree",               averageOfLevelsInBinaryTree_637_tests),
         TEST(530,  "Minimum Absolute Difference in BST",             minimumAbsoluteDifferenceInBST_530_tests),
         TEST(463,  "Island Perimeter",                               islandPerimeter_463_tests),
+        TEST(278,  "First Bad Version",                              firstBadVersion_278_tests),
     };
 
     static void runAllTests() {

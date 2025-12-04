@@ -901,4 +901,11 @@ namespace TestCases {
         GridInt grid;
         int expected;
     };
+
+    // 278. First Bad Version
+    struct FirstBadVersionTestCase {
+        int n;          // total number of versions
+        int firstBad;   // ground truth "first bad" version
+        int expected;   // expected result from firstBadVersion(n)
+    };
 } // namespace TestCases
