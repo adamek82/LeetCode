@@ -3339,7 +3339,7 @@ public:
         }
     }
 
-    static void removeDuplicates_26_tests() {
+    static void removeDuplicatesFromSortedArray_26_tests() {
         vector<RemoveDuplicates26TestCase> tests = {
             {{1,1,2},                             {1,2}},
             {{0,0,1,1,1,2,2,3,3,4},               {0,1,2,3,4}},
@@ -4465,6 +4465,28 @@ public:
     }
 
     inline static const TestEntry kTests[] = {
+        /* Arrays & Strings */
+        TEST(2239, "Find Closest Number to Zero",                    findClosestNumber_2239_tests),
+        TEST(1768, "Merge Strings Alternately",                      mergeStringsAlternately_1768_tests),
+        TEST(13,   "Roman to Integer",                               romanToInteger_13_tests),
+        TEST(392,  "Is Subsequence",                                 isSubsequence_392_tests),
+        TEST(392,  "Is Subsequence (next-position table)",           isSubsequence_392_nextpos_tests),
+        TEST(121,  "Best Time to Buy and Sell Stock",                bestTimeToBuyAndSellStock_121_tests),
+        TEST(14,   "Longest Common Prefix",                          longestCommonPrefix_14_tests),
+        TEST(228,  "Summary Ranges",                                 summaryRanges_228_tests),
+        TEST(26,   "Remove Duplicates From Sorted Array",            removeDuplicatesFromSortedArray_26_tests),
+        TEST(27,   "Remove Element",                                 removeElement_27_tests),
+        TEST(88,   "Merge Sorted Array",                             mergeSortedArray_88_tests),
+        TEST(122,  "Best Time to Buy and Sell Stock II",             bestTimeToBuyAndSellStockII_122_tests),
+        TEST(80,   "Remove Duplicates from Sorted Array II",         removeDuplicatesFromSortedArrayII_80_tests),
+        TEST(75,   "Sort Colors",                                    sortColors_75_tests),
+        TEST(238,  "Product of Array Except Self",                   productOfArrayExceptSelf_238_tests),
+        TEST(274,  "H-Index",                                        hIndex_274_tests),
+        TEST(56,   "Merge Intervals",                                mergeIntervals_56_tests),
+        TEST(54,   "Spiral Matrix",                                  spiralMatrix_54_tests),
+        TEST(6,    "Zigzag Conversion",                              zigzagConversion_6_tests),
+        TEST(48,   "Rotate Image",                                   rotateImage_48_tests),
+        /* Other */
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
         TEST(200,  "Number of Islands",                              numIslands_200_tests),
@@ -4482,8 +4504,6 @@ public:
         TEST(141,  "Linked List Cycle",                              hasCycle_141_tests),
         TEST(876,  "Middle of the Linked List",                      middleOfTheLinkedList_876_tests),
         TEST(19,   "Remove Nth Node From End of List",               removeNthNodeFromEndOfList_19_tests),
-        TEST(121,  "Best Time to Buy and Sell Stock",                bestTimeToBuyAndSellStock_121_tests),
-        TEST(54,   "Spiral Matrix",                                  spiralMatrix_54_tests),
         TEST(98,   "Validate Binary Search Tree",                    validateBinarySearchTree_98_tests),
         TEST(235,  "Lowest Common Ancestor",                         lowestCommonAncestor_235_tests),
         TEST(138,  "Copy List With Random Pointer",                  copyRandomList_138_tests),
@@ -4491,10 +4511,7 @@ public:
         TEST(208,  "Implement Trie",                                 implementTrie_208_tests),
         TEST(215,  "Kth Largest Element in an Array",                kthLargestElementInArray_215_tests),
         TEST(0,    "MinHeap",                                        minHeap_tests), // custom: id=0
-        TEST(48,   "Rotate Image",                                   rotateImage_48_tests),
-        TEST(56,   "Merge Intervals",                                mergeIntervals_56_tests),
         TEST(23,   "Merge K Sorted Lists",                           mergeKLists_tests),
-        TEST(238,  "Product of Array Except Self",                   productOfArrayExceptSelf_238_tests),
         TEST(169,  "Majority Element",                               majorityElement_169_tests),
         TEST(150,  "Evaluate Reverse Polish Notation",               evaluateReversePolishNotation_150_tests),
         TEST(84,   "Largest Rectangle in Histogram",                 largestRectangleInHistogram_84_tests),
@@ -4507,11 +4524,6 @@ public:
         TEST(432,  "All O`one Data Structure",                       allOOneDataStructure_432_tests),
         TEST(153,  "Find Minimum in Rotated Sorted Array",           findMinimumInRotatedSortedArray_153_tests),
         TEST(133,  "Clone Graph",                                    cloneGraph_133_tests),
-        TEST(6,    "Zigzag Conversion",                              zigzagConversion_6_tests),
-        TEST(274,  "H-Index",                                        hIndex_274_tests),
-        TEST(75,   "Sort Colors",                                    sortColors_75_tests),
-        TEST(80,   "Remove Duplicates from Sorted Array II",         removeDuplicatesFromSortedArrayII_80_tests),
-        TEST(122,  "Best Time to Buy and Sell Stock II",             bestTimeToBuyAndSellStockII_122_tests),
         TEST(242,  "Valid Anagram",                                  validAnagram_242_tests),
         TEST(1152, "Analyze User Website Visit Pattern",             analyzeUserWebsiteVisitPattern_1152_tests),
         TEST(49,   "Group Anagrams",                                 groupAnagrams_49_tests),
@@ -4541,8 +4553,6 @@ public:
         TEST(85,   "Maximal Rectangle",                              maximalRectangle_85_tests),
         TEST(53,   "Maximum Subarray",                               maximumSubarray_53_tests),
         TEST(1,    "Two Sum",                                        twoSum_1_tests),
-        TEST(88,   "Merge Sorted Array",                             mergeSortedArray_88_tests),
-        TEST(27,   "Remove Element",                                 removeElement_27_tests),
         TEST(1189, "Maximum Number of Balloons",                     maximumNumberOfBalloons_1189_tests),
         TEST(67,   "Add Binary",                                     addBinary_67_tests),
         TEST(724,  "Find Pivot Index",                               findPivotIndex_724_tests),
@@ -4571,14 +4581,6 @@ public:
         TEST(198,  "House Robber",                                   houseRobber_198_tests),
         TEST(1046, "Last Stone Weight",                              lastStoneWeight_1046_tests),
         TEST(347,  "Top K Frequent Elements",                        topKFrequent_347_tests),
-        TEST(2239, "Find Closest Number to Zero",                    findClosestNumber_2239_tests),
-        TEST(1768, "Merge Strings Alternately",                      mergeStringsAlternately_1768_tests),
-        TEST(13,   "Roman to Integer",                               romanToInteger_13_tests),
-        TEST(392,  "Is Subsequence",                                 isSubsequence_392_tests),
-        TEST(392,  "Is Subsequence (next-position table)",           isSubsequence_392_nextpos_tests),
-        TEST(14,   "Longest Common Prefix",                          longestCommonPrefix_14_tests),
-        TEST(228,  "Summary Ranges",                                 summaryRanges_228_tests),
-        TEST(26,   "Remove Duplicates",                              removeDuplicates_26_tests),
         TEST(45,   "Jump Game II",                                   jumpGameII_45_tests),
         TEST(55,   "Jump Game",                                      jumpGame_55_tests),
         TEST(78,   "Subsets",                                        subsets_78_tests),
