@@ -48,20 +48,53 @@
  *
  *          right = mid;
  *
- * Loop condition and termination:
- *   - We use "while (left < right)" and always shrink the interval:
- *       - In case (1), left increases (left = mid + 1), so the interval
- *         length strictly decreases.
- *       - In case (2), right decreases (right = mid), also shrinking the
- *         interval.
- *   - When the loop ends, left == right and the invariant guarantees that
- *     this single index contains the minimum element. We can safely return
- *     nums[left].
+ * Termination and why we must end with left == right:
+ *   Let m be the (unique) index of the minimum in nums.
+ *
+ *   Invariant (more explicit):
+ *     (I1) left <= m <= right   at the start of every loop iteration.
+ *     (I2) left < right         inside the loop body (loop condition).
+ *
+ *   Preservation of (I1):
+ *     - Case 1: nums[mid] > nums[right].
+ *         In a valid rotated sorted array with distinct elements, this can
+ *         only happen if mid < m (mid lies in the rotated "head" part and
+ *         the minimum lies strictly to the right). We set left = mid + 1,
+ *         so new_left <= m still holds and right is unchanged, hence
+ *         new_left <= m <= new_right.
+ *
+ *     - Case 2: nums[mid] <= nums[right].
+ *         Here mid lies in the "tail" part that contains the minimum.
+ *         Thus m <= mid (otherwise m would be in the "head" part and have
+ *         nums[m] > nums[right], contradicting minimality of nums[m]).
+ *         We set right = mid, so left is unchanged and we still have
+ *         left <= m <= new_right.
+ *
+ *   Strict shrinking:
+ *     - In Case 1, left becomes mid + 1, and mid >= left, so new_left > old_left.
+ *     - In Case 2, right becomes mid, and mid <= right - 1 (because left < right),
+ *       so new_right < old_right.
+ *     In both cases, the length of the interval [left, right] strictly decreases.
+ *
+ *   Since:
+ *     - [left, right] is an interval of integer indices,
+ *     - its length is a non-negative integer,
+ *     - and each iteration strictly decreases that length,
+ *   the loop can execute only finitely many times. The only way to stop is
+ *   when the condition (left < right) becomes false, i.e. when left == right.
+ *
+ *   By (I1), m is always in [left, right], and when the length of this
+ *   interval becomes 1, it must be {m}. Therefore at loop exit:
+ *
+ *       left == right == m
+ *
+ *   and nums[left] is exactly the minimum.
  *
  * Complexity:
- *   - Time:  O(log n) — each step halves the search interval.
+ *   - Time:  O(log n) — each step halves (or almost halves) the search interval.
  *   - Space: O(1) extra space.
  */
+
 int FindMinimumInRotatedSortedArray_153::findMin(vector<int> &nums)
 {
     int left = 0, right = nums.size() - 1;
