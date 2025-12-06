@@ -4548,6 +4548,15 @@ public:
         TEST(54,   "Spiral Matrix",                                  spiralMatrix_54_tests),
         TEST(6,    "Zigzag Conversion",                              zigzagConversion_6_tests),
         TEST(48,   "Rotate Image",                                   rotateImage_48_tests),
+        /*Binary Search */
+        TEST(704,  "Binary Search",                                  binarySearch_704_tests),
+        TEST(35,   "Search Insert Position",                         searchInsertPosition_35_tests),
+        TEST(278,  "First Bad Version",                              firstBadVersion_278_tests),
+        TEST(367,  "Valid Perfect Square",                           validPerfectSquare_367_tests),
+        TEST(74,   "Search a 2D Matrix",                             search2DMatrix_74_tests),
+        TEST(153,  "Find Minimum in Rotated Sorted Array",           findMinimumInRotatedSortedArray_153_tests),
+        TEST(33,   "Search in Rotated Sorted Array",                 searchInRotatedSortedArray_33_tests),
+        TEST(875,  "Koko Eating Bananas",                            kokoEatingBananas_875_tests),
         /* Other */
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
@@ -4580,11 +4589,7 @@ public:
         TEST(79,   "Word Search",                                    wordSearch_79_tests),
         TEST(20,   "Valid Parentheses",                              validParentheses_20_tests),
         TEST(36,   "Valid Sudoku",                                   validSudoku_36_tests),
-        TEST(704,  "Binary Search",                                  binarySearch_704_tests),
-        TEST(35,   "Search Insert Position",                         searchInsertPosition_35_tests),
-        TEST(74,   "Search a 2D Matrix",                             search2DMatrix_74_tests),
         TEST(432,  "All O`one Data Structure",                       allOOneDataStructure_432_tests),
-        TEST(153,  "Find Minimum in Rotated Sorted Array",           findMinimumInRotatedSortedArray_153_tests),
         TEST(133,  "Clone Graph",                                    cloneGraph_133_tests),
         TEST(242,  "Valid Anagram",                                  validAnagram_242_tests),
         TEST(1152, "Analyze User Website Visit Pattern",             analyzeUserWebsiteVisitPattern_1152_tests),
@@ -4631,7 +4636,6 @@ public:
         TEST(286,  "Walls and Gates",                                wallsAndGates_286_tests),
         TEST(65,   "Valid Number",                                   validNumber_65_tests),
         TEST(771,  "Jewels and Stones",                              numJewelsAndStones_771_tests),
-        TEST(367,  "Valid Perfect Square",                           validPerfectSquare_367_tests),
         TEST(279,  "Perfect Squares",                                perfectSquares_279_tests),
         TEST(100,  "Same Tree",                                      sameTree_100_tests),
         TEST(268,  "Missing Number",                                 missingNumber_268_tests),
@@ -4670,9 +4674,6 @@ public:
         TEST(637,  "Average of Levels in Binary Tree",               averageOfLevelsInBinaryTree_637_tests),
         TEST(530,  "Minimum Absolute Difference in BST",             minimumAbsoluteDifferenceInBST_530_tests),
         TEST(463,  "Island Perimeter",                               islandPerimeter_463_tests),
-        TEST(278,  "First Bad Version",                              firstBadVersion_278_tests),
-        TEST(33,   "Search in Rotated Sorted Array",                 searchInRotatedSortedArray_33_tests),
-        TEST(875,  "Koko Eating Bananas",                            kokoEatingBananas_875_tests),
     };
 
     static void runAllTests() {
