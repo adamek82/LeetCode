@@ -153,6 +153,7 @@
 #include "MinimumAbsoluteDifferenceInBST_530.h"
 #include "IslandPerimeter_463.h"
 #include "FirstBadVersion_278.h"
+#include "SearchInRotatedSortedArray_33.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4464,6 +4465,39 @@ public:
         }
     }
 
+    static void searchInRotatedSortedArray_33_tests() {
+        vector<BinarySearchTestCase> testCases = {
+            // Problem statement examples
+            {{4, 5, 6, 7, 0, 1, 2}, 0, 4},   // Example 1
+            {{4, 5, 6, 7, 0, 1, 2}, 3, -1},  // Example 2
+            {{1},                     0, -1}, // Example 3
+
+            // Additional: no rotation, target present
+            {{1, 2, 3, 4, 5, 6, 7}, 4, 3},
+
+            // Additional: no rotation, target absent
+            {{1, 2, 3, 4, 5, 6, 7}, 8, -1},
+
+            // Additional: rotation in the middle, target in left sorted half
+            {{6, 7, 0, 1, 2, 3, 4, 5}, 7, 1},
+
+            // Additional: rotation in the middle, target in right sorted half
+            {{6, 7, 0, 1, 2, 3, 4, 5}, 3, 5},
+
+            // Additional: two-element arrays
+            {{2, 1}, 1, 1},
+            {{2, 1}, 2, 0},
+            {{2, 1}, 3, -1}
+        };
+
+        SearchInRotatedSortedArray_33 solution;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = solution.search(testCases[i].input, testCases[i].target);
+            assertEqScalar("Search Rotated Sorted Array 33 Test " + to_string(i + 1),
+                           testCases[i].expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         /* Arrays & Strings */
         TEST(2239, "Find Closest Number to Zero",                    findClosestNumber_2239_tests),
@@ -4609,6 +4643,7 @@ public:
         TEST(530,  "Minimum Absolute Difference in BST",             minimumAbsoluteDifferenceInBST_530_tests),
         TEST(463,  "Island Perimeter",                               islandPerimeter_463_tests),
         TEST(278,  "First Bad Version",                              firstBadVersion_278_tests),
+        TEST(33,   "Search in Rotated Sorted Array",                 searchInRotatedSortedArray_33_tests),
     };
 
     static void runAllTests() {
