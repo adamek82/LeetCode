@@ -908,4 +908,11 @@ namespace TestCases {
         int firstBad;   // ground truth "first bad" version
         int expected;   // expected result from firstBadVersion(n)
     };
+
+    // 875. Koko Eating Bananas
+    struct KokoEatingBananasTestCase {
+        vector<int> piles;
+        int h;
+        int expected;
+    };
 } // namespace TestCases

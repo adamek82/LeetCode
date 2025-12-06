@@ -154,6 +154,7 @@
 #include "IslandPerimeter_463.h"
 #include "FirstBadVersion_278.h"
 #include "SearchInRotatedSortedArray_33.h"
+#include "KokoEatingBananas_875.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4498,6 +4499,33 @@ public:
         }
     }
 
+    static void kokoEatingBananas_875_tests() {
+        vector<KokoEatingBananasTestCase> testCases = {
+            // LeetCode examples
+            {{3, 6, 7, 11}, 8, 4},              // Example 1
+            {{30, 11, 23, 4, 20}, 5, 30},       // Example 2
+            {{30, 11, 23, 4, 20}, 6, 23},       // Example 3
+
+            // Single pile, enough hours to go slow
+            {{5}, 10, 1},                        // can eat 1 banana/hour
+
+            // Single pile, tighter time
+            {{5}, 5, 1},                         // exactly 1 banana/hour
+            {{5}, 4, 2},                         // needs speed 2
+
+            // Multiple small piles
+            {{1, 1, 1, 1}, 4, 1},                // 1 per hour fits
+            {{1, 1, 1, 1}, 4, 1},                // min k = 1, since 4 piles of 1 banana each take 4 hours
+        };
+
+        KokoEatingBananas_875 solution;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = solution.minEatingSpeed(testCases[i].piles, testCases[i].h);
+            assertEqScalar("Koko Eating Bananas 875 Test " + to_string(i + 1),
+                           testCases[i].expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         /* Arrays & Strings */
         TEST(2239, "Find Closest Number to Zero",                    findClosestNumber_2239_tests),
@@ -4644,6 +4672,7 @@ public:
         TEST(463,  "Island Perimeter",                               islandPerimeter_463_tests),
         TEST(278,  "First Bad Version",                              firstBadVersion_278_tests),
         TEST(33,   "Search in Rotated Sorted Array",                 searchInRotatedSortedArray_33_tests),
+        TEST(875,  "Koko Eating Bananas",                            kokoEatingBananas_875_tests),
     };
 
     static void runAllTests() {
