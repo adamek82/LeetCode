@@ -82,11 +82,11 @@ int binarySearch(const vector<int>& a, int target) {
 
 **When to use it:**
 
-- 704. Binary Search  
-- 74. Search a 2D Matrix  
-- 33. Search in Rotated Sorted Array (structural variant)  
-- 35. Search Insert Position (with a twist)  
-- 367. Valid Perfect Square (search in value space, but same pattern)
+- LC 704 – Binary Search
+- LC 74 – Search a 2D Matrix
+- LC 33 – Search in Rotated Sorted Array (structural variant)
+- LC 35 – Search Insert Position (with a twist)
+- LC 367 – Valid Perfect Square (search in value space, but same pattern)
 
 ---
 
@@ -122,9 +122,9 @@ int firstTrue(int left, int right) { // [left, right], answer exists
 
 **When to use it:**
 
-- 278. First Bad Version  
-- 153. Find Minimum in Rotated Sorted Array  
-- 875. Koko Eating Bananas (binary search on the answer)
+- LC 278 – First Bad Version
+- LC 153 – Find Minimum in Rotated Sorted Array
+- LC 875 – Koko Eating Bananas (binary search on the answer)
 
 ---
 
