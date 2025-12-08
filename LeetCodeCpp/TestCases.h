@@ -915,4 +915,11 @@ namespace TestCases {
         int h;
         int expected;
     };
+
+    // 3074. Apple Redistribution into Boxes
+    struct AppleRedistributionIntoBoxesTestCase {
+        vector<int> apple;
+        vector<int> capacity;
+        int expected;
+    };
 } // namespace TestCases

@@ -155,6 +155,7 @@
 #include "FirstBadVersion_278.h"
 #include "SearchInRotatedSortedArray_33.h"
 #include "KokoEatingBananas_875.h"
+#include "AppleRedistributionIntoBoxes_3074.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4526,10 +4527,41 @@ public:
         }
     }
 
+    static void appleRedistributionIntoBoxes_3074_tests() {
+        vector<AppleRedistributionIntoBoxesTestCase> testCases = {
+            // Examples from the problem statement
+            {{1, 3, 2},      {4, 3, 1, 5, 2}, 2},
+            {{5, 5, 5},      {2, 4, 2, 7},     4},
+
+            // Single pack / single box
+            {{1},            {1},              1},
+
+            // Need all boxes to reach total capacity
+            {{1, 2, 3},      {2, 2, 2},        3},
+
+            // Mix of capacities where one large box + one small is enough
+            {{2, 2},         {3, 1, 1},        2},
+        };
+
+        AppleRedistributionIntoBoxes_3074 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+
+            // capacity is sorted in-place, so copy it for each run
+            auto capacityCopy = tc.capacity;
+            int got = solver.minimumBoxes(const_cast<vector<int>&>(tc.apple),
+                                          capacityCopy);
+
+            assertEqScalar("Apple Redistribution Into Boxes 3074 Test " + to_string(i + 1),
+                           tc.expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         /* Arrays & Strings */
         TEST(2239, "Find Closest Number to Zero",                    findClosestNumber_2239_tests),
         TEST(1768, "Merge Strings Alternately",                      mergeStringsAlternately_1768_tests),
+        TEST(3074, "Apple Redistribution Into Boxes",                appleRedistributionIntoBoxes_3074_tests),
         TEST(13,   "Roman to Integer",                               romanToInteger_13_tests),
         TEST(392,  "Is Subsequence",                                 isSubsequence_392_tests),
         TEST(392,  "Is Subsequence (next-position table)",           isSubsequence_392_nextpos_tests),
@@ -4548,7 +4580,7 @@ public:
         TEST(54,   "Spiral Matrix",                                  spiralMatrix_54_tests),
         TEST(6,    "Zigzag Conversion",                              zigzagConversion_6_tests),
         TEST(48,   "Rotate Image",                                   rotateImage_48_tests),
-        /*Binary Search */
+        /* Binary Search */
         TEST(704,  "Binary Search",                                  binarySearch_704_tests),
         TEST(35,   "Search Insert Position",                         searchInsertPosition_35_tests),
         TEST(278,  "First Bad Version",                              firstBadVersion_278_tests),
