@@ -156,6 +156,7 @@
 #include "SearchInRotatedSortedArray_33.h"
 #include "KokoEatingBananas_875.h"
 #include "AppleRedistributionIntoBoxes_3074.h"
+#include "UniqueNumberOfOccurrences_1207.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4557,6 +4558,29 @@ public:
         }
     }
 
+    static void uniqueNumberOfOccurrences_1207_tests() {
+        vector<UniqueNumberOfOccurrencesTestCase> testCases = {
+            // Examples from the problem statement
+            {{1, 2, 2, 1, 1, 3},                true},
+            {{1, 2},                            false},
+            {{-3, 0, 1, -3, 1, 1, 1, -3, 10, 0}, true},
+
+            // Additional tests
+            {{42},                              true},  // single value
+            {{1, 1, 2, 2, 3, 3},                false}, // all values occur twice
+            {{1, 1, 1, 2, 2, 3},                true},  // counts 3, 2, 1 are all distinct
+        };
+
+        UniqueNumberOfOccurrences_1207 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto arr = testCases[i].arr; // copy (method takes non-const ref, but doesn't modify)
+            bool got = sol.uniqueOccurrences(arr);
+
+            assertEqScalar("Unique Number Of Occurrences 1207 Test " + to_string(i + 1),
+                           testCases[i].expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         /* Arrays & Strings */
         TEST(2239, "Find Closest Number to Zero",                    findClosestNumber_2239_tests),
@@ -4706,6 +4730,7 @@ public:
         TEST(637,  "Average of Levels in Binary Tree",               averageOfLevelsInBinaryTree_637_tests),
         TEST(530,  "Minimum Absolute Difference in BST",             minimumAbsoluteDifferenceInBST_530_tests),
         TEST(463,  "Island Perimeter",                               islandPerimeter_463_tests),
+        TEST(1207, "Unique Number of Occurrences",                   uniqueNumberOfOccurrences_1207_tests),
     };
 
     static void runAllTests() {

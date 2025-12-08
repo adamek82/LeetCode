@@ -922,4 +922,10 @@ namespace TestCases {
         vector<int> capacity;
         int expected;
     };
+
+    // 1207. Unique Number of Occurrences
+    struct UniqueNumberOfOccurrencesTestCase {
+        vector<int> arr;
+        bool expected;
+    };
 } // namespace TestCases
