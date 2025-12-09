@@ -928,4 +928,11 @@ namespace TestCases {
         vector<int> arr;
         bool expected;
     };
+
+    // 2798. Number of Employees Who Met the Target
+    struct NumberOfEmployeesWhoMetTargetTestCase {
+        vector<int> hours;
+        int target;
+        int expected;
+    };
 } // namespace TestCases

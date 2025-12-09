@@ -157,6 +157,7 @@
 #include "KokoEatingBananas_875.h"
 #include "AppleRedistributionIntoBoxes_3074.h"
 #include "UniqueNumberOfOccurrences_1207.h"
+#include "NumberOfEmployeesWhoMetTarget_2798.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4581,10 +4582,36 @@ public:
         }
     }
 
+    static void numberOfEmployeesWhoMetTarget_2798_tests() {
+        using namespace TestCases;
+
+        vector<NumberOfEmployeesWhoMetTargetTestCase> testCases = {
+            // Examples from the problem statement
+            {{0, 1, 2, 3, 4}, 2, 3},
+            {{5, 1, 4, 2, 2}, 6, 0},
+
+            // Additional edge / sanity tests
+            {{0},             0, 1}, // target 0, everyone meets it
+            {{0},             1, 0}, // nobody meets target
+            {{3, 3, 3},       3, 3}, // all meet target exactly
+            {{1, 2, 3, 4, 5}, 5, 1}, // exactly one employee meets target
+        };
+
+        NumberOfEmployeesWhoMetTarget_2798 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto hours = testCases[i].hours; // copy, method takes non-const ref
+            int got = sol.numberOfEmployeesWhoMetTarget(hours, testCases[i].target);
+
+            assertEqScalar("Number of Employees Who Met Target 2798 Test " + to_string(i + 1),
+                           testCases[i].expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         /* Arrays & Strings */
         TEST(2239, "Find Closest Number to Zero",                    findClosestNumber_2239_tests),
         TEST(1768, "Merge Strings Alternately",                      mergeStringsAlternately_1768_tests),
+        TEST(2798, "Number of Employees Who Met the Target",         numberOfEmployeesWhoMetTarget_2798_tests),
         TEST(3074, "Apple Redistribution Into Boxes",                appleRedistributionIntoBoxes_3074_tests),
         TEST(13,   "Roman to Integer",                               romanToInteger_13_tests),
         TEST(392,  "Is Subsequence",                                 isSubsequence_392_tests),
