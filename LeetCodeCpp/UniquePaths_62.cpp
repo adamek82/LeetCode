@@ -1,4 +1,5 @@
 #include "UniquePaths_62.h"
+#include <vector>
 
 /*
  * 62. Unique Paths  ―  LeetCode
@@ -17,6 +18,8 @@
  *         C(N, m − 1)  =  C(N, n − 1).
  *
  * -------------------------------------------------------------------
+ * Implementation #1 – combinatorial formula (O(1) extra space)
+ *
  * Why *not* use factorials directly?
  *     C(100,50)  involves 100! which overflows 64-bit very quickly.
  *
@@ -40,10 +43,10 @@
  *     Time  O(min(m,n))  ≤ 99 iterations.
  *     Space O(1).
  */
-int UniquePaths_62::uniquePaths(int m, int n)
+int UniquePaths_62::uniquePaths_Comb(int m, int n)
 {
-    long long N = m + n - 2;              // total moves
-    long long k = min(m - 1, n - 1); // choose smaller group
+    long long N = m + n - 2;          // total moves
+    long long k = min(m - 1, n - 1);  // choose smaller group
 
     long long res = 1;
     for (long long i = 1; i <= k; ++i) {
@@ -52,5 +55,63 @@ int UniquePaths_62::uniquePaths(int m, int n)
         // to obtain C(N, i) without overflow or loss of precision.
         res = res * (N - k + i) / i;
     }
-    return static_cast<int>(res);         // fits in 32-bit
+    return static_cast<int>(res);     // fits in 32-bit
+}
+
+/*
+ * Implementation #2 – 2D DP (O(m * n) space).
+ *
+ * Let dp[i][j] be the number of unique paths to cell (i, j).
+ *
+ * Transition:
+ *   dp[i][j] = dp[i-1][j] + dp[i][j-1]
+ * Because we can arrive at (i, j) either from above or from the left.
+ *
+ * Base:
+ *   First row and first column are all 1, because from the start
+ *   there is only one way to move purely right or purely down.
+ *
+ * Complexity:
+ *   Time  O(m * n)
+ *   Space O(m * n)
+ */
+int UniquePaths_62::uniquePaths_DP2D(int m, int n)
+{
+    vector<vector<int>> dp(m, vector<int>(n, 1));  // first row/col = 1
+
+    for (int i = 1; i < m; ++i) {
+        for (int j = 1; j < n; ++j) {
+            dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+        }
+    }
+    return dp[m - 1][n - 1];
+}
+
+/*
+ * Implementation #3 – DP with only 2 rows (O(n) space).
+ *
+ * We observe that to compute row i, we only need:
+ *   • current row i       (curr[0..n-1])
+ *   • previous row i - 1  (prev[0..n-1])
+ *
+ * Recurrence for row i:
+ *   curr[0]   = 1                        (only one way: all downs)
+ *   curr[j]   = curr[j-1] + prev[j]      for j >= 1
+ *
+ * Complexity:
+ *   Time  O(m * n)
+ *   Space O(n)   (2 * n integers)
+ */
+int UniquePaths_62::uniquePaths_DP2Rows(int m, int n)
+{
+    vector<int> prev(n, 1);  // row 0: all ones
+    vector<int> curr(n, 1);  // will be overwritten for each next row
+
+    for (int i = 1; i < m; ++i) {
+        for (int j = 1; j < n; ++j) {
+            curr[j] = curr[j - 1] + prev[j];
+        }
+        prev.swap(curr);
+    }
+    return prev[n - 1];
 }

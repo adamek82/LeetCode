@@ -2539,12 +2539,18 @@ public:
 
         UniquePaths_62 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            int got = solver.uniquePaths(cases[i].m, cases[i].n);
-            assertEqScalar(
+            const auto& tc = cases[i];
+            const string baseLabel =
                 "Unique Paths 62 Test " + to_string(i + 1) +
-                " (m=" + to_string(cases[i].m) + ", n=" + to_string(cases[i].n) + ")",
-                cases[i].expected, got
-            );
+                " (m=" + to_string(tc.m) + ", n=" + to_string(tc.n) + ")";
+
+            int gotComb    = solver.uniquePaths_Comb(tc.m, tc.n);
+            int gotDP2D    = solver.uniquePaths_DP2D(tc.m, tc.n);
+            int gotDP2Rows = solver.uniquePaths_DP2Rows(tc.m, tc.n);
+
+            assertEqScalar(baseLabel + " [comb]",     tc.expected, gotComb);
+            assertEqScalar(baseLabel + " [dp-2D]",    tc.expected, gotDP2D);
+            assertEqScalar(baseLabel + " [dp-2rows]", tc.expected, gotDP2Rows);
         }
     }
 
