@@ -20,24 +20,34 @@
  * -------------------------------------------------------------------
  * Implementation #1 – combinatorial formula (O(1) extra space)
  *
- * Why *not* use factorials directly?
- *     C(100,50)  involves 100! which overflows 64-bit very quickly.
- *
- * Instead we use the **multiplicative** identity
+ * Naive factorials overflow quickly (e.g. C(100,50) uses 100!),
+ * so we use the multiplicative identity
  *
  *     C(N, k) = Π_{i = 1..k}  (N − k + i) / i,   where  k = min(m−1,n−1).
  *
- * Interpretation:
- *   • The numerator  (N − k + i) runs through the k largest factors of N!
- *   • The denominator  i  runs through 1,2,…,k (i.e. k!).
- *   • Multiplying first and *immediately* dividing keeps the result an
- *     integer at every step, so intermediate values never exceed the
- *     64-bit range guaranteed by the problem (answer ≤ 2 · 10⁹).
+ * Here the loop does:
  *
- * Example (m=3,n=7 ⇒ N=8,k=2):
+ *     res_0 = 1
+ *     res_i = res_{i-1} * (N − k + i) / i
+ *
+ * Invariant (proof that res stays integer):
+ *     After i-th iteration:
+ *         res_i = C(N − k + i, i)
+ *     Base:  res_0 = 1 = C(N − k + 0, 0).
+ *     Step:  assume res_{i-1} = C(N − k + i − 1, i − 1). Then
+ *
+ *         res_i
+ *           = C(N − k + i − 1, i − 1) * (N − k + i) / i
+ *           = C(N − k + i, i)   // standard identity:
+ *                               // C(n, r) * (n+1)/(r+1) = C(n+1, r+1)
+ *
+ *     A binomial coefficient C(a, b) is always an integer, so each
+ *     division by i is exact and res never becomes fractional.
+ *
+ * Example (m=3, n=7 ⇒ N=8, k=2):
  *   res = 1
- *   i = 1:  res = 1 * (8-2+1)=7 / 1  = 7
- *   i = 2:  res = 7 * (8-2+2)=8 / 2  = 28   ← C(8,2)
+ *   i = 1:  res = 1 * (8-2+1)=7 / 1  = 7    = C(7,1)
+ *   i = 2:  res = 7 * (8-2+2)=8 / 2  = 28   = C(8,2)
  *
  * Complexity:
  *     Time  O(min(m,n))  ≤ 99 iterations.
