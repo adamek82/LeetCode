@@ -20,6 +20,19 @@
  *   So:
  *     cur = max(nums[i], cur + nums[i])
  *
+ * DP perspective (why this belongs to Dynamic Programming):
+ *   Define dp[i] as the maximum subarray sum that ends exactly at index i.
+ *
+ *     dp[i] = max(nums[i], dp[i-1] + nums[i])
+ *
+ *   This is a classic DP recurrence: the optimal answer for i depends only on i-1.
+ *   Kadane is simply the space-optimized form:
+ *
+ *     cur  == dp[i]    (we keep only the previous state instead of a whole dp[] table)
+ *     best == max over all dp[i]
+ *
+ *   So it’s DP without tabulation: same recurrence, just O(1) memory.
+ *
  * Why this is correct (the “dropping bad baggage” rule):
  *   If cur is negative before adding nums[i], then (cur + nums[i]) < nums[i].
  *   That means carrying the previous sum only makes the result WORSE.
