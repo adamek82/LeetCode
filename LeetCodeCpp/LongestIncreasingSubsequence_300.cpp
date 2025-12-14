@@ -117,7 +117,69 @@ int LongestIncreasingSubsequence_300::lengthOfLIS_tails(vector<int> &nums)
     return tails.size();
 }
 
-// O(N^2) dynamic programming: dp[i] = LIS length ending at i
+/*
+ * Longest Increasing Subsequence (LeetCode 300) — O(N^2) DP
+ * --------------------------------------------------------
+ * Goal:
+ *   Find the length of the longest strictly increasing subsequence (LIS).
+ *   Subsequence = you may skip elements, but the order must stay the same.
+ *
+ * Core DP idea (build the best subsequence that ends “here”):
+ *   Don’t try to directly construct the global LIS in one go.
+ *   Instead, for every position i ask a smaller, local question:
+ *
+ *     dp[i] = length of the longest increasing subsequence that
+ *             MUST end at index i (i.e., uses nums[i] as the last element).
+ *
+ *   If we know the best increasing subsequence ending at every earlier position j,
+ *   then we can extend one of them with nums[i] — but only if nums[j] < nums[i].
+ *
+ * Transition (the “who can be my predecessor?” rule):
+ *   To end at i, the previous element must come from some j < i with nums[j] < nums[i].
+ *   Among all such valid predecessors, we want the one that gives the longest chain:
+ *
+ *     dp[i] = 1 + max(dp[j]) over all j < i with nums[j] < nums[i]
+ *
+ *   If there is NO valid j, then nums[i] starts a new subsequence by itself:
+ *
+ *     dp[i] = 1
+ *
+ * Why this works (intuition you can remember):
+ *   Picture every index i as a “node” you want to finish on.
+ *   You can draw an arrow j -> i if j < i and nums[j] < nums[i] (increasing + order).
+ *   Then dp[i] is simply the length of the longest path that ends at node i.
+ *   We compute nodes left-to-right, so when we process i, all dp[j] for j<i are ready.
+ *
+ * What `best` is:
+ *   The LIS may end anywhere, not necessarily at the last index.
+ *   So the final answer is:
+ *
+ *     best = max(dp[i]) over all i
+ *
+ * Quick examples to burn it in:
+ *
+ *   Example A: [10, 9, 2, 5, 3, 7, 101, 18]
+ *     dp starts as all 1s.
+ *     - At 5 (value=7): predecessors smaller than 7 are 2,5,3
+ *       best predecessor dp is 2 (from 2->5 or 2->3->?), so dp becomes 3 (2,5,7).
+ *     - At 6 (value=101): almost everything can precede it, so dp[6] becomes 4
+ *       (2,3,7,101) or (2,5,7,101).
+ *     Answer = 4.
+ *
+ *   Example B: [0, 1, 0, 3, 2, 3]
+ *     i=0 (0): dp=1
+ *     i=1 (1): can extend 0 -> dp=2
+ *     i=2 (0): cannot extend anything smaller -> dp=1 (new start)
+ *     i=3 (3): can extend 0/1/0 -> best dp is 2 -> dp=3 (0,1,3)
+ *     i=4 (2): can extend 0/1/0 -> best dp is 2 -> dp=3 (0,1,2)
+ *     i=5 (3): can extend ... best dp is 3 -> dp=4 (0,1,2,3)
+ *     Answer = 4.
+ *
+ * Complexity:
+ *   Time:  O(N^2)  (for each i, we scan all j<i)
+ *   Space: O(N)    (dp array)
+ */
+
 int LongestIncreasingSubsequence_300::lengthOfLIS_dp(const vector<int>& nums)
 {
     const int n = static_cast<int>(nums.size());
