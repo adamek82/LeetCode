@@ -941,4 +941,10 @@ namespace TestCases {
         int num;
         string expected;
     };
+
+    // 136. Single Number
+    struct SingleNumber136TestCase {
+        vector<int> nums;
+        int expected;
+    };
 } // namespace TestCases

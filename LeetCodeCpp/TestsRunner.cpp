@@ -159,6 +159,7 @@
 #include "UniqueNumberOfOccurrences_1207.h"
 #include "NumberOfEmployeesWhoMetTarget_2798.h"
 #include "Base7_504.h"
+#include "SingleNumber_136.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4641,6 +4642,31 @@ public:
         }
     }
 
+    static void singleNumber_136_tests() {
+        using namespace TestCases;
+
+        vector<SingleNumber136TestCase> testCases = {
+            // Examples from the problem statement
+            {{2, 2, 1},             1},
+            {{4, 1, 2, 1, 2},       4},
+            {{1},                   1},
+
+            // Additional checks with zeros / negatives
+            {{0, 1, 0},             1},
+            {{-1, -1, -2},          -2},
+            {{-3, 0, 0, -3, 7},     7},
+        };
+
+        SingleNumber_136 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto nums = testCases[i].nums; // method takes non-const ref
+            int got = sol.singleNumber(nums);
+
+            assertEqScalar("Single Number 136 Test " + to_string(i + 1),
+                           testCases[i].expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         /* Arrays & Strings */
         TEST(2239, "Find Closest Number to Zero",                    findClosestNumber_2239_tests),
@@ -4793,6 +4819,7 @@ public:
         TEST(463,  "Island Perimeter",                               islandPerimeter_463_tests),
         TEST(1207, "Unique Number of Occurrences",                   uniqueNumberOfOccurrences_1207_tests),
         TEST(504,  "Base 7",                                         base7_504_tests),
+        TEST(136,  "Single Number",                                  singleNumber_136_tests),
     };
 
     static void runAllTests() {
