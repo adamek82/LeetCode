@@ -158,6 +158,7 @@
 #include "AppleRedistributionIntoBoxes_3074.h"
 #include "UniqueNumberOfOccurrences_1207.h"
 #include "NumberOfEmployeesWhoMetTarget_2798.h"
+#include "Base7_504.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4613,6 +4614,33 @@ public:
         }
     }
 
+    static void base7_504_tests() {
+        using namespace TestCases;
+
+        vector<Base7TestCase> testCases = {
+            // Examples from the problem statement
+            {100,  "202"},
+            {-7,   "-10"},
+
+            // Additional checks
+            {0,    "0"},
+            {1,    "1"},
+            {7,    "10"},
+            {343,  "1000"},  // 7^3
+            {49,   "100"},   // 7^2
+            {-1,   "-1"},
+        };
+
+        Base7_504 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+            string got = sol.convertToBase7(tc.num);
+
+            assertEqScalar("Base 7 504 Test " + to_string(i + 1),
+                           tc.expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         /* Arrays & Strings */
         TEST(2239, "Find Closest Number to Zero",                    findClosestNumber_2239_tests),
@@ -4764,6 +4792,7 @@ public:
         TEST(530,  "Minimum Absolute Difference in BST",             minimumAbsoluteDifferenceInBST_530_tests),
         TEST(463,  "Island Perimeter",                               islandPerimeter_463_tests),
         TEST(1207, "Unique Number of Occurrences",                   uniqueNumberOfOccurrences_1207_tests),
+        TEST(504,  "Base 7",                                         base7_504_tests),
     };
 
     static void runAllTests() {

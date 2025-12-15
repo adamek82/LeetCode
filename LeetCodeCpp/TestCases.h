@@ -935,4 +935,10 @@ namespace TestCases {
         int target;
         int expected;
     };
+
+    // 504. Base 7
+    struct Base7TestCase {
+        int num;
+        string expected;
+    };
 } // namespace TestCases
