@@ -1,18 +1,35 @@
 #include "NumberOf1Bits_191.h"
 
 /*
- * Number of 1 Bits — Brian Kernighan Trick  — Correctness Sketch
+ * 191. Number of 1 Bits — Brian Kernighan trick
+ * ---------------------------------------------
+ * We repeatedly clear the least-significant set bit of n and count how many
+ * times we can do this before n becomes 0.
  *
- * Operation  n &= n-1  clears the **least-significant set bit** each time.
- * Loop until n==0, incrementing a counter.
+ * Key identity:
+ *   For any n > 0, the expression (n - 1) flips all bits from the least-
+ *   significant 1-bit to the right (including that 1-bit). Therefore:
  *
- * Complexity
- *   – Time:  O(k)   where k = number of set bits (≤32) — fast for sparse ints.
- *   – Space: O(1)
+ *       n & (n - 1)
  *
- * Follow-up optimization
- *   For many calls, pre-compute popcount of all 256 possible bytes and sum
- *   four table lookups per 32-bit word; reduces to O(1) with tiny constant.
+ *   is equal to n with its least-significant 1-bit cleared.
+ *
+ * Algorithm:
+ *   - Initialize cnt = 0.
+ *   - While n != 0:
+ *       n = n & (n - 1)   // drop the lowest set bit
+ *       ++cnt
+ *   - When n reaches 0, we have performed exactly as many iterations as
+ *     there were 1-bits in the original value; cnt is the popcount.
+ *
+ * Complexity:
+ *   - Time:  O(k), where k is the number of set bits in n (≤ 32 for uint32_t),
+ *            which is very fast especially when n is sparse.
+ *   - Space: O(1).
+ *
+ * Follow-up (many calls):
+ *   - Precompute popcount for all 256 possible byte values and sum four table
+ *     lookups per 32-bit word to get O(1) per query with a tiny constant.
  */
 int NumberOf1Bits_191::hammingWeight(uint32_t n)
 {
