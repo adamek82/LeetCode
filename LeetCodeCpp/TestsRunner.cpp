@@ -2449,9 +2449,17 @@ public:
 
         NumberOf1Bits_191 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            int got = solver.hammingWeight(cases[i].n);
-            assertEqScalar("Number of 1 Bits 191 Test " + to_string(i + 1) +
-                           " (n=" + to_string(cases[i].n) + ")", cases[i].expected, got);
+            const auto& tc = cases[i];
+
+            int gotK = solver.hammingWeightKernighan(tc.n);
+            int gotL = solver.hammingWeightLookup(tc.n);
+
+            const string baseMsg = "Number of 1 Bits 191 Test "
+                                   + to_string(i + 1)
+                                   + " (n=" + to_string(tc.n) + ")";
+
+            assertEqScalar(baseMsg + " [Kernighan]", tc.expected, gotK);
+            assertEqScalar(baseMsg + " [Lookup]",    tc.expected, gotL);
         }
     }
 
