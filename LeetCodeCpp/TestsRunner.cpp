@@ -160,6 +160,7 @@
 #include "NumberOfEmployeesWhoMetTarget_2798.h"
 #include "Base7_504.h"
 #include "SingleNumber_136.h"
+#include "DesignHashMap_706.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4675,6 +4676,70 @@ public:
         }
     }
 
+    static void designHashMap_706_tests() {
+        vector<DesignHashMapTestCase> testCases = {
+            // Example 1 (problem statement)
+            {
+                {"MyHashMap", "put", "put", "get", "get", "put", "get", "remove", "get"},
+                {{}, {1, 1}, {2, 2}, {1}, {3}, {2, 1}, {2}, {2}, {2}},
+                {nullopt, nullopt, nullopt, 1, -1, nullopt, 1, nullopt, -1}
+            },
+
+            // Keys at boundaries + overwrite
+            {
+                {"MyHashMap", "get", "put", "put", "get", "get", "remove", "get", "put", "get"},
+                {{}, {0}, {0, 42}, {1'000'000, 7}, {0}, {1'000'000}, {0}, {0}, {0, 99}, {0}},
+                {nullopt, -1, nullopt, nullopt, 42, 7, nullopt, -1, nullopt, 99}
+            },
+
+            // Removing missing key should be a no-op
+            {
+                {"MyHashMap", "put", "put", "remove", "get", "get", "remove", "get"},
+                {{}, {5, 10}, {6, 20}, {7}, {5}, {7}, {6}, {6}},
+                {nullopt, nullopt, nullopt, nullopt, 10, -1, nullopt, -1}
+            },
+
+            // Remove, then re-insert
+            {
+                {"MyHashMap", "put", "remove", "put", "get", "remove", "get"},
+                {{}, {123, 456}, {123}, {123, 789}, {123}, {123}, {123}},
+                {nullopt, nullopt, nullopt, nullopt, 789, nullopt, -1}
+            },
+
+            // Only gets/removes on a never-inserted key
+            {
+                {"MyHashMap", "get", "remove", "get"},
+                {{}, {999}, {999}, {999}},
+                {nullopt, -1, nullopt, -1}
+            },
+        };
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            cout << "Running HashMap Test Case " << i + 1 << ":\n";
+            MyHashMap* hm = nullptr;
+
+            for (size_t j = 0; j < testCases[i].operations.size(); ++j) {
+                const auto& op  = testCases[i].operations[j];
+                const auto& arg = testCases[i].arguments[j];
+                const auto& exp = testCases[i].expected[j];
+
+                if (op == "MyHashMap") { hm = new MyHashMap(); continue; }
+                if (op == "put") { hm->put(arg[0], arg[1]); continue; }
+                if (op == "remove") { hm->remove(arg[0]); continue; }
+
+                if (op == "get") {
+                    int got = hm->get(arg[0]);
+                    int expected = exp.value();
+                    const string label = makeStepLabel("HashMap Case", i, j, op, to_string(arg[0]));
+                    assertEqScalar(label, expected, got);
+                }
+            }
+
+            delete hm;
+            cout << "\n";
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         /* Arrays & Strings */
         TEST(2239, "Find Closest Number to Zero",                    findClosestNumber_2239_tests),
@@ -4828,6 +4893,7 @@ public:
         TEST(1207, "Unique Number of Occurrences",                   uniqueNumberOfOccurrences_1207_tests),
         TEST(504,  "Base 7",                                         base7_504_tests),
         TEST(136,  "Single Number",                                  singleNumber_136_tests),
+        TEST(706,  "Design HashMap",                                 designHashMap_706_tests),
     };
 
     static void runAllTests() {

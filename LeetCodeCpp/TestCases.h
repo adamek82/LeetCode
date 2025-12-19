@@ -947,4 +947,11 @@ namespace TestCases {
         vector<int> nums;
         int expected;
     };
+
+    // 706. Design HashMap
+    struct DesignHashMapTestCase {
+        vector<string> operations;
+        vector<vector<int>> arguments;   // op args: [] / [key] / [key,value]
+        vector<optional<int>> expected;  // nullopt for void ops, value for get()
+    };
 } // namespace TestCases
