@@ -21,7 +21,22 @@ void IsSubsequence_392::preprocess_PosIndex(const string& t) {
     hasPosIndex_ = true;
 }
 
-/* ---------- Build only the next-position DP table (for method 3) ---------- */
+/*
+ * Build only the next-position DP table (for method 3)
+ * ----------------------------------------------------
+ * Store t_ and build a (n+1) x 26 table nextPos_, where:
+ *   nextPos_[i][c] = the earliest index j >= i with t_[j] == c, or -1 if none.
+ *
+ * Construction goes right-to-left:
+ *   - nextPos_[n] is a sentinel row filled with -1 ("past the end of t").
+ *   - For each i from n-1 down to 0:
+ *       copy nextPos_[i+1] (knowledge about the suffix),
+ *       then set the entry for t_[i] to i.
+ *
+ * This preprocessing enables O(|s|) subsequence queries with constant-time
+ * transitions per character. Refer to the method (3) comment below
+ * isSubsequence_NextTable(...) for the full intuition, examples, and complexity.
+ */
 void IsSubsequence_392::preprocess_NextTable(const string& t) {
     t_ = t;
     const int n = (int)t_.size();
@@ -90,7 +105,84 @@ bool IsSubsequence_392::isSubsequence_PosIndex(const string& s) const {
     return true;
 }
 
-/* ---------- (3) Next-position DP table (needs preprocessed nextPos_) ---------- */
+/*
+ * (3) Next-position DP table (many queries, small alphabet)
+ * ---------------------------------------------------------
+ * Goal:
+ *   Answer many "is s a subsequence of fixed t?" queries fast.
+ *
+ * Data structure:
+ *   nextPos_[i][c] tells you the earliest index j >= i such that t_[j] == c,
+ *   or -1 if character c does not appear at/after position i.
+ *
+ *   - Rows: i = 0..n, where n = |t|.
+ *   - Cols: c = 0..25 for 'a'..'z' (via col(c) = c - 'a').
+ *
+ * Why n+1 rows:
+ *   Row n is a sentinel state meaning "we are past the end of t".
+ *   From there, no character can be matched, so nextPos_[n][*] = -1.
+ *   This avoids boundary checks both during preprocessing and querying.
+ *
+ * Preprocessing (build nextPos_):
+ *   nextPos_.assign(n + 1, {}) creates a vector of (n+1) rows, each row being
+ *   an array<int,26> value-initialized (i.e., filled with zeros).
+ *   Then we explicitly set the sentinel row to -1:
+ *       nextPos_[n].fill(-1);
+ *
+ *   We fill rows from right to left:
+ *       for i = n-1 down to 0:
+ *           nextPos_[i] = nextPos_[i+1];          // copy "future" knowledge
+ *           nextPos_[i][col(t_[i])] = i;          // current char is available at i
+ *
+ *   Intuition for building from the end:
+ *     Row i answers "what is the next occurrence at/after i?", which depends on
+ *     the suffix t[i..]. The suffix information is already known at row i+1
+ *     (for t[i+1..]), so we can reuse it by copying the row and then patching
+ *     one entry for t[i]. If we built left-to-right, we'd need information from
+ *     the future (unknown yet) to fill nextPos_[i][*], so we'd either need extra
+ *     passes or more complex bookkeeping.
+ *
+ * Example:
+ *   t = "abac" (n=4)
+ *   Indices: 0 1 2 3
+ *            a b a c
+ *
+ *   Sentinel row i=4: next(a)=next(b)=next(c)=-1
+ *
+ *   i=3 ('c'): copy row 4, set c->3  => a:-1 b:-1 c:3
+ *   i=2 ('a'): copy row 3, set a->2  => a:2  b:-1 c:3
+ *   i=1 ('b'): copy row 2, set b->1  => a:2  b:1  c:3
+ *   i=0 ('a'): copy row 1, set a->0  => a:0  b:1  c:3
+ *
+ * Querying with nextPos_:
+ *   Maintain a pointer i = "the earliest position in t_ we are allowed to use next".
+ *   Start i = 0. For each character c in s:
+ *     nxt = nextPos_[i][col(c)]
+ *     if nxt == -1 -> cannot match c after position i, return false
+ *     else set i = nxt + 1 and continue (must match subsequent chars strictly after nxt)
+ *
+ *   Example query:
+ *     t = "abac"
+ *     s = "bac"
+ *       i=0: 'b' -> nextPos_[0]['b']=1, i=2
+ *       i=2: 'a' -> nextPos_[2]['a']=2, i=3
+ *       i=3: 'c' -> nextPos_[3]['c']=3, i=4
+ *       all matched -> true
+ *
+ * Complexity:
+ *   Preprocess time:
+ *     O(n * 26) because each row copy touches 26 ints (constant alphabet size).
+ *   Preprocess space:
+ *     O((n + 1) * 26) ints for the table.
+ *   Query time:
+ *     O(|s|) (each character is one table lookup + constant work).
+ *
+ * Notes:
+ *   - This method is ideal when t is fixed and you have many queries,
+ *     and the alphabet is small (here: lowercase English letters).
+ *   - The sentinel row makes both preprocessing and querying cleaner:
+ *     i can become n, and nextPos_[n][*] is still a valid lookup returning -1.
+ */
 bool IsSubsequence_392::isSubsequence_NextTable(const string& s) const {
     assert(hasNextTable_ && "Call preprocess_NextTable(t) before using this method.");
     int i = 0;                              // search start in t_
