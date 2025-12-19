@@ -4716,26 +4716,26 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             cout << "Running HashMap Test Case " << i + 1 << ":\n";
-            MyHashMap* hm = nullptr;
+
+            MyHashMap hm; // Create once per test case
 
             for (size_t j = 0; j < testCases[i].operations.size(); ++j) {
                 const auto& op  = testCases[i].operations[j];
                 const auto& arg = testCases[i].arguments[j];
                 const auto& exp = testCases[i].expected[j];
 
-                if (op == "MyHashMap") { hm = new MyHashMap(); continue; }
-                if (op == "put") { hm->put(arg[0], arg[1]); continue; }
-                if (op == "remove") { hm->remove(arg[0]); continue; }
+                if (op == "MyHashMap") { continue; } // No-op: hm already exists
+                if (op == "put")    { hm.put(arg[0], arg[1]); continue; }
+                if (op == "remove") { hm.remove(arg[0]);      continue; }
 
                 if (op == "get") {
-                    int got = hm->get(arg[0]);
+                    int got = hm.get(arg[0]);
                     int expected = exp.value();
                     const string label = makeStepLabel("HashMap Case", i, j, op, to_string(arg[0]));
                     assertEqScalar(label, expected, got);
                 }
             }
 
-            delete hm;
             cout << "\n";
         }
     }
