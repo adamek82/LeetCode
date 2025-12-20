@@ -1580,9 +1580,12 @@ public:
 
         BestTimeToBuyAndSellStockII_122 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = sol.maxProfit(testCases[i].prices);
-            assertEqScalar("Best Time to Buy and Sell Stock II 122 Test " + to_string(i + 1),
-                        testCases[i].expected, got);
+            const int got_dailyDiffs = sol.maxProfit_DailyDiffs(testCases[i].prices);
+            const int got_valleyPeak = sol.maxProfit_ValleyPeak(testCases[i].prices);
+
+            const string base = "Best Time to Buy and Sell Stock II 122 Test " + to_string(i + 1);
+            assertEqScalar(base + " [DailyDiffs]", testCases[i].expected, got_dailyDiffs);
+            assertEqScalar(base + " [ValleyPeak]", testCases[i].expected, got_valleyPeak);
         }
     }
 

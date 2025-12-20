@@ -7,7 +7,7 @@
  * is equivalent to "buying low and selling high" repeatedly, which effectively captures
  * the entire upward movement.
  */
-int BestTimeToBuyAndSellStockII_122::maxProfit(vector<int> &prices)
+int BestTimeToBuyAndSellStockII_122::maxProfit_DailyDiffs(vector<int> &prices)
 {
     // Accumulates the total profit after evaluating all daily price differences
     int totalProfit = 0;
@@ -23,5 +23,50 @@ int BestTimeToBuyAndSellStockII_122::maxProfit(vector<int> &prices)
     }
 
     // Return the accumulated profit after processing all days
+    return totalProfit;
+}
+
+/*
+ * Valley/Peak scan (explicit transactions)
+ *
+ * Idea
+ * ----
+ * We repeatedly:
+ *   1) scan forward to find a local minimum (valley)   -> that's our "buy" day
+ *   2) then scan forward to find a local maximum (peak) -> that's our "sell" day
+ * and add (sell - buy) to the answer.
+ *
+ * This produces the same total profit as summing all positive day-to-day differences,
+ * but makes the transaction boundaries explicit.
+ */
+int BestTimeToBuyAndSellStockII_122::maxProfit_ValleyPeak(vector<int>& prices)
+{
+    const int n = (int)prices.size();
+    if (n < 2) {
+        return 0;
+    }
+
+    int totalProfit = 0;
+    int i = 0;
+
+    while (i < n - 1) {
+
+        // Look where to buy: move forward while the price is not increasing.
+        // After this loop, i points to a local minimum (or we reached the end).
+        while (i < n - 1 && prices[i + 1] <= prices[i]) {
+            ++i;
+        }
+        const int buy = prices[i];
+
+        // Look where to sell: move forward while the price keeps increasing.
+        // After this loop, i points to a local maximum.
+        while (i < n - 1 && prices[i + 1] >= prices[i]) {
+            ++i;
+        }
+        const int sell = prices[i];
+
+        totalProfit += (sell - buy);
+    }
+
     return totalProfit;
 }
