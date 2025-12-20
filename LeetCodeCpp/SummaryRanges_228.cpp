@@ -19,6 +19,9 @@
 
 vector<string> SummaryRanges_228::summaryRanges(vector<int>& nums) {
     vector<string> out;
+    // At most one output entry per input number (worst case: no consecutive runs).
+    out.reserve(nums.size());
+
     const int n = (int)nums.size();
     int i = 0;
 
