@@ -1568,6 +1568,15 @@ public:
             {{1,2,3,4,5}, 4},   // Example 2
             {{7,6,4,3,1}, 0},   // Example 3
 
+            // Edge case: no days -> no transaction possible, profit = 0.
+            {{}, 0},
+
+            // Edge case: single day -> cannot buy and sell, profit = 0.
+            {{5}, 0},
+
+            // Edge case: flat prices -> no upward movement, profit = 0.
+            {{3,3,3,3}, 0},
+
             // 2 additional, more complicated examples:
             // For prices = [2,4,1,10,9,11]:
             // Day-to-day profit breakdown: (4-2)=2, (10-1)=9, (11-9)=2, total profit = 2+9+2 = 13.
