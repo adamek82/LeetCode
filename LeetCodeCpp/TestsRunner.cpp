@@ -3329,15 +3329,20 @@ public:
 
         LongestCommonPrefix_14 sol;
         for (size_t i = 0; i < tcs.size(); ++i) {
-            string got  = sol.longestCommonPrefix_Linear(tcs[i].strs);
-            string got2 = sol.longestCommonPrefix_Sort(tcs[i].strs); // cross-check
+            string gotL = sol.longestCommonPrefix_Linear(tcs[i].strs);
+            string gotS = sol.longestCommonPrefix_Sort(tcs[i].strs);      // cross-check
+            string gotV = sol.longestCommonPrefix_Vertical(tcs[i].strs);  // cross-check
 
-            if (got != got2) {
+            if (gotL != gotS || gotL != gotV) {
                 cout << "[WARN] LCP variants disagree on case " << (i + 1)
-                    << "  primary=\"" << got << "\" sort=\"" << got2 << "\"\n";
+                    << "  linear=\"" << gotL << "\" sort=\"" << gotS
+                    << "\" vertical=\"" << gotV << "\"\n";
             }
 
-            assertEqScalar("LCP14 Test " + to_string(i + 1), tcs[i].expected, got);
+            // Keep one "primary" assertion, but also validate other variants.
+            assertEqScalar("LCP14 Test " + to_string(i + 1) + " (linear)",   tcs[i].expected, gotL);
+            assertEqScalar("LCP14 Test " + to_string(i + 1) + " (vertical)", tcs[i].expected, gotV);
+            assertEqScalar("LCP14 Test " + to_string(i + 1) + " (sort)",     tcs[i].expected, gotS);
         }
     }
 

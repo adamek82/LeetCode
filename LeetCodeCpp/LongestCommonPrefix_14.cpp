@@ -56,6 +56,51 @@ string LongestCommonPrefix_14::longestCommonPrefix_Linear(const vector<string> &
 }
 
 /*
+ * Longest Common Prefix — vertical scan (column-wise)
+ *
+ * Idea
+ * ----
+ * Use the first string as a reference ("base"). Compare characters vertically:
+ * for position j = 0..|base|-1, check that every string has the same character
+ * at j. The first position where any string is shorter or differs ends the LCP.
+ *
+ * Correctness (invariant)
+ * -----------------------
+ * Before checking position j, all strings are known to share the prefix
+ * base[0..j). When we detect either:
+ *   - some string has length == j (ran out), or
+ *   - some string differs at position j,
+ * then no longer common prefix can include position j, so base.substr(0, j)
+ * is exactly the global LCP. If the loop finishes, base is a prefix of all
+ * strings and is therefore the LCP.
+ *
+ * Complexity
+ * ----------
+ * At most m positions are checked, where m = min_i |strs[i]|.
+ * For each position we may scan all n strings.
+ * Time:  O(n · m)
+ * Space: O(1) extra
+ */
+string LongestCommonPrefix_14::longestCommonPrefix_Vertical(const vector<string>& strs) const
+{
+    if (strs.empty())
+        return "";
+
+    const string& base = strs[0];
+    for (size_t j = 0; j < base.size(); ++j)
+    {
+        const char c = base[j];
+        for (size_t i = 1; i < strs.size(); ++i)
+        {
+            const string& s = strs[i];
+            if (j >= s.size() || s[j] != c)
+                return base.substr(0, j);
+        }
+    }
+    return base;
+}
+
+/*
  * Longest Common Prefix — sort + compare extremes
  *
  * Idea
