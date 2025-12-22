@@ -1515,25 +1515,25 @@ public:
     }
 
     static void sortColors_75_tests() {
-        // Create test cases (two from the problem statement + three more)
         vector<SortColorsTestCase> testCases = {
-            // Example 1
             {{2, 0, 2, 1, 1, 0}, {0, 0, 1, 1, 2, 2}},
-            // Example 2
-            {{2, 0, 1}, {0, 1, 2}},
-            // Additional Test 1: Single element
-            {{0}, {0}},
-            // Additional Test 2: All the same element
-            {{2, 2, 2, 2}, {2, 2, 2, 2}},
-            // Additional Test 3: Mixed with more 1s
+            {{2, 0, 1},          {0, 1, 2}},
+            {{0},                {0}},
+            {{2, 2, 2, 2},       {2, 2, 2, 2}},
             {{1, 0, 2, 2, 1, 0}, {0, 0, 1, 1, 2, 2}}
         };
 
         SortColors_75 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto arr = testCases[i].input;   // work on a copy
-            sol.sortColors(arr);
-            assertEqVIntExact("Sort Colors 75 Test " + to_string(i + 1), testCases[i].expected, arr);
+            auto arr_threeTails = testCases[i].input;
+            auto arr_counting   = testCases[i].input;
+
+            sol.sortColors_threeTails(arr_threeTails);
+            sol.sortColors_counting(arr_counting);
+
+            const string base = "Sort Colors 75 Test " + to_string(i + 1);
+            assertEqVIntExact(base + " [threeTails]", testCases[i].expected, arr_threeTails);
+            assertEqVIntExact(base + " [counting]",   testCases[i].expected, arr_counting);
         }
     }
 

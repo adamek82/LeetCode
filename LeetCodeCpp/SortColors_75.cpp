@@ -1,4 +1,6 @@
 #include "SortColors_75.h"
+#include <array>
+#include <vector>
 
 /*
  * Sort Colors (LeetCode 75) — 1-pass “overwrite with three tails”
@@ -113,7 +115,7 @@
  * branch-light. It relies on the fact we only care about final sorted values,
  * not preserving original positions.
  */
-void SortColors_75::sortColors(vector<int> &nums)
+void SortColors_75::sortColors_threeTails(vector<int> &nums)
 {
     int zero = -1;
     int one  = -1;
@@ -129,6 +131,40 @@ void SortColors_75::sortColors(vector<int> &nums)
             nums[++one] = 1;
         } else {
             nums[++two] = 2;
+        }
+    }
+}
+
+/*
+ * Sort Colors (LeetCode 75) — counting (2 passes)
+ *
+ * Idea
+ * ----
+ * Since values are only {0,1,2}, we can count how many of each occur,
+ * then overwrite the array with that many 0s, then 1s, then 2s.
+ *
+ * This does not do any swaps and performs exactly n writes in the fill phase,
+ * at the cost of an extra pass to count.
+ *
+ * Complexity
+ * ----------
+ * Time:  O(n) (two linear passes)
+ * Space: O(1) (3 counters)
+ */
+void SortColors_75::sortColors_counting(vector<int> &nums)
+{
+    enum Color : int { Red = 0, White = 1, Blue = 2, ColorCount = 3 };
+
+    std::array<int, ColorCount> counts{0, 0, 0};
+
+    for (int c : nums) {
+        ++counts[c];
+    }
+
+    int idx = 0;
+    for (int color = Red; color <= Blue; ++color) {
+        for (int t = 0; t < counts[color]; ++t) {
+            nums[idx++] = color;
         }
     }
 }
