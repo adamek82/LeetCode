@@ -1,4 +1,6 @@
 #include "HIndex_274.h"
+#include <vector>
+#include <algorithm>
 
 /*
  * H-Index (LeetCode 274) — counting / bucket approach
