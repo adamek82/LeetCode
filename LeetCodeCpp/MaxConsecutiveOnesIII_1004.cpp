@@ -33,6 +33,10 @@
  * after shrinking, [left..right] is the longest valid window ending at `right`.
  * Taking the maximum over all `right` yields the global best.
  *
+ * Note: `left` can become `right + 1` (empty window), e.g. when k == 0 and nums[right] == 0.
+ * The inner loop shrinks until valid, and once the zero causing the deficit leaves the window,
+ * k is refunded to >= 0, so `left` never advances beyond `right + 1`.
+ *
  * Complexity
  * ----------
  * Time:  O(n)
