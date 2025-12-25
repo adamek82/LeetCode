@@ -1803,7 +1803,8 @@ public:
             {"AABABBA",   1, 4},  // Example 2
             {"BABABA",    3, 6},  // Transform 3 'A's into 'B's
             {"ABCDE",     2, 3},  // Best substring length 3 by 2 changes
-            {"ABBBBAA",   2, 6}   // 6-length window after 2 changes
+            {"ABBBBAA",   2, 6},  // 6-length window after 2 changes
+            {"AAACCCCAC", 1, 6},  // Example of sliding window where maxFreq lags; still yields best=6
         };
 
         LongestRepeatingCharacterReplacement_424 sol;
