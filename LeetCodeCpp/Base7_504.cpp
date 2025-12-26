@@ -29,7 +29,8 @@ string Base7_504::convertToBase7(int num)
     }
 
     bool negative = (num < 0);
-    long long n = negative ? -(long long)num : (long long)num;
+    long long n = negative ? -static_cast<long long>(num)
+                           :  static_cast<long long>(num);
 
     string digits;
     while (n > 0) {

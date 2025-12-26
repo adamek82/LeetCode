@@ -31,7 +31,7 @@ vector<string> SummaryRanges_228::summaryRanges(vector<int>& nums) {
         int j = i + 1;
 
         // use 64-bit math to avoid overflow on (prev + 1) near INT_MAX
-        while (j < n && (long long)nums[j] == end + 1) {
+        while (j < n && static_cast<long long>(nums[j]) == end + 1) {
             end = nums[j];
             ++j;
         }
