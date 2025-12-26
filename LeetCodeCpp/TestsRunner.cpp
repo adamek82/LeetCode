@@ -2108,19 +2108,21 @@ public:
 
     static void permutationInString_567_tests() {
         vector<PermutationInStringTestCase> testCases = {
-            // Two examples from the problem statement
-            {"ab", "eidbaooo", true},
-            {"ab", "eidboaoo", false},
-            // Three extra, increasingly tricky, cases
-            {"adc",  "dcda",              true},   // permutation “cda” present
-            {"xyz",  "afdgzyxksldfm",     true},   // reversed substring “zyx”
-            {"abcd", "abc",               false}   // corner-case: |s1| > |s2|
+            {"ab",   "eidbaooo",          true},
+            {"ab",   "eidboaoo",          false},
+            {"adc",  "dcda",              true},
+            {"xyz",  "afdgzyxksldfm",     true},
+            {"abcd", "abc",               false}
         };
 
         PermutationInString_567 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool got = sol.checkInclusion(testCases[i].s1, testCases[i].s2);
-            assertEqScalar("Permutation in String 567 Test " + to_string(i + 1), testCases[i].expected, got);
+            const bool got_fullCompare    = sol.checkInclusion_fullCompare(testCases[i].s1, testCases[i].s2);
+            const bool got_matchesCounter = sol.checkInclusion_matchesCounter(testCases[i].s1, testCases[i].s2);
+
+            const string base = "Permutation in String 567 Test " + to_string(i + 1);
+            assertEqScalar(base + " [fullCompare]",    testCases[i].expected, got_fullCompare);
+            assertEqScalar(base + " [matchesCounter]", testCases[i].expected, got_matchesCounter);
         }
     }
 
