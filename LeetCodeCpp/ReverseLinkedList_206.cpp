@@ -1,22 +1,34 @@
 #include "ReverseLinkedList_206.h"
+#include "ListNode.h"
 
-ListNode<int> *ReverseLinkedList_206::reverseList(ListNode<int> *head)
+/*
+ * Reverse Linked List (LeetCode 206) — iterative in-place
+ *
+ * Invariant
+ * ---------
+ * Before each loop iteration:
+ *   - `prev` points to the already reversed prefix of the original list,
+ *   - `current` points to the first node of the not-yet-processed suffix.
+ * We take `current`, save `next`, reverse its link to `prev`, then advance both
+ * pointers, growing the reversed prefix by one node.
+ *
+ * Complexity
+ * ----------
+ * Time:  O(n)
+ * Space: O(1)
+ */
+ListNode<int>* ReverseLinkedList_206::reverseList(ListNode<int>* head)
 {
     ListNode<int>* prev = nullptr;
     ListNode<int>* current = head;
 
     while (current != nullptr) {
-        // Store the next node
-        ListNode<int>* nextNode = current->next;
-
-        // Reverse the current node's pointer
+        ListNode<int>* next = current->next;
         current->next = prev;
 
-        // Move pointers one step forward
         prev = current;
-        current = nextNode;
+        current = next;
     }
 
-    // The new head of the reversed list
     return prev;
 }
