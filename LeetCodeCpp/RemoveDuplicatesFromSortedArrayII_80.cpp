@@ -48,7 +48,7 @@ int RemoveDuplicatesFromSortedArrayII_80::removeDuplicates(vector<int> &nums)
 {
     int k = 0; // writer index for the next accepted element
 
-    for (int i = 0; i < (int)nums.size(); i++) {
+    for (int i = 0; i < static_cast<int>(nums.size()); i++) {
         if (k < 2 || nums[i] != nums[k - 2]) {
             nums[k++] = nums[i];
         }

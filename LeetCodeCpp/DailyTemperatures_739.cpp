@@ -2,7 +2,7 @@
 
 vector<int> DailyTemperatures_739::dailyTemperatures(vector<int> &temperatures)
 {
-    const int n = (int)temperatures.size();
+    const int n = static_cast<int>(temperatures.size());
     vector<int> ans(n, 0);
 
     // Monotonic stack of indices; temperatures[st[k]] are strictly decreasing.

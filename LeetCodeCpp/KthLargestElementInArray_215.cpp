@@ -26,7 +26,7 @@ int KthLargestElementInArray_215::findKthLargest_MinHeap(vector<int> &nums, int 
 
     for (int x : nums) {
         pq.push(x);
-        if ((int)pq.size() > k) pq.pop();
+        if (static_cast<int>(pq.size()) > k) pq.pop();
     }
 
     // Assumes 1 <= k <= nums.size()

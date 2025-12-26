@@ -15,7 +15,7 @@
 void IsSubsequence_392::preprocess_PosIndex(const string& t) {
     t_ = t;
     for (auto& v : pos_) v.clear();
-    for (int i = 0; i < (int)t_.size(); ++i) {
+    for (int i = 0; i < static_cast<int>(t_.size()); ++i) {
         pos_[t_[i] - 'a'].push_back(i);
     }
     hasPosIndex_ = true;
@@ -39,7 +39,7 @@ void IsSubsequence_392::preprocess_PosIndex(const string& t) {
  */
 void IsSubsequence_392::preprocess_NextTable(const string& t) {
     t_ = t;
-    const int n = (int)t_.size();
+    const int n = static_cast<int>(t_.size());
     nextPos_.assign(n + 1, {});      // zero-initialize each row (array<int,26>)
     nextPos_[n].fill(-1);            // sentinel row
     for (int i = n - 1; i >= 0; --i) {
@@ -52,11 +52,11 @@ void IsSubsequence_392::preprocess_NextTable(const string& t) {
 /* ---------- (1) Two-pointer over provided t (no preprocessing) ---------- */
 bool IsSubsequence_392::isSubsequence_TwoPointer(const string& s, const string& t) const {
     int i = 0, j = 0;
-    while (i < (int)s.size() && j < (int)t.size()) {
+    while (i < static_cast<int>(s.size()) && j < static_cast<int>(t.size())) {
         if (s[i] == t[j]) ++i;
         ++j;
     }
-    return i == (int)s.size();
+    return i == static_cast<int>(s.size());
 }
 
 /*

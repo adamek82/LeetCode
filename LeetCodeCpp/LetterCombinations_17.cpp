@@ -7,7 +7,7 @@
  */
 void LetterCombinations_17::dfs(const string& digits, int idx,
                                 string& path, vector<string>& out) {
-    if (idx == (int)digits.size()) {
+    if (idx == static_cast<int>(digits.size())) {
         out.push_back(path);
         return;
     }

@@ -17,8 +17,8 @@
  */
 bool PermutationInString_567::checkInclusion_fullCompare(string s1, string s2)
 {
-    const int m = (int)s1.size();
-    const int n = (int)s2.size();
+    const int m = static_cast<int>(s1.size());
+    const int n = static_cast<int>(s2.size());
     if (m > n) return false;
 
     array<int, 26> need{};
@@ -69,8 +69,8 @@ void PermutationInString_567::applyDelta(array<int, 26>& window,
  */
 bool PermutationInString_567::checkInclusion_matchesCounter(string s1, string s2)
 {
-    const int m = (int)s1.size();
-    const int n = (int)s2.size();
+    const int m = static_cast<int>(s1.size());
+    const int n = static_cast<int>(s2.size());
     if (m > n) return false;
 
     array<int, 26> need{};

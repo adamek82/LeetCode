@@ -13,7 +13,7 @@ int BestTimeToBuyAndSellStockII_122::maxProfit_DailyDiffs(vector<int> &prices)
     int totalProfit = 0;
 
     // Iterate through prices starting from the second day (i = 1)
-    for (int i = 1; i < (int)prices.size(); ++i) {
+    for (int i = 1; i < static_cast<int>(prices.size()); ++i) {
 
         // If today's price is higher than yesterday's price,
         // we add the difference to our total profit
@@ -41,7 +41,7 @@ int BestTimeToBuyAndSellStockII_122::maxProfit_DailyDiffs(vector<int> &prices)
  */
 int BestTimeToBuyAndSellStockII_122::maxProfit_ValleyPeak(vector<int>& prices)
 {
-    const int n = (int)prices.size();
+    const int n = static_cast<int>(prices.size());
     if (n < 2) {
         return 0;
     }

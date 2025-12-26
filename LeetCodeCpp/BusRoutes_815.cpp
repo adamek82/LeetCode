@@ -9,10 +9,10 @@ int BusRoutes_815::numBusesToDestination(vector<vector<int>> &routes, int source
 
     /* 1. Build: stop → list of buses that serve it */
     unordered_map<int, vector<int>> stop2bus;
-    for (int bus = 0; bus < (int)routes.size(); ++bus)
+    for (int bus = 0; bus < static_cast<int>(routes.size()); ++bus)
         for (int stop : routes[bus])
             stop2bus[stop].push_back(bus);
-    
+
     /* 2. BFS on *stops*, but we only “board” each bus once.               *
      * Each BFS layer = all stops reachable with one more bus transfer.    */
     queue<int> q;                 // current frontier of stops

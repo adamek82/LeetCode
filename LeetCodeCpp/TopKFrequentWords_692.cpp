@@ -23,7 +23,7 @@ vector<string> TopKFrequentWords_692::topKFrequent(vector<string> &words, int k)
     // Push each word-frequency pair into the heap.
     for (auto &entry : freq) {
         minHeap.push(entry);
-        if ((int)minHeap.size() > k) {
+        if (static_cast<int>(minHeap.size()) > k) {
             minHeap.pop();
         }
     }

@@ -16,7 +16,7 @@ vector<int> TopKFrequentElements_347::topKFrequent(const vector<int>& nums, int 
     for (int f = maxf; f >= 1; --f) {
         for (int v : buckets[f]) {
             ans.push_back(v);
-            if ((int)ans.size() == k) return ans; // early return once k elements are gathered
+            if (static_cast<int>(ans.size()) == k) return ans; // early return once k elements are gathered
         }
     }
     return ans; // defensive: with valid inputs we should have returned earlier

@@ -337,9 +337,9 @@ public:
 
         auto validTopo = [](int n, const vector<vector<int>>& pre, const vector<int>& order) {
             if (order.empty()) return pre.empty() ? n == 0 : false;        // empty only for cycle (or trivial n==0)
-            if ((int)order.size() != n) return false;
+            if (static_cast<int>(order.size()) != n) return false;
             unordered_map<int,int> pos; pos.reserve(order.size());
-            for (int i = 0; i < (int)order.size(); ++i) pos[order[i]] = i;
+            for (int i = 0; i < static_cast<int>(order.size()); ++i) pos[order[i]] = i;
             for (const auto& e : pre) if (pos[e[1]] > pos[e[0]]) return false;
             return true;
         };

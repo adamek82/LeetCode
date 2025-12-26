@@ -24,7 +24,7 @@
  *   Time O(n), Space O(1).
  */
 int RemoveDuplicates_26::removeDuplicates(vector<int>& nums) {
-    const int n = (int)nums.size();
+    const int n = static_cast<int>(nums.size());
     if (n == 0) return 0;
 
     int k = 1; // write index for next unique

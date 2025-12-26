@@ -5,7 +5,7 @@
  * Complexity: O(n * 2^n) time, O(n) aux (excluding output).
  */
 vector<vector<int>> Subsets_78::subsets_bitmask(vector<int>& nums) {
-    const int n = (int)nums.size();
+    const int n = static_cast<int>(nums.size());
     const int total = 1 << n;
 
     vector<vector<int>> out;
@@ -34,7 +34,7 @@ static void subsetsDfs(const vector<int>& nums,
 {
     out.push_back(partial_sol);         // record the current subset
 
-    for (int i = start; i < (int)nums.size(); ++i) {
+    for (int i = start; i < static_cast<int>(nums.size()); ++i) {
         partial_sol.push_back(nums[i]); // choose
         subsetsDfs(nums, i + 1, partial_sol, out);
         partial_sol.pop_back();         // backtrack

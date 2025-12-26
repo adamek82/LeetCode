@@ -2,7 +2,7 @@
 #include <algorithm>
 
 void Permutations_46::dfsPerm(int pos, vector<int>& nums, vector<vector<int>>& out) {
-    const int n = (int)nums.size();
+    const int n = static_cast<int>(nums.size());
     if (pos == n) {
         out.push_back(nums);   // record one full permutation
         return;

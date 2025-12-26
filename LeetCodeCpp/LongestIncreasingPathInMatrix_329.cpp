@@ -50,8 +50,8 @@ int LongestIncreasingPathInMatrix_329::dfs(
     static const int dr[4] = {-1, 0, 1, 0};
     static const int dc[4] = { 0, 1, 0,-1};
 
-    const int m = (int)a.size();
-    const int n = (int)a[0].size();
+    const int m = static_cast<int>(a.size());
+    const int n = static_cast<int>(a[0].size());
     int best = 1; // at least the cell itself
 
     for (int k = 0; k < 4; ++k) {
@@ -66,9 +66,9 @@ int LongestIncreasingPathInMatrix_329::dfs(
 }
 
 int LongestIncreasingPathInMatrix_329::longestIncreasingPath(vector<vector<int>>& matrix) {
-    const int m = (int)matrix.size();
+    const int m = static_cast<int>(matrix.size());
     if (m == 0) return 0;
-    const int n = (int)matrix[0].size();
+    const int n = static_cast<int>(matrix[0].size());
 
     vector<vector<int>> dp(m, vector<int>(n, 0));
     int ans = 0;

@@ -166,7 +166,7 @@ inline long long distSq2D(const vector<int>& p) {
 bool isValidKClosestPoints(const vector<vector<int>>& input,
                            int k,
                            const vector<vector<int>>& out) {
-    if ((int)out.size() != k) return false;
+    if (static_cast<int>(out.size()) != k) return false;
 
     // Build multiset of original points to check membership & multiplicity.
     multiset<pair<int,int>> pool;

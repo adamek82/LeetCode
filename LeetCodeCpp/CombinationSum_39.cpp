@@ -7,7 +7,7 @@ void CombinationSum_39::dfs(int start, int remain, const vector<int>& cand,
         out.push_back(cur);
         return;
     }
-    const int n = (int)cand.size();
+    const int n = static_cast<int>(cand.size());
     for (int i = start; i < n; ++i) {
         int v = cand[i];
         if (v > remain) break;           // pruning thanks to sorting

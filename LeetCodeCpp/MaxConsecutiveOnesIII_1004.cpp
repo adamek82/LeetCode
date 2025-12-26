@@ -47,7 +47,7 @@ int MaxConsecutiveOnesIII_1004::longestOnes(vector<int> &nums, int k)
     int left = 0;
     int best = 0;
 
-    for (int right = 0; right < (int)nums.size(); ++right) {
+    for (int right = 0; right < static_cast<int>(nums.size()); ++right) {
         if (nums[right] == 0) --k;
 
         while (k < 0) {

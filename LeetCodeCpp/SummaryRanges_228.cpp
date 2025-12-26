@@ -22,7 +22,7 @@ vector<string> SummaryRanges_228::summaryRanges(vector<int>& nums) {
     // At most one output entry per input number (worst case: no consecutive runs).
     out.reserve(nums.size());
 
-    const int n = (int)nums.size();
+    const int n = static_cast<int>(nums.size());
     int i = 0;
 
     while (i < n) {

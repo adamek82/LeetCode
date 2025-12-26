@@ -14,7 +14,7 @@
  *   - If distances tie (same |x|), prefer the larger value (e.g., +k over -k).
  *
  * Why long long + llabs:
- *   abs(int) can overflow / be undefined for INT_MIN because |INT_MIN| cannot be
+ *   absstatic_cast<int>(can) overflow / be undefined for INT_MIN because |INT_MIN| cannot be
  *   represented as an int (two’s complement range is asymmetric).
  *   Casting to long long first and using llabs ensures the absolute value fits
  *   safely and the comparison is well-defined for all int inputs.

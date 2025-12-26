@@ -63,7 +63,7 @@ KClosestPointsToOrigin_973::kClosestHeap(vector<Point>& points, int k)
         pq.emplace(distSq(points[i]), i);
 
     // Process the remaining points: keep only the k closest seen so far.
-    for (int i = k; i < (int)points.size(); ++i) {
+    for (int i = k; i < static_cast<int>(points.size()); ++i) {
         long long d = distSq(points[i]);
         if (d < pq.top().first) {
             pq.pop();

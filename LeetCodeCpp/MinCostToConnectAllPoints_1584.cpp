@@ -78,7 +78,7 @@ int MinCostToConnectAllPoints_1584::minCostConnectPointsHeap(vector<vector<int>>
  * complete graph.
  */
 int MinCostToConnectAllPoints_1584::minCostConnectPointsArray(vector<vector<int>> &points) {
-    int n = (int)points.size();
+    int n = static_cast<int>(points.size());
     vector<int> minDist(n, INT_MAX);  // For every vertex not yet in the tree: best known cost to connect it to the tree S
     vector<char> used(n, 0);          // Marks vertices already added to the MST (set S)
 
@@ -109,7 +109,7 @@ int MinCostToConnectAllPoints_1584::minCostConnectPointsArray(vector<vector<int>
     }
 
     // The sum of chosen minimal crossing edges is the MST weight.
-    return (int)total;
+    return static_cast<int>(total);
 }
 
 // Helper function to calculate Manhattan distance between two points

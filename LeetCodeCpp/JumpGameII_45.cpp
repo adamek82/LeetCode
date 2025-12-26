@@ -2,7 +2,7 @@
 #include <algorithm>
 
 int JumpGameII_45::jump(vector<int>& nums) {
-    const int n = (int)nums.size();
+    const int n = static_cast<int>(nums.size());
     if (n <= 1) return 0;
 
     int jumps = 0;
