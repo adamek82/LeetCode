@@ -4636,11 +4636,17 @@ public:
 
         NumberOfEmployeesWhoMetTarget_2798 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto hours = testCases[i].hours; // copy, method takes non-const ref
-            int got = sol.numberOfEmployeesWhoMetTarget(hours, testCases[i].target);
+            auto hours1 = testCases[i].hours; // copy, method takes non-const ref
+            auto hours2 = testCases[i].hours; // copy, method takes non-const ref
 
-            assertEqScalar("Number of Employees Who Met Target 2798 Test " + to_string(i + 1),
-                           testCases[i].expected, got);
+            int gotLoop = sol.numberOfEmployeesWhoMetTarget_CountingLoop(hours1, testCases[i].target);
+            int gotIf   = sol.numberOfEmployeesWhoMetTarget_CountIf(hours2, testCases[i].target);
+
+            assertEqScalar("Number of Employees Who Met Target 2798 (CountingLoop) Test " + to_string(i + 1),
+                        testCases[i].expected, gotLoop);
+
+            assertEqScalar("Number of Employees Who Met Target 2798 (CountIf) Test " + to_string(i + 1),
+                        testCases[i].expected, gotIf);
         }
     }
 
