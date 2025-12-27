@@ -592,7 +592,6 @@ public:
     static void mergeTwoSortedLists_21_tests() {
         using IntListNode = ListNode<int>;
 
-        // Define test cases
         vector<MergeTwoListsTestCase> testCases = {
             // Provided examples
             {{1, 2, 4}, {1, 3, 4}, {1, 1, 2, 3, 4, 4}},
@@ -606,16 +605,29 @@ public:
 
         MergeTwoSortedLists_21 solution;
 
+        const vector<pair<string, function<IntListNode*(IntListNode*, IntListNode*)>>> impls = {
+            {"DummyNode", [&](IntListNode* a, IntListNode* b) { return solution.mergeTwoLists_DummyNode(a, b); }},
+            {"NoDummy",   [&](IntListNode* a, IntListNode* b) { return solution.mergeTwoLists_NoDummy(a, b); }},
+        };
+
         for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* list1 = ListUtils::createLinkedList<int>(testCases[i].list1);
-            IntListNode* list2 = ListUtils::createLinkedList<int>(testCases[i].list2);
+            const auto& tc = testCases[i];
 
-            IntListNode* result = solution.mergeTwoLists(list1, list2);
-            vector<int> resultVector = ListUtils::toVector<int>(result);
+            for (const auto& [name, run] : impls) {
+                // Must create fresh lists per implementation (merge is in-place).
+                IntListNode* list1 = ListUtils::createLinkedList<int>(tc.list1);
+                IntListNode* list2 = ListUtils::createLinkedList<int>(tc.list2);
 
-            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
+                IntListNode* result = run(list1, list2);
 
-            ListUtils::freeList<int>(result);
+                assertEqVIntExact(
+                    "Test " + to_string(i + 1) + " (" + name + ")",
+                    tc.expected,
+                    ListUtils::toVector<int>(result)
+                );
+
+                ListUtils::freeList<int>(result);
+            }
         }
     }
 
