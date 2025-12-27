@@ -954,4 +954,10 @@ namespace TestCases {
         vector<vector<int>> arguments;   // op args: [] / [key] / [key,value]
         vector<optional<int>> expected;  // nullopt for void ops, value for get()
     };
+
+    // 2807. Insert Greatest Common Divisors in Linked List
+    struct InsertGreatestCommonDivisorsTestCase {
+        List input;
+        List expected;
+    };
 } // namespace TestCases

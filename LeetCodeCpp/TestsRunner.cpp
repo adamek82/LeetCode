@@ -161,6 +161,7 @@
 #include "Base7_504.h"
 #include "SingleNumber_136.h"
 #include "DesignHashMap_706.h"
+#include "InsertGreatestCommonDivisors_2807.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4766,6 +4767,53 @@ public:
         }
     }
 
+    static void insertGreatestCommonDivisors_2807_tests() {
+        using IntListNode = ListNode<int>;
+
+        vector<InsertGreatestCommonDivisorsTestCase> testCases = {
+            // Provided examples
+            {{18, 6, 10, 3}, {18, 6, 6, 2, 10, 1, 3}},
+            {{7}, {7}},
+
+            // Additional cases
+            {{2, 4, 6}, {2, 2, 4, 2, 6}},
+            {{5, 7, 11}, {5, 1, 7, 1, 11}},      // all primes -> gcd = 1
+            {{1000, 1000}, {1000, 1000, 1000}},  // identical adjacent values
+            {{1, 1000}, {1, 1, 1000}},
+            {{12, 15, 21, 28}, {12, 3, 15, 3, 21, 7, 28}},
+        };
+
+        InsertGreatestCommonDivisors_2807 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            // Run both implementations on fresh copies (they mutate the list).
+            IntListNode* input_std = ListUtils::createLinkedList<int>(testCases[i].input);
+            IntListNode* got_std = solution.insertGreatestCommonDivisors_stdGcd(input_std);
+            vector<int> gotVec_std = ListUtils::toVector<int>(got_std);
+
+            assertEqVIntExact("2807 [std::gcd]  Test " + to_string(i + 1),
+                              testCases[i].expected, gotVec_std);
+
+            // NOTE: The algorithm mutates the list in-place and returns the same head.
+            // Free ONLY through `got_std` (which equals `input_std`); do NOT free `input_std` separately.
+            ListUtils::freeList<int>(got_std);
+
+            IntListNode* input_euclid = ListUtils::createLinkedList<int>(testCases[i].input);
+            IntListNode* got_euclid = solution.insertGreatestCommonDivisors_euclid(input_euclid);
+            vector<int> gotVec_euclid = ListUtils::toVector<int>(got_euclid);
+
+            assertEqVIntExact("2807 [euclid]    Test " + to_string(i + 1),
+                              testCases[i].expected, gotVec_euclid);
+
+            assertEqVIntExact("2807 [agree]     Test " + to_string(i + 1),
+                              gotVec_std, gotVec_euclid);
+
+            // Ditto: `got_euclid == input_euclid`, so free only `got_euclid`.
+            ListUtils::freeList<int>(got_euclid);
+        }
+    }
+
+
     inline static const TestEntry kTests[] = {
         /* Arrays & Strings */
         TEST(2239, "Find Closest Number to Zero",                    findClosestNumber_2239_tests),
@@ -4920,6 +4968,7 @@ public:
         TEST(504,  "Base 7",                                         base7_504_tests),
         TEST(136,  "Single Number",                                  singleNumber_136_tests),
         TEST(706,  "Design HashMap",                                 designHashMap_706_tests),
+        TEST(2807, "Insert Greatest Common Divisors in Linked List", insertGreatestCommonDivisors_2807_tests),
     };
 
     static void runAllTests() {
