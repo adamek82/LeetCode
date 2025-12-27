@@ -4,6 +4,12 @@
 /*
  * Reverse Linked List (LeetCode 206) — iterative in-place
  *
+ * Idea
+ * ----
+ * Walk through the list once and reverse pointers as you go.
+ * Maintain two pointers: `prev` (reversed part) and `current` (unprocessed part).
+ * For each node, save `next`, redirect `current->next` to `prev`, then advance.
+ *
  * Invariant
  * ---------
  * Before each loop iteration:
