@@ -155,7 +155,7 @@ void SortColors_75::sortColors_counting(vector<int> &nums)
 {
     enum Color : int { Red = 0, White = 1, Blue = 2, ColorCount = 3 };
 
-    std::array<int, ColorCount> counts{0, 0, 0};
+    array<int, ColorCount> counts{0, 0, 0};
 
     for (int c : nums) {
         ++counts[c];

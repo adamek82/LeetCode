@@ -6,7 +6,7 @@ int BaseballGame_682::calPoints(vector<string>& operations) {
     vector<int> st;
     int total = 0;
 
-    for (const std::string& op : operations) {
+    for (const string& op : operations) {
         if (op == "C") {
             total -= st.back();
             st.pop_back();
@@ -19,7 +19,7 @@ int BaseballGame_682::calPoints(vector<string>& operations) {
             st.push_back(v);
             total += v;
         } else {
-            int v = std::stoi(op);
+            int v = stoi(op);
             st.push_back(v);
             total += v;
         }

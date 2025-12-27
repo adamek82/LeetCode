@@ -57,9 +57,9 @@ int NumberOf1Bits_191::hammingWeightKernighan(uint32_t n)
 }
 
 // Helper: build a 256-entry popcount table at compile time.
-static constexpr std::array<uint8_t, 256> makePopcountTable()
+static constexpr array<uint8_t, 256> makePopcountTable()
 {
-    std::array<uint8_t, 256> table{};
+    array<uint8_t, 256> table{};
 
     for (int i = 0; i < 256; ++i) {
         uint32_t x = static_cast<uint32_t>(i);
@@ -74,7 +74,7 @@ static constexpr std::array<uint8_t, 256> makePopcountTable()
     return table;
 }
 
-static constexpr std::array<uint8_t, 256> POPCOUNT_TABLE = makePopcountTable();
+static constexpr array<uint8_t, 256> POPCOUNT_TABLE = makePopcountTable();
 
 // 2) Lookup-table implementation
 int NumberOf1Bits_191::hammingWeightLookup(uint32_t n)

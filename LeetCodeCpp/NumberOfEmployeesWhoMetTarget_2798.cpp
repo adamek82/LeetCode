@@ -36,6 +36,6 @@ int NumberOfEmployeesWhoMetTarget_2798::numberOfEmployeesWhoMetTarget_CountingLo
  */
 int NumberOfEmployeesWhoMetTarget_2798::numberOfEmployeesWhoMetTarget_CountIf(vector<int>& hours, int target)
 {
-    return static_cast<int>(std::count_if(hours.begin(), hours.end(),
-                                          [target](int h) { return h >= target; }));
+    return static_cast<int>(count_if(hours.begin(), hours.end(),
+                                     [target](int h) { return h >= target; }));
 }
