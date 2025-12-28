@@ -553,7 +553,6 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].input);
             IntListNode* result = solution.deleteDuplicates(input);
-            vector<int> resultVector = ListUtils::toVector<int>(result);
 
             assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
 
@@ -581,7 +580,6 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].input);
             IntListNode* result = solution.reverseList(input);
-            vector<int> resultVector = ListUtils::toVector<int>(result);
 
             assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
 
@@ -674,7 +672,6 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].input);
             IntListNode* result = solution.middleNode(input);
-            vector<int> resultVector = ListUtils::toVector<int>(result);
 
             assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
 
@@ -701,7 +698,6 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].input);
             IntListNode* result = solution.removeNthFromEnd(input, testCases[i].n);
-            vector<int> resultVector = ListUtils::toVector<int>(result);
 
             assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
 
