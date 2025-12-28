@@ -1,4 +1,7 @@
 #include "MergeKSortedLists_23.h"
+#include "ListNode.h"
+#include <queue>
+#include <vector>
 
 /*  ============================================================================
  *  Merge K Sorted Lists — High-level Algorithm Overview
