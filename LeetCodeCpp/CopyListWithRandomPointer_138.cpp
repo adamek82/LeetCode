@@ -4,46 +4,57 @@ ListNode<int> *CopyListWithRandomPointer_138::copyRandomList(ListNode<int> *head
 {
     if (head == nullptr) return nullptr;
 
-    ListNode<int>* c = head;
+    ListNode<int>* orig = head;
 
-    // Step 1: Duplicate each node and insert it right after the original node.
-    // Original: 1 --> 2 --> 3 --> 4 (with random pointers)
-    // After first while loop: 1 --> 1' --> 2 --> 2' --> 3 --> 3' --> 4 --> 4'
-    // (with correct labels, no random pointers yet)
-    while (c != nullptr) {
-        ListNode<int>* next = c->next;
-        c->next = new ListNode<int>(c->val);
-        c->next->next = next;
-        c = next;
+    /*
+     * Step 1: Duplicate each node and insert it right after the original node.
+     * Original: 1 --> 2 --> 3 --> 4 (with random pointers)
+     * After weaving: 1 --> 1' --> 2 --> 2' --> 3 --> 3' --> 4 --> 4'
+     * (with correct labels, no random pointers yet)
+     *
+     * Note: On LeetCode we ignore exception-safety / partial-allocation cleanup.
+     * In production code, you'd want to handle allocation failures and roll back / free.
+     */
+    while (orig != nullptr) {
+        ListNode<int>* nextOrig = orig->next;
+        orig->next = new ListNode<int>(orig->val);
+        orig->next->next = nextOrig;
+        orig = nextOrig;
     }
 
-    c = head;
-    // Step 2: Assign random pointers for the copied nodes.
-    // After second while loop: Random pointers for 1', 2', 3', 4'
-    // set based on the original list.
-    while (c != nullptr) {
-        if (c->random != nullptr) {
-            c->next->random = c->random->next;
+    /*
+     * Step 2: Assign random pointers for the copied nodes.
+     * For an original node `orig`, its copy is `orig->next`.
+     * If orig->random points to some node R, then the copy's random should point to R's copy,
+     * which is R->next (because of weaving).
+     */
+    orig = head;
+
+    while (orig != nullptr) {
+        if (orig->random != nullptr) {
+            orig->next->random = orig->random->next;
         }
-        c = c->next->next;
+        orig = orig->next->next;
     }
 
-    c = head;
+    /*
+     * Step 3: Unweave (separate) the original and copied list.
+     * After third while loop:
+     * Original head: 1 --> 2 --> 3 --> 4 (with original random pointers)
+     * Copied head: 1' --> 2' --> 3' --> 4' (with copied random pointers)
+     */
+    orig = head;
     ListNode<int>* copyHead = head->next;
-    ListNode<int>* copy = copyHead;
+    ListNode<int>* clone = copyHead;
 
-    // Step 3: Separate the original and copied list.
-    // After third while loop:
-    // Original head: 1 --> 2 --> 3 --> 4 (with original random pointers)
-    // Copied head: 1' --> 2' --> 3' --> 4' (with copied random pointers)
-    while (copy != nullptr) {
-        c->next = c->next->next;
-        c = c->next;
+     while (clone != nullptr) {
+        // restore original next
+        orig->next = orig->next->next;
+        // link clones
+        clone->next = (clone->next != nullptr) ? clone->next->next : nullptr;
 
-        if (copy->next != nullptr) {
-            copy->next = copy->next->next;
-        }
-        copy = copy->next;
+        orig = orig->next;
+        clone = clone->next;
     }
 
     return copyHead;
