@@ -48,9 +48,14 @@ ListNode<int> *CopyListWithRandomPointer_138::copyRandomList(ListNode<int> *head
     ListNode<int>* clone = copyHead;
 
      while (clone != nullptr) {
-        // restore original next
+        // restore original list: skip over the interleaved clone (orig -> clone -> nextOrig)
         orig->next = orig->next->next;
-        // link clones
+        /*
+         * Link clones:
+         * after weaving, each clone points to the next *original* node (or nullptr for the last clone),
+         * so the next clone is two hops ahead: clone -> (next original) -> (next clone).
+         * Guard against the last clone where clone->next is nullptr.
+         */
         clone->next = (clone->next != nullptr) ? clone->next->next : nullptr;
 
         orig = orig->next;
