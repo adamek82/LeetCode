@@ -38,42 +38,42 @@
 ListNode<int> *MergeKSortedLists_23::mergeKLists(vector<ListNode<int> *> &lists)
 {
     /*
-    * Custom comparator for the priority queue (min-heap)
-    *
-    * Note: std::priority_queue is a *max-heap* by default: top() returns the element
-    * considered "largest" by the comparator. The comparator itself answers:
-    *   "should `a` be ordered *after* `b`?" (i.e., does `a` have lower priority?)
-    *
-    * So `a->val > b->val` means: "if `a` has a bigger value than `b`, `a` should come later",
-    * which makes smaller values rise to the top => min-heap behavior.
-    */
+     * Custom comparator for the priority queue (min-heap)
+     *
+     * Note: std::priority_queue is a *max-heap* by default: top() returns the element
+     * considered "largest" by the comparator. The comparator itself answers:
+     *   "should `a` be ordered *after* `b`?" (i.e., does `a` have lower priority?)
+     *
+     * So `a->val > b->val` means: "if `a` has a bigger value than `b`, `a` should come later",
+     * which makes smaller values rise to the top => min-heap behavior.
+     */
     auto compare = [](ListNode<int>* a, ListNode<int>* b) {
         return a->val > b->val;
     };
 
     /*
-    * Min-heap (std::priority_queue with a custom comparator)
-    *
-    * Here we use the (Compare, Container) constructor overload:
-    *
-    *   priority_queue(Compare comp, Container cont);
-    *
-    * - `compare` is our callable that defines the heap ordering.
-    * - The second argument is the *underlying container* used to store elements.
-    *   For priority_queue it is typically `std::vector<T>` (must support random-access
-    *   iterators because heap algorithms rely on them).
-    *
-    * Why `vector<ListNode<int>*>{}`?
-    * - This passes an *empty container instance* of the right type.
-    * - With C++17 class template argument deduction (CTAD), the compiler can deduce:
-    *     T         = ListNode<int>*
-    *     Container = std::vector<ListNode<int>*>
-    *   from this argument.
-    *
-    * Why not just write `priority_queue<ListNode<int>*, vector<ListNode<int>*>, ...>`?
-    * - You can, but this form avoids repeating the element type and lets CTAD infer it
-    *   from the comparator + container we provide.
-    */
+     * Min-heap (std::priority_queue with a custom comparator)
+     *
+     * Here we use the (Compare, Container) constructor overload:
+     *
+     *   priority_queue(Compare comp, Container cont);
+     *
+     * - `compare` is our callable that defines the heap ordering.
+     * - The second argument is the *underlying container* used to store elements.
+     *   For priority_queue it is typically `std::vector<T>` (must support random-access
+     *   iterators because heap algorithms rely on them).
+     *
+     * Why `vector<ListNode<int>*>{}`?
+     * - This passes an *empty container instance* of the right type.
+     * - With C++17 class template argument deduction (CTAD), the compiler can deduce:
+     *     T         = ListNode<int>*
+     *     Container = std::vector<ListNode<int>*>
+     *   from this argument.
+     *
+     * Why not just write `priority_queue<ListNode<int>*, vector<ListNode<int>*>, ...>`?
+     * - You can, but this form avoids repeating the element type and lets CTAD infer it
+     *   from the comparator + container we provide.
+     */
     priority_queue minHeap(
         compare,                      // Compare
         vector<ListNode<int>*>{}      // Container (deducts T = ListNode<int>*)
