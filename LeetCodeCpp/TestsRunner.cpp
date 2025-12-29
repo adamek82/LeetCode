@@ -4858,6 +4858,8 @@ public:
         TEST(49,   "Group Anagrams",                                 groupAnagrams_49_tests),
         TEST(169,  "Majority Element",                               majorityElement_169_tests),
         TEST(128,  "Longest Consecutive Sequence",                   longestConsecutiveSequence_128_tests),
+        TEST(706,  "Design HashMap",                                 designHashMap_706_tests),
+        TEST(1207, "Unique Number of Occurrences",                   uniqueNumberOfOccurrences_1207_tests),
 
         /* 2 Pointers */
         TEST(977,  "Squares of a Sorted Array",                      squaresOfSortedArray_977_tests),
@@ -4999,8 +5001,6 @@ public:
         TEST(329,  "Longest Increasing Path in a Matrix",            longestIncreasingPathInMatrix_329_tests),
         TEST(3046, "Split the Array",                                splitTheArray_3046_tests),
         TEST(463,  "Island Perimeter",                               islandPerimeter_463_tests),
-        TEST(1207, "Unique Number of Occurrences",                   uniqueNumberOfOccurrences_1207_tests),
-        TEST(706,  "Design HashMap",                                 designHashMap_706_tests),
     };
 
     static void runAllTests() {

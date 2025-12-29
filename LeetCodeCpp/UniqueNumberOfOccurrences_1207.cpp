@@ -27,8 +27,12 @@ bool UniqueNumberOfOccurrences_1207::uniqueOccurrences(vector<int>& arr)
 
     unordered_set<int> seen;
     for (const auto& [value, count] : freq) {
+        /*
+        * unordered_set::insert(value) returns {iterator, inserted}.
+        * `inserted` (pair.second) is true only if `count` was NOT in the set yet.
+        * So `!seen.insert(count).second` means: this `count` already existed -> duplicate frequency.
+        */
         if (!seen.insert(count).second) {
-            // This frequency was already present for some other value.
             return false;
         }
     }
