@@ -13,6 +13,7 @@ __pycache__/
 
 # Exception for launch.json and tasks.json
 !**/.vscode/launch.json
+!**/.vscode/settings.json
 !**/.vscode/tasks.json
 
 # Ignore any system-specific files
