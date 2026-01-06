@@ -24,3 +24,6 @@ LeetCodeKotlin/.vscode/TestsRunner.jar
 
 # VSCode Counter reports
 **/.VSCodeCounter/
+
+# Generated compilation database for IntelliSense/clangd (machine/build specific)
+LeetCodeCpp/compile_commands.json

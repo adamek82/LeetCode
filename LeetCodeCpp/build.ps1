@@ -45,6 +45,58 @@ if (!(Test-Path $vcvarsCache)) {
 Write-Host "Loading cached vcvars environment..."
 . $vcvarsCache
 
+# --- Generate compile_commands.json for IntelliSense (MSVC) ---
+
+# Absolute path to cl.exe (after vcvars is loaded, it should be resolvable)
+$clPath = (Get-Command cl.exe).Source
+
+# Convert INCLUDE env var to explicit /I flags so IntelliSense doesn't rely on environment magic
+$includeFlags = @()
+if ($env:INCLUDE) {
+    $includeFlags = $env:INCLUDE.Split(';') |
+        Where-Object { $_ -and $_.Trim().Length -gt 0 } |
+        ForEach-Object { '/I"{0}"' -f $_ }
+}
+
+# (Optional) If you use preprocessor defines globally, you can also emit /D flags here.
+# $defineFlags = @('/DUNICODE', '/D_UNICODE')
+$defineFlags = @()
+
+$compileDb = @()
+
+foreach ($file in $cppFiles) {
+    $objFile = Join-Path $vscodeDir ([System.IO.Path]::GetFileNameWithoutExtension($file.Name) + ".obj")
+
+    # Build a single compilation command for this translation unit
+    $cmdParts = @(
+        ('"{0}"' -f $clPath),
+        '/std:c++20',
+        '/Zi', '/Od', '/EHsc', '/nologo', '/FS',
+        '/c',
+        ('/Fo"{0}"' -f $objFile)
+    ) + $includeFlags + $defineFlags + @(
+        ('"{0}"' -f $file.FullName)
+    )
+
+    $command = ($cmdParts -join ' ')
+
+    $compileDb += [PSCustomObject]@{
+        directory = $PSScriptRoot
+        command   = $command
+        file      = $file.FullName
+        output    = $objFile
+    }
+}
+
+# Write JSON as UTF-8 without BOM (cpptools/clangd both handle this well)
+$compileCommandsPath = Join-Path $PSScriptRoot "compile_commands.json"
+$json = ($compileDb | ConvertTo-Json -Depth 6)
+
+$utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+[System.IO.File]::WriteAllText($compileCommandsPath, $json, $utf8NoBom)
+
+Write-Host "Generated compile_commands.json at: $compileCommandsPath"
+
 # Compile only changed .cpp files in parallel
 foreach ($file in $cppFiles) {
     $objFile = Join-Path $vscodeDir ([System.IO.Path]::GetFileNameWithoutExtension($file.Name) + ".obj")
