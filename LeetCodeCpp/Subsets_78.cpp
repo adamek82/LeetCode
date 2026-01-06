@@ -1,8 +1,19 @@
 #include "Subsets_78.h"
+#include <bit>
+#include <vector>
 
 /*
- * Bitmask power set: for each mask, collect elements with set bits.
- * Complexity: O(n * 2^n) time, O(n) aux (excluding output).
+ * Approach (bitmask enumeration)
+ * ------------------------------
+ * For n elements there are 2^n subsets. Iterate mask from 0..(1<<n)-1 and
+ * include nums[i] iff the i-th bit of mask is set. This naturally preserves
+ * the original element order inside each subset and yields a deterministic
+ * subset order overall (by mask).
+ *
+ * Complexity
+ * ----------
+ * Time  : O(n * 2^n)
+ * Space : O(n) for a single subset being built (O(2^n) in the output)
  */
 vector<vector<int>> Subsets_78::subsets_bitmask(vector<int>& nums) {
     const int n = static_cast<int>(nums.size());
@@ -13,7 +24,17 @@ vector<vector<int>> Subsets_78::subsets_bitmask(vector<int>& nums) {
 
     for (int mask = 0; mask < total; ++mask) {
         vector<int> cur;
-        cur.reserve(n);
+        /*
+         * Reserve exactly the final subset size: popcount(mask) == how many elements
+         * this subset will contain.
+         *
+         * This avoids two issues of reserve(n):
+         *  (1) Over-allocation: with move(cur) the vector’s capacity is moved too, so
+         *      reserve(n) would store capacity==n for every subset, wasting memory.
+         *  (2) Reallocations: reserving popcount(mask) still prevents growth reallocs
+         *      while building cur, but without the blanket n-sized buffers.
+         */
+        cur.reserve(popcount((unsigned)mask));
         for (int i = 0; i < n; ++i) {
             if (mask & (1 << i)) cur.push_back(nums[i]);
         }
@@ -23,9 +44,26 @@ vector<vector<int>> Subsets_78::subsets_bitmask(vector<int>& nums) {
 }
 
 /*
- * Recursive backtracking (DFS include/exclude via forward 'start' index).
- * Emits the current partial subset on entry, then tries adding each nums[i]
- * for i in [start..n-1], recursing with start = i + 1 and backtracking.
+ * Recursive backtracking — include/exclude with forward start
+ * -----------------------------------------------------------
+ * Idea:
+ *   Build subsets by exploring choices left-to-right. At each call we have:
+ *     - 'start' index from which we may add more elements,
+ *     - a 'partial_sol' vector with the elements chosen so far.
+ *   We first push the current 'partial_sol' into the output (pre-order), then
+ *   iterate i = start..n-1:
+ *     - choose nums[i] (push_back),
+ *     - recurse with start = i + 1,
+ *     - backtrack (pop_back).
+ *
+ * Why this works:
+ *   The 'start' pointer prevents duplicates (we never revisit indices < start).
+ *   Each recursion frame contributes exactly one subset (the current prefix),
+ *   so we emit 2^n subsets overall.
+ *
+ * Complexity:
+ *   Time  : O(n * 2^n)        — each element participates in half of subsets
+ *   Space : O(n) auxiliary     — recursion depth + the current partial subset
  */
 static void subsetsDfs(const vector<int>& nums,
                        int start,
