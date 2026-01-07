@@ -44,26 +44,54 @@ vector<vector<int>> Subsets_78::subsets_bitmask(vector<int>& nums) {
 }
 
 /*
- * Recursive backtracking — include/exclude with forward start
- * -----------------------------------------------------------
+ * Recursive backtracking — DFS over combinations (prefix-based)
+ * --------------------------------------------------------------
  * Idea:
- *   Build subsets by exploring choices left-to-right. At each call we have:
- *     - 'start' index from which we may add more elements,
- *     - a 'partial_sol' vector with the elements chosen so far.
- *   We first push the current 'partial_sol' into the output (pre-order), then
- *   iterate i = start..n-1:
- *     - choose nums[i] (push_back),
- *     - recurse with start = i + 1,
- *     - backtrack (pop_back).
+ *   We enumerate all subsets by performing a depth-first search over
+ *   *prefixes* of increasing index sequences.
+ *
+ *   At each recursion frame we have:
+ *     - 'start'       : the first index that may still be chosen,
+ *     - 'partial_sol': the current subset (prefix) built so far.
+ *
+ *   The current 'partial_sol' is emitted immediately (pre-order),
+ *   then we try to extend it by choosing one of the remaining elements:
+ *
+ *     for i = start .. n-1:
+ *       - append nums[i] to the prefix,
+ *       - recurse with start = i + 1,
+ *       - backtrack (pop the element).
+ *
+ *   There is no explicit "exclude" branch — skipping an element is
+ *   implicitly handled by advancing 'i' in the loop.
+ *
+ * Traversal example (nums = [1, 2, 3]):
+ *
+ *   visit []           → emit []
+ *   │
+ *   ├─ add 1 → [1]     → emit [1]
+ *   │   │
+ *   │   ├─ add 2 → [1,2]   → emit [1,2]
+ *   │   │   │
+ *   │   │   └─ add 3 → [1,2,3] → emit [1,2,3]
+ *   │   │
+ *   │   └─ add 3 → [1,3]   → emit [1,3]
+ *   │
+ *   ├─ add 2 → [2]     → emit [2]
+ *   │   │
+ *   │   └─ add 3 → [2,3]   → emit [2,3]
+ *   │
+ *   └─ add 3 → [3]     → emit [3]
  *
  * Why this works:
- *   The 'start' pointer prevents duplicates (we never revisit indices < start).
- *   Each recursion frame contributes exactly one subset (the current prefix),
- *   so we emit 2^n subsets overall.
+ *   - The 'start' index enforces strictly increasing positions, so each
+ *     subset is generated exactly once and duplicates are impossible.
+ *   - Each recursion frame corresponds to exactly one subset (the current
+ *     prefix), hence exactly 2^n subsets are emitted in total.
  *
  * Complexity:
- *   Time  : O(n * 2^n)        — each element participates in half of subsets
- *   Space : O(n) auxiliary    — recursion depth + the current partial subset
+ *   Time  : O(n * 2^n)     — each element appears in half of the subsets
+ *   Space : O(n) auxiliary — recursion depth + current prefix (excluding output)
  */
 void Subsets_78::subsetsDfs(const vector<int>& nums,
                             int start,
