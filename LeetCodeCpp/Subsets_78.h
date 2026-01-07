@@ -12,6 +12,11 @@ using namespace std;
  */
 
 class Subsets_78 {
+private:
+    static void subsetsDfs(const vector<int>& nums,
+                           int start,
+                           vector<int>& partial_sol,
+                           vector<vector<int>>& out);
 public:
     /*
      * Recursive backtracking (DFS include/exclude via forward 'start' index).

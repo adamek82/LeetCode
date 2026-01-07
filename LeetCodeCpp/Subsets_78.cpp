@@ -63,12 +63,12 @@ vector<vector<int>> Subsets_78::subsets_bitmask(vector<int>& nums) {
  *
  * Complexity:
  *   Time  : O(n * 2^n)        — each element participates in half of subsets
- *   Space : O(n) auxiliary     — recursion depth + the current partial subset
+ *   Space : O(n) auxiliary    — recursion depth + the current partial subset
  */
-static void subsetsDfs(const vector<int>& nums,
-                       int start,
-                       vector<int>& partial_sol,
-                       vector<vector<int>>& out)
+void Subsets_78::subsetsDfs(const vector<int>& nums,
+                            int start,
+                            vector<int>& partial_sol,
+                            vector<vector<int>>& out)
 {
     out.push_back(partial_sol);         // record the current subset
 
@@ -80,9 +80,24 @@ static void subsetsDfs(const vector<int>& nums,
 }
 
 vector<vector<int>> Subsets_78::subsets_recursive(vector<int>& nums) {
+    const size_t n = nums.size();
+
     vector<vector<int>> out;
+    /*
+     * We generate exactly 2^n subsets, so reserving helps avoid repeated reallocations of `out`.
+     * Guard: shifting by >= 64 (1ULL << n) is undefined behavior on typical 64-bit platforms.
+     */
+    if (n < 64) {
+        out.reserve(1ULL << n);
+    }
+
     vector<int> partial_sol;
+    /*
+     * The current subset can grow up to length n; reserving avoids reallocations while we push/pop
+     * during backtracking (capacity stays stable across the recursion).
+     */
     partial_sol.reserve(nums.size());
+
     subsetsDfs(nums, 0, partial_sol, out);
     return out;
 }
