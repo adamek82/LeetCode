@@ -3,17 +3,39 @@
 #include <vector>
 
 /*
- * Approach (bitmask enumeration)
+ * Approach — bitmask enumeration
  * ------------------------------
- * For n elements there are 2^n subsets. Iterate mask from 0..(1<<n)-1 and
- * include nums[i] iff the i-th bit of mask is set. This naturally preserves
- * the original element order inside each subset and yields a deterministic
- * subset order overall (by mask).
+ * Idea:
+ *   For n elements there are 2^n subsets. Treat each subset as an n-bit mask:
+ *     - bit i == 1  => pick nums[i]
+ *     - bit i == 0  => don't pick nums[i]
  *
- * Complexity
- * ----------
- * Time  : O(n * 2^n)
- * Space : O(n) for a single subset being built (O(2^n) in the output)
+ *   Iterate mask from 0 .. (1<<n)-1. For each mask, scan bits i=0..n-1 and
+ *   append nums[i] iff the i-th bit is set. This preserves the original
+ *   element order inside each subset and yields a deterministic subset order
+ *   overall (sorted by mask value).
+ *
+ * Example (nums = [1, 2, 3], bits correspond to [1,2,3] from LSB to MSB):
+ *
+ *   mask  bits   picks
+ *   ----  -----  -----------
+ *    0    000    []
+ *    1    001    [1]
+ *    2    010    [2]
+ *    3    011    [1,2]
+ *    4    100    [3]
+ *    5    101    [1,3]
+ *    6    110    [2,3]
+ *    7    111    [1,2,3]
+ *
+ * Why this works:
+ *   - Every subset corresponds to exactly one bit pattern in [0 .. 2^n - 1].
+ *   - Scanning bits left-to-right by index keeps the element order stable
+ *     within each subset; increasing mask gives a deterministic output order.
+ *
+ * Complexity:
+ *   Time  : O(n * 2^n)
+ *   Space : O(n) auxiliary for building one subset (O(2^n) in the output)
  */
 vector<vector<int>> Subsets_78::subsets_bitmask(vector<int>& nums) {
     const int n = static_cast<int>(nums.size());
