@@ -25,13 +25,24 @@ private:
                            int start,
                            vector<int>& partial_sol,
                            vector<vector<int>>& out);
+
+    static void subsetsBinaryDfs(const vector<int>& nums,
+                                 int i,
+                                 vector<int>& partial_sol,
+                                 vector<vector<int>>& out);
 public:
     /*
-     * Recursive backtracking (DFS include/exclude via forward 'start' index).
-     * Emits the current partial subset on entry, then tries adding each nums[i]
-     * for i in [start..n-1], recursing with start = i + 1 and backtracking.
-     */
-    vector<vector<int>> subsets_recursive(vector<int> &nums);
+    * Recursive backtracking (DFS over combinations, prefix-based).
+    * Emits the current partial subset on entry, then tries adding nums[i]
+    * for i in [start..n-1], recursing with start = i + 1 and backtracking.
+    */
+    vector<vector<int>> subsets_recursive_prefix(vector<int>& nums);
+
+    /*
+    * Recursive backtracking (binary "Don't pick / Pick" by index).
+    * At each index i we branch into: don't pick nums[i], then pick nums[i].
+    */
+    vector<vector<int>> subsets_recursive_binary(vector<int>& nums);
 
     /*
      * Bitmask power set: for each mask, collect elements with set bits.

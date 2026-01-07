@@ -3481,8 +3481,13 @@ public:
 
             // Recursive/backtracking variant: order-insensitive comparison.
             in  = tests[i].nums;
-            got = sol.subsets_recursive(in);
+            got = sol.subsets_recursive_prefix(in);
             assertEqVVIntAnyOrder("Subsets 78 (recursive) Test " + to_string(i + 1), tests[i].expected, got);
+
+            // Recursive binary include/exclude variant: order-insensitive comparison.
+            in  = tests[i].nums;
+            got = sol.subsets_recursive_binary(in);
+            assertEqVVIntAnyOrder("Subsets 78 (recursive binary) Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
 

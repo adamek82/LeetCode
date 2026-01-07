@@ -107,7 +107,7 @@ void Subsets_78::subsetsDfs(const vector<int>& nums,
     }
 }
 
-vector<vector<int>> Subsets_78::subsets_recursive(vector<int>& nums) {
+vector<vector<int>> Subsets_78::subsets_recursive_prefix(vector<int>& nums) {
     const size_t n = nums.size();
 
     vector<vector<int>> out;
@@ -127,5 +127,97 @@ vector<vector<int>> Subsets_78::subsets_recursive(vector<int>& nums) {
     partial_sol.reserve(nums.size());
 
     subsetsDfs(nums, 0, partial_sol, out);
+    return out;
+}
+
+/*
+ * Recursive backtracking — binary "Don't pick / Pick" (decision tree)
+ * -------------------------------------------------------------------
+ * Idea:
+ *   We enumerate all subsets by walking a binary decision tree over indices.
+ *   At each index i we choose:
+ *     - Don't pick nums[i]  (do not append it),
+ *     - Pick nums[i]        (append it).
+ *
+ *   At each recursion frame we have:
+ *     - 'i'          : the current index to decide on,
+ *     - 'partial_sol': the subset built so far.
+ *
+ *   We recurse first into the "Don't pick" branch, then into the "Pick" branch.
+ *   Only when i reaches n (leaf) we emit the current subset.
+ *
+ * Traversal example (nums = [1, 2, 3])  [Don't pick first, then Pick]:
+ *
+ *   i=0 (1)
+ *   ├─ Don't pick 1
+ *   │   i=1 (2)
+ *   │   ├─ Don't pick 2
+ *   │   │   i=2 (3)
+ *   │   │   ├─ Don't pick 3 → emit []
+ *   │   │   └─ Pick 3       → emit [3]
+ *   │   └─ Pick 2
+ *   │       i=2 (3)
+ *   │       ├─ Don't pick 3 → emit [2]
+ *   │       └─ Pick 3       → emit [2,3]
+ *   └─ Pick 1
+ *       i=1 (2)
+ *       ├─ Don't pick 2
+ *       │   i=2 (3)
+ *       │   ├─ Don't pick 3 → emit [1]
+ *       │   └─ Pick 3       → emit [1,3]
+ *       └─ Pick 2
+ *           i=2 (3)
+ *           ├─ Don't pick 3 → emit [1,2]
+ *           └─ Pick 3       → emit [1,2,3]
+ *
+ * Why this works:
+ *   - Each element gets an independent take/skip decision, so every subset
+ *     corresponds to exactly one root-to-leaf path.
+ *   - The recursion produces exactly 2^n leaves, hence exactly 2^n subsets.
+ *
+ * Complexity:
+ *   Time  : O(n * 2^n)     — copying subsets at leaves dominates (n per subset)
+ *   Space : O(n) auxiliary — recursion depth + current subset (excluding output)
+ */
+void Subsets_78::subsetsBinaryDfs(const vector<int>& nums,
+                                 int i,
+                                 vector<int>& partial_sol,
+                                 vector<vector<int>>& out)
+{
+    if (i == static_cast<int>(nums.size())) {
+        out.push_back(partial_sol); // record subset at the leaf
+        return;
+    }
+
+    // Don't pick nums[i]
+    subsetsBinaryDfs(nums, i + 1, partial_sol, out);
+
+    // Pick nums[i]
+    partial_sol.push_back(nums[i]);
+    subsetsBinaryDfs(nums, i + 1, partial_sol, out);
+    partial_sol.pop_back();
+}
+
+vector<vector<int>> Subsets_78::subsets_recursive_binary(vector<int>& nums)
+{
+    const size_t n = nums.size();
+
+    vector<vector<int>> out;
+    /*
+     * We generate exactly 2^n subsets, so reserving helps avoid repeated reallocations of `out`.
+     * Guard: shifting by >= 64 (1ULL << n) is undefined behavior on typical 64-bit platforms.
+     */
+    if (n < 64) {
+        out.reserve(1ULL << n);
+    }
+
+    vector<int> partial_sol;
+    /*
+     * The current subset can grow up to length n; reserving avoids reallocations while we push/pop
+     * during backtracking (capacity stays stable across the recursion).
+     */
+    partial_sol.reserve(nums.size());
+
+    subsetsBinaryDfs(nums, 0, partial_sol, out);
     return out;
 }
