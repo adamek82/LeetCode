@@ -13,6 +13,14 @@ using namespace std;
 
 class Subsets_78 {
 private:
+    /*
+     * Keep the DFS helper inside the class: it's an implementation detail
+     * of Subsets_78, not a free-floating utility function.
+     * It could also be a non-static member (implicit `this`), but that cost
+     * is negligible at this recursion depth.
+     * We keep it `static` since it doesn't use object state, making the
+     * intent explicit and the code cleaner.
+     */
     static void subsetsDfs(const vector<int>& nums,
                            int start,
                            vector<int>& partial_sol,
