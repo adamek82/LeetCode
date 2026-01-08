@@ -45,6 +45,9 @@ vector<vector<int>> Subsets_78::subsets_bitmask(vector<int>& nums) {
     /*
      * We generate exactly 2^n subsets, so reserving helps avoid repeated reallocations of `out`.
      * Guard: shifting by >= 64 (1ULL << n) is undefined behavior on typical 64-bit platforms.
+     *
+     * Note: under LeetCode constraints (1 <= nums.length <= 10) this guard will never trigger,
+     * but keeping it is good practice and makes the code robust beyond the problem limits.
      */
     if (n < 64) {
         out.reserve(total);
@@ -142,6 +145,9 @@ vector<vector<int>> Subsets_78::subsets_recursive_prefix(vector<int>& nums) {
     /*
      * We generate exactly 2^n subsets, so reserving helps avoid repeated reallocations of `out`.
      * Guard: shifting by >= 64 (1ULL << n) is undefined behavior on typical 64-bit platforms.
+     *
+     * Note: under LeetCode constraints (1 <= nums.length <= 10) this guard will never trigger,
+     * but keeping it is good practice and makes the code robust beyond the problem limits.
      */
     if (n < 64) {
         out.reserve(1ULL << n);
@@ -234,6 +240,9 @@ vector<vector<int>> Subsets_78::subsets_recursive_binary(vector<int>& nums)
     /*
      * We generate exactly 2^n subsets, so reserving helps avoid repeated reallocations of `out`.
      * Guard: shifting by >= 64 (1ULL << n) is undefined behavior on typical 64-bit platforms.
+     *
+     * Note: under LeetCode constraints (1 <= nums.length <= 10) this guard will never trigger,
+     * but keeping it is good practice and makes the code robust beyond the problem limits.
      */
     if (n < 64) {
         out.reserve(1ULL << n);
