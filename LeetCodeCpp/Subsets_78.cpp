@@ -42,7 +42,13 @@ vector<vector<int>> Subsets_78::subsets_bitmask(vector<int>& nums) {
     const int total = 1 << n;
 
     vector<vector<int>> out;
-    out.reserve(total);
+    /*
+     * We generate exactly 2^n subsets, so reserving helps avoid repeated reallocations of `out`.
+     * Guard: shifting by >= 64 (1ULL << n) is undefined behavior on typical 64-bit platforms.
+     */
+    if (n < 64) {
+        out.reserve(total);
+    }
 
     for (int mask = 0; mask < total; ++mask) {
         vector<int> cur;
