@@ -1486,7 +1486,7 @@ object TestsRunner {
             )
         )
 
-        for ((index, testCase) in testCases.withIndex()) {
+        for ((_, testCase) in testCases.withIndex()) {
             var trie: Trie? = null
 
             for (opIndex in testCase.operations.indices) {
