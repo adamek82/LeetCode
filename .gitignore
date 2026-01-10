@@ -38,5 +38,10 @@ LeetCodeCpp/compile_commands.json
 **/gradle-*/
 **/gradle*.zip
 
+# Eclipse / Buildship / JDT metadata (never commit)
+**/.project
+**/.classpath
+**/.settings/
+
 # Accidental temp file created by terminal paging / git show mishaps
 q
