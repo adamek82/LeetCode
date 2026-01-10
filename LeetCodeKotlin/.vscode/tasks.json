@@ -1,15 +1,26 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Compile Kotlin",
-            "type": "shell",
-            "command": "kotlinc *.kt -include-runtime -d .vscode/TestsRunner.jar",
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            },
-            "problemMatcher": []
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Gradle: incremental build (LeetCodeKotlin)",
+      "type": "shell",
+      "command": ".\\gradlew.bat build",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": ["$gradle"],
+      "group": {
+        "kind": "build"
+      }
+    },
+    {
+      "label": "Gradle: installDist (LeetCodeKotlin)",
+      "type": "shell",
+      "command": ".\\gradlew.bat installDist",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": ["$gradle"]
+    }
+  ]
 }

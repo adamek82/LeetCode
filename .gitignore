@@ -28,3 +28,15 @@ LeetCodeKotlin/.vscode/TestsRunner.jar
 
 # Generated compilation database for IntelliSense/clangd (machine/build specific)
 LeetCodeCpp/compile_commands.json
+
+# ---- Gradle / Kotlin build outputs (all projects) ----
+**/.gradle/
+**/build/
+**/bin/
+
+# If you keep local Gradle distributions/zips in repo folders, ignore them too
+**/gradle-*/
+**/gradle*.zip
+
+# Accidental temp file created by terminal paging / git show mishaps
+q

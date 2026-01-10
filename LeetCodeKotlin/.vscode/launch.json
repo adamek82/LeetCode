@@ -1,14 +1,18 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Debug TestsRunner Jar",
-            "type": "java",
-            "request": "launch",
-            "mainClass": "TestsRunner",
-            "classPaths": [
-                "${workspaceFolder}/.vscode/TestsRunner.jar"
-            ]
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run TestsRunner (LeetCodeKotlin)",
+      "type": "java",
+      "request": "launch",
+      "mainClass": "TestsRunner",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Gradle: installDist (LeetCodeKotlin)",
+      "classPaths": [
+        "${workspaceFolder}/build/install/LeetCodeKotlin/lib/*"
+      ],
+      "console": "integratedTerminal",
+      "javaExec": "C:/Program Files/Java/jdk-21/bin/java.exe"
+    }
+  ]
 }
