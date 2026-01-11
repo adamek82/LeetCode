@@ -71,6 +71,8 @@ object TestsRunner {
         testLetterCombinations_17()
         println("Running CourseSchedule_207 tests:")
         testCourseSchedule_207()
+        println("Running Subsets_78 tests:")
+        testSubsets_78()
     }
 
     /** Helper to compare double arrays within 1e-5 */
@@ -273,6 +275,11 @@ object TestsRunner {
         val numCourses: Int,
         val prerequisites: Array<IntArray>,
         val expectedResult: Boolean
+    )
+
+    data class SubsetsTestCase(
+        val nums: IntArray,
+        val expected: List<List<Int>>
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -1728,6 +1735,62 @@ object TestsRunner {
                 "Test ${index + 1}: res = " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${tc.expectedResult}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testSubsets_78() {
+        val testCases =
+                listOf(
+                        SubsetsTestCase(
+                                intArrayOf(1, 2, 3),
+                                listOf(
+                                        emptyList(),
+                                        listOf(1),
+                                        listOf(2),
+                                        listOf(1, 2),
+                                        listOf(3),
+                                        listOf(1, 3),
+                                        listOf(2, 3),
+                                        listOf(1, 2, 3)
+                                )
+                        ),
+                        SubsetsTestCase(intArrayOf(0), listOf(emptyList(), listOf(0))),
+                        SubsetsTestCase(
+                                intArrayOf(5, 6),
+                                listOf(emptyList(), listOf(5), listOf(6), listOf(5, 6))
+                        ),
+                        SubsetsTestCase(
+                                intArrayOf(-1, 2),
+                                listOf(emptyList(), listOf(-1), listOf(2), listOf(-1, 2))
+                        )
+                )
+
+        fun normalize(res: List<List<Int>>): List<List<Int>> {
+            return res.sortedWith { a, b ->
+                val minSize = minOf(a.size, b.size)
+                for (i in 0 until minSize) {
+                    val cmp = a[i].compareTo(b[i])
+                    if (cmp != 0) return@sortedWith cmp
+                }
+                a.size.compareTo(b.size)
+            }
+        }
+
+        val solution = Subsets_78()
+
+        for ((index, tc) in testCases.withIndex()) {
+            val result = solution.subsets(tc.nums)
+            val got = normalize(result)
+            val expected = normalize(tc.expected)
+
+            val pass = got == expected
+            println(
+                    "Subsets_78 Test ${index + 1}: " +
+                            if (pass) "PASS"
+                            else
+                                    "FAIL" +
+                                            " (Input: ${tc.nums.joinToString(prefix = "[", postfix = "]")}, Expected: $expected, Got: $got)"
             )
         }
     }
