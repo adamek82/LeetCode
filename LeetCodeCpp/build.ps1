@@ -122,8 +122,6 @@ foreach ($file in $cppFiles) {
     $objFile = Join-Path $ObjDir ([System.IO.Path]::GetFileNameWithoutExtension($file.Name) + ".obj")
 
     if (!(Test-Path $objFile) -or (Get-Item $file.FullName).LastWriteTime -gt (Get-Item $objFile).LastWriteTime) {
-        Write-Host "Compiling $($file.Name)..."
-
         # Start parallel compilation
         $job = Start-Job -ScriptBlock {
             param ($file, $objFile, $compilerPdb)
