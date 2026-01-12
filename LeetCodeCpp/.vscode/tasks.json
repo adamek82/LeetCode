@@ -17,11 +17,35 @@
       "options": {
         "cwd": "${workspaceFolder}"
       },
-      "problemMatcher": [
-        "$msCompile"
-      ],
+      "problemMatcher": ["$msCompile"],
       "group": {
-        "kind": "build",
+        "kind": "build"
+      }
+    },
+
+    {
+      "label": "Clean (build/)",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "if (Test-Path -LiteralPath \"${workspaceFolder}\\build\") { Remove-Item -LiteralPath \"${workspaceFolder}\\build\" -Recurse -Force }"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+
+    {
+      "label": "Rebuild (clean + build)",
+      "dependsOn": ["Clean (build/)", "Incremental Build"],
+      "dependsOrder": "sequence",
+      "group": {
+        "kind": "build"
       }
     }
   ]
