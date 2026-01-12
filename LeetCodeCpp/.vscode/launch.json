@@ -1,17 +1,17 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "name": "C++ Debug",
-        "type": "cppvsdbg",
-        "request": "launch",
-        "program": "${workspaceFolder}/.vscode/testsRunner.exe",
-        "symbolSearchPath": "${workspaceFolder}/.vscode",
-        "args": [],
-        "stopAtEntry": false,
-        "cwd": "${workspaceFolder}",
-        "environment": [],
-        "console": "integratedTerminal",
-      }
-    ]
-  }
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C++ Debug",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/TestsRunner.exe",
+      "symbolSearchPath": "${workspaceFolder}/build",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "console": "integratedTerminal",
+    }
+  ]
+}
