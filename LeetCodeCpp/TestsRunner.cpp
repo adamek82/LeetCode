@@ -2933,8 +2933,17 @@ public:
             { {},                         {},                         true  },
             { {1, nullopt, 2, 3},         {1, nullopt, 2, 3},         true  },
             {
-                {10, nullopt, 20, 15, nullopt, nullopt, 25, nullopt, nullopt, 22, nullopt},
-                {10, nullopt, 20, 15, nullopt, nullopt, 25, nullopt, nullopt, 22, nullopt},
+                // 10
+                //   \ 
+                //   20
+                //  /
+                // 15
+                //   \
+                //   25
+                //  /
+                // 22
+                {10, nullopt, 20, 15, nullopt, nullopt, 25, 22},
+                {10, nullopt, 20, 15, nullopt, nullopt, 25, 22},
                 true
             },
         };
