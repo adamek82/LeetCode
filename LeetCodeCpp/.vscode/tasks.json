@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Incremental Build",
+      "label": "Build Debug",
       "type": "shell",
       "command": "powershell",
       "args": [
@@ -11,6 +11,8 @@
         "Bypass",
         "-File",
         "${workspaceFolder}/build.ps1",
+        "-Config",
+        "Debug",
         "-BuildDir",
         "${workspaceFolder}/build"
       ],
@@ -22,9 +24,8 @@
         "kind": "build"
       }
     },
-
     {
-      "label": "Clean (build/)",
+      "label": "Clean Debug (build/Debug)",
       "type": "shell",
       "command": "powershell",
       "args": [
@@ -32,17 +33,64 @@
         "-ExecutionPolicy",
         "Bypass",
         "-Command",
-        "if (Test-Path -LiteralPath \"${workspaceFolder}\\build\") { Remove-Item -LiteralPath \"${workspaceFolder}\\build\" -Recurse -Force }"
+        "if (Test-Path -LiteralPath \"${workspaceFolder}\\build\\Debug\") { Remove-Item -LiteralPath \"${workspaceFolder}\\build\\Debug\" -Recurse -Force }"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
       },
       "problemMatcher": []
     },
+    {
+      "label": "Rebuild Debug (clean + build)",
+      "dependsOn": ["Clean Debug (build/Debug)", "Build Debug"],
+      "dependsOrder": "sequence",
+      "group": {
+        "kind": "build"
+      }
+    },
 
     {
-      "label": "Rebuild (clean + build)",
-      "dependsOn": ["Clean (build/)", "Incremental Build"],
+      "label": "Build Release",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/build.ps1",
+        "-Config",
+        "Release",
+        "-BuildDir",
+        "${workspaceFolder}/build"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": ["$msCompile"],
+      "group": {
+        "kind": "build"
+      }
+    },
+    {
+      "label": "Clean Release (build/Release)",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "if (Test-Path -LiteralPath \"${workspaceFolder}\\build\\Release\") { Remove-Item -LiteralPath \"${workspaceFolder}\\build\\Release\" -Recurse -Force }"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Rebuild Release (clean + build)",
+      "dependsOn": ["Clean Release (build/Release)", "Build Release"],
       "dependsOrder": "sequence",
       "group": {
         "kind": "build"
