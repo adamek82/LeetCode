@@ -11,6 +11,17 @@ TreeNode<T>* TreeUtils::vectorToTree(const vector<optional<T>>& values) {
 
     size_t i = 1;
     while (i < values.size()) {
+        // If we still have input values but no parent nodes to attach them to,
+        // the encoding is invalid (or contains trailing/orphaned items).
+        if (q.empty()) {
+            std::cerr
+                << "[ERROR] TreeUtils::vectorToTree: invalid level-order encoding: "
+                << "orphaned value(s) starting at index " << i
+                << " (no remaining parent nodes in queue). Returning nullptr.\n";
+            TreeUtils::freeTree(root);
+            return nullptr;
+        }
+
         TreeNode<T>* current = q.front();
         q.pop();
 
