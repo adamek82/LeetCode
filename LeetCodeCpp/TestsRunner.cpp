@@ -2934,7 +2934,7 @@ public:
             { {1, nullopt, 2, 3},         {1, nullopt, 2, 3},         true  },
             {
                 // 10
-                //   \ 
+                //   \
                 //   20
                 //  /
                 // 15
@@ -3527,9 +3527,19 @@ public:
         };
 
         Combinations_77 sol;
+
+        const vector<pair<string, function<vector<vector<int>>(const Combinations77TestCase&)>>> impls = {
+            {"PickNext", [&](const Combinations77TestCase& tc){ return sol.combinePickNext(tc.n, tc.k); }},
+            {"TakeSkip", [&](const Combinations77TestCase& tc){ return sol.combineTakeSkip(tc.n, tc.k); }},
+        };
+
         for (size_t i = 0; i < tests.size(); ++i) {
-            auto got = sol.combine(tests[i].n, tests[i].k);
-            assertEqVVIntAnyOrder("Combinations 77 Test " + to_string(i + 1), tests[i].expected, got);
+            const auto& tc = tests[i];
+            for (const auto& [name, run] : impls) {
+                auto got = run(tc);
+                assertEqVVIntAnyOrder("Combinations 77 [" + name + "] Test " + to_string(i + 1),
+                                    tc.expected, got);
+            }
         }
     }
 

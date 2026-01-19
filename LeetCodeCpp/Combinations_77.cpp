@@ -1,4 +1,6 @@
 #include "Combinations_77.h"
+#include <vector>
+#include <algorithm>
 
  /*
   * LeetCode 77 — Combinations
@@ -60,8 +62,8 @@
   * Time  : O(C(n,k) * k) — we emit C(n,k) combinations, each of length k.
   * Space : O(k) auxiliary — recursion depth equals combination length.
   */
-void Combinations_77::dfsCombine(int n, int k, int start,
-                                 vector<int>& cur, vector<vector<int>>& out) {
+void Combinations_77::dfsCombinePickNext(int n, int k, int start,
+                                         vector<int>& cur, vector<vector<int>>& out) {
     if (static_cast<int>(cur.size()) == k) {
         out.push_back(cur);
         return;
@@ -71,15 +73,88 @@ void Combinations_77::dfsCombine(int n, int k, int start,
     // iterate i so that even picking all remaining from i..n, we can reach size k
     for (int i = start; i <= n - need + 1; ++i) {
         cur.push_back(i);
-        dfsCombine(n, k, i + 1, cur, out);
+        dfsCombinePickNext(n, k, i + 1, cur, out);
         cur.pop_back();
     }
 }
 
-vector<vector<int>> Combinations_77::combine(int n, int k) {
+vector<vector<int>> Combinations_77::combinePickNext(int n, int k) {
     vector<vector<int>> out;
     vector<int> cur;
     cur.reserve(k);
-    dfsCombine(n, k, 1, cur, out);
+    dfsCombinePickNext(n, k, 1, cur, out);
+    return out;
+}
+
+/*
+ * Recursive backtracking with pruning — take/skip (binary decision tree)
+ * ---------------------------------------------------------------------
+ * Idea:
+ *   We traverse numbers from x = n down to 1 and decide for each x:
+ *     - Skip x  (do not take it),
+ *     - Take x  (append it to 'cur').
+ *
+ *   At each recursion frame we have:
+ *     - 'x'   : current value to decide on (descending),
+ *     - 'cur' : partial combination (size <= k).
+ *
+ *   When cur.size() == k, we emit one combination.
+ *
+ * Pruning (skip branch):
+ *   Let need = k - cur.size().
+ *   If we skip x, we will still need 'need' numbers from [1..x-1],
+ *   which contains (x - 1) numbers total.
+ *   So skipping is only possible if (x - 1) >= need  ⇔  x > need.
+ *
+ * Important note:
+ *   Because we take numbers in descending order, 'cur' is built in descending
+ *   order (e.g., [3,1]). To match the canonical LeetCode format, we emit a
+ *   reversed copy (ascending) at leaves.
+ *
+ * Traversal example (n = 4, k = 2) [x goes 4→3→2→1]:
+ *
+ *   x=4, cur=[]
+ *   ├─ Skip 4 → x=3, cur=[]
+ *   │   ├─ Skip 3 → x=2, cur=[]   (skip 2 no longer allowed because x==need)
+ *   │   │   └─ Take 2 → x=1, cur=[2]
+ *   │   │       └─ Take 1 → cur=[2,1] → emit [1,2]
+ *   │   └─ Take 3 → x=2, cur=[3]
+ *   │       ├─ Skip 2 → x=1, cur=[3]
+ *   │       │   └─ Take 1 → cur=[3,1] → emit [1,3]
+ *   │       └─ Take 2 → cur=[3,2] → emit [2,3]
+ *   └─ Take 4 → ... similarly emits [1,4], [2,4], [3,4]
+ *
+ * Complexity:
+ *   Time  : O(C(n,k) * k) — we emit C(n,k) results; leaf output copies k elems.
+ *   Space : O(k) auxiliary — recursion depth + current combination (excluding output).
+ */
+void Combinations_77::dfsCombineTakeSkip(int x, int k,
+                                         vector<int>& cur, vector<vector<int>>& out) {
+    if (static_cast<int>(cur.size()) == k) {
+        // cur is descending because x goes down; emit ascending copy
+        vector<int> comb = cur;
+        reverse(comb.begin(), comb.end());
+        out.push_back(std::move(comb));
+        return;
+    }
+
+    const int need = k - static_cast<int>(cur.size());
+
+    // Skip branch only if after skipping we still have enough numbers left.
+    if (x > need) {
+        dfsCombineTakeSkip(x - 1, k, cur, out);
+    }
+
+    // Take branch
+    cur.push_back(x);
+    dfsCombineTakeSkip(x - 1, k, cur, out);
+    cur.pop_back();
+}
+
+vector<vector<int>> Combinations_77::combineTakeSkip(int n, int k) {
+    vector<vector<int>> out;
+    vector<int> cur;
+    cur.reserve(k);
+    dfsCombineTakeSkip(n, k, cur, out);
     return out;
 }
