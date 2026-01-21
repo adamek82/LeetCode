@@ -1,6 +1,5 @@
 #include "Permutations_46.h"
-#include <algorithm>
-#include <vector>
+#include <utility>  // IWYU: std::swap (don't rely on MSVC transitive includes)
 
 /*
  * LeetCode 46 — Permutations

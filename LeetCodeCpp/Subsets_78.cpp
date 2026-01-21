@@ -1,6 +1,5 @@
 #include "Subsets_78.h"
 #include <bit>
-#include <vector>
 
 /*
  * Approach — bitmask enumeration

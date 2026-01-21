@@ -1,6 +1,5 @@
 #include "CombinationSum_39.h"
 #include <algorithm>
-#include <vector>
 
 /*
  * LeetCode 39 — Combination Sum
