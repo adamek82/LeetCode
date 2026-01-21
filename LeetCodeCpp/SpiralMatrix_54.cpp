@@ -1,5 +1,4 @@
 #include "SpiralMatrix_54.h"
-#include <vector>
 #include <limits>
 
 /*

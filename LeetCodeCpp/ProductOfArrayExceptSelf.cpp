@@ -1,5 +1,4 @@
 #include "ProductOfArrayExceptSelf.h"
-#include <vector>
 
 /*
  * Product of Array Except Self — prefix * suffix (2 passes, O(1) extra space)

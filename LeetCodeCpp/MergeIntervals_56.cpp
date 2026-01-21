@@ -1,5 +1,4 @@
 #include "MergeIntervals_56.h"
-#include <vector>
 #include <algorithm>
 
 /*
