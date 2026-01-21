@@ -1,4 +1,7 @@
 #include "LetterCombinations_17.h"
+#include <vector>
+#include <string>
+#include <string_view>
 
 /*
  * LeetCode 17 — Letter Combinations of a Phone Number
