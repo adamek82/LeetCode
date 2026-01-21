@@ -1,5 +1,4 @@
 #include "ValidSudoku_36.h"
-#include <vector>
 #include <unordered_set>
 
 /*

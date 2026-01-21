@@ -1,5 +1,4 @@
 #include "TwoSumII_167.h"
-#include <vector>
 
 /*
  * Two Sum II – Input Array Is Sorted (LeetCode 167)

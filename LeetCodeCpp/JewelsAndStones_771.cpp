@@ -1,5 +1,4 @@
 #include "JewelsAndStones_771.h"
-#include <string>
 
 /*
  * Jewels and Stones (LeetCode 771)

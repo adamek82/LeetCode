@@ -1,6 +1,5 @@
 #include "LongestConsecutiveSequence_128.h"
 #include <unordered_set>
-#include <vector>
 #include <algorithm>
 
 /*

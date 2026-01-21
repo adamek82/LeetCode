@@ -1,4 +1,5 @@
 #include "MajorityElement_169.h"
+#include <unordered_map>
 
 /*
  * Boyer–Moore Majority Vote — Correctness Sketch
