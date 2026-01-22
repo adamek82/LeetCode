@@ -1,4 +1,7 @@
 #include "ListUtils.h"
+#include <unordered_map>
+#include <unordered_set>
+#include <sstream>
 
 // Create a linked list from a vector
 template <typename T>
@@ -151,7 +154,24 @@ bool ListUtils::compareListsWithRandom(ListNode<T>* list1, ListNode<T>* list2) {
     return true;
 }
 
-// Explicit instantiation for int type
+/*
+    NOTE: Explicit template instantiations (for `int`) are required here because the
+    template *definitions* live in this `.cpp` file, not in the header.
+
+    With templates, the compiler must see the full function body at the point of use
+    to generate code for a concrete type (e.g., `ListNode<int>`). If a translation unit
+    includes only `ListUtils.h`, it sees just the declarations, so it cannot instantiate
+    `ListUtils::createLinkedList<int>()`, `toVector<int>()`, etc. That typically ends up
+    as "undefined reference / unresolved external symbol" at link time.
+
+    By explicitly instantiating the commonly used `int` variants in this `.cpp`, we force
+    the compiler to emit the corresponding symbols once, in a single place, and other
+    translation units can link against them without needing the template bodies in the header.
+
+    Alternatives would be:
+      - move the template definitions into the header (or an included `.inl/.tpp`),
+      - or keep definitions in `.cpp` but add explicit instantiations for every type used.
+*/
 template ListNode<int>* ListUtils::createLinkedList<int>(const vector<int>&);
 template vector<int> ListUtils::toVector<int>(ListNode<int>*);
 template string ListUtils::toString<int>(ListNode<int>*);
