@@ -1,4 +1,5 @@
 #include "ValidParentheses_20.h"
+#include <stack>
 
 bool ValidParentheses_20::isValid(string s)
 {

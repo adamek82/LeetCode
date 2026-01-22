@@ -1,4 +1,6 @@
 #include "LargestRectangleInHistogram_84.h"
+#include <stack>
+#include <algorithm>
 
 /*
  * Approach — monotonic nondecreasing stack (indices)

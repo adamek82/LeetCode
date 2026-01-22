@@ -1,4 +1,7 @@
 #include "EvaluateReversePolishNotation_150.h"
+#include <stack>
+#include <cstdlib>
+#include <stdexcept>
 
 int EvaluateReversePolishNotation_150::evalRPN(vector<string> &tokens)
 {

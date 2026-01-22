@@ -1,9 +1,6 @@
 #pragma once
 #include <vector>
 #include <string>
-#include <stack>
-#include <cstdlib>
-#include <stdexcept>
 
 using namespace std;
 

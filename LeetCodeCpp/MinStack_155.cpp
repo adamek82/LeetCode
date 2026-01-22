@@ -21,9 +21,6 @@
  *   - Time per operation: O(1) for push/pop/top/getMin.
  *   - Extra space: one int per element (the running min).
  */
-
-MinStack_155::MinStack_155() = default;
-
 void MinStack_155::push(int val) {
     if (st_.empty()) {
         st_.emplace_back(val, val);

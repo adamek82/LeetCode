@@ -6,7 +6,7 @@ using namespace std;
 
 class MinStack_155 {
 public:
-    MinStack_155();
+    MinStack_155() = default;
 
     void push(int val);
     void pop();
