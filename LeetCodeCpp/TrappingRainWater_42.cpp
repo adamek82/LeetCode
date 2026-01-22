@@ -1,4 +1,5 @@
 #include "TrappingRainWater_42.h"
+#include <algorithm>
 
 /*
  * Approach — two-pointer with running maxima

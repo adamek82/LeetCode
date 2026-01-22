@@ -1,5 +1,4 @@
 #include "SquaresOfSortedArray_977.h"
-#include <vector>
 
 /*
  * Squares of a Sorted Array (LeetCode 977)

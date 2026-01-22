@@ -1,5 +1,4 @@
 #include "FourSum_18.h"
-#include <vector>
 #include <algorithm>
 
 /*

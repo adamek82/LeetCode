@@ -1,5 +1,4 @@
 #include "ValidPalindrome_125.h"
-#include <string>
 
 /*
  * Valid Palindrome (LeetCode 125)

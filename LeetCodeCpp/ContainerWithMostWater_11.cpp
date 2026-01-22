@@ -1,4 +1,3 @@
-// LeetCodeCpp/ContainerWithMostWater_11.cpp
 #include "ContainerWithMostWater_11.h"
 
 /*

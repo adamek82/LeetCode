@@ -1,5 +1,4 @@
 #include "ReverseString_344.h"
-#include <vector>
 #include <utility>  // for std::swap
 
 /*

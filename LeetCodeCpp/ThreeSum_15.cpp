@@ -1,5 +1,4 @@
 #include "ThreeSum_15.h"
-#include <vector>
 #include <algorithm>
 
 /*

@@ -1,7 +1,6 @@
 #include "ThreeSumClosest_16.h"
 #include <algorithm>
 #include <cstdlib>      // for llabs
-#include <vector>
 
 /*
  * ThreeSum Closest (LeetCode 16)
