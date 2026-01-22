@@ -1,4 +1,9 @@
 #include "TreeUtils.h"
+#include <queue>
+#include <iostream>
+#include <sstream>
+#include <cmath>
+#include <iomanip>
 
 // Create a binary tree from a vector (level-by-level)
 template <typename T>
@@ -183,7 +188,12 @@ void TreeUtils::freeTree(TreeNode<T>* root) {
     delete root;
 }
 
-// Explicit instantiation for int type
+/*
+ * NOTE: These explicit template instantiations are required because the template
+ * definitions live in the corresponding .cpp file (not in the header).
+ * For the full rationale and alternatives, see the detailed comment at the bottom
+ * of ListUtils.cpp, since it's the same case here.
+ */
 template TreeNode<int>* TreeUtils::vectorToTree(const vector<optional<int>>& values);
 template string TreeUtils::toLevelOrderString(TreeNode<int>* root);
 template void TreeUtils::printTree(TreeNode<int>* root);
