@@ -1,6 +1,4 @@
 #include "PermutationInString_567.h"
-#include <string>
-#include <array>
 
 /*
  * Permutation in String (LeetCode 567) — sliding window (full compare)

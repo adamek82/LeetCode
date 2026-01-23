@@ -1,5 +1,4 @@
 #include "MaximumAverageSubarrayI_643.h"
-#include <vector>
 
 /*
  * Maximum Average Subarray I (LeetCode 643) — sliding window

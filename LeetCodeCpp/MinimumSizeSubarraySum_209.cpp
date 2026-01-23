@@ -1,5 +1,4 @@
 #include "MinimumSizeSubarraySum_209.h"
-#include <vector>
 #include <limits>       // for numeric_limits
 #include <algorithm>    // for min
 

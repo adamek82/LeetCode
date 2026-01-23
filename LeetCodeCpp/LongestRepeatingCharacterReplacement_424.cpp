@@ -1,6 +1,5 @@
 #include "LongestRepeatingCharacterReplacement_424.h"
 #include <vector>
-#include <string>
 #include <algorithm>
 
 /*

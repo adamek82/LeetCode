@@ -1,5 +1,4 @@
 #include "MaxConsecutiveOnesIII_1004.h"
-#include <vector>
 #include <algorithm>
 
 /*

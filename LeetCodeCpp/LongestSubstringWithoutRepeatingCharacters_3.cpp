@@ -1,5 +1,4 @@
 #include "LongestSubstringWithoutRepeatingCharacters_3.h"
-#include <string>
 #include <vector>
 #include <algorithm>
 
