@@ -1,5 +1,4 @@
 #include "RemoveDuplicatesFromSortedList_83.h"
-#include "ListNode.h"
 
 /*
  * Remove Duplicates from Sorted List (LeetCode 83) — in-place one-pass

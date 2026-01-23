@@ -1,5 +1,4 @@
 #include "MiddleOfLinkedList_876.h"
-#include "ListNode.h"
 
 /*
  * Middle of the Linked List (LeetCode 876) — tortoise & hare

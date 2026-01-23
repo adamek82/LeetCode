@@ -1,5 +1,4 @@
 #include "RemoveNthNodeFromEndOfList_19.h"
-#include "ListNode.h"
 
 /*
  * Remove Nth Node From End of List (LeetCode 19) — two pointers + dummy

@@ -1,5 +1,4 @@
 #include "ReverseLinkedList_206.h"
-#include "ListNode.h"
 
 /*
  * Reverse Linked List (LeetCode 206) — iterative in-place
