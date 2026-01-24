@@ -1,6 +1,5 @@
 #include "LongestIncreasingPathInMatrix_329.h"
 #include <algorithm>
-#include <vector>
 
 /*
  * Algorithm (DFS + memoization = top-down DP on an implicit DAG)

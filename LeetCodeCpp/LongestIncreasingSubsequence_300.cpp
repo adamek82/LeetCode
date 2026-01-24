@@ -1,4 +1,5 @@
 #include "LongestIncreasingSubsequence_300.h"
+#include <algorithm>
 
 /*
  * Longest Increasing Subsequence — O(N log N) (length only)

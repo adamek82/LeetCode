@@ -1,6 +1,7 @@
 #include "GroupAnagrams_49.h"
 #include <unordered_map>
 #include <algorithm>
+#include <utility>  // for std::move
 
 /*
  * Hash-map + sorting based grouping of anagrams.

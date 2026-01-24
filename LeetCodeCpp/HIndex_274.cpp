@@ -1,5 +1,4 @@
 #include "HIndex_274.h"
-#include <vector>
 #include <algorithm>
 
 /*

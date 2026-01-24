@@ -1,4 +1,6 @@
 #include "LongestCommonSubsequence_1143.h"
+#include <algorithm>
+#include <vector>
 
 /*
  * Problem: Longest Common Subsequence (LCS) — LeetCode 1143

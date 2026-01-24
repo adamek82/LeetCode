@@ -1,4 +1,5 @@
 #include "LongestCycleInGraph_2360.h"
+#include <algorithm>
 
 int LongestCycleInGraph_2360::longestCycle(vector<int> &edges)
 {

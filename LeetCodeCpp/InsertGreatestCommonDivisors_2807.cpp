@@ -1,5 +1,4 @@
 #include "InsertGreatestCommonDivisors_2807.h"
-#include "ListNode.h"
 #include <numeric>   // std::gcd
 
 /*
