@@ -1,5 +1,5 @@
-#include <numeric>
 #include "MissingNumber_268.h"
+#include <numeric>
 
 int MissingNumber_268::missingNumber(vector<int> &nums)
 {

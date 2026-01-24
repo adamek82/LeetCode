@@ -1,6 +1,5 @@
 #include "MaxAreaOfIsland_695.h"
 #include <algorithm>
-#include <vector>
 #include <stack>
 
 /*

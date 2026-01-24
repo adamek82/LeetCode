@@ -1,7 +1,6 @@
 #include "NetworkDelayTime_743.h"
 #include <iostream>
 #include <queue>
-#include <vector>
 
 /*
  * Correctness sketch (Dijkstra with a binary min-heap)

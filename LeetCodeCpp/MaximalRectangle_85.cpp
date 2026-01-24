@@ -1,4 +1,6 @@
 #include "MaximalRectangle_85.h"
+#include <stack>
+#include <algorithm>
 
 /******************************************************************************
  *  Maximal Rectangle - LeetCode 85

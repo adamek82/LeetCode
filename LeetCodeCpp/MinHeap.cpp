@@ -1,4 +1,6 @@
 #include "MinHeap.h"
+#include <iostream>
+#include <stdexcept>
 
 // Constructor
 MinHeap::MinHeap() {

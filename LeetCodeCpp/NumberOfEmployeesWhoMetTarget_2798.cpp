@@ -1,5 +1,4 @@
 #include "NumberOfEmployeesWhoMetTarget_2798.h"
-#include <vector>
 #include <algorithm> // count_if
 
 /*

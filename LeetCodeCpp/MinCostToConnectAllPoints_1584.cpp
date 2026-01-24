@@ -1,4 +1,7 @@
 #include "MinCostToConnectAllPoints_1584.h"
+#include <queue>
+#include <algorithm>
+#include <climits>
 
 /*
  * This is Prim’s algorithm implemented with a min-heap (lazy updates).
