@@ -1,4 +1,9 @@
 #include "AnalyzeUserWebsiteVisitPattern1152.h"
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <algorithm>
 
 vector<string> AnalyzeUserWebsiteVisitPattern1152::mostVisitedPattern_usingMap(vector<string> &username, vector<int> &timestamp, vector<string> &website)
 {

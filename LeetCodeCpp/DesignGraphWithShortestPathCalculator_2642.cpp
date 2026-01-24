@@ -1,4 +1,6 @@
 #include "DesignGraphWithShortestPathCalculator_2642.h"
+#include <queue>
+#include <limits>
 
 Graph::Graph(int n, vector<vector<int>>& edges) : n(n), adj(n) {
     for (auto& e : edges)                         // e = {from, to, cost}

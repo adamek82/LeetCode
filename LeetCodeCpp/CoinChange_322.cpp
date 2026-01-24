@@ -1,4 +1,5 @@
 #include "CoinChange_322.h"
+#include <algorithm>
 
 /*
  * Coin Change (LeetCode 322) — Bottom-up DP (unbounded knapsack)

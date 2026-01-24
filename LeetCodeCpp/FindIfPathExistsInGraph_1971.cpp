@@ -1,5 +1,9 @@
 #include "FindIfPathExistsInGraph_1971.h"
 #include "UnionFind.h"
+#include <stack>
+#include <queue>
+#include <unordered_map>
+#include <unordered_set>
 
 bool FindIfPathExistsInGraph_1971::validPathRecursiveDFS(int n, const vector<vector<int>>& edges, int source, int destination) {
     if (source == destination) return true;

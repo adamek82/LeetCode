@@ -1,5 +1,4 @@
 #include "CourseScheduleII_210.h"
-#include <vector>
 #include <unordered_map>
 #include <functional>
 #include <queue>
