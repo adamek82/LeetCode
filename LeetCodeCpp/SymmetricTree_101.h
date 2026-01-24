@@ -1,5 +1,4 @@
 #pragma once
-
 #include "TreeNode.h"
 
 class SymmetricTree_101 {

@@ -1,4 +1,6 @@
 #include "ShortestCycleInGraph_2608.h"
+#include <queue>
+#include <algorithm>
 
 int ShortestCycleInGraph_2608::findShortestCycle(int n, vector<vector<int>> &edges)
 {
@@ -30,11 +32,13 @@ int ShortestCycleInGraph_2608::findShortestCycle(int n, vector<vector<int>> &edg
                     dist[v] = dist[u] + 1;
                     q.push(v);
                 } else if (dist[v] + 1 != dist[u]) {
-                    /*  v is NOT the parent of u in the BFS tree.
-                        In an undirected BFS tree the parent of u
-                        is the only neighbour whose distance is
-                        exactly dist[u]-1, so the inequality
-                        identifies a cross/side edge that closes a cycle. */
+                    /*
+                     *  v is NOT the parent of u in the BFS tree.
+                     *  In an undirected BFS tree the parent of u
+                     *  is the only neighbour whose distance is
+                     *  exactly dist[u]-1, so the inequality
+                     *  identifies a cross/side edge that closes a cycle.
+                     */
                     best = min(best, dist[u] + dist[v] + 1);
                 }
             }

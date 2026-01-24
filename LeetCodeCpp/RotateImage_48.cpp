@@ -43,12 +43,12 @@ void RotateImage_48::rotateTransposeReverse(vector<vector<int>>& matrix)
 /*
  * In-place 90° Rotation — Layer-by-Layer “Onion” Swapping  — Correctness Sketch
  *
- * Treat the square as ⟨⌈n/2⌉⌉ concentric shells.  
+ * Treat the square as ⟨⌈n/2⌉⌉ concentric shells.
  *   Outer loop (layer i)   : walks from the outside towards the centre.
  *   Inner loop (offset j)  : performs cyclic 4-way swap on the i-th layer.
  *
  * 4-cycle mapping
- *   (i,            j)  → (j,            n-1-i) → 
+ *   (i,            j)  → (j,            n-1-i) →
  *   (n-1-i,        n-1-j) → (n-1-j,        i)   → back to start.
  *
  * Invariant

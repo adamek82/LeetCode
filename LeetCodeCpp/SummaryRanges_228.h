@@ -1,6 +1,7 @@
 #pragma once
-#include <vector>
 #include <string>
+#include <vector>
+
 using namespace std;
 
 class SummaryRanges_228 {

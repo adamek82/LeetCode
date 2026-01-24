@@ -1,6 +1,4 @@
 #pragma once
-#include <queue>
-#include <stack>
 #include "TreeNode.h"
 
 using namespace std;

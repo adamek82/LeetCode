@@ -1,4 +1,7 @@
 #include "SameTree_100.h"
+#include <queue>
+#include <stack>
+#include <utility>
 
 /* Implementation notes (alternatives discussed)
  * ------------------------------------------------

@@ -2,6 +2,8 @@
 #include <vector>
 #include <climits>
 
+using namespace std;
+
 /*
  * Problem: 279. Perfect Squares
  *

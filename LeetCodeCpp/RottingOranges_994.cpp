@@ -1,4 +1,7 @@
 #include "RottingOranges_994.h"
+#include <array>
+#include <queue>
+#include <utility>
 
 int RottingOranges_994::orangesRotting(vector<vector<int>> &grid)
 {

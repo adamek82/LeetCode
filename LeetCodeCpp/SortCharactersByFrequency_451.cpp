@@ -1,4 +1,6 @@
 #include "SortCharactersByFrequency_451.h"
+#include <vector>
+#include <unordered_map>
 
 string SortCharactersByFrequency_451::frequencySort(string s)
 {
