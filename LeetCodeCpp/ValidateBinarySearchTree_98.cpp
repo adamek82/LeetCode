@@ -1,4 +1,5 @@
 #include "ValidateBinarySearchTree_98.h"
+#include <limits>
 
 using namespace std;
 

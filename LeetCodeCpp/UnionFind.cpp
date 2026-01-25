@@ -1,9 +1,12 @@
+#include "UnionFind.h"
+#include <iostream>
+
 /*
  * Disjoint-Set Union (Union-Find) implementation tailored for the
  * LeetCode problem **1971. Find if Path Exists in Graph**.
  *
  * ───────────────────────────────────────────────────────────────
- *  • **Path-compression strategy**  
+ *  • **Path-compression strategy**
  *    This variant performs path compression *only on the `dst` branch*
  *    inside `unionSets`.  When we merge the set containing `dst`
  *    into the set whose root is `srcParent`, we relink every vertex
@@ -12,18 +15,18 @@
  *    and *does not* compress, which keeps the code iterative-only and
  *    avoids recursion overhead.
  *
- *    ▸ **Why is that still enough for LeetCode?**  
+ *    ▸ **Why is that still enough for LeetCode?**
  *      - In *sparse* graphs (|E| ≲ |V|) the maximum path length created
- *        by the unions is already small.  
+ *        by the unions is already small.
  *      - In *dense* graphs (many edges) most vertices appear sooner or
  *        later as `dst`, so their paths are flattened opportunistically
- *        during those unions.  
+ *        during those unions.
  *      Empirically this achieves near-constant amortised time per
  *      operation on the provided judge inputs, well within the time
  *      limits, without adding extra rank/size bookkeeping.
  *
- *  • **Complexities (amortised)**  
- *      find   :  O(h)   - but h remains small in practice on the judge  
+ *  • **Complexities (amortised)**
+ *      find   :  O(h)   - but h remains small in practice on the judge
  *      union  :  O(h)   (two finds + one pass that flattens the dst chain)
  *
  *    For production-grade DSU you would normally add *classic* path
@@ -32,8 +35,6 @@
  *    required here, yet adding it would be a one-line change.
  * ───────────────────────────────────────────────────────────────
  */
-
-#include "UnionFind.h"
 
 /* Constructor: Initialize each vertex in its own singleton set. */
 UnionFind::UnionFind(int n) {

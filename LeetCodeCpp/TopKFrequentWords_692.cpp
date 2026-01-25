@@ -1,4 +1,6 @@
 #include "TopKFrequentWords_692.h"
+#include <queue>
+#include <unordered_map>
 
 vector<string> TopKFrequentWords_692::topKFrequent(vector<string> &words, int k)
 {

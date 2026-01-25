@@ -1,4 +1,6 @@
 #include "ZigzagConversion_6.h"
+#include <vector>
+#include <algorithm>
 
 string ZigzagConversion_6::convert_rowWise(string s, int numRows)
 {

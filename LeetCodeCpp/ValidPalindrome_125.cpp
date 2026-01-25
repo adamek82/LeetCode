@@ -1,4 +1,5 @@
 #include "ValidPalindrome_125.h"
+#include <cctype>   // for std::tolower
 
 /*
  * Valid Palindrome (LeetCode 125)

@@ -1,4 +1,6 @@
 #include "WallsAndGates_286.h"
+#include <queue>
+
 
 void WallsAndGates_286::wallsAndGates(vector<vector<int>> &rooms)
 {
