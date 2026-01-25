@@ -1143,18 +1143,20 @@ public:
             {{10, 9, 9, 10, 10, 10, 9, 10, 9, 10, 10}, 10}
         };
 
-        // Boyer–Moore Majority Vote
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            MajorityElement_169 sol;
-            int got = sol.majorityElement(testCases[i].input);
-            assertEqScalar("MajorityElement_169 Boyer–Moore Test " + to_string(i + 1), testCases[i].expected, got);
-        }
+        MajorityElement_169 sol;
 
-        // Frequency Counting (hashmap)
+        const vector<pair<string, function<int(const MajorityElementTestCase&)>>> impls = {
+            {"Boyer-Moore",  [&](const MajorityElementTestCase& tc){ return sol.majorityElement(tc.input); }},
+            {"Hashmap",      [&](const MajorityElementTestCase& tc){ return sol.majorityElementWithHashmap(tc.input); }},
+            {"Bit Counting", [&](const MajorityElementTestCase& tc){ return sol.majorityElementWithBitCounting(tc.input); }},
+        };
+
         for (size_t i = 0; i < testCases.size(); ++i) {
-            MajorityElement_169 sol;
-            int got = sol.majorityElementWithHashmap(testCases[i].input);
-            assertEqScalar("MajorityElement_169 Hashmap Test " + to_string(i + 1), testCases[i].expected, got);
+            const auto& tc = testCases[i];
+            for (const auto& [name, run] : impls) {
+                assertEqScalar("Majority Element 169 [" + name + "] " + to_string(i + 1),
+                            tc.expected, run(tc));
+            }
         }
     }
 
