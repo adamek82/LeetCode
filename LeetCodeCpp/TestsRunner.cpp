@@ -337,31 +337,41 @@ public:
         };
 
         auto validTopo = [](int n, const vector<vector<int>>& pre, const vector<int>& order) {
-            if (order.empty()) return pre.empty() ? n == 0 : false;        // empty only for cycle (or trivial n==0)
-            if (static_cast<int>(order.size()) != n) return false;
-            unordered_map<int,int> pos; pos.reserve(order.size());
-            for (int i = 0; i < static_cast<int>(order.size()); ++i) pos[order[i]] = i;
-            for (const auto& e : pre) if (pos[e[1]] > pos[e[0]]) return false;
+            if (order.empty()) return pre.empty() ? n == 0 : false;
+            if ((int)order.size() != n) return false;
+
+            unordered_map<int,int> pos;
+            pos.reserve(order.size());
+            for (int i = 0; i < (int)order.size(); ++i) pos[order[i]] = i;
+
+            for (const auto& e : pre)
+                if (pos[e[1]] > pos[e[0]]) return false;
+
             return true;
         };
 
         CourseScheduleII_210 sol;
+
+        using Method = vector<int> (CourseScheduleII_210::*)(int, vector<vector<int>>&);
+
+        const vector<pair<string, Method>> impls = {
+            {"DFS",  &CourseScheduleII_210::findOrderByDFSTraversal},
+            {"Kahn", &CourseScheduleII_210::findOrderByKahnsAlgorithm},
+        };
+
+        auto run = [&](Method method, const CourseScheduleIITestCase& tc) {
+            auto preCopy = tc.prerequisites; // because method takes non-const ref
+            auto order   = (sol.*method)(tc.numCourses, preCopy);
+            return tc.expectedOrder.empty() ? order.empty()
+                                        : validTopo(tc.numCourses, tc.prerequisites, order);
+        };
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
-
-            // DFS version (make a mutable copy for the non-const ref parameter)
-            auto pre1 = tc.prerequisites;
-            auto a    = sol.findOrderByDFSTraversal(tc.numCourses, pre1);
-            bool okA  = tc.expectedOrder.empty() ? a.empty()
-                                                : validTopo(tc.numCourses, tc.prerequisites, a);
-            assertEqScalar("Course Schedule II 210 [DFS] Test " + to_string(i + 1), true, okA);
-
-            // Kahn version (another mutable copy)
-            auto pre2 = tc.prerequisites;
-            auto b    = sol.findOrderByKahnsAlgorithm(tc.numCourses, pre2);
-            bool okB  = tc.expectedOrder.empty() ? b.empty()
-                                                : validTopo(tc.numCourses, tc.prerequisites, b);
-            assertEqScalar("Course Schedule II 210 [Kahn] Test " + to_string(i + 1), true, okB);
+            for (const auto& [name, method] : impls) {
+                assertEqScalar("Course Schedule II 210 [" + name + "] Test " + to_string(i + 1),
+                            true, run(method, tc));
+            }
         }
     }
 
