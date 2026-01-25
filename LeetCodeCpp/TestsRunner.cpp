@@ -214,26 +214,26 @@ public:
 
         FindIfPathExistsInGraph_1971 fp1971;
 
-        const vector<pair<string, function<bool(const PathTestCase&)>>> impls = {
-            {"DFS-rec", [&](const PathTestCase& tc){
-                return fp1971.validPathRecursiveDFS(tc.n, tc.edges, tc.source, tc.destination);
-            }},
-            {"DFS-iter", [&](const PathTestCase& tc){
-                return fp1971.validPathIterativeDFS(tc.n, tc.edges, tc.source, tc.destination);
-            }},
-            {"BFS", [&](const PathTestCase& tc){
-                return fp1971.validPathBFS(tc.n, tc.edges, tc.source, tc.destination);
-            }},
-            {"UnionFind", [&](const PathTestCase& tc){
-                return fp1971.validPathUnionFind(tc.n, tc.edges, tc.source, tc.destination);
-            }},
+        auto runWith = [&](auto method, const PathTestCase& tc) {
+            return (fp1971.*method)(tc.n, tc.edges, tc.source, tc.destination);
+        };
+
+        using Method = bool (FindIfPathExistsInGraph_1971::*)(
+            int, const vector<vector<int>>&, int, int
+        );
+
+        const vector<pair<string, Method>> impls = {
+            {"DFS-rec",   &FindIfPathExistsInGraph_1971::validPathRecursiveDFS},
+            {"DFS-iter",  &FindIfPathExistsInGraph_1971::validPathIterativeDFS},
+            {"BFS",       &FindIfPathExistsInGraph_1971::validPathBFS},
+            {"UnionFind", &FindIfPathExistsInGraph_1971::validPathUnionFind},
         };
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
-            for (const auto& [name, run] : impls) {
+            for (const auto& [name, method] : impls) {
                 assertEqScalar("Find Path 1971 [" + name + "] " + to_string(i + 1),
-                            tc.expected, run(tc));
+                            tc.expected, runWith(method, tc));
             }
         }
     }
