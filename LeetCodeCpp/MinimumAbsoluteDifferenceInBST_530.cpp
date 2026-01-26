@@ -1,5 +1,5 @@
 #include "MinimumAbsoluteDifferenceInBST_530.h"
-#include <climits>      // for INT_MAX
+#include <limits>       // for std::numeric_limits
 #include <algorithm>    // for min
 
 using namespace std;
@@ -30,7 +30,7 @@ using namespace std;
  *          (O(n) in the worst case, O(log n) for a balanced tree).
  */
 int MinimumAbsoluteDifferenceInBST_530::getMinimumDifference(TreeNode<int>* root) {
-    minDiff = INT_MAX;
+    minDiff = std::numeric_limits<int>::max();
     prev = nullptr;
 
     inOrder(root);

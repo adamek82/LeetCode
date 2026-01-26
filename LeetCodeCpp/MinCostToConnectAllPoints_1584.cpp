@@ -1,7 +1,7 @@
 #include "MinCostToConnectAllPoints_1584.h"
 #include <queue>
 #include <algorithm>
-#include <climits>
+#include <limits>
 
 /*
  * This is Prim’s algorithm implemented with a min-heap (lazy updates).
@@ -82,11 +82,17 @@ int MinCostToConnectAllPoints_1584::minCostConnectPointsHeap(vector<vector<int>>
  */
 int MinCostToConnectAllPoints_1584::minCostConnectPointsArray(vector<vector<int>> &points) {
     int n = static_cast<int>(points.size());
-    vector<int> minDist(n, INT_MAX);  // For every vertex not yet in the tree: best known cost to connect it to the tree S
-    vector<char> used(n, 0);          // Marks vertices already added to the MST (set S)
+    // For every vertex not yet in the tree: best known cost to connect it to the tree S
+    vector<int> minDist(n, std::numeric_limits<int>::max());
 
-    long long total = 0;              // Accumulates MST cost; 64-bit to avoid overflow
-    minDist[0] = 0;                   // Start Prim from node 0: cost to add the first node is 0
+    // Marks vertices already added to the MST (set S)
+    vector<char> used(n, 0);
+
+    // Accumulates MST cost; 64-bit to avoid overflow
+    long long total = 0;
+
+    // Start Prim from node 0: cost to add the first node is 0
+    minDist[0] = 0;
 
     // Repeat n times: each iteration adds exactly one new vertex to the MST.
     for (int it = 0; it < n; ++it) {
