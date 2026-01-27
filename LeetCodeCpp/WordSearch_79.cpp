@@ -47,7 +47,7 @@ bool WordSearch_79::exist(vector<vector<char>> &board, string word)
     // Iterate through each cell in the board
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            if (backtrack(board, word, i, j, 0)) {
+            if (board[i][j] == word[0] && backtrack(board, word, i, j, 0)) {
                 return true;
             }
         }
