@@ -3,63 +3,52 @@
 #include <algorithm>
 
 /*
- * Hash-set based O(n) solution.
+ * Hash-set based expected O(n) solution.
  *
  * Idea:
  * - Insert all numbers into an unordered_set for O(1) average-time membership tests.
- * - A number `num` can only be the *start* of a consecutive sequence if `(num - 1)` is
- *   not in the set. For all other numbers (that have a predecessor), we skip work, because
- *   their sequence will be counted starting from that smaller predecessor.
- * - For each such starting number, we walk forward (`num, num+1, num+2, ...`) as long as
- *   the next value is present in the set, counting the length of this consecutive run.
+ * - A value `x` can only be the *start* of a consecutive sequence if `(x - 1)` is
+ *   not in the set. For all other values (that have a predecessor), we skip work,
+ *   because their sequence will be counted starting from that smaller predecessor.
+ * - For each such starting value, walk forward (`x, x+1, x+2, ...`) as long as the
+ *   next value is present in the set. Instead of maintaining a separate counter,
+ *   keep `end` as the last value of the run; the run length is `end - x + 1`.
  * - Track the maximum length over all runs.
  *
- * Correctness sketch (invariants):
- * - Construction invariant: after creating `st`, for every original value v in `nums`,
- *   `v` is in `st`. Duplicates in `nums` are collapsed to a single entry in `st`,
- *   which does not affect the longest consecutive *length*.
- * - Start-detection invariant: when we enter the `if (st.find(num - 1) == st.end())`
- *   branch, `num` has no predecessor in the set. Therefore any maximal consecutive
- *   sequence containing `num` must start exactly at `num`.
- * - Loop invariant: inside the `while (st.find(current + 1) != st.end())` loop:
- *   * `st` contains all integers from `num` through `current`,
- *   * `streak == current - num + 1` (streak reflects the length of the sequence seen so far),
- *   * `current + 1` is the next candidate in this sequence.
- *   When the loop terminates, `current + 1` is not in `st`, so `current` is the last
- *   element of this maximal consecutive run starting at `num`, and `streak` is its length.
- * - Uniqueness: every maximal consecutive run is counted exactly once, at its smallest
- *   element. Any other element of that run has a predecessor in `st` and fails the
- *   `st.find(num - 1) == st.end()` test, so we never double-count the same run.
+ * Correctness sketch:
+ * - Construction: after building `st`, for every v in `nums`, v is in `st`.
+ *   Duplicates collapse in the set, which does not affect the longest consecutive length.
+ * - Start detection: if `st` does not contain `x - 1`, then `x` has no predecessor in
+ *   the set, so any maximal consecutive sequence containing `x` must start at `x`.
+ * - Forward scan: while `st` contains `end + 1`, we can extend the run by one.
+ *   When the loop stops, `end + 1` is missing, so `end` is the last element of the
+ *   maximal run starting at `x`, and its length is `end - x + 1`.
+ * - Uniqueness: each maximal run is counted exactly once at its smallest element.
+ *   Any other element y in that run has y - 1 in `st`, so it fails the start test.
  *
  * Complexity:
- * - Building the set from `nums` takes O(n) average time and O(n) extra memory.
- * - The outer loop visits each distinct value in `st` once.
- * - The inner `while` loop over `current` advances each value at most once across the
- *   entire algorithm (amortized O(n)), because we only move `current` forward, and each
- *   integer can be the “next” element in some sequence at most one time.
- * - Overall expected time complexity: O(n), where n is the size of `nums`.
- * - Space complexity: O(n) for the unordered_set.
+ * - Building the set takes expected O(n) time and O(n) extra space.
+ * - The outer loop iterates over `nums`; only starts trigger the inner scan.
+ * - Across the whole algorithm, the inner while loops advance `end` a total of O(n)
+ *   times (amortized), because each distinct value can be the "next" element in a run
+ *   at most once.
+ * - Overall expected time: O(n), space: O(n).
  */
-int LongestConsecutiveSequence_128::longestConsecutive(vector<int> &nums)
+int LongestConsecutiveSequence_128::longestConsecutive(vector<int>& nums)
 {
     unordered_set<int> st(nums.begin(), nums.end());
     int longest = 0;
 
-    for (int num : st) {
-        // only start counting if 'num' is the beginning of a sequence
-        if (st.find(num - 1) == st.end()) {
-            int current = num;
-            int streak = 1;
+    for (int x : nums) {
+        // Only start counting if 'x' is the beginning of a sequence.
+        if (!st.contains(x - 1)) {
+            int end = x;
 
-            // walk forward until the end of this consecutive run
-            while (st.find(current + 1) != st.end()) {
-                current++;
-                streak++;
-            }
+            // Extend the run as long as the next consecutive value exists.
+            while (st.contains(end + 1)) ++end;
 
-            longest = max(longest, streak);
+            longest = max(longest, end - x + 1);
         }
     }
-
     return longest;
 }
