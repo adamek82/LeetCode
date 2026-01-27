@@ -960,4 +960,11 @@ namespace TestCases {
         List input;
         List expected;
     };
+
+    // 1099. Two Sum Less Than K
+    struct TwoSumLessThanKTestCase {
+        vector<int> input;
+        int k;
+        int expected;
+    };
 } // namespace TestCases

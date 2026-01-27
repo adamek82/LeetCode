@@ -162,6 +162,7 @@
 #include "SingleNumber_136.h"
 #include "DesignHashMap_706.h"
 #include "InsertGreatestCommonDivisors_2807.h"
+#include "TwoSumLessThanK_1099.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4857,6 +4858,30 @@ public:
         }
     }
 
+    static void twoSumLessThanK_1099_tests() {
+        vector<TwoSumLessThanKTestCase> testCases = {
+            // statement example
+            {{34, 23, 1, 24, 75, 33, 54, 8}, 60, 58},   // 24 + 34
+
+            // no valid pair
+            {{10, 20, 30}, 15, -1},
+
+            // duplicates
+            {{1, 1, 1}, 3, 2},
+
+            // negatives + positives
+            {{-5, -2, 0, 1, 3}, 2, 1},                 // 0 + 1 or -2 + 3
+        };
+
+        TwoSumLessThanK_1099 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto nums = testCases[i].input; // solver sorts in-place
+            int got = solver.twoSumLessThanK(nums, testCases[i].k);
+
+            assertEqScalar("Two Sum Less Than K 1099 Test " + to_string(i + 1),
+                           testCases[i].expected, got);
+        }
+    }
 
     inline static const TestEntry kTests[] = {
         /* Arrays & Strings */
@@ -4907,6 +4932,7 @@ public:
         TEST(16,   "3Sum Closest",                                   threeSumClosest_16_tests),
         TEST(18,   "4Sum",                                           fourSum_18_tests),
         TEST(42,   "Trapping Rain Water",                            trappingRainWater_42_tests),
+        TEST(1099, "Two Sum Less Than K",                            twoSumLessThanK_1099_tests),
 
         /* Stacks */
         TEST(682,  "Baseball Game",                                  baseballGame_682_tests),
