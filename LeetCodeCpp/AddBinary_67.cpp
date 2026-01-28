@@ -46,6 +46,12 @@ using namespace std;
 string AddBinary_67::addBinary(string a, string b)
 {
     string res;
+    /*
+     * size_t{1} keeps the whole expression in size_t (no signed/unsigned mix)
+     * and accounts for a possible final carry bit
+     */
+    res.reserve(max(a.size(), b.size()) + size_t{1});
+
     int i = static_cast<int>(a.size()) - 1;
     int j = static_cast<int>(b.size()) - 1;
     int carry = 0;
