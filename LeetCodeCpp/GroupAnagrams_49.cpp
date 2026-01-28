@@ -58,7 +58,15 @@ vector<vector<string>> GroupAnagrams_49::groupAnagrams_counting(vector<string> &
 {
     unordered_map<string, vector<string>> anagramGroups;
     for (const string& s : strs) {
-        string key(26, '0');
+        /*
+         * We store 26 letter counts directly in a std::string used as the hash key.
+         * Using '\0' as the initial value is safe under the problem constraints:
+         * each word length <= 100, so each counter stays in [0..100], which fits in 7 bits.
+         * This avoids relying on ASCII (e.g. starting from '0') and, more importantly,
+         * prevents signed-char overflow: if `char` is signed on a given platform and we
+         * increment past 127 (e.g. with '0' + 100 == 148), that would be Undefined Behavior.
+         */
+        string key(26, '\0');
         for (char c : s) key[c - 'a']++;
         anagramGroups[key].push_back(s);
     }
