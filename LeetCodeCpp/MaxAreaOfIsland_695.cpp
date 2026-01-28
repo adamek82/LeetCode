@@ -1,6 +1,8 @@
 #include "MaxAreaOfIsland_695.h"
 #include <algorithm>
+#include <array>
 #include <stack>
+#include <utility>
 
 /*
  * Algorithm: Flood-fill via DFS to compute the largest 4-connected component (island) of 1s
@@ -53,8 +55,10 @@
  */
 int MaxAreaOfIsland_695::maxAreaOfIslandRecursive(vector<vector<int>> &grid)
 {
-    int m = grid.size();
-    int n = grid[0].size();
+    if (grid.empty() || grid[0].empty()) return 0;
+
+    const int m = static_cast<int>(grid.size());
+    const int n = static_cast<int>(grid[0].size());
     int maxArea = 0;
 
     for (int i = 0; i < m; ++i) {
@@ -128,31 +132,45 @@ int MaxAreaOfIsland_695::dfsRecursive(vector<vector<int>> &grid, int i, int j) {
  */
 int MaxAreaOfIsland_695::maxAreaOfIslandIterative(vector<vector<int>>& grid)
 {
-    int m = grid.size();
-    int n = grid[0].size();
+    if (grid.empty() || grid[0].empty()) return 0;
+
+    const int m = static_cast<int>(grid.size());
+    const int n = static_cast<int>(grid[0].size());
     int best = 0;
 
     for (int r = 0; r < m; ++r)
         for (int c = 0; c < n; ++c)
             if (grid[r][c] == 1)                       // unvisited land
-                best = max(best, floodFillIterative(grid, r, c));
+                best = max(best, floodFillIterative(grid, m, n, r, c));
 
     return best;
 }
 
 // Helper performing the stack-based flood-fill and returning island area
-int MaxAreaOfIsland_695::floodFillIterative(vector<vector<int>>& grid, int r, int c)
+int MaxAreaOfIsland_695::floodFillIterative(vector<vector<int>>& grid, int m, int n, int r, int c)
 {
-    int m = grid.size();
-    int n = grid[0].size();
     int area = 0;
 
     // Directions for moving in the grid (right, left, down, up)
-    static const vector<pair<int, int>> directions = {
+    static constexpr array<pair<int,int>, 4> directions{{
         {0, 1}, {0, -1}, {1, 0}, {-1, 0}
-    };
+    }};
 
-    stack<pair<int,int>> st;
+    /*
+     * Use std::stack with std::vector as the underlying container (instead of the default std::deque).
+     *
+     * Why:
+     * - std::vector is contiguous and often has lower overhead than std::deque for stack-like push/pop.
+     * - We can reserve upfront to reduce (or eliminate) reallocations while the DFS grows the stack.
+     *
+     * Note:
+     * - The stack may temporarily hold many cells; an upper bound is m*n.
+     * - We build the backing vector separately to call reserve(), then move it into std::stack.
+     */
+    vector<pair<int,int>> backing;
+    backing.reserve(static_cast<size_t>(m) * static_cast<size_t>(n));
+    stack<pair<int,int>, vector<pair<int,int>>> st(std::move(backing));
+
     st.emplace(r, c);
     grid[r][c] = 0;                 // mark visited
 

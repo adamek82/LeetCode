@@ -15,5 +15,5 @@ private:
     int dfsRecursive(vector<vector<int>>& grid, int i, int j);
 
     // helper for the iterative variant (new implementation)
-    int floodFillIterative(vector<vector<int>>& grid, int r, int c);
+    int floodFillIterative(vector<vector<int>>& grid, int m, int n, int r, int c);
 };
