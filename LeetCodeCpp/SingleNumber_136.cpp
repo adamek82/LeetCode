@@ -4,13 +4,16 @@
  * 136. Single Number — XOR trick
  * ------------------------------
  * In an array where every element appears exactly twice except for one,
- * we can find the unique element by XOR-ing all numbers together:
+ * we can find the unique element by XOR-ing all numbers together.
  *
- *   - x ^ x = 0  → pairs cancel out,
- *   - 0 ^ y = y  → the remaining value is the single number.
+ * XOR properties used here:
+ *   - x ^ x = 0        → equal pairs cancel out,
+ *   - 0 ^ y = y        → neutral element,
+ *   - XOR is associative and commutative, so elements can be reordered
+ *     and grouped regardless of their positions in the array.
  *
- * So a single pass with an accumulator `result ^= x` returns the element that
- * appears exactly once.
+ * As a result, all duplicated values vanish and the remaining value
+ * is the element that appears exactly once.
  *
  * Time:  O(n)
  * Space: O(1)
