@@ -1,0 +1,32 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Gradle: incremental build (LeetCodeJava)",
+      "type": "shell",
+      "command": ".\\gradlew.bat build",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "JAVA_HOME": "C:\\Program Files\\Java\\jdk-21"
+        }
+      },
+      "problemMatcher": ["$gradle"],
+      "group": {
+        "kind": "build"
+      }
+    },
+    {
+      "label": "Gradle: installDist (LeetCodeJava)",
+      "type": "shell",
+      "command": ".\\gradlew.bat installDist",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "JAVA_HOME": "C:\\Program Files\\Java\\jdk-21"
+        }
+      },
+      "problemMatcher": ["$gradle"]
+    }
+  ]
+}
