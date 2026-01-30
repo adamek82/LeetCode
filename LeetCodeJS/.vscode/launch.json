@@ -8,6 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Run tests",
+            "cwd": "${workspaceFolder}",
             "skipFiles": [
                 "<node_internals>/**"
             ],
