@@ -18,6 +18,9 @@
 		{
 			"path": "LeetCodeC"
 		}
+		{
+			"path": "LeetCodeSql"
+		}
 	],
 	"settings": {
 		"files.associations": {
