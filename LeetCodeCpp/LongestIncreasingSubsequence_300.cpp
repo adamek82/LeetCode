@@ -1,5 +1,6 @@
 #include "LongestIncreasingSubsequence_300.h"
 #include <algorithm>
+#include <iterator>
 
 /*
  * Longest Increasing Subsequence — O(N log N) (length only)
@@ -198,4 +199,80 @@ int LongestIncreasingSubsequence_300::lengthOfLIS_dp(const vector<int>& nums)
         best = max(best, dp[i]);
     }
     return best;
+}
+
+/*
+ * Longest Increasing Subsequence — O(N log N) (reconstruct one LIS)
+ * ---------------------------------------------------------------
+ * Problem:
+ *   Return an actual strictly increasing subsequence (not only its length).
+ *
+ * Why we cannot return `tails`:
+ *   The classic O(N log N) "tails" array stores only minimal possible tail values
+ *   for each length. These values can come from different indices, so `tails`
+ *   is not guaranteed to be a subsequence of the input.
+ *
+ * Reconstruction idea (parent pointers + tails as indices):
+ *   Maintain:
+ *     - tailsIdx[len-1] = the index in `nums` of the smallest possible tail value
+ *       among all increasing subsequences of length `len` seen so far.
+ *     - prev[i] = the predecessor index of nums[i] in one chosen LIS ending at i.
+ *
+ * Update for each i (value x = nums[i]):
+ *   1) Find position `pos` such that:
+ *        pos is the first index where nums[tailsIdx[pos]] >= x   (lower_bound)
+ *      (This is the same rule as in the length-only version.)
+ *   2) Link predecessor:
+ *        prev[i] = (pos > 0) ? tailsIdx[pos-1] : -1
+ *   3) Write the best tail index for this length:
+ *        tailsIdx[pos] = i   (or push_back if pos == tailsIdx.size())
+ *
+ * At the end:
+ *   - LIS length = tailsIdx.size()
+ *   - last index of one LIS = tailsIdx.back()
+ *   - follow prev[] backwards to reconstruct the sequence, then reverse it.
+ *
+ * Complexity:
+ *   Time:  O(N log N)  (one binary search per element)
+ *   Space: O(N)        (prev + tailsIdx)
+ *
+ * Notes:
+ *   - This returns one valid LIS (there may be multiple).
+ *   - Strictly increasing version uses lower_bound (first >= x).
+ *     For non-decreasing LIS you would use upper_bound-like logic (first > x).
+ */
+vector<int> LongestIncreasingSubsequence_300::getLIS_tails(const vector<int>& nums)
+{
+    const int n = (int)nums.size();
+    if (n == 0) return {};
+
+    vector<int> tailsIdx;     // tailsIdx[len-1] = index of tail for length len
+    tailsIdx.reserve(n);
+
+    vector<int> prev(n, -1);  // predecessor pointers for reconstruction
+
+    for (int i = 0; i < n; ++i) {
+        const int x = nums[i];
+
+        // Find first pos where nums[tailsIdx[pos]] >= x
+        auto it = lower_bound(
+            tailsIdx.begin(), tailsIdx.end(), x,
+            [&](int idx, int value) { return nums[idx] < value; }
+        );
+        const int pos = (int)distance(tailsIdx.begin(), it);
+
+        // predecessor of i is the best tail index for length pos (i.e., pos elements before)
+        prev[i] = (pos > 0) ? tailsIdx[pos - 1] : -1;
+
+        if (it == tailsIdx.end()) tailsIdx.push_back(i);
+        else *it = i;
+    }
+
+    // Reconstruct sequence from the last tail index
+    vector<int> lis;
+    for (int cur = tailsIdx.back(); cur != -1; cur = prev[cur]) {
+        lis.push_back(nums[cur]);
+    }
+    reverse(lis.begin(), lis.end());
+    return lis;
 }

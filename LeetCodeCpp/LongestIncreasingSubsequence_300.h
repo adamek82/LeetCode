@@ -10,4 +10,7 @@ public:
 
     // O(N^2) dynamic programming
     int lengthOfLIS_dp(const vector<int>& nums);
+
+    // O(N log N) tails + parent pointers (reconstruct one actual LIS)
+    vector<int> getLIS_tails(const vector<int>& nums);
 };

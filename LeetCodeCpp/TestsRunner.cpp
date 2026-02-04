@@ -542,6 +542,56 @@ public:
             assertEqScalar("LIS 300 [dp]     Test " + to_string(i + 1), testCases[i].expected, got_dp);
             assertEqScalar("LIS 300 [agree]  Test " + to_string(i + 1), got_tails, got_dp);
         }
+
+        /*
+         * Follow-up: reconstruct one actual LIS and validate its properties.
+         * We can't assert exact sequence (there can be many LIS), so we assert:
+         *  - returned sequence is a subsequence of input
+         *  - strictly increasing
+         *  - its length equals the length returned by lengthOfLIS_* and expected
+         */
+        auto isStrictlyIncreasing = [&](const vector<int>& v) -> bool {
+            for (size_t i = 1; i < v.size(); ++i) {
+                if (!(v[i - 1] < v[i])) return false;
+            }
+            return true;
+        };
+
+        auto isSubsequence = [&](const vector<int>& sub, const vector<int>& full) -> bool {
+            size_t j = 0;
+            for (size_t i = 0; i < full.size() && j < sub.size(); ++i) {
+                if (full[i] == sub[j]) ++j;
+            }
+            return j == sub.size();
+        };
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const vector<int>& nums = testCases[i].nums;
+
+            vector<int> lis = solution.getLIS_tails(nums);
+
+            // Length must match expected
+            assertEqScalar("LIS 300 FU [lis size == expected] Test " + to_string(i + 1),
+                           testCases[i].expected, (int)lis.size());
+
+            // Must be strictly increasing
+            assertEqScalar("LIS 300 FU [strictly increasing] Test " + to_string(i + 1),
+                           true, isStrictlyIncreasing(lis));
+
+            // Must be a subsequence of the original input
+            assertEqScalar("LIS 300 FU [is subsequence] Test " + to_string(i + 1),
+                           true, isSubsequence(lis, nums));
+
+            // Cross-check with length-only methods (defensive consistency check)
+            auto nums1 = testCases[i].nums;
+            int got_tails = solution.lengthOfLIS_tails(nums1);
+            int got_dp    = solution.lengthOfLIS_dp(testCases[i].nums);
+
+            assertEqScalar("LIS 300 FU [lis size == tails len] Test " + to_string(i + 1),
+                           got_tails, (int)lis.size());
+            assertEqScalar("LIS 300 FU [lis size == dp len]    Test " + to_string(i + 1),
+                           got_dp, (int)lis.size());
+        }
     }
 
     static void removeDuplicatesFromSortedList_83_tests() {
