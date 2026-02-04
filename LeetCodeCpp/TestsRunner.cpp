@@ -550,21 +550,6 @@ public:
          *  - strictly increasing
          *  - its length equals the length returned by lengthOfLIS_* and expected
          */
-        auto isStrictlyIncreasing = [&](const vector<int>& v) -> bool {
-            for (size_t i = 1; i < v.size(); ++i) {
-                if (!(v[i - 1] < v[i])) return false;
-            }
-            return true;
-        };
-
-        auto isSubsequence = [&](const vector<int>& sub, const vector<int>& full) -> bool {
-            size_t j = 0;
-            for (size_t i = 0; i < full.size() && j < sub.size(); ++i) {
-                if (full[i] == sub[j]) ++j;
-            }
-            return j == sub.size();
-        };
-
         for (size_t i = 0; i < testCases.size(); ++i) {
             const vector<int>& nums = testCases[i].nums;
 

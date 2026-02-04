@@ -115,6 +115,21 @@ bool approxEqual(double a, double b, double eps) {
     return fabs(a - b) < eps;
 }
 
+bool isStrictlyIncreasing(const vector<int>& v) {
+    for (size_t i = 1; i < v.size(); ++i) {
+        if (!(v[i - 1] < v[i])) return false;
+    }
+    return true;
+}
+
+bool isSubsequence(const vector<int>& sub, const vector<int>& full) {
+    size_t j = 0;
+    for (size_t i = 0; i < full.size() && j < sub.size(); ++i) {
+        if (full[i] == sub[j]) ++j;
+    }
+    return j == sub.size();
+}
+
 /* --------------------- Assert + logging ------------------- */
 
 bool assertApprox(const string& label,

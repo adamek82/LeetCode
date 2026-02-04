@@ -89,6 +89,12 @@ bool equalVVIntPermutations(vector<vector<int>> a,
 /// Compare doubles within epsilon.
 bool approxEqual(double a, double b, double eps = 1e-5);
 
+// Returns true if v[0] < v[1] < ... < v[n-1] (strictly increasing).
+bool isStrictlyIncreasing(const vector<int>& v);
+
+// Returns true if `sub` is a subsequence of `full` (in-order, not necessarily contiguous).
+bool isSubsequence(const vector<int>& sub, const vector<int>& full);
+
 /* ===========================================================
  * Assert & log shortcuts (print PASS/FAIL + diff on mismatch)
  * =========================================================== */
