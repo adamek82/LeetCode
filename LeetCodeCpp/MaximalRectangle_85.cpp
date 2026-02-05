@@ -28,7 +28,10 @@
 int MaximalRectangle_85::maximalRectangle(vector<vector<char>>& matrix)
 {
     if (matrix.empty() || matrix[0].empty()) return 0;
-    const int rows = matrix.size(), cols = matrix[0].size();
+
+    // matrix.size() is size_t; keep rows/cols as int for signed indexing and loop counters.
+    const int rows = static_cast<int>(matrix.size());
+    const int cols = static_cast<int>(matrix[0].size());
 
     // Append a 0 height to handle remaining bars in the stack
     vector<int> height(cols+1, 0);   // current histogram heights
@@ -51,7 +54,6 @@ int MaximalRectangle_85::largestRectangleArea(const vector<int>& heights)
 {
     stack<int> st; // Stack to store indices of histogram bars
     int maxArea = 0; // Variable to store the maximum area
-    int n = heights.size();
 
     for (int i = 0; i < heights.size(); ++i) {
         // While the current height is less than the height of the bar at the stack's top

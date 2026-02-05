@@ -44,19 +44,16 @@ int MajorityElement_169::majorityElement(const vector<int> &nums)
 }
 
 int MajorityElement_169::majorityElementWithHashmap(const vector<int>& nums) {
-    unordered_map<int, int> frequency; // Hashmap to store frequencies
-    int n = nums.size();
+    unordered_map<int, size_t> frequency;
+    const size_t threshold = nums.size() / 2;
 
-    // Count frequencies of each element
     for (int num : nums) {
-        frequency[num]++;
-        // Check if the current number becomes the majority element
-        if (frequency[num] > n / 2) {
-            return num;
-        }
-    }
+        // Count frequencies of each element
+        const size_t cnt = ++frequency[num];
 
-    // This line will never be reached if the input guarantees a majority element
+        // Check if the current number becomes the majority element
+        if (cnt > threshold) return num;
+    }
     return -1;
 }
 

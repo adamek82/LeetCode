@@ -45,7 +45,11 @@
  */
 int MinimumSizeSubarraySum_209::minSubArrayLen(int target, vector<int> &nums)
 {
-    int n = nums.size();
+    /*
+     * nums.size() is size_t; keep n as int because indices
+     * (l/r) are int and we compute (r - l + 1).
+     */
+    int n = static_cast<int>(nums.size());
     int l = 0;                            // left boundary
     long long sum = 0;                    // running window sum
     int best = numeric_limits<int>::max();   // minimal length so far

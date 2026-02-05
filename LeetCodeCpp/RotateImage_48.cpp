@@ -25,7 +25,13 @@
  */
 void RotateImage_48::rotateTransposeReverse(vector<vector<int>>& matrix)
 {
-    int n = matrix.size();
+    if (matrix.empty()) return;
+
+    /*
+     * matrix.size() is size_t; keep n as int because we use
+     * signed loop counters and (i+1) arithmetic.
+     */
+    const int n = static_cast<int>(matrix.size());
 
     // Step 1: Transpose the matrix
     for (int i = 0; i < n; ++i) {

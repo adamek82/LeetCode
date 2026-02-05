@@ -17,7 +17,8 @@ void MinHeap::upheap(int idx) {
 
 // Helper: Restore the heap property by moving an element downward
 void MinHeap::downheap(int idx) {
-    int size = heap.size() - 1;
+    // heap.size() is size_t; cast first to avoid unsigned underflow when size == 0.
+    int size = static_cast<int>(heap.size()) - 1;
     while (idx * 2 <= size) { // While there's at least a left child
         int child = idx * 2; // Left child
         if (child + 1 <= size && heap[child + 1] < heap[child]) {
@@ -32,7 +33,8 @@ void MinHeap::downheap(int idx) {
 // Insert an element into the heap
 void MinHeap::insert(int val) {
     heap.push_back(val); // Add the element to the end
-    upheap(heap.size() - 1); // Restore min-heap property
+    // heap.size() is size_t; cast first to keep indices signed and avoid unsigned arithmetic.
+    upheap(static_cast<int>(heap.size()) - 1);  // Restore min-heap property
 }
 
 // Extract the minimum element

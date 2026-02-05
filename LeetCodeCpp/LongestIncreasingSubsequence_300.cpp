@@ -116,7 +116,7 @@ int LongestIncreasingSubsequence_300::lengthOfLIS_tails(vector<int> &nums)
             *it = num;
         }
     }
-    return tails.size();
+    return static_cast<int>(tails.size());
 }
 
 /*

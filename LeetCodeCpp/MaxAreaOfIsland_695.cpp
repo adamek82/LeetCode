@@ -73,7 +73,21 @@ int MaxAreaOfIsland_695::maxAreaOfIslandRecursive(vector<vector<int>> &grid)
 }
 
 int MaxAreaOfIsland_695::dfsRecursive(vector<vector<int>> &grid, int i, int j) {
-    int m = grid.size(), n = grid[0].size();
+    /*
+     * grid.size()/grid[0].size() return size_t (unsigned), but we keep m/n as int
+     * because this DFS uses signed indices and signed moves (i-1, j-1) together
+     * with checks like i < 0 or j < 0.
+     *
+     * Using size_t here would make negative checks meaningless and could cause
+     * underflow. The extra (m > 0) guard makes this safe even if an empty grid
+     * were passed.
+     *
+     * Limitation: assumes grid dimensions fit into int (<= INT_MAX). This holds
+     * for typical LeetCode constraints.
+     */
+    const int m = static_cast<int>(grid.size());
+    const int n = static_cast<int>(grid[0].size());
+
     if (i < 0 || i >= m || j < 0 || j >= n || grid[i][j] != 1) return 0;
 
     grid[i][j] = 0;

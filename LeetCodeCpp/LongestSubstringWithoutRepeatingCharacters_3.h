@@ -5,5 +5,5 @@ using namespace std;
 
 class LongestSubstringWithoutRepeatingCharacters_3 {
 public:
-    int lengthOfLongestSubstring(string s);
+    int lengthOfLongestSubstring(const string &s);
 };

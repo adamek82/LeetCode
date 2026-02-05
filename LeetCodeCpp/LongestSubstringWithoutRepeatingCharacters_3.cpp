@@ -40,9 +40,9 @@
  * Time:  O(n)
  * Space: O(1) for fixed 256 alphabet; otherwise O(min(n, alphabet)).
  */
-int LongestSubstringWithoutRepeatingCharacters_3::lengthOfLongestSubstring(string s)
+int LongestSubstringWithoutRepeatingCharacters_3::lengthOfLongestSubstring(const string &s)
 {
-    int n = s.size();
+    int n = static_cast<int>(s.size());
     // last occurrence of each ASCII char; initialized to -1
     vector<int> last(256, -1);
     int best = 0;

@@ -107,10 +107,11 @@
  * one of the two essential branches (skip from text1 vs skip from text2).
  * Dynamic programming systematically explores both, guaranteeing optimality.
  */
-int LongestCommonSubsequence_1143::longestCommonSubsequence(string text1, string text2)
+int LongestCommonSubsequence_1143::longestCommonSubsequence(const string& text1, const string& text2)
 {
-    int m = text1.size();
-    int n = text2.size();
+    // size() is size_t; keep m/n as int for signed indexing (i-1 / j-1) and DP loops.
+    int m = static_cast<int>(text1.size());
+    int n = static_cast<int>(text2.size());
 
     // DP table where dp[i][j] is the LCS of text1[0..i-1] and text2[0..j-1]
     vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));

@@ -2,8 +2,14 @@
 
 vector<vector<int>> PacificAtlanticWaterFlow_417::pacificAtlantic(vector<vector<int>> &heights)
 {
-    int rows = heights.size();
-    int cols = heights[0].size();
+    if (heights.empty() || heights[0].empty()) return {};
+
+    /*
+     * heights.size() is size_t; keep rows/cols as int because
+     * we use signed indices and (rows-1)/(cols-1).
+     */
+    const int rows = static_cast<int>(heights.size());
+    const int cols = static_cast<int>(heights[0].size());
 
     vector<vector<bool>> pacific(rows, vector<bool>(cols, false));
     vector<vector<bool>> atlantic(rows, vector<bool>(cols, false));
@@ -45,8 +51,24 @@ vector<vector<int>> PacificAtlanticWaterFlow_417::pacificAtlantic(vector<vector<
 void PacificAtlanticWaterFlow_417::bfs(const vector<vector<int>> &heights, queue<pair<int, int>> &q,
     vector<vector<bool>> &visited)
 {
-    int rows = heights.size();
-    int cols = heights[0].size();
+    /*
+     * Defensive guard: bfs() assumes a non-empty grid because it reads heights[0].size().
+     * The caller (pacificAtlantic) already checks for an empty input, but keeping this
+     * guard makes bfs() safe as a standalone helper and prevents accidental UB if it
+     * ever gets reused elsewhere.
+     *
+     * rows/cols are stored as int even though size() returns size_t, because this BFS
+     * uses signed coordinates and signed deltas (nx = x +/- 1, ny = y +/- 1) together
+     * with checks like nx >= 0. Using size_t here would complicate the logic and can
+     * lead to unsigned underflow bugs.
+     *
+     * Limitation: assumes grid dimensions fit into int (<= INT_MAX), which holds for
+     * typical LeetCode constraints.
+     */
+    if (heights.empty() || heights[0].empty()) return;
+
+    const int rows = static_cast<int>(heights.size());
+    const int cols = static_cast<int>(heights[0].size());
     vector<int> directions = {-1, 0, 1, 0, -1}; // Used to calculate neighbors
 
     while (!q.empty()) {

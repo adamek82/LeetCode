@@ -37,7 +37,9 @@
  */
 vector<int> ProductOfArrayExceptSelf::productExceptSelf(vector<int> &nums)
 {
-    int n = nums.size();
+    if (nums.empty()) return {};
+
+    const int n = static_cast<int>(nums.size());
     vector<int> result(n, 1);
 
     // Calculate prefix products
