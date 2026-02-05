@@ -544,38 +544,54 @@ public:
         }
 
         /*
-         * Follow-up: reconstruct one actual LIS and validate its properties.
-         * We can't assert exact sequence (there can be many LIS), so we assert:
-         *  - returned sequence is a subsequence of input
-         *  - strictly increasing
-         *  - its length equals the length returned by lengthOfLIS_* and expected
-         */
+        * Follow-up: reconstruct one actual LIS and validate its properties.
+        * We can't assert exact sequence (there can be many LIS), so we assert:
+        *  - returned sequence is a subsequence of input
+        *  - strictly increasing
+        *  - its length equals the length returned by lengthOfLIS_* and expected
+        */
         for (size_t i = 0; i < testCases.size(); ++i) {
             const vector<int>& nums = testCases[i].nums;
 
-            vector<int> lis = solution.getLIS_tails(nums);
+            vector<int> lis_tails = solution.getLIS_tails(nums);
+            vector<int> lis_dp    = solution.getLIS_dp(nums);
 
             // Length must match expected
-            assertEqScalar("LIS 300 FU [lis size == expected] Test " + to_string(i + 1),
-                           testCases[i].expected, (int)lis.size());
+            assertEqScalar("LIS 300 FU [tails seq size == expected] Test " + to_string(i + 1),
+                        testCases[i].expected, (int)lis_tails.size());
+            assertEqScalar("LIS 300 FU [dp seq size == expected] Test " + to_string(i + 1),
+                        testCases[i].expected, (int)lis_dp.size());
 
             // Must be strictly increasing
-            assertEqScalar("LIS 300 FU [strictly increasing] Test " + to_string(i + 1),
-                           true, isStrictlyIncreasing(lis));
+            assertEqScalar("LIS 300 FU [tails seq strictly increasing] Test " + to_string(i + 1),
+                        true, isStrictlyIncreasing(lis_tails));
+            assertEqScalar("LIS 300 FU [dp seq strictly increasing] Test " + to_string(i + 1),
+                        true, isStrictlyIncreasing(lis_dp));
 
             // Must be a subsequence of the original input
-            assertEqScalar("LIS 300 FU [is subsequence] Test " + to_string(i + 1),
-                           true, isSubsequence(lis, nums));
+            assertEqScalar("LIS 300 FU [tails seq is subsequence] Test " + to_string(i + 1),
+                        true, isSubsequence(lis_tails, nums));
+            assertEqScalar("LIS 300 FU [dp seq is subsequence] Test " + to_string(i + 1),
+                        true, isSubsequence(lis_dp, nums));
 
             // Cross-check with length-only methods (defensive consistency check)
             auto nums1 = testCases[i].nums;
             int got_tails = solution.lengthOfLIS_tails(nums1);
             int got_dp    = solution.lengthOfLIS_dp(testCases[i].nums);
 
-            assertEqScalar("LIS 300 FU [lis size == tails len] Test " + to_string(i + 1),
-                           got_tails, (int)lis.size());
-            assertEqScalar("LIS 300 FU [lis size == dp len]    Test " + to_string(i + 1),
-                           got_dp, (int)lis.size());
+            assertEqScalar("LIS 300 FU [tails seq size == tails len] Test " + to_string(i + 1),
+                        got_tails, (int)lis_tails.size());
+            assertEqScalar("LIS 300 FU [tails seq size == dp len]    Test " + to_string(i + 1),
+                        got_dp, (int)lis_tails.size());
+
+            assertEqScalar("LIS 300 FU [dp seq size == tails len] Test " + to_string(i + 1),
+                        got_tails, (int)lis_dp.size());
+            assertEqScalar("LIS 300 FU [dp seq size == dp len]    Test " + to_string(i + 1),
+                        got_dp, (int)lis_dp.size());
+
+            // Both reconstructions must have the same length (sequence can differ)
+            assertEqScalar("LIS 300 FU [tails seq size == dp seq size] Test " + to_string(i + 1),
+                        (int)lis_tails.size(), (int)lis_dp.size());
         }
     }
 

@@ -13,4 +13,7 @@ public:
 
     // O(N log N) tails + parent pointers (reconstruct one actual LIS)
     vector<int> getLIS_tails(const vector<int>& nums);
+
+    // O(N^2) DP + parent pointers (reconstruct one actual LIS)
+    vector<int> getLIS_dp(const vector<int>& nums);
 };

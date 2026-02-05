@@ -276,3 +276,48 @@ vector<int> LongestIncreasingSubsequence_300::getLIS_tails(const vector<int>& nu
     reverse(lis.begin(), lis.end());
     return lis;
 }
+
+/*
+ * Longest Increasing Subsequence — O(N^2) DP (reconstruct one LIS)
+ * ---------------------------------------------------------------
+ * Extend the classic dp[i] = best LIS length ending at i by also tracking:
+ *   prev[i] = predecessor index for that best chain ending at i.
+ *
+ * When dp[i] improves via j (nums[j] < nums[i] and dp[j]+1 > dp[i]),
+ * we set prev[i] = j. After filling DP, pick bestEnd = argmax dp[i]
+ * and follow prev[] backwards to reconstruct one LIS.
+ *
+ * Time:  O(N^2)
+ * Space: O(N)
+ */
+vector<int> LongestIncreasingSubsequence_300::getLIS_dp(const vector<int>& nums)
+{
+    const int n = (int)nums.size();
+    if (n == 0) return {};
+
+    vector<int> dp(n, 1);
+    vector<int> prev(n, -1);
+
+    int bestLen = 1;
+    int bestEnd = 0;
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < i; ++j) {
+            if (nums[j] < nums[i] && dp[j] + 1 > dp[i]) {
+                dp[i] = dp[j] + 1;
+                prev[i] = j;
+            }
+        }
+        if (dp[i] > bestLen) {
+            bestLen = dp[i];
+            bestEnd = i;
+        }
+    }
+
+    vector<int> lis;
+    for (int cur = bestEnd; cur != -1; cur = prev[cur]) {
+        lis.push_back(nums[cur]);
+    }
+    reverse(lis.begin(), lis.end());
+    return lis;
+}
