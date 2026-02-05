@@ -509,8 +509,6 @@ public:
             {"abcdefghijklmnopqrst", "zyxwvutsrqponmlkjih", 1} // No common subsequence
         };
 
-        LongestCommonSubsequence_1143 solution;
-
         LongestCommonSubsequence_1143 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = sol.longestCommonSubsequence(testCases[i].text1, testCases[i].text2);

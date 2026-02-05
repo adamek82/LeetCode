@@ -70,7 +70,7 @@ struct VectorHash {
 
 vector<string> AnalyzeUserWebsiteVisitPattern1152::mostVisitedPattern_usingHashmap(vector<string> &username, vector<int> &timestamp, vector<string> &website)
 {
-    int n = username.size();
+    int n = static_cast<int>(username.size());
     vector<tuple<int, string, string>> visits; // {timestamp, username, website}
 
     // Step 1: Collect and sort visits by timestamp
@@ -89,7 +89,7 @@ vector<string> AnalyzeUserWebsiteVisitPattern1152::mostVisitedPattern_usingHashm
     unordered_map<vector<string>, unordered_set<string>, VectorHash> patternCount;
 
     for (const auto& [user, sites] : userVisits) {
-        int m = sites.size();
+        int m = static_cast<int>(sites.size());
         if (m < 3) continue; // User must have visited at least 3 sites
 
         set<vector<string>> uniquePatterns; // To avoid duplicate 3-sequences per user
@@ -112,7 +112,7 @@ vector<string> AnalyzeUserWebsiteVisitPattern1152::mostVisitedPattern_usingHashm
     int maxUsers = 0;
 
     for (const auto& [pattern, users] : patternCount) {
-        int count = users.size();
+        int count = static_cast<int>(users.size());
         if (count > maxUsers || (count == maxUsers && pattern < result)) {
             maxUsers = count;
             result = pattern;

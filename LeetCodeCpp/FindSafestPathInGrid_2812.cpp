@@ -2,7 +2,19 @@
 #include <queue>
 
 int FindSafestPathInGrid_2812::maximumSafenessFactor(vector<vector<int>>& grid) {
-    int n = grid.size();
+    /*
+    * grid.size() returns size_t (unsigned). We intentionally store n as int because
+    * this algorithm uses signed coordinates and signed deltas (dr/dc), e.g.:
+    *   int nr = r + dr;  if (nr < 0) ...
+    *
+    * Keeping n as size_t would either:
+    *  - force r/c/nr/nc to become unsigned (making "nr < 0" meaningless), or
+    *  - require frequent casts between signed/unsigned, which is noisy and error-prone.
+    *
+    * Limitation: this assumes grid.size() fits into int (<= INT_MAX). For this problem
+    * n is small, so the cast is safe in practice.
+    */
+    int n = static_cast<int>(grid.size());
     vector<vector<int>> dist(n, vector<int>(n, INF));
     queue<pii> q;
 

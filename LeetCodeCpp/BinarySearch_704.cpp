@@ -124,7 +124,20 @@
  */
 int BinarySearch_704::search(vector<int> &nums, int target)
 {
-    int left = 0, right = nums.size() - 1;
+    int left = 0;
+    /*
+    * nums.size() returns size_t (unsigned). If we did: nums.size() - 1,
+    * the subtraction would happen in unsigned arithmetic and for an empty
+    * vector (size == 0) it would underflow to a huge value (SIZE_MAX).
+    *
+    * By casting first, (int)0 - 1 becomes -1, so for an empty vector we get:
+    *   left = 0, right = -1  -> the loop "while (left <= right)" won't run.
+    *
+    * Limitation: this assumes nums.size() fits into int. If the container
+    * could have more than INT_MAX elements, the cast may overflow / lose data.
+    * (In typical interview / LeetCode constraints this is fine.)
+    */
+    int right = static_cast<int>(nums.size())- 1;
 
     while (left <= right) {
         int mid = left + (right - left) / 2; // Prevents overflow

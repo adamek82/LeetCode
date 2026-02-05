@@ -3,7 +3,7 @@
 #include <unordered_map>
 
 template <typename T>
-struct GraphNode;
+class GraphNode;
 
 using namespace std;
 

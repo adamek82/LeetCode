@@ -22,7 +22,7 @@ bool FindIfPathExistsInGraph_1971::validPathRecursiveDFS(int n, const vector<vec
     return recursive_dfs(source, destination, graph, visited);
 }
 
-bool FindIfPathExistsInGraph_1971::validPathIterativeDFS(int n, const vector<vector<int>> &edges, int source, int destination)
+bool FindIfPathExistsInGraph_1971::validPathIterativeDFS([[maybe_unused]] int n, const vector<vector<int>> &edges, int source, int destination)
 {
     if (source == destination) return true;
 
@@ -56,7 +56,7 @@ bool FindIfPathExistsInGraph_1971::validPathIterativeDFS(int n, const vector<vec
     return false;
 }
 
-bool FindIfPathExistsInGraph_1971::validPathBFS(int n, const vector<vector<int>> &edges, int source, int destination)
+bool FindIfPathExistsInGraph_1971::validPathBFS([[maybe_unused]] int n, const vector<vector<int>> &edges, int source, int destination)
 {
     if (source == destination) return true;
 

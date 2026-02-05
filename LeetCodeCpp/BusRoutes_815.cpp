@@ -25,8 +25,8 @@ int BusRoutes_815::numBusesToDestination(vector<vector<int>> &routes, int source
 
     while (!q.empty()) {
         ++busesTaken;                       // we are about to board one more bus
-        int sz = q.size();
-        while (sz--) {
+        size_t sz = q.size();
+        for (size_t i = 0; i < sz; ++i) {
             int stop = q.front(); q.pop();
 
             for (int bus : stop2bus[stop]) {

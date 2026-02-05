@@ -97,7 +97,8 @@
 
 int FindMinimumInRotatedSortedArray_153::findMin(vector<int> &nums)
 {
-    int left = 0, right = nums.size() - 1;
+    int left = 0;
+    int right = static_cast<int>(nums.size()) - 1;
 
     // Binary search loop
     while (left < right) {

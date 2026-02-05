@@ -47,8 +47,17 @@
  */
 void GameOfLife_289::gameOfLife(vector<vector<int>> &board)
 {
-    const int m = board.size();
-    const int n = m>0 ? board[0].size() : 0;
+    /*
+    * board.size()/board[0].size() return size_t (unsigned), but we keep m/n as int
+    * because the neighbor iteration uses signed arithmetic (i-1 / j-1) and bounds
+    * like max(i-1, 0) and min(i+2, m). Using size_t would make negative indices
+    * underflow and would require lots of casts.
+    *
+    * Limitation: assumes dimensions fit into int (<= INT_MAX). For LeetCode boards
+    * this is safe in practice.
+    */
+    const int m = static_cast<int>(board.size());
+    const int n = (m > 0) ? static_cast<int>(board[0].size()) : 0;
     for (int i=0; i<m; ++i) {
         for (int j=0; j<n; ++j) {
             // count live cells in the 3x3 block

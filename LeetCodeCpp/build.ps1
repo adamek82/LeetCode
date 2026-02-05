@@ -100,7 +100,11 @@ $commonFlags = @(
     '/std:c++20',
     '/EHsc',
     '/nologo',
-    '/FS'
+    '/FS',
+    '/W4',
+    '/permissive-',
+    '/external:anglebrackets',
+    '/external:W0'
 )
 
 # Debug vs Release flags

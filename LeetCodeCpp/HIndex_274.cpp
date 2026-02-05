@@ -53,7 +53,8 @@
  */
 int HIndex_274::hIndex(vector<int> &citations)
 {
-    int n = citations.size();
+    // citations.size() is size_t; we keep n as int because we use it in signed math and indexing (min(c,n), h--).
+    int n = static_cast<int>(citations.size());
     vector<int> counts(n + 1, 0);
 
     // Bucket each citation count into counts[min(c, n)].
