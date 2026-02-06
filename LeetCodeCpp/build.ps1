@@ -367,9 +367,13 @@ foreach ($file in $cppFiles) {
             $deps = New-Object System.Collections.Generic.HashSet[string] ([StringComparer]::OrdinalIgnoreCase)
 
             foreach ($line in $output) {
+                # /showIncludes output is not stable across MSVC versions and localization packs.
+                # Different toolset builds may use different wording (even in the same language),
+                # so the regex intentionally matches multiple EN/PL variants seen in the wild.
                 # Example (EN): "Note: including file:  C:\path\to\header.h"
                 # Example (PL): "Uwaga: uwzględniono plik:  C:\path\to\header.h"
-                if ($line -match '^(?:Note|Uwaga)\s*:\s*(?:including file|uwzględniono plik)\s*:\s*(.+)$') {
+                # Example (PL): "Uwaga: w tym pliku:  C:\path\to\header.h"
+                if ($line -match '^(?:Note|Uwaga)\s*:\s*(?:including file|uwzględniono plik|w tym pliku)\s*:\s*(.+)$') {
                     $p = $matches[1].Trim()
                     if ($p) {
                         try {
