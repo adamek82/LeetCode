@@ -31,7 +31,9 @@
  */
 bool WildcardMatching_44::isMatch(string s, string p)
 {
-    int m = s.size(), n = p.size();
+    const int m = static_cast<int>(s.size());
+    const int n = static_cast<int>(p.size());
+
     int i = 0, j = 0;        // cursors in s and p
     int starIdx = -1;        // last position of '*' in p
     int matchIdx = -1;       // position in s that the last '*' covers

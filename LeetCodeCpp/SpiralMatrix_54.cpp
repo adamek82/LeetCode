@@ -36,9 +36,15 @@
  */
 vector<int> SpiralMatrix_54::spiralOrder(vector<vector<int>> &matrix)
 {
-    int m = matrix.size();
-    int n = matrix[0].size();
+    if (matrix.empty() || matrix[0].empty()) {
+        return {};
+    }
+
+    const int m = static_cast<int>(matrix.size());
+    const int n = static_cast<int>(matrix[0].size());
+
     vector<int> ans;
+    ans.reserve(static_cast<size_t>(m) * static_cast<size_t>(n));
 
     const int Visited = numeric_limits<int>::max(); // Mark visited cells with MAX_INT
 
@@ -47,7 +53,7 @@ vector<int> SpiralMatrix_54::spiralOrder(vector<vector<int>> &matrix)
     int currRow = 0, currCol = 0;
 
     // Loop until all elements are collected
-    while (ans.size() < m * n) {
+    while (ans.size() < static_cast<size_t>(m) * static_cast<size_t>(n)) {
         ans.push_back(matrix[currRow][currCol]);
         matrix[currRow][currCol] = Visited; // Mark the cell as visited
 

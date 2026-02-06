@@ -4,7 +4,9 @@
 
 int ShortestPathInBinaryMatrix_1091::shortestPathBinaryMatrix(vector<vector<int>> &grid)
 {
-    const int n = grid.size();
+    if (grid.empty() || grid[0].empty()) return -1;
+
+    const int n = static_cast<int>(grid.size());
     if (n == 0 || grid[0][0] || grid[n - 1][n - 1]) return -1;
 
     /*  queue seeded with the start cell (0,0) in one shot             */

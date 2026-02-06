@@ -146,7 +146,8 @@
  */
 int SearchInsertPosition_35::searchInsert(vector<int> &nums, int target)
 {
-    int left = 0, right = nums.size() - 1;
+    int left = 0;
+    int right = static_cast<int>(nums.size()) - 1; // safe even for empty: 0 - 1 => -1
 
     while (left <= right) {
         int mid = left + (right - left) / 2; // Prevents overflow

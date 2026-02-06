@@ -26,7 +26,9 @@
  */
 int MinCostToConnectAllPoints_1584::minCostConnectPointsHeap(vector<vector<int>> &points)
 {
-    int n = points.size();
+    const int n = static_cast<int>(points.size());
+    if (n == 0) return 0;
+
     vector<bool> inMST(n, false); // Tracks if a point is already in the MST
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;
     // Min-heap to store (cost, point_index)

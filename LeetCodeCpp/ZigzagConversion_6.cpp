@@ -57,8 +57,11 @@ string ZigzagConversion_6::convert_rowWise(string s, int numRows)
  */
 
 string ZigzagConversion_6::convert_jumpPattern(string s, int numRows) {
-    if (numRows == 1) return s;
-    int N = s.size(), d = (numRows - 1) * 2;
+    if (numRows <= 1) return s;
+
+    const int N = static_cast<int>(s.size());
+    const int d = (numRows - 1) * 2;
+
     string ans;
     for (int i = 0; i < numRows; ++i) {
         int w = 2 * i;

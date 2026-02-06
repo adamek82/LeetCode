@@ -2,7 +2,12 @@
 
 int UniquePathsII_63::uniquePathsWithObstacles(vector<vector<int>> &grid)
 {
-    int m = grid.size(), n = grid[0].size();
+    if (grid.empty() || grid[0].empty()) {
+        return 0;
+    }
+
+    const int m = static_cast<int>(grid.size());
+    const int n = static_cast<int>(grid[0].size());
 
     for (int i = 0; i < m; ++i) {
         for (int j = 0; j < n; ++j) {

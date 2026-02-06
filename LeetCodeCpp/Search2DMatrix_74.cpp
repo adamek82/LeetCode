@@ -2,8 +2,13 @@
 
 bool Search2DMatrix_74::searchMatrix(vector<vector<int>> &matrix, int target)
 {
-    int m = matrix.size();
-    int n = matrix[0].size();
+    if (matrix.empty() || matrix[0].empty()) {
+        return false;
+    }
+
+    const int m = static_cast<int>(matrix.size());
+    const int n = static_cast<int>(matrix[0].size());
+
     int left = 0, right = m * n - 1;
 
     while (left <= right) {

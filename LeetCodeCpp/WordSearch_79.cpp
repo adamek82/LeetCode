@@ -41,8 +41,11 @@
  */
 bool WordSearch_79::exist(vector<vector<char>> &board, string word)
 {
-    int rows = board.size();
-    int cols = board[0].size();
+    if (word.empty()) return true;         // empty word is trivially found
+    if (board.empty() || board[0].empty()) return false;
+
+    const int rows = static_cast<int>(board.size());
+    const int cols = static_cast<int>(board[0].size());
 
     // Iterate through each cell in the board
     for (int i = 0; i < rows; ++i) {
