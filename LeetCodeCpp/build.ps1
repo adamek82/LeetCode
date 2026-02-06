@@ -14,6 +14,12 @@
 #     System headers almost never change and checking them would be expensive.
 #   - We skip the link step if nothing was recompiled.
 #   - We regenerate compile_commands.json only when sources have changed since last gen.
+#
+# Visual Studio discovery notes:
+#   - We DO NOT hardcode vcvars64.bat path.
+#   - We discover it once via vswhere.exe and cache it under .vscode\vcvars64_path.txt
+#   - We cache the vcvars environment under .vscode\vcvars_env.ps1
+#   - We auto-regenerate vcvars_env.ps1 when vcvars64.bat changes (stamp file).
 
 param(
     # Base build directory (config subdirs will be created under it)
@@ -25,10 +31,8 @@ param(
 )
 
 $ProjectRoot = (Resolve-Path -LiteralPath $PSScriptRoot).Path
-
-$vcvars64  = "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat"
-$vscodeDir = Join-Path $PSScriptRoot ".vscode"   # only cache/config, not build outputs
-$cppFiles  = Get-ChildItem -Path $PSScriptRoot -Filter "*.cpp"
+$vscodeDir   = Join-Path $PSScriptRoot ".vscode"   # only cache/config, not build outputs
+$cppFiles    = Get-ChildItem -Path $PSScriptRoot -Filter "*.cpp"
 
 # Resolve BuildDir (relative -> under project root)
 if (![System.IO.Path]::IsPathRooted($BuildDir)) {
@@ -42,7 +46,129 @@ if (!(Test-Path $BuildDir))  { New-Item -ItemType Directory -Path $BuildDir  | O
 # Normalize BuildDir to an absolute path
 $BuildDir = (Resolve-Path -LiteralPath $BuildDir).Path
 
-# Config-specific build root
+# -----------------------------------------------------------------------------
+# Locate vcvars64.bat once (fast path: cached), otherwise discover via vswhere
+# Cache file: .vscode\vcvars64_path.txt
+# -----------------------------------------------------------------------------
+
+$vcvarsPathCache = Join-Path $vscodeDir "vcvars64_path.txt"
+
+function Resolve-VswherePath {
+    # vswhere is normally installed here for VS 2017+ (including Build Tools).
+    $candidates = @(
+        (Join-Path ${env:ProgramFiles(x86)} "Microsoft Visual Studio\Installer\vswhere.exe"),
+        (Join-Path ${env:ProgramFiles}       "Microsoft Visual Studio\Installer\vswhere.exe")
+    ) | Where-Object { $_ -and $_.Trim().Length -gt 0 } | Select-Object -Unique
+
+    foreach ($p in $candidates) {
+        if (Test-Path -LiteralPath $p) { return $p }
+    }
+
+    return $null
+}
+
+function Resolve-Vcvars64Path {
+    param(
+        [string]$CacheFile
+    )
+
+    # 1) Fast path: cached and still valid
+    if (Test-Path -LiteralPath $CacheFile) {
+        $p = (Get-Content -LiteralPath $CacheFile -ErrorAction SilentlyContinue | Select-Object -First 1).Trim()
+        if ($p -and (Test-Path -LiteralPath $p)) {
+            return $p
+        }
+    }
+
+    # 2) Discover via vswhere (official VS locator)
+    $vswhere = Resolve-VswherePath
+    if (!$vswhere) {
+        throw "vswhere.exe not found. Install Visual Studio / Build Tools 2017+ (C++ workload) first."
+    }
+
+    # -latest: pick the most recent instance (Community/Pro/Enterprise/BuildTools)
+    # -requires: ensure the VC x86/x64 toolchain is installed
+    # -products *: include Build Tools
+    $vsInstallPath = & $vswhere `
+        -latest `
+        -products * `
+        -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 `
+        -property installationPath
+
+    if (!$vsInstallPath) {
+        throw "No Visual Studio instance with 'VC Tools x86/x64' found. Install workload: Desktop development with C++."
+    }
+
+    $candidate = Join-Path $vsInstallPath "VC\Auxiliary\Build\vcvars64.bat"
+    if (!(Test-Path -LiteralPath $candidate)) {
+        throw "vcvars64.bat not found at: $candidate"
+    }
+
+    # 3) Write cache (single line, ASCII is enough for Windows paths)
+    Set-Content -LiteralPath $CacheFile -Value $candidate -Encoding ASCII
+    return $candidate
+}
+
+$vcvars64 = Resolve-Vcvars64Path -CacheFile $vcvarsPathCache
+
+# -----------------------------------------------------------------------------
+# vcvars environment cache:
+#   .vscode\vcvars_env.ps1 + stamp that tracks vcvars64.bat mtime
+# -----------------------------------------------------------------------------
+
+$vcvarsCache = Join-Path $vscodeDir "vcvars_env.ps1"
+$vcvarsStamp = Join-Path $vscodeDir "vcvars_env.stamp.txt"
+
+function Get-VcvarsStampValue {
+    param([string]$VcvarsBatPath)
+    return (Get-Item -LiteralPath $VcvarsBatPath).LastWriteTimeUtc.Ticks.ToString()
+}
+
+$needVcvarsEnvRegen = $true
+if ((Test-Path -LiteralPath $vcvarsCache) -and (Test-Path -LiteralPath $vcvarsStamp)) {
+    $cachedStamp  = (Get-Content -LiteralPath $vcvarsStamp -ErrorAction SilentlyContinue | Select-Object -First 1).Trim()
+    $currentStamp = Get-VcvarsStampValue -VcvarsBatPath $vcvars64
+    if ($cachedStamp -eq $currentStamp) {
+        $needVcvarsEnvRegen = $false
+    }
+}
+
+if ($needVcvarsEnvRegen) {
+    Write-Host "Generating vcvars environment cache (this should happen only after VS updates or first run)..."
+
+    # Snapshot environment before and after vcvars.
+    cmd.exe /c "set" >  (Join-Path $vscodeDir "before_vcvars.txt")
+    cmd.exe /c "call `"$vcvars64`" && set" > (Join-Path $vscodeDir "after_vcvars.txt")
+
+    # Persist only variables that changed as Set-Item commands.
+    Compare-Object `
+      (Get-Content (Join-Path $vscodeDir "before_vcvars.txt")) `
+      (Get-Content (Join-Path $vscodeDir "after_vcvars.txt")) |
+      Where-Object { $_.SideIndicator -eq '=>' } |
+      ForEach-Object {
+          if ($_.InputObject -match "^(.*?)=(.*)$") {
+              "Set-Item -Path env:$($matches[1]) -Value `"$($matches[2])`""
+          }
+      } | Out-File -Encoding ASCII $vcvarsCache
+
+    # Stamp so we can cheaply detect when vcvars changes.
+    $stampValue = Get-VcvarsStampValue -VcvarsBatPath $vcvars64
+    Set-Content -LiteralPath $vcvarsStamp -Value $stampValue -Encoding ASCII
+
+    Remove-Item `
+      (Join-Path $vscodeDir "before_vcvars.txt"), `
+      (Join-Path $vscodeDir "after_vcvars.txt") `
+      -ErrorAction SilentlyContinue
+}
+
+# Load cached vcvars environment
+Write-Host "Loading cached vcvars environment..."
+. $vcvarsCache
+
+# -----------------------------------------------------------------------------
+# Build directory layout (config-specific)
+# -----------------------------------------------------------------------------
+
 $ConfigBuildDir = Join-Path $BuildDir $Config
 if (!(Test-Path $ConfigBuildDir)) { New-Item -ItemType Directory -Path $ConfigBuildDir | Out-Null }
 
@@ -64,40 +190,13 @@ $compiledAny = $false
 # Start timing
 $startTime = [System.Diagnostics.Stopwatch]::StartNew()
 
-# vcvars environment cache path
-$vcvarsCache = Join-Path $vscodeDir "vcvars_env.ps1"
-
-# Generate and cache vcvars environment if missing
-if (!(Test-Path $vcvarsCache)) {
-    Write-Host "Generating vcvars environment cache..."
-    cmd.exe /c "set" >  (Join-Path $vscodeDir "before_vcvars.txt")
-    cmd.exe /c "call `"$vcvars64`" && set" > (Join-Path $vscodeDir "after_vcvars.txt")
-
-    Compare-Object `
-      (Get-Content (Join-Path $vscodeDir "before_vcvars.txt")) `
-      (Get-Content (Join-Path $vscodeDir "after_vcvars.txt")) |
-      Where-Object { $_.SideIndicator -eq '=>' } |
-      ForEach-Object {
-          if ($_.InputObject -match "^(.*?)=(.*)$") {
-              "Set-Item -Path env:$($matches[1]) -Value `"$($matches[2])`""
-          }
-      } | Out-File -Encoding ASCII $vcvarsCache
-
-    Remove-Item `
-      (Join-Path $vscodeDir "before_vcvars.txt"), `
-      (Join-Path $vscodeDir "after_vcvars.txt")
-}
-
-# Load cached vcvars environment
-Write-Host "Loading cached vcvars environment..."
-. $vcvarsCache
-
 # Shared compiler PDB per config (so /Zi does not spill vc*.pdb into the project root)
 $compilerPdb = Join-Path $ConfigBuildDir "vc_compile.pdb"
 
 # --- Determine flags per configuration ---
 $commonFlags = @(
-    '/std:c++20',
+    # Use /std:c++latest to pick up the newest language mode supported by the installed MSVC.
+    '/std:c++latest',
     '/EHsc',
     '/nologo',
     '/FS',
@@ -134,7 +233,7 @@ if ($Config -eq "Debug") {
     )
 }
 
-# --- Include/define flags (explicit, so we don't rely on environment magic) ---
+# --- Include/define flags (explicit, so we don't rely on "environment magic") ---
 $includeFlags = @()
 if ($env:INCLUDE) {
     $includeFlags = $env:INCLUDE.Split(';') |
@@ -293,7 +392,7 @@ foreach ($file in $cppFiles) {
             # Write one dependency per line (ASCII is enough for Windows paths).
             Set-Content -LiteralPath $depFile -Value ($deps | Sort-Object) -Encoding ASCII
 
-        } -ArgumentList $file, $objFile, $depFile, $compilerPdb, $commonFlags, $configFlags, $includeFlags, $defineFlags, $projectRoot
+        } -ArgumentList $file, $objFile, $depFile, $compilerPdb, $commonFlags, $configFlags, $includeFlags, $defineFlags, $ProjectRoot
 
         $jobs += $job
     } else {
