@@ -165,6 +165,11 @@ if ($needVcvarsEnvRegen) {
 Write-Host "Loading cached vcvars environment..."
 . $vcvarsCache
 
+# Prefer English MSVC tool output (helps with log consistency and copy/paste to search engines).
+# This is best-effort: it only works if the English language pack/resources are installed.
+# Note: this is inherited by Start-Job child processes as well.
+$env:VSLANG = "1033"
+
 # -----------------------------------------------------------------------------
 # Build directory layout (config-specific)
 # -----------------------------------------------------------------------------
