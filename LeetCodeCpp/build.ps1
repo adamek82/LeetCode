@@ -434,6 +434,10 @@ $exeOut  = Join-Path $ConfigBuildDir "TestsRunner.exe"
 if ($compiledAny -or !(Test-Path $exeOut)) {
     Write-Host "Linking executable (via response file)..."
 
+    # Resolve linker path explicitly to avoid accidental PATH collisions
+    # (e.g., other toolchains installing their own link.exe).
+    $linkPath = (Get-Command link.exe).Source
+
     $linkRsp = Join-Path $ConfigBuildDir "link.rsp"
     $pdbOut  = Join-Path $ConfigBuildDir "TestsRunner.pdb"
     $ilkOut  = Join-Path $ConfigBuildDir "TestsRunner.ilk"
@@ -451,7 +455,7 @@ if ($compiledAny -or !(Test-Path $exeOut)) {
     Set-Content -Path $linkRsp -Value ($lines -join [Environment]::NewLine) -Encoding ASCII
 
     # Run the linker with the RSP
-    cmd.exe /c "link.exe /nologo @`"$linkRsp`""
+    cmd.exe /c "`"$linkPath`" /nologo @`"$linkRsp`""
 } else {
     Write-Host "Link step skipped (no compilation, executable already exists)."
 }
