@@ -133,6 +133,38 @@ int LongestCommonSubsequence_1143::longestCommonSubsequence(const string& text1,
     return dp[m][n];
 }
 
+/*
+ * Space-Optimized LCS Length (Two-Row DP):
+ * ---------------------------------------
+ * This function computes only the LCS *length* using the same recurrence as the full
+ * m×n DP table, but reduces memory by keeping just two rows:
+ *
+ *   - prev[j] represents dp[i-1][j] (the previous DP row)
+ *   - cur[j]  represents dp[i][j]   (the current DP row)
+ *
+ * For each cell (i, j), the transition needs only:
+ *   dp[i-1][j-1] -> prev[j-1]   (diagonal)
+ *   dp[i-1][j]   -> prev[j]     (up)
+ *   dp[i][j-1]   -> cur[j-1]    (left, already computed in the current row)
+ *
+ * Memory minimization trick:
+ *   We choose the *shorter* string as the "columns" dimension so the row vectors have
+ *   size n+1 where n = min(|text1|, |text2|). This makes space O(min(m, n)).
+ *
+ * Row turnover:
+ *   After finishing a row i, we do:
+ *
+ *       swap(prev, cur);
+ *
+ *   This is intentionally efficient: for std::vector, swap() is effectively O(1) because
+ *   it swaps internal buffers/pointers (and sizes), rather than copying n elements.
+ *   Using `prev = cur;` would cost O(n) per row and adds avoidable overhead.
+ *
+ * Note:
+ *   This optimization preserves the LCS length, but it does not preserve enough
+ *   information to reconstruct an actual LCS string (for that, keep the full table
+ *   or use Hirschberg/backpointers).
+ */
 int LongestCommonSubsequence_1143::longestCommonSubsequenceTwoRows(
     const string& text1, const string& text2)
 {
@@ -163,6 +195,36 @@ int LongestCommonSubsequence_1143::longestCommonSubsequenceTwoRows(
     return prev[n];
 }
 
+/*
+ * LCS Reconstruction (Return the actual subsequence string):
+ * ---------------------------------------------------------
+ * Difference vs the length-only version:
+ *   We still build the same dp[i][j] table of LCS lengths, but instead of returning
+ *   dp[m][n] directly, we *backtrack* through dp to recover one concrete LCS.
+ *
+ * Why the full dp table is needed:
+ *   Backtracking needs to compare dp[i-1][j] and dp[i][j-1] to decide which way
+ *   an optimal solution came from. With only two rows (space-optimized DP), those
+ *   historical choices are not available, so straightforward reconstruction is lost.
+ *
+ * Backtracking rule (walk from (m, n) to (0, 0)):
+ *   - If text1[i-1] == text2[j-1]:
+ *       This character is part of an LCS. Append it and move diagonally: (i--, j--).
+ *   - Else:
+ *       Move to the neighbor cell that preserves the optimal length:
+ *         if dp[i-1][j] >= dp[i][j-1] -> move up (i--)
+ *         else                        -> move left (j--)
+ *
+ * Tie-breaking detail:
+ *   The `>=` rule makes reconstruction deterministic but not unique. When both
+ *   neighbors have the same value, either move is valid and may produce a different
+ *   (still optimal) LCS string.
+ *
+ * Output assembly:
+ *   We collect matched characters while walking backwards, so they are appended in
+ *   reverse order. We therefore reserve dp[m][n] capacity up front and reverse() at
+ *   the end to return the correct forward LCS.
+ */
 string LongestCommonSubsequence_1143::longestCommonSubsequenceString(
     const string& text1, const string& text2)
 {
