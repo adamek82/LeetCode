@@ -7,4 +7,7 @@ class LongestCommonSubsequence_1143 {
 public:
     int longestCommonSubsequence(const string& text1, const string& text2);
     string longestCommonSubsequenceString(const string& text1, const string& text2);
+
+    // Space-optimized length-only DP: keeps only 2 rows (O(min(m,n)) memory).
+    int longestCommonSubsequenceTwoRows(const string& text1, const string& text2);
 };

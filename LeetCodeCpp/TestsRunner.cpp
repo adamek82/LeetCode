@@ -516,6 +516,9 @@ public:
             int gotLen = sol.longestCommonSubsequence(tc.text1, tc.text2);
             assertEqScalar("LCS 1143 Test " + to_string(i + 1), tc.expected, gotLen);
 
+            int gotLen2 = sol.longestCommonSubsequenceTwoRows(tc.text1, tc.text2);
+            assertEqScalar("LCS 1143 [2rows] Test " + to_string(i + 1), tc.expected, gotLen2);
+
             string gotStr = sol.longestCommonSubsequenceString(tc.text1, tc.text2);
 
             assertEqScalar("LCS 1143 [string] len Test " + to_string(i + 1),
