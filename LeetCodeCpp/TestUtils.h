@@ -95,6 +95,9 @@ bool isStrictlyIncreasing(const vector<int>& v);
 // Returns true if `sub` is a subsequence of `full` (in-order, not necessarily contiguous).
 bool isSubsequence(const vector<int>& sub, const vector<int>& full);
 
+// Returns true if `sub` is a subsequence of `full` (in-order, not necessarily contiguous).
+bool isSubsequenceStr(const string& sub, const string& full);
+
 /* ===========================================================
  * Assert & log shortcuts (print PASS/FAIL + diff on mismatch)
  * =========================================================== */

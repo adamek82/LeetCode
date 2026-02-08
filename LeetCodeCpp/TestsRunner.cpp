@@ -511,8 +511,21 @@ public:
 
         LongestCommonSubsequence_1143 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = sol.longestCommonSubsequence(testCases[i].text1, testCases[i].text2);
-            assertEqScalar("LCS 1143 Test " + to_string(i + 1), testCases[i].expected, got);
+            const auto& tc = testCases[i];
+
+            int gotLen = sol.longestCommonSubsequence(tc.text1, tc.text2);
+            assertEqScalar("LCS 1143 Test " + to_string(i + 1), tc.expected, gotLen);
+
+            string gotStr = sol.longestCommonSubsequenceString(tc.text1, tc.text2);
+
+            assertEqScalar("LCS 1143 [string] len Test " + to_string(i + 1),
+                           tc.expected, static_cast<int>(gotStr.size()));
+
+            assertEqScalar("LCS 1143 [string] subseq(text1) Test " + to_string(i + 1),
+                           true, isSubsequenceStr(gotStr, tc.text1));
+
+            assertEqScalar("LCS 1143 [string] subseq(text2) Test " + to_string(i + 1),
+                           true, isSubsequenceStr(gotStr, tc.text2));
         }
     }
 

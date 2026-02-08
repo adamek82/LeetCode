@@ -130,6 +130,14 @@ bool isSubsequence(const vector<int>& sub, const vector<int>& full) {
     return j == sub.size();
 }
 
+bool isSubsequenceStr(const string& sub, const string& full) {
+    size_t j = 0;
+    for (size_t i = 0; i < full.size() && j < sub.size(); ++i) {
+        if (full[i] == sub[j]) ++j;
+    }
+    return j == sub.size();
+}
+
 /* --------------------- Assert + logging ------------------- */
 
 bool assertApprox(const string& label,
