@@ -111,6 +111,19 @@ bool assertEqVIntPrefix(const string& label,
                         const vector<int>& vec, int k);
 
 /* ===========================================================
+ * Probability / statistics helpers
+ * =========================================================== */
+
+// Returns true if `got` is a permutation of `expected` (multiset equality).
+// This is handy for problems where output order may vary but elements must match.
+bool isPermutationVecInt(const vector<int>& expected,
+                         const vector<int>& got);
+
+// Pearson chi-square statistic for discrete categories with equal expectation.
+// X = sum_i (obs[i] - expectedEach)^2 / expectedEach
+double chiSquare(const vector<long long>& obs, double expectedEach);
+
+/* ===========================================================
  * Generic assertion core & thin wrappers (inline)
  * =========================================================== */
 

@@ -138,6 +138,27 @@ bool isSubsequenceStr(const string& sub, const string& full) {
     return j == sub.size();
 }
 
+/* ---------------- Probability / statistics --------------- */
+
+bool isPermutationVecInt(const vector<int>& expected,
+                         const vector<int>& got) {
+    if (expected.size() != got.size()) return false;
+    auto a = expected;
+    auto b = got;
+    sort(a.begin(), a.end());
+    sort(b.begin(), b.end());
+    return a == b;
+}
+
+double chiSquare(const vector<long long>& obs, double expectedEach) {
+    double X = 0.0;
+    for (long long c : obs) {
+        const double diff = double(c) - expectedEach;
+        X += (diff * diff) / expectedEach;
+    }
+    return X;
+}
+
 /* --------------------- Assert + logging ------------------- */
 
 bool assertApprox(const string& label,

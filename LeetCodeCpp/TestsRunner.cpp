@@ -163,6 +163,7 @@
 #include "DesignHashMap_706.h"
 #include "InsertGreatestCommonDivisors_2807.h"
 #include "TwoSumLessThanK_1099.h"
+#include "ShuffleAnArray_384.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -4948,6 +4949,180 @@ public:
         }
     }
 
+    static void shuffleAnArray_384_tests() {
+        using vec = vector<int>;
+
+        /* -----------------------------------------------------------
+        * LeetCode-style "operations" smoke test
+        * ----------------------------------------------------------- */
+        {
+            vec nums = {1, 2, 3};
+            ShuffleAnArray_384 sol(nums, /*seed=*/123456789ULL);
+
+            vec out1 = sol.shuffle();
+            vec out2 = sol.reset();
+            vec out3 = sol.shuffle();
+
+            bool pass1 = TestUtils::isPermutationVecInt(nums, out1);
+            bool pass2 = (out2 == nums);
+            bool pass3 = TestUtils::isPermutationVecInt(nums, out3);
+
+            bool pass = pass1 && pass2 && pass3;
+            cout << "Shuffle 384 Ops Test: " << (pass ? "PASS" : "FAIL") << "\n";
+            if (!pass) {
+                cout << "  Details: perm1=" << (pass1 ? "ok" : "bad")
+                    << ", reset=" << (pass2 ? "ok" : "bad")
+                    << ", perm2=" << (pass3 ? "ok" : "bad") << "\n";
+                cout << "  out1="; TestUtils::printVec(out1); cout << "\n";
+                cout << "  out2="; TestUtils::printVec(out2); cout << "\n";
+                cout << "  out3="; TestUtils::printVec(out3); cout << "\n";
+            }
+        }
+
+        /* -----------------------------------------------------------
+        * χ² (chi-square) uniformity tests
+        *
+        * We test the *distribution* of outcomes rather than a single outcome.
+        * For each test we gather counts per category and compute Pearson's χ²:
+        *   X = sum_i (obs[i] - E)^2 / E
+        *
+        * Smaller X means closer to uniform. For df=k-1 categories,
+        * X typically hovers around df if the distribution is truly uniform.
+        *
+        * We keep fixed seeds to make these tests deterministic in CI.
+        * ----------------------------------------------------------- */
+
+        // A deliberately biased implementation (classic wrong shuffle).
+        // It *looks* random, but does not generate all permutations with probability 1/n!.
+        class WrongShuffle_384 {
+        public:
+            explicit WrongShuffle_384(const vec& nums, uint64_t seed)
+                : original_(nums), current_(nums), rng_(seed) {}
+
+            vec reset() { current_ = original_; return current_; }
+
+            vec shuffle() {
+                const int n = static_cast<int>(current_.size());
+                if (n <= 1) return current_;
+                std::uniform_int_distribution<int> dist(0, n - 1);
+
+                // WRONG: choosing j from the full [0, n-1] range for each i is biased.
+                for (int i = 0; i < n; ++i) {
+                    const int j = dist(rng_);
+                    std::swap(current_[i], current_[j]);
+                }
+                return current_;
+            }
+
+        private:
+            vec original_, current_;
+            std::mt19937_64 rng_;
+        };
+
+        // (A) Permutation-level uniformity for n=3 (6 permutations), df=5.
+        // This test is very strong and the WRONG shuffle should fail very reliably.
+        {
+            vec base = {1, 2, 3};
+            const int nperm = 6;
+
+            // Bigger N makes the bias explode (X grows ~ linearly with N if bias is fixed).
+            const int N = 60000;
+
+            // Map permutation -> index in lexicographic order.
+            static const vector<vec> perms = [] {
+                vector<vec> all;
+                vec t = {1, 2, 3};
+                do { all.push_back(t); } while (next_permutation(t.begin(), t.end()));
+                return all;
+            }();
+            auto perm_index = [&](const vec& v) -> int {
+                for (int i = 0; i < (int)perms.size(); ++i)
+                    if (v == perms[i]) return i;
+                return -1;
+            };
+
+            ShuffleAnArray_384 good(base, /*seed=*/987654321ULL);
+            WrongShuffle_384 bad(base, /*seed=*/987654321ULL);
+
+            vector<long long> counts_good(nperm, 0);
+            vector<long long> counts_bad(nperm, 0);
+
+            for (int t = 0; t < N; ++t) {
+                good.reset();
+                bad.reset();
+
+                ++counts_good[perm_index(good.shuffle())];
+                ++counts_bad[perm_index(bad.shuffle())];
+            }
+
+            const double expected = double(N) / nperm;
+            const double Xg = TestUtils::chiSquare(counts_good, expected);
+            const double Xb = TestUtils::chiSquare(counts_bad, expected);
+
+            // df=5. Keep slack for the good shuffle (should be stable).
+            const bool pass_good = Xg < 24.0;
+
+            // For WRONG shuffle: we *want* it to fail consistently.
+            const bool pass_bad  = Xb >= 24.0;
+
+            cout << "Shuffle 384 chi-square Test A (GOOD, n=3 perms): "
+                << (pass_good ? "PASS" : "FAIL")
+                << " (X=" << Xg << ")\n";
+
+            cout << "Shuffle 384 chi-square Test A (WRONG, n=3 perms): "
+                << (pass_bad ? "PASS" : "FAIL")
+                << " (X=" << Xb << ")\n";
+        }
+
+        // (B) Per-position distribution for n=5 (each value equally likely in each position).
+        {
+            vec base = {0, 1, 2, 3, 4};
+            const int n = (int)base.size();
+            const int N = 30000;
+
+            ShuffleAnArray_384 good(base, /*seed=*/424242ULL);
+            WrongShuffle_384 bad(base, /*seed=*/424242ULL);
+
+            long long cnt_good[5][5] = {};
+            long long cnt_bad[5][5] = {};
+
+            for (int t = 0; t < N; ++t) {
+                good.reset();
+                bad.reset();
+
+                auto vg = good.shuffle();
+                auto vb = bad.shuffle();
+                for (int pos = 0; pos < n; ++pos) {
+                    ++cnt_good[vg[pos]][pos];
+                    ++cnt_bad[vb[pos]][pos];
+                }
+            }
+
+            const double expected = double(N) / n;
+            bool pass_good = true;
+            bool pass_bad = false;
+
+            // For each value: χ² across positions (df=4). Use a strict-ish cutoff.
+            for (int val = 0; val < n; ++val) {
+                vector<long long> obs_g(n), obs_b(n);
+                for (int pos = 0; pos < n; ++pos) {
+                    obs_g[pos] = cnt_good[val][pos];
+                    obs_b[pos] = cnt_bad[val][pos];
+                }
+                const double Xg = TestUtils::chiSquare(obs_g, expected);
+                const double Xb = TestUtils::chiSquare(obs_b, expected);
+                if (Xg >= 22.0) pass_good = false;
+                if (Xb >= 22.0) pass_bad = true; // we WANT wrong shuffle to fail somewhere
+            }
+
+            cout << "Shuffle 384 chi-square Test B (GOOD, n=5 per-position): "
+                << (pass_good ? "PASS" : "FAIL") << "\n";
+
+            cout << "Shuffle 384 chi-square Test B (WRONG, n=5 per-position): "
+                << (pass_bad ? "PASS" : "FAIL") << "\n";
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         /* Arrays & Strings */
         TEST(2239, "Find Closest Number to Zero",                    findClosestNumber_2239_tests),
@@ -5128,6 +5303,7 @@ public:
         TEST(329,  "Longest Increasing Path in a Matrix",            longestIncreasingPathInMatrix_329_tests),
         TEST(3046, "Split the Array",                                splitTheArray_3046_tests),
         TEST(463,  "Island Perimeter",                               islandPerimeter_463_tests),
+        TEST(384,  "Shuffle an Array",                               shuffleAnArray_384_tests),
     };
 
     static void runAllTests() {
