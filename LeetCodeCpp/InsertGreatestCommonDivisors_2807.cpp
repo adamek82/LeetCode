@@ -1,6 +1,8 @@
 #include "InsertGreatestCommonDivisors_2807.h"
 #include <numeric>   // std::gcd
 
+using namespace std;
+
 /*
  * Insert Greatest Common Divisors in Linked List (LeetCode 2807)
  *
@@ -29,7 +31,7 @@ ListNode<int>* InsertGreatestCommonDivisors_2807::insertGreatestCommonDivisors_s
 
     ListNode<int>* cur = head;
     while (cur != nullptr && cur->next != nullptr) {
-        int g = std::gcd(cur->val, cur->next->val);
+        int g = gcd(cur->val, cur->next->val);
 
         ListNode<int>* inserted = new ListNode<int>(g);
         inserted->next = cur->next;

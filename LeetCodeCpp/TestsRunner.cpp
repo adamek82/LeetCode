@@ -5004,19 +5004,19 @@ public:
             vec shuffle() {
                 const int n = static_cast<int>(current_.size());
                 if (n <= 1) return current_;
-                std::uniform_int_distribution<int> dist(0, n - 1);
+                uniform_int_distribution<int> dist(0, n - 1);
 
                 // WRONG: choosing j from the full [0, n-1] range for each i is biased.
                 for (int i = 0; i < n; ++i) {
                     const int j = dist(rng_);
-                    std::swap(current_[i], current_[j]);
+                    swap(current_[i], current_[j]);
                 }
                 return current_;
             }
 
         private:
             vec original_, current_;
-            std::mt19937_64 rng_;
+            mt19937_64 rng_;
         };
 
         // (A) Permutation-level uniformity for n=3 (6 permutations), df=5.

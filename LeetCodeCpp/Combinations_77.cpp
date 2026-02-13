@@ -133,7 +133,7 @@ void Combinations_77::dfsCombineTakeSkip(int x, int k,
         // cur is descending because x goes down; emit ascending copy
         vector<int> comb = cur;
         reverse(comb.begin(), comb.end());
-        out.push_back(std::move(comb));
+        out.push_back(move(comb));
         return;
     }
 

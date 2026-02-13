@@ -85,7 +85,7 @@ int MinCostToConnectAllPoints_1584::minCostConnectPointsHeap(vector<vector<int>>
 int MinCostToConnectAllPoints_1584::minCostConnectPointsArray(vector<vector<int>> &points) {
     int n = static_cast<int>(points.size());
     // For every vertex not yet in the tree: best known cost to connect it to the tree S
-    vector<int> minDist(n, std::numeric_limits<int>::max());
+    vector<int> minDist(n, numeric_limits<int>::max());
 
     // Marks vertices already added to the MST (set S)
     vector<char> used(n, 0);

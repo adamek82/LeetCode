@@ -49,7 +49,7 @@ using namespace std;
  */
 
 int PerfectSquares_279::numSquares(int n) {
-    vector<int> dp(n + 1, std::numeric_limits<int>::max() / 2);  // avoid overflow
+    vector<int> dp(n + 1, numeric_limits<int>::max() / 2);  // avoid overflow
     dp[0] = 0;
 
     // Pre-compute all squares ≤ n once

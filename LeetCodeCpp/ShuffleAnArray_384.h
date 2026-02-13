@@ -17,5 +17,5 @@ public:
 private:
     Vec original_;
     Vec current_;
-    std::mt19937_64 rng_;
+    mt19937_64 rng_;
 };

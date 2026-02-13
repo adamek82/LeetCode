@@ -30,7 +30,7 @@ using namespace std;
  *          (O(n) in the worst case, O(log n) for a balanced tree).
  */
 int MinimumAbsoluteDifferenceInBST_530::getMinimumDifference(TreeNode<int>* root) {
-    minDiff = std::numeric_limits<int>::max();
+    minDiff = numeric_limits<int>::max();
     prev = nullptr;
 
     inOrder(root);

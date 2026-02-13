@@ -183,7 +183,7 @@ int MaxAreaOfIsland_695::floodFillIterative(vector<vector<int>>& grid, int m, in
      */
     vector<pair<int,int>> backing;
     backing.reserve(static_cast<size_t>(m) * static_cast<size_t>(n));
-    stack<pair<int,int>, vector<pair<int,int>>> st(std::move(backing));
+    stack<pair<int,int>, vector<pair<int,int>>> st(move(backing));
 
     st.emplace(r, c);
     grid[r][c] = 0;                 // mark visited
