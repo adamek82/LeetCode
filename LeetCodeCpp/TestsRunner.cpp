@@ -4957,7 +4957,7 @@ public:
         * ----------------------------------------------------------- */
         {
             vec nums = {1, 2, 3};
-            ShuffleAnArray_384 sol(nums, /*seed=*/123456789ULL);
+            ShuffleAnArray_384_FisherYates sol(nums, /*seed=*/123456789ULL);
 
             vec out1 = sol.shuffle();
             vec out2 = sol.reset();
@@ -4992,33 +4992,6 @@ public:
         * We keep fixed seeds to make these tests deterministic in CI.
         * ----------------------------------------------------------- */
 
-        // A deliberately biased implementation (classic wrong shuffle).
-        // It *looks* random, but does not generate all permutations with probability 1/n!.
-        class WrongShuffle_384 {
-        public:
-            explicit WrongShuffle_384(const vec& nums, uint64_t seed)
-                : original_(nums), current_(nums), rng_(seed) {}
-
-            vec reset() { current_ = original_; return current_; }
-
-            vec shuffle() {
-                const int n = static_cast<int>(current_.size());
-                if (n <= 1) return current_;
-                uniform_int_distribution<int> dist(0, n - 1);
-
-                // WRONG: choosing j from the full [0, n-1] range for each i is biased.
-                for (int i = 0; i < n; ++i) {
-                    const int j = dist(rng_);
-                    swap(current_[i], current_[j]);
-                }
-                return current_;
-            }
-
-        private:
-            vec original_, current_;
-            mt19937_64 rng_;
-        };
-
         // (A) Permutation-level uniformity for n=3 (6 permutations), df=5.
         // This test is very strong and the WRONG shuffle should fail very reliably.
         {
@@ -5035,14 +5008,16 @@ public:
                 do { all.push_back(t); } while (next_permutation(t.begin(), t.end()));
                 return all;
             }();
+
             auto perm_index = [&](const vec& v) -> int {
-                for (int i = 0; i < (int)perms.size(); ++i)
+                for (int i = 0; i < static_cast<int>(perms.size()); ++i) {
                     if (v == perms[i]) return i;
-                return -1;
+                }
+                return -1; // should never happen
             };
 
-            ShuffleAnArray_384 good(base, /*seed=*/987654321ULL);
-            WrongShuffle_384 bad(base, /*seed=*/987654321ULL);
+            ShuffleAnArray_384_FisherYates good(base, /*seed=*/987654321ULL);
+            ShuffleAnArray_384_Wrong bad(base, /*seed=*/987654321ULL);
 
             vector<long long> counts_good(nperm, 0);
             vector<long long> counts_bad(nperm, 0);
@@ -5055,7 +5030,7 @@ public:
                 ++counts_bad[perm_index(bad.shuffle())];
             }
 
-            const double expected = double(N) / nperm;
+            const double expected = static_cast<double>(N) / nperm;
             const double Xg = TestUtils::chiSquare(counts_good, expected);
             const double Xb = TestUtils::chiSquare(counts_bad, expected);
 
@@ -5077,11 +5052,11 @@ public:
         // (B) Per-position distribution for n=5 (each value equally likely in each position).
         {
             vec base = {0, 1, 2, 3, 4};
-            const int n = (int)base.size();
+            const int n = static_cast<int>(base.size());
             const int N = 30000;
 
-            ShuffleAnArray_384 good(base, /*seed=*/424242ULL);
-            WrongShuffle_384 bad(base, /*seed=*/424242ULL);
+            ShuffleAnArray_384_FisherYates good(base, /*seed=*/424242ULL);
+            ShuffleAnArray_384_Wrong bad(base, /*seed=*/424242ULL);
 
             long long cnt_good[5][5] = {};
             long long cnt_bad[5][5] = {};
@@ -5092,13 +5067,14 @@ public:
 
                 auto vg = good.shuffle();
                 auto vb = bad.shuffle();
+
                 for (int pos = 0; pos < n; ++pos) {
                     ++cnt_good[vg[pos]][pos];
                     ++cnt_bad[vb[pos]][pos];
                 }
             }
 
-            const double expected = double(N) / n;
+            const double expected = static_cast<double>(N) / n;
             bool pass_good = true;
             bool pass_bad = false;
 
@@ -5109,8 +5085,10 @@ public:
                     obs_g[pos] = cnt_good[val][pos];
                     obs_b[pos] = cnt_bad[val][pos];
                 }
+
                 const double Xg = TestUtils::chiSquare(obs_g, expected);
                 const double Xb = TestUtils::chiSquare(obs_b, expected);
+
                 if (Xg >= 22.0) pass_good = false;
                 if (Xb >= 22.0) pass_bad = true; // we WANT wrong shuffle to fail somewhere
             }
