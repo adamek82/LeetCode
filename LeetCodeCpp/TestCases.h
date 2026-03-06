@@ -967,4 +967,10 @@ namespace TestCases {
         int k;
         int expected;
     };
+
+    // 118. Pascal's Triangle
+    struct PascalsTriangleTestCase {
+        int numRows;
+        vector<vector<int>> expected;
+    };
 } // namespace TestCases

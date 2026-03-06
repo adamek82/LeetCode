@@ -164,6 +164,7 @@
 #include "InsertGreatestCommonDivisors_2807.h"
 #include "TwoSumLessThanK_1099.h"
 #include "ShuffleAnArray_384.h"
+#include "PascalsTriangle_118.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -5101,6 +5102,38 @@ public:
         }
     }
 
+    static void pascalsTriangle_118_tests() {
+        vector<PascalsTriangleTestCase> testCases = {
+            // examples from the statement
+            {1, {{1}}},
+            {5, {{1}, {1,1}, {1,2,1}, {1,3,3,1}, {1,4,6,4,1}}},
+
+            // additional cases
+            {2, {{1}, {1,1}}},
+            {3, {{1}, {1,1}, {1,2,1}}},
+            {6, {{1},
+                 {1,1},
+                 {1,2,1},
+                 {1,3,3,1},
+                 {1,4,6,4,1},
+                 {1,5,10,10,5,1}}},
+            {7, {{1},
+                 {1,1},
+                 {1,2,1},
+                 {1,3,3,1},
+                 {1,4,6,4,1},
+                 {1,5,10,10,5,1},
+                 {1,6,15,20,15,6,1}}}
+        };
+
+        PascalsTriangle_118 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto got = solver.generate(testCases[i].numRows);
+            assertEqVVIntExact("Pascal's Triangle 118 Test " + to_string(i + 1),
+                               testCases[i].expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         /* Arrays & Strings */
         TEST(2239, "Find Closest Number to Zero",                    findClosestNumber_2239_tests),
@@ -5125,6 +5158,7 @@ public:
         TEST(54,   "Spiral Matrix",                                  spiralMatrix_54_tests),
         TEST(6,    "Zigzag Conversion",                              zigzagConversion_6_tests),
         TEST(48,   "Rotate Image",                                   rotateImage_48_tests),
+        TEST(118,  "Pascal's Triangle",                              pascalsTriangle_118_tests),
 
         /* Hashmaps & Sets */
         TEST(771,  "Jewels and Stones",                              numJewelsAndStones_771_tests),
