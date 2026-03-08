@@ -5135,187 +5135,353 @@ public:
     }
 
     inline static const TestEntry kTests[] = {
-        /* Arrays & Strings */
-        TEST(2239, "Find Closest Number to Zero",                    findClosestNumber_2239_tests),
-        TEST(1768, "Merge Strings Alternately",                      mergeStringsAlternately_1768_tests),
+        // ============================================================================
+        // Arrays & Strings
+        // ============================================================================
+
+        /* Simple iteration, counting, and basic array/string traversal */
+        TEST(412,  "FizzBuzz",                                       fizzBuzz_412_tests),
         TEST(2798, "Number of Employees Who Met the Target",         numberOfEmployeesWhoMetTarget_2798_tests),
-        TEST(3074, "Apple Redistribution Into Boxes",                appleRedistributionIntoBoxes_3074_tests),
-        TEST(13,   "Roman to Integer",                               romanToInteger_13_tests),
+        TEST(1768, "Merge Strings Alternately",                      mergeStringsAlternately_1768_tests),
+        TEST(2239, "Find Closest Number to Zero",                    findClosestNumber_2239_tests),
+
+        /* Sequence comparison, prefix checks, and simple string parsing */
         TEST(392,  "Is Subsequence",                                 isSubsequence_392_tests),
-        TEST(392,  "Is Subsequence (next-position table)",           isSubsequence_392_nextpos_tests),
-        TEST(121,  "Best Time to Buy and Sell Stock",                bestTimeToBuyAndSellStock_121_tests),
         TEST(14,   "Longest Common Prefix",                          longestCommonPrefix_14_tests),
         TEST(228,  "Summary Ranges",                                 summaryRanges_228_tests),
+        TEST(13,   "Roman to Integer",                               romanToInteger_13_tests),
+
+        /* In-place array updates and two-pointer style compaction/merge */
         TEST(26,   "Remove Duplicates From Sorted Array",            removeDuplicatesFromSortedArray_26_tests),
         TEST(27,   "Remove Element",                                 removeElement_27_tests),
         TEST(88,   "Merge Sorted Array",                             mergeSortedArray_88_tests),
-        TEST(122,  "Best Time to Buy and Sell Stock II",             bestTimeToBuyAndSellStockII_122_tests),
         TEST(80,   "Remove Duplicates from Sorted Array II",         removeDuplicatesFromSortedArrayII_80_tests),
+
+        /* Greedy scans, prefix thinking, and simple counting ideas */
+        TEST(121,  "Best Time to Buy and Sell Stock",                bestTimeToBuyAndSellStock_121_tests),
+        TEST(122,  "Best Time to Buy and Sell Stock II",             bestTimeToBuyAndSellStockII_122_tests),
+        TEST(724,  "Find Pivot Index",                               findPivotIndex_724_tests),
+        TEST(3074, "Apple Redistribution Into Boxes",                appleRedistributionIntoBoxes_3074_tests),
+        TEST(3046, "Split the Array",                                splitTheArray_3046_tests),
+
+        /* Core array techniques: construction, partitioning, and prefix products */
+        TEST(118,  "Pascal's Triangle",                              pascalsTriangle_118_tests),
         TEST(75,   "Sort Colors",                                    sortColors_75_tests),
         TEST(238,  "Product of Array Except Self",                   productOfArrayExceptSelf_238_tests),
         TEST(274,  "H-Index",                                        hIndex_274_tests),
-        TEST(56,   "Merge Intervals",                                mergeIntervals_56_tests),
-        TEST(54,   "Spiral Matrix",                                  spiralMatrix_54_tests),
-        TEST(6,    "Zigzag Conversion",                              zigzagConversion_6_tests),
-        TEST(48,   "Rotate Image",                                   rotateImage_48_tests),
-        TEST(118,  "Pascal's Triangle",                              pascalsTriangle_118_tests),
 
-        /* Hashmaps & Sets */
+        /* More advanced transformations on intervals, strings, and matrices */
+        TEST(56,   "Merge Intervals",                                mergeIntervals_56_tests),
+        TEST(6,    "Zigzag Conversion",                              zigzagConversion_6_tests),
+
+        /* 2D matrix traversal and in-place matrix transformation */
+        TEST(48,   "Rotate Image",                                   rotateImage_48_tests),
+        TEST(54,   "Spiral Matrix",                                  spiralMatrix_54_tests),
+
+        /* Preprocessing optimization for repeated subsequence queries */
+        TEST(392,  "Is Subsequence (next-position table)",           isSubsequence_392_nextpos_tests),
+
+        // ============================================================================
+        // Hashmaps & Sets
+        // ============================================================================
+
+        /* Basic membership checks with sets and simple lookups */
         TEST(771,  "Jewels and Stones",                              numJewelsAndStones_771_tests),
         TEST(217,  "Contains Duplicate",                             containsDuplicate_217_tests),
+
+        /* Frequency counting on characters and values */
         TEST(383,  "Ransom Note",                                    ransomNote_383_tests),
         TEST(242,  "Valid Anagram",                                  validAnagram_242_tests),
         TEST(1189, "Maximum Number of Balloons",                     maximumNumberOfBalloons_1189_tests),
-        TEST(1,    "Two Sum",                                        twoSum_1_tests),
-        TEST(36,   "Valid Sudoku",                                   validSudoku_36_tests),
-        TEST(49,   "Group Anagrams",                                 groupAnagrams_49_tests),
-        TEST(169,  "Majority Element",                               majorityElement_169_tests),
-        TEST(128,  "Longest Consecutive Sequence",                   longestConsecutiveSequence_128_tests),
-        TEST(706,  "Design HashMap",                                 designHashMap_706_tests),
         TEST(1207, "Unique Number of Occurrences",                   uniqueNumberOfOccurrences_1207_tests),
+        TEST(169,  "Majority Element",                               majorityElement_169_tests),
 
-        /* 2 Pointers */
-        TEST(977,  "Squares of a Sorted Array",                      squaresOfSortedArray_977_tests),
+        /* Hashmap lookup patterns for complements and associations */
+        TEST(1,    "Two Sum",                                        twoSum_1_tests),
+
+        /* Grouping values by a shared hashable signature */
+        TEST(49,   "Group Anagrams",                                 groupAnagrams_49_tests),
+
+        /* Using sets/maps to validate constraints and deduplicate states */
+        TEST(36,   "Valid Sudoku",                                   validSudoku_36_tests),
+
+        /* More advanced set/map usage for ordering and sequence reasoning */
+        TEST(128,  "Longest Consecutive Sequence",                   longestConsecutiveSequence_128_tests),
+
+        /* Frequency buckets and top-k style counting problems */
+        TEST(451,  "Sort Characters by Frequency",                   sortCharactersByFrequency_451_tests),
+        TEST(692,  "Top K Frequent Words",                           topKFrequentWords_692_tests),
+
+        /* Aggregation and pattern counting over grouped event data */
+        TEST(1152, "Analyze User Website Visit Pattern",             analyzeUserWebsiteVisitPattern_1152_tests),
+
+        /* Hash-based data structure design */
+        TEST(706,  "Design HashMap",                                 designHashMap_706_tests),
+
+        // ============================================================================
+        // 2 Pointers
+        // ============================================================================
+
+        /* Opposite-end pointers for simple in-place processing */
         TEST(344,  "Reverse String",                                 reverseString_344_tests),
-        TEST(167,  "Two Sum II",                                     twoSumII_167_tests),
         TEST(125,  "Valid Palindrome",                               validPalindrome_125_tests),
-        TEST(15,   "3Sum",                                           threeSum_15_tests),
-        TEST(11,   "Container With Most Water",                      containerWithMostWater_11_tests),
-        TEST(16,   "3Sum Closest",                                   threeSumClosest_16_tests),
-        TEST(18,   "4Sum",                                           fourSum_18_tests),
-        TEST(42,   "Trapping Rain Water",                            trappingRainWater_42_tests),
+
+        /* Two-pointer scans on sorted arrays */
+        TEST(977,  "Squares of a Sorted Array",                      squaresOfSortedArray_977_tests),
+        TEST(167,  "Two Sum II",                                     twoSumII_167_tests),
         TEST(1099, "Two Sum Less Than K",                            twoSumLessThanK_1099_tests),
 
-        /* Stacks */
+        /* Two-pointer optimization after sorting */
+        TEST(15,   "3Sum",                                           threeSum_15_tests),
+        TEST(16,   "3Sum Closest",                                   threeSumClosest_16_tests),
+        TEST(18,   "4Sum",                                           fourSum_18_tests),
+
+        /* Shrinking-window reasoning with left/right boundaries */
+        TEST(11,   "Container With Most Water",                      containerWithMostWater_11_tests),
+        TEST(42,   "Trapping Rain Water",                            trappingRainWater_42_tests),
+
+        // ============================================================================
+        // Stacks
+        // ============================================================================
+
+        /* Basic stack simulation for push/pop-style processing */
         TEST(682,  "Baseball Game",                                  baseballGame_682_tests),
         TEST(20,   "Valid Parentheses",                              validParentheses_20_tests),
         TEST(150,  "Evaluate Reverse Polish Notation",               evaluateReversePolishNotation_150_tests),
+
+        /* Stack-based parsing and nested expression decoding */
+        TEST(0,    "Decode String (Google Onsite)",                  decodeString_GoogleOnsite_tests), // custom
+
+        /* Monotonic stack patterns for next greater / smaller reasoning */
         TEST(739,  "Daily Temperatures",                             dailyTemperatures_739_tests),
-        TEST(155,  "Min Stack",                                      minStack_155_tests),
         TEST(84,   "Largest Rectangle in Histogram",                 largestRectangleInHistogram_84_tests),
 
-        /* Linked Lists */
+        /* Stack-backed data structure design */
+        TEST(155,  "Min Stack",                                      minStack_155_tests),
+
+        /* Matrix reduction to a histogram-based stack problem */
+        TEST(85,   "Maximal Rectangle",                              maximalRectangle_85_tests),
+
+        // ============================================================================
+        // Linked Lists
+        // ============================================================================
+
+        /* Basic traversal and local pointer updates in linked lists */
         TEST(83,   "Remove Duplicates from Sorted List",             removeDuplicatesFromSortedList_83_tests),
         TEST(2807, "Insert Greatest Common Divisors in Linked List", insertGreatestCommonDivisors_2807_tests),
+
+        /* Core linked-list transformations by rewiring next pointers */
         TEST(206,  "Reverse Linked List",                            reverseLinkedList_206_tests),
         TEST(21,   "Merge Two Sorted Lists",                         mergeTwoSortedLists_21_tests),
+
+        /* Fast/slow pointer techniques on linked lists */
         TEST(141,  "Linked List Cycle",                              hasCycle_141_tests),
         TEST(876,  "Middle of the Linked List",                      middleOfTheLinkedList_876_tests),
         TEST(19,   "Remove Nth Node From End of List",               removeNthNodeFromEndOfList_19_tests),
+
+        /* More advanced linked structures with extra references */
         TEST(138,  "Copy List With Random Pointer",                  copyRandomList_138_tests),
 
-        /* Binary Search */
+        /* Linked-list-based data structure design */
+        TEST(146,  "LRU Cache",                                      lruCache_146_tests),
+
+        // ============================================================================
+        // Binary Search
+        // ============================================================================
+
+        /* Basic binary search on sorted arrays and monotonic positions */
         TEST(704,  "Binary Search",                                  binarySearch_704_tests),
         TEST(35,   "Search Insert Position",                         searchInsertPosition_35_tests),
         TEST(278,  "First Bad Version",                              firstBadVersion_278_tests),
+
+        /* Binary search over a numeric answer space */
         TEST(367,  "Valid Perfect Square",                           validPerfectSquare_367_tests),
+        TEST(875,  "Koko Eating Bananas",                            kokoEatingBananas_875_tests),
+
+        /* Binary search on matrix and rotated-array structure */
         TEST(74,   "Search a 2D Matrix",                             search2DMatrix_74_tests),
         TEST(153,  "Find Minimum in Rotated Sorted Array",           findMinimumInRotatedSortedArray_153_tests),
         TEST(33,   "Search in Rotated Sorted Array",                 searchInRotatedSortedArray_33_tests),
-        TEST(875,  "Koko Eating Bananas",                            kokoEatingBananas_875_tests),
 
-        /* Sliding Window */
+        // ============================================================================
+        // Sliding Window
+        // ============================================================================
+
+        /* Fixed-size windows with rolling updates */
         TEST(643,  "Maximum Average Subarray I",                     maximumAverageSubarrayI_643_tests),
+
+        /* Expanding and shrinking windows with a running constraint */
         TEST(1004, "Max Consecutive Ones III",                       maxConsecutiveOnesIII_1004_tests),
+        TEST(209,  "Minimum Size Subarray Sum",                      minimumSizeSubarraySum_209_tests),
+
+        /* Variable-size windows for distinctness and replacement limits */
         TEST(3,    "Longest Substring Without Repeating Characters", longestSubstringWithoutRepeatingCharacters_3_tests),
         TEST(424,  "Longest Repeating Character Replacement",        longestRepeatingCharacterReplacement_424_tests),
-        TEST(209,  "Minimum Size Subarray Sum",                      minimumSizeSubarraySum_209_tests),
+
+        /* Window matching with character-frequency requirements */
         TEST(567,  "Permutation in String",                          permutationInString_567_tests),
 
-        /* Trees */
+        // ============================================================================
+        // Trees
+        // ============================================================================
+
+        /* Basic tree traversal, inspection, and structural transformation */
         TEST(226,  "Invert Binary Tree",                             invertBinaryTree_226_tests),
         TEST(104,  "Maximum Depth of Binary Tree",                   maximumDepthOfBinaryTree_104_tests),
-        TEST(110,  "Balanced Binary Tree",                           balancedBinaryTree_110_tests),
-        TEST(543,  "Diameter of Binary Tree",                        diameterOfBinaryTree_543_tests),
         TEST(100,  "Same Tree",                                      sameTree_100_tests),
         TEST(101,  "Symmetric Tree",                                 symmetricTree_101_tests),
         TEST(112,  "Path Sum",                                       pathSum_112_tests),
+
+        /* Bottom-up DFS reasoning with subtree-derived information */
+        TEST(110,  "Balanced Binary Tree",                           balancedBinaryTree_110_tests),
+        TEST(543,  "Diameter of Binary Tree",                        diameterOfBinaryTree_543_tests),
         TEST(572,  "Subtree of Another Tree",                        subtreeOfAnotherTree_572_tests),
+
+        /* Breadth-first traversal by tree levels */
         TEST(102,  "Binary Tree Level Order Traversal",              binaryTreeLevelOrderTraversal_102_tests),
         TEST(637,  "Average of Levels in Binary Tree",               averageOfLevelsInBinaryTree_637_tests),
+
+        /* BST-specific inorder and ordering properties */
         TEST(230,  "Kth Smallest Element in a BST",                  kthSmallestElementInBST_230_tests),
         TEST(530,  "Minimum Absolute Difference in BST",             minimumAbsoluteDifferenceInBST_530_tests),
         TEST(98,   "Validate Binary Search Tree",                    validateBinarySearchTree_98_tests),
         TEST(235,  "Lowest Common Ancestor",                         lowestCommonAncestor_235_tests),
+
+        /* Tree-like prefix structure design */
         TEST(208,  "Implement Trie",                                 implementTrie_208_tests),
 
-        /* Heaps */
+        // ============================================================================
+        // Heaps
+        // ============================================================================
+
+        /* Basic max-heap / min-heap simulation */
         TEST(1046, "Last Stone Weight",                              lastStoneWeight_1046_tests),
+
+        /* Heap-based selection for k-th / top-k queries */
         TEST(215,  "Kth Largest Element in an Array",                kthLargestElementInArray_215_tests),
         TEST(347,  "Top K Frequent Elements",                        topKFrequent_347_tests),
         TEST(973,  "K Closest Points to Origin",                     kClosestPointsToOrigin_973_tests),
+
+        /* Merging multiple sorted streams with a heap frontier */
         TEST(23,   "Merge K Sorted Lists",                           mergeKLists_tests),
 
-        /* Recursive Backtracking */
+        /* Priority-queue traversal on a graph / grid state space */
+        TEST(2812, "Find the Safest Path in a Grid",                 findTheSafestPathInGrid_2812_tests),
+
+        // ============================================================================
+        // Recursive Backtracking
+        // ============================================================================
+
+        /* Basic recursive generation of subsets, combinations, and permutations */
         TEST(78,   "Subsets",                                        subsets_78_tests),
-        TEST(46,   "Permutations",                                   permutations_46_tests),
         TEST(77,   "Combinations",                                   combinations_77_tests),
-        TEST(39,   "Combination Sum",                                combinationSum_39_tests),
+        TEST(46,   "Permutations",                                   permutations_46_tests),
+
+        /* Backtracking with constraints and incremental choice building */
         TEST(17,   "Letter Combinations",                            letterCombinations_17_tests),
         TEST(22,   "Generate Parentheses",                           generateParentheses_22_tests),
-        TEST(45,   "Jump Game II",                                   jumpGameII_45_tests),
+        TEST(39,   "Combination Sum",                                combinationSum_39_tests),
+
+        /* Backtracking over a 2D search space with visited-state control */
         TEST(79,   "Word Search",                                    wordSearch_79_tests),
 
-        /* Graphs */
+        // ============================================================================
+        // Graphs
+        // ============================================================================
+
+        /* Basic graph / grid traversal for reachability and connected components */
         TEST(1971, "Find if Path Exists in Graph",                   findIfPathExistsInGraph_1971_tests),
         TEST(200,  "Number of Islands",                              numIslands_200_tests),
         TEST(695,  "Max Area of Island",                             maxAreaOfIsland_695_tests),
+        TEST(133,  "Clone Graph",                                    cloneGraph_133_tests),
+
+        /* Multi-source and shortest-path BFS on grids and state graphs */
+        TEST(994,  "Rotting Oranges",                                rottingOranges_994_tests),
+        TEST(1091, "Shortest Path Binary Matrix",                    shortestPathBinaryMatrix_1091_tests),
+        TEST(815,  "Bus Routes",                                     busRoutes_815_tests),
+
+        /* Directed-graph reasoning with topological order and cycle detection */
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
         TEST(210,  "Course Schedule II",                             courseScheduleII_210_tests),
-        TEST(417,  "Pacific Atlantic Water Flow",                    pacificAtlantic_417_tests),
-        TEST(133,  "Clone Graph",                                    cloneGraph_133_tests),
-        TEST(994,  "Rotting Oranges",                                rottingOranges_994_tests),
-        TEST(1584, "Min Cost to Connect All Points",                 minCostToConnectAllPoints_1584_tests),
-        TEST(743,  "Network Delay Time",                             networkDelayTime_743_tests),
 
-        /* Dynamic Programming */
+        /* Graph traversal on matrices with directional / monotonic constraints */
+        TEST(417,  "Pacific Atlantic Water Flow",                    pacificAtlantic_417_tests),
+        TEST(329,  "Longest Increasing Path in a Matrix",            longestIncreasingPathInMatrix_329_tests),
+
+        /* Weighted graph algorithms: shortest paths and minimum spanning tree */
+        TEST(743,  "Network Delay Time",                             networkDelayTime_743_tests),
+        TEST(2642, "Design Graph With Shortest Path Calculator",     designGraphWithShortestPathCalculator_2642_tests),
+        TEST(1584, "Min Cost to Connect All Points",                 minCostToConnectAllPoints_1584_tests),
+
+        /* Cycle analysis in directed and undirected graphs */
+        TEST(2360, "Longest Cycle in a Graph",                       longestCycleInGraph_2360_tests),
+        TEST(2608, "Shortest Cycle in a Graph",                      shortestCycleInGraph_2608_tests),
+
+        /* Grid simulation, multi-source expansion, and neighbor-based reasoning */
+        TEST(289,  "Game of Life",                                   gameOfLife_289_tests),
+        TEST(286,  "Walls and Gates",                                wallsAndGates_286_tests),
+        TEST(463,  "Island Perimeter",                               islandPerimeter_463_tests),
+
+        // ============================================================================
+        // Dynamic Programming
+        // ============================================================================
+
+        /* Introductory 1D DP with direct state transitions */
         TEST(509,  "Fibonacci Number",                               fibonacci_509_tests),
         TEST(70,   "Climbing Stairs",                                climbingStairs_70_tests),
         TEST(746,  "Min Cost Climbing Stairs",                       minCostClimbingStairs_746_tests),
+
+        /* Linear DP on arrays with local recurrence choices */
         TEST(198,  "House Robber",                                   houseRobber_198_tests),
-        TEST(62,   "Unique Paths",                                   uniquePaths_62_tests),
         TEST(53,   "Maximum Subarray",                               maximumSubarray_53_tests),
+
+        /* Reachability and minimum-jump style DP / greedy-DP crossover */
         TEST(55,   "Jump Game",                                      jumpGame_55_tests),
+        TEST(45,   "Jump Game II",                                   jumpGameII_45_tests),
+
+        /* Grid DP with path counting and blocked cells */
+        TEST(62,   "Unique Paths",                                   uniquePaths_62_tests),
+        TEST(63,   "Unique Paths II",                                uniquePathsII_63_tests),
+
+        /* Unbounded-choice and counting / minimization DP */
         TEST(322,  "Coin Change",                                    coinChange_322_tests),
+        TEST(279,  "Perfect Squares",                                perfectSquares_279_tests),
+
+        /* Sequence DP on increasing structure and string matching */
         TEST(300,  "Longest Increasing Subsequence",                 longestIncreasingSubsequence_300_tests),
         TEST(1143, "Longest Common Subsequence",                     longestCommonSubsequence_1143_tests),
+        TEST(44,   "Wildcard Matching",                              wildcardMatching_44_tests),
 
-        /* Bit Manipulation */
+        // ============================================================================
+        // Bit Manipulation
+        // ============================================================================
+
+        /* Bitwise representation, bit counting, XOR, and binary-string arithmetic */
         TEST(504,  "Base 7",                                         base7_504_tests),
+        TEST(268,  "Missing Number",                                 missingNumber_268_tests),
         TEST(136,  "Single Number",                                  singleNumber_136_tests),
         TEST(191,  "Number of 1 Bits",                               numberOf1Bits_191_tests),
         TEST(67,   "Add Binary",                                     addBinary_67_tests),
 
-        /* Other */
+        // ============================================================================
+        // Design
+        // ============================================================================
+
+        /* Core custom data structures and API-oriented implementations */
         TEST(0,    "MinHeap",                                        minHeap_tests), // custom: id=0
         TEST(432,  "All O`one Data Structure",                       allOOneDataStructure_432_tests),
-        TEST(1152, "Analyze User Website Visit Pattern",             analyzeUserWebsiteVisitPattern_1152_tests),
-        TEST(277,  "Find the Celebrity",                             findCelebrity_277_tests),
-        TEST(412,  "FizzBuzz",                                       fizzBuzz_412_tests),
-        TEST(146,  "LRU Cache",                                      lruCache_146_tests),
-        TEST(451,  "Sort Characters by Frequency",                   sortCharactersByFrequency_451_tests),
-        TEST(692,  "Top K Frequent Words",                           topKFrequentWords_692_tests),
-        TEST(2360, "Longest Cycle in a Graph",                       longestCycleInGraph_2360_tests),
-        TEST(2608, "Shortest Cycle in a Graph",                      shortestCycleInGraph_2608_tests),
-        TEST(63,   "Unique Paths II",                                uniquePathsII_63_tests),
-        TEST(85,   "Maximal Rectangle",                              maximalRectangle_85_tests),
-        TEST(724,  "Find Pivot Index",                               findPivotIndex_724_tests),
-        TEST(0,    "Decode String (Google Onsite)",                  decodeString_GoogleOnsite_tests), // custom
-        TEST(44,   "Wildcard Matching",                              wildcardMatching_44_tests),
-        TEST(815,  "Bus Routes",                                     busRoutes_815_tests),
-        TEST(1091, "Shortest Path Binary Matrix",                    shortestPathBinaryMatrix_1091_tests),
-        TEST(2642, "Design Graph With Shortest Path Calculator",     designGraphWithShortestPathCalculator_2642_tests),
-        TEST(2812, "Find the Safest Path in a Grid",                 findTheSafestPathInGrid_2812_tests),
-        TEST(286,  "Walls and Gates",                                wallsAndGates_286_tests),
-        TEST(65,   "Valid Number",                                   validNumber_65_tests),
-        TEST(279,  "Perfect Squares",                                perfectSquares_279_tests),
-        TEST(268,  "Missing Number",                                 missingNumber_268_tests),
         TEST(855,  "Exam Room",                                      examRoom_855_tests),
-        TEST(289,  "Game of Life",                                   gameOfLife_289_tests),
-        TEST(329,  "Longest Increasing Path in a Matrix",            longestIncreasingPathInMatrix_329_tests),
-        TEST(3046, "Split the Array",                                splitTheArray_3046_tests),
-        TEST(463,  "Island Perimeter",                               islandPerimeter_463_tests),
+
+        /* Randomized object design */
         TEST(384,  "Shuffle an Array",                               shuffleAnArray_384_tests),
+
+        // ============================================================================
+        // Other
+        // ============================================================================
+
+        /* Problems that do not fit cleanly into the main technique-based categories */
+        TEST(277,  "Find the Celebrity",                             findCelebrity_277_tests),
+        TEST(65,   "Valid Number",                                   validNumber_65_tests),
     };
 
     static void runAllTests() {
