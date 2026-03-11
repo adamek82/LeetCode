@@ -973,4 +973,10 @@ namespace TestCases {
         int numRows;
         vector<vector<int>> expected;
     };
+
+    // 773. Sliding Puzzle
+    struct SlidingPuzzleTestCase {
+        vector<vector<int>> board;
+        int expected;
+    };
 } // namespace TestCases

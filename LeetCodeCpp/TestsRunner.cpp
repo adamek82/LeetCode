@@ -165,6 +165,7 @@
 #include "TwoSumLessThanK_1099.h"
 #include "ShuffleAnArray_384.h"
 #include "PascalsTriangle_118.h"
+#include "SlidingPuzzle_773.h"
 
 using namespace std;
 using namespace TestUtils;
@@ -5134,6 +5135,36 @@ public:
         }
     }
 
+    static void slidingPuzzle_773_tests() {
+        vector<SlidingPuzzleTestCase> testCases = {
+            // examples from the statement
+            {{{1,2,3},{4,0,5}}, 1},
+            {{{1,2,3},{5,4,0}}, -1},
+            {{{4,1,2},{5,0,3}}, 5},
+
+            // already solved
+            {{{1,2,3},{4,5,0}}, 0},
+
+            // simple solvable cases
+            {{{1,2,0},{4,5,3}}, 1},
+            {{{1,0,3},{4,2,5}}, 2},
+            {{{0,1,2},{4,5,3}}, 3},
+
+            // unsolvable parity case
+            {{{1,2,3},{5,4,0}}, -1},
+        };
+
+        SlidingPuzzle_773 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto board = testCases[i].board;
+            int got = solver.slidingPuzzle(board);
+
+            assertEqScalar("Sliding Puzzle 773 Test " + to_string(i + 1),
+                           testCases[i].expected, got);
+        }
+    }
+
     inline static const TestEntry kTests[] = {
         // ============================================================================
         // Arrays & Strings
@@ -5395,10 +5426,11 @@ public:
         TEST(695,  "Max Area of Island",                             maxAreaOfIsland_695_tests),
         TEST(133,  "Clone Graph",                                    cloneGraph_133_tests),
 
-        /* Multi-source and shortest-path BFS on grids and state graphs */
+        /* Shortest-path BFS on grids, transit networks, and implicit state graphs */
         TEST(994,  "Rotting Oranges",                                rottingOranges_994_tests),
         TEST(1091, "Shortest Path Binary Matrix",                    shortestPathBinaryMatrix_1091_tests),
         TEST(815,  "Bus Routes",                                     busRoutes_815_tests),
+        TEST(773,  "Sliding Puzzle",                                 slidingPuzzle_773_tests),
 
         /* Directed-graph reasoning with topological order and cycle detection */
         TEST(207,  "Course Schedule",                                courseSchedule_207_tests),
