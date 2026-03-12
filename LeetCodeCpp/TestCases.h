@@ -979,4 +979,10 @@ namespace TestCases {
         vector<vector<int>> board;
         int expected;
     };
+
+    // 37. Sudoku Solver
+    struct SudokuSolverTestCase {
+        vector<vector<char>> input;
+        vector<vector<char>> expected;
+    };
 } // namespace TestCases
