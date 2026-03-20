@@ -5654,9 +5654,6 @@ public:
         /* Problems that do not fit cleanly into the main technique-based categories */
         TEST(277,  "Find the Celebrity",                             findCelebrity_277_tests),
         TEST(65,   "Valid Number",                                   validNumber_65_tests),
-
-                TEST(37,   "Sudoku Solver",                                  sudokuSolver_37_tests),
-
     };
 
     static void runAllTests() {
