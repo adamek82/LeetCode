@@ -5284,12 +5284,21 @@ public:
 
         SudokuSolver_37 solver;
 
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            auto board = testCases[i].input;
-            solver.solveSudoku(board);
+        const vector<pair<string, function<void(vector<vector<char>>& board)>>> impls = {
+            {"PlainBacktracking", [&](vector<vector<char>>& board) { solver.solveSudoku_PlainBacktracking(board); }},
+            {"BitMasks",          [&](vector<vector<char>>& board) { solver.solveSudoku_BitMasks(board); }},
+        };
 
-            bool same = (board == testCases[i].expected);
-            assertEqScalar("Sudoku Solver 37 Test " + to_string(i + 1), true, same);
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+
+            for (const auto& [name, run] : impls) {
+                auto board = tc.input;
+                run(board);
+
+                bool same = (board == tc.expected);
+                assertEqScalar("Sudoku Solver 37 [" + name + "] Test " + to_string(i + 1), true, same);
+            }
         }
     }
 
@@ -5645,6 +5654,9 @@ public:
         /* Problems that do not fit cleanly into the main technique-based categories */
         TEST(277,  "Find the Celebrity",                             findCelebrity_277_tests),
         TEST(65,   "Valid Number",                                   validNumber_65_tests),
+
+                TEST(37,   "Sudoku Solver",                                  sudokuSolver_37_tests),
+
     };
 
     static void runAllTests() {
