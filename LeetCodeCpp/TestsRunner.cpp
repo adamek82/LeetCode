@@ -186,7 +186,7 @@ struct TestEntry {
 class TestsRunner {
 public:
     static void courseSchedule_207_tests() {
-        vector<ScheduleTestCase> testCases = {
+        vector<CourseScheduleTestCase> testCases = {
             {2, {{1, 0}}, true},
             {2, {{1, 0}, {0, 1}}, false},
             {5, {{0, 1}, {2, 3}, {3, 4}, {2, 1}}, true},
@@ -195,9 +195,9 @@ public:
 
         CourseSchedule_207 cs207;
 
-        const vector<pair<string, function<bool(const ScheduleTestCase&)>>> impls = {
-            {"DFS",  [&](const ScheduleTestCase& tc){ return cs207.canFinishDFS(tc.numCourses, tc.prerequisites); }},
-            {"Kahn", [&](const ScheduleTestCase& tc){ return cs207.canFinishKahns(tc.numCourses, tc.prerequisites); }},
+        const vector<pair<string, function<bool(const CourseScheduleTestCase&)>>> impls = {
+            {"DFS",  [&](const CourseScheduleTestCase& tc){ return cs207.canFinishDFS(tc.numCourses, tc.prerequisites); }},
+            {"Kahn", [&](const CourseScheduleTestCase& tc){ return cs207.canFinishKahns(tc.numCourses, tc.prerequisites); }},
         };
 
         for (size_t i = 0; i < testCases.size(); ++i) {
@@ -209,7 +209,7 @@ public:
     }
 
     static void findIfPathExistsInGraph_1971_tests() {
-        vector<PathTestCase> testCases = {
+        vector<FindIfPathExistsInGraphTestCase> testCases = {
             {3, {{0, 1}, {1, 2}, {2, 0}}, 0, 2, true},
             {6, {{0, 1}, {0, 2}, {3, 5}, {5, 4}, {4, 3}}, 0, 5, false},
             {4, {{0, 1}, {1, 2}, {2, 3}}, 0, 3, true},
@@ -219,7 +219,7 @@ public:
 
         FindIfPathExistsInGraph_1971 fp1971;
 
-        auto runWith = [&](auto method, const PathTestCase& tc) {
+        auto runWith = [&](auto method, const FindIfPathExistsInGraphTestCase& tc) {
             return (fp1971.*method)(tc.n, tc.edges, tc.source, tc.destination);
         };
 
@@ -284,7 +284,7 @@ public:
     }
 
     static void maxAreaOfIsland_695_tests() {
-        vector<MaxAreaTestCase> testCases = {
+        vector<MaxAreaOfIslandTestCase> testCases = {
             {{{0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
               {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0},
               {0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -2014,7 +2014,7 @@ public:
     }
 
     static void longestCycleInGraph_2360_tests() {
-        vector<LongestCycleTestCase> testCases = {
+        vector<LongestCycleInGraphTestCase> testCases = {
             // 2 examples from the LeetCode problem statement
             {{3, 3, 4, 2, 3}, 3},   // Example 1
             {{2, -1, 3, 1}, -1},    // Example 2
@@ -2034,7 +2034,7 @@ public:
     }
 
     static void shortestCycleInGraph_2608_tests() {
-        vector<ShortestCycleTestCase> cases = {
+        vector<ShortestCycleInGraphTestCase> cases = {
             // ── 2 examples from the problem statement ───────────────────────────
             {
                 7,
@@ -2691,7 +2691,7 @@ public:
     }
 
     static void shortestPathBinaryMatrix_1091_tests() {
-        vector<ShortestPathTestCase> testCases = {
+        vector<ShortestPathInBinaryMatrixTestCase> testCases = {
             /* 3 examples from the problem statement */
             {
              {{0, 1},
@@ -2735,7 +2735,7 @@ public:
     static void designGraphWithShortestPathCalculator_2642_tests() {
         using EdgeList = vector<vector<int>>;
 
-        vector<GraphTC> testCases = {
+        vector<DesignGraphWithShortestPathCalculatorTestCase> testCases = {
             // Case 1 – official example
             {
                 {"Graph","shortestPath","shortestPath","addEdge","shortestPath"},

@@ -7,7 +7,10 @@ using namespace std;
 
 namespace TestCases {
 
-    // Common aliases reused across problems
+    /* ===========================================================
+     * Shared aliases
+     * =========================================================== */
+
     using Edges    = vector<vector<int>>;
     using GridChar = vector<vector<char>>;
     using GridInt  = vector<vector<int>>;
@@ -15,15 +18,12 @@ namespace TestCases {
     using Coords   = vector<vector<int>>;      // e.g., [[r,c], ...]
     using List     = vector<int>;
 
-    // 207. Course Schedule
-    struct ScheduleTestCase {
-        int   numCourses;
-        Edges prerequisites;
-        bool  expected;
-    };
+    /* ===========================================================
+     * Graphs and traversal
+     * =========================================================== */
 
     // 1971. Find if Path Exists in Graph
-    struct PathTestCase {
+    struct FindIfPathExistsInGraphTestCase {
         int   n;
         Edges edges;
         int   source;
@@ -38,16 +38,61 @@ namespace TestCases {
     };
 
     // 695. Max Area of Island
-    struct MaxAreaTestCase {
+    struct MaxAreaOfIslandTestCase {
         GridInt grid;
         int     expected;
+    };
+
+    // 994. Rotting Oranges
+    struct RottingOrangesTestCase {
+        GridInt grid;
+        int     expected;
+    };
+
+    // 1091. Shortest Path in Binary Matrix
+    struct ShortestPathInBinaryMatrixTestCase {
+        vector<vector<int>> grid;
+        int expected;
+    };
+
+    // 815. Bus Routes
+    struct BusRoutesTestCase {
+        vector<vector<int>> routes;
+        int source;
+        int target;
+        int expected;
+    };
+
+    // 773. Sliding Puzzle
+    struct SlidingPuzzleTestCase {
+        vector<vector<int>> board;
+        int expected;
+    };
+
+    // 207. Course Schedule
+    struct CourseScheduleTestCase {
+        int   numCourses;
+        Edges prerequisites;
+        bool  expected;
     };
 
     // 210. Course Schedule II
     struct CourseScheduleIITestCase {
         int        numCourses;
         Edges      prerequisites;
-        vector<int> expectedOrder;  // empty means "cycle → no valid order"
+        vector<int> expectedOrder;  // empty => cycle / no valid order
+    };
+
+    // 417. Pacific Atlantic Water Flow
+    struct PacificAtlanticTestCase {
+        GridInt heights; // heights matrix
+        Coords  expected; // list of [r,c] coordinates (order-insensitive)
+    };
+
+    // 329. Longest Increasing Path in a Matrix
+    struct LongestIncreasingPathInMatrixTestCase {
+        GridInt matrix;
+        int expected;
     };
 
     // 743. Network Delay Time
@@ -58,16 +103,17 @@ namespace TestCases {
         int expected;
     };
 
-    // 994. Rotting Oranges
-    struct RottingOrangesTestCase {
-        GridInt grid;
-        int     expected;
-    };
-
-    // 417. Pacific Atlantic Water Flow
-    struct PacificAtlanticTestCase {
-        GridInt heights; // heights matrix
-        Coords  expected; // list of [r,c] coordinates (order-insensitive)
+    // 2642. Design Graph With Shortest Path Calculator
+    struct DesignGraphWithShortestPathCalculatorTestCase {
+        vector<string> operations;
+        vector<variant<
+            monostate,
+            int,
+            vector<int>,
+            pair<int,int>,
+            pair<int,vector<vector<int>>>>>
+            arguments;
+        vector<optional<int>> expected;
     };
 
     // 1584. Min Cost to Connect All Points
@@ -75,6 +121,38 @@ namespace TestCases {
         Points points;
         int    expected;
     };
+
+    // 2360. Longest Cycle in a Graph
+    struct LongestCycleInGraphTestCase {
+        vector<int> edges;
+        int expected;
+    };
+
+    // 2608. Shortest Cycle in a Graph
+    struct ShortestCycleInGraphTestCase {
+        int n;
+        vector<vector<int>> edges;
+        int expected;
+    };
+
+    // 289. Game of Life
+    struct GameOfLifeTestCase {
+        vector<vector<int>> input;
+        vector<vector<int>> expected;
+    };
+
+    // 286. Walls and Gates
+    struct WallsAndGatesTestCase {
+        vector<vector<int>> rooms;
+        vector<vector<int>> expected;
+    };
+
+    // 463. Island Perimeter
+    struct IslandPerimeterTestCase {
+        GridInt grid;
+        int expected;
+    };
+//
 
     // Longest Common Subsequence
     struct LongestCommonSubsequenceTestCase {
@@ -365,19 +443,6 @@ namespace TestCases {
         int expected;
     };
 
-    // 2360. Longest Cycle in a Graph
-    struct LongestCycleTestCase {
-        vector<int> edges;
-        int expected;
-    };
-
-    // 2608. Shortest Cycle in a Graph
-    struct ShortestCycleTestCase {
-        int n;
-        vector<vector<int>> edges;
-        int expected;
-    };
-
     // 63. Unique Paths II
     struct UniquePathsIITestCase {
         vector<vector<int>> input;
@@ -556,33 +621,6 @@ namespace TestCases {
         int expected;
     };
 
-    // 815. Bus Routes
-    struct BusRoutesTestCase {
-        vector<vector<int>> routes;
-        int source;
-        int target;
-        int expected;
-    };
-
-    // 1091. Shortest Path in Binary Matrix
-    struct ShortestPathTestCase {
-        vector<vector<int>> grid;
-        int expected;
-    };
-
-    // 2642. Design Graph With Shortest Path Calculator
-    struct GraphTC {
-        vector<string> operations;
-        vector<variant<
-            monostate,
-            int,
-            vector<int>,
-            pair<int,int>,
-            pair<int,vector<vector<int>>>>>
-            arguments;
-        vector<optional<int>> expected;
-    };
-
     // 2812. Find Safest Path in Grid
     struct SafestPathTestCase {
         vector<vector<int>> grid;
@@ -593,12 +631,6 @@ namespace TestCases {
     struct MaxDepthTestCase {
         vector<optional<int>> tree; // level-order
         int expected;
-    };
-
-    // 286. Walls and Gates
-    struct WallsAndGatesTestCase {
-        vector<vector<int>> rooms;
-        vector<vector<int>> expected;
     };
 
     // 65. Valid Number
@@ -788,18 +820,6 @@ namespace TestCases {
         vector<string> expected; // order-insensitive
     };
 
-    // 209. Game of Life
-    struct GameOfLifeTestCase {
-        vector<vector<int>> input;
-        vector<vector<int>> expected;
-    };
-
-    // 329. Longest Increasing Path in a Matrix
-    struct LongestIncreasingPathInMatrixTestCase {
-        GridInt matrix;
-        int expected;
-    };
-
     // 155. Min Stack
     struct MinStackTestCase {
         // operations that produce outputs in order: only "top" and "getMin"
@@ -896,12 +916,6 @@ namespace TestCases {
         int expected;                   // minimum absolute difference
     };
 
-    // 463. Island Perimeter
-    struct IslandPerimeterTestCase {
-        GridInt grid;
-        int expected;
-    };
-
     // 278. First Bad Version
     struct FirstBadVersionTestCase {
         int n;          // total number of versions
@@ -972,12 +986,6 @@ namespace TestCases {
     struct PascalsTriangleTestCase {
         int numRows;
         vector<vector<int>> expected;
-    };
-
-    // 773. Sliding Puzzle
-    struct SlidingPuzzleTestCase {
-        vector<vector<int>> board;
-        int expected;
     };
 
     // 37. Sudoku Solver
