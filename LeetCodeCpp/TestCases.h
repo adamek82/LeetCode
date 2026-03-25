@@ -19,6 +19,85 @@ namespace TestCases {
     using List     = vector<int>;
 
     /* ===========================================================
+     * Arrays & Strings
+     * =========================================================== */
+
+    /* Simple iteration, counting, and basic array/string traversal */
+
+     // 412. Fizz Buzz
+    struct FizzBuzzTestCase {
+        int n;
+        vector<string> expected;
+    };
+
+    // 2798. Number of Employees Who Met the Target
+    struct NumberOfEmployeesWhoMetTargetTestCase {
+        vector<int> hours;
+        int target;
+        int expected;
+    };
+
+    // 2239. Find Closest Number to Zero
+    struct FindClosestNumberToZeroTestCase {
+        vector<int> nums;
+        int expected;
+    };
+
+    /* Sequence comparison, prefix checks, and simple string parsing */
+
+    // 392. Is Subsequence
+    struct IsSubsequence392TestCase {
+        string s;
+        string t;
+        bool expected;
+    };
+
+    // 14. Longest Common Prefix
+    struct LongestCommonPrefixTestCase {
+        vector<string> strs;
+        string expected;
+    };
+
+    // 228. Summary Ranges
+    struct SummaryRangesTestCase {
+        vector<int> nums;
+        vector<string> expected;
+    };
+
+    // 13. Roman to Integer
+    struct RomanToIntegerTestCase {
+        string input;
+        int expected;
+    };
+
+    /* In-place array updates and two-pointer style compaction/merge */
+
+    // 26. Remove Duplicates from Sorted Array
+    struct RemoveDuplicates26TestCase {
+        vector<int> nums;
+        vector<int> expected; // expected first k unique values
+    };
+
+    // 27. Remove Element
+    struct RemoveElementTestCase {
+        vector<int> nums;
+        int val;
+        int expectedK;
+        vector<int> expected; // order-agnostic
+    };
+
+    // 88. Merge Sorted Array
+    struct MergeSortedArrayTestCase {
+        vector<int> nums1;
+        int m;
+        vector<int> nums2;
+        int n;
+        vector<int> expected;
+    };
+
+
+
+    /* ===========================================================
      * Graphs and traversal
      * =========================================================== */
 
@@ -32,7 +111,7 @@ namespace TestCases {
     };
 
     // 200. Number of Islands
-    struct NumIslandsTestCase {
+    struct NumberOfIslandsTestCase {
         GridChar grid;
         int      expected;
     };
@@ -158,7 +237,7 @@ namespace TestCases {
     struct LongestCommonSubsequenceTestCase {
         string text1;
         string text2;
-        int         expected;
+        int expected;
     };
 
     // 300. Longest Increasing Subsequence
@@ -552,23 +631,6 @@ namespace TestCases {
         vector<int> expected; // indices (any order)
     };
 
-    // 88. Merge Sorted Array
-    struct MergeCase {
-        vector<int> nums1;
-        int m;
-        vector<int> nums2;
-        int n;
-        vector<int> expected;
-    };
-
-    // 27. Remove Element
-    struct RemCase {
-        vector<int> input;
-        int val;
-        int expectedK;
-        vector<int> expected; // order-agnostic
-    };
-
     // 1189. Maximum Number of Balloons
     struct BalloonCase {
         string input;
@@ -576,9 +638,9 @@ namespace TestCases {
     };
 
     // 1768. Merge Strings Alternately
-    struct ABCase {
-        string a;
-        string b;
+    struct MergeStringsAlternatelyTestCase {
+        string word1;
+        string word2;
         string expected;
     };
 
@@ -720,12 +782,6 @@ namespace TestCases {
         vector<int> expected; // order-agnostic
     };
 
-    // 2239. Find Closest Number to Zero
-    struct FindClosest2239TestCase {
-        vector<int> input;
-        int expected;
-    };
-
     // 1768. Merge Strings Alternately
     struct MergeStringsAlternately1768TestCase {
         string a;
@@ -733,41 +789,10 @@ namespace TestCases {
         string expected;
     };
 
-    // 13. Roman to Integer
-    struct RomanToInteger13TestCase {
-        string input;
-        int expected;
-    };
-
-    // 392. Is Subsequence
-    struct IsSubsequence392TestCase {
-        string s;
-        string t;
-        bool expected;
-    };
-
     // 392. Is Subsequence (follow-up with next-position table)
     struct IsSubsequence392FollowUpCase {
         string t;
         vector<pair<string, bool>> queries;
-    };
-
-    // 14. Longest Common Prefix
-    struct LongestCommonPrefix14TestCase {
-        vector<string> strs;
-        string expected;
-    };
-
-    // 228. Summary Ranges
-    struct SummaryRanges228TestCase {
-        vector<int> nums;
-        vector<string> expected;
-    };
-
-    // 26. Remove Duplicates from Sorted Array
-    struct RemoveDuplicates26TestCase {
-        vector<int> nums;
-        vector<int> expected; // expected first k unique values
     };
 
     // 45. Jump Game II
@@ -941,13 +966,6 @@ namespace TestCases {
     struct UniqueNumberOfOccurrencesTestCase {
         vector<int> arr;
         bool expected;
-    };
-
-    // 2798. Number of Employees Who Met the Target
-    struct NumberOfEmployeesWhoMetTargetTestCase {
-        vector<int> hours;
-        int target;
-        int expected;
     };
 
     // 504. Base 7

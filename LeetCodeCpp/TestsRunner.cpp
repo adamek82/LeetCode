@@ -246,7 +246,7 @@ public:
     static void numIslands_200_tests()
     {
         // Define test cases
-        vector<NumIslandsTestCase> testCases = {
+        vector<NumberOfIslandsTestCase> testCases = {
             {{{'1', '1', '1', '1', '0'},
               {'1', '1', '0', '1', '0'},
               {'1', '1', '0', '0', '0'},
@@ -1867,22 +1867,41 @@ public:
     }
 
     static void fizzBuzz_412_tests() {
-        vector<int> ns = {3, 5, 15, 16, 30};
-        vector<vector<string>> expected = {
-            {"1","2","Fizz"},
-            {"1","2","Fizz","4","Buzz"},
-            {"1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"},
-            {"1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz","16"},
-            {"1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz","16","17","Fizz","19","Buzz","Fizz","22","23","Fizz","Buzz","26","Fizz","28","29","FizzBuzz"}
+        vector<FizzBuzzTestCase> testCases = {
+            {
+                3,
+                {"1", "2", "Fizz"}
+            },
+            {
+                5,
+                {"1", "2", "Fizz", "4", "Buzz"}
+            },
+            {
+                15,
+                {"1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz", "11", "Fizz", "13", "14", "FizzBuzz"}
+            },
+            {
+                16,
+                {"1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz", "11", "Fizz", "13", "14", "FizzBuzz", "16"}
+            },
+            {
+                30,
+                {"1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz", "11", "Fizz", "13", "14", "FizzBuzz",
+                "16", "17", "Fizz", "19", "Buzz", "Fizz", "22", "23", "Fizz", "Buzz", "26", "Fizz", "28", "29", "FizzBuzz"}
+            }
         };
 
         FizzBuzz_412 sol;
-        for (size_t i = 0; i < ns.size(); ++i) {
-            auto got = sol.fizzBuzz(ns[i]);
-            const string label = "FizzBuzz 412 Test " + to_string(i + 1) + " (n=" + to_string(ns[i]) + ")";
-            // exact order comparison
-            assertEqGeneric(label, expected[i], got,
-                            [](vector<string> v){ return v; },  // identity normalize
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+            auto got = sol.fizzBuzz(tc.n);
+
+            const string label =
+                "FizzBuzz 412 Test " + to_string(i + 1) + " (n=" + to_string(tc.n) + ")";
+
+            assertEqGeneric(label, tc.expected, got,
+                            [](vector<string> v) { return v; },
                             PrintQuotedStrings{});
         }
     }
@@ -2450,7 +2469,7 @@ public:
     }
 
     static void mergeSortedArray_88_tests() {
-        vector<MergeCase> cases = {
+        vector<MergeSortedArrayTestCase> cases = {
             {{1,2,3,0,0,0}, 3, {2,5,6}, 3, {1,2,2,3,5,6}},
             {{1},           1, {},       0, {1}},
             {{0},           0, {1},      1, {1}},
@@ -2469,7 +2488,7 @@ public:
     }
 
     static void removeElement_27_tests() {
-        vector<RemCase> cases = {
+        vector<RemoveElementTestCase> cases = {
             {{3,2,2,3},           3, 2, {2,2}},           // example 1
             {{0,1,2,2,3,0,4,2},   2, 5, {0,0,1,3,4}},     // example 2
             {{},                  0, 0, {}},              // empty array
@@ -2479,7 +2498,7 @@ public:
 
         RemoveElement_27 remover;
         for (size_t i = 0; i < cases.size(); ++i) {
-            auto nums = cases[i].input;                // copy to mutate
+            auto nums = cases[i].nums;                // copy to mutate
             int  k    = remover.removeElement(nums, cases[i].val);
 
             // Compare length and (order-insensitive) contents of the kept prefix
@@ -2513,7 +2532,7 @@ public:
 
     static void addBinary_67_tests()
     {
-        vector<ABCase> cases = {
+        vector<MergeStringsAlternatelyTestCase> cases = {
             {"11",      "1",       "100"},      // example 1
             {"1010",    "1011",    "10101"},    // example 2
             {"0",       "0",       "0"},        // both zero
@@ -2523,7 +2542,7 @@ public:
 
         AddBinary_67 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            string got = solver.addBinary(cases[i].a, cases[i].b);
+            string got = solver.addBinary(cases[i].word1, cases[i].word2);
             assertEqScalar("Add Binary 67 Test " + to_string(i + 1), cases[i].expected, got);
         }
     }
@@ -3264,7 +3283,7 @@ public:
     }
 
     static void findClosestNumber_2239_tests() {
-        vector<FindClosest2239TestCase> tests = {
+        vector<FindClosestNumberToZeroTestCase> tests = {
             // From the statement
             {{-4,-2,1,4,8}, 1},
             {{2,-1,1},      1},
@@ -3278,7 +3297,7 @@ public:
 
         FindClosestNumberToZero_2239 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
-            int got = sol.findClosestNumber(tests[i].input);
+            int got = sol.findClosestNumber(tests[i].nums);
             const string label = "Find Closest Number to Zero 2239 Test " + to_string(i + 1);
             assertEqScalar(label, tests[i].expected, got);
         }
@@ -3305,7 +3324,7 @@ public:
     }
 
     static void romanToInteger_13_tests() {
-        vector<RomanToInteger13TestCase> tests = {
+        vector<RomanToIntegerTestCase> tests = {
             // From the statement
             {"III", 3},
             {"LVIII", 58},
@@ -3424,7 +3443,7 @@ public:
     }
 
     static void longestCommonPrefix_14_tests() {
-        vector<LongestCommonPrefix14TestCase> tcs = {
+        vector<LongestCommonPrefixTestCase> tcs = {
             // Provided examples
             {{"flower","flow","flight"}, "fl"},
             {{"dog","racecar","car"}, ""},
@@ -3462,7 +3481,7 @@ public:
     }
 
     static void summaryRanges_228_tests() {
-        vector<SummaryRanges228TestCase> tests = {
+        vector<SummaryRangesTestCase> tests = {
             {{0,1,2,4,5,7},                  {"0->2","4->5","7"}},
             {{0,2,3,4,6,8,9},                {"0","2->4","6","8->9"}},
             {{},                              {}},
