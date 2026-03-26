@@ -786,7 +786,7 @@ public:
     }
 
     static void bestTimeToBuyAndSellStock_121_tests() {
-        vector<MaxProfitTestCase> testCases = {
+        vector<BestTimeToBuyAndSellStockTestCase> testCases = {
             // Provided examples
             {{7, 1, 5, 3, 6, 4}, 5},  // Example 1
             {{7, 6, 4, 3, 1}, 0},    // Example 2
@@ -1560,7 +1560,7 @@ public:
     }
 
     static void zigzagConversion_6_tests() {
-        vector<ZigzagTestCase> testCases = {
+        vector<ZigzagConversionTestCase> testCases = {
             {"PAYPALISHIRING", 3, "PAHNAPLSIIGYIR"},
             {"PAYPALISHIRING", 4, "PINALSIGYAHRPI"},
             {"A", 1, "A"},
@@ -1653,7 +1653,7 @@ public:
     }
 
     static void bestTimeToBuyAndSellStockII_122_tests() {
-        vector<BestTimeToBuyAndSellStockII_122_TestCase> testCases = {
+        vector<BestTimeToBuyAndSellStockIITestCase> testCases = {
             // 3 examples from the problem statement:
             {{7,1,5,3,6,4}, 7}, // Example 1
             {{1,2,3,4,5}, 4},   // Example 2
@@ -2548,7 +2548,7 @@ public:
     }
 
     static void findPivotIndex_724_tests() {
-        vector<PivotCase> cases = {
+        vector<FindPivotIndexTestCase> cases = {
             {{1,7,3,6,5,6},  3},     // example 1
             {{1,2,3},       -1},     // example 2
             {{2,1,-1},       0},     // example 3
@@ -3377,7 +3377,7 @@ public:
         }
 
         // Follow-up: many queries for the same t (reuse preprocessed data)
-        vector<IsSubsequence392FollowUpCase> futests = {
+        vector<IsSubsequenceFollowUpTestCase> futests = {
             {"ahbgdc", { {"abc", true}, {"axc", false}, {"agc", true}, {"", true}, {"aaaa", false} }},
             {"leetcode", { {"leet", true}, {"code", true}, {"leot", false}, {"leetcode", true} }}
         };

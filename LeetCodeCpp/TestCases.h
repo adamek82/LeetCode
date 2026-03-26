@@ -95,7 +95,112 @@ namespace TestCases {
         vector<int> expected;
     };
 
+    // 80. Remove Duplicates from Sorted Array II
+    struct RemoveDuplicatesFromSortedArrayIITestCase {
+        vector<int> input;
+        int expectedK;
+        vector<int> expected;
+    };
 
+    /* Greedy scans, prefix thinking, and simple counting ideas */
+
+    // 121. Best Time to Buy and Sell Stock
+    struct BestTimeToBuyAndSellStockTestCase {
+        vector<int> prices;
+        int expected;
+    };
+
+    // 122. Best Time to Buy and Sell Stock II
+    struct BestTimeToBuyAndSellStockIITestCase {
+        vector<int> prices;
+        int expected;
+    };
+
+    // 724. Find Pivot Index
+    struct FindPivotIndexTestCase {
+        vector<int> input;
+        int expected;
+    };
+
+    // 3074. Apple Redistribution into Boxes
+    struct AppleRedistributionIntoBoxesTestCase {
+        vector<int> apple;
+        vector<int> capacity;
+        int expected;
+    };
+
+    // 3046. Split the Array
+    struct SplitTheArrayTestCase {
+        vector<int> nums;
+        bool expected;
+    };
+
+    /* Core array techniques: construction, partitioning, and prefix products */
+
+    // 118. Pascal's Triangle
+    struct PascalsTriangleTestCase {
+        int numRows;
+        vector<vector<int>> expected;
+    };
+
+    // 75. Sort Colors
+    struct SortColorsTestCase {
+        vector<int> input;
+        vector<int> expected;
+
+        SortColorsTestCase(vector<int> in, vector<int> exp)
+            : input(move(in)), expected(move(exp)) {}
+    };
+
+    // 238. Product of Array Except Self
+    struct ProductOfArrayExceptSelfTestCase {
+        vector<int> input;
+        vector<int> expected;
+    };
+
+    // 274. H-Index
+    struct HIndexTestCase {
+        vector<int> input;
+        int expected;
+    };
+
+    /* More advanced transformations on intervals, strings, and matrices */
+
+    // 56. Merge Intervals
+    struct MergeIntervalsTestCase {
+        vector<vector<int>> input;
+        vector<vector<int>> expected;
+    };
+
+    // 6. Zigzag Conversion
+    struct ZigzagConversionTestCase {
+        string input;
+        int numRows;
+        string expected;
+    };
+
+    /* 2D matrix traversal and in-place matrix transformation */
+
+    // 48. Rotate Image
+    struct RotateImageTestCase {
+        vector<vector<int>> input;
+        vector<vector<int>> expected;
+    };
+
+    // 54. Spiral Matrix
+    struct SpiralMatrixTestCase {
+        vector<vector<int>> matrix;
+        vector<int> expected;
+    };
+
+    /* Preprocessing optimization for repeated subsequence queries */
+
+    // 392. Is Subsequence (follow-up with next-position table)
+    struct IsSubsequenceFollowUpTestCase {
+        string t;
+        vector<pair<string, bool>> queries;
+    };
+//
 
     /* ===========================================================
      * Graphs and traversal
@@ -285,18 +390,6 @@ namespace TestCases {
         vector<int> expected;
     };
 
-    // 121. Best Time to Buy and Sell Stock
-    struct MaxProfitTestCase {
-        vector<int> prices;
-        int expected;
-    };
-
-    // 54. Spiral Matrix
-    struct SpiralMatrixTestCase {
-        vector<vector<int>> matrix;
-        vector<int> expected;
-    };
-
     // 98. Validate Binary Search Tree
     struct ValidateBinarySearchTreeTestCase {
         vector<optional<int>> tree; // level-order input
@@ -344,29 +437,11 @@ namespace TestCases {
         vector<int> expected;
     };
 
-    // 48. Rotate Image
-    struct RotateImageTestCase {
-        vector<vector<int>> input;
-        vector<vector<int>> expected;
-    };
-
-    // 56. Merge Intervals
-    struct MergeIntervalsTestCase {
-        vector<vector<int>> input;
-        vector<vector<int>> expected;
-    };
-
     // 23. Merge k Sorted Lists
     struct MergeKListsTestCase {
         vector<vector<int>> input;
         vector<int> expected;
 
-    };
-
-    // 238. Product of Array Except Self
-    struct ProductOfArrayExceptSelfTestCase {
-        vector<int> input;
-        vector<int> expected;
     };
 
     // 169. Majority Element
@@ -423,41 +498,6 @@ namespace TestCases {
     // 153. Find Minimum in Rotated Sorted Array
     struct FindMinTestCase {
         vector<int> input;
-        int expected;
-    };
-
-    // 6. Zigzag Conversion
-    struct ZigzagTestCase {
-        string input;
-        int numRows;
-        string expected;
-    };
-
-    // 274. H-Index
-    struct HIndexTestCase {
-        vector<int> input;
-        int expected;
-    };
-
-    // 75. Sort Colors
-    struct SortColorsTestCase {
-        vector<int> input;
-        vector<int> expected;
-
-        SortColorsTestCase(vector<int> in, vector<int> exp)
-            : input(move(in)), expected(move(exp)) {}
-    };
-
-    // 80. Remove Duplicates from Sorted Array II
-    struct RemoveDuplicatesFromSortedArrayIITestCase {
-        vector<int> input;
-        int expectedK;
-        vector<int> expected;
-    };
-
-    // 122. Best Time to Buy and Sell Stock II
-    struct BestTimeToBuyAndSellStockII_122_TestCase {
-        vector<int> prices;
         int expected;
     };
 
@@ -644,12 +684,6 @@ namespace TestCases {
         string expected;
     };
 
-    // 724. Find Pivot Index
-    struct PivotCase {
-        vector<int> input;
-        int expected;
-    };
-
     // 191. Number of 1 Bits
     struct HWCase {
         uint32_t n;
@@ -789,12 +823,6 @@ namespace TestCases {
         string expected;
     };
 
-    // 392. Is Subsequence (follow-up with next-position table)
-    struct IsSubsequence392FollowUpCase {
-        string t;
-        vector<pair<string, bool>> queries;
-    };
-
     // 45. Jump Game II
     struct JumpGameII45TestCase {
         vector<int> nums;
@@ -856,12 +884,6 @@ namespace TestCases {
     struct BaseballGameTestCase {
         vector<string> ops;
         int expected;
-    };
-
-    // 3046. Split the Array
-    struct SplitTheArrayTestCase {
-        vector<int> nums;
-        bool expected;
     };
 
     // 383. Ransom Note
@@ -955,13 +977,6 @@ namespace TestCases {
         int expected;
     };
 
-    // 3074. Apple Redistribution into Boxes
-    struct AppleRedistributionIntoBoxesTestCase {
-        vector<int> apple;
-        vector<int> capacity;
-        int expected;
-    };
-
     // 1207. Unique Number of Occurrences
     struct UniqueNumberOfOccurrencesTestCase {
         vector<int> arr;
@@ -998,12 +1013,6 @@ namespace TestCases {
         vector<int> input;
         int k;
         int expected;
-    };
-
-    // 118. Pascal's Triangle
-    struct PascalsTriangleTestCase {
-        int numRows;
-        vector<vector<int>> expected;
     };
 
     // 37. Sudoku Solver
