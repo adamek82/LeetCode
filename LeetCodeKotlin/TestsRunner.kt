@@ -73,6 +73,8 @@ object TestsRunner {
         testCourseSchedule_207()
         println("Running Subsets_78 tests:")
         testSubsets_78()
+        println("Running GameOfLife_289 tests:")
+        testGameOfLife_289()
     }
 
     /** Helper to compare double arrays within 1e-5 */
@@ -280,6 +282,11 @@ object TestsRunner {
     data class SubsetsTestCase(
         val nums: IntArray,
         val expected: List<List<Int>>
+    )
+
+    data class GameOfLifeTestCase(
+        val input: Array<IntArray>,
+        val expected: Array<IntArray>
     )
 
     private fun testBestTimeToBuyAndSellStock_121() {
@@ -1707,7 +1714,7 @@ object TestsRunner {
                 "sw", "sx", "sy", "sz"
             ))
         )
-        
+
         val solution = LetterCombinations_17()
         for ((index, testCase) in testCases.withIndex()) {
             val result = solution.letterCombinations(testCase.input)
@@ -1725,9 +1732,9 @@ object TestsRunner {
             ScheduleTestCase(5, arrayOf(intArrayOf(0, 1), intArrayOf(2, 3), intArrayOf(3, 4), intArrayOf(2, 1)), true),
             ScheduleTestCase(5, arrayOf(intArrayOf(0, 1), intArrayOf(2, 3), intArrayOf(3, 4), intArrayOf(2, 1), intArrayOf(4, 2)), false)
         )
-    
+
         val solution = CourseSchedule_207()
-    
+
         for ((index, tc) in testCases.withIndex()) {
             val result = solution.canFinish(tc.numCourses, tc.prerequisites)
             val pass = result == tc.expectedResult
@@ -1791,6 +1798,97 @@ object TestsRunner {
                             else
                                     "FAIL" +
                                             " (Input: ${tc.nums.joinToString(prefix = "[", postfix = "]")}, Expected: $expected, Got: $got)"
+            )
+        }
+    }
+
+    private fun testGameOfLife_289() {
+        val testCases = listOf(
+            // Example 1
+            GameOfLifeTestCase(
+                arrayOf(
+                    intArrayOf(0, 1, 0),
+                    intArrayOf(0, 0, 1),
+                    intArrayOf(1, 1, 1),
+                    intArrayOf(0, 0, 0)
+                ),
+                arrayOf(
+                    intArrayOf(0, 0, 0),
+                    intArrayOf(1, 0, 1),
+                    intArrayOf(0, 1, 1),
+                    intArrayOf(0, 1, 0)
+                )
+            ),
+            // Example 2
+            GameOfLifeTestCase(
+                arrayOf(
+                    intArrayOf(1, 1),
+                    intArrayOf(1, 0)
+                ),
+                arrayOf(
+                    intArrayOf(1, 1),
+                    intArrayOf(1, 1)
+                )
+            ),
+            // Complex 1: Blinker (oscillator) — horizontal -> vertical
+            GameOfLifeTestCase(
+                arrayOf(
+                    intArrayOf(0, 0, 0),
+                    intArrayOf(1, 1, 1),
+                    intArrayOf(0, 0, 0)
+                ),
+                arrayOf(
+                    intArrayOf(0, 1, 0),
+                    intArrayOf(0, 1, 0),
+                    intArrayOf(0, 1, 0)
+                )
+            ),
+            // Complex 2: Stable block (still life) — unchanged
+            GameOfLifeTestCase(
+                arrayOf(
+                    intArrayOf(0, 0, 0, 0),
+                    intArrayOf(0, 1, 1, 0),
+                    intArrayOf(0, 1, 1, 0),
+                    intArrayOf(0, 0, 0, 0)
+                ),
+                arrayOf(
+                    intArrayOf(0, 0, 0, 0),
+                    intArrayOf(0, 1, 1, 0),
+                    intArrayOf(0, 1, 1, 0),
+                    intArrayOf(0, 0, 0, 0)
+                )
+            ),
+            // Complex 3: Glider — first step
+            GameOfLifeTestCase(
+                arrayOf(
+                    intArrayOf(0, 1, 0, 0, 0),
+                    intArrayOf(0, 0, 1, 0, 0),
+                    intArrayOf(1, 1, 1, 0, 0),
+                    intArrayOf(0, 0, 0, 0, 0),
+                    intArrayOf(0, 0, 0, 0, 0)
+                ),
+                arrayOf(
+                    intArrayOf(0, 0, 0, 0, 0),
+                    intArrayOf(1, 0, 1, 0, 0),
+                    intArrayOf(0, 1, 1, 0, 0),
+                    intArrayOf(0, 1, 0, 0, 0),
+                    intArrayOf(0, 0, 0, 0, 0)
+                )
+            )
+        )
+
+        val solution = GameOfLife_289()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val board = Array(testCase.input.size) { row -> testCase.input[row].clone() }
+            solution.gameOfLife(board)
+
+            val pass = board.contentDeepEquals(testCase.expected)
+
+            println(
+                "Game of Life Test ${index + 1}: " +
+                    if (pass) "PASS" else "FAIL" +
+                    " (Expected: ${testCase.expected.contentDeepToString()}, Got: ${board.contentDeepToString()})"
             )
         }
     }
