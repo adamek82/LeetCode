@@ -1226,9 +1226,9 @@ public:
         MajorityElement_169 sol;
 
         const vector<pair<string, function<int(const MajorityElementTestCase&)>>> impls = {
-            {"Boyer-Moore",  [&](const MajorityElementTestCase& tc){ return sol.majorityElement(tc.input); }},
-            {"Hashmap",      [&](const MajorityElementTestCase& tc){ return sol.majorityElementWithHashmap(tc.input); }},
-            {"Bit Counting", [&](const MajorityElementTestCase& tc){ return sol.majorityElementWithBitCounting(tc.input); }},
+            {"Boyer-Moore",  [&](const MajorityElementTestCase& tc){ return sol.majorityElement(tc.nums); }},
+            {"Hashmap",      [&](const MajorityElementTestCase& tc){ return sol.majorityElementWithHashmap(tc.nums); }},
+            {"Bit Counting", [&](const MajorityElementTestCase& tc){ return sol.majorityElementWithBitCounting(tc.nums); }},
         };
 
         for (size_t i = 0; i < testCases.size(); ++i) {
@@ -1860,7 +1860,7 @@ public:
 
         LongestConsecutiveSequence_128 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = sol.longestConsecutive(testCases[i].input);
+            int got = sol.longestConsecutive(testCases[i].nums);
             assertEqScalar("Longest Consecutive Sequence 128 Test " + to_string(i + 1),
                         testCases[i].expected, got);
         }
@@ -1973,19 +1973,21 @@ public:
     }
 
     static void sortCharactersByFrequency_451_tests() {
-        vector<string> inputs = {
-            "tree",      // 'e'x2, 'r','t'
-            "cccaaa",    // 'c'x3, 'a'x3
-            "Aabb",      // 'b'x2, 'A','a'
-            "dccbbbaaaa",// a4,b3,c2,d1
-            "srrqqqpppp" // p4,q3,r2,s1
+        vector<SortCharactersByFrequencyTestCase> testCases = {
+            {"tree"},       // 'e'x2, 'r','t'
+            {"cccaaa"},     // 'c'x3, 'a'x3
+            {"Aabb"},       // 'b'x2, 'A','a'
+            {"dccbbbaaaa"}, // a4,b3,c2,d1
+            {"srrqqqpppp"}  // p4,q3,r2,s1
         };
 
         SortCharactersByFrequency_451 sol;
-        for (size_t i = 0; i < inputs.size(); ++i) {
-            string got = sol.frequencySort(inputs[i]);
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+            string got = sol.frequencySort(tc.input);
             const string label = "Sort Characters by Frequency 451 Test " + to_string(i + 1);
-            assertEqScalar(label, true, isValidFrequencySort(inputs[i], got));
+            assertEqScalar(label, true, isValidFrequencySort(tc.input, got));
         }
     }
 
@@ -2025,7 +2027,7 @@ public:
 
         TopKFrequentWords_692 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto got = sol.topKFrequent(testCases[i].input, testCases[i].k);
+            auto got = sol.topKFrequent(testCases[i].words, testCases[i].k);
             const string label = "Top K Frequent Words 692 Test " + to_string(i + 1) +
                                 " (k=" + to_string(testCases[i].k) + ")";
             assertEqStrings(label, testCases[i].expected, got);  // exact order matters
@@ -2446,7 +2448,7 @@ public:
     }
 
     static void twoSum_1_tests() {
-        vector<TwoSumCase> cases = {
+        vector<TwoSumTestCase> cases = {
             {{2, 7, 11, 15},               9,  {0, 1}},
             {{3, 2, 4},                    6,  {1, 2}},
             {{3, 3},                       6,  {0, 1}},
@@ -2457,7 +2459,7 @@ public:
 
         TwoSum_1 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            auto got = solver.twoSum(cases[i].input, cases[i].target);
+            auto got = solver.twoSum(cases[i].nums, cases[i].target);
 
             // Order-independent compare of index pairs
             auto expected = cases[i].expected;
@@ -2515,7 +2517,7 @@ public:
 
     static void maximumNumberOfBalloons_1189_tests()
     {
-        vector<BalloonCase> cases = {
+        vector<MaximumNumberOfBalloonsTestCase> cases = {
             {"nlaebolko",            1},   // example 1
             {"loonbalxballpoon",     2},   // example 2
             {"leetcode",             0},   // example 3
@@ -2525,7 +2527,7 @@ public:
 
         MaximumNumberOfBalloons_1189 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            int got = solver.maxNumberOfBalloons(cases[i].input);
+            int got = solver.maxNumberOfBalloons(cases[i].text);
             assertEqScalar("Maximum Number of Balloons 1189 Test " + to_string(i + 1), cases[i].expected, got);
         }
     }
@@ -3110,7 +3112,7 @@ public:
     }
 
     static void containsDuplicate_217_tests() {
-        vector<ContainsDuplicate217TestCase> tests = {
+        vector<ContainsDuplicateTestCase> tests = {
             // 3 from the statement
             {{1, 2, 3, 1}, true},
             {{1, 2, 3, 4}, false},
@@ -3133,7 +3135,7 @@ public:
         ContainsDuplicate_217 sol;
 
         for (size_t i = 0; i < tests.size(); ++i) {
-            bool got = sol.containsDuplicate(tests[i].input);
+            bool got = sol.containsDuplicate(tests[i].nums);
             assertEqScalar("ContainsDuplicate 217 Test " + to_string(i + 1), tests[i].expected, got);
         }
 
@@ -3941,7 +3943,7 @@ public:
     }
 
     static void ransomNote_383_tests() {
-        vector<RansomNote383TestCase> testCases = {
+        vector<RansomNoteTestCase> testCases = {
             // Examples from the problem statement
             {"a",  "b",   false},
             {"aa", "ab",  false},

@@ -200,6 +200,124 @@ namespace TestCases {
         string t;
         vector<pair<string, bool>> queries;
     };
+
+    /* ===========================================================
+     * Hashmaps & Sets
+     * =========================================================== */
+
+    /* Basic membership checks with sets and simple lookups */
+
+    // 771. Jewels and Stones
+    struct JewelsAndStonesTestCase {
+        string jewels;
+        string stones;
+        int expected;
+    };
+
+    // 217. Contains Duplicate
+    struct ContainsDuplicateTestCase {
+        vector<int> nums;
+        bool expected;
+    };
+
+    // 383. Ransom Note
+    struct RansomNoteTestCase {
+        string ransomNote;
+        string magazine;
+        bool expected;
+    };
+
+    // 242. Valid Anagram
+    struct ValidAnagramTestCase {
+        string s;
+        string t;
+        bool expected;
+    };
+
+    // 1189. Maximum Number of Balloons
+    struct MaximumNumberOfBalloonsTestCase {
+        string text;
+        int expected;
+    };
+
+    // 1207. Unique Number of Occurrences
+    struct UniqueNumberOfOccurrencesTestCase {
+        vector<int> arr;
+        bool expected;
+    };
+
+    // 169. Majority Element
+    struct MajorityElementTestCase {
+        vector<int> nums;
+        int expected;
+    };
+
+    /* Hashmap lookup patterns for complements and associations */
+
+    // 1. Two Sum
+    struct TwoSumTestCase {
+        vector<int> nums;
+        int target;
+        vector<int> expected; // indices (any order)
+    };
+
+    /* Grouping values by a shared hashable signature */
+
+    // 49. Group Anagrams
+    struct GroupAnagramsTestCase {
+        vector<string> input;
+        vector<vector<string>> expected;
+    };
+
+    /* Using sets/maps to validate constraints and deduplicate states */
+
+    // 36. Valid Sudoku
+    struct ValidSudokuTestCase {
+        vector<vector<char>> board;
+        bool expected;
+    };
+
+    /* More advanced set/map usage for ordering and sequence reasoning */
+
+    // 128. Longest Consecutive Sequence
+    struct LongestConsecutiveSequenceTestCase {
+        vector<int> nums;
+        int expected;
+    };
+
+    /* Frequency buckets and top-k style counting problems */
+
+    // 451. Sort Characters by Frequency
+    struct SortCharactersByFrequencyTestCase {
+        string input;
+    };
+
+    // 692. Top K Frequent Words
+    struct TopKFrequentWordsTestCase {
+        vector<string> words;
+        int k;
+        vector<string> expected;
+    };
+
+    /* Aggregation and pattern counting over grouped event data */
+
+    // 1152. Analyze User Website Visit Pattern
+    struct AnalyzeUserWebsiteVisitPatternTestCase {
+        vector<string> username;
+        vector<int> timestamp;
+        vector<string> website;
+        vector<string> expected;
+    };
+
+    /* Hash-based data structure design */
+
+    // 706. Design HashMap
+    struct DesignHashMapTestCase {
+        vector<string> operations;
+        vector<vector<int>> arguments;   // op args: [] / [key] / [key,value]
+        vector<optional<int>> expected;  // nullopt for void ops, value for get()
+    };
+
 //
 
     /* ===========================================================
@@ -444,12 +562,6 @@ namespace TestCases {
 
     };
 
-    // 169. Majority Element
-    struct MajorityElementTestCase {
-        vector<int> input;
-        int expected;
-    };
-
     // 150. Evaluate Reverse Polish Notation
     struct EvaluateRPNTestCase {
         vector<string> input;
@@ -475,12 +587,6 @@ namespace TestCases {
         bool expected;
     };
 
-    // 36. Valid Sudoku
-    struct ValidSudokuTestCase {
-        vector<vector<char>> board;
-        bool expected;
-    };
-
     // 704. Binary Search
     struct BinarySearchTestCase {
         vector<int> input;
@@ -501,43 +607,9 @@ namespace TestCases {
         int expected;
     };
 
-    // 242. Valid Anagram
-    struct ValidAnagramTestCase {
-        string s;
-        string t;
-        bool expected;
-    };
-
-    // 692. Top K Frequent Words
-    struct TopKFrequentWordsTestCase {
-        vector<string> input;
-        int k;
-        vector<string> expected;
-    };
-
-    // 1152. Analyze User Website Visit Pattern
-    struct AnalyzeUserWebsiteVisitPatternTestCase {
-        vector<string> username;
-        vector<int> timestamp;
-        vector<string> website;
-        vector<string> expected;
-    };
-
-    // 49. Group Anagrams
-    struct GroupAnagramsTestCase {
-        vector<string> input;
-        vector<vector<string>> expected;
-    };
-
     // 277. Find the Celebrity
     struct FindCelebrityTestCase {
         vector<vector<int>> matrix;
-        int expected;
-    };
-
-    // 128. Longest Consecutive Sequence
-    struct LongestConsecutiveSequenceTestCase {
-        vector<int> input;
         int expected;
     };
 
@@ -664,19 +736,6 @@ namespace TestCases {
         int expected;
     };
 
-    // 1. Two Sum
-    struct TwoSumCase {
-        vector<int> input;
-        int target;
-        vector<int> expected; // indices (any order)
-    };
-
-    // 1189. Maximum Number of Balloons
-    struct BalloonCase {
-        string input;
-        int expected;
-    };
-
     // 1768. Merge Strings Alternately
     struct MergeStringsAlternatelyTestCase {
         string word1;
@@ -735,13 +794,6 @@ namespace TestCases {
         bool expected;
     };
 
-    // 771. Jewels and Stones
-    struct JewelsAndStonesTestCase {
-        string jewels;
-        string stones;
-        int expected;
-    };
-
     // 367. Valid Perfect Square
     struct PerfectSquareTestCase {
         int input;
@@ -771,12 +823,6 @@ namespace TestCases {
     struct DailyTemperatures739TestCase {
         vector<int> input;
         vector<int> expected;
-    };
-
-    // 217. Contains Duplicate
-    struct ContainsDuplicate217TestCase {
-        vector<int> input;
-        bool expected;
     };
 
     // 509. Fibonacci Number
@@ -886,13 +932,6 @@ namespace TestCases {
         int expected;
     };
 
-    // 383. Ransom Note
-    struct RansomNote383TestCase {
-        string ransomNote;
-        string magazine;
-        bool expected;
-    };
-
     // 16. 3Sum Closest
     struct ThreeSumClosestTestCase {
         vector<int> input;
@@ -977,12 +1016,6 @@ namespace TestCases {
         int expected;
     };
 
-    // 1207. Unique Number of Occurrences
-    struct UniqueNumberOfOccurrencesTestCase {
-        vector<int> arr;
-        bool expected;
-    };
-
     // 504. Base 7
     struct Base7TestCase {
         int num;
@@ -993,13 +1026,6 @@ namespace TestCases {
     struct SingleNumber136TestCase {
         vector<int> nums;
         int expected;
-    };
-
-    // 706. Design HashMap
-    struct DesignHashMapTestCase {
-        vector<string> operations;
-        vector<vector<int>> arguments;   // op args: [] / [key] / [key,value]
-        vector<optional<int>> expected;  // nullopt for void ops, value for get()
     };
 
     // 2807. Insert Greatest Common Divisors in Linked List
