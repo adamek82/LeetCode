@@ -2239,7 +2239,7 @@ public:
     }
 
     static void squaresOfSortedArray_977_tests() {
-        vector<SquaresOfSortedArrayTestCase> testCases = {
+        vector<SquaresOfASortedArrayTestCase> testCases = {
             // 2 examples from the problem statement
             {{-4, -1, 0, 3, 10},      {0, 1, 9, 16, 100}},
             {{-7, -3, 2, 3, 11},      {4, 9, 9, 49, 121}},
@@ -2252,7 +2252,7 @@ public:
 
         SquaresOfSortedArray_977 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto got = sol.sortedSquares(testCases[i].input);
+            auto got = sol.sortedSquares(testCases[i].nums);
             assertEqVIntExact("Squares of Sorted Array 977 Test " + to_string(i + 1),
                             testCases[i].expected, got);
         }
@@ -2293,7 +2293,7 @@ public:
         for (int v = -1000; v <= 1000; ++v) longNums.push_back(v);  // 2001 elements
         vector<int> longAns = {1, static_cast<int>(longNums.size())};  // -1000 + 1000 = 0
 
-        vector<TwoSumIITestCase> testCases = {
+        vector<TwoSumIIInputArrayIsSortedTestCase> testCases = {
             // three examples from the statement
             {{2,7,11,15},                  9,  {1,2}},
             {{2,3,4},                      6,  {1,3}},
@@ -2306,7 +2306,7 @@ public:
 
         TwoSumII_167 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto nums = testCases[i].input; // solve on a copy
+            auto nums = testCases[i].numbers; // solve on a copy
             auto got  = solver.twoSum(nums, testCases[i].target);
             assertEqVIntExact("Two Sum II 167 Test " + to_string(i + 1), testCases[i].expected, got);
         }
@@ -2354,7 +2354,7 @@ public:
 
         ThreeSum_15 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto got = solver.threeSum(testCases[i].input);
+            auto got = solver.threeSum(testCases[i].nums);
             assertEqVVIntAnyOrder("Three Sum 15 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
@@ -2373,7 +2373,7 @@ public:
 
         ContainerWithMostWater_11 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solver.maxArea(testCases[i].input);
+            int got = solver.maxArea(testCases[i].height);
             assertEqScalar("Container With Most Water 11 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
@@ -2393,7 +2393,7 @@ public:
 
         TrappingRainWater_42 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solver.trap(testCases[i].input);
+            int got = solver.trap(testCases[i].height);
             assertEqScalar("Trapping Rain Water 42 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
@@ -3984,7 +3984,7 @@ public:
 
         ThreeSumClosest_16 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto nums = testCases[i].input; // solve on a copy (project style)
+            auto nums = testCases[i].nums;  // solve on a copy (project style)
             int got   = solver.threeSumClosest(nums, testCases[i].target);
             const string label = "Three Sum Closest 16 Test " + to_string(i + 1);
             assertEqScalar(label, testCases[i].expected, got);
@@ -4025,7 +4025,7 @@ public:
 
         FourSum_18 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto nums = testCases[i].input; // work on a copy
+            auto nums = testCases[i].nums;  // work on a copy
             auto got  = solver.fourSum(nums, testCases[i].target);
             const string label = "Four Sum 18 Test " + to_string(i + 1);
             assertEqVVIntAnyOrder(label, testCases[i].expected, got);
@@ -4965,7 +4965,7 @@ public:
 
         TwoSumLessThanK_1099 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto nums = testCases[i].input; // solver sorts in-place
+            auto nums = testCases[i].nums;  // solver sorts in-place
             int got = solver.twoSumLessThanK(nums, testCases[i].k);
 
             assertEqScalar("Two Sum Less Than K 1099 Test " + to_string(i + 1),

@@ -318,6 +318,82 @@ namespace TestCases {
         vector<optional<int>> expected;  // nullopt for void ops, value for get()
     };
 
+    /* ===========================================================
+     * 2 Pointers
+     * =========================================================== */
+
+    /* Opposite-end pointers for simple in-place processing */
+
+    // 344. Reverse String
+    struct ReverseStringTestCase {
+        vector<char> input;
+        vector<char> expected;
+    };
+
+    // 125. Valid Palindrome
+    struct ValidPalindromeTestCase {
+        string input;
+        bool expected;
+    };
+
+    /* Two-pointer scans on sorted arrays */
+
+    // 977. Squares of a Sorted Array
+    struct SquaresOfASortedArrayTestCase {
+        vector<int> nums;
+        vector<int> expected;
+    };
+
+    // 167. Two Sum II – Input Array Is Sorted
+    struct TwoSumIIInputArrayIsSortedTestCase {
+        vector<int> numbers;   // sorted
+        int target;
+        vector<int> expected;  // 1-indexed result
+    };
+
+    // 1099. Two Sum Less Than K
+    struct TwoSumLessThanKTestCase {
+        vector<int> nums;
+        int k;
+        int expected;
+    };
+
+    /* Two-pointer optimization after sorting */
+
+    // 15. 3Sum
+    struct ThreeSumTestCase {
+        vector<int> nums;
+        vector<vector<int>> expected;
+    };
+
+    // 16. 3Sum Closest
+    struct ThreeSumClosestTestCase {
+        vector<int> nums;
+        int target;
+        int expected;
+    };
+
+    // 18. 4Sum
+    struct FourSumTestCase {
+        vector<int> nums;
+        int target;
+        vector<vector<int>> expected;
+    };
+
+    /* Shrinking-window reasoning with left/right boundaries */
+
+    // 11. Container With Most Water
+    struct ContainerWithMostWaterTestCase {
+        vector<int> height;
+        int expected;
+    };
+
+    // 42. Trapping Rain Water
+    struct TrappingRainWaterTestCase {
+        vector<int> height;
+        int expected;
+    };
+
 //
 
     /* ===========================================================
@@ -681,49 +757,6 @@ namespace TestCases {
         bool expected;
     };
 
-    // 977. Squares of a Sorted Array
-    struct SquaresOfSortedArrayTestCase {
-        vector<int> input;
-        vector<int> expected;
-    };
-
-    // 344. Reverse String
-    struct ReverseStringTestCase {
-        vector<char> input;
-        vector<char> expected;
-    };
-
-    // 167. Two Sum II – Input Array Is Sorted
-    struct TwoSumIITestCase {
-        vector<int> input;   // sorted
-        int target;
-        vector<int> expected; // 1-indexed result
-    };
-
-    // 125. Valid Palindrome
-    struct ValidPalindromeTestCase {
-        string input;
-        bool expected;
-    };
-
-    // 15. 3Sum
-    struct ThreeSumTestCase {
-        vector<int> input;
-        vector<vector<int>> expected;
-    };
-
-    // 11. Container With Most Water
-    struct ContainerWithMostWaterTestCase {
-        vector<int> input;
-        int expected;
-    };
-
-    // 42. Trapping Rain Water
-    struct TrappingRainWaterTestCase {
-        vector<int> input;
-        int expected;
-    };
-
     // 85. Maximal Rectangle
     struct MaximalRectangleTestCase {
         vector<vector<char>> matrix;
@@ -932,20 +965,6 @@ namespace TestCases {
         int expected;
     };
 
-    // 16. 3Sum Closest
-    struct ThreeSumClosestTestCase {
-        vector<int> input;
-        int target;
-        int expected;
-    };
-
-    // 18. 4Sum
-    struct FourSumTestCase {
-        vector<int> input;
-        int target;
-        vector<vector<int>> expected;
-    };
-
     // 226. Invert Binary Tree
     struct InvertBinaryTreeTestCase {
         vector<optional<int>> input;    // level-order representation of the original tree
@@ -1032,13 +1051,6 @@ namespace TestCases {
     struct InsertGreatestCommonDivisorsTestCase {
         List input;
         List expected;
-    };
-
-    // 1099. Two Sum Less Than K
-    struct TwoSumLessThanKTestCase {
-        vector<int> input;
-        int k;
-        int expected;
     };
 
     // 37. Sudoku Solver
