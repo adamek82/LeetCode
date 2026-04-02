@@ -1241,7 +1241,7 @@ public:
     }
 
     static void evaluateReversePolishNotation_150_tests() {
-        vector<EvaluateRPNTestCase> testCases = {
+        vector<EvaluateReversePolishNotationTestCase> testCases = {
             {{"2", "1", "+", "3", "*"}, 9},  // Example 1
             {{"4", "13", "5", "/", "+"}, 6}, // Example 2
             {{"10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"}, 22}, // Example 3
@@ -1259,7 +1259,7 @@ public:
     }
 
     static void largestRectangleInHistogram_84_tests() {
-        vector<LargestRectangleTestCase> testCases = {
+        vector<LargestRectangleInHistogramTestCase> testCases = {
             // Example 1
             {{2, 1, 5, 6, 2, 3}, 10},
             // Example 2
@@ -1276,7 +1276,7 @@ public:
 
         LargestRectangleInHistogram_84 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solution.largestRectangleArea(testCases[i].input);
+            int got = solution.largestRectangleArea(testCases[i].heights);
             assertEqScalar("Largest Rectangle Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
@@ -3092,7 +3092,7 @@ public:
     }
 
     static void dailyTemperatures_739_tests() {
-        vector<DailyTemperatures739TestCase> tests = {
+        vector<DailyTemperaturesTestCase> tests = {
             // Three examples from the problem statement
             {{73,74,75,71,69,72,76,73}, {1,1,4,2,1,1,0,0}},
             {{30,40,50,60},             {1,1,1,0}},
@@ -3106,7 +3106,7 @@ public:
 
         DailyTemperatures_739 solver;
         for (size_t i = 0; i < tests.size(); ++i) {
-            auto got = solver.dailyTemperatures(tests[i].input);
+            auto got = solver.dailyTemperatures(tests[i].temperatures);
             assertEqVIntExact("Daily Temperatures 739 Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
@@ -3892,7 +3892,7 @@ public:
         };
 
         for (size_t i = 0; i < tests.size(); ++i) {
-            auto got = run(tests[i].ops);
+            auto got = run(tests[i].operations);
             assertEqVIntExact("Min Stack 155 Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
@@ -3916,7 +3916,7 @@ public:
 
         BaseballGame_682 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto ops = testCases[i].ops; // calPoints takes non-const ref
+            auto ops = testCases[i].operations; // calPoints takes non-const ref
             int got = sol.calPoints(ops);
             assertEqScalar("Baseball Game 682 Test " + to_string(i + 1),
                            testCases[i].expected, got);

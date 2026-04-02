@@ -394,6 +394,69 @@ namespace TestCases {
         int expected;
     };
 
+    /* ===========================================================
+     * Stacks
+     * =========================================================== */
+
+    /* Basic stack simulation for push/pop-style processing */
+
+    // 682. Baseball Game
+    struct BaseballGameTestCase {
+        vector<string> operations;
+        int expected;
+    };
+
+    // 20. Valid Parentheses
+    struct ValidParenthesesTestCase {
+        string input;
+        bool expected;
+    };
+
+    // 150. Evaluate Reverse Polish Notation
+    struct EvaluateReversePolishNotationTestCase {
+        vector<string> input;
+        int expected;
+    };
+
+    /* Stack-based parsing and nested expression decoding */
+
+    // 394. Decode String
+    struct DecodeStringTestCase {
+        string input;
+        string expected;
+    };
+
+    /* Monotonic stack patterns for next greater / smaller reasoning */
+
+    // 739. Daily Temperatures
+    struct DailyTemperaturesTestCase {
+        vector<int> temperatures;
+        vector<int> expected;
+    };
+
+    // 84. Largest Rectangle in Histogram
+    struct LargestRectangleInHistogramTestCase {
+        vector<int> heights;
+        int expected;
+    };
+
+    /* Stack-backed data structure design */
+
+    // 155. Min Stack
+    struct MinStackTestCase {
+        // operations that produce outputs in order: only "top" and "getMin"
+        vector<pair<string, int>> operations; // {op, arg}; arg ignored for ops without arg
+        vector<int> expected;
+    };
+
+    /* Matrix reduction to a histogram-based stack problem */
+
+    // 85. Maximal Rectangle
+    struct MaximalRectangleTestCase {
+        vector<vector<char>> matrix;
+        int expected;
+    };
+
 //
 
     /* ===========================================================
@@ -638,28 +701,10 @@ namespace TestCases {
 
     };
 
-    // 150. Evaluate Reverse Polish Notation
-    struct EvaluateRPNTestCase {
-        vector<string> input;
-        int expected;
-    };
-
-    // 84. Largest Rectangle in Histogram
-    struct LargestRectangleTestCase {
-        vector<int> input;
-        int expected;
-    };
-
     // 79. Word Search
     struct WordSearchTestCase {
         vector<vector<char>> board;
         string word;
-        bool expected;
-    };
-
-    // 20. Valid Parentheses
-    struct ValidParenthesesTestCase {
-        string input;
         bool expected;
     };
 
@@ -757,12 +802,6 @@ namespace TestCases {
         bool expected;
     };
 
-    // 85. Maximal Rectangle
-    struct MaximalRectangleTestCase {
-        vector<vector<char>> matrix;
-        int expected;
-    };
-
     // 53. Maximum Subarray
     struct MaximumSubarrayTestCase {
         vector<int> input;
@@ -780,12 +819,6 @@ namespace TestCases {
     struct HWCase {
         uint32_t n;
         int expected;
-    };
-
-    // 394. Decode String
-    struct DecodeStringTestCase {
-        string input;
-        string expected;
     };
 
     // 44. Wildcard Matching
@@ -850,12 +883,6 @@ namespace TestCases {
     struct MissingNumberTestCase {
         vector<int> input;
         int expected;
-    };
-
-    // 739. Daily Temperatures
-    struct DailyTemperatures739TestCase {
-        vector<int> input;
-        vector<int> expected;
     };
 
     // 509. Fibonacci Number
@@ -950,19 +977,6 @@ namespace TestCases {
     struct GenerateParentheses22TestCase {
         int n;
         vector<string> expected; // order-insensitive
-    };
-
-    // 155. Min Stack
-    struct MinStackTestCase {
-        // operations that produce outputs in order: only "top" and "getMin"
-        vector<pair<string, int>> ops; // {op, arg}; arg ignored for ops without arg
-        vector<int> expected;
-    };
-
-    // 682. Baseball Game
-    struct BaseballGameTestCase {
-        vector<string> ops;
-        int expected;
     };
 
     // 226. Invert Binary Tree
