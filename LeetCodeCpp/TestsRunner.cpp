@@ -617,7 +617,7 @@ public:
         using IntListNode = ListNode<int>;
 
         // Define test cases
-        vector<RemoveDuplicatesTestCase> testCases = {
+        vector<RemoveDuplicatesFromSortedListTestCase> testCases = {
             // Provided examples
             {{1, 1, 2}, {1, 2}},
             {{1, 1, 2, 3, 3}, {1, 2, 3}},
@@ -724,7 +724,7 @@ public:
         LinkedListCycle_141 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            ListNode<int>* head = ListUtils::createLinkedListWithCycle<int>(testCases[i].input, testCases[i].pos);
+            ListNode<int>* head = ListUtils::createLinkedListWithCycle<int>(testCases[i].value, testCases[i].pos);
             bool result = solution.hasCycle(head);
 
             assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
@@ -736,7 +736,7 @@ public:
     static void middleOfTheLinkedList_876_tests() {
         using IntListNode = ListNode<int>;
 
-        vector<MiddleOfLinkedListTestCase> testCases = {
+        vector<MiddleOfTheLinkedListTestCase> testCases = {
             // Provided examples
             {{1, 2, 3, 4, 5}, {3, 4, 5}},
             {{1, 2, 3, 4, 5, 6}, {4, 5, 6}},
@@ -750,7 +750,7 @@ public:
         MiddleOfLinkedList_876 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].input);
+            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].values);
             IntListNode* result = solution.middleNode(input);
 
             assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
@@ -762,7 +762,7 @@ public:
     static void removeNthNodeFromEndOfList_19_tests() {
         using IntListNode = ListNode<int>;
 
-        vector<RemoveNthNodeTestCase> testCases = {
+        vector<RemoveNthNodeFromEndOfListTestCase> testCases = {
             // Provided examples
             {{1, 2, 3, 4, 5}, 2, {1, 2, 3, 5}},
             {{1}, 1, {}},
@@ -776,7 +776,7 @@ public:
         RemoveNthNodeFromEndOfList_19 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].input);
+            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].values);
             IntListNode* result = solution.removeNthFromEnd(input, testCases[i].n);
 
             assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
@@ -912,7 +912,7 @@ public:
         CopyListWithRandomPointer_138 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* input = ListUtils::createLinkedListWithRandom<int>(testCases[i].input);
+            IntListNode* input = ListUtils::createLinkedListWithRandom<int>(testCases[i].nodes);
             IntListNode* expected = ListUtils::createLinkedListWithRandom<int>(testCases[i].expected);
 
             IntListNode* result = solution.copyRandomList(input);

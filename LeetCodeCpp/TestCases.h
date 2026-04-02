@@ -457,6 +457,63 @@ namespace TestCases {
         int expected;
     };
 
+    /* ===========================================================
+     * Linked Lists
+     * =========================================================== */
+
+    /* Basic traversal and local pointer updates in linked lists */
+
+    // 83. Remove Duplicates from Sorted List (LL)
+    struct RemoveDuplicatesFromSortedListTestCase {
+        List input;
+        List expected;
+    };
+
+    // 2807. Insert Greatest Common Divisors in Linked List
+    struct InsertGreatestCommonDivisorsTestCase {
+        List input;
+        List expected;
+    };
+
+    /* Fast/slow pointer techniques on linked lists */
+
+    // 141. Linked List Cycle
+    struct LinkedListCycleTestCase {
+        List value;
+        int  pos;
+        bool expected;
+    };
+
+    // 876. Middle of the Linked List
+    struct MiddleOfTheLinkedListTestCase {
+        vector<int> values;
+        vector<int> expected;
+    };
+
+    // 19. Remove Nth Node From End of List
+    struct RemoveNthNodeFromEndOfListTestCase {
+        vector<int> values;
+        int n;
+        vector<int> expected;
+    };
+
+    /* More advanced linked structures with extra references */
+
+    // 138. Copy List with Random Pointer
+    struct CopyRandomListTestCase {
+        vector<pair<int, optional<int>>> nodes;    // {val, randomIndex or nullopt}
+        vector<pair<int, optional<int>>> expected;
+    };
+
+    /* Linked-list-based data structure design */
+
+    // 146. LRU Cache
+    struct LRUCacheTestCase {
+        vector<string> operations;
+        vector<vector<int>> arguments;      // [] / [key,value] / [key]
+        vector<optional<int>> expected;     // nullopt for put(), value for get()
+    };
+
 //
 
     /* ===========================================================
@@ -608,12 +665,6 @@ namespace TestCases {
         int  expected;
     };
 
-    // 83. Remove Duplicates from Sorted List (LL)
-    struct RemoveDuplicatesTestCase {
-        List input;
-        List expected;
-    };
-
     // 206. Reverse Linked List
     struct ReverseListTestCase {
         List input;
@@ -625,26 +676,6 @@ namespace TestCases {
         List list1;
         List list2;
         List expected;
-    };
-
-    // 141. Linked List Cycle
-    struct LinkedListCycleTestCase {
-        List input;
-        int  pos;
-        bool expected;
-    };
-
-    // 876. Middle of the Linked List
-    struct MiddleOfLinkedListTestCase {
-        vector<int> input;
-        vector<int> expected;
-    };
-
-    // 19. Remove Nth Node From End of List
-    struct RemoveNthNodeTestCase {
-        vector<int> input;
-        int n;
-        vector<int> expected;
     };
 
     // 98. Validate Binary Search Tree
@@ -659,12 +690,6 @@ namespace TestCases {
         int p;
         int q;
         int expected;
-    };
-
-    // 138. Copy List with Random Pointer
-    struct CopyRandomListTestCase {
-        vector<pair<int, optional<int>>> input;    // {val, randomIndex or nullopt}
-        vector<pair<int, optional<int>>> expected;
     };
 
     // 230. Kth Smallest Element in a BST
@@ -739,13 +764,6 @@ namespace TestCases {
         string input;
         int k;
         int expected;
-    };
-
-    // 146. LRU Cache
-    struct LRUCacheTestCase {
-        vector<string> operations;
-        vector<vector<int>> arguments;
-        vector<optional<int>> expected;
     };
 
     // 322. Coin Change
@@ -1059,12 +1077,6 @@ namespace TestCases {
     struct SingleNumber136TestCase {
         vector<int> nums;
         int expected;
-    };
-
-    // 2807. Insert Greatest Common Divisors in Linked List
-    struct InsertGreatestCommonDivisorsTestCase {
-        List input;
-        List expected;
     };
 
     // 37. Sudoku Solver
