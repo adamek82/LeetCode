@@ -1436,7 +1436,7 @@ public:
 
         BinarySearch_704 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solution.search(testCases[i].input, testCases[i].target);
+            int got = solution.search(testCases[i].nums, testCases[i].target);
             assertEqScalar("Binary Search Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
@@ -1457,7 +1457,7 @@ public:
 
         SearchInsertPosition_35 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solution.searchInsert(testCases[i].input, testCases[i].target);
+            int got = solution.searchInsert(testCases[i].nums, testCases[i].target);
             assertEqScalar("Search Insert Position Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
@@ -1522,7 +1522,7 @@ public:
     }
 
     static void findMinimumInRotatedSortedArray_153_tests() {
-        vector<FindMinTestCase> testCases = {
+        vector<FindMinimumInRotatedSortedArrayTestCase> testCases = {
             {{3, 4, 5, 1, 2}, 1},                     // Example 1
             {{4, 5, 6, 7, 0, 1, 2}, 0},               // Example 2
             {{11, 13, 15, 17}, 11},                   // Example 3
@@ -1532,7 +1532,7 @@ public:
 
         FindMinimumInRotatedSortedArray_153 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solution.findMin(testCases[i].input);
+            int got = solution.findMin(testCases[i].nums);
             assertEqScalar("Find Min Rotated Array 153 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
@@ -2992,7 +2992,7 @@ public:
     }
 
     static void validPerfectSquare_367_tests() {
-        vector<PerfectSquareTestCase> cases = {
+        vector<ValidPerfectSquareTestCase> cases = {
             {16,          true},    // example 1
             {14,          false},   // example 2
             {2147395600,  true},    // 46340² – largest 32-bit square
@@ -3002,7 +3002,7 @@ public:
 
         ValidPerfectSquare_367 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            bool got = solver.isPerfectSquare(cases[i].input);
+            bool got = solver.isPerfectSquare(cases[i].num);
             assertEqScalar("Valid Perfect Square 367 Test " + to_string(i + 1), cases[i].expected, got);
         }
     }
@@ -4669,7 +4669,7 @@ public:
 
         SearchInRotatedSortedArray_33 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solution.search(testCases[i].input, testCases[i].target);
+            int got = solution.search(testCases[i].nums, testCases[i].target);
             assertEqScalar("Search Rotated Sorted Array 33 Test " + to_string(i + 1),
                            testCases[i].expected, got);
         }

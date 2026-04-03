@@ -514,7 +514,61 @@ namespace TestCases {
         vector<optional<int>> expected;     // nullopt for put(), value for get()
     };
 
-//
+    /* ===========================================================
+     * Binary Search
+     * =========================================================== */
+
+    /* Basic binary search on sorted arrays and monotonic positions */
+
+    // 704. Binary Search
+    struct BinarySearchTestCase {
+        vector<int> nums;
+        int target;
+        int expected;
+    };
+
+    // 35. Search Insert Position
+    // Reuses BinarySearchTestCase: same input/target/result shape.
+
+    // 278. First Bad Version
+    struct FirstBadVersionTestCase {
+        int n;          // total number of versions
+        int firstBad;   // ground truth "first bad" version
+        int expected;   // expected result from firstBadVersion(n)
+    };
+
+    /* Binary search over a numeric answer space */
+
+    // 367. Valid Perfect Square
+    struct ValidPerfectSquareTestCase {
+        int num;
+        bool expected;
+    };
+
+    // 875. Koko Eating Bananas
+    struct KokoEatingBananasTestCase {
+        vector<int> piles;
+        int h;
+        int expected;
+    };
+
+    /* Binary search on matrix and rotated-array structure */
+
+    // 74. Search a 2D Matrix
+    struct Search2DMatrixTestCase {
+        vector<vector<int>> matrix;
+        int target;
+        bool expected;
+    };
+
+    // 153. Find Minimum in Rotated Sorted Array
+    struct FindMinimumInRotatedSortedArrayTestCase {
+        vector<int> nums;
+        int expected;
+    };
+
+    // 33. Search in Rotated Sorted Array
+    // Reuses BinarySearchTestCase: same nums/target/result shape.
 
     /* ===========================================================
      * Graphs and traversal
@@ -733,26 +787,6 @@ namespace TestCases {
         bool expected;
     };
 
-    // 704. Binary Search
-    struct BinarySearchTestCase {
-        vector<int> input;
-        int target;
-        int expected;
-    };
-
-    // 74. Search a 2D Matrix
-    struct Search2DMatrixTestCase {
-        vector<vector<int>> matrix;
-        int target;
-        bool expected;
-    };
-
-    // 153. Find Minimum in Rotated Sorted Array
-    struct FindMinTestCase {
-        vector<int> input;
-        int expected;
-    };
-
     // 277. Find the Celebrity
     struct FindCelebrityTestCase {
         vector<vector<int>> matrix;
@@ -875,12 +909,6 @@ namespace TestCases {
     // 65. Valid Number
     struct ValidNumberTestCase {
         string input;
-        bool expected;
-    };
-
-    // 367. Valid Perfect Square
-    struct PerfectSquareTestCase {
-        int input;
         bool expected;
     };
 
@@ -1051,20 +1079,6 @@ namespace TestCases {
     struct MinimumAbsoluteDifferenceInBSTTestCase {
         vector<optional<int>> tree;     // level-order input (BST)
         int expected;                   // minimum absolute difference
-    };
-
-    // 278. First Bad Version
-    struct FirstBadVersionTestCase {
-        int n;          // total number of versions
-        int firstBad;   // ground truth "first bad" version
-        int expected;   // expected result from firstBadVersion(n)
-    };
-
-    // 875. Koko Eating Bananas
-    struct KokoEatingBananasTestCase {
-        vector<int> piles;
-        int h;
-        int expected;
     };
 
     // 504. Base 7
