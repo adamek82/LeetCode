@@ -3569,7 +3569,7 @@ public:
     }
 
     static void subsets_78_tests() {
-        vector<Subsets78TestCase> tests = {
+        vector<SubsetsTestCase> tests = {
             // Example 1 (mask order for the bitmask method)
             {{1,2,3}, { {}, {1}, {2}, {1,2}, {3}, {1,3}, {2,3}, {1,2,3} }},
             // Example 2
@@ -3604,7 +3604,7 @@ public:
     }
 
     static void permutations_46_tests() {
-        vector<Permutations46TestCase> tests = {
+        vector<PermutationsTestCase> tests = {
             {{1,2,3}, {{1,2,3},{1,3,2},{2,1,3},{2,3,1},{3,1,2},{3,2,1}}},
             {{0,1},   {{0,1},{1,0}}},
             {{1},     {{1}}},
@@ -3620,7 +3620,7 @@ public:
     }
 
     static void combinations_77_tests() {
-        vector<Combinations77TestCase> tests = {
+        vector<CombinationsTestCase> tests = {
             {4, 2, {{1,2},{1,3},{1,4},{2,3},{2,4},{3,4}}},
             {1, 1, {{1}}},
             {3, 1, {{1},{2},{3}}},
@@ -3631,9 +3631,9 @@ public:
 
         Combinations_77 sol;
 
-        const vector<pair<string, function<vector<vector<int>>(const Combinations77TestCase&)>>> impls = {
-            {"PickNext", [&](const Combinations77TestCase& tc){ return sol.combinePickNext(tc.n, tc.k); }},
-            {"TakeSkip", [&](const Combinations77TestCase& tc){ return sol.combineTakeSkip(tc.n, tc.k); }},
+        const vector<pair<string, function<vector<vector<int>>(const CombinationsTestCase&)>>> impls = {
+            {"PickNext", [&](const CombinationsTestCase& tc){ return sol.combinePickNext(tc.n, tc.k); }},
+            {"TakeSkip", [&](const CombinationsTestCase& tc){ return sol.combineTakeSkip(tc.n, tc.k); }},
         };
 
         for (size_t i = 0; i < tests.size(); ++i) {
@@ -3647,7 +3647,7 @@ public:
     }
 
     static void letterCombinations_17_tests() {
-        vector<LetterCombinations17TestCase> tests = {
+        vector<LetterCombinationsTestCase> tests = {
             {"23", {"ad","ae","af","bd","be","bf","cd","ce","cf"}},
             {"",   {}},
             {"2",  {"a","b","c"}},
@@ -3664,7 +3664,7 @@ public:
     }
 
     static void combinationSum_39_tests() {
-        vector<CombinationSum39TestCase> tests = {
+        vector<CombinationSumTestCase> tests = {
             {{2,3,6,7}, 7, {{2,2,3},{7}}},
             {{2,3,5},   8, {{2,2,2,2},{2,3,3},{3,5}}},
             {{2},       1, {}},
@@ -3682,7 +3682,7 @@ public:
     }
 
     static void generateParentheses_22_tests() {
-        vector<GenerateParentheses22TestCase> tests = {
+        vector<GenerateParenthesesTestCase> tests = {
             {3, {"((()))","(()())","(())()","()(())","()()()"}},
             {1, {"()"}},
             {2, {"(())","()()"}},

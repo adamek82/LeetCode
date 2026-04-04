@@ -786,6 +786,69 @@ namespace TestCases {
     };
 
     /* ===========================================================
+     * Recursive Backtracking
+     * =========================================================== */
+
+    /* Basic recursive generation of subsets, combinations, and permutations */
+
+    // 78. Subsets
+    struct SubsetsTestCase {
+        vector<int> nums;
+        vector<vector<int>> expected; // mask-order to match implementation
+    };
+
+    // 77. Combinations
+    struct CombinationsTestCase {
+        int n;
+        int k;
+        vector<vector<int>> expected; // order-insensitive
+    };
+
+    // 46. Permutations
+    struct PermutationsTestCase {
+        vector<int> nums;
+        vector<vector<int>> expected; // order-insensitive
+    };
+
+    /* Backtracking with constraints and incremental choice building */
+
+    // 17. Letter Combinations of a Phone Number
+    struct LetterCombinationsTestCase {
+        string digits;
+        vector<string> expected; // order-insensitive
+    };
+
+    // 22. Generate Parentheses
+    struct GenerateParenthesesTestCase {
+        int n;
+        vector<string> expected; // order-insensitive
+    };
+
+    // 39. Combination Sum
+    struct CombinationSumTestCase {
+        vector<int> candidates;
+        int target;
+        vector<vector<int>> expected; // order-insensitive
+    };
+
+    /* Constraint-based board backtracking */
+
+    // 37. Sudoku Solver
+    struct SudokuSolverTestCase {
+        vector<vector<char>> input;
+        vector<vector<char>> expected;
+    };
+
+    /* Backtracking over a 2D search space with visited-state control */
+
+    // 79. Word Search
+    struct WordSearchTestCase {
+        vector<vector<char>> board;
+        string word;
+        bool expected;
+    };
+
+    /* ===========================================================
      * Graphs and traversal
      * =========================================================== */
 
@@ -953,13 +1016,6 @@ namespace TestCases {
         vector<int> expected;
     };
 
-    // 79. Word Search
-    struct WordSearchTestCase {
-        vector<vector<char>> board;
-        string word;
-        bool expected;
-    };
-
     // 277. Find the Celebrity
     struct FindCelebrityTestCase {
         vector<vector<int>> matrix;
@@ -1080,44 +1136,6 @@ namespace TestCases {
         bool expected;
     };
 
-    // 78. Subsets
-    struct Subsets78TestCase {
-        vector<int> nums;
-        vector<vector<int>> expected; // mask-order to match implementation
-    };
-
-    // 46. Permutations
-    struct Permutations46TestCase {
-        vector<int> nums;
-        vector<vector<int>> expected; // order-insensitive
-    };
-
-    // 77. Combinations
-    struct Combinations77TestCase {
-        int n;
-        int k;
-        vector<vector<int>> expected; // order-insensitive
-    };
-
-    // 17. Letter Combinations of a Phone Number
-    struct LetterCombinations17TestCase {
-        string digits;
-        vector<string> expected; // order-insensitive
-    };
-
-    // 39. Combination Sum
-    struct CombinationSum39TestCase {
-        vector<int> candidates;
-        int target;
-        vector<vector<int>> expected; // order-insensitive
-    };
-
-    // 22. Generate Parentheses
-    struct GenerateParentheses22TestCase {
-        int n;
-        vector<string> expected; // order-insensitive
-    };
-
     // 504. Base 7
     struct Base7TestCase {
         int num;
@@ -1130,9 +1148,4 @@ namespace TestCases {
         int expected;
     };
 
-    // 37. Sudoku Solver
-    struct SudokuSolverTestCase {
-        vector<vector<char>> input;
-        vector<vector<char>> expected;
-    };
 } // namespace TestCases
