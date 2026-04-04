@@ -997,7 +997,95 @@ namespace TestCases {
         int expected;
     };
 
-//
+    /* ===========================================================
+     * Dynamic Programming
+     * =========================================================== */
+
+    /* Introductory 1D DP with direct state transitions */
+
+    // 509. Fibonacci Number
+    struct FibonacciNumberTestCase {
+        int n;
+        int expected;
+    };
+
+    // 70. Climbing Stairs
+    struct ClimbingStairsTestCase {
+        int n;
+        int expected;
+    };
+
+    // 746. Min Cost Climbing Stairs
+    struct MinCostClimbingStairsTestCase {
+        vector<int> cost;
+        int expected;
+    };
+
+    /* Linear DP on arrays with local recurrence choices */
+
+    // 198. House Robber
+    struct HouseRobberTestCase {
+        vector<int> nums;
+        int expected;
+    };
+
+    // 53. Maximum Subarray
+    struct MaximumSubarrayTestCase {
+        vector<int> nums;
+        int expected;
+    };
+
+    /* Reachability and minimum-jump style DP / greedy-DP crossover */
+
+    // 55. Jump Game
+    struct JumpGameTestCase {
+        vector<int> nums;
+        bool expected;
+    };
+
+    // 45. Jump Game II
+    struct JumpGameIITestCase {
+        vector<int> nums;
+        int expected;
+    };
+
+    /* Grid DP with path counting and blocked cells */
+
+    // 62. Unique Paths
+    struct UniquePathsTestCase {
+        int m;
+        int n;
+        int expected;
+    };
+
+    // 63. Unique Paths II
+    struct UniquePathsIITestCase {
+        vector<vector<int>> grid;
+        int expected;
+    };
+
+    /* Unbounded-choice and counting / minimization DP */
+
+    // 322. Coin Change
+    struct CoinChangeTestCase {
+        vector<int> coins;
+        int amount;
+        int expected;
+    };
+
+    // 279. Perfect Squares
+    struct PerfectSquaresTestCase {
+        int n;
+        int expected;
+    };
+
+    /* Sequence DP on increasing structure and string matching */
+
+    // 300. Longest Increasing Subsequence
+    struct LongestIncreasingSubsequenceTestCase {
+        List nums;
+        int  expected;
+    };
 
     // Longest Common Subsequence
     struct LongestCommonSubsequenceTestCase {
@@ -1006,11 +1094,14 @@ namespace TestCases {
         int expected;
     };
 
-    // 300. Longest Increasing Subsequence
-    struct LongestIncreasingSubsequenceTestCase {
-        List nums;
-        int  expected;
+    // 44. Wildcard Matching
+    struct WildcardMatchingTestCase {
+        string s;
+        string p;
+        bool expected;
     };
+
+//
 
     // 206. Reverse Linked List
     struct ReverseListTestCase {
@@ -1037,30 +1128,11 @@ namespace TestCases {
         int expected;
     };
 
-    // 322. Coin Change
-    struct CoinChangeTestCase {
-        vector<int> coins;
-        int amount;
-        int expected;
-    };
-
-    // 63. Unique Paths II
-    struct UniquePathsIITestCase {
-        vector<vector<int>> input;
-        int expected;
-    };
-
     // 855. Exam Room
     struct ExamRoomTestCase {
         vector<string> operations;
         vector<vector<int>> arguments;       // each op's int args
         vector<optional<int>> expected;      // nullopt for void ops
-    };
-
-    // 53. Maximum Subarray
-    struct MaximumSubarrayTestCase {
-        vector<int> input;
-        int expected;
     };
 
     // 1768. Merge Strings Alternately
@@ -1076,58 +1148,14 @@ namespace TestCases {
         int expected;
     };
 
-    // 44. Wildcard Matching
-    struct WildcardMatchingTestCase {
-        string s;
-        string p;
-        bool expected;
-    };
-
-    // 62. Unique Paths
-    struct UniquePaths62TestCase {
-        int m;
-        int n;
-        int expected;
-    };
-
     // 65. Valid Number
     struct ValidNumberTestCase {
         string input;
         bool expected;
     };
 
-    // 279. Perfect Squares
-    struct PerfectSquares279TestCase {
-        int input;
-        int expected;
-    };
-
     // 268. Missing Number
     struct MissingNumberTestCase {
-        vector<int> input;
-        int expected;
-    };
-
-    // 509. Fibonacci Number
-    struct Fibonacci509TestCase {
-        int n;
-        int expected;
-    };
-
-    // 70. Climbing Stairs
-    struct ClimbingStairs70TestCase {
-        int n;
-        int expected;
-    };
-
-    // 746. Min Cost Climbing Stairs
-    struct MinCostClimbingStairs746TestCase {
-        vector<int> cost;
-        int expected;
-    };
-
-    // 198. House Robber
-    struct HouseRobber198TestCase {
         vector<int> input;
         int expected;
     };
@@ -1137,18 +1165,6 @@ namespace TestCases {
         string a;
         string b;
         string expected;
-    };
-
-    // 45. Jump Game II
-    struct JumpGameII45TestCase {
-        vector<int> nums;
-        int expected;
-    };
-
-    // 55. Jump Game
-    struct JumpGame55TestCase {
-        vector<int> nums;
-        bool expected;
     };
 
     // 504. Base 7

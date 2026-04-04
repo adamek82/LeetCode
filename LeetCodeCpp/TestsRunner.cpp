@@ -2134,7 +2134,7 @@ public:
 
         UniquePathsII_63 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = sol.uniquePathsWithObstacles(testCases[i].input);
+            int got = sol.uniquePathsWithObstacles(testCases[i].grid);
             assertEqScalar("Unique Paths II 63 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
@@ -2442,7 +2442,7 @@ public:
 
         MaximumSubarray_53 solver;
         for (size_t i = 0; i < tc.size(); ++i) {
-            int got = solver.maxSubArray(tc[i].input);
+            int got = solver.maxSubArray(tc[i].nums);
             assertEqScalar("Maximum Subarray 53 Test " + to_string(i + 1), tc[i].expected, got);
         }
     }
@@ -2665,7 +2665,7 @@ public:
     }
 
     static void uniquePaths_62_tests() {
-        vector<UniquePaths62TestCase> cases = {
+        vector<UniquePathsTestCase> cases = {
             /* three official cases from the problem statement */
             {3, 7, 28},
             {3, 2, 3},
@@ -3009,7 +3009,7 @@ public:
 
     static void perfectSquares_279_tests() {
         // 2 from the problem + 3 more complex (incl. edge n = 10^4)
-        vector<PerfectSquares279TestCase> testCases = {
+        vector<PerfectSquaresTestCase> testCases = {
             {12,    3},  // Example 1: 12 = 4 + 4 + 4
             {13,    2},  // Example 2: 13 = 9 + 4
             {3000,  3},  // 3 squares (e.g., 3000 = 1600 + 900 + 500)
@@ -3019,7 +3019,7 @@ public:
 
         PerfectSquares_279 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solver.numSquares(testCases[i].input);
+            int got = solver.numSquares(testCases[i].n);
             assertEqScalar("Perfect Squares 279 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
@@ -3148,7 +3148,7 @@ public:
     }
 
     static void fibonacci_509_tests() {
-        vector<Fibonacci509TestCase> tests = {
+        vector<FibonacciNumberTestCase> tests = {
             // 3 from the statement
             {2, 1},
             {3, 2},
@@ -3168,7 +3168,7 @@ public:
     }
 
     static void climbingStairs_70_tests() {
-        vector<ClimbingStairs70TestCase> tests = {
+        vector<ClimbingStairsTestCase> tests = {
             // 2 from the statement
             {2, 2},
             {3, 3},
@@ -3189,7 +3189,7 @@ public:
     }
 
     static void minCostClimbingStairs_746_tests() {
-        vector<MinCostClimbingStairs746TestCase> tests = {
+        vector<MinCostClimbingStairsTestCase> tests = {
             // 2 from the statement
             {{10,15,20}, 15},
             {{1,100,1,1,1,100,1,1,100,1}, 6},
@@ -3209,7 +3209,7 @@ public:
     }
 
     static void houseRobber_198_tests() {
-        vector<HouseRobber198TestCase> tests = {
+        vector<HouseRobberTestCase> tests = {
             // 2 from the statement
             {{1,2,3,1}, 4},
             {{2,7,9,3,1}, 12},
@@ -3223,7 +3223,7 @@ public:
 
         HouseRobber_198 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
-            int got = sol.rob(tests[i].input);
+            int got = sol.rob(tests[i].nums);
             assertEqScalar("House Robber 198 Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
@@ -3523,7 +3523,7 @@ public:
     }
 
     static void jumpGameII_45_tests() {
-        vector<JumpGameII45TestCase> tests = {
+        vector<JumpGameIITestCase> tests = {
             {{2,3,1,1,4}, 2},            // example 1
             {{2,3,0,1,4}, 2},            // example 2
             {{0}, 0},                    // single element
@@ -3544,7 +3544,7 @@ public:
     }
 
     static void jumpGame_55_tests() {
-        vector<JumpGame55TestCase> tests = {
+        vector<JumpGameTestCase> tests = {
             {{2,3,1,1,4}, true},     // example 1
             {{3,2,1,0,4}, false},    // example 2
             {{0}, true},             // single element is trivially reachable
