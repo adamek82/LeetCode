@@ -471,15 +471,30 @@ namespace TestCases {
 
     /* Basic traversal and local pointer updates in linked lists */
 
-    // 83. Remove Duplicates from Sorted List (LL)
+    // 83. Remove Duplicates from Sorted List
     struct RemoveDuplicatesFromSortedListTestCase {
-        List input;
+        List list;
         List expected;
     };
 
     // 2807. Insert Greatest Common Divisors in Linked List
     struct InsertGreatestCommonDivisorsTestCase {
-        List input;
+        List list;
+        List expected;
+    };
+
+    /* Core linked-list transformations by rewiring next pointers */
+
+    // 206. Reverse Linked List
+    struct ReverseLinkedListTestCase {
+        List list;
+        List expected;
+    };
+
+    // 21. Merge Two Sorted Lists
+    struct MergeTwoSortedListsTestCase {
+        List list1;
+        List list2;
         List expected;
     };
 
@@ -487,22 +502,22 @@ namespace TestCases {
 
     // 141. Linked List Cycle
     struct LinkedListCycleTestCase {
-        List value;
-        int  pos;
+        List values;
+        int pos;
         bool expected;
     };
 
     // 876. Middle of the Linked List
     struct MiddleOfTheLinkedListTestCase {
-        vector<int> values;
-        vector<int> expected;
+        List values;
+        List expected;
     };
 
     // 19. Remove Nth Node From End of List
     struct RemoveNthNodeFromEndOfListTestCase {
-        vector<int> values;
+        List values;
         int n;
-        vector<int> expected;
+        List expected;
     };
 
     /* More advanced linked structures with extra references */
@@ -1144,19 +1159,6 @@ namespace TestCases {
         string a;
         string b;
         string expected;
-    };
-
-    // 206. Reverse Linked List
-    struct ReverseListTestCase {
-        List input;
-        List expected;
-    };
-
-    // 21. Merge Two Sorted Lists
-    struct MergeTwoListsTestCase {
-        List list1;
-        List list2;
-        List expected;
     };
 
     // Min Heap (custom)

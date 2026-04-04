@@ -631,7 +631,7 @@ public:
         RemoveDuplicatesFromSortedList_83 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].input);
+            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].list);
             IntListNode* result = solution.deleteDuplicates(input);
 
             assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
@@ -644,7 +644,7 @@ public:
         using IntListNode = ListNode<int>;
 
         // Define test cases
-        vector<ReverseListTestCase> testCases = {
+        vector<ReverseLinkedListTestCase> testCases = {
             // Provided examples
             {{1, 2, 3, 4, 5}, {5, 4, 3, 2, 1}},
             {{1, 2}, {2, 1}},
@@ -658,7 +658,7 @@ public:
         ReverseLinkedList_206 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].input);
+            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].list);
             IntListNode* result = solution.reverseList(input);
 
             assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
@@ -670,7 +670,7 @@ public:
     static void mergeTwoSortedLists_21_tests() {
         using IntListNode = ListNode<int>;
 
-        vector<MergeTwoListsTestCase> testCases = {
+        vector<MergeTwoSortedListsTestCase> testCases = {
             // Provided examples
             {{1, 2, 4}, {1, 3, 4}, {1, 1, 2, 3, 4, 4}},
             {{}, {}, {}},
@@ -724,7 +724,7 @@ public:
         LinkedListCycle_141 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            ListNode<int>* head = ListUtils::createLinkedListWithCycle<int>(testCases[i].value, testCases[i].pos);
+            ListNode<int>* head = ListUtils::createLinkedListWithCycle<int>(testCases[i].values, testCases[i].pos);
             bool result = solution.hasCycle(head);
 
             assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
@@ -4922,7 +4922,7 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             // Run both implementations on fresh copies (they mutate the list).
-            IntListNode* input_std = ListUtils::createLinkedList<int>(testCases[i].input);
+            IntListNode* input_std = ListUtils::createLinkedList<int>(testCases[i].list);
             IntListNode* got_std = solution.insertGreatestCommonDivisors_stdGcd(input_std);
             vector<int> gotVec_std = ListUtils::toVector<int>(got_std);
 
@@ -4933,7 +4933,7 @@ public:
             // Free ONLY through `got_std` (which equals `input_std`); do NOT free `input_std` separately.
             ListUtils::freeList<int>(got_std);
 
-            IntListNode* input_euclid = ListUtils::createLinkedList<int>(testCases[i].input);
+            IntListNode* input_euclid = ListUtils::createLinkedList<int>(testCases[i].list);
             IntListNode* got_euclid = solution.insertGreatestCommonDivisors_euclid(input_euclid);
             vector<int> gotVec_euclid = ListUtils::toVector<int>(got_euclid);
 
