@@ -37,6 +37,14 @@ namespace TestCases {
         int expected;
     };
 
+    // 1768. Merge Strings Alternately
+    struct MergeStringsAlternatelyTestCase {
+        string word1;
+        string word2;
+        string expected;
+    };
+
+
     // 2239. Find Closest Number to Zero
     struct FindClosestNumberToZeroTestCase {
         vector<int> nums;
@@ -1101,7 +1109,42 @@ namespace TestCases {
         bool expected;
     };
 
-//
+    /* ===========================================================
+     * Bit Manipulation
+     * =========================================================== */
+
+    /* Bitwise representation, bit counting, XOR, and binary-string arithmetic */
+
+    // 504. Base 7
+    struct Base7TestCase {
+        int num;
+        string expected;
+    };
+
+    // 268. Missing Number
+    struct MissingNumberTestCase {
+        vector<int> nums;
+        int expected;
+    };
+
+    // 136. Single Number
+    struct SingleNumberTestCase {
+        vector<int> nums;
+        int expected;
+    };
+
+    // 191. Number of 1 Bits
+    struct NumberOf1BitsTestCase {
+        uint32_t n;
+        int expected;
+    };
+
+    // 67. Add Binary
+    struct AddBinaryTestCase {
+        string a;
+        string b;
+        string expected;
+    };
 
     // 206. Reverse Linked List
     struct ReverseListTestCase {
@@ -1135,48 +1178,9 @@ namespace TestCases {
         vector<optional<int>> expected;      // nullopt for void ops
     };
 
-    // 1768. Merge Strings Alternately
-    struct MergeStringsAlternatelyTestCase {
-        string word1;
-        string word2;
-        string expected;
-    };
-
-    // 191. Number of 1 Bits
-    struct HWCase {
-        uint32_t n;
-        int expected;
-    };
-
     // 65. Valid Number
     struct ValidNumberTestCase {
         string input;
         bool expected;
     };
-
-    // 268. Missing Number
-    struct MissingNumberTestCase {
-        vector<int> input;
-        int expected;
-    };
-
-    // 1768. Merge Strings Alternately
-    struct MergeStringsAlternately1768TestCase {
-        string a;
-        string b;
-        string expected;
-    };
-
-    // 504. Base 7
-    struct Base7TestCase {
-        int num;
-        string expected;
-    };
-
-    // 136. Single Number
-    struct SingleNumber136TestCase {
-        vector<int> nums;
-        int expected;
-    };
-
 } // namespace TestCases

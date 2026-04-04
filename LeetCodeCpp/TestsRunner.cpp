@@ -2534,7 +2534,7 @@ public:
 
     static void addBinary_67_tests()
     {
-        vector<MergeStringsAlternatelyTestCase> cases = {
+        vector<AddBinaryTestCase> cases = {
             {"11",      "1",       "100"},      // example 1
             {"1010",    "1011",    "10101"},    // example 2
             {"0",       "0",       "0"},        // both zero
@@ -2544,7 +2544,7 @@ public:
 
         AddBinary_67 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            string got = solver.addBinary(cases[i].word1, cases[i].word2);
+            string got = solver.addBinary(cases[i].a, cases[i].b);
             assertEqScalar("Add Binary 67 Test " + to_string(i + 1), cases[i].expected, got);
         }
     }
@@ -2567,7 +2567,7 @@ public:
 
     static void numberOf1Bits_191_tests()
     {
-        vector<HWCase> cases = {
+        vector<NumberOf1BitsTestCase> cases = {
             {11u,          3},          // 1011
             {128u,         1},          // 10000000
             {2147483645u, 30},          // 0x7FFFFFFD
@@ -3086,7 +3086,7 @@ public:
 
         MissingNumber_268 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solution.missingNumber(testCases[i].input);
+            int got = solution.missingNumber(testCases[i].nums);
             assertEqScalar("Missing Number 268 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
@@ -3306,7 +3306,7 @@ public:
     }
 
     static void mergeStringsAlternately_1768_tests() {
-        vector<MergeStringsAlternately1768TestCase> tests = {
+        vector<MergeStringsAlternatelyTestCase> tests = {
             // From the statement
             {"abc",   "pqr",   "apbqcr"},
             {"ab",    "pqrs",  "apbqrs"},
@@ -3319,7 +3319,7 @@ public:
 
         MergeStringsAlternately_1768 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
-            string got = sol.mergeAlternately(tests[i].a, tests[i].b);
+            string got = sol.mergeAlternately(tests[i].word1, tests[i].word2);
             const string label = "Merge Strings Alternately 1768 Test " + to_string(i + 1);
             assertEqScalar(label, tests[i].expected, got);
         }
@@ -4816,7 +4816,7 @@ public:
     static void singleNumber_136_tests() {
         using namespace TestCases;
 
-        vector<SingleNumber136TestCase> testCases = {
+        vector<SingleNumberTestCase> testCases = {
             // Examples from the problem statement
             {{2, 2, 1},             1},
             {{4, 1, 2, 1, 2},       4},
