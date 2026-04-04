@@ -571,6 +571,59 @@ namespace TestCases {
     // Reuses BinarySearchTestCase: same nums/target/result shape.
 
     /* ===========================================================
+     * Sliding Window
+     * =========================================================== */
+
+    /* Fixed-size windows with rolling updates */
+
+    // 643. Maximum Average Subarray I
+    struct MaximumAverageSubarrayITestCase {
+        vector<int> nums;
+        int k;
+        double expected;
+    };
+
+    /* Expanding and shrinking windows with a running constraint */
+
+    // 1004. Max Consecutive Ones III
+    struct MaxConsecutiveOnesIIITestCase {
+        vector<int> nums;
+        int k;
+        int expected;
+    };
+
+    // 209. Minimum Size Subarray Sum
+    struct MinimumSizeSubarraySumTestCase {
+        int target;
+        vector<int> nums;
+        int expected;
+    };
+
+    /* Variable-size windows for distinctness and replacement limits */
+
+    // 3. Longest Substring Without Repeating Characters
+    struct LongestSubstringWithoutRepeatingCharactersTestCase {
+        string input;
+        int expected;
+    };
+
+    // 424. Longest Repeating Character Replacement
+    struct LongestRepeatingCharacterReplacementTestCase {
+        string input;
+        int k;
+        int expected;
+    };
+
+    /* Window matching with character-frequency requirements */
+
+    // 567. Permutation in String
+    struct PermutationInStringTestCase {
+        string s1;
+        string s2;
+        bool expected;
+    };
+
+    /* ===========================================================
      * Graphs and traversal
      * =========================================================== */
 
@@ -793,13 +846,6 @@ namespace TestCases {
         int expected;
     };
 
-    // 424. Longest Repeating Character Replacement
-    struct LongestRepeatingCharReplacementTestCase {
-        string input;
-        int k;
-        int expected;
-    };
-
     // 322. Coin Change
     struct CoinChangeTestCase {
         vector<int> coins;
@@ -818,40 +864,6 @@ namespace TestCases {
         vector<string> operations;
         vector<vector<int>> arguments;       // each op's int args
         vector<optional<int>> expected;      // nullopt for void ops
-    };
-
-    // 643. Maximum Average Subarray I
-    struct MaxAvgTestCase {
-        vector<int> input;
-        int k;
-        double expected;
-    };
-
-    // 1004. Max Consecutive Ones III
-    struct MaxConsecutiveOnesTestCase {
-        vector<int> input;
-        int k;
-        int expected;
-    };
-
-    // 3. Longest Substring Without Repeating Characters
-    struct LongestSubstringWithoutRepeatingCharactersTestCase {
-        string input;
-        int expected;
-    };
-
-    // 209. Minimum Size Subarray Sum
-    struct MinimumSizeSubarraySumTestCase {
-        int target;
-        vector<int> input;
-        int expected;
-    };
-
-    // 567. Permutation in String
-    struct PermutationInStringTestCase {
-        string s1;
-        string s2;
-        bool expected;
     };
 
     // 53. Maximum Subarray

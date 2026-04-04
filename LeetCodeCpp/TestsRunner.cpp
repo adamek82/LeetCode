@@ -1908,7 +1908,7 @@ public:
 
     // Tests for LeetCode #424 Longest Repeating Character Replacement
     static void longestRepeatingCharacterReplacement_424_tests() {
-        vector<LongestRepeatingCharReplacementTestCase> testCases = {
+        vector<LongestRepeatingCharacterReplacementTestCase> testCases = {
             {"ABAB",      2, 4},  // Example 1
             {"AABABBA",   1, 4},  // Example 2
             {"BABABA",    3, 6},  // Transform 3 'A's into 'B's
@@ -2140,7 +2140,7 @@ public:
     }
 
     static void maximumAverageSubarrayI_643_tests() {
-        vector<MaxAvgTestCase> testCases = {
+        vector<MaximumAverageSubarrayITestCase> testCases = {
             // problem examples
             {{1, 12, -5, -6, 50, 3}, 4, 12.75},
             {{5},                    1,  5.0},
@@ -2153,7 +2153,7 @@ public:
 
         MaximumAverageSubarrayI_643 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            double got = sol.findMaxAverage(testCases[i].input, testCases[i].k);
+            double got = sol.findMaxAverage(testCases[i].nums, testCases[i].k);
             const string label = "Max Avg Subarray I 643 Test " + to_string(i + 1);
             // keep tolerance via approxEqual, assert on the boolean
             assertEqScalar(label, true, approxEqual(got, testCases[i].expected));
@@ -2161,7 +2161,7 @@ public:
     }
 
     static void maxConsecutiveOnesIII_1004_tests() {
-        vector<MaxConsecutiveOnesTestCase> testCases = {
+        vector<MaxConsecutiveOnesIIITestCase> testCases = {
             // two examples from the problem statement:
             {{1,1,1,0,0,0,1,1,1,1,0},           2,  6},
             {{0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1}, 3, 10},
@@ -2174,7 +2174,7 @@ public:
 
         MaxConsecutiveOnesIII_1004 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = sol.longestOnes(testCases[i].input, testCases[i].k);
+            int got = sol.longestOnes(testCases[i].nums, testCases[i].k);
             assertEqScalar("Max Consecutive Ones III 1004 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
@@ -2213,7 +2213,7 @@ public:
 
         MinimumSizeSubarraySum_209 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = sol.minSubArrayLen(testCases[i].target, testCases[i].input);
+            int got = sol.minSubArrayLen(testCases[i].target, testCases[i].nums);
             assertEqScalar("Minimum Size Subarray Sum 209 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
