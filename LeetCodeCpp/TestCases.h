@@ -624,6 +624,117 @@ namespace TestCases {
     };
 
     /* ===========================================================
+     * Trees
+     * =========================================================== */
+
+    /* Basic tree traversal, inspection, and structural transformation */
+
+    // 226. Invert Binary Tree
+    struct InvertBinaryTreeTestCase {
+        vector<optional<int>> tree;     // level-order representation of the original tree
+        vector<optional<int>> expected; // level-order representation of the inverted tree
+    };
+
+    // 104. Maximum Depth of Binary Tree
+    struct MaximumDepthOfBinaryTreeTestCase {
+        vector<optional<int>> tree; // level-order
+        int expected;
+    };
+
+    // 100. Same Tree
+    struct SameTreeTestCase {
+        vector<optional<int>> p;
+        vector<optional<int>> q;
+        bool expected;
+    };
+
+    // 101. Symmetric Tree
+    struct SymmetricTreeTestCase {
+        vector<optional<int>> tree;     // level-order input
+        bool expected;
+    };
+
+    // 112. Path Sum
+    struct PathSumTestCase {
+        vector<optional<int>> tree;     // level-order input
+        int target;
+        bool expected;
+    };
+
+    /* Bottom-up DFS reasoning with subtree-derived information */
+
+    // 110. Balanced Binary Tree
+    struct BalancedBinaryTreeTestCase {
+        vector<optional<int>> tree;     // level-order input
+        bool expected;
+    };
+
+    // 543. Diameter of Binary Tree
+    struct DiameterOfBinaryTreeTestCase {
+        vector<optional<int>> tree;     // level-order input
+        int expected;                   // diameter in edges
+    };
+
+    // 572. Subtree of Another Tree
+    struct SubtreeOfAnotherTreeTestCase {
+        vector<optional<int>> root;     // level-order representation of main tree
+        vector<optional<int>> subRoot;  // level-order representation of subtree
+        bool expected;
+    };
+
+    /* Breadth-first traversal by tree levels */
+
+    // 102. Binary Tree Level Order Traversal
+    struct BinaryTreeLevelOrderTraversalTestCase {
+        vector<optional<int>> tree;     // level-order input
+        vector<vector<int>> expected;   // values per level, left-to-right
+    };
+
+    // 637. Average of Levels in Binary Tree
+    struct AverageOfLevelsInBinaryTreeTestCase {
+        vector<optional<int>> tree;     // level-order input
+        vector<double> expected;        // averages per level
+    };
+
+    /* BST-specific inorder and ordering properties */
+
+    // 230. Kth Smallest Element in a BST
+    struct KthSmallestElementInABSTTestCase {
+        vector<optional<int>> tree; // BST as vector
+        int k;
+        int expected;
+    };
+
+    // 530. Minimum Absolute Difference in BST
+    struct MinimumAbsoluteDifferenceInBSTTestCase {
+        vector<optional<int>> tree;     // level-order input (BST)
+        int expected;                   // minimum absolute difference
+    };
+
+    // 98. Validate Binary Search Tree
+    struct ValidateBinarySearchTreeTestCase {
+        vector<optional<int>> tree; // level-order input
+        bool expected;
+    };
+
+    // 235. Lowest Common Ancestor of a BST
+    struct LowestCommonAncestorTestCase {
+        vector<optional<int>> tree; // level-order input
+        int p;
+        int q;
+        int expected;
+    };
+
+    /* Tree-like prefix structure design */
+
+    // 208. Implement Trie (Prefix Tree)
+    struct ImplementTrieTestCase {
+        vector<string> operations;
+        vector<optional<string>> arguments;
+        vector<optional<bool>> expected;
+    };
+
+    /* ===========================================================
      * Graphs and traversal
      * =========================================================== */
 
@@ -785,34 +896,6 @@ namespace TestCases {
         List expected;
     };
 
-    // 98. Validate Binary Search Tree
-    struct ValidateBinarySearchTreeTestCase {
-        vector<optional<int>> tree; // level-order input
-        bool expected;
-    };
-
-    // 235. Lowest Common Ancestor of a BST
-    struct LowestCommonAncestorTestCase {
-        vector<optional<int>> tree; // level-order input
-        int p;
-        int q;
-        int expected;
-    };
-
-    // 230. Kth Smallest Element in a BST
-    struct KthSmallestTestCase {
-        vector<optional<int>> tree; // BST as vector
-        int k;
-        int expected;
-    };
-
-    // 208. Implement Trie (Prefix Tree)
-    struct TrieTestCase {
-        vector<string> operations;
-        vector<optional<string>> arguments;
-        vector<optional<bool>> expected;
-    };
-
     // 215. Kth Largest Element in an Array
     struct KthLargestElementTestCase {
         vector<int> nums;
@@ -912,12 +995,6 @@ namespace TestCases {
         int expected;
     };
 
-    // 104. Maximum Depth of Binary Tree
-    struct MaxDepthTestCase {
-        vector<optional<int>> tree; // level-order
-        int expected;
-    };
-
     // 65. Valid Number
     struct ValidNumberTestCase {
         string input;
@@ -928,13 +1005,6 @@ namespace TestCases {
     struct PerfectSquares279TestCase {
         int input;
         int expected;
-    };
-
-    // 100. Same Tree
-    struct SameTreeTestCase {
-        vector<optional<int>> p;
-        vector<optional<int>> q;
-        bool expected;
     };
 
     // 268. Missing Number
@@ -1035,62 +1105,6 @@ namespace TestCases {
     struct GenerateParentheses22TestCase {
         int n;
         vector<string> expected; // order-insensitive
-    };
-
-    // 226. Invert Binary Tree
-    struct InvertBinaryTreeTestCase {
-        vector<optional<int>> input;    // level-order representation of the original tree
-        vector<optional<int>> expected; // level-order representation of the inverted tree
-    };
-
-    // 110. Balanced Binary Tree
-    struct BalancedBinaryTreeTestCase {
-        vector<optional<int>> tree;     // level-order input
-        bool expected;
-    };
-
-    // 543. Diameter of Binary Tree
-    struct DiameterOfBinaryTreeTestCase {
-        vector<optional<int>> tree;     // level-order input
-        int expected;                   // diameter in edges
-    };
-
-    // 101. Symmetric Tree
-    struct SymmetricTreeTestCase {
-        vector<optional<int>> tree;     // level-order input
-        bool expected;
-    };
-
-    // 112. Path Sum
-    struct PathSumTestCase {
-        vector<optional<int>> tree;     // level-order input
-        int target;
-        bool expected;
-    };
-
-    // 572. Subtree of Another Tree
-    struct SubtreeOfAnotherTreeTestCase {
-        vector<optional<int>> root;     // level-order representation of main tree
-        vector<optional<int>> subRoot;  // level-order representation of subtree
-        bool expected;
-    };
-
-    // 102. Binary Tree Level Order Traversal
-    struct BinaryTreeLevelOrderTraversalTestCase {
-        vector<optional<int>> tree;     // level-order input
-        vector<vector<int>> expected;   // values per level, left-to-right
-    };
-
-    // 637. Average of Levels in Binary Tree
-    struct AverageOfLevelsInBinaryTreeTestCase {
-        vector<optional<int>> tree;     // level-order input
-        vector<double> expected;        // averages per level
-    };
-
-    // 530. Minimum Absolute Difference in BST
-    struct MinimumAbsoluteDifferenceInBSTTestCase {
-        vector<optional<int>> tree;     // level-order input (BST)
-        int expected;                   // minimum absolute difference
     };
 
     // 504. Base 7

@@ -927,7 +927,7 @@ public:
     }
 
     static void kthSmallestElementInBST_230_tests() {
-        vector<KthSmallestTestCase> testCases = {
+        vector<KthSmallestElementInABSTTestCase> testCases = {
             // Example 1
             {{3, 1, 4, nullopt, 2}, 1, 1},
             // Example 2
@@ -957,7 +957,7 @@ public:
     }
 
     static void implementTrie_208_tests() {
-        vector<TrieTestCase> testCases = {
+        vector<ImplementTrieTestCase> testCases = {
             // Example 1
             {
                 {"Trie", "insert", "search", "search", "startsWith", "insert", "search"},
@@ -2855,7 +2855,7 @@ public:
     }
 
     static void maximumDepthOfBinaryTree_104_tests() {
-        vector<MaxDepthTestCase> testCases = {
+        vector<MaximumDepthOfBinaryTreeTestCase> testCases = {
             // two examples from the problem statement
             {{3, 9, 20, nullopt, nullopt, 15, 7}, 3},
             {{1, nullopt, 2},                     2},
@@ -4089,7 +4089,7 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
 
-            TreeNode<int>* root     = TreeUtils::vectorToTree<int>(tc.input);
+            TreeNode<int>* root     = TreeUtils::vectorToTree<int>(tc.tree);
             TreeNode<int>* expected = TreeUtils::vectorToTree<int>(tc.expected);
 
             TreeNode<int>* result = solver.invertTree(root);
