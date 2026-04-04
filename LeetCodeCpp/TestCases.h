@@ -852,6 +852,8 @@ namespace TestCases {
      * Graphs and traversal
      * =========================================================== */
 
+    /* Basic graph / grid traversal for reachability and connected components */
+
     // 1971. Find if Path Exists in Graph
     struct FindIfPathExistsInGraphTestCase {
         int   n;
@@ -872,6 +874,8 @@ namespace TestCases {
         GridInt grid;
         int     expected;
     };
+
+    /* Shortest-path BFS on grids, transit networks, and implicit state graphs */
 
     // 994. Rotting Oranges
     struct RottingOrangesTestCase {
@@ -899,6 +903,8 @@ namespace TestCases {
         int expected;
     };
 
+    /* Directed-graph reasoning with topological order and cycle detection */
+
     // 207. Course Schedule
     struct CourseScheduleTestCase {
         int   numCourses;
@@ -913,6 +919,8 @@ namespace TestCases {
         vector<int> expectedOrder;  // empty => cycle / no valid order
     };
 
+    /* Graph traversal on matrices with directional / monotonic constraints */
+
     // 417. Pacific Atlantic Water Flow
     struct PacificAtlanticTestCase {
         GridInt heights; // heights matrix
@@ -924,6 +932,8 @@ namespace TestCases {
         GridInt matrix;
         int expected;
     };
+
+    /* Weighted graph algorithms: shortest paths and minimum spanning tree */
 
     // 743. Network Delay Time
     struct NetworkDelayTimeTestCase {
@@ -952,6 +962,8 @@ namespace TestCases {
         int    expected;
     };
 
+    /* Cycle analysis in directed and undirected graphs */
+
     // 2360. Longest Cycle in a Graph
     struct LongestCycleInGraphTestCase {
         vector<int> edges;
@@ -964,6 +976,8 @@ namespace TestCases {
         vector<vector<int>> edges;
         int expected;
     };
+
+    /* Grid simulation, multi-source expansion, and neighbor-based reasoning */
 
     // 289. Game of Life
     struct GameOfLifeTestCase {
@@ -982,6 +996,7 @@ namespace TestCases {
         GridInt grid;
         int expected;
     };
+
 //
 
     // Longest Common Subsequence
