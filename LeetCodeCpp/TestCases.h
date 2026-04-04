@@ -735,6 +735,57 @@ namespace TestCases {
     };
 
     /* ===========================================================
+     * Heaps
+     * =========================================================== */
+
+    /* Basic max-heap / min-heap simulation */
+
+    // 1046. Last Stone Weight
+    struct LastStoneWeightTestCase {
+        vector<int> stones;
+        int expected;
+    };
+
+    /* Heap-based selection for k-th / top-k queries */
+
+    // 215. Kth Largest Element in an Array
+    struct KthLargestElementTestCase {
+        vector<int> nums;
+        int k;
+        int expected;
+    };
+
+    // 347. Top K Frequent Elements
+    struct TopKFrequentElementsTestCase {
+        vector<int> nums;
+        int k;
+        vector<int> expected; // order-agnostic
+    };
+
+    // 973. K Closest Points to Origin
+    struct KClosestPointsToOriginTestCase {
+        vector<vector<int>> points;
+        int k;
+        vector<vector<int>> expected; // order-agnostic
+    };
+
+    /* Merging multiple sorted streams with a heap frontier */
+
+    // 23. Merge k Sorted Lists
+    struct MergeKListsTestCase {
+        vector<vector<int>> lists;
+        vector<int> expected;
+    };
+
+    /* Priority-queue traversal on a graph / grid state space */
+
+    // 2812. Find Safest Path in Grid
+    struct FindTheSafestPathInGridTestCase {
+        vector<vector<int>> grid;
+        int expected;
+    };
+
+    /* ===========================================================
      * Graphs and traversal
      * =========================================================== */
 
@@ -896,24 +947,10 @@ namespace TestCases {
         List expected;
     };
 
-    // 215. Kth Largest Element in an Array
-    struct KthLargestElementTestCase {
-        vector<int> nums;
-        int k;
-        int expected;
-    };
-
     // Min Heap (custom)
     struct MinHeapTestCase {
         vector<pair<string, int>> operations; // {op, value(if any)}
         vector<int> expected;
-    };
-
-    // 23. Merge k Sorted Lists
-    struct MergeKListsTestCase {
-        vector<vector<int>> input;
-        vector<int> expected;
-
     };
 
     // 79. Word Search
@@ -975,23 +1012,10 @@ namespace TestCases {
         bool expected;
     };
 
-    // 973. K Closest Points to Origin
-    struct KClosestTestCase {
-        vector<vector<int>> points;
-        int k;
-        vector<vector<int>> expected; // order-agnostic
-    };
-
     // 62. Unique Paths
     struct UniquePaths62TestCase {
         int m;
         int n;
-        int expected;
-    };
-
-    // 2812. Find Safest Path in Grid
-    struct SafestPathTestCase {
-        vector<vector<int>> grid;
         int expected;
     };
 
@@ -1035,19 +1059,6 @@ namespace TestCases {
     struct HouseRobber198TestCase {
         vector<int> input;
         int expected;
-    };
-
-    // 1046. Last Stone Weight
-    struct LastStoneWeight1046TestCase {
-        vector<int> input;
-        int expected;
-    };
-
-    // 347. Top K Frequent Elements
-    struct TopKFrequent347TestCase {
-        vector<int> input;
-        int k;
-        vector<int> expected; // order-agnostic
     };
 
     // 1768. Merge Strings Alternately

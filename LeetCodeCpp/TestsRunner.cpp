@@ -1170,8 +1170,8 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             vector<IntListNode*> lists;
-            lists.reserve(testCases[i].input.size());
-            for (const auto& v : testCases[i].input) {
+            lists.reserve(testCases[i].lists.size());
+            for (const auto& v : testCases[i].lists) {
                 lists.push_back(ListUtils::createLinkedList<int>(v));
             }
 
@@ -2631,7 +2631,7 @@ public:
     }
 
     static void kClosestPointsToOrigin_973_tests() {
-        vector<KClosestTestCase> cases = {
+        vector<KClosestPointsToOriginTestCase> cases = {
             // Two official examples
             {{{1,3}, {-2,2}}, 1, {{-2,2}}},
             {{{3,3}, {5,-1}, {-2,4}}, 2, {{3,3}, {-2,4}}},
@@ -2817,7 +2817,7 @@ public:
     }
 
     static void findTheSafestPathInGrid_2812_tests() {
-        vector<SafestPathTestCase> testCases = {
+        vector<FindTheSafestPathInGridTestCase> testCases = {
             // three examples from the statement
             {{{1, 0, 0},
               {0, 0, 0},
@@ -3229,7 +3229,7 @@ public:
     }
 
     static void lastStoneWeight_1046_tests() {
-        vector<LastStoneWeight1046TestCase> tests = {
+        vector<LastStoneWeightTestCase> tests = {
             // 2 from the statement
             {{2,7,4,1,8,1}, 1},
             {{1}, 1},
@@ -3243,7 +3243,7 @@ public:
 
         LastStoneWeight_1046 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
-            int got = sol.lastStoneWeight(tests[i].input);
+            int got = sol.lastStoneWeight(tests[i].stones);
             assertEqScalar("Last Stone Weight 1046 Test " + to_string(i + 1), tests[i].expected, got);
         }
     }
@@ -3258,7 +3258,7 @@ public:
             return v;
         };
 
-        vector<TopKFrequent347TestCase> tests = {
+        vector<TopKFrequentElementsTestCase> tests = {
             {{1,1,1,2,2,3}, 2, {1,2}},
             {{1},           1, {1}},
             {{1,1,2,2,2,3}, 1, {2}},
@@ -3276,7 +3276,7 @@ public:
 
         TopKFrequentElements_347 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
-            auto got = sol.topKFrequent(tests[i].input, tests[i].k);
+            auto got = sol.topKFrequent(tests[i].nums, tests[i].k);
             auto e   = tests[i].expected;
             sort(got.begin(), got.end());
             sort(e.begin(),   e.end());
