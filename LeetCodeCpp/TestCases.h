@@ -1161,16 +1161,16 @@ namespace TestCases {
         string expected;
     };
 
+    /* ===========================================================
+     * Design
+     * =========================================================== */
+
+    /* Core custom data structures and API-oriented implementations */
+
     // Min Heap (custom)
     struct MinHeapTestCase {
         vector<pair<string, int>> operations; // {op, value(if any)}
         vector<int> expected;
-    };
-
-    // 277. Find the Celebrity
-    struct FindCelebrityTestCase {
-        vector<vector<int>> matrix;
-        int expected;
     };
 
     // 855. Exam Room
@@ -1178,6 +1178,18 @@ namespace TestCases {
         vector<string> operations;
         vector<vector<int>> arguments;       // each op's int args
         vector<optional<int>> expected;      // nullopt for void ops
+    };
+
+    /* ===========================================================
+     * Other
+     * =========================================================== */
+
+    /* Problems that do not fit cleanly into the main technique-based categories */
+
+    // 277. Find the Celebrity
+    struct FindCelebrityTestCase {
+        vector<vector<int>> matrix;
+        int expected;
     };
 
     // 65. Valid Number
