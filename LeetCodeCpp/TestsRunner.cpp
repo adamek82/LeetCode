@@ -1898,6 +1898,320 @@ public:
         }
     }
 
+    // ============================================================================
+    // Linked Lists
+    // ============================================================================
+
+    /* Basic traversal and local pointer updates in linked lists */
+
+    static void removeDuplicatesFromSortedList_83_tests() {
+        using IntListNode = ListNode<int>;
+
+        // Define test cases
+        vector<RemoveDuplicatesFromSortedListTestCase> testCases = {
+            // Provided examples
+            {{1, 1, 2}, {1, 2}},
+            {{1, 1, 2, 3, 3}, {1, 2, 3}},
+
+            // Additional complex test cases
+            {{1, 1, 1, 1, 1}, {1}},                         // Single value repeated many times
+            {{1, 2, 2, 3, 3, 4, 4, 5, 5, 6}, {1, 2, 3, 4, 5, 6}}, // Alternating duplicates
+            {{-10, -10, -5, 0, 0, 1, 1, 2, 2, 2, 100}, {-10, -5, 0, 1, 2, 100}}, // Mixed negative and positive numbers
+        };
+
+        RemoveDuplicatesFromSortedList_83 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].list);
+            IntListNode* result = solution.deleteDuplicates(input);
+
+            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
+
+            ListUtils::freeList<int>(result);
+        }
+    }
+
+    static void insertGreatestCommonDivisors_2807_tests() {
+        using IntListNode = ListNode<int>;
+
+        vector<InsertGreatestCommonDivisorsTestCase> testCases = {
+            // Provided examples
+            {{18, 6, 10, 3}, {18, 6, 6, 2, 10, 1, 3}},
+            {{7}, {7}},
+
+            // Additional cases
+            {{2, 4, 6}, {2, 2, 4, 2, 6}},
+            {{5, 7, 11}, {5, 1, 7, 1, 11}},      // all primes -> gcd = 1
+            {{1000, 1000}, {1000, 1000, 1000}},  // identical adjacent values
+            {{1, 1000}, {1, 1, 1000}},
+            {{12, 15, 21, 28}, {12, 3, 15, 3, 21, 7, 28}},
+        };
+
+        InsertGreatestCommonDivisors_2807 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            // Run both implementations on fresh copies (they mutate the list).
+            IntListNode* input_std = ListUtils::createLinkedList<int>(testCases[i].list);
+            IntListNode* got_std = solution.insertGreatestCommonDivisors_stdGcd(input_std);
+            vector<int> gotVec_std = ListUtils::toVector<int>(got_std);
+
+            assertEqVIntExact("2807 [std::gcd]  Test " + to_string(i + 1),
+                              testCases[i].expected, gotVec_std);
+
+            // NOTE: The algorithm mutates the list in-place and returns the same head.
+            // Free ONLY through `got_std` (which equals `input_std`); do NOT free `input_std` separately.
+            ListUtils::freeList<int>(got_std);
+
+            IntListNode* input_euclid = ListUtils::createLinkedList<int>(testCases[i].list);
+            IntListNode* got_euclid = solution.insertGreatestCommonDivisors_euclid(input_euclid);
+            vector<int> gotVec_euclid = ListUtils::toVector<int>(got_euclid);
+
+            assertEqVIntExact("2807 [euclid]    Test " + to_string(i + 1),
+                              testCases[i].expected, gotVec_euclid);
+
+            assertEqVIntExact("2807 [agree]     Test " + to_string(i + 1),
+                              gotVec_std, gotVec_euclid);
+
+            // Ditto: `got_euclid == input_euclid`, so free only `got_euclid`.
+            ListUtils::freeList<int>(got_euclid);
+        }
+    }
+
+    /* Core linked-list transformations by rewiring next pointers */
+
+    static void reverseLinkedList_206_tests() {
+        using IntListNode = ListNode<int>;
+
+        // Define test cases
+        vector<ReverseLinkedListTestCase> testCases = {
+            // Provided examples
+            {{1, 2, 3, 4, 5}, {5, 4, 3, 2, 1}},
+            {{1, 2}, {2, 1}},
+            {{}, {}},
+
+            // Additional complex test cases
+            {{-5, -4, -3, -2, -1}, {-1, -2, -3, -4, -5}}, // Negative values
+            {{10, 20, 30, 40, 50, 60}, {60, 50, 40, 30, 20, 10}} // Longer list
+        };
+
+        ReverseLinkedList_206 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].list);
+            IntListNode* result = solution.reverseList(input);
+
+            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
+
+            ListUtils::freeList<int>(result);
+        }
+    }
+
+    static void mergeTwoSortedLists_21_tests() {
+        using IntListNode = ListNode<int>;
+
+        vector<MergeTwoSortedListsTestCase> testCases = {
+            // Provided examples
+            {{1, 2, 4}, {1, 3, 4}, {1, 1, 2, 3, 4, 4}},
+            {{}, {}, {}},
+            {{}, {0}, {0}},
+
+            // Additional complex test cases
+            {{-10, -5, 0, 3}, {-8, -6, 2, 4}, {-10, -8, -6, -5, 0, 2, 3, 4}},
+            {{1, 3, 5, 7}, {2, 4, 6, 8, 10}, {1, 2, 3, 4, 5, 6, 7, 8, 10}}
+        };
+
+        MergeTwoSortedLists_21 solution;
+
+        const vector<pair<string, function<IntListNode*(IntListNode*, IntListNode*)>>> impls = {
+            {"DummyNode", [&](IntListNode* a, IntListNode* b) { return solution.mergeTwoLists_DummyNode(a, b); }},
+            {"NoDummy",   [&](IntListNode* a, IntListNode* b) { return solution.mergeTwoLists_NoDummy(a, b); }},
+        };
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+
+            for (const auto& [name, run] : impls) {
+                // Must create fresh lists per implementation (merge is in-place).
+                IntListNode* list1 = ListUtils::createLinkedList<int>(tc.list1);
+                IntListNode* list2 = ListUtils::createLinkedList<int>(tc.list2);
+
+                IntListNode* result = run(list1, list2);
+
+                assertEqVIntExact(
+                    "Test " + to_string(i + 1) + " (" + name + ")",
+                    tc.expected,
+                    ListUtils::toVector<int>(result)
+                );
+
+                ListUtils::freeList<int>(result);
+            }
+        }
+    }
+
+    /* Fast/slow pointer techniques on linked lists */
+
+    static void hasCycle_141_tests() {
+        vector<LinkedListCycleTestCase> testCases = {
+            // Provided examples
+            {{3, 2, 0, -4}, 1, true},
+            {{1, 2}, 0, true},
+            {{1}, -1, false},
+
+            // Additional examples
+            {{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 4, true},
+            {{10, 20, 30, 40, 50, 60, 70, 80}, 2, true}
+        };
+
+        LinkedListCycle_141 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            ListNode<int>* head = ListUtils::createLinkedListWithCycle<int>(testCases[i].values, testCases[i].pos);
+            bool result = solution.hasCycle(head);
+
+            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
+
+            ListUtils::freeList<int>(head);
+        }
+    }
+
+    static void middleOfTheLinkedList_876_tests() {
+        using IntListNode = ListNode<int>;
+
+        vector<MiddleOfTheLinkedListTestCase> testCases = {
+            // Provided examples
+            {{1, 2, 3, 4, 5}, {3, 4, 5}},
+            {{1, 2, 3, 4, 5, 6}, {4, 5, 6}},
+
+            // Additional test cases
+            {{}, {}},                         // Edge case: empty list
+            {{1}, {1}},                       // Edge case: single element
+            {{1, 2, 3, 4, 5, 6, 7}, {4, 5, 6, 7}} // Odd-length list
+        };
+
+        MiddleOfLinkedList_876 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].values);
+            IntListNode* result = solution.middleNode(input);
+
+            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
+
+            ListUtils::freeList<int>(input);
+        }
+    }
+
+    static void removeNthNodeFromEndOfList_19_tests() {
+        using IntListNode = ListNode<int>;
+
+        vector<RemoveNthNodeFromEndOfListTestCase> testCases = {
+            // Provided examples
+            {{1, 2, 3, 4, 5}, 2, {1, 2, 3, 5}},
+            {{1}, 1, {}},
+            {{1, 2}, 1, {1}},
+
+            // Additional test cases
+            {{10, 20, 30, 40, 50, 60, 70}, 3, {10, 20, 30, 40, 60, 70}}, // Bigger list
+            {{5, 10, 15, 20}, 4, {10, 15, 20}} // Removing the head
+        };
+
+        RemoveNthNodeFromEndOfList_19 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].values);
+            IntListNode* result = solution.removeNthFromEnd(input, testCases[i].n);
+
+            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
+
+            ListUtils::freeList<int>(result);
+        }
+    }
+
+    /* More advanced linked structures with extra references */
+
+    static void copyRandomList_138_tests() {
+        using IntListNode = ListNode<int>;
+
+        vector<CopyRandomListTestCase> testCases = {
+            // Provided test cases
+            {{{7, nullopt}, {13, 0}, {11, 4}, {10, 2}, {1, 0}},
+             {{7, nullopt}, {13, 0}, {11, 4}, {10, 2}, {1, 0}}},
+            {{{1, 1}, {2, 1}}, {{1, 1}, {2, 1}}},
+            {{{3, nullopt}, {3, 0}, {3, nullopt}},
+             {{3, nullopt}, {3, 0}, {3, nullopt}}},
+
+            // Additional complex test cases
+            {{{1, nullopt}, {2, 0}, {3, 1}, {4, 3}, {5, 2}},
+             {{1, nullopt}, {2, 0}, {3, 1}, {4, 3}, {5, 2}}},
+            {{{10, 4}, {20, 3}, {30, 2}, {40, 1}, {50, nullopt}},
+             {{10, 4}, {20, 3}, {30, 2}, {40, 1}, {50, nullopt}}}
+        };
+
+        CopyListWithRandomPointer_138 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            IntListNode* input = ListUtils::createLinkedListWithRandom<int>(testCases[i].nodes);
+            IntListNode* expected = ListUtils::createLinkedListWithRandom<int>(testCases[i].expected);
+
+            IntListNode* result = solution.copyRandomList(input);
+            bool isCorrect = ListUtils::compareListsWithRandom<int>(result, expected);
+
+            assertEqScalar("Copy Random List Test " + to_string(i + 1), true, isCorrect);
+
+            ListUtils::freeList(input);
+            ListUtils::freeList(result);
+            ListUtils::freeList(expected);
+        }
+    }
+
+    /* Linked-list-based data structure design */
+
+    static void lruCache_146_tests() {
+        vector<LRUCacheTestCase> testCases = {
+            // From problem statement
+            {
+                {"LRUCache","put","put","get","put","get","put","get","get","get"},
+                {{2},      {1,1}, {2,2}, {1},  {3,3}, {2},  {4,4}, {1},  {3},   {4}},
+                { nullopt, nullopt, nullopt, 1,
+                  nullopt, -1,         nullopt, -1,
+                   3,            4 }
+            },
+            // Additional: overwrite existing key and capacity=1 edge
+            {
+                {"LRUCache","put","put","get","put","get","get"},
+                {{1},      {1,10},{1,20},{1},  {2,30},{1},  {2}},
+                { nullopt, nullopt, nullopt, 20,
+                  nullopt,  -1,           30 }
+            },
+            // Additional: complex sequence with capacity = 3 and multiple evictions
+            {
+                {"LRUCache","put","put","put","get","put","get","get","put","get","get"},
+                {{3},      {1,1}, {2,2}, {3,3}, {1},  {4,4}, {2},  {3},  {5,5}, {1},  {4}},
+                { nullopt, nullopt, nullopt, nullopt, 1,
+                  nullopt, -1,          3,          nullopt, -1,        4}
+            },
+        };
+
+        for (size_t t = 0; t < testCases.size(); ++t) {
+            unique_ptr<LRUCache> cache;
+            const auto& C = testCases[t];
+
+            for (size_t i = 0; i < C.operations.size(); ++i) {
+                const string& op = C.operations[i];
+
+                if (op == "LRUCache") {
+                    cache = make_unique<LRUCache>(C.arguments[i][0]);
+                } else if (op == "put") {
+                    cache->put(C.arguments[i][0], C.arguments[i][1]);
+                } else if (op == "get") {
+                    int key = C.arguments[i][0];
+                    int got = cache->get(key);
+                    const string label = makeStepLabel("LRUCache_146", t, i, "get", to_string(key));
+                    assertEqScalar(label, C.expected[i].value(), got);
+                }
+            }
+        }
+    }
+    
     static void courseSchedule_207_tests() {
         vector<CourseScheduleTestCase> testCases = {
             {2, {{1, 0}}, true},
@@ -2326,178 +2640,6 @@ public:
         }
     }
 
-    static void removeDuplicatesFromSortedList_83_tests() {
-        using IntListNode = ListNode<int>;
-
-        // Define test cases
-        vector<RemoveDuplicatesFromSortedListTestCase> testCases = {
-            // Provided examples
-            {{1, 1, 2}, {1, 2}},
-            {{1, 1, 2, 3, 3}, {1, 2, 3}},
-
-            // Additional complex test cases
-            {{1, 1, 1, 1, 1}, {1}},                         // Single value repeated many times
-            {{1, 2, 2, 3, 3, 4, 4, 5, 5, 6}, {1, 2, 3, 4, 5, 6}}, // Alternating duplicates
-            {{-10, -10, -5, 0, 0, 1, 1, 2, 2, 2, 100}, {-10, -5, 0, 1, 2, 100}}, // Mixed negative and positive numbers
-        };
-
-        RemoveDuplicatesFromSortedList_83 solution;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].list);
-            IntListNode* result = solution.deleteDuplicates(input);
-
-            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
-
-            ListUtils::freeList<int>(result);
-        }
-    }
-
-    static void reverseLinkedList_206_tests() {
-        using IntListNode = ListNode<int>;
-
-        // Define test cases
-        vector<ReverseLinkedListTestCase> testCases = {
-            // Provided examples
-            {{1, 2, 3, 4, 5}, {5, 4, 3, 2, 1}},
-            {{1, 2}, {2, 1}},
-            {{}, {}},
-
-            // Additional complex test cases
-            {{-5, -4, -3, -2, -1}, {-1, -2, -3, -4, -5}}, // Negative values
-            {{10, 20, 30, 40, 50, 60}, {60, 50, 40, 30, 20, 10}} // Longer list
-        };
-
-        ReverseLinkedList_206 solution;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].list);
-            IntListNode* result = solution.reverseList(input);
-
-            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
-
-            ListUtils::freeList<int>(result);
-        }
-    }
-
-    static void mergeTwoSortedLists_21_tests() {
-        using IntListNode = ListNode<int>;
-
-        vector<MergeTwoSortedListsTestCase> testCases = {
-            // Provided examples
-            {{1, 2, 4}, {1, 3, 4}, {1, 1, 2, 3, 4, 4}},
-            {{}, {}, {}},
-            {{}, {0}, {0}},
-
-            // Additional complex test cases
-            {{-10, -5, 0, 3}, {-8, -6, 2, 4}, {-10, -8, -6, -5, 0, 2, 3, 4}},
-            {{1, 3, 5, 7}, {2, 4, 6, 8, 10}, {1, 2, 3, 4, 5, 6, 7, 8, 10}}
-        };
-
-        MergeTwoSortedLists_21 solution;
-
-        const vector<pair<string, function<IntListNode*(IntListNode*, IntListNode*)>>> impls = {
-            {"DummyNode", [&](IntListNode* a, IntListNode* b) { return solution.mergeTwoLists_DummyNode(a, b); }},
-            {"NoDummy",   [&](IntListNode* a, IntListNode* b) { return solution.mergeTwoLists_NoDummy(a, b); }},
-        };
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            const auto& tc = testCases[i];
-
-            for (const auto& [name, run] : impls) {
-                // Must create fresh lists per implementation (merge is in-place).
-                IntListNode* list1 = ListUtils::createLinkedList<int>(tc.list1);
-                IntListNode* list2 = ListUtils::createLinkedList<int>(tc.list2);
-
-                IntListNode* result = run(list1, list2);
-
-                assertEqVIntExact(
-                    "Test " + to_string(i + 1) + " (" + name + ")",
-                    tc.expected,
-                    ListUtils::toVector<int>(result)
-                );
-
-                ListUtils::freeList<int>(result);
-            }
-        }
-    }
-
-    static void hasCycle_141_tests() {
-        vector<LinkedListCycleTestCase> testCases = {
-            // Provided examples
-            {{3, 2, 0, -4}, 1, true},
-            {{1, 2}, 0, true},
-            {{1}, -1, false},
-
-            // Additional examples
-            {{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 4, true},
-            {{10, 20, 30, 40, 50, 60, 70, 80}, 2, true}
-        };
-
-        LinkedListCycle_141 solution;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            ListNode<int>* head = ListUtils::createLinkedListWithCycle<int>(testCases[i].values, testCases[i].pos);
-            bool result = solution.hasCycle(head);
-
-            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
-
-            ListUtils::freeList<int>(head);
-        }
-    }
-
-    static void middleOfTheLinkedList_876_tests() {
-        using IntListNode = ListNode<int>;
-
-        vector<MiddleOfTheLinkedListTestCase> testCases = {
-            // Provided examples
-            {{1, 2, 3, 4, 5}, {3, 4, 5}},
-            {{1, 2, 3, 4, 5, 6}, {4, 5, 6}},
-
-            // Additional test cases
-            {{}, {}},                         // Edge case: empty list
-            {{1}, {1}},                       // Edge case: single element
-            {{1, 2, 3, 4, 5, 6, 7}, {4, 5, 6, 7}} // Odd-length list
-        };
-
-        MiddleOfLinkedList_876 solution;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].values);
-            IntListNode* result = solution.middleNode(input);
-
-            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
-
-            ListUtils::freeList<int>(input);
-        }
-    }
-
-    static void removeNthNodeFromEndOfList_19_tests() {
-        using IntListNode = ListNode<int>;
-
-        vector<RemoveNthNodeFromEndOfListTestCase> testCases = {
-            // Provided examples
-            {{1, 2, 3, 4, 5}, 2, {1, 2, 3, 5}},
-            {{1}, 1, {}},
-            {{1, 2}, 1, {1}},
-
-            // Additional test cases
-            {{10, 20, 30, 40, 50, 60, 70}, 3, {10, 20, 30, 40, 60, 70}}, // Bigger list
-            {{5, 10, 15, 20}, 4, {10, 15, 20}} // Removing the head
-        };
-
-        RemoveNthNodeFromEndOfList_19 solution;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].values);
-            IntListNode* result = solution.removeNthFromEnd(input, testCases[i].n);
-
-            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
-
-            ListUtils::freeList<int>(result);
-        }
-    }
-
     static void validateBinarySearchTree_98_tests() {
         vector<ValidateBinarySearchTreeTestCase> testCases = {
             // Provided examples
@@ -2556,41 +2698,6 @@ public:
             }
 
             TreeUtils::freeTree(root);
-        }
-    }
-
-    static void copyRandomList_138_tests() {
-        using IntListNode = ListNode<int>;
-
-        vector<CopyRandomListTestCase> testCases = {
-            // Provided test cases
-            {{{7, nullopt}, {13, 0}, {11, 4}, {10, 2}, {1, 0}},
-             {{7, nullopt}, {13, 0}, {11, 4}, {10, 2}, {1, 0}}},
-            {{{1, 1}, {2, 1}}, {{1, 1}, {2, 1}}},
-            {{{3, nullopt}, {3, 0}, {3, nullopt}},
-             {{3, nullopt}, {3, 0}, {3, nullopt}}},
-
-            // Additional complex test cases
-            {{{1, nullopt}, {2, 0}, {3, 1}, {4, 3}, {5, 2}},
-             {{1, nullopt}, {2, 0}, {3, 1}, {4, 3}, {5, 2}}},
-            {{{10, 4}, {20, 3}, {30, 2}, {40, 1}, {50, nullopt}},
-             {{10, 4}, {20, 3}, {30, 2}, {40, 1}, {50, nullopt}}}
-        };
-
-        CopyListWithRandomPointer_138 solution;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* input = ListUtils::createLinkedListWithRandom<int>(testCases[i].nodes);
-            IntListNode* expected = ListUtils::createLinkedListWithRandom<int>(testCases[i].expected);
-
-            IntListNode* result = solution.copyRandomList(input);
-            bool isCorrect = ListUtils::compareListsWithRandom<int>(result, expected);
-
-            assertEqScalar("Copy Random List Test " + to_string(i + 1), true, isCorrect);
-
-            ListUtils::freeList(input);
-            ListUtils::freeList(result);
-            ListUtils::freeList(expected);
         }
     }
 
@@ -3045,53 +3152,6 @@ public:
             int got = sol.characterReplacement(testCases[i].input, testCases[i].k);
             assertEqScalar("Longest Repeating Character Replacement 424 Test " + to_string(i + 1),
                         testCases[i].expected, got);
-        }
-    }
-
-    static void lruCache_146_tests() {
-        vector<LRUCacheTestCase> testCases = {
-            // From problem statement
-            {
-                {"LRUCache","put","put","get","put","get","put","get","get","get"},
-                {{2},      {1,1}, {2,2}, {1},  {3,3}, {2},  {4,4}, {1},  {3},   {4}},
-                { nullopt, nullopt, nullopt, 1,
-                  nullopt, -1,         nullopt, -1,
-                   3,            4 }
-            },
-            // Additional: overwrite existing key and capacity=1 edge
-            {
-                {"LRUCache","put","put","get","put","get","get"},
-                {{1},      {1,10},{1,20},{1},  {2,30},{1},  {2}},
-                { nullopt, nullopt, nullopt, 20,
-                  nullopt,  -1,           30 }
-            },
-            // Additional: complex sequence with capacity = 3 and multiple evictions
-            {
-                {"LRUCache","put","put","put","get","put","get","get","put","get","get"},
-                {{3},      {1,1}, {2,2}, {3,3}, {1},  {4,4}, {2},  {3},  {5,5}, {1},  {4}},
-                { nullopt, nullopt, nullopt, nullopt, 1,
-                  nullopt, -1,          3,          nullopt, -1,        4}
-            },
-        };
-
-        for (size_t t = 0; t < testCases.size(); ++t) {
-            unique_ptr<LRUCache> cache;
-            const auto& C = testCases[t];
-
-            for (size_t i = 0; i < C.operations.size(); ++i) {
-                const string& op = C.operations[i];
-
-                if (op == "LRUCache") {
-                    cache = make_unique<LRUCache>(C.arguments[i][0]);
-                } else if (op == "put") {
-                    cache->put(C.arguments[i][0], C.arguments[i][1]);
-                } else if (op == "get") {
-                    int key = C.arguments[i][0];
-                    int got = cache->get(key);
-                    const string label = makeStepLabel("LRUCache_146", t, i, "get", to_string(key));
-                    assertEqScalar(label, C.expected[i].value(), got);
-                }
-            }
         }
     }
 
@@ -5024,52 +5084,6 @@ public:
 
             assertEqScalar("Single Number 136 Test " + to_string(i + 1),
                            testCases[i].expected, got);
-        }
-    }
-
-    static void insertGreatestCommonDivisors_2807_tests() {
-        using IntListNode = ListNode<int>;
-
-        vector<InsertGreatestCommonDivisorsTestCase> testCases = {
-            // Provided examples
-            {{18, 6, 10, 3}, {18, 6, 6, 2, 10, 1, 3}},
-            {{7}, {7}},
-
-            // Additional cases
-            {{2, 4, 6}, {2, 2, 4, 2, 6}},
-            {{5, 7, 11}, {5, 1, 7, 1, 11}},      // all primes -> gcd = 1
-            {{1000, 1000}, {1000, 1000, 1000}},  // identical adjacent values
-            {{1, 1000}, {1, 1, 1000}},
-            {{12, 15, 21, 28}, {12, 3, 15, 3, 21, 7, 28}},
-        };
-
-        InsertGreatestCommonDivisors_2807 solution;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            // Run both implementations on fresh copies (they mutate the list).
-            IntListNode* input_std = ListUtils::createLinkedList<int>(testCases[i].list);
-            IntListNode* got_std = solution.insertGreatestCommonDivisors_stdGcd(input_std);
-            vector<int> gotVec_std = ListUtils::toVector<int>(got_std);
-
-            assertEqVIntExact("2807 [std::gcd]  Test " + to_string(i + 1),
-                              testCases[i].expected, gotVec_std);
-
-            // NOTE: The algorithm mutates the list in-place and returns the same head.
-            // Free ONLY through `got_std` (which equals `input_std`); do NOT free `input_std` separately.
-            ListUtils::freeList<int>(got_std);
-
-            IntListNode* input_euclid = ListUtils::createLinkedList<int>(testCases[i].list);
-            IntListNode* got_euclid = solution.insertGreatestCommonDivisors_euclid(input_euclid);
-            vector<int> gotVec_euclid = ListUtils::toVector<int>(got_euclid);
-
-            assertEqVIntExact("2807 [euclid]    Test " + to_string(i + 1),
-                              testCases[i].expected, gotVec_euclid);
-
-            assertEqVIntExact("2807 [agree]     Test " + to_string(i + 1),
-                              gotVec_std, gotVec_euclid);
-
-            // Ditto: `got_euclid == input_euclid`, so free only `got_euclid`.
-            ListUtils::freeList<int>(got_euclid);
         }
     }
 
