@@ -2211,7 +2211,7 @@ public:
             }
         }
     }
-    
+
     // ============================================================================
     // Binary Search
     // ============================================================================
@@ -2396,6 +2396,135 @@ public:
             int got = solution.search(testCases[i].nums, testCases[i].target);
             assertEqScalar("Search Rotated Sorted Array 33 Test " + to_string(i + 1),
                            testCases[i].expected, got);
+        }
+    }
+
+    // ============================================================================
+    // Sliding Window
+    // ============================================================================
+
+    /* Fixed-size windows with rolling updates */
+
+    static void maximumAverageSubarrayI_643_tests() {
+        vector<MaximumAverageSubarrayITestCase> testCases = {
+            // problem examples
+            {{1, 12, -5, -6, 50, 3}, 4, 12.75},
+            {{5},                    1,  5.0},
+
+            // additional complex tests
+            {{1,2,3,4,5,6,7,8,9,10},   5,  8.0},          // increasing sequence
+            {{-5,-10,-3,-4,-1,-2},     3, -2.3333333333}, // all negatives
+            {{0,100,0,100,0,100},      2,  50.0}          // alternating highs/lows
+        };
+
+        MaximumAverageSubarrayI_643 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            double got = sol.findMaxAverage(testCases[i].nums, testCases[i].k);
+            const string label = "Max Avg Subarray I 643 Test " + to_string(i + 1);
+            // keep tolerance via approxEqual, assert on the boolean
+            assertEqScalar(label, true, approxEqual(got, testCases[i].expected));
+        }
+    }
+
+    /* Expanding and shrinking windows with a running constraint */
+
+    static void maxConsecutiveOnesIII_1004_tests() {
+        vector<MaxConsecutiveOnesIIITestCase> testCases = {
+            // two examples from the problem statement:
+            {{1,1,1,0,0,0,1,1,1,1,0},           2,  6},
+            {{0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1}, 3, 10},
+
+            // three more:
+            {{1,0,1,0,1,0,1},                   1,  3},  // alternating
+            {{1,1,0,0,1,1,1,0,1},               2,  7},  // mixed blocks
+            {{0,0,0,0},                         0,  0}   // all zeros, no flips
+        };
+
+        MaxConsecutiveOnesIII_1004 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = sol.longestOnes(testCases[i].nums, testCases[i].k);
+            assertEqScalar("Max Consecutive Ones III 1004 Test " + to_string(i + 1), testCases[i].expected, got);
+        }
+    }
+
+    static void minimumSizeSubarraySum_209_tests() {
+        vector<MinimumSizeSubarraySumTestCase> testCases = {
+            // 3 examples from the problem statement
+            {7,  {2, 3, 1, 2, 4, 3},             2},
+            {4,  {1, 4, 4},                      1},
+            {11, {1, 1, 1, 1, 1, 1, 1, 1},       0},
+
+            // 2 additional, more demanding cases
+            //  – overlapping windows, answer = 2  (10+7)
+            {15, {5, 1, 3, 5, 10, 7, 4, 9, 2, 8}, 2},
+            //  – strictly increasing array, answer = 3  (8+9+10)
+            {25, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3}
+        };
+
+        MinimumSizeSubarraySum_209 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = sol.minSubArrayLen(testCases[i].target, testCases[i].nums);
+            assertEqScalar("Minimum Size Subarray Sum 209 Test " + to_string(i + 1), testCases[i].expected, got);
+        }
+    }
+
+    /* Variable-size windows for distinctness and replacement limits */
+
+    static void longestSubstringWithoutRepeatingCharacters_3_tests() {
+        vector<LongestSubstringWithoutRepeatingCharactersTestCase> testCases = {
+            {"abcabcbb", 3},  // example 1
+            {"bbbbb",    1},  // example 2
+            {"pwwkew",   3},  // example 3
+            // two more complex cases:
+            {"dvdf",     3},  // "vdf"
+            {"anviaj",   5}   // "nviaj"
+        };
+
+        LongestSubstringWithoutRepeatingCharacters_3 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = sol.lengthOfLongestSubstring(testCases[i].input);
+            assertEqScalar("Longest Substring Without Repeating Characters 3 Test " + to_string(i + 1),
+                        testCases[i].expected, got);
+        }
+    }
+
+    static void longestRepeatingCharacterReplacement_424_tests() {
+        vector<LongestRepeatingCharacterReplacementTestCase> testCases = {
+            {"ABAB",      2, 4},  // Example 1
+            {"AABABBA",   1, 4},  // Example 2
+            {"BABABA",    3, 6},  // Transform 3 'A's into 'B's
+            {"ABCDE",     2, 3},  // Best substring length 3 by 2 changes
+            {"ABBBBAA",   2, 6},  // 6-length window after 2 changes
+            {"AAACCCCAC", 1, 6},  // Example of sliding window where maxFreq lags; still yields best=6
+        };
+
+        LongestRepeatingCharacterReplacement_424 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = sol.characterReplacement(testCases[i].input, testCases[i].k);
+            assertEqScalar("Longest Repeating Character Replacement 424 Test " + to_string(i + 1),
+                        testCases[i].expected, got);
+        }
+    }
+
+    /* Window matching with character-frequency requirements */
+
+    static void permutationInString_567_tests() {
+        vector<PermutationInStringTestCase> testCases = {
+            {"ab",   "eidbaooo",          true},
+            {"ab",   "eidboaoo",          false},
+            {"adc",  "dcda",              true},
+            {"xyz",  "afdgzyxksldfm",     true},
+            {"abcd", "abc",               false}
+        };
+
+        PermutationInString_567 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const bool got_fullCompare    = sol.checkInclusion_fullCompare(testCases[i].s1, testCases[i].s2);
+            const bool got_matchesCounter = sol.checkInclusion_matchesCounter(testCases[i].s1, testCases[i].s2);
+
+            const string base = "Permutation in String 567 Test " + to_string(i + 1);
+            assertEqScalar(base + " [fullCompare]",    testCases[i].expected, got_fullCompare);
+            assertEqScalar(base + " [matchesCounter]", testCases[i].expected, got_matchesCounter);
         }
     }
 
@@ -3246,25 +3375,6 @@ public:
         }
     }
 
-    // Tests for LeetCode #424 Longest Repeating Character Replacement
-    static void longestRepeatingCharacterReplacement_424_tests() {
-        vector<LongestRepeatingCharacterReplacementTestCase> testCases = {
-            {"ABAB",      2, 4},  // Example 1
-            {"AABABBA",   1, 4},  // Example 2
-            {"BABABA",    3, 6},  // Transform 3 'A's into 'B's
-            {"ABCDE",     2, 3},  // Best substring length 3 by 2 changes
-            {"ABBBBAA",   2, 6},  // 6-length window after 2 changes
-            {"AAACCCCAC", 1, 6},  // Example of sliding window where maxFreq lags; still yields best=6
-        };
-
-        LongestRepeatingCharacterReplacement_424 sol;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = sol.characterReplacement(testCases[i].input, testCases[i].k);
-            assertEqScalar("Longest Repeating Character Replacement 424 Test " + to_string(i + 1),
-                        testCases[i].expected, got);
-        }
-    }
-
     static void coinChange_322_tests() {
         vector<CoinChangeTestCase> testCases = {
             // 3 examples from the problem statement
@@ -3390,105 +3500,6 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = sol.uniquePathsWithObstacles(testCases[i].grid);
             assertEqScalar("Unique Paths II 63 Test " + to_string(i + 1), testCases[i].expected, got);
-        }
-    }
-
-    static void maximumAverageSubarrayI_643_tests() {
-        vector<MaximumAverageSubarrayITestCase> testCases = {
-            // problem examples
-            {{1, 12, -5, -6, 50, 3}, 4, 12.75},
-            {{5},                    1,  5.0},
-
-            // additional complex tests
-            {{1,2,3,4,5,6,7,8,9,10},   5,  8.0},          // increasing sequence
-            {{-5,-10,-3,-4,-1,-2},     3, -2.3333333333}, // all negatives
-            {{0,100,0,100,0,100},      2,  50.0}          // alternating highs/lows
-        };
-
-        MaximumAverageSubarrayI_643 sol;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            double got = sol.findMaxAverage(testCases[i].nums, testCases[i].k);
-            const string label = "Max Avg Subarray I 643 Test " + to_string(i + 1);
-            // keep tolerance via approxEqual, assert on the boolean
-            assertEqScalar(label, true, approxEqual(got, testCases[i].expected));
-        }
-    }
-
-    static void maxConsecutiveOnesIII_1004_tests() {
-        vector<MaxConsecutiveOnesIIITestCase> testCases = {
-            // two examples from the problem statement:
-            {{1,1,1,0,0,0,1,1,1,1,0},           2,  6},
-            {{0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1}, 3, 10},
-
-            // three more:
-            {{1,0,1,0,1,0,1},                   1,  3},  // alternating
-            {{1,1,0,0,1,1,1,0,1},               2,  7},  // mixed blocks
-            {{0,0,0,0},                         0,  0}   // all zeros, no flips
-        };
-
-        MaxConsecutiveOnesIII_1004 sol;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = sol.longestOnes(testCases[i].nums, testCases[i].k);
-            assertEqScalar("Max Consecutive Ones III 1004 Test " + to_string(i + 1), testCases[i].expected, got);
-        }
-    }
-
-    static void longestSubstringWithoutRepeatingCharacters_3_tests() {
-        vector<LongestSubstringWithoutRepeatingCharactersTestCase> testCases = {
-            {"abcabcbb", 3},  // example 1
-            {"bbbbb",    1},  // example 2
-            {"pwwkew",   3},  // example 3
-            // two more complex cases:
-            {"dvdf",     3},  // "vdf"
-            {"anviaj",   5}   // "nviaj"
-        };
-
-        LongestSubstringWithoutRepeatingCharacters_3 sol;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = sol.lengthOfLongestSubstring(testCases[i].input);
-            assertEqScalar("Longest Substring Without Repeating Characters 3 Test " + to_string(i + 1),
-                        testCases[i].expected, got);
-        }
-    }
-
-    static void minimumSizeSubarraySum_209_tests() {
-        vector<MinimumSizeSubarraySumTestCase> testCases = {
-            // 3 examples from the problem statement
-            {7,  {2, 3, 1, 2, 4, 3},             2},
-            {4,  {1, 4, 4},                      1},
-            {11, {1, 1, 1, 1, 1, 1, 1, 1},       0},
-
-            // 2 additional, more demanding cases
-            //  – overlapping windows, answer = 2  (10+7)
-            {15, {5, 1, 3, 5, 10, 7, 4, 9, 2, 8}, 2},
-            //  – strictly increasing array, answer = 3  (8+9+10)
-            {25, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 3}
-        };
-
-        MinimumSizeSubarraySum_209 sol;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = sol.minSubArrayLen(testCases[i].target, testCases[i].nums);
-            assertEqScalar("Minimum Size Subarray Sum 209 Test " + to_string(i + 1), testCases[i].expected, got);
-        }
-    }
-
-    static void permutationInString_567_tests() {
-        vector<PermutationInStringTestCase> testCases = {
-            {"ab",   "eidbaooo",          true},
-            {"ab",   "eidboaoo",          false},
-            {"adc",  "dcda",              true},
-            {"xyz",  "afdgzyxksldfm",     true},
-            {"abcd", "abc",               false}
-        };
-
-        PermutationInString_567 sol;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            const bool got_fullCompare    = sol.checkInclusion_fullCompare(testCases[i].s1, testCases[i].s2);
-            const bool got_matchesCounter = sol.checkInclusion_matchesCounter(testCases[i].s1, testCases[i].s2);
-
-            const string base = "Permutation in String 567 Test " + to_string(i + 1);
-            assertEqScalar(base + " [fullCompare]",    testCases[i].expected, got_fullCompare);
-            assertEqScalar(base + " [matchesCounter]", testCases[i].expected, got_matchesCounter);
         }
     }
 
