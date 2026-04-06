@@ -2528,6 +2528,780 @@ public:
         }
     }
 
+    // ============================================================================
+    // Trees
+    // ============================================================================
+
+    /* Basic tree traversal, inspection, and structural transformation */
+
+    static void invertBinaryTree_226_tests() {
+        vector<InvertBinaryTreeTestCase> testCases = {
+            // Example 1 from the problem statement
+            {{4, 2, 7, 1, 3, 6, 9},
+             {4, 7, 2, 9, 6, 3, 1}},
+
+            // Example 2 from the problem statement
+            {{2, 1, 3},
+             {2, 3, 1}},
+
+            // Example 3: empty tree
+            {{},
+             {}},
+
+            // Single-node tree
+            {{42},
+             {42}},
+
+            // Left-skewed tree turns into right-skewed tree
+            // input:  1
+            //        /
+            //       2
+            //      /
+            //     3
+            //
+            // output:
+            //     1
+            //      \
+            //       2
+            //        \
+            //         3
+            {{1, 2, nullopt, 3},
+             {1, nullopt, 2, nullopt, 3}},
+
+            // Irregular tree with nulls in the middle
+            //    Input:
+            //          1
+            //        /   \
+            //       2     3
+            //      /       \
+            //     4         5
+            //
+            //    Output:
+            //          1
+            //        /   \
+            //       3     2
+            //      /       \
+            //     5         4
+            {{1, 2, 3, 4, nullopt, nullopt, 5},
+             {1, 3, 2, 5, nullopt, nullopt, 4}},
+        };
+
+        InvertBinaryTree_226 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+
+            TreeNode<int>* root     = TreeUtils::vectorToTree<int>(tc.tree);
+            TreeNode<int>* expected = TreeUtils::vectorToTree<int>(tc.expected);
+
+            TreeNode<int>* result = solver.invertTree(root);
+
+            string gotStr = TreeUtils::toLevelOrderString(result);
+            string expStr = TreeUtils::toLevelOrderString(expected);
+
+            const string label = "Invert Binary Tree 226 Test " + to_string(i + 1);
+            assertEqScalar(label, expStr, gotStr);
+
+            TreeUtils::freeTree(expected);
+            TreeUtils::freeTree(root);      // free the input tree
+        }
+    }
+
+    static void maximumDepthOfBinaryTree_104_tests() {
+        vector<MaximumDepthOfBinaryTreeTestCase> testCases = {
+            // two examples from the problem statement
+            {{3, 9, 20, nullopt, nullopt, 15, 7}, 3},
+            {{1, nullopt, 2},                     2},
+
+            // three extra, increasingly tricky, cases
+            // (a) irregular but shallow left/right mix – depth 4
+            {{1, 2, 3, 4, nullopt, nullopt, 5, nullopt, 6}, 4},
+            // (b) strongly left-skewed – depth 5
+            {{1, 2, nullopt, 3, nullopt, 4, nullopt, 5}, 5},
+            // (c) empty tree – depth 0
+            {{}, 0}
+        };
+
+        MaximumDepthOfBinaryTree_104 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(testCases[i].tree);
+
+            int dRec = solver.maxDepthRecursive(root);
+            int dStk = solver.maxDepthDFSStack(root);
+            int dBfs = solver.maxDepthBFSQueue(root);
+
+            const string base = "Max Depth 104 Test " + to_string(i + 1);
+            assertEqScalar(base + " [recursive]", testCases[i].expected, dRec);
+            assertEqScalar(base + " [DFS stack]", testCases[i].expected, dStk);
+            assertEqScalar(base + " [BFS queue]", testCases[i].expected, dBfs);
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
+    static void sameTree_100_tests()
+    {
+        vector<SameTreeTestCase> cases = {
+            // Examples
+            { {1, 2, 3},                  {1, 2, 3},                  true  }, // Example 1
+            { {1, 2},                     {1, nullopt, 2},            false }, // Example 2
+            { {1, 2, 1},                  {1, 1, 2},                  false }, // Example 3
+
+            // A few extra sanity checks
+            { {},                         {},                         true  },
+            { {1, nullopt, 2, 3},         {1, nullopt, 2, 3},         true  },
+            {
+                // 10
+                //   \
+                //   20
+                //  /
+                // 15
+                //   \
+                //   25
+                //  /
+                // 22
+                {10, nullopt, 20, 15, nullopt, nullopt, 25, 22},
+                {10, nullopt, 20, 15, nullopt, nullopt, 25, 22},
+                true
+            },
+        };
+
+        SameTree_100 sol;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            auto* p = TreeUtils::vectorToTree<int>(cases[i].p);
+            auto* q = TreeUtils::vectorToTree<int>(cases[i].q);
+
+            const string base = "SameTree_100 Test " + to_string(i + 1);
+
+            bool g1 = sol.isSameTreeRecursive(p, q);
+            bool g2 = sol.isSameTreeIterativeDFS(p, q);
+            bool g3 = sol.isSameTreeBFSQueue(p, q);
+
+            assertEqScalar(base + " [recursive]",     cases[i].expected, g1);
+            assertEqScalar(base + " [iterative DFS]", cases[i].expected, g2);
+            assertEqScalar(base + " [BFS queue]",     cases[i].expected, g3);
+
+            TreeUtils::freeTree(p);
+            TreeUtils::freeTree(q);
+        }
+    }
+
+    static void symmetricTree_101_tests() {
+        vector<SymmetricTreeTestCase> cases = {
+            // Example 1
+            {{1, 2, 2, 3, 4, 4, 3}, true},
+
+            // Example 2
+            {{1, 2, 2, nullopt, 3, nullopt, 3}, false},
+
+            // Empty tree
+            {{}, true},
+
+            // Single node
+            {{1}, true},
+
+            // Symmetric but not perfect, with interior nulls
+            //        1
+            //      /   \
+            //     2     2
+            //    /       \
+            //   3         3
+            //  /           \
+            // 4             4
+            {{1, 2, 2, 3, nullopt, nullopt, 3, 4, nullopt, nullopt, 4}, true},
+
+            // Same shape on both sides but values break symmetry
+            //        1
+            //      /   \
+            //     2     2
+            //    / \   / \
+            //   3   4 3   4   (not symmetric: mirrored nodes differ)
+            {{1, 2, 2, 3, 4, 3, 4}, false},
+        };
+
+        SymmetricTree_101 sol;
+
+        for (size_t i = 0; i < cases.size(); ++i) {
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(cases[i].tree);
+
+            const string base = "SymmetricTree_101 Test " + to_string(i + 1);
+
+            bool g1 = sol.isSymmetricRecursive(root);
+            bool g2 = sol.isSymmetricIterative(root);
+
+            assertEqScalar(base + " [recursive]", cases[i].expected, g1);
+            assertEqScalar(base + " [iterative]", cases[i].expected, g2);
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
+    static void pathSum_112_tests() {
+        vector<PathSumTestCase> cases = {
+            // Example 1
+            {{5, 4, 8, 11, nullopt, 13, 4, 7, 2, nullopt, nullopt, nullopt, 1}, 22, true},
+
+            // Example 2
+            {{1, 2, 3}, 5, false},
+
+            // Example 3: empty tree
+            {{}, 0, false},
+
+            // Single node: matches target
+            {{5}, 5, true},
+
+            // Single node: does not match target
+            {{5}, 4, false},
+
+            // Intermediate sum equals target but only full root-to-leaf should count
+            //       1
+            //      /
+            //     2
+            //    /
+            //   1
+            // Path 1->2 = 3 (not a leaf), leaf path 1->2->1 = 4
+            {{1, 2, nullopt, 1}, 3, false},
+
+            // Tree with negative values, path exists:
+            //         1
+            //       /   \
+            //     -2    -3
+            //     / \   /
+            //    1   3 -2
+            //   /
+            //  -1
+            // Path: 1 + (-2) + 1 + (-1) = -1
+            {{1, -2, -3, 1, 3, -2, nullopt, -1}, -1, true},
+        };
+
+        PathSum_112 sol;
+
+        for (size_t i = 0; i < cases.size(); ++i) {
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(cases[i].tree);
+
+            const string label = "PathSum_112 Test " + to_string(i + 1);
+
+            bool got = sol.hasPathSum(root, cases[i].target);
+            assertEqScalar(label, cases[i].expected, got);
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
+    /* Bottom-up DFS reasoning with subtree-derived information */
+
+    static void balancedBinaryTree_110_tests() {
+        vector<BalancedBinaryTreeTestCase> testCases = {
+            // Example 1
+            {{3, 9, 20, nullopt, nullopt, 15, 7}, true},
+
+            // Example 2
+            {{1, 2, 2, 3, 3, nullopt, nullopt, 4, 4}, false},
+
+            // Example 3: empty tree
+            {{}, true},
+
+            // Single node
+            {{1}, true},
+
+            // Balanced but not perfect
+            //      1
+            //     / \
+            //    2   3
+            //   / \   \
+            //  4   5   6
+            {{1, 2, 3, 4, 5, nullopt, 6}, true},
+
+            // Right-skewed chain (unbalanced)
+            // 1
+            //  \
+            //   2
+            //    \
+            //     3
+            {{1, nullopt, 2, nullopt, 3}, false},
+        };
+
+        BalancedBinaryTree_110 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
+            bool got = solver.isBalanced(root);
+
+            const string label = "Balanced Binary Tree 110 Test " + to_string(i + 1);
+            assertEqScalar(label, tc.expected, got);
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
+    static void diameterOfBinaryTree_543_tests() {
+        vector<DiameterOfBinaryTreeTestCase> testCases = {
+            // Example 1: [4,2,1,3,5] diameter = 3
+            {{1, 2, 3, 4, 5}, 3},
+
+            // Example 2: [1,2] diameter = 1
+            {{1, 2}, 1},
+
+            // Single node: diameter = 0
+            {{1}, 0},
+
+            // Left-skewed chain: 1-2-3-4, diameter = 3
+            {{1, 2, nullopt, 3, nullopt, 4}, 3},
+
+            // Balanced-ish tree
+            //        1
+            //      /   \
+            //     2     3
+            //    / \   /
+            //   4   5 6
+            // Longest path: 4-2-1-3-6 => 4 edges
+            {{1, 2, 3, 4, 5, 6}, 4},
+
+            // Diameter inside a subtree (not through root)
+            //        1
+            //       /
+            //      2
+            //     / \
+            //    3   4
+            //   /
+            //  5
+            // Longest path: 5-3-2-4 => 3 edges
+            {{1, 2, nullopt, 3, 4, 5}, 3},
+        };
+
+        DiameterOfBinaryTree_543 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
+            int got = solver.diameterOfBinaryTree(root);
+
+            const string label = "Diameter of Binary Tree 543 Test " + to_string(i + 1);
+            assertEqScalar(label, tc.expected, got);
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
+    static void subtreeOfAnotherTree_572_tests() {
+        vector<SubtreeOfAnotherTreeTestCase> cases = {
+            // Example 1
+            {{3, 4, 5, 1, 2},
+             {4, 1, 2},
+             true},
+
+            // Example 2
+            {{3, 4, 5, 1, 2, nullopt, nullopt, nullopt, nullopt, 0},
+             {4, 1, 2},
+             false},
+
+            // Whole tree equals subRoot
+            {{1, 2, 3, 4, 5},
+             {1, 2, 3, 4, 5},
+             true},
+
+            // Single-node subRoot present multiple times
+            {{1, 1, 2},
+             {1},
+             true},
+
+            // Single-node subRoot absent
+            {{1, 2, 3},
+             {4},
+             false},
+
+            // The tree could also be considered as a subtree of itself.
+            // root:    1
+            //         / \
+            //        1   1
+            // sub:    1
+            //        / \
+            //       1   1
+            {{1, 1, 1},
+             {1, 1, 1},
+             true},
+
+            // Same multiset of values but different structure should NOT count
+            // root:   1
+            //        /
+            //       1
+            //      /
+            //     1
+            //
+            // sub:    1
+            //        / \
+            //       1   1
+            {{1, 1, nullopt, 1},
+             {1, 1, 1},
+             false},
+
+            // Match deeper in the tree
+            // root:      5
+            //           / \
+            //          3   8
+            //         / \
+            //        2   4
+            // subRoot:   3
+            //           / \
+            //          2   4
+            {{5, 3, 8, 2, 4},
+             {3, 2, 4},
+             true},
+        };
+
+        SubtreeOfAnotherTree_572 sol;
+
+        for (size_t i = 0; i < cases.size(); ++i) {
+            const auto& tc = cases[i];
+
+            TreeNode<int>* root    = TreeUtils::vectorToTree<int>(tc.root);
+            TreeNode<int>* subRoot = TreeUtils::vectorToTree<int>(tc.subRoot);
+
+            const string label = "SubtreeOfAnotherTree_572 Test " + to_string(i + 1);
+            bool got = sol.isSubtree(root, subRoot);
+
+            assertEqScalar(label, tc.expected, got);
+
+            TreeUtils::freeTree(root);
+            TreeUtils::freeTree(subRoot);
+        }
+    }
+
+    /* Breadth-first traversal by tree levels */
+
+    static void binaryTreeLevelOrderTraversal_102_tests() {
+        vector<BinaryTreeLevelOrderTraversalTestCase> cases = {
+            // Example 1
+            {{3, 9, 20, nullopt, nullopt, 15, 7},
+             {{3}, {9, 20}, {15, 7}}},
+
+            // Example 2
+            {{1},
+             {{1}}},
+
+            // Example 3: empty tree
+            {{},
+             {}},
+
+            // Left-skewed tree
+            //   1
+            //  /
+            // 2
+            ///
+            //3
+            {{1, 2, nullopt, 3},
+             {{1}, {2}, {3}}},
+
+            // Unbalanced tree with missing children
+            //        1
+            //      /   \
+            //     2     3
+            //      \     \
+            //       4     5
+            {{1, 2, 3, nullopt, 4, nullopt, 5},
+             {{1}, {2, 3}, {4, 5}}},
+
+            // Tree with a deeper left subtree
+            //        10
+            //       /  \
+            //      5    15
+            //     /    /  \
+            //    3    12  18
+            {{10, 5, 15, 3, nullopt, 12, 18},
+             {{10}, {5, 15}, {3, 12, 18}}},
+        };
+
+        BinaryTreeLevelOrderTraversal_102 sol;
+
+        for (size_t i = 0; i < cases.size(); ++i) {
+            const auto& tc = cases[i];
+
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
+            vector<vector<int>> got = sol.levelOrder(root);
+
+            const string label = "BinaryTreeLevelOrderTraversal_102 Test " + to_string(i + 1);
+            assertEqVVIntExact(label, tc.expected, got);
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
+    static void averageOfLevelsInBinaryTree_637_tests() {
+        vector<AverageOfLevelsInBinaryTreeTestCase> cases = {
+            // Example 1
+            {{3, 9, 20, nullopt, nullopt, 15, 7},
+             {3.0, 14.5, 11.0}},
+
+            // Example 2
+            {{3, 9, 20, 15, 7},
+             {3.0, 14.5, 11.0}},
+
+            // Single node
+            {{1},
+             {1.0}},
+
+            // Left-skewed tree: levels [[1], [2], [3]]
+            //     1
+            //    /
+            //   2
+            //  /
+            // 3
+            {{1, 2, nullopt, 3},
+             {1.0, 2.0, 3.0}},
+
+            // Mixed positive/negative values
+            //       1
+            //      / \
+            //    -2   3
+            // Averages: [1], [0.5]
+            {{1, -2, 3},
+             {1.0, 0.5}},
+
+            // Deeper unbalanced tree
+            //        5
+            //       / \
+            //      3   8
+            //     /   / \
+            //    1   7  10
+            // Averages: [5], [5.5], [6.0]
+            {{5, 3, 8, 1, nullopt, 7, 10},
+             {5.0, 5.5, 6.0}},
+        };
+
+        AverageOfLevelsInBinaryTree_637 sol;
+
+        for (size_t i = 0; i < cases.size(); ++i) {
+            const auto& tc = cases[i];
+
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
+            vector<double> got  = sol.averageOfLevels(root);
+
+            const string base = "AverageOfLevelsInBinaryTree_637 Test " + to_string(i + 1);
+
+            // First check length
+            assertEqScalar(base + " [size]", tc.expected.size(), got.size());
+
+            // Then check each level with approximate comparison
+            for (size_t j = 0; j < tc.expected.size() && j < got.size(); ++j) {
+                const string label = base + " [level " + to_string(j) + "]";
+                assertApprox(label, tc.expected[j], got[j], 1e-5);
+            }
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
+    /* BST-specific inorder and ordering properties */
+
+    static void kthSmallestElementInBST_230_tests() {
+        vector<KthSmallestElementInABSTTestCase> testCases = {
+            // Example 1
+            {{3, 1, 4, nullopt, 2}, 1, 1},
+            // Example 2
+            {{5, 3, 6, 2, 4, nullopt, nullopt, 1}, 3, 3},
+            // Additional Test 1: Larger balanced tree
+            {{15, 10, 20, 5, 13, 17, 25, 3, 8, nullopt, 14, 16, 18}, 6, 14},
+            // Additional Test 2: Single node tree
+            {{42}, 1, 42},
+            // Additional Test 3: Skewed tree
+            {{1, nullopt, 2, nullopt, 3, nullopt, 4}, 4, 4}
+        };
+
+        KthSmallestElementInBST_230 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(testCases[i].tree);
+            int got = solution.kthSmallest(root, testCases[i].k);
+
+            if (!assertEqScalar("Kth Smallest Element Test " + to_string(i + 1), testCases[i].expected, got)) {
+                cout << "  Input tree:\n";
+                TreeUtils::printTree(root);
+                cout << "  k=" << testCases[i].k << "\n";
+            }
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
+    static void minimumAbsoluteDifferenceInBST_530_tests() {
+        vector<MinimumAbsoluteDifferenceInBSTTestCase> cases = {
+            // Example 1
+            {{4, 2, 6, 1, 3}, 1},
+
+            // Example 2
+            {{1, 0, 48, nullopt, nullopt, 12, 49}, 1},
+
+            // Simple two-node tree
+            {{1, nullopt, 3}, 2},
+
+            // Skewed increasing tree: consecutive integers → min diff = 1
+            //    1
+            //     \
+            //      2
+            //       \
+            //        3
+            //         \
+            //          4
+            {{1, nullopt, 2, nullopt, 3, nullopt, 4}, 1},
+
+            // Typical LC-style example with more nodes:
+            //       90
+            //      /
+            //    69
+            //   /  \
+            // 49   89
+            //   \
+            //   52
+            // Sorted: [49, 52, 69, 89, 90] → min diff = 1
+            {{90, 69, nullopt, 49, 89, nullopt, 52}, 1},
+        };
+
+        MinimumAbsoluteDifferenceInBST_530 sol;
+
+        for (size_t i = 0; i < cases.size(); ++i) {
+            const auto& tc = cases[i];
+
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
+            int got = sol.getMinimumDifference(root);
+
+            const string label = "MinimumAbsoluteDifferenceInBST_530 Test " + to_string(i + 1);
+            assertEqScalar(label, tc.expected, got);
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
+    static void validateBinarySearchTree_98_tests() {
+        vector<ValidateBinarySearchTreeTestCase> testCases = {
+            // Provided examples
+            {{2, 1, 3}, true},
+            {{5, 1, 4, nullopt, nullopt, 3, 6}, false},
+
+            // Additional complex test cases
+            {{10, 5, 15, nullopt, nullopt, 6, 20}, false}, // Violates BST in right subtree
+            {{3, 1, 5, 0, 2, 4, 6}, true},                          // Valid BST
+            {{1, nullopt, 2, nullopt, 3, nullopt, 4}, true} // Skewed right
+        };
+
+        ValidateBinarySearchTree_98 validator;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            TreeNode<int>* root = TreeUtils::vectorToTree<int>(testCases[i].tree);
+            bool result = validator.isValidBST(root);
+
+            if (!assertEqScalar("Validate BST Test " + to_string(i + 1), testCases[i].expected, result)) {
+                cout << "  Input tree:\n";
+                TreeUtils::printTree(root);
+            }
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
+    static void lowestCommonAncestor_235_tests() {
+        vector<LowestCommonAncestorTestCase> testCases = {
+            // Example 1
+            {{6, 2, 8, 0, 4, 7, 9, nullopt, nullopt, 3, 5}, 2, 8, 6},
+            // Example 2
+            {{6, 2, 8, 0, 4, 7, 9, nullopt, nullopt, 3, 5}, 2, 4, 2},
+            // Example 3
+            {{2, 1}, 2, 1, 2},
+            // Additional Complex Test 1
+            {{10, 5, 15, 3, 8, 12, 20, 1, 4, 7, 9, nullopt, nullopt, 18, 25}, 4, 9, 5},
+            // Additional Complex Test 2
+            {{30, 10, 50, 5, 20, 40, 60, nullopt, 8, 15, 25, 35, 45, nullopt, 70}, 15, 45, 30},
+        };
+
+        LowestCommonAncestorOfBST_235 lcaSolver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            TreeNode<int>* root = TreeUtils::vectorToTree(testCases[i].tree);
+            TreeNode<int>* p = TreeUtils::findNode(root, testCases[i].p);
+            TreeNode<int>* q = TreeUtils::findNode(root, testCases[i].q);
+
+            TreeNode<int>* lca = lcaSolver.lowestCommonAncestor(root, p, q);
+            int got = lca ? lca->val : numeric_limits<int>::min();
+
+            if (!assertEqScalar("LCA Test " + to_string(i + 1), testCases[i].expected, got)) {
+                cout << "  Input tree:\n";
+                TreeUtils::printTree(root);
+                cout << "  p=" << testCases[i].p << ", q=" << testCases[i].q << "\n";
+            }
+
+            TreeUtils::freeTree(root);
+        }
+    }
+
+    /* Tree-like prefix structure design */
+
+    static void implementTrie_208_tests() {
+        vector<ImplementTrieTestCase> testCases = {
+            // Example 1
+            {
+                {"Trie", "insert", "search", "search", "startsWith", "insert", "search"},
+                {nullopt, "apple", "apple", "app", "app", "app", "app"},
+                {nullopt, nullopt, true, false, true, nullopt, true}
+            },
+            // Example 2: Overlapping words
+            {
+                {"Trie", "insert", "insert", "search", "search", "startsWith"},
+                {nullopt, "apple", "applause", "apple", "applause", "app"},
+                {nullopt, nullopt, nullopt, true, true, true}
+            },
+            // Example 3: Single-character operations
+            {
+                {"Trie", "insert", "search", "startsWith", "search"},
+                {nullopt, "a", "a", "a", "b"},
+                {nullopt, nullopt, true, true, false}
+            },
+            // Example 4: No matching prefix
+            {
+                {"Trie", "insert", "insert", "startsWith", "startsWith", "search"},
+                {nullopt, "car", "cart", "ca", "cat", "carrot"},
+                {nullopt, nullopt, nullopt, true, false, false}
+            },
+            // Example 5: Large input set
+            {
+                {"Trie", "insert", "insert", "insert", "search", "search", "startsWith"},
+                {nullopt, "dictionary", "dictionaries", "dictator", "dictionary", "dictionaries", "dict"},
+                {nullopt, nullopt, nullopt, nullopt, true, true, true}
+            }
+        };
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            cout << "Running Trie Test Case " << i + 1 << ":\n";
+            Trie* trie = nullptr;
+
+            for (size_t j = 0; j < testCases[i].operations.size(); ++j) {
+                const auto& op  = testCases[i].operations[j];
+                const auto& arg = testCases[i].arguments[j];
+                const auto& exp = testCases[i].expected[j];
+
+                if (op == "Trie") { trie = new Trie(); continue; }
+                if (op == "insert") { trie->insert(arg.value()); continue; }
+
+                if (op == "search" || op == "startsWith") {
+                    bool got = (op == "search")
+                            ? trie->search(arg.value())
+                            : trie->startsWith(arg.value());
+
+                    bool expected = exp.value();
+                    const string label = makeStepLabel("Trie Case", i, j, op, arg);
+
+                    if (!assertEqScalar(label, expected, got)) {
+                        cout << "  (debug) op=" << op << " arg=\"" << arg.value() << "\"\n";
+                    }
+                }
+            }
+
+            delete trie;
+            cout << "\n";
+        }
+    }
+
     static void courseSchedule_207_tests() {
         vector<CourseScheduleTestCase> testCases = {
             {2, {{1, 0}}, true},
@@ -2953,162 +3727,6 @@ public:
             // Both reconstructions must have the same length (sequence can differ)
             assertEqScalar("LIS 300 FU [tails seq size == dp seq size] Test " + to_string(i + 1),
                         (int)lis_tails.size(), (int)lis_dp.size());
-        }
-    }
-
-    static void validateBinarySearchTree_98_tests() {
-        vector<ValidateBinarySearchTreeTestCase> testCases = {
-            // Provided examples
-            {{2, 1, 3}, true},
-            {{5, 1, 4, nullopt, nullopt, 3, 6}, false},
-
-            // Additional complex test cases
-            {{10, 5, 15, nullopt, nullopt, 6, 20}, false}, // Violates BST in right subtree
-            {{3, 1, 5, 0, 2, 4, 6}, true},                          // Valid BST
-            {{1, nullopt, 2, nullopt, 3, nullopt, 4}, true} // Skewed right
-        };
-
-        ValidateBinarySearchTree_98 validator;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(testCases[i].tree);
-            bool result = validator.isValidBST(root);
-
-            if (!assertEqScalar("Validate BST Test " + to_string(i + 1), testCases[i].expected, result)) {
-                cout << "  Input tree:\n";
-                TreeUtils::printTree(root);
-            }
-
-            TreeUtils::freeTree(root);
-        }
-    }
-
-    static void lowestCommonAncestor_235_tests() {
-        vector<LowestCommonAncestorTestCase> testCases = {
-            // Example 1
-            {{6, 2, 8, 0, 4, 7, 9, nullopt, nullopt, 3, 5}, 2, 8, 6},
-            // Example 2
-            {{6, 2, 8, 0, 4, 7, 9, nullopt, nullopt, 3, 5}, 2, 4, 2},
-            // Example 3
-            {{2, 1}, 2, 1, 2},
-            // Additional Complex Test 1
-            {{10, 5, 15, 3, 8, 12, 20, 1, 4, 7, 9, nullopt, nullopt, 18, 25}, 4, 9, 5},
-            // Additional Complex Test 2
-            {{30, 10, 50, 5, 20, 40, 60, nullopt, 8, 15, 25, 35, 45, nullopt, 70}, 15, 45, 30},
-        };
-
-        LowestCommonAncestorOfBST_235 lcaSolver;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            TreeNode<int>* root = TreeUtils::vectorToTree(testCases[i].tree);
-            TreeNode<int>* p = TreeUtils::findNode(root, testCases[i].p);
-            TreeNode<int>* q = TreeUtils::findNode(root, testCases[i].q);
-
-            TreeNode<int>* lca = lcaSolver.lowestCommonAncestor(root, p, q);
-            int got = lca ? lca->val : numeric_limits<int>::min();
-
-            if (!assertEqScalar("LCA Test " + to_string(i + 1), testCases[i].expected, got)) {
-                cout << "  Input tree:\n";
-                TreeUtils::printTree(root);
-                cout << "  p=" << testCases[i].p << ", q=" << testCases[i].q << "\n";
-            }
-
-            TreeUtils::freeTree(root);
-        }
-    }
-
-    static void kthSmallestElementInBST_230_tests() {
-        vector<KthSmallestElementInABSTTestCase> testCases = {
-            // Example 1
-            {{3, 1, 4, nullopt, 2}, 1, 1},
-            // Example 2
-            {{5, 3, 6, 2, 4, nullopt, nullopt, 1}, 3, 3},
-            // Additional Test 1: Larger balanced tree
-            {{15, 10, 20, 5, 13, 17, 25, 3, 8, nullopt, 14, 16, 18}, 6, 14},
-            // Additional Test 2: Single node tree
-            {{42}, 1, 42},
-            // Additional Test 3: Skewed tree
-            {{1, nullopt, 2, nullopt, 3, nullopt, 4}, 4, 4}
-        };
-
-        KthSmallestElementInBST_230 solution;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(testCases[i].tree);
-            int got = solution.kthSmallest(root, testCases[i].k);
-
-            if (!assertEqScalar("Kth Smallest Element Test " + to_string(i + 1), testCases[i].expected, got)) {
-                cout << "  Input tree:\n";
-                TreeUtils::printTree(root);
-                cout << "  k=" << testCases[i].k << "\n";
-            }
-
-            TreeUtils::freeTree(root);
-        }
-    }
-
-    static void implementTrie_208_tests() {
-        vector<ImplementTrieTestCase> testCases = {
-            // Example 1
-            {
-                {"Trie", "insert", "search", "search", "startsWith", "insert", "search"},
-                {nullopt, "apple", "apple", "app", "app", "app", "app"},
-                {nullopt, nullopt, true, false, true, nullopt, true}
-            },
-            // Example 2: Overlapping words
-            {
-                {"Trie", "insert", "insert", "search", "search", "startsWith"},
-                {nullopt, "apple", "applause", "apple", "applause", "app"},
-                {nullopt, nullopt, nullopt, true, true, true}
-            },
-            // Example 3: Single-character operations
-            {
-                {"Trie", "insert", "search", "startsWith", "search"},
-                {nullopt, "a", "a", "a", "b"},
-                {nullopt, nullopt, true, true, false}
-            },
-            // Example 4: No matching prefix
-            {
-                {"Trie", "insert", "insert", "startsWith", "startsWith", "search"},
-                {nullopt, "car", "cart", "ca", "cat", "carrot"},
-                {nullopt, nullopt, nullopt, true, false, false}
-            },
-            // Example 5: Large input set
-            {
-                {"Trie", "insert", "insert", "insert", "search", "search", "startsWith"},
-                {nullopt, "dictionary", "dictionaries", "dictator", "dictionary", "dictionaries", "dict"},
-                {nullopt, nullopt, nullopt, nullopt, true, true, true}
-            }
-        };
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            cout << "Running Trie Test Case " << i + 1 << ":\n";
-            Trie* trie = nullptr;
-
-            for (size_t j = 0; j < testCases[i].operations.size(); ++j) {
-                const auto& op  = testCases[i].operations[j];
-                const auto& arg = testCases[i].arguments[j];
-                const auto& exp = testCases[i].expected[j];
-
-                if (op == "Trie") { trie = new Trie(); continue; }
-                if (op == "insert") { trie->insert(arg.value()); continue; }
-
-                if (op == "search" || op == "startsWith") {
-                    bool got = (op == "search")
-                            ? trie->search(arg.value())
-                            : trie->startsWith(arg.value());
-
-                    bool expected = exp.value();
-                    const string label = makeStepLabel("Trie Case", i, j, op, arg);
-
-                    if (!assertEqScalar(label, expected, got)) {
-                        cout << "  (debug) op=" << op << " arg=\"" << arg.value() << "\"\n";
-                    }
-                }
-            }
-
-            delete trie;
-            cout << "\n";
         }
     }
 
@@ -3813,38 +4431,6 @@ public:
         }
     }
 
-    static void maximumDepthOfBinaryTree_104_tests() {
-        vector<MaximumDepthOfBinaryTreeTestCase> testCases = {
-            // two examples from the problem statement
-            {{3, 9, 20, nullopt, nullopt, 15, 7}, 3},
-            {{1, nullopt, 2},                     2},
-
-            // three extra, increasingly tricky, cases
-            // (a) irregular but shallow left/right mix – depth 4
-            {{1, 2, 3, 4, nullopt, nullopt, 5, nullopt, 6}, 4},
-            // (b) strongly left-skewed – depth 5
-            {{1, 2, nullopt, 3, nullopt, 4, nullopt, 5}, 5},
-            // (c) empty tree – depth 0
-            {{}, 0}
-        };
-
-        MaximumDepthOfBinaryTree_104 solver;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(testCases[i].tree);
-
-            int dRec = solver.maxDepthRecursive(root);
-            int dStk = solver.maxDepthDFSStack(root);
-            int dBfs = solver.maxDepthBFSQueue(root);
-
-            const string base = "Max Depth 104 Test " + to_string(i + 1);
-            assertEqScalar(base + " [recursive]", testCases[i].expected, dRec);
-            assertEqScalar(base + " [DFS stack]", testCases[i].expected, dStk);
-            assertEqScalar(base + " [BFS queue]", testCases[i].expected, dBfs);
-
-            TreeUtils::freeTree(root);
-        }
-    }
-
     static void wallsAndGates_286_tests() {
         const int INF = 2147483647;          // 2^31-1
 
@@ -3944,53 +4530,6 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solver.numSquares(testCases[i].n);
             assertEqScalar("Perfect Squares 279 Test " + to_string(i + 1), testCases[i].expected, got);
-        }
-    }
-
-    static void sameTree_100_tests()
-    {
-        vector<SameTreeTestCase> cases = {
-            // Examples
-            { {1, 2, 3},                  {1, 2, 3},                  true  }, // Example 1
-            { {1, 2},                     {1, nullopt, 2},            false }, // Example 2
-            { {1, 2, 1},                  {1, 1, 2},                  false }, // Example 3
-
-            // A few extra sanity checks
-            { {},                         {},                         true  },
-            { {1, nullopt, 2, 3},         {1, nullopt, 2, 3},         true  },
-            {
-                // 10
-                //   \
-                //   20
-                //  /
-                // 15
-                //   \
-                //   25
-                //  /
-                // 22
-                {10, nullopt, 20, 15, nullopt, nullopt, 25, 22},
-                {10, nullopt, 20, 15, nullopt, nullopt, 25, 22},
-                true
-            },
-        };
-
-        SameTree_100 sol;
-        for (size_t i = 0; i < cases.size(); ++i) {
-            auto* p = TreeUtils::vectorToTree<int>(cases[i].p);
-            auto* q = TreeUtils::vectorToTree<int>(cases[i].q);
-
-            const string base = "SameTree_100 Test " + to_string(i + 1);
-
-            bool g1 = sol.isSameTreeRecursive(p, q);
-            bool g2 = sol.isSameTreeIterativeDFS(p, q);
-            bool g3 = sol.isSameTreeBFSQueue(p, q);
-
-            assertEqScalar(base + " [recursive]",     cases[i].expected, g1);
-            assertEqScalar(base + " [iterative DFS]", cases[i].expected, g2);
-            assertEqScalar(base + " [BFS queue]",     cases[i].expected, g3);
-
-            TreeUtils::freeTree(p);
-            TreeUtils::freeTree(q);
         }
     }
 
@@ -4467,531 +5006,6 @@ public:
             int got = lip329.longestIncreasingPath(testCases[i].matrix);
             assertEqScalar("Longest Increasing Path in Matrix 329 Test " + to_string(i + 1),
                         testCases[i].expected, got);
-        }
-    }
-
-    static void invertBinaryTree_226_tests() {
-        vector<InvertBinaryTreeTestCase> testCases = {
-            // Example 1 from the problem statement
-            {{4, 2, 7, 1, 3, 6, 9},
-             {4, 7, 2, 9, 6, 3, 1}},
-
-            // Example 2 from the problem statement
-            {{2, 1, 3},
-             {2, 3, 1}},
-
-            // Example 3: empty tree
-            {{},
-             {}},
-
-            // Single-node tree
-            {{42},
-             {42}},
-
-            // Left-skewed tree turns into right-skewed tree
-            // input:  1
-            //        /
-            //       2
-            //      /
-            //     3
-            //
-            // output:
-            //     1
-            //      \
-            //       2
-            //        \
-            //         3
-            {{1, 2, nullopt, 3},
-             {1, nullopt, 2, nullopt, 3}},
-
-            // Irregular tree with nulls in the middle
-            //    Input:
-            //          1
-            //        /   \
-            //       2     3
-            //      /       \
-            //     4         5
-            //
-            //    Output:
-            //          1
-            //        /   \
-            //       3     2
-            //      /       \
-            //     5         4
-            {{1, 2, 3, 4, nullopt, nullopt, 5},
-             {1, 3, 2, 5, nullopt, nullopt, 4}},
-        };
-
-        InvertBinaryTree_226 solver;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            const auto& tc = testCases[i];
-
-            TreeNode<int>* root     = TreeUtils::vectorToTree<int>(tc.tree);
-            TreeNode<int>* expected = TreeUtils::vectorToTree<int>(tc.expected);
-
-            TreeNode<int>* result = solver.invertTree(root);
-
-            string gotStr = TreeUtils::toLevelOrderString(result);
-            string expStr = TreeUtils::toLevelOrderString(expected);
-
-            const string label = "Invert Binary Tree 226 Test " + to_string(i + 1);
-            assertEqScalar(label, expStr, gotStr);
-
-            TreeUtils::freeTree(expected);
-            TreeUtils::freeTree(root);      // free the input tree
-        }
-    }
-
-    static void balancedBinaryTree_110_tests() {
-        vector<BalancedBinaryTreeTestCase> testCases = {
-            // Example 1
-            {{3, 9, 20, nullopt, nullopt, 15, 7}, true},
-
-            // Example 2
-            {{1, 2, 2, 3, 3, nullopt, nullopt, 4, 4}, false},
-
-            // Example 3: empty tree
-            {{}, true},
-
-            // Single node
-            {{1}, true},
-
-            // Balanced but not perfect
-            //      1
-            //     / \
-            //    2   3
-            //   / \   \
-            //  4   5   6
-            {{1, 2, 3, 4, 5, nullopt, 6}, true},
-
-            // Right-skewed chain (unbalanced)
-            // 1
-            //  \
-            //   2
-            //    \
-            //     3
-            {{1, nullopt, 2, nullopt, 3}, false},
-        };
-
-        BalancedBinaryTree_110 solver;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            const auto& tc = testCases[i];
-
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
-            bool got = solver.isBalanced(root);
-
-            const string label = "Balanced Binary Tree 110 Test " + to_string(i + 1);
-            assertEqScalar(label, tc.expected, got);
-
-            TreeUtils::freeTree(root);
-        }
-    }
-
-    static void diameterOfBinaryTree_543_tests() {
-        vector<DiameterOfBinaryTreeTestCase> testCases = {
-            // Example 1: [4,2,1,3,5] diameter = 3
-            {{1, 2, 3, 4, 5}, 3},
-
-            // Example 2: [1,2] diameter = 1
-            {{1, 2}, 1},
-
-            // Single node: diameter = 0
-            {{1}, 0},
-
-            // Left-skewed chain: 1-2-3-4, diameter = 3
-            {{1, 2, nullopt, 3, nullopt, 4}, 3},
-
-            // Balanced-ish tree
-            //        1
-            //      /   \
-            //     2     3
-            //    / \   /
-            //   4   5 6
-            // Longest path: 4-2-1-3-6 => 4 edges
-            {{1, 2, 3, 4, 5, 6}, 4},
-
-            // Diameter inside a subtree (not through root)
-            //        1
-            //       /
-            //      2
-            //     / \
-            //    3   4
-            //   /
-            //  5
-            // Longest path: 5-3-2-4 => 3 edges
-            {{1, 2, nullopt, 3, 4, 5}, 3},
-        };
-
-        DiameterOfBinaryTree_543 solver;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            const auto& tc = testCases[i];
-
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
-            int got = solver.diameterOfBinaryTree(root);
-
-            const string label = "Diameter of Binary Tree 543 Test " + to_string(i + 1);
-            assertEqScalar(label, tc.expected, got);
-
-            TreeUtils::freeTree(root);
-        }
-    }
-
-    static void symmetricTree_101_tests() {
-        vector<SymmetricTreeTestCase> cases = {
-            // Example 1
-            {{1, 2, 2, 3, 4, 4, 3}, true},
-
-            // Example 2
-            {{1, 2, 2, nullopt, 3, nullopt, 3}, false},
-
-            // Empty tree
-            {{}, true},
-
-            // Single node
-            {{1}, true},
-
-            // Symmetric but not perfect, with interior nulls
-            //        1
-            //      /   \
-            //     2     2
-            //    /       \
-            //   3         3
-            //  /           \
-            // 4             4
-            {{1, 2, 2, 3, nullopt, nullopt, 3, 4, nullopt, nullopt, 4}, true},
-
-            // Same shape on both sides but values break symmetry
-            //        1
-            //      /   \
-            //     2     2
-            //    / \   / \
-            //   3   4 3   4   (not symmetric: mirrored nodes differ)
-            {{1, 2, 2, 3, 4, 3, 4}, false},
-        };
-
-        SymmetricTree_101 sol;
-
-        for (size_t i = 0; i < cases.size(); ++i) {
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(cases[i].tree);
-
-            const string base = "SymmetricTree_101 Test " + to_string(i + 1);
-
-            bool g1 = sol.isSymmetricRecursive(root);
-            bool g2 = sol.isSymmetricIterative(root);
-
-            assertEqScalar(base + " [recursive]", cases[i].expected, g1);
-            assertEqScalar(base + " [iterative]", cases[i].expected, g2);
-
-            TreeUtils::freeTree(root);
-        }
-    }
-
-    static void pathSum_112_tests() {
-        vector<PathSumTestCase> cases = {
-            // Example 1
-            {{5, 4, 8, 11, nullopt, 13, 4, 7, 2, nullopt, nullopt, nullopt, 1}, 22, true},
-
-            // Example 2
-            {{1, 2, 3}, 5, false},
-
-            // Example 3: empty tree
-            {{}, 0, false},
-
-            // Single node: matches target
-            {{5}, 5, true},
-
-            // Single node: does not match target
-            {{5}, 4, false},
-
-            // Intermediate sum equals target but only full root-to-leaf should count
-            //       1
-            //      /
-            //     2
-            //    /
-            //   1
-            // Path 1->2 = 3 (not a leaf), leaf path 1->2->1 = 4
-            {{1, 2, nullopt, 1}, 3, false},
-
-            // Tree with negative values, path exists:
-            //         1
-            //       /   \
-            //     -2    -3
-            //     / \   /
-            //    1   3 -2
-            //   /
-            //  -1
-            // Path: 1 + (-2) + 1 + (-1) = -1
-            {{1, -2, -3, 1, 3, -2, nullopt, -1}, -1, true},
-        };
-
-        PathSum_112 sol;
-
-        for (size_t i = 0; i < cases.size(); ++i) {
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(cases[i].tree);
-
-            const string label = "PathSum_112 Test " + to_string(i + 1);
-
-            bool got = sol.hasPathSum(root, cases[i].target);
-            assertEqScalar(label, cases[i].expected, got);
-
-            TreeUtils::freeTree(root);
-        }
-    }
-
-    static void subtreeOfAnotherTree_572_tests() {
-        vector<SubtreeOfAnotherTreeTestCase> cases = {
-            // Example 1
-            {{3, 4, 5, 1, 2},
-             {4, 1, 2},
-             true},
-
-            // Example 2
-            {{3, 4, 5, 1, 2, nullopt, nullopt, nullopt, nullopt, 0},
-             {4, 1, 2},
-             false},
-
-            // Whole tree equals subRoot
-            {{1, 2, 3, 4, 5},
-             {1, 2, 3, 4, 5},
-             true},
-
-            // Single-node subRoot present multiple times
-            {{1, 1, 2},
-             {1},
-             true},
-
-            // Single-node subRoot absent
-            {{1, 2, 3},
-             {4},
-             false},
-
-            // The tree could also be considered as a subtree of itself.
-            // root:    1
-            //         / \
-            //        1   1
-            // sub:    1
-            //        / \
-            //       1   1
-            {{1, 1, 1},
-             {1, 1, 1},
-             true},
-
-            // Same multiset of values but different structure should NOT count
-            // root:   1
-            //        /
-            //       1
-            //      /
-            //     1
-            //
-            // sub:    1
-            //        / \
-            //       1   1
-            {{1, 1, nullopt, 1},
-             {1, 1, 1},
-             false},
-
-            // Match deeper in the tree
-            // root:      5
-            //           / \
-            //          3   8
-            //         / \
-            //        2   4
-            // subRoot:   3
-            //           / \
-            //          2   4
-            {{5, 3, 8, 2, 4},
-             {3, 2, 4},
-             true},
-        };
-
-        SubtreeOfAnotherTree_572 sol;
-
-        for (size_t i = 0; i < cases.size(); ++i) {
-            const auto& tc = cases[i];
-
-            TreeNode<int>* root    = TreeUtils::vectorToTree<int>(tc.root);
-            TreeNode<int>* subRoot = TreeUtils::vectorToTree<int>(tc.subRoot);
-
-            const string label = "SubtreeOfAnotherTree_572 Test " + to_string(i + 1);
-            bool got = sol.isSubtree(root, subRoot);
-
-            assertEqScalar(label, tc.expected, got);
-
-            TreeUtils::freeTree(root);
-            TreeUtils::freeTree(subRoot);
-        }
-    }
-
-    static void binaryTreeLevelOrderTraversal_102_tests() {
-        vector<BinaryTreeLevelOrderTraversalTestCase> cases = {
-            // Example 1
-            {{3, 9, 20, nullopt, nullopt, 15, 7},
-             {{3}, {9, 20}, {15, 7}}},
-
-            // Example 2
-            {{1},
-             {{1}}},
-
-            // Example 3: empty tree
-            {{},
-             {}},
-
-            // Left-skewed tree
-            //   1
-            //  /
-            // 2
-            ///
-            //3
-            {{1, 2, nullopt, 3},
-             {{1}, {2}, {3}}},
-
-            // Unbalanced tree with missing children
-            //        1
-            //      /   \
-            //     2     3
-            //      \     \
-            //       4     5
-            {{1, 2, 3, nullopt, 4, nullopt, 5},
-             {{1}, {2, 3}, {4, 5}}},
-
-            // Tree with a deeper left subtree
-            //        10
-            //       /  \
-            //      5    15
-            //     /    /  \
-            //    3    12  18
-            {{10, 5, 15, 3, nullopt, 12, 18},
-             {{10}, {5, 15}, {3, 12, 18}}},
-        };
-
-        BinaryTreeLevelOrderTraversal_102 sol;
-
-        for (size_t i = 0; i < cases.size(); ++i) {
-            const auto& tc = cases[i];
-
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
-            vector<vector<int>> got = sol.levelOrder(root);
-
-            const string label = "BinaryTreeLevelOrderTraversal_102 Test " + to_string(i + 1);
-            assertEqVVIntExact(label, tc.expected, got);
-
-            TreeUtils::freeTree(root);
-        }
-    }
-
-    static void averageOfLevelsInBinaryTree_637_tests() {
-        vector<AverageOfLevelsInBinaryTreeTestCase> cases = {
-            // Example 1
-            {{3, 9, 20, nullopt, nullopt, 15, 7},
-             {3.0, 14.5, 11.0}},
-
-            // Example 2
-            {{3, 9, 20, 15, 7},
-             {3.0, 14.5, 11.0}},
-
-            // Single node
-            {{1},
-             {1.0}},
-
-            // Left-skewed tree: levels [[1], [2], [3]]
-            //     1
-            //    /
-            //   2
-            //  /
-            // 3
-            {{1, 2, nullopt, 3},
-             {1.0, 2.0, 3.0}},
-
-            // Mixed positive/negative values
-            //       1
-            //      / \
-            //    -2   3
-            // Averages: [1], [0.5]
-            {{1, -2, 3},
-             {1.0, 0.5}},
-
-            // Deeper unbalanced tree
-            //        5
-            //       / \
-            //      3   8
-            //     /   / \
-            //    1   7  10
-            // Averages: [5], [5.5], [6.0]
-            {{5, 3, 8, 1, nullopt, 7, 10},
-             {5.0, 5.5, 6.0}},
-        };
-
-        AverageOfLevelsInBinaryTree_637 sol;
-
-        for (size_t i = 0; i < cases.size(); ++i) {
-            const auto& tc = cases[i];
-
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
-            vector<double> got  = sol.averageOfLevels(root);
-
-            const string base = "AverageOfLevelsInBinaryTree_637 Test " + to_string(i + 1);
-
-            // First check length
-            assertEqScalar(base + " [size]", tc.expected.size(), got.size());
-
-            // Then check each level with approximate comparison
-            for (size_t j = 0; j < tc.expected.size() && j < got.size(); ++j) {
-                const string label = base + " [level " + to_string(j) + "]";
-                assertApprox(label, tc.expected[j], got[j], 1e-5);
-            }
-
-            TreeUtils::freeTree(root);
-        }
-    }
-
-    static void minimumAbsoluteDifferenceInBST_530_tests() {
-        vector<MinimumAbsoluteDifferenceInBSTTestCase> cases = {
-            // Example 1
-            {{4, 2, 6, 1, 3}, 1},
-
-            // Example 2
-            {{1, 0, 48, nullopt, nullopt, 12, 49}, 1},
-
-            // Simple two-node tree
-            {{1, nullopt, 3}, 2},
-
-            // Skewed increasing tree: consecutive integers → min diff = 1
-            //    1
-            //     \
-            //      2
-            //       \
-            //        3
-            //         \
-            //          4
-            {{1, nullopt, 2, nullopt, 3, nullopt, 4}, 1},
-
-            // Typical LC-style example with more nodes:
-            //       90
-            //      /
-            //    69
-            //   /  \
-            // 49   89
-            //   \
-            //   52
-            // Sorted: [49, 52, 69, 89, 90] → min diff = 1
-            {{90, 69, nullopt, 49, 89, nullopt, 52}, 1},
-        };
-
-        MinimumAbsoluteDifferenceInBST_530 sol;
-
-        for (size_t i = 0; i < cases.size(); ++i) {
-            const auto& tc = cases[i];
-
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
-            int got = sol.getMinimumDifference(root);
-
-            const string label = "MinimumAbsoluteDifferenceInBST_530 Test " + to_string(i + 1);
-            assertEqScalar(label, tc.expected, got);
-
-            TreeUtils::freeTree(root);
         }
     }
 
