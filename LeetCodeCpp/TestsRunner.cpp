@@ -3302,6 +3302,218 @@ public:
         }
     }
 
+    // ============================================================================
+    // Heaps
+    // ============================================================================
+
+    /* Basic max-heap / min-heap simulation */
+
+    static void lastStoneWeight_1046_tests() {
+        vector<LastStoneWeightTestCase> tests = {
+            // 2 from the statement
+            {{2,7,4,1,8,1}, 1},
+            {{1}, 1},
+
+            // 4 additional / edge-ish
+            {{10,10}, 0},                 // equal pair cancels
+            {{9,3,2,10}, 0},              // multiple reductions to zero
+            {{1,1,2,3,5,8,13}, 1},        // mixed, ends with 1
+            {{7,6,7,6,9}, 3}              // nontrivial leftovers
+        };
+
+        LastStoneWeight_1046 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            int got = sol.lastStoneWeight(tests[i].stones);
+            assertEqScalar("Last Stone Weight 1046 Test " + to_string(i + 1), tests[i].expected, got);
+        }
+    }
+
+    /* Heap-based selection for k-th / top-k queries */
+
+    static void kthLargestElementInArray_215_tests()
+    {
+        vector<KthLargestElementTestCase> testCases = {
+            // Problem statement examples
+            {{3, 2, 1, 5, 6, 4}, 2, 5},
+            {{3, 2, 3, 1, 2, 4, 5, 5, 6}, 4, 4},
+
+            // Additional test cases
+            {{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 1, 10}, // Largest element
+            {{7, 10, 4, 3, 20, 15}, 3, 10},           // Mixed elements
+            {{2, 2, 2, 2, 2}, 3, 2},                  // Repeated elements
+
+            // Large ascending [1..10000], k=500 -> 9501 (filled below)
+            {{}, 500, 9501}
+        };
+
+        // Fill the large ascending test (no extra scope)
+        auto& bigCase = testCases.back();
+        bigCase.nums.resize(10000);
+        iota(bigCase.nums.begin(), bigCase.nums.end(), 1); // 1..10000
+
+        KthLargestElementInArray_215 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i)
+        {
+            // Use copies to be robust if implementations ever mutate input
+            auto v1 = testCases[i].nums;
+            auto v2 = testCases[i].nums;
+
+            const int resMax = solution.findKthLargest_MaxHeap(v1, testCases[i].k);
+            const int resMin = solution.findKthLargest_MinHeap(v2, testCases[i].k);
+
+            // Assertions instead of manual cout formatting
+            assertEqScalar("Kth Largest 215 Test " + to_string(i + 1) + " [MaxHeap]", testCases[i].expected, resMax);
+            assertEqScalar("Kth Largest 215 Test " + to_string(i + 1) + " [MinHeap]", testCases[i].expected, resMin);
+        }
+    }
+
+    static void topKFrequent_347_tests() {
+        // helper: build a multiset vector from (value,count) pairs
+        auto bag = [](initializer_list<pair<int,int>> spec) {
+            vector<int> v; size_t tot = 0;
+            for (auto [val,c]: spec) tot += c;
+            v.reserve(tot);
+            for (auto [val,c]: spec) v.insert(v.end(), c, val);
+            return v;
+        };
+
+        vector<TopKFrequentElementsTestCase> tests = {
+            {{1,1,1,2,2,3}, 2, {1,2}},
+            {{1},           1, {1}},
+            {{1,1,2,2,2,3}, 1, {2}},
+            {{-1,-1,-1,0,0,2,2,2,2,3,3}, 2, {2,-1}},
+            // 7×7, 6×8, 5×9, 4×10, 3×11  -> k=3 => {7,8,9}
+            { bag({{7,7},{8,6},{9,5},{10,4},{11,3}}), 3, {7,8,9} },
+            // 42×100, -7×80, plus 1000 uniques -> k=2 => {42,-7}
+            { [&]{
+                auto v = bag({{42,100},{-7,80}});
+                v.resize(v.size()+1000);
+                iota(v.end()-1000, v.end(), 10001);
+                return v;
+            }(), 2, {42,-7} }
+        };
+
+        TopKFrequentElements_347 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto got = sol.topKFrequent(tests[i].nums, tests[i].k);
+            auto e   = tests[i].expected;
+            sort(got.begin(), got.end());
+            sort(e.begin(),   e.end());
+            assertEqVIntExact("Top K Frequent 347 Test " + to_string(i+1) + " (k=" + to_string(tests[i].k) + ")", e, got);
+        }
+    }
+
+    static void kClosestPointsToOrigin_973_tests() {
+        vector<KClosestPointsToOriginTestCase> cases = {
+            // Two official examples
+            {{{1,3}, {-2,2}}, 1, {{-2,2}}},
+            {{{3,3}, {5,-1}, {-2,4}}, 2, {{3,3}, {-2,4}}},
+
+            // Three extra, trickier cases
+            // 1) Many symmetrically placed points, ask for almost all
+            {{{0,1}, {1,0}, {-1,0}, {0,-1}}, 3,
+                            {{0,1}, {1,0}, {-1,0}}},
+            // 2) Points at extreme coordinates
+            {{{10000,10000}, {-10000,-10000}, {5000,0}, {0,5000}}, 2,
+                            {{5000,0}, {0,5000}}},
+            // 3) Mixed positives and negatives, k near n
+            {{{2,2}, {1,1}, {3,3}, {-2,-2}, {-1,-1}}, 4,
+                            {{-2,-2}, {-1,-1}, {1,1}, {2,2}}}
+        };
+
+        KClosestPointsToOrigin_973 solver;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            // QuickSelect
+            auto in1  = cases[i].points;                 // solver may mutate
+            auto out1 = solver.kClosestQuickSelect(in1, cases[i].k);
+            assertEqScalar("K Closest 973 Test " + to_string(i + 1) + " [QuickSelect]", true,
+                isValidKClosestPoints(cases[i].points, cases[i].k, out1));
+
+            // Heap
+            auto in2  = cases[i].points;
+            auto out2 = solver.kClosestHeap(in2, cases[i].k);
+            assertEqScalar("K Closest 973 Test " + to_string(i + 1) + " [Heap]", true,
+                isValidKClosestPoints(cases[i].points, cases[i].k, out2));
+        }
+    }
+
+    /* Merging multiple sorted streams with a heap frontier */
+
+    static void mergeKSortedLists_23_tests() {
+        using IntListNode = ListNode<int>;
+
+        vector<MergeKListsTestCase> testCases = {
+            // Example 1
+            {{{1, 4, 5}, {1, 3, 4}, {2, 6}}, {1, 1, 2, 3, 4, 4, 5, 6}},
+            // Example 2
+            {{}, {}},
+            // Example 3
+            {{{}}, {}},
+            // Additional Test 1: Single long list
+            {{{1, 2, 3, 4, 5}}, {1, 2, 3, 4, 5}},
+            // Additional Test 2: Large overlapping lists
+            {{{1, 3, 5}, {2, 4, 6}, {0, 7, 8, 9}}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}}
+        };
+
+        MergeKSortedLists_23 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            vector<IntListNode*> lists;
+            lists.reserve(testCases[i].lists.size());
+            for (const auto& v : testCases[i].lists) {
+                lists.push_back(ListUtils::createLinkedList<int>(v));
+            }
+
+            IntListNode* merged = solution.mergeKLists(lists);
+
+            assertEqVIntExact("Merge K Lists Test " + to_string(i + 1), testCases[i].expected,
+                            ListUtils::toVector<int>(merged));
+
+            ListUtils::freeList<int>(merged);
+        }
+    }
+
+    /* Priority-queue traversal on a graph / grid state space */
+
+    static void findTheSafestPathInGrid_2812_tests() {
+        vector<FindTheSafestPathInGridTestCase> testCases = {
+            // three examples from the statement
+            {{{1, 0, 0},
+              {0, 0, 0},
+              {0, 0, 1}},
+             0},
+            {{{0, 0, 1},
+              {0, 0, 0},
+              {0, 0, 0}},
+             2},
+            {{{0, 0, 0, 1},
+              {0, 0, 0, 0},
+              {0, 0, 0, 0},
+              {1, 0, 0, 0}},
+             2},
+
+            // extra – single thief in the centre of a 5×5 grid (answer = 2)
+            {{{0, 0, 0, 0, 0},
+              {0, 0, 0, 0, 0},
+              {0, 0, 1, 0, 0},
+              {0, 0, 0, 0, 0},
+              {0, 0, 0, 0, 0}},
+             2},
+
+            // extra – two thieves forcing a bottleneck of 1
+            {{{0, 0, 1},
+              {0, 0, 0},
+              {1, 0, 0}},
+             1}};
+
+        FindSafestPathInGrid_2812 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = solver.maximumSafenessFactor(testCases[i].grid);
+            assertEqScalar("Safest Path 2812 Test " + to_string(i + 1), testCases[i].expected, got);
+        }
+    }
+
     static void courseSchedule_207_tests() {
         vector<CourseScheduleTestCase> testCases = {
             {2, {{1, 0}}, true},
@@ -3730,44 +3942,6 @@ public:
         }
     }
 
-    static void kthLargestElementInArray_215_tests()
-    {
-        vector<KthLargestElementTestCase> testCases = {
-            // Problem statement examples
-            {{3, 2, 1, 5, 6, 4}, 2, 5},
-            {{3, 2, 3, 1, 2, 4, 5, 5, 6}, 4, 4},
-
-            // Additional test cases
-            {{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 1, 10}, // Largest element
-            {{7, 10, 4, 3, 20, 15}, 3, 10},           // Mixed elements
-            {{2, 2, 2, 2, 2}, 3, 2},                  // Repeated elements
-
-            // Large ascending [1..10000], k=500 -> 9501 (filled below)
-            {{}, 500, 9501}
-        };
-
-        // Fill the large ascending test (no extra scope)
-        auto& bigCase = testCases.back();
-        bigCase.nums.resize(10000);
-        iota(bigCase.nums.begin(), bigCase.nums.end(), 1); // 1..10000
-
-        KthLargestElementInArray_215 solution;
-
-        for (size_t i = 0; i < testCases.size(); ++i)
-        {
-            // Use copies to be robust if implementations ever mutate input
-            auto v1 = testCases[i].nums;
-            auto v2 = testCases[i].nums;
-
-            const int resMax = solution.findKthLargest_MaxHeap(v1, testCases[i].k);
-            const int resMin = solution.findKthLargest_MinHeap(v2, testCases[i].k);
-
-            // Assertions instead of manual cout formatting
-            assertEqScalar("Kth Largest 215 Test " + to_string(i + 1) + " [MaxHeap]", testCases[i].expected, resMax);
-            assertEqScalar("Kth Largest 215 Test " + to_string(i + 1) + " [MinHeap]", testCases[i].expected, resMin);
-        }
-    }
-
     static vector<int> runMinHeapScenario(const vector<pair<string,int>>& ops) {
         MinHeap heap;
         vector<int> out;
@@ -3802,40 +3976,6 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto got = runMinHeapScenario(testCases[i].operations);
             assertEqVIntExact("MinHeap Test " + to_string(i + 1), testCases[i].expected, got);
-        }
-    }
-
-    static void mergeKLists_tests() {
-        using IntListNode = ListNode<int>;
-
-        vector<MergeKListsTestCase> testCases = {
-            // Example 1
-            {{{1, 4, 5}, {1, 3, 4}, {2, 6}}, {1, 1, 2, 3, 4, 4, 5, 6}},
-            // Example 2
-            {{}, {}},
-            // Example 3
-            {{{}}, {}},
-            // Additional Test 1: Single long list
-            {{{1, 2, 3, 4, 5}}, {1, 2, 3, 4, 5}},
-            // Additional Test 2: Large overlapping lists
-            {{{1, 3, 5}, {2, 4, 6}, {0, 7, 8, 9}}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}}
-        };
-
-        MergeKSortedLists_23 solution;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            vector<IntListNode*> lists;
-            lists.reserve(testCases[i].lists.size());
-            for (const auto& v : testCases[i].lists) {
-                lists.push_back(ListUtils::createLinkedList<int>(v));
-            }
-
-            IntListNode* merged = solution.mergeKLists(lists);
-
-            assertEqVIntExact("Merge K Lists Test " + to_string(i + 1), testCases[i].expected,
-                            ListUtils::toVector<int>(merged));
-
-            ListUtils::freeList<int>(merged);
         }
     }
 
@@ -4207,40 +4347,6 @@ public:
         }
     }
 
-    static void kClosestPointsToOrigin_973_tests() {
-        vector<KClosestPointsToOriginTestCase> cases = {
-            // Two official examples
-            {{{1,3}, {-2,2}}, 1, {{-2,2}}},
-            {{{3,3}, {5,-1}, {-2,4}}, 2, {{3,3}, {-2,4}}},
-
-            // Three extra, trickier cases
-            // 1) Many symmetrically placed points, ask for almost all
-            {{{0,1}, {1,0}, {-1,0}, {0,-1}}, 3,
-                            {{0,1}, {1,0}, {-1,0}}},
-            // 2) Points at extreme coordinates
-            {{{10000,10000}, {-10000,-10000}, {5000,0}, {0,5000}}, 2,
-                            {{5000,0}, {0,5000}}},
-            // 3) Mixed positives and negatives, k near n
-            {{{2,2}, {1,1}, {3,3}, {-2,-2}, {-1,-1}}, 4,
-                            {{-2,-2}, {-1,-1}, {1,1}, {2,2}}}
-        };
-
-        KClosestPointsToOrigin_973 solver;
-        for (size_t i = 0; i < cases.size(); ++i) {
-            // QuickSelect
-            auto in1  = cases[i].points;                 // solver may mutate
-            auto out1 = solver.kClosestQuickSelect(in1, cases[i].k);
-            assertEqScalar("K Closest 973 Test " + to_string(i + 1) + " [QuickSelect]", true,
-                isValidKClosestPoints(cases[i].points, cases[i].k, out1));
-
-            // Heap
-            auto in2  = cases[i].points;
-            auto out2 = solver.kClosestHeap(in2, cases[i].k);
-            assertEqScalar("K Closest 973 Test " + to_string(i + 1) + " [Heap]", true,
-                isValidKClosestPoints(cases[i].points, cases[i].k, out2));
-        }
-    }
-
     static void uniquePaths_62_tests() {
         vector<UniquePathsTestCase> cases = {
             /* three official cases from the problem statement */
@@ -4390,44 +4496,6 @@ public:
                     assertEqScalar(label, tc.expected[i].value(), got);
                 }
             }
-        }
-    }
-
-    static void findTheSafestPathInGrid_2812_tests() {
-        vector<FindTheSafestPathInGridTestCase> testCases = {
-            // three examples from the statement
-            {{{1, 0, 0},
-              {0, 0, 0},
-              {0, 0, 1}},
-             0},
-            {{{0, 0, 1},
-              {0, 0, 0},
-              {0, 0, 0}},
-             2},
-            {{{0, 0, 0, 1},
-              {0, 0, 0, 0},
-              {0, 0, 0, 0},
-              {1, 0, 0, 0}},
-             2},
-
-            // extra – single thief in the centre of a 5×5 grid (answer = 2)
-            {{{0, 0, 0, 0, 0},
-              {0, 0, 0, 0, 0},
-              {0, 0, 1, 0, 0},
-              {0, 0, 0, 0, 0},
-              {0, 0, 0, 0, 0}},
-             2},
-
-            // extra – two thieves forcing a bottleneck of 1
-            {{{0, 0, 1},
-              {0, 0, 0},
-              {1, 0, 0}},
-             1}};
-
-        FindSafestPathInGrid_2812 solver;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solver.maximumSafenessFactor(testCases[i].grid);
-            assertEqScalar("Safest Path 2812 Test " + to_string(i + 1), testCases[i].expected, got);
         }
     }
 
@@ -4631,62 +4699,6 @@ public:
         for (size_t i = 0; i < tests.size(); ++i) {
             int got = sol.rob(tests[i].nums);
             assertEqScalar("House Robber 198 Test " + to_string(i + 1), tests[i].expected, got);
-        }
-    }
-
-    static void lastStoneWeight_1046_tests() {
-        vector<LastStoneWeightTestCase> tests = {
-            // 2 from the statement
-            {{2,7,4,1,8,1}, 1},
-            {{1}, 1},
-
-            // 4 additional / edge-ish
-            {{10,10}, 0},                 // equal pair cancels
-            {{9,3,2,10}, 0},              // multiple reductions to zero
-            {{1,1,2,3,5,8,13}, 1},        // mixed, ends with 1
-            {{7,6,7,6,9}, 3}              // nontrivial leftovers
-        };
-
-        LastStoneWeight_1046 sol;
-        for (size_t i = 0; i < tests.size(); ++i) {
-            int got = sol.lastStoneWeight(tests[i].stones);
-            assertEqScalar("Last Stone Weight 1046 Test " + to_string(i + 1), tests[i].expected, got);
-        }
-    }
-
-    static void topKFrequent_347_tests() {
-        // helper: build a multiset vector from (value,count) pairs
-        auto bag = [](initializer_list<pair<int,int>> spec) {
-            vector<int> v; size_t tot = 0;
-            for (auto [val,c]: spec) tot += c;
-            v.reserve(tot);
-            for (auto [val,c]: spec) v.insert(v.end(), c, val);
-            return v;
-        };
-
-        vector<TopKFrequentElementsTestCase> tests = {
-            {{1,1,1,2,2,3}, 2, {1,2}},
-            {{1},           1, {1}},
-            {{1,1,2,2,2,3}, 1, {2}},
-            {{-1,-1,-1,0,0,2,2,2,2,3,3}, 2, {2,-1}},
-            // 7×7, 6×8, 5×9, 4×10, 3×11  -> k=3 => {7,8,9}
-            { bag({{7,7},{8,6},{9,5},{10,4},{11,3}}), 3, {7,8,9} },
-            // 42×100, -7×80, plus 1000 uniques -> k=2 => {42,-7}
-            { [&]{
-                auto v = bag({{42,100},{-7,80}});
-                v.resize(v.size()+1000);
-                iota(v.end()-1000, v.end(), 10001);
-                return v;
-            }(), 2, {42,-7} }
-        };
-
-        TopKFrequentElements_347 sol;
-        for (size_t i = 0; i < tests.size(); ++i) {
-            auto got = sol.topKFrequent(tests[i].nums, tests[i].k);
-            auto e   = tests[i].expected;
-            sort(got.begin(), got.end());
-            sort(e.begin(),   e.end());
-            assertEqVIntExact("Top K Frequent 347 Test " + to_string(i+1) + " (k=" + to_string(tests[i].k) + ")", e, got);
         }
     }
 
@@ -5668,7 +5680,7 @@ public:
         TEST(973,  "K Closest Points to Origin",                     kClosestPointsToOrigin_973_tests),
 
         /* Merging multiple sorted streams with a heap frontier */
-        TEST(23,   "Merge K Sorted Lists",                           mergeKLists_tests),
+        TEST(23,   "Merge K Sorted Lists",                           mergeKSortedLists_23_tests),
 
         /* Priority-queue traversal on a graph / grid state space */
         TEST(2812, "Find the Safest Path in a Grid",                 findTheSafestPathInGrid_2812_tests),
