@@ -5028,6 +5028,133 @@ public:
         }
     }
 
+    // ============================================================================
+    // Bit Manipulation
+    // ============================================================================
+
+    /* Bitwise representation, bit counting, XOR, and binary-string arithmetic */
+
+    static void base7_504_tests() {
+        using namespace TestCases;
+
+        vector<Base7TestCase> testCases = {
+            // Examples from the problem statement
+            {100,  "202"},
+            {-7,   "-10"},
+
+            // Additional checks
+            {0,    "0"},
+            {1,    "1"},
+            {7,    "10"},
+            {343,  "1000"},  // 7^3
+            {49,   "100"},   // 7^2
+            {-1,   "-1"},
+        };
+
+        Base7_504 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+            string got = sol.convertToBase7(tc.num);
+
+            assertEqScalar("Base 7 504 Test " + to_string(i + 1),
+                           tc.expected, got);
+        }
+    }
+
+    static void missingNumber_268_tests() {
+        vector<MissingNumberTestCase> testCases = {
+            // Problem statement examples
+            {{3, 0, 1}, 2},
+            {{0, 1}, 2},
+            {{9, 6, 4, 2, 3, 5, 7, 0, 1}, 8},
+
+            // Additional edge/complex cases
+            {{1, 2, 3}, 0},                 // missing 0
+            {{0, 1, 2, 3}, 4},              // missing n
+            {{10, 9, 8, 7, 5, 4, 3, 2, 1, 0}, 6} // unsorted, includes n
+        };
+
+        MissingNumber_268 solution;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = solution.missingNumber(testCases[i].nums);
+            assertEqScalar("Missing Number 268 Test " + to_string(i + 1), testCases[i].expected, got);
+        }
+    }
+
+    static void singleNumber_136_tests() {
+        using namespace TestCases;
+
+        vector<SingleNumberTestCase> testCases = {
+            // Examples from the problem statement
+            {{2, 2, 1},             1},
+            {{4, 1, 2, 1, 2},       4},
+            {{1},                   1},
+
+            // Additional checks with zeros / negatives
+            {{0, 1, 0},             1},
+            {{-1, -1, -2},          -2},
+            {{-3, 0, 0, -3, 7},     7},
+        };
+
+        SingleNumber_136 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto nums = testCases[i].nums; // method takes non-const ref
+            int got = sol.singleNumber(nums);
+
+            assertEqScalar("Single Number 136 Test " + to_string(i + 1),
+                           testCases[i].expected, got);
+        }
+    }
+
+    static void numberOf1Bits_191_tests()
+    {
+        vector<NumberOf1BitsTestCase> cases = {
+            {11u,          3},          // 1011
+            {128u,         1},          // 10000000
+            {2147483645u, 30},          // 0x7FFFFFFD
+            {0u,           0},          // edge: zero
+            {0xFFFFFFFFu, 32}           // all ones
+        };
+
+        NumberOf1Bits_191 solver;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            const auto& tc = cases[i];
+
+            int gotK = solver.hammingWeightKernighan(tc.n);
+            int gotL = solver.hammingWeightLookup(tc.n);
+
+            const string baseMsg = "Number of 1 Bits 191 Test "
+                                   + to_string(i + 1)
+                                   + " (n=" + to_string(tc.n) + ")";
+
+            assertEqScalar(baseMsg + " [Kernighan]", tc.expected, gotK);
+            assertEqScalar(baseMsg + " [Lookup]",    tc.expected, gotL);
+        }
+    }
+
+    static void addBinary_67_tests()
+    {
+        vector<AddBinaryTestCase> cases = {
+            {"11",      "1",       "100"},      // example 1
+            {"1010",    "1011",    "10101"},    // example 2
+            {"0",       "0",       "0"},        // both zero
+            {"1111",    "1",       "10000"},    // carry over entire length
+            {"100",     "110010",  "110110"}    // different lengths
+        };
+
+        AddBinary_67 solver;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            string got = solver.addBinary(cases[i].a, cases[i].b);
+            assertEqScalar("Add Binary 67 Test " + to_string(i + 1), cases[i].expected, got);
+        }
+    }
+
+    // ============================================================================
+    // Design
+    // ============================================================================
+
+    /* Core custom data structures and API-oriented implementations */
+
     static vector<int> runMinHeapScenario(const vector<pair<string,int>>& ops) {
         MinHeap heap;
         vector<int> out;
@@ -5105,143 +5232,6 @@ public:
                     {"b","c"}, {"b","c"});
     }
 
-    static void findCelebrity_277_tests() {
-        vector<FindCelebrityTestCase> testCases = {
-            // Easy: A knows B, B knows no one → B is celebrity
-            {{{0, 1}, {0, 0}}, 1},
-
-            // Edge: 1 person only
-            {{{0}}, 0},
-
-            // Edge: 3 people, 2 is celeb
-            {{
-                {0, 1, 1},
-                {0, 0, 1},
-                {0, 0, 0}
-            }, 2},
-
-            // 4x4 complex
-            {{
-                {0, 1, 1, 1},
-                {0, 0, 1, 1},
-                {0, 0, 0, 1},
-                {0, 0, 0, 0}
-            }, 3},
-
-            // 7x7 larger case, celebrity at 6
-            {{
-                {0,1,1,1,1,1,1},
-                {0,0,1,1,1,1,1},
-                {0,0,0,1,1,1,1},
-                {0,0,0,0,1,1,1},
-                {0,0,0,0,0,1,1},
-                {0,0,0,0,0,0,1},
-                {0,0,0,0,0,0,0}
-            }, 6}
-        };
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            FindCelebrity_277 sol;
-            sol.knowsMatrix = testCases[i].matrix;
-            int got = sol.findCelebrity(static_cast<int>(testCases[i].matrix.size()));
-            assertEqScalar("Find Celebrity 277 Test " + to_string(i + 1),
-                        testCases[i].expected, got);
-        }
-    }
-
-    static void addBinary_67_tests()
-    {
-        vector<AddBinaryTestCase> cases = {
-            {"11",      "1",       "100"},      // example 1
-            {"1010",    "1011",    "10101"},    // example 2
-            {"0",       "0",       "0"},        // both zero
-            {"1111",    "1",       "10000"},    // carry over entire length
-            {"100",     "110010",  "110110"}    // different lengths
-        };
-
-        AddBinary_67 solver;
-        for (size_t i = 0; i < cases.size(); ++i) {
-            string got = solver.addBinary(cases[i].a, cases[i].b);
-            assertEqScalar("Add Binary 67 Test " + to_string(i + 1), cases[i].expected, got);
-        }
-    }
-
-    static void numberOf1Bits_191_tests()
-    {
-        vector<NumberOf1BitsTestCase> cases = {
-            {11u,          3},          // 1011
-            {128u,         1},          // 10000000
-            {2147483645u, 30},          // 0x7FFFFFFD
-            {0u,           0},          // edge: zero
-            {0xFFFFFFFFu, 32}           // all ones
-        };
-
-        NumberOf1Bits_191 solver;
-        for (size_t i = 0; i < cases.size(); ++i) {
-            const auto& tc = cases[i];
-
-            int gotK = solver.hammingWeightKernighan(tc.n);
-            int gotL = solver.hammingWeightLookup(tc.n);
-
-            const string baseMsg = "Number of 1 Bits 191 Test "
-                                   + to_string(i + 1)
-                                   + " (n=" + to_string(tc.n) + ")";
-
-            assertEqScalar(baseMsg + " [Kernighan]", tc.expected, gotK);
-            assertEqScalar(baseMsg + " [Lookup]",    tc.expected, gotL);
-        }
-    }
-
-    static void validNumber_65_tests() {
-        vector<ValidNumberTestCase> testCases = {
-            {"0",              true},   // example 1
-            {"e",              false},  // example 2
-            {".",              false},  // example 3
-            {"2",              true},
-            {"0089",           true},
-            {"-0.1",           true},
-            {"+3.14",          true},
-            {"4.",             true},
-            {"-.9",            true},
-            {"2e10",           true},
-            {"-90E3",          true},
-            {"3e+7",           true},
-            {"+6e-1",          true},
-            {"53.5e93",        true},
-            {"-123.456e789",   true},
-            {"abc",            false},
-            {"1a",             false},
-            {"99e2.5",         false}
-        };
-
-        ValidNumber_65 solver;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            bool got = solver.isNumber(testCases[i].input);
-            assertEqScalar("Valid Number 65 Test " + to_string(i + 1) + " [\"" + testCases[i].input + "\"]",
-                testCases[i].expected, got);
-        }
-    }
-
-    static void missingNumber_268_tests() {
-        vector<MissingNumberTestCase> testCases = {
-            // Problem statement examples
-            {{3, 0, 1}, 2},
-            {{0, 1}, 2},
-            {{9, 6, 4, 2, 3, 5, 7, 0, 1}, 8},
-
-            // Additional edge/complex cases
-            {{1, 2, 3}, 0},                 // missing 0
-            {{0, 1, 2, 3}, 4},              // missing n
-            {{10, 9, 8, 7, 5, 4, 3, 2, 1, 0}, 6} // unsorted, includes n
-        };
-
-        MissingNumber_268 solution;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solution.missingNumber(testCases[i].nums);
-            assertEqScalar("Missing Number 268 Test " + to_string(i + 1), testCases[i].expected, got);
-        }
-    }
-
     static void examRoom_855_tests() {
         // Case 1: EXACT sequence from the statement.
         ExamRoomTestCase c1{
@@ -5293,57 +5283,7 @@ public:
         }
     }
 
-    static void base7_504_tests() {
-        using namespace TestCases;
-
-        vector<Base7TestCase> testCases = {
-            // Examples from the problem statement
-            {100,  "202"},
-            {-7,   "-10"},
-
-            // Additional checks
-            {0,    "0"},
-            {1,    "1"},
-            {7,    "10"},
-            {343,  "1000"},  // 7^3
-            {49,   "100"},   // 7^2
-            {-1,   "-1"},
-        };
-
-        Base7_504 sol;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            const auto& tc = testCases[i];
-            string got = sol.convertToBase7(tc.num);
-
-            assertEqScalar("Base 7 504 Test " + to_string(i + 1),
-                           tc.expected, got);
-        }
-    }
-
-    static void singleNumber_136_tests() {
-        using namespace TestCases;
-
-        vector<SingleNumberTestCase> testCases = {
-            // Examples from the problem statement
-            {{2, 2, 1},             1},
-            {{4, 1, 2, 1, 2},       4},
-            {{1},                   1},
-
-            // Additional checks with zeros / negatives
-            {{0, 1, 0},             1},
-            {{-1, -1, -2},          -2},
-            {{-3, 0, 0, -3, 7},     7},
-        };
-
-        SingleNumber_136 sol;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            auto nums = testCases[i].nums; // method takes non-const ref
-            int got = sol.singleNumber(nums);
-
-            assertEqScalar("Single Number 136 Test " + to_string(i + 1),
-                           testCases[i].expected, got);
-        }
-    }
+    /* Randomized object design */
 
     static void shuffleAnArray_384_tests() {
         using vec = vector<int>;
@@ -5494,6 +5434,86 @@ public:
 
             cout << "Shuffle 384 chi-square Test B (WRONG, n=5 per-position): "
                 << (pass_bad ? "PASS" : "FAIL") << "\n";
+        }
+    }
+
+    // ============================================================================
+    // Other
+    // ============================================================================
+
+    /* Problems that do not fit cleanly into the main technique-based categories */
+
+    static void findCelebrity_277_tests() {
+        vector<FindCelebrityTestCase> testCases = {
+            // Easy: A knows B, B knows no one → B is celebrity
+            {{{0, 1}, {0, 0}}, 1},
+
+            // Edge: 1 person only
+            {{{0}}, 0},
+
+            // Edge: 3 people, 2 is celeb
+            {{
+                {0, 1, 1},
+                {0, 0, 1},
+                {0, 0, 0}
+            }, 2},
+
+            // 4x4 complex
+            {{
+                {0, 1, 1, 1},
+                {0, 0, 1, 1},
+                {0, 0, 0, 1},
+                {0, 0, 0, 0}
+            }, 3},
+
+            // 7x7 larger case, celebrity at 6
+            {{
+                {0,1,1,1,1,1,1},
+                {0,0,1,1,1,1,1},
+                {0,0,0,1,1,1,1},
+                {0,0,0,0,1,1,1},
+                {0,0,0,0,0,1,1},
+                {0,0,0,0,0,0,1},
+                {0,0,0,0,0,0,0}
+            }, 6}
+        };
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            FindCelebrity_277 sol;
+            sol.knowsMatrix = testCases[i].matrix;
+            int got = sol.findCelebrity(static_cast<int>(testCases[i].matrix.size()));
+            assertEqScalar("Find Celebrity 277 Test " + to_string(i + 1),
+                        testCases[i].expected, got);
+        }
+    }
+
+    static void validNumber_65_tests() {
+        vector<ValidNumberTestCase> testCases = {
+            {"0",              true},   // example 1
+            {"e",              false},  // example 2
+            {".",              false},  // example 3
+            {"2",              true},
+            {"0089",           true},
+            {"-0.1",           true},
+            {"+3.14",          true},
+            {"4.",             true},
+            {"-.9",            true},
+            {"2e10",           true},
+            {"-90E3",          true},
+            {"3e+7",           true},
+            {"+6e-1",          true},
+            {"53.5e93",        true},
+            {"-123.456e789",   true},
+            {"abc",            false},
+            {"1a",             false},
+            {"99e2.5",         false}
+        };
+
+        ValidNumber_65 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            bool got = solver.isNumber(testCases[i].input);
+            assertEqScalar("Valid Number 65 Test " + to_string(i + 1) + " [\"" + testCases[i].input + "\"]",
+                testCases[i].expected, got);
         }
     }
 
