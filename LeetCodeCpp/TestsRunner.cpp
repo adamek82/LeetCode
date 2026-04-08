@@ -4634,40 +4634,265 @@ public:
         }
     }
 
-    static void longestCommonSubsequence_1143_tests() {
-        vector<LongestCommonSubsequenceTestCase> testCases = {
-            // Provided examples
-            {"abcde", "ace", 3}, // Example 1
-            {"abc", "abc", 3},   // Example 2
-            {"abc", "def", 0},   // Example 3
+    // ============================================================================
+    // Dynamic Programming
+    // ============================================================================
 
-            // Additional complex examples
-            {"abcdefghijabcdefghij", "acegikacegik", 10}, // Alternating match
-            {"abcdefghijklmnopqrst", "zyxwvutsrqponmlkjih", 1} // No common subsequence
+    /* Introductory 1D DP with direct state transitions */
+
+    static void fibonacci_509_tests() {
+        vector<FibonacciNumberTestCase> tests = {
+            // 3 from the statement
+            {2, 1},
+            {3, 2},
+            {4, 3},
+            // 3 additional / edge-ish
+            {0, 0},
+            {1, 1},
+            {30, 832040}
         };
 
-        LongestCommonSubsequence_1143 sol;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            const auto& tc = testCases[i];
-
-            int gotLen = sol.longestCommonSubsequence(tc.text1, tc.text2);
-            assertEqScalar("LCS 1143 Test " + to_string(i + 1), tc.expected, gotLen);
-
-            int gotLen2 = sol.longestCommonSubsequenceTwoRows(tc.text1, tc.text2);
-            assertEqScalar("LCS 1143 [2rows] Test " + to_string(i + 1), tc.expected, gotLen2);
-
-            string gotStr = sol.longestCommonSubsequenceString(tc.text1, tc.text2);
-
-            assertEqScalar("LCS 1143 [string] len Test " + to_string(i + 1),
-                           tc.expected, static_cast<int>(gotStr.size()));
-
-            assertEqScalar("LCS 1143 [string] subseq(text1) Test " + to_string(i + 1),
-                           true, isSubsequenceStr(gotStr, tc.text1));
-
-            assertEqScalar("LCS 1143 [string] subseq(text2) Test " + to_string(i + 1),
-                           true, isSubsequenceStr(gotStr, tc.text2));
+        FibonacciNumber_509 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            int got = sol.fib(tests[i].n);
+            assertEqScalar("Fibonacci 509 Test " + to_string(i + 1) + " (n=" + to_string(tests[i].n) + ")",
+                tests[i].expected, got);
         }
     }
+
+    static void climbingStairs_70_tests() {
+        vector<ClimbingStairsTestCase> tests = {
+            // 2 from the statement
+            {2, 2},
+            {3, 3},
+
+            // 4 additional / edge-ish
+            {1, 1},
+            {4, 5},
+            {10, 89},
+            {45, 1836311903}
+        };
+
+        ClimbingStairs_70 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            int got = sol.climbStairs(tests[i].n);
+            assertEqScalar("Climbing Stairs 70 Test " + to_string(i + 1) + " (n=" + to_string(tests[i].n) + ")",
+                tests[i].expected, got);
+        }
+    }
+
+    static void minCostClimbingStairs_746_tests() {
+        vector<MinCostClimbingStairsTestCase> tests = {
+            // 2 from the statement
+            {{10,15,20}, 15},
+            {{1,100,1,1,1,100,1,1,100,1}, 6},
+
+            // 4 additional / edge-ish
+            {{5, 6}, 5},                         // n=2, pick cheaper start
+            {{0,0,0,0}, 0},                      // all zeros
+            {{2,2,2,2,2}, 4},                    // uniform costs
+            {{999,1,999,1,999,1,999,1}, 4}       // pick all the 1's
+        };
+
+        MinCostClimbingStairs_746 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            int got = sol.minCostClimbingStairs(tests[i].cost);
+            assertEqScalar("Min Cost Climbing Stairs 746 Test " + to_string(i + 1), tests[i].expected, got);
+        }
+    }
+
+    /* Linear DP on arrays with local recurrence choices */
+
+    static void houseRobber_198_tests() {
+        vector<HouseRobberTestCase> tests = {
+            // 2 from the statement
+            {{1,2,3,1}, 4},
+            {{2,7,9,3,1}, 12},
+
+            // 4 additional / edge-ish
+            {{2,1,1,2}, 4},                 // choose 2 + 2
+            {{0,0,0,0,0}, 0},               // all zeros
+            {{6,6,4,8,4,3,3,10}, 27},       // mixed values
+            {{100}, 100}                    // single element
+        };
+
+        HouseRobber_198 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            int got = sol.rob(tests[i].nums);
+            assertEqScalar("House Robber 198 Test " + to_string(i + 1), tests[i].expected, got);
+        }
+    }
+
+    static void maximumSubarray_53_tests() {
+        vector<MaximumSubarrayTestCase> tc = {
+            // 3 canonical LeetCode examples
+            {{-2,1,-3,4,-1,2,1,-5,4}, 6},
+            {{1}, 1},
+            {{5,4,-1,7,8}, 23},
+
+            // all-negative array → pick single largest element
+            {{-8,-3,-6,-2,-5,-4}, -2},
+
+            // larger mixed array (answer = 25, subarray [10, -2, 3, 14])
+            {{-1,10,-2,3,14,-5,2}, 25}
+        };
+
+        MaximumSubarray_53 solver;
+        for (size_t i = 0; i < tc.size(); ++i) {
+            int got = solver.maxSubArray(tc[i].nums);
+            assertEqScalar("Maximum Subarray 53 Test " + to_string(i + 1), tc[i].expected, got);
+        }
+    }
+
+    /* Reachability and minimum-jump style DP / greedy-DP crossover */
+
+    static void jumpGame_55_tests() {
+        vector<JumpGameTestCase> tests = {
+            {{2,3,1,1,4}, true},     // example 1
+            {{3,2,1,0,4}, false},    // example 2
+            {{0}, true},             // single element is trivially reachable
+            {{1}, true},
+            {{1,0,1}, false},        // stuck at index 1
+            {{2,0}, true},           // one jump to end
+            {{2,0,0}, true},         // reach=2 at i=0 covers the end
+            {{1,1,0,1}, false},      // stuck at index 2
+            {{5,0,0,0,0}, true},     // first jump covers all
+            {{2,5,0,0}, true},       // reach grows via index 1
+            {{2,0,2,0,1}, true},     // detours but reachable
+            {{2,0,1,0,0}, false}     // reach stalls before the end
+        };
+
+        JumpGame_55 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto arr = tests[i].nums;                  // method takes non-const ref
+            bool got = sol.canJump(arr);
+            const string label = "Jump Game 55 Test " + to_string(i + 1);
+            assertEqScalar(label, tests[i].expected, got);
+        }
+    }
+
+    static void jumpGameII_45_tests() {
+        vector<JumpGameIITestCase> tests = {
+            {{2,3,1,1,4}, 2},            // example 1
+            {{2,3,0,1,4}, 2},            // example 2
+            {{0}, 0},                    // single element
+            {{1}, 0},                    // single element
+            {{1,1,1,1}, 3},              // need to hop each step
+            {{5,0,0,0,0}, 1},            // one jump covers all
+            {{1,4,1,1,1,1}, 2},          // to index 1, then to end
+            {{3,2,1}, 1},                // first jump reaches the end
+            {{9,8,7,6,5,4,3,2,1,0}, 1}   // giant first jump
+        };
+
+        JumpGameII_45 sol;
+        for (size_t i = 0; i < tests.size(); ++i) {
+            auto arr = tests[i].nums;           // method takes non-const ref
+            int got = sol.jump(arr);
+            assertEqScalar("Jump Game II 45 Test " + to_string(i + 1), tests[i].expected, got);
+        }
+    }
+
+    /* Grid DP with path counting and blocked cells */
+
+    static void uniquePaths_62_tests() {
+        vector<UniquePathsTestCase> cases = {
+            /* three official cases from the problem statement */
+            {3, 7, 28},
+            {3, 2, 3},
+            {1, 1, 1},
+            /* two more demanding cases – still ≤ 2 000 000 000 */
+            {12, 23, 193536720},
+            {8, 69, 1984829850}
+        };
+
+        UniquePaths_62 solver;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            const auto& tc = cases[i];
+            const string baseLabel =
+                "Unique Paths 62 Test " + to_string(i + 1) +
+                " (m=" + to_string(tc.m) + ", n=" + to_string(tc.n) + ")";
+
+            int gotComb    = solver.uniquePaths_Comb(tc.m, tc.n);
+            int gotDP2D    = solver.uniquePaths_DP2D(tc.m, tc.n);
+            int gotDP2Rows = solver.uniquePaths_DP2Rows(tc.m, tc.n);
+
+            assertEqScalar(baseLabel + " [comb]",     tc.expected, gotComb);
+            assertEqScalar(baseLabel + " [dp-2D]",    tc.expected, gotDP2D);
+            assertEqScalar(baseLabel + " [dp-2rows]", tc.expected, gotDP2Rows);
+        }
+    }
+
+    static void uniquePathsII_63_tests() {
+        vector<UniquePathsIITestCase> testCases = {
+            // From the problem statement
+            {{{0,0,0},{0,1,0},{0,0,0}}, 2},
+            {{{0,1},{0,0}}, 1},
+
+            // Additional complex cases
+            // 1) Single‐row with an obstacle blocking all paths past it
+            {{{0,1,0,0,0}}, 0},
+
+            // 2) 3×3 with no obstacles: C(4,2)=6
+            {{{0,0,0},{0,0,0},{0,0,0}}, 6},
+
+            // 3) Larger 10×10 grid with no obstacles:
+            //    number of paths = C(18,9) = 48620
+            {
+                vector<vector<int>>(10, vector<int>(10, 0)),
+                48620
+            }
+        };
+
+        UniquePathsII_63 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = sol.uniquePathsWithObstacles(testCases[i].grid);
+            assertEqScalar("Unique Paths II 63 Test " + to_string(i + 1), testCases[i].expected, got);
+        }
+    }
+
+    /* Unbounded-choice and counting / minimization DP */
+
+    static void coinChange_322_tests() {
+        vector<CoinChangeTestCase> testCases = {
+            // 3 examples from the problem statement
+            { {1,2,5},       11,  3  },
+            { {2},           3,  -1  },
+            { {1},           0,   0  },
+
+            // 2 complex examples:
+            // • 8 denominations, amount ≥ 30
+            { {1,3,4,5,10,20,50,100}, 99,  5  },
+            // • 8 prime‐value coins, larger amount
+            { {2,3,5,7,11,13,17,19}, 100,  6  }
+        };
+
+        CoinChange_322 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = sol.coinChange(testCases[i].coins, testCases[i].amount);
+            const string label = "Coin Change 322 Test " + to_string(i + 1) +
+                                " (amount=" + to_string(testCases[i].amount) + ")";
+            assertEqScalar(label, testCases[i].expected, got);
+        }
+    }
+
+    static void perfectSquares_279_tests() {
+        // 2 from the problem + 3 more complex (incl. edge n = 10^4)
+        vector<PerfectSquaresTestCase> testCases = {
+            {12,    3},  // Example 1: 12 = 4 + 4 + 4
+            {13,    2},  // Example 2: 13 = 9 + 4
+            {3000,  3},  // 3 squares (e.g., 3000 = 1600 + 900 + 500)
+            {9991,  4},  // Legendre form (4^a(8b+7)) ⇒ needs 4 squares
+            {10000, 1}   // Edge case (max n): 10000 = 100^2
+        };
+
+        PerfectSquares_279 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = solver.numSquares(testCases[i].n);
+            assertEqScalar("Perfect Squares 279 Test " + to_string(i + 1), testCases[i].expected, got);
+        }
+    }
+
+    /* Sequence DP on increasing structure and string matching */
 
     static void longestIncreasingSubsequence_300_tests() {
         vector<LongestIncreasingSubsequenceTestCase> testCases = {
@@ -4743,6 +4968,63 @@ public:
             // Both reconstructions must have the same length (sequence can differ)
             assertEqScalar("LIS 300 FU [tails seq size == dp seq size] Test " + to_string(i + 1),
                         (int)lis_tails.size(), (int)lis_dp.size());
+        }
+    }
+
+    static void longestCommonSubsequence_1143_tests() {
+        vector<LongestCommonSubsequenceTestCase> testCases = {
+            // Provided examples
+            {"abcde", "ace", 3}, // Example 1
+            {"abc", "abc", 3},   // Example 2
+            {"abc", "def", 0},   // Example 3
+
+            // Additional complex examples
+            {"abcdefghijabcdefghij", "acegikacegik", 10}, // Alternating match
+            {"abcdefghijklmnopqrst", "zyxwvutsrqponmlkjih", 1} // No common subsequence
+        };
+
+        LongestCommonSubsequence_1143 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+
+            int gotLen = sol.longestCommonSubsequence(tc.text1, tc.text2);
+            assertEqScalar("LCS 1143 Test " + to_string(i + 1), tc.expected, gotLen);
+
+            int gotLen2 = sol.longestCommonSubsequenceTwoRows(tc.text1, tc.text2);
+            assertEqScalar("LCS 1143 [2rows] Test " + to_string(i + 1), tc.expected, gotLen2);
+
+            string gotStr = sol.longestCommonSubsequenceString(tc.text1, tc.text2);
+
+            assertEqScalar("LCS 1143 [string] len Test " + to_string(i + 1),
+                           tc.expected, static_cast<int>(gotStr.size()));
+
+            assertEqScalar("LCS 1143 [string] subseq(text1) Test " + to_string(i + 1),
+                           true, isSubsequenceStr(gotStr, tc.text1));
+
+            assertEqScalar("LCS 1143 [string] subseq(text2) Test " + to_string(i + 1),
+                           true, isSubsequenceStr(gotStr, tc.text2));
+        }
+    }
+
+    static void wildcardMatching_44_tests() {
+        vector<WildcardMatchingTestCase> tc = {
+            /* three examples from the statement */
+            {"aa", "a",       false},
+            {"aa", "*",       true },
+            {"cb", "?a",      false},
+            /* three extra / harder cases */
+            {"adceb",         "*a*b",        true },
+            {"acdcb",         "a*c?b",       false},
+            {"abcabczzzde",   "*abc???de*",  true },
+            {"baaaacxyz",     "*a*?xyz",     true },
+            {"abcded",        "a*d",         true },
+            {"abcdbcde",      "a*de",        true },
+        };
+
+        WildcardMatching_44 solver;
+        for (size_t i = 0; i < tc.size(); ++i) {
+            bool got = solver.isMatch(tc[i].s, tc[i].p);
+            assertEqScalar("Wildcard Matching 44 Test " + to_string(i + 1), tc[i].expected, got);
         }
     }
 
@@ -4867,106 +5149,6 @@ public:
         }
     }
 
-    static void coinChange_322_tests() {
-        vector<CoinChangeTestCase> testCases = {
-            // 3 examples from the problem statement
-            { {1,2,5},       11,  3  },
-            { {2},           3,  -1  },
-            { {1},           0,   0  },
-
-            // 2 complex examples:
-            // • 8 denominations, amount ≥ 30
-            { {1,3,4,5,10,20,50,100}, 99,  5  },
-            // • 8 prime‐value coins, larger amount
-            { {2,3,5,7,11,13,17,19}, 100,  6  }
-        };
-
-        CoinChange_322 sol;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = sol.coinChange(testCases[i].coins, testCases[i].amount);
-            const string label = "Coin Change 322 Test " + to_string(i + 1) +
-                                " (amount=" + to_string(testCases[i].amount) + ")";
-            assertEqScalar(label, testCases[i].expected, got);
-        }
-    }
-
-    static void uniquePaths_62_tests() {
-        vector<UniquePathsTestCase> cases = {
-            /* three official cases from the problem statement */
-            {3, 7, 28},
-            {3, 2, 3},
-            {1, 1, 1},
-            /* two more demanding cases – still ≤ 2 000 000 000 */
-            {12, 23, 193536720},
-            {8, 69, 1984829850}
-        };
-
-        UniquePaths_62 solver;
-        for (size_t i = 0; i < cases.size(); ++i) {
-            const auto& tc = cases[i];
-            const string baseLabel =
-                "Unique Paths 62 Test " + to_string(i + 1) +
-                " (m=" + to_string(tc.m) + ", n=" + to_string(tc.n) + ")";
-
-            int gotComb    = solver.uniquePaths_Comb(tc.m, tc.n);
-            int gotDP2D    = solver.uniquePaths_DP2D(tc.m, tc.n);
-            int gotDP2Rows = solver.uniquePaths_DP2Rows(tc.m, tc.n);
-
-            assertEqScalar(baseLabel + " [comb]",     tc.expected, gotComb);
-            assertEqScalar(baseLabel + " [dp-2D]",    tc.expected, gotDP2D);
-            assertEqScalar(baseLabel + " [dp-2rows]", tc.expected, gotDP2Rows);
-        }
-    }
-
-    static void uniquePathsII_63_tests() {
-        vector<UniquePathsIITestCase> testCases = {
-            // From the problem statement
-            {{{0,0,0},{0,1,0},{0,0,0}}, 2},
-            {{{0,1},{0,0}}, 1},
-
-            // Additional complex cases
-            // 1) Single‐row with an obstacle blocking all paths past it
-            {{{0,1,0,0,0}}, 0},
-
-            // 2) 3×3 with no obstacles: C(4,2)=6
-            {{{0,0,0},{0,0,0},{0,0,0}}, 6},
-
-            // 3) Larger 10×10 grid with no obstacles:
-            //    number of paths = C(18,9) = 48620
-            {
-                vector<vector<int>>(10, vector<int>(10, 0)),
-                48620
-            }
-        };
-
-        UniquePathsII_63 sol;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = sol.uniquePathsWithObstacles(testCases[i].grid);
-            assertEqScalar("Unique Paths II 63 Test " + to_string(i + 1), testCases[i].expected, got);
-        }
-    }
-
-    static void maximumSubarray_53_tests() {
-        vector<MaximumSubarrayTestCase> tc = {
-            // 3 canonical LeetCode examples
-            {{-2,1,-3,4,-1,2,1,-5,4}, 6},
-            {{1}, 1},
-            {{5,4,-1,7,8}, 23},
-
-            // all-negative array → pick single largest element
-            {{-8,-3,-6,-2,-5,-4}, -2},
-
-            // larger mixed array (answer = 25, subarray [10, -2, 3, 14])
-            {{-1,10,-2,3,14,-5,2}, 25}
-        };
-
-        MaximumSubarray_53 solver;
-        for (size_t i = 0; i < tc.size(); ++i) {
-            int got = solver.maxSubArray(tc[i].nums);
-            assertEqScalar("Maximum Subarray 53 Test " + to_string(i + 1), tc[i].expected, got);
-        }
-    }
-
     static void addBinary_67_tests()
     {
         vector<AddBinaryTestCase> cases = {
@@ -5010,28 +5192,6 @@ public:
         }
     }
 
-    static void wildcardMatching_44_tests() {
-        vector<WildcardMatchingTestCase> tc = {
-            /* three examples from the statement */
-            {"aa", "a",       false},
-            {"aa", "*",       true },
-            {"cb", "?a",      false},
-            /* three extra / harder cases */
-            {"adceb",         "*a*b",        true },
-            {"acdcb",         "a*c?b",       false},
-            {"abcabczzzde",   "*abc???de*",  true },
-            {"baaaacxyz",     "*a*?xyz",     true },
-            {"abcded",        "a*d",         true },
-            {"abcdbcde",      "a*de",        true },
-        };
-
-        WildcardMatching_44 solver;
-        for (size_t i = 0; i < tc.size(); ++i) {
-            bool got = solver.isMatch(tc[i].s, tc[i].p);
-            assertEqScalar("Wildcard Matching 44 Test " + to_string(i + 1), tc[i].expected, got);
-        }
-    }
-
     static void validNumber_65_tests() {
         vector<ValidNumberTestCase> testCases = {
             {"0",              true},   // example 1
@@ -5062,23 +5222,6 @@ public:
         }
     }
 
-    static void perfectSquares_279_tests() {
-        // 2 from the problem + 3 more complex (incl. edge n = 10^4)
-        vector<PerfectSquaresTestCase> testCases = {
-            {12,    3},  // Example 1: 12 = 4 + 4 + 4
-            {13,    2},  // Example 2: 13 = 9 + 4
-            {3000,  3},  // 3 squares (e.g., 3000 = 1600 + 900 + 500)
-            {9991,  4},  // Legendre form (4^a(8b+7)) ⇒ needs 4 squares
-            {10000, 1}   // Edge case (max n): 10000 = 100^2
-        };
-
-        PerfectSquares_279 solver;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solver.numSquares(testCases[i].n);
-            assertEqScalar("Perfect Squares 279 Test " + to_string(i + 1), testCases[i].expected, got);
-        }
-    }
-
     static void missingNumber_268_tests() {
         vector<MissingNumberTestCase> testCases = {
             // Problem statement examples
@@ -5096,133 +5239,6 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.missingNumber(testCases[i].nums);
             assertEqScalar("Missing Number 268 Test " + to_string(i + 1), testCases[i].expected, got);
-        }
-    }
-
-    static void fibonacci_509_tests() {
-        vector<FibonacciNumberTestCase> tests = {
-            // 3 from the statement
-            {2, 1},
-            {3, 2},
-            {4, 3},
-            // 3 additional / edge-ish
-            {0, 0},
-            {1, 1},
-            {30, 832040}
-        };
-
-        FibonacciNumber_509 sol;
-        for (size_t i = 0; i < tests.size(); ++i) {
-            int got = sol.fib(tests[i].n);
-            assertEqScalar("Fibonacci 509 Test " + to_string(i + 1) + " (n=" + to_string(tests[i].n) + ")",
-                tests[i].expected, got);
-        }
-    }
-
-    static void climbingStairs_70_tests() {
-        vector<ClimbingStairsTestCase> tests = {
-            // 2 from the statement
-            {2, 2},
-            {3, 3},
-
-            // 4 additional / edge-ish
-            {1, 1},
-            {4, 5},
-            {10, 89},
-            {45, 1836311903}
-        };
-
-        ClimbingStairs_70 sol;
-        for (size_t i = 0; i < tests.size(); ++i) {
-            int got = sol.climbStairs(tests[i].n);
-            assertEqScalar("Climbing Stairs 70 Test " + to_string(i + 1) + " (n=" + to_string(tests[i].n) + ")",
-                tests[i].expected, got);
-        }
-    }
-
-    static void minCostClimbingStairs_746_tests() {
-        vector<MinCostClimbingStairsTestCase> tests = {
-            // 2 from the statement
-            {{10,15,20}, 15},
-            {{1,100,1,1,1,100,1,1,100,1}, 6},
-
-            // 4 additional / edge-ish
-            {{5, 6}, 5},                         // n=2, pick cheaper start
-            {{0,0,0,0}, 0},                      // all zeros
-            {{2,2,2,2,2}, 4},                    // uniform costs
-            {{999,1,999,1,999,1,999,1}, 4}       // pick all the 1's
-        };
-
-        MinCostClimbingStairs_746 sol;
-        for (size_t i = 0; i < tests.size(); ++i) {
-            int got = sol.minCostClimbingStairs(tests[i].cost);
-            assertEqScalar("Min Cost Climbing Stairs 746 Test " + to_string(i + 1), tests[i].expected, got);
-        }
-    }
-
-    static void houseRobber_198_tests() {
-        vector<HouseRobberTestCase> tests = {
-            // 2 from the statement
-            {{1,2,3,1}, 4},
-            {{2,7,9,3,1}, 12},
-
-            // 4 additional / edge-ish
-            {{2,1,1,2}, 4},                 // choose 2 + 2
-            {{0,0,0,0,0}, 0},               // all zeros
-            {{6,6,4,8,4,3,3,10}, 27},       // mixed values
-            {{100}, 100}                    // single element
-        };
-
-        HouseRobber_198 sol;
-        for (size_t i = 0; i < tests.size(); ++i) {
-            int got = sol.rob(tests[i].nums);
-            assertEqScalar("House Robber 198 Test " + to_string(i + 1), tests[i].expected, got);
-        }
-    }
-
-    static void jumpGameII_45_tests() {
-        vector<JumpGameIITestCase> tests = {
-            {{2,3,1,1,4}, 2},            // example 1
-            {{2,3,0,1,4}, 2},            // example 2
-            {{0}, 0},                    // single element
-            {{1}, 0},                    // single element
-            {{1,1,1,1}, 3},              // need to hop each step
-            {{5,0,0,0,0}, 1},            // one jump covers all
-            {{1,4,1,1,1,1}, 2},          // to index 1, then to end
-            {{3,2,1}, 1},                // first jump reaches the end
-            {{9,8,7,6,5,4,3,2,1,0}, 1}   // giant first jump
-        };
-
-        JumpGameII_45 sol;
-        for (size_t i = 0; i < tests.size(); ++i) {
-            auto arr = tests[i].nums;           // method takes non-const ref
-            int got = sol.jump(arr);
-            assertEqScalar("Jump Game II 45 Test " + to_string(i + 1), tests[i].expected, got);
-        }
-    }
-
-    static void jumpGame_55_tests() {
-        vector<JumpGameTestCase> tests = {
-            {{2,3,1,1,4}, true},     // example 1
-            {{3,2,1,0,4}, false},    // example 2
-            {{0}, true},             // single element is trivially reachable
-            {{1}, true},
-            {{1,0,1}, false},        // stuck at index 1
-            {{2,0}, true},           // one jump to end
-            {{2,0,0}, true},         // reach=2 at i=0 covers the end
-            {{1,1,0,1}, false},      // stuck at index 2
-            {{5,0,0,0,0}, true},     // first jump covers all
-            {{2,5,0,0}, true},       // reach grows via index 1
-            {{2,0,2,0,1}, true},     // detours but reachable
-            {{2,0,1,0,0}, false}     // reach stalls before the end
-        };
-
-        JumpGame_55 sol;
-        for (size_t i = 0; i < tests.size(); ++i) {
-            auto arr = tests[i].nums;                  // method takes non-const ref
-            bool got = sol.canJump(arr);
-            const string label = "Jump Game 55 Test " + to_string(i + 1);
-            assertEqScalar(label, tests[i].expected, got);
         }
     }
 
