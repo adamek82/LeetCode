@@ -3840,28 +3840,11 @@ public:
         }
     }
 
-    static void courseSchedule_207_tests() {
-        vector<CourseScheduleTestCase> testCases = {
-            {2, {{1, 0}}, true},
-            {2, {{1, 0}, {0, 1}}, false},
-            {5, {{0, 1}, {2, 3}, {3, 4}, {2, 1}}, true},
-            {5, {{0, 1}, {2, 3}, {3, 4}, {2, 1}, {4, 2}}, false},
-        };
+    // ============================================================================
+    // Graphs
+    // ============================================================================
 
-        CourseSchedule_207 cs207;
-
-        const vector<pair<string, function<bool(const CourseScheduleTestCase&)>>> impls = {
-            {"DFS",  [&](const CourseScheduleTestCase& tc){ return cs207.canFinishDFS(tc.numCourses, tc.prerequisites); }},
-            {"Kahn", [&](const CourseScheduleTestCase& tc){ return cs207.canFinishKahns(tc.numCourses, tc.prerequisites); }},
-        };
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            const auto& tc = testCases[i];
-            for (const auto& [name, run] : impls) {
-                assertEqScalar("Course Schedule 207 [" + name + "] " + to_string(i + 1), tc.expected, run(tc));
-            }
-        }
-    }
+    /* Basic graph / grid traversal for reachability and connected components */
 
     static void findIfPathExistsInGraph_1971_tests() {
         vector<FindIfPathExistsInGraphTestCase> testCases = {
@@ -3982,6 +3965,175 @@ public:
         }
     }
 
+    static void cloneGraph_133_tests() {
+        vector<vector<vector<int>>> testCases = {
+            {{2, 4}, {1, 3}, {2, 4}, {1, 3}},  // Example 1
+            {{}},  // Example 2 (Single node, no neighbors)
+            {},    // Example 3 (Empty graph)
+            {{2}, {1, 3}, {2, 4}, {3}}, // Additional case: Line-shaped graph
+            {{2, 3, 4, 5}, {1, 3, 5}, {1, 2, 4}, {1, 3, 5}, {1, 2, 4}} // Additional case: Fully connected small graph
+        };
+
+        CloneGraph_133 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            GraphNode<int>* original = GraphUtils::buildGraph(testCases[i]);
+            GraphNode<int>* cloned   = solver.cloneGraph(original);
+
+            bool iso = GraphUtils::areGraphsIsomorphic(original, cloned);
+            assertEqScalar("Clone Graph 133 Test " + to_string(i + 1), true, iso);
+
+            GraphUtils::freeGraph(original);
+            GraphUtils::freeGraph(cloned);
+        }
+    }
+
+    /* Shortest-path BFS on grids, transit networks, and implicit state graphs */
+
+    static void rottingOranges_994_tests()
+    {
+        vector<RottingOrangesTestCase> testCases = {
+            {{{2, 1, 1}, {1, 1, 0}, {0, 1, 1}}, 4},  // Example 1
+            {{{2, 1, 1}, {0, 1, 1}, {1, 0, 1}}, -1}, // Example 2
+            {{{0, 2}}, 0},                           // Example 3
+            // Additional Test Case 1
+            {{{2, 1, 1, 0, 0, 1, 2},
+              {1, 0, 0, 0, 1, 1, 0},
+              {0, 1, 2, 1, 0, 1, 0},
+              {0, 1, 0, 2, 2, 1, 0}},
+             3},
+            // Additional Test Case 2
+            {{{2, 2, 1, 1, 1, 0, 0},
+              {0, 1, 1, 2, 1, 1, 0},
+              {1, 1, 0, 1, 1, 2, 1},
+              {2, 0, 0, 1, 1, 1, 1},
+              {0, 0, 1, 1, 0, 0, 0}},
+             4}};
+
+        RottingOranges_994 solution;
+
+        for (size_t i = 0; i < testCases.size(); ++i)
+        {
+            int result = solution.orangesRotting(testCases[i].grid);
+            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
+        }
+    }
+
+    static void shortestPathBinaryMatrix_1091_tests() {
+        vector<ShortestPathInBinaryMatrixTestCase> testCases = {
+            /* 3 examples from the problem statement */
+            {
+             {{0, 1},
+              {1, 0}},
+             2},
+            {
+             {{0, 0, 0},
+              {1, 1, 0},
+              {1, 1, 0}},
+             4},
+            {
+             {{1, 0, 0},
+              {1, 1, 0},
+              {1, 1, 0}},
+             -1},
+            /* 2 extra, larger cases */
+            {
+              {{0, 0, 0, 0, 0},
+              {1, 1, 1, 1, 0},
+              {0, 0, 0, 1, 0},
+              {0, 1, 0, 1, 0},
+              {0, 1, 0, 0, 0}},
+             8}, // reachable
+            {
+             {{0, 1, 1, 1, 1},
+              {1, 1, 1, 1, 1},
+              {1, 1, 1, 1, 1},
+              {1, 1, 1, 1, 1},
+              {1, 1, 1, 1, 0}},
+             -1} // unreachable
+        };
+
+        ShortestPathInBinaryMatrix_1091 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto grid = testCases[i].grid;  // solver mutates the grid
+            int got = solver.shortestPathBinaryMatrix(grid);
+            assertEqScalar("Shortest Path Binary Matrix 1091 Test " + to_string(i + 1), testCases[i].expected, got);
+        }
+    }
+
+    static void busRoutes_815_tests() {
+        vector<BusRoutesTestCase> cases = {
+            // Official examples
+            {{{1,2,7},{3,6,7}}, 1, 6, 2},
+            {{{7,12},{4,5,15},{6},{15,19},{9,12,13}}, 15, 12, -1},
+            // Additional tougher cases
+            {{{1,2,3,4,5},{5,6,7,8},{8,9,10,11},{11,12,13,1}}, 1, 13, 1},
+            {{{1,2,3},{4,5,6}}, 5, 5, 0},
+            {{{1,2,3},{3,4,5},{5,6,7},{7,8,9}}, 2, 8, 4}
+        };
+
+        BusRoutes_815 solver;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            auto routes = cases[i].routes; // solver may mutate
+            int got = solver.numBusesToDestination(routes, cases[i].source, cases[i].target);
+            assertEqScalar("Bus Routes 815 Test " + to_string(i + 1), cases[i].expected, got);
+        }
+    }
+
+    static void slidingPuzzle_773_tests() {
+        vector<SlidingPuzzleTestCase> testCases = {
+            // examples from the statement
+            {{{1,2,3},{4,0,5}}, 1},
+            {{{1,2,3},{5,4,0}}, -1},
+            {{{4,1,2},{5,0,3}}, 5},
+
+            // already solved
+            {{{1,2,3},{4,5,0}}, 0},
+
+            // simple solvable cases
+            {{{1,2,0},{4,5,3}}, 1},
+            {{{1,0,3},{4,2,5}}, 2},
+            {{{0,1,2},{4,5,3}}, 3},
+
+            // unsolvable parity case
+            {{{1,2,3},{5,4,0}}, -1},
+        };
+
+        SlidingPuzzle_773 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto board = testCases[i].board;
+            int got = solver.slidingPuzzle(board);
+
+            assertEqScalar("Sliding Puzzle 773 Test " + to_string(i + 1),
+                           testCases[i].expected, got);
+        }
+    }
+
+    /* Directed-graph reasoning with topological order and cycle detection */
+
+    static void courseSchedule_207_tests() {
+        vector<CourseScheduleTestCase> testCases = {
+            {2, {{1, 0}}, true},
+            {2, {{1, 0}, {0, 1}}, false},
+            {5, {{0, 1}, {2, 3}, {3, 4}, {2, 1}}, true},
+            {5, {{0, 1}, {2, 3}, {3, 4}, {2, 1}, {4, 2}}, false},
+        };
+
+        CourseSchedule_207 cs207;
+
+        const vector<pair<string, function<bool(const CourseScheduleTestCase&)>>> impls = {
+            {"DFS",  [&](const CourseScheduleTestCase& tc){ return cs207.canFinishDFS(tc.numCourses, tc.prerequisites); }},
+            {"Kahn", [&](const CourseScheduleTestCase& tc){ return cs207.canFinishKahns(tc.numCourses, tc.prerequisites); }},
+        };
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+            for (const auto& [name, run] : impls) {
+                assertEqScalar("Course Schedule 207 [" + name + "] " + to_string(i + 1), tc.expected, run(tc));
+            }
+        }
+    }
+
     static void courseScheduleII_210_tests() {
         vector<CourseScheduleIITestCase> testCases = {
             // Example 1
@@ -4035,56 +4187,7 @@ public:
         }
     }
 
-    static void networkDelayTime_743_tests() {
-        vector<NetworkDelayTimeTestCase> testCases = {
-            // Provided Examples
-            {{ {2, 1, 1}, {2, 3, 1}, {3, 4, 1} }, 4, 2, 2},
-            {{ {1, 2, 1} }, 2, 1, 1},
-            {{ {1, 2, 1} }, 2, 2, -1},
-
-            // Additional Complex Example 1: 6 nodes, complex network
-            {{ {1, 2, 2}, {1, 3, 4}, {2, 4, 7}, {3, 4, 1}, {2, 5, 5}, {5, 6, 3}, {4, 6, 2} }, 6, 1, 7},
-
-            // Additional Complex Example 2: 8 nodes, complex network
-            {{ {1, 2, 2}, {1, 3, 1}, {3, 4, 4}, {2, 5, 7}, {5, 6, 1}, {6, 7, 5}, {7, 8, 2}, {4, 8, 3} }, 8, 1, 15},
-        };
-
-        NetworkDelayTime_743 ndt743;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = ndt743.networkDelayTime(testCases[i].times, testCases[i].n, testCases[i].k);
-            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
-        }
-    }
-
-    static void rottingOranges_994_tests()
-    {
-        vector<RottingOrangesTestCase> testCases = {
-            {{{2, 1, 1}, {1, 1, 0}, {0, 1, 1}}, 4},  // Example 1
-            {{{2, 1, 1}, {0, 1, 1}, {1, 0, 1}}, -1}, // Example 2
-            {{{0, 2}}, 0},                           // Example 3
-            // Additional Test Case 1
-            {{{2, 1, 1, 0, 0, 1, 2},
-              {1, 0, 0, 0, 1, 1, 0},
-              {0, 1, 2, 1, 0, 1, 0},
-              {0, 1, 0, 2, 2, 1, 0}},
-             3},
-            // Additional Test Case 2
-            {{{2, 2, 1, 1, 1, 0, 0},
-              {0, 1, 1, 2, 1, 1, 0},
-              {1, 1, 0, 1, 1, 2, 1},
-              {2, 0, 0, 1, 1, 1, 1},
-              {0, 0, 1, 1, 0, 0, 0}},
-             4}};
-
-        RottingOranges_994 solution;
-
-        for (size_t i = 0; i < testCases.size(); ++i)
-        {
-            int result = solution.orangesRotting(testCases[i].grid);
-            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
-        }
-    }
+    /* Graph traversal on matrices with directional / monotonic constraints */
 
     static void pacificAtlantic_417_tests()
     {
@@ -4130,6 +4233,129 @@ public:
         }
     }
 
+    static void longestIncreasingPathInMatrix_329_tests() {
+        using TestCases::LongestIncreasingPathInMatrixTestCase;
+
+        vector<LongestIncreasingPathInMatrixTestCase> testCases = {
+            // Example 1
+            {{{9,9,4},
+            {6,6,8},
+            {2,1,1}}, 4},
+
+            // Example 2
+            {{{3,4,5},
+            {3,2,6},
+            {2,2,1}}, 4},
+
+            // Example 3
+            {{{1}}, 1},
+
+            // Complex 1: snake-like 3x3 increasing path of length 9
+            {{{1,2,3},
+            {6,5,4},
+            {7,8,9}}, 9},
+
+            // Complex 2: rectangular with plateaus, optimal path length 6
+            {{{1,2,3,4},
+            {2,2,3,5},
+            {2,2,4,6}}, 6},
+        };
+
+        LongestIncreasingPathInMatrix_329 lip329;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = lip329.longestIncreasingPath(testCases[i].matrix);
+            assertEqScalar("Longest Increasing Path in Matrix 329 Test " + to_string(i + 1),
+                        testCases[i].expected, got);
+        }
+    }
+
+    /* Weighted graph algorithms: shortest paths and minimum spanning tree */
+
+    static void networkDelayTime_743_tests() {
+        vector<NetworkDelayTimeTestCase> testCases = {
+            // Provided Examples
+            {{ {2, 1, 1}, {2, 3, 1}, {3, 4, 1} }, 4, 2, 2},
+            {{ {1, 2, 1} }, 2, 1, 1},
+            {{ {1, 2, 1} }, 2, 2, -1},
+
+            // Additional Complex Example 1: 6 nodes, complex network
+            {{ {1, 2, 2}, {1, 3, 4}, {2, 4, 7}, {3, 4, 1}, {2, 5, 5}, {5, 6, 3}, {4, 6, 2} }, 6, 1, 7},
+
+            // Additional Complex Example 2: 8 nodes, complex network
+            {{ {1, 2, 2}, {1, 3, 1}, {3, 4, 4}, {2, 5, 7}, {5, 6, 1}, {6, 7, 5}, {7, 8, 2}, {4, 8, 3} }, 8, 1, 15},
+        };
+
+        NetworkDelayTime_743 ndt743;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int result = ndt743.networkDelayTime(testCases[i].times, testCases[i].n, testCases[i].k);
+            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
+        }
+    }
+
+    static void designGraphWithShortestPathCalculator_2642_tests() {
+        using EdgeList = vector<vector<int>>;
+
+        vector<DesignGraphWithShortestPathCalculatorTestCase> testCases = {
+            // Case 1 – official example
+            {
+                {"Graph","shortestPath","shortestPath","addEdge","shortestPath"},
+                {
+                    pair<int,EdgeList>{4, {{0,2,5},{0,1,2},{1,2,1},{3,0,3}}},
+                    pair<int,int>{3,2},
+                    pair<int,int>{0,3},
+                    vector<int>{1,3,4},
+                    pair<int,int>{0,3}
+                },
+                {nullopt, 6, -1, nullopt, 6}
+            },
+            // Case 2 – empty graph, then one edge
+            {
+                {"Graph","shortestPath","addEdge","shortestPath"},
+                {
+                    pair<int,EdgeList>{2, {}},
+                    pair<int,int>{0,1},
+                    vector<int>{0,1,10},
+                    pair<int,int>{0,1}
+                },
+                {nullopt, -1, nullopt, 10}
+            },
+            // Case 3 – cheaper path appears after addEdge
+            {
+                {"Graph","shortestPath","addEdge","shortestPath"},
+                {
+                    pair<int,EdgeList>{5, {{0,1,3},{1,2,4},{2,3,5},{3,4,6},{0,4,20}}},
+                    pair<int,int>{0,4},
+                    vector<int>{1,4,1},
+                    pair<int,int>{0,4}
+                },
+                {nullopt, 18, nullopt, 4}
+            }
+        };
+
+        for (size_t t = 0; t < testCases.size(); ++t) {
+            unique_ptr<Graph> g;
+            const auto& tc = testCases[t];
+
+            for (size_t i = 0; i < tc.operations.size(); ++i) {
+                const string& op = tc.operations[i];
+
+                if (op == "Graph") {
+                    auto [n, edges] = get<pair<int,EdgeList>>(tc.arguments[i]);
+                    g = make_unique<Graph>(n, edges);
+                } else if (op == "addEdge") {
+                    g->addEdge(get<vector<int>>(tc.arguments[i]));
+                } else if (op == "shortestPath") {
+                    auto [u, v] = get<pair<int,int>>(tc.arguments[i]);
+                    int got = g->shortestPath(u, v);
+                    const string label = makeStepLabel("Graph_2642", t, i, "shortestPath",
+                        to_string(u) + "," + to_string(v));
+                    assertEqScalar(label, tc.expected[i].value(), got);
+                }
+            }
+        }
+    }
+
     static void minCostToConnectAllPoints_1584_tests() {
         vector<MinCostToConnectAllPointsTestCase> testCases = {
             // Provided examples
@@ -4153,6 +4379,258 @@ public:
 
             assertEqScalar("Min Cost Test" + to_string(i + 1) + " (heap)", testCases[i].expected, resHeap);
             assertEqScalar("Min Cost Test" + to_string(i + 1) + " (array)", testCases[i].expected, resArray);
+        }
+    }
+
+    /* Cycle analysis in directed and undirected graphs */
+
+    static void longestCycleInGraph_2360_tests() {
+        vector<LongestCycleInGraphTestCase> testCases = {
+            // 2 examples from the LeetCode problem statement
+            {{3, 3, 4, 2, 3}, 3},   // Example 1
+            {{2, -1, 3, 1}, -1},    // Example 2
+
+            // 3 additional, more complex cases
+            {{1, 2, 3, 4, 0}, 5},         // single 5-node cycle
+            {{1, 0, 4, 2, 3}, 3},         // two cycles, longest = 3
+            {{1, 2, 3, 4, 5, 6, 0}, 7}    // single 7-node cycle
+        };
+
+        LongestCycleInGraph_2360 sol;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = sol.longestCycle(testCases[i].edges);
+            const string label = "Longest Cycle in Graph 2360 Test " + to_string(i + 1);
+            assertEqScalar(label, testCases[i].expected, got);
+        }
+    }
+
+    static void shortestCycleInGraph_2608_tests() {
+        vector<ShortestCycleInGraphTestCase> cases = {
+            // ── 2 examples from the problem statement ───────────────────────────
+            {
+                7,
+                {{0,1},{1,2},{2,0},{3,4},{4,5},{5,6},{6,3}},
+                3
+            },
+            {
+                4,
+                {{0,1},{0,2}},
+                -1
+            },
+
+            // ── extra #1 : tiny corner-case – only one edge, no cycle ───────────
+            {
+                2,
+                {{0,1}},
+                -1
+            },
+
+            /* ── extra #2 : larger, multiple cycles, shortest = 3 ───────────────
+                   triangle 0-1-2-0  (len 3)
+                   square   3-4-5-6-3 (len 4)
+                   edges 2-3 and 4-7-5 add inter-connections                  */
+            {
+                8,
+                {{0,1},{1,2},{2,0},
+                 {3,4},{4,5},{5,6},{6,3},
+                 {2,3},
+                 {4,7},{7,5}},
+                3
+            },
+
+            /* ── extra #3 : “outer-loop needed” case (path + remote triangle) ───
+               0-1-2-3-4-5-6   long arm
+                         ╲
+                          7
+                         ╱ ╲
+                        8 - 6          shortest = 3 (6-7-8-6)
+               With BFS from 0 the first detected cycle would be very long,
+               so we need one BFS per start vertex to get the true minimum.      */
+            {
+                9,
+                {{0,1},{1,2},{2,3},{3,4},{4,5},{5,6},   // path
+                 {6,7},{7,8},{8,6}},                    // triangle at the end
+                3
+            }
+        };
+
+        ShortestCycleInGraph_2608 sol;
+        for (size_t i = 0; i < cases.size(); ++i) {
+            int got = sol.findShortestCycle(cases[i].n, cases[i].edges);
+            assertEqScalar("Shortest Cycle in Graph 2608 Test " + to_string(i + 1), cases[i].expected, got);
+        }
+    }
+
+    /* Grid simulation, multi-source expansion, and neighbor-based reasoning */
+
+    static void gameOfLife_289_tests() {
+        vector<GameOfLifeTestCase> testCases = {
+            // Example 1
+            {
+                {{0,1,0},{0,0,1},{1,1,1},{0,0,0}},
+                {{0,0,0},{1,0,1},{0,1,1},{0,1,0}}
+            },
+            // Example 2
+            {
+                {{1,1},{1,0}},
+                {{1,1},{1,1}}
+            },
+            // Complex 1: Blinker (oscillator) — horizontal -> vertical
+            {
+                {{0,0,0},
+                {1,1,1},
+                {0,0,0}},
+                {{0,1,0},
+                {0,1,0},
+                {0,1,0}}
+            },
+            // Complex 2: Stable block (still life) — unchanged
+            {
+                {{0,0,0,0},
+                {0,1,1,0},
+                {0,1,1,0},
+                {0,0,0,0}},
+                {{0,0,0,0},
+                {0,1,1,0},
+                {0,1,1,0},
+                {0,0,0,0}}
+            },
+            // Complex 3: Glider — first step
+            {
+                {{0,1,0,0,0},
+                {0,0,1,0,0},
+                {1,1,1,0,0},
+                {0,0,0,0,0},
+                {0,0,0,0,0}},
+                {{0,0,0,0,0},
+                {1,0,1,0,0},
+                {0,1,1,0,0},
+                {0,1,0,0,0},
+                {0,0,0,0,0}}
+            }
+        };
+
+        GameOfLife_289 solver;
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto board = testCases[i].input;  // in-place update required
+            solver.gameOfLife(board);
+            assertEqVVIntExact("Game of Life Test " + to_string(i + 1), testCases[i].expected, board);
+        }
+    }
+
+    static void wallsAndGates_286_tests() {
+        const int INF = 2147483647;          // 2^31-1
+
+        vector<WallsAndGatesTestCase> testCases = {
+            // Example 1
+            {
+                {{INF, -1, 0,   INF},
+                {INF, INF, INF, -1},
+                {INF, -1,  INF, -1},
+                {0,   -1,  INF, INF}},
+                {{3, -1, 0, 1},
+                {2, 2, 1, -1},
+                {1, -1, 2, -1},
+                {0, -1, 3, 4}}
+            },
+            // Example 2
+            {
+                {{0, INF}},
+                {{0, 1}}
+            },
+            // Example 3
+            {
+                {{INF}},
+                {{INF}}
+            },
+            // Complex 1: 4×4 grid, two gates
+            {
+                {{0,   INF, INF, INF},
+                {INF, -1,  INF, INF},
+                {INF, INF, INF, 0  },
+                {INF, -1,  INF, INF}},
+                {{0, 1, 2, 2},
+                {1, -1, 2, 1},
+                {2, 2, 1, 0},
+                {3, -1, 2, 1}}
+            },
+            // Complex 2: unreachable rooms stay INF
+            {
+                {{INF, -1, 0,   INF, INF},
+                {-1,  INF, -1, INF, -1 },
+                {INF, -1,  INF, -1, INF}},
+                {{INF, -1, 0, 1, 2},
+                {-1,  INF, -1, 2, -1},
+                {INF, -1,  INF, -1, INF}}
+            }
+        };
+
+        WallsAndGates_286 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto rooms = testCases[i].rooms;    // copy so we can mutate
+            solver.wallsAndGates(rooms);
+            assertEqVVIntExact("Walls & Gates 286 Test " + to_string(i + 1), testCases[i].expected, rooms);
+        }
+    }
+
+    static void islandPerimeter_463_tests() {
+        vector<IslandPerimeterTestCase> testCases = {
+            // Example 1 from the statement
+            {
+                {
+                    {0,1,0,0},
+                    {1,1,1,0},
+                    {0,1,0,0},
+                    {1,1,0,0}
+                },
+                16
+            },
+            // Example 2
+            {
+                {
+                    {1}
+                },
+                4
+            },
+            // Example 3
+            {
+                {
+                    {1,0}
+                },
+                4
+            },
+            // Single land cell surrounded by water in a larger grid
+            {
+                {
+                    {0,0,0},
+                    {0,1,0},
+                    {0,0,0}
+                },
+                4
+            },
+            // Two adjacent horizontal land cells
+            {
+                {
+                    {1,1}
+                },
+                6
+            },
+            // Two adjacent vertical land cells
+            {
+                {
+                    {1},
+                    {1}
+                },
+                6
+            }
+        };
+
+        IslandPerimeter_463 solver;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = solver.islandPerimeter(testCases[i].grid);
+            const string label = "Island Perimeter 463 Test " + to_string(i + 1);
+            assertEqScalar(label, testCases[i].expected, got);
         }
     }
 
@@ -4345,28 +4823,6 @@ public:
                     {"b","c"}, {"b","c"});
     }
 
-    static void cloneGraph_133_tests() {
-        vector<vector<vector<int>>> testCases = {
-            {{2, 4}, {1, 3}, {2, 4}, {1, 3}},  // Example 1
-            {{}},  // Example 2 (Single node, no neighbors)
-            {},    // Example 3 (Empty graph)
-            {{2}, {1, 3}, {2, 4}, {3}}, // Additional case: Line-shaped graph
-            {{2, 3, 4, 5}, {1, 3, 5}, {1, 2, 4}, {1, 3, 5}, {1, 2, 4}} // Additional case: Fully connected small graph
-        };
-
-        CloneGraph_133 solver;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            GraphNode<int>* original = GraphUtils::buildGraph(testCases[i]);
-            GraphNode<int>* cloned   = solver.cloneGraph(original);
-
-            bool iso = GraphUtils::areGraphsIsomorphic(original, cloned);
-            assertEqScalar("Clone Graph 133 Test " + to_string(i + 1), true, iso);
-
-            GraphUtils::freeGraph(original);
-            GraphUtils::freeGraph(cloned);
-        }
-    }
-
     static void findCelebrity_277_tests() {
         vector<FindCelebrityTestCase> testCases = {
             // Easy: A knows B, B knows no one → B is celebrity
@@ -4434,80 +4890,31 @@ public:
         }
     }
 
-    static void longestCycleInGraph_2360_tests() {
-        vector<LongestCycleInGraphTestCase> testCases = {
-            // 2 examples from the LeetCode problem statement
-            {{3, 3, 4, 2, 3}, 3},   // Example 1
-            {{2, -1, 3, 1}, -1},    // Example 2
-
-            // 3 additional, more complex cases
-            {{1, 2, 3, 4, 0}, 5},         // single 5-node cycle
-            {{1, 0, 4, 2, 3}, 3},         // two cycles, longest = 3
-            {{1, 2, 3, 4, 5, 6, 0}, 7}    // single 7-node cycle
+    static void uniquePaths_62_tests() {
+        vector<UniquePathsTestCase> cases = {
+            /* three official cases from the problem statement */
+            {3, 7, 28},
+            {3, 2, 3},
+            {1, 1, 1},
+            /* two more demanding cases – still ≤ 2 000 000 000 */
+            {12, 23, 193536720},
+            {8, 69, 1984829850}
         };
 
-        LongestCycleInGraph_2360 sol;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = sol.longestCycle(testCases[i].edges);
-            const string label = "Longest Cycle in Graph 2360 Test " + to_string(i + 1);
-            assertEqScalar(label, testCases[i].expected, got);
-        }
-    }
-
-    static void shortestCycleInGraph_2608_tests() {
-        vector<ShortestCycleInGraphTestCase> cases = {
-            // ── 2 examples from the problem statement ───────────────────────────
-            {
-                7,
-                {{0,1},{1,2},{2,0},{3,4},{4,5},{5,6},{6,3}},
-                3
-            },
-            {
-                4,
-                {{0,1},{0,2}},
-                -1
-            },
-
-            // ── extra #1 : tiny corner-case – only one edge, no cycle ───────────
-            {
-                2,
-                {{0,1}},
-                -1
-            },
-
-            /* ── extra #2 : larger, multiple cycles, shortest = 3 ───────────────
-                   triangle 0-1-2-0  (len 3)
-                   square   3-4-5-6-3 (len 4)
-                   edges 2-3 and 4-7-5 add inter-connections                  */
-            {
-                8,
-                {{0,1},{1,2},{2,0},
-                 {3,4},{4,5},{5,6},{6,3},
-                 {2,3},
-                 {4,7},{7,5}},
-                3
-            },
-
-            /* ── extra #3 : “outer-loop needed” case (path + remote triangle) ───
-               0-1-2-3-4-5-6   long arm
-                         ╲
-                          7
-                         ╱ ╲
-                        8 - 6          shortest = 3 (6-7-8-6)
-               With BFS from 0 the first detected cycle would be very long,
-               so we need one BFS per start vertex to get the true minimum.      */
-            {
-                9,
-                {{0,1},{1,2},{2,3},{3,4},{4,5},{5,6},   // path
-                 {6,7},{7,8},{8,6}},                    // triangle at the end
-                3
-            }
-        };
-
-        ShortestCycleInGraph_2608 sol;
+        UniquePaths_62 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
-            int got = sol.findShortestCycle(cases[i].n, cases[i].edges);
-            assertEqScalar("Shortest Cycle in Graph 2608 Test " + to_string(i + 1), cases[i].expected, got);
+            const auto& tc = cases[i];
+            const string baseLabel =
+                "Unique Paths 62 Test " + to_string(i + 1) +
+                " (m=" + to_string(tc.m) + ", n=" + to_string(tc.n) + ")";
+
+            int gotComb    = solver.uniquePaths_Comb(tc.m, tc.n);
+            int gotDP2D    = solver.uniquePaths_DP2D(tc.m, tc.n);
+            int gotDP2Rows = solver.uniquePaths_DP2Rows(tc.m, tc.n);
+
+            assertEqScalar(baseLabel + " [comb]",     tc.expected, gotComb);
+            assertEqScalar(baseLabel + " [dp-2D]",    tc.expected, gotDP2D);
+            assertEqScalar(baseLabel + " [dp-2rows]", tc.expected, gotDP2Rows);
         }
     }
 
@@ -4622,213 +5029,6 @@ public:
         for (size_t i = 0; i < tc.size(); ++i) {
             bool got = solver.isMatch(tc[i].s, tc[i].p);
             assertEqScalar("Wildcard Matching 44 Test " + to_string(i + 1), tc[i].expected, got);
-        }
-    }
-
-    static void uniquePaths_62_tests() {
-        vector<UniquePathsTestCase> cases = {
-            /* three official cases from the problem statement */
-            {3, 7, 28},
-            {3, 2, 3},
-            {1, 1, 1},
-            /* two more demanding cases – still ≤ 2 000 000 000 */
-            {12, 23, 193536720},
-            {8, 69, 1984829850}
-        };
-
-        UniquePaths_62 solver;
-        for (size_t i = 0; i < cases.size(); ++i) {
-            const auto& tc = cases[i];
-            const string baseLabel =
-                "Unique Paths 62 Test " + to_string(i + 1) +
-                " (m=" + to_string(tc.m) + ", n=" + to_string(tc.n) + ")";
-
-            int gotComb    = solver.uniquePaths_Comb(tc.m, tc.n);
-            int gotDP2D    = solver.uniquePaths_DP2D(tc.m, tc.n);
-            int gotDP2Rows = solver.uniquePaths_DP2Rows(tc.m, tc.n);
-
-            assertEqScalar(baseLabel + " [comb]",     tc.expected, gotComb);
-            assertEqScalar(baseLabel + " [dp-2D]",    tc.expected, gotDP2D);
-            assertEqScalar(baseLabel + " [dp-2rows]", tc.expected, gotDP2Rows);
-        }
-    }
-
-    static void busRoutes_815_tests() {
-        vector<BusRoutesTestCase> cases = {
-            // Official examples
-            {{{1,2,7},{3,6,7}}, 1, 6, 2},
-            {{{7,12},{4,5,15},{6},{15,19},{9,12,13}}, 15, 12, -1},
-            // Additional tougher cases
-            {{{1,2,3,4,5},{5,6,7,8},{8,9,10,11},{11,12,13,1}}, 1, 13, 1},
-            {{{1,2,3},{4,5,6}}, 5, 5, 0},
-            {{{1,2,3},{3,4,5},{5,6,7},{7,8,9}}, 2, 8, 4}
-        };
-
-        BusRoutes_815 solver;
-        for (size_t i = 0; i < cases.size(); ++i) {
-            auto routes = cases[i].routes; // solver may mutate
-            int got = solver.numBusesToDestination(routes, cases[i].source, cases[i].target);
-            assertEqScalar("Bus Routes 815 Test " + to_string(i + 1), cases[i].expected, got);
-        }
-    }
-
-    static void shortestPathBinaryMatrix_1091_tests() {
-        vector<ShortestPathInBinaryMatrixTestCase> testCases = {
-            /* 3 examples from the problem statement */
-            {
-             {{0, 1},
-              {1, 0}},
-             2},
-            {
-             {{0, 0, 0},
-              {1, 1, 0},
-              {1, 1, 0}},
-             4},
-            {
-             {{1, 0, 0},
-              {1, 1, 0},
-              {1, 1, 0}},
-             -1},
-            /* 2 extra, larger cases */
-            {
-              {{0, 0, 0, 0, 0},
-              {1, 1, 1, 1, 0},
-              {0, 0, 0, 1, 0},
-              {0, 1, 0, 1, 0},
-              {0, 1, 0, 0, 0}},
-             8}, // reachable
-            {
-             {{0, 1, 1, 1, 1},
-              {1, 1, 1, 1, 1},
-              {1, 1, 1, 1, 1},
-              {1, 1, 1, 1, 1},
-              {1, 1, 1, 1, 0}},
-             -1} // unreachable
-        };
-
-        ShortestPathInBinaryMatrix_1091 solver;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            auto grid = testCases[i].grid;  // solver mutates the grid
-            int got = solver.shortestPathBinaryMatrix(grid);
-            assertEqScalar("Shortest Path Binary Matrix 1091 Test " + to_string(i + 1), testCases[i].expected, got);
-        }
-    }
-
-    static void designGraphWithShortestPathCalculator_2642_tests() {
-        using EdgeList = vector<vector<int>>;
-
-        vector<DesignGraphWithShortestPathCalculatorTestCase> testCases = {
-            // Case 1 – official example
-            {
-                {"Graph","shortestPath","shortestPath","addEdge","shortestPath"},
-                {
-                    pair<int,EdgeList>{4, {{0,2,5},{0,1,2},{1,2,1},{3,0,3}}},
-                    pair<int,int>{3,2},
-                    pair<int,int>{0,3},
-                    vector<int>{1,3,4},
-                    pair<int,int>{0,3}
-                },
-                {nullopt, 6, -1, nullopt, 6}
-            },
-            // Case 2 – empty graph, then one edge
-            {
-                {"Graph","shortestPath","addEdge","shortestPath"},
-                {
-                    pair<int,EdgeList>{2, {}},
-                    pair<int,int>{0,1},
-                    vector<int>{0,1,10},
-                    pair<int,int>{0,1}
-                },
-                {nullopt, -1, nullopt, 10}
-            },
-            // Case 3 – cheaper path appears after addEdge
-            {
-                {"Graph","shortestPath","addEdge","shortestPath"},
-                {
-                    pair<int,EdgeList>{5, {{0,1,3},{1,2,4},{2,3,5},{3,4,6},{0,4,20}}},
-                    pair<int,int>{0,4},
-                    vector<int>{1,4,1},
-                    pair<int,int>{0,4}
-                },
-                {nullopt, 18, nullopt, 4}
-            }
-        };
-
-        for (size_t t = 0; t < testCases.size(); ++t) {
-            unique_ptr<Graph> g;
-            const auto& tc = testCases[t];
-
-            for (size_t i = 0; i < tc.operations.size(); ++i) {
-                const string& op = tc.operations[i];
-
-                if (op == "Graph") {
-                    auto [n, edges] = get<pair<int,EdgeList>>(tc.arguments[i]);
-                    g = make_unique<Graph>(n, edges);
-                } else if (op == "addEdge") {
-                    g->addEdge(get<vector<int>>(tc.arguments[i]));
-                } else if (op == "shortestPath") {
-                    auto [u, v] = get<pair<int,int>>(tc.arguments[i]);
-                    int got = g->shortestPath(u, v);
-                    const string label = makeStepLabel("Graph_2642", t, i, "shortestPath",
-                        to_string(u) + "," + to_string(v));
-                    assertEqScalar(label, tc.expected[i].value(), got);
-                }
-            }
-        }
-    }
-
-    static void wallsAndGates_286_tests() {
-        const int INF = 2147483647;          // 2^31-1
-
-        vector<WallsAndGatesTestCase> testCases = {
-            // Example 1
-            {
-                {{INF, -1, 0,   INF},
-                {INF, INF, INF, -1},
-                {INF, -1,  INF, -1},
-                {0,   -1,  INF, INF}},
-                {{3, -1, 0, 1},
-                {2, 2, 1, -1},
-                {1, -1, 2, -1},
-                {0, -1, 3, 4}}
-            },
-            // Example 2
-            {
-                {{0, INF}},
-                {{0, 1}}
-            },
-            // Example 3
-            {
-                {{INF}},
-                {{INF}}
-            },
-            // Complex 1: 4×4 grid, two gates
-            {
-                {{0,   INF, INF, INF},
-                {INF, -1,  INF, INF},
-                {INF, INF, INF, 0  },
-                {INF, -1,  INF, INF}},
-                {{0, 1, 2, 2},
-                {1, -1, 2, 1},
-                {2, 2, 1, 0},
-                {3, -1, 2, 1}}
-            },
-            // Complex 2: unreachable rooms stay INF
-            {
-                {{INF, -1, 0,   INF, INF},
-                {-1,  INF, -1, INF, -1 },
-                {INF, -1,  INF, -1, INF}},
-                {{INF, -1, 0, 1, 2},
-                {-1,  INF, -1, 2, -1},
-                {INF, -1,  INF, -1, INF}}
-            }
-        };
-
-        WallsAndGates_286 solver;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            auto rooms = testCases[i].rooms;    // copy so we can mutate
-            solver.wallsAndGates(rooms);
-            assertEqVVIntExact("Walls & Gates 286 Test " + to_string(i + 1), testCases[i].expected, rooms);
         }
     }
 
@@ -5077,158 +5277,6 @@ public:
         }
     }
 
-    static void gameOfLife_289_tests() {
-        vector<GameOfLifeTestCase> testCases = {
-            // Example 1
-            {
-                {{0,1,0},{0,0,1},{1,1,1},{0,0,0}},
-                {{0,0,0},{1,0,1},{0,1,1},{0,1,0}}
-            },
-            // Example 2
-            {
-                {{1,1},{1,0}},
-                {{1,1},{1,1}}
-            },
-            // Complex 1: Blinker (oscillator) — horizontal -> vertical
-            {
-                {{0,0,0},
-                {1,1,1},
-                {0,0,0}},
-                {{0,1,0},
-                {0,1,0},
-                {0,1,0}}
-            },
-            // Complex 2: Stable block (still life) — unchanged
-            {
-                {{0,0,0,0},
-                {0,1,1,0},
-                {0,1,1,0},
-                {0,0,0,0}},
-                {{0,0,0,0},
-                {0,1,1,0},
-                {0,1,1,0},
-                {0,0,0,0}}
-            },
-            // Complex 3: Glider — first step
-            {
-                {{0,1,0,0,0},
-                {0,0,1,0,0},
-                {1,1,1,0,0},
-                {0,0,0,0,0},
-                {0,0,0,0,0}},
-                {{0,0,0,0,0},
-                {1,0,1,0,0},
-                {0,1,1,0,0},
-                {0,1,0,0,0},
-                {0,0,0,0,0}}
-            }
-        };
-
-        GameOfLife_289 solver;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            auto board = testCases[i].input;  // in-place update required
-            solver.gameOfLife(board);
-            assertEqVVIntExact("Game of Life Test " + to_string(i + 1), testCases[i].expected, board);
-        }
-    }
-
-    static void longestIncreasingPathInMatrix_329_tests() {
-        using TestCases::LongestIncreasingPathInMatrixTestCase;
-
-        vector<LongestIncreasingPathInMatrixTestCase> testCases = {
-            // Example 1
-            {{{9,9,4},
-            {6,6,8},
-            {2,1,1}}, 4},
-
-            // Example 2
-            {{{3,4,5},
-            {3,2,6},
-            {2,2,1}}, 4},
-
-            // Example 3
-            {{{1}}, 1},
-
-            // Complex 1: snake-like 3x3 increasing path of length 9
-            {{{1,2,3},
-            {6,5,4},
-            {7,8,9}}, 9},
-
-            // Complex 2: rectangular with plateaus, optimal path length 6
-            {{{1,2,3,4},
-            {2,2,3,5},
-            {2,2,4,6}}, 6},
-        };
-
-        LongestIncreasingPathInMatrix_329 lip329;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = lip329.longestIncreasingPath(testCases[i].matrix);
-            assertEqScalar("Longest Increasing Path in Matrix 329 Test " + to_string(i + 1),
-                        testCases[i].expected, got);
-        }
-    }
-
-    static void islandPerimeter_463_tests() {
-        vector<IslandPerimeterTestCase> testCases = {
-            // Example 1 from the statement
-            {
-                {
-                    {0,1,0,0},
-                    {1,1,1,0},
-                    {0,1,0,0},
-                    {1,1,0,0}
-                },
-                16
-            },
-            // Example 2
-            {
-                {
-                    {1}
-                },
-                4
-            },
-            // Example 3
-            {
-                {
-                    {1,0}
-                },
-                4
-            },
-            // Single land cell surrounded by water in a larger grid
-            {
-                {
-                    {0,0,0},
-                    {0,1,0},
-                    {0,0,0}
-                },
-                4
-            },
-            // Two adjacent horizontal land cells
-            {
-                {
-                    {1,1}
-                },
-                6
-            },
-            // Two adjacent vertical land cells
-            {
-                {
-                    {1},
-                    {1}
-                },
-                6
-            }
-        };
-
-        IslandPerimeter_463 solver;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solver.islandPerimeter(testCases[i].grid);
-            const string label = "Island Perimeter 463 Test " + to_string(i + 1);
-            assertEqScalar(label, testCases[i].expected, got);
-        }
-    }
-
     static void base7_504_tests() {
         using namespace TestCases;
 
@@ -5430,36 +5478,6 @@ public:
 
             cout << "Shuffle 384 chi-square Test B (WRONG, n=5 per-position): "
                 << (pass_bad ? "PASS" : "FAIL") << "\n";
-        }
-    }
-
-    static void slidingPuzzle_773_tests() {
-        vector<SlidingPuzzleTestCase> testCases = {
-            // examples from the statement
-            {{{1,2,3},{4,0,5}}, 1},
-            {{{1,2,3},{5,4,0}}, -1},
-            {{{4,1,2},{5,0,3}}, 5},
-
-            // already solved
-            {{{1,2,3},{4,5,0}}, 0},
-
-            // simple solvable cases
-            {{{1,2,0},{4,5,3}}, 1},
-            {{{1,0,3},{4,2,5}}, 2},
-            {{{0,1,2},{4,5,3}}, 3},
-
-            // unsolvable parity case
-            {{{1,2,3},{5,4,0}}, -1},
-        };
-
-        SlidingPuzzle_773 solver;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            auto board = testCases[i].board;
-            int got = solver.slidingPuzzle(board);
-
-            assertEqScalar("Sliding Puzzle 773 Test " + to_string(i + 1),
-                           testCases[i].expected, got);
         }
     }
 
