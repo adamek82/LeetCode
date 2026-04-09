@@ -1,5 +1,102 @@
 #include "AllOOneDataStructure_432.h"
 
+/*
+ * 432. All O`one Data Structure
+ * -----------------------------
+ * Data structure idea:
+ *   We must support these operations in O(1) average time:
+ *
+ *     - inc(key):    increment the count of key
+ *     - dec(key):    decrement the count of key
+ *     - getMaxKey(): return any key with the maximum count
+ *     - getMinKey(): return any key with the minimum count
+ *
+ *   To achieve this, we combine:
+ *
+ *     1) A doubly linked list (std::list<Node>) of "count buckets",
+ *        sorted by count in ascending order.
+ *
+ *        Each node represents one distinct count value and stores:
+ *          - count
+ *          - all keys currently having that count
+ *
+ *        So:
+ *          - nodeList.front() holds the minimum count
+ *          - nodeList.back()  holds the maximum count
+ *
+ *     2) A hash map:
+ *
+ *          key2node[key] = iterator to the list node currently holding key
+ *
+ *        This lets us locate the current bucket of any key in O(1) average time.
+ *
+ * Core invariant:
+ *   - The list is always sorted by count in strictly increasing order.
+ *   - There is at most one list node for any given count.
+ *   - Every key appears in exactly one node's key set.
+ *   - key2node always points to the correct node for each existing key.
+ *
+ * How inc(key) works:
+ *   1) If key does not exist yet:
+ *      - Its new count becomes 1.
+ *      - If the front node does not already represent count=1, create such a node.
+ *      - Insert the key into that node and record it in key2node.
+ *
+ *   2) If key already exists:
+ *      - Let curIt be the node currently holding the key, with count = c.
+ *      - Remove the key from that node.
+ *      - The key must move to count = c + 1, which should be the next node.
+ *      - If the next node does not exist or does not have count = c + 1,
+ *        insert a new node for c + 1 directly after curIt.
+ *      - Insert the key into that destination node and update key2node.
+ *      - If the old node became empty, erase it from the list.
+ *
+ * How dec(key) works:
+ *   1) Let curIt be the node currently holding the key, with count = c.
+ *   2) Remove the key from that node.
+ *   3) If c - 1 == 0:
+ *      - The key disappears completely from the data structure,
+ *        so erase it from key2node.
+ *   4) Otherwise:
+ *      - The key must move to count = c - 1, which should be the previous node.
+ *      - If the previous node does not exist or does not have count = c - 1,
+ *        insert a new node for c - 1 directly before curIt.
+ *      - Insert the key into that destination node and update key2node.
+ *   5) If the old node became empty, erase it from the list.
+ *
+ * How getMaxKey() works:
+ *   - If the structure is empty, return "".
+ *   - Otherwise, the last node in the list has the maximum count.
+ *   - Return any key from that node's key set.
+ *
+ * How getMinKey() works:
+ *   - If the structure is empty, return "".
+ *   - Otherwise, the first node in the list has the minimum count.
+ *   - Return any key from that node's key set.
+ *
+ * Why it works (intuitive justification):
+ *   - Keys only ever move between neighboring counts:
+ *       c -> c + 1   during inc
+ *       c -> c - 1   during dec
+ *   - Therefore, once we know the current node of a key, we never need to search
+ *     the whole structure; we only inspect its immediate neighbor in the list
+ *     (next or previous), or create that neighbor if it does not exist.
+ *   - The list stays sorted by count, so minimum and maximum are always available
+ *     directly at the front and back.
+ *   - Empty buckets are removed immediately, which preserves the invariant that
+ *     each count appears in at most one node.
+ *
+ * Complexity:
+ *   - inc(key):    O(1) average
+ *   - dec(key):    O(1) average
+ *   - getMaxKey(): O(1)
+ *   - getMinKey(): O(1)
+ *
+ * Notes on complexity:
+ *   - std::list insertion/erasure at a known iterator is O(1).
+ *   - unordered_map and unordered_set operations are O(1) average.
+ *   - Therefore all required operations satisfy the problem's O(1) average-time goal.
+ */
 AllOOneDataStructure_432::AllOOneDataStructure_432()
 {
     // empty
