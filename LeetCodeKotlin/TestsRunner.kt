@@ -79,15 +79,6 @@ object TestsRunner {
         testAllOOneDataStructure_432()
     }
 
-    /** Helper to compare double arrays within 1e-5 */
-    private fun checkDoubleArraysApproximately(a: DoubleArray, b: DoubleArray, eps: Double = 1e-5): Boolean {
-        if (a.size != b.size) return false
-        for (i in a.indices) {
-            if (kotlin.math.abs(a[i] - b[i]) > eps) return false
-        }
-        return true
-    }
-
     data class MaxProfitTestCase(
         val prices: IntArray,
         val expectedResult: Int
@@ -431,12 +422,10 @@ object TestsRunner {
 
         for ((index, testCase) in testCases.withIndex()) {
             val result = solution.addBinary(testCase.a, testCase.b)
-            val pass = (result == testCase.expected)
-
-            println(
-                "AddBinary Test ${index + 1}: " +
-                if (pass) "PASS" else "FAIL" +
-                " (Expected: ${testCase.expected}, Got: $result)"
+            TestUtils.assertEq(
+                label = "AddBinary Test ${index + 1}",
+                expected = testCase.expected,
+                got = result
             )
         }
     }
@@ -456,11 +445,10 @@ object TestsRunner {
 
         for ((index, testCase) in testCases.withIndex()) {
             val result = solution.hammingWeight(testCase.n)
-            val pass = (result == testCase.expected)
-            println(
-                "HammingWeight Test ${index + 1}: " +
-                if (pass) "PASS" else "FAIL" +
-                " (Expected: ${testCase.expected}, Got: $result)"
+            TestUtils.assertEq(
+                label = "HammingWeight Test ${index + 1}",
+                expected = testCase.expected,
+                got = result
             )
         }
     }
@@ -501,12 +489,10 @@ object TestsRunner {
 
         for ((index, testCase) in testCases.withIndex()) {
             val result = solution.sortedSquares(testCase.input)
-            val pass = (result.contentEquals(testCase.expected))
-
-            println(
-                "SquaresOfSortedArray Test ${index + 1}: " +
-                if (pass) "PASS" else "FAIL" +
-                " (Expected: ${testCase.expected.joinToString()}, Got: ${result.joinToString()})"
+            TestUtils.assertIntArrayEq(
+                label = "SquaresOfSortedArray Test ${index + 1}",
+                expected = testCase.expected,
+                got = result
             )
         }
     }
@@ -709,11 +695,10 @@ object TestsRunner {
 
         for ((index, testCase) in testCases.withIndex()) {
             val result = solution.findMaxAverage(testCase.nums, testCase.k)
-            val pass = kotlin.math.abs(result - testCase.expected) < 1e-5
-            println(
-                "MaximumAverageSubarrayI Test ${index + 1}: " +
-                if (pass) "PASS" else "FAIL" +
-                " (Expected: ${testCase.expected}, Got: $result)"
+            TestUtils.assertApprox(
+                label = "MaximumAverageSubarrayI Test ${index + 1}",
+                expected = testCase.expected,
+                got = result
             )
         }
     }
@@ -1235,12 +1220,11 @@ object TestsRunner {
         for ((index, testCase) in testCases.withIndex()) {
             val root = TreeUtils.vectorToTree(testCase.inputValues)
             val result = solution.averageOfLevels(root)
-            val pass = checkDoubleArraysApproximately(result, testCase.expected)
 
-            println(
-                "AverageOfLevelsInBinaryTree_637 Test ${index + 1}: " +
-                if (pass) "PASS" else "FAIL" +
-                " (Expected: ${testCase.expected.joinToString()}, Got: ${result.joinToString()})"
+            TestUtils.assertDoubleArrayApproxEq(
+                label = "AverageOfLevelsInBinaryTree_637 Test ${index + 1}",
+                expected = testCase.expected,
+                got = result
             )
         }
     }
@@ -1545,21 +1529,20 @@ object TestsRunner {
 
     private fun testSqrtX_69() {
         val testCases = listOf(
-            SqrtTestCase(4, 2),           // Example 1
-            SqrtTestCase(8, 2),           // Example 2
-            SqrtTestCase(0, 0),           // Edge case: x = 0
-            SqrtTestCase(50, 7),          // Additional test case: typical number (sqrt(50) ≈ 7.07)
+            SqrtTestCase(4, 2),             // Example 1
+            SqrtTestCase(8, 2),             // Example 2
+            SqrtTestCase(0, 0),             // Edge case: x = 0
+            SqrtTestCase(50, 7),            // Additional test case: typical number (sqrt(50) ≈ 7.07)
             SqrtTestCase(2147483647, 46340) // Overflow-avoidance test with max Int
         )
 
         val solution = SqrtX_69()
         for ((index, testCase) in testCases.withIndex()) {
             val result = solution.mySqrt(testCase.x)
-            val pass = (result == testCase.expected)
-            println(
-                "SqrtX_69 Test ${index + 1}: " +
-                (if (pass) "PASS" else "FAIL") +
-                " (Input: ${testCase.x}, Expected: ${testCase.expected}, Got: $result)"
+            TestUtils.assertEq(
+                label = "SqrtX_69 Test ${index + 1} (Input: ${testCase.x})",
+                expected = testCase.expected,
+                got = result
             )
         }
     }
@@ -1885,12 +1868,10 @@ object TestsRunner {
             val board = Array(testCase.input.size) { row -> testCase.input[row].clone() }
             solution.gameOfLife(board)
 
-            val pass = board.contentDeepEquals(testCase.expected)
-
-            println(
-                "Game of Life Test ${index + 1}: " +
-                    if (pass) "PASS" else "FAIL" +
-                    " (Expected: ${testCase.expected.contentDeepToString()}, Got: ${board.contentDeepToString()})"
+            TestUtils.assertMatrixEq(
+                label = "Game of Life Test ${index + 1}",
+                expected = testCase.expected,
+                got = board
             )
         }
     }
