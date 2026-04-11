@@ -34,6 +34,9 @@ LeetCodeCpp/compile_commands.json
 **/build/
 **/bin/
 
+# Kotlin local compiler caches / error logs
+**/.kotlin/
+
 # If you keep local Gradle distributions/zips in repo folders, ignore them too
 **/gradle-*/
 **/gradle*.zip
