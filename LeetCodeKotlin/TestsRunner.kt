@@ -1849,42 +1849,23 @@ object TestsRunner {
     }
 
     private fun testAllOOneDataStructure_432() {
-        fun assertMaxMin(
-            label: String,
-            ds: AllOOneDataStructure_432,
-            expectedMax: Set<String>,
-            expectedMin: Set<String>
-        ) {
-            val maxKey = ds.getMaxKey()
-            val minKey = ds.getMinKey()
-
-            val maxPass = maxKey in expectedMax
-            val minPass = minKey in expectedMin
-            val pass = maxPass && minPass
-
-            println(
-                "$label: " +
-                    if (pass) "PASS" else "FAIL" +
-                    " (max=\"$maxKey\", expected one of $expectedMax; " +
-                    "min=\"$minKey\", expected one of $expectedMin)"
-            )
-        }
-
         // Test 1: basic
         val ds1 = AllOOneDataStructure_432()
         ds1.inc("hello")
         ds1.inc("hello")
-        assertMaxMin(
-            "AllOne_432 T1/A",
-            ds1,
+        TestUtils.assertMaxMin(
+            label = "AllOne_432 T1/A",
+            getMax = { ds1.getMaxKey() },
+            getMin = { ds1.getMinKey() },
             expectedMax = setOf("hello"),
             expectedMin = setOf("hello")
         )
 
         ds1.inc("leet")
-        assertMaxMin(
-            "AllOne_432 T1/B",
-            ds1,
+        TestUtils.assertMaxMin(
+            label = "AllOne_432 T1/B",
+            getMax = { ds1.getMaxKey() },
+            getMin = { ds1.getMinKey() },
             expectedMax = setOf("hello"),
             expectedMin = setOf("leet")
         )
@@ -1894,17 +1875,19 @@ object TestsRunner {
         ds2.inc("foo")
         ds2.inc("bar")
         ds2.inc("bar")
-        assertMaxMin(
-            "AllOne_432 T2/A",
-            ds2,
+        TestUtils.assertMaxMin(
+            label = "AllOne_432 T2/A",
+            getMax = { ds2.getMaxKey() },
+            getMin = { ds2.getMinKey() },
             expectedMax = setOf("bar"),
             expectedMin = setOf("foo")
         )
 
         ds2.inc("foo") // both = 2
-        assertMaxMin(
-            "AllOne_432 T2/B",
-            ds2,
+        TestUtils.assertMaxMin(
+            label = "AllOne_432 T2/B",
+            getMax = { ds2.getMaxKey() },
+            getMin = { ds2.getMinKey() },
             expectedMax = setOf("foo", "bar"),
             expectedMin = setOf("foo", "bar")
         )
@@ -1916,9 +1899,10 @@ object TestsRunner {
         ds3.inc("a") // a = 3
         ds3.inc("b")
         ds3.inc("c") // b = 1, c = 1
-        assertMaxMin(
-            "AllOne_432 T3/A",
-            ds3,
+        TestUtils.assertMaxMin(
+            label = "AllOne_432 T3/A",
+            getMax = { ds3.getMaxKey() },
+            getMin = { ds3.getMinKey() },
             expectedMax = setOf("a"),
             expectedMin = setOf("b", "c")
         )
@@ -1926,9 +1910,10 @@ object TestsRunner {
         ds3.dec("a")
         ds3.dec("a")
         ds3.dec("a") // a removed
-        assertMaxMin(
-            "AllOne_432 T3/B",
-            ds3,
+        TestUtils.assertMaxMin(
+            label = "AllOne_432 T3/B",
+            getMax = { ds3.getMaxKey() },
+            getMin = { ds3.getMinKey() },
             expectedMax = setOf("b", "c"),
             expectedMin = setOf("b", "c")
         )

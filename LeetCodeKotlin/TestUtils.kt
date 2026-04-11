@@ -113,4 +113,27 @@ object TestUtils {
         )
         return pass
     }
+
+    fun assertMaxMin(
+        label: String,
+        getMax: () -> String,
+        getMin: () -> String,
+        expectedMax: Set<String>,
+        expectedMin: Set<String>
+    ): Boolean {
+        val maxKey = getMax()
+        val minKey = getMin()
+
+        val maxPass = maxKey in expectedMax
+        val minPass = minKey in expectedMin
+        val pass = maxPass && minPass
+
+        println("$label: ${if (pass) "PASS" else "FAIL"}")
+        if (!pass) {
+            println("""  max="$maxKey", expected one of $expectedMax""")
+            println("""  min="$minKey", expected one of $expectedMin""")
+        }
+
+        return pass
+    }
 }
