@@ -342,27 +342,22 @@ object TestsRunner {
 
     private fun testGroupAnagrams_49() {
         val testCases = listOf(
-            // Example 1
             GroupAnagramsTestCase(
                 arrayOf("eat", "tea", "tan", "ate", "nat", "bat"),
                 listOf(listOf("bat"), listOf("tan", "nat"), listOf("eat", "tea", "ate"))
             ),
-            // Example 2
             GroupAnagramsTestCase(
                 arrayOf(""),
                 listOf(listOf(""))
             ),
-            // Example 3
             GroupAnagramsTestCase(
                 arrayOf("a"),
                 listOf(listOf("a"))
             ),
-            // Large test case: Multiple anagram groups with long words
             GroupAnagramsTestCase(
                 arrayOf("abcdefg", "gfedcba", "xyz", "zxy", "yxz", "longword", "wordlong"),
                 listOf(listOf("abcdefg", "gfedcba"), listOf("xyz", "zxy", "yxz"), listOf("longword", "wordlong"))
             ),
-            // Large test case: Many unique words (no anagrams)
             GroupAnagramsTestCase(
                 arrayOf("abcd", "efgh", "ijkl", "mnop", "qrst", "uvwx", "yz"),
                 listOf(listOf("abcd"), listOf("efgh"), listOf("ijkl"), listOf("mnop"), listOf("qrst"), listOf("uvwx"), listOf("yz"))
@@ -375,34 +370,26 @@ object TestsRunner {
             val resultSorting = solution.groupAnagrams_sorting(testCase.input)
             val resultCounting = solution.groupAnagrams_counting(testCase.input)
 
-            // Sort groups for deterministic comparison
-            val normalize = { res: List<List<String>> ->
-                res.map { it.sorted() }
-                    .sortedWith { a, b ->
-                        // Compare a[i] vs b[i] for each index until they differ.
-                        val minSize = minOf(a.size, b.size)
-                        for (i in 0 until minSize) {
-                            val cmp = a[i].compareTo(b[i])
-                            if (cmp != 0) return@sortedWith cmp
-                        }
-                        // If all overlapping elements are equal, compare by length (shorter = less)
-                        a.size.compareTo(b.size)
-                    }
-            }
+            val baseLabel = "GroupAnagrams Test ${index + 1}"
 
-            val sortedResultSorting = normalize(resultSorting)
-            val sortedResultCounting = normalize(resultCounting)
-            val sortedExpected = normalize(testCase.expected)
+            TestUtils.assertListsAnyOrder(
+                label = "$baseLabel (Sorting)",
+                expected = testCase.expected,
+                got = resultSorting,
+                formatter = { TestUtils.prettyNestedLists(it) { s -> "\"$s\"" } }
+            )
 
-            val passSorting = sortedResultSorting == sortedExpected
-            val passCounting = sortedResultCounting == sortedExpected
-            val identicalOutputs = sortedResultSorting == sortedResultCounting
+            TestUtils.assertListsAnyOrder(
+                label = "$baseLabel (Counting)",
+                expected = testCase.expected,
+                got = resultCounting,
+                formatter = { TestUtils.prettyNestedLists(it) { s -> "\"$s\"" } }
+            )
 
-            println(
-                "Group Anagrams Test ${index + 1}: " +
-                (if (passSorting) "PASS" else "FAIL") + " (Sorting) | " +
-                (if (passCounting) "PASS" else "FAIL") + " (Counting) | " +
-                (if (identicalOutputs) "MATCH" else "DIFFERENT") + " (Comparison)"
+            TestUtils.assertEq(
+                label = "$baseLabel (Outputs match)",
+                expected = TestUtils.normalizeListsSizeThenLex(resultSorting),
+                got = TestUtils.normalizeListsSizeThenLex(resultCounting)
             )
         }
     }
@@ -1733,56 +1720,41 @@ object TestsRunner {
 
     private fun testSubsets_78() {
         val testCases =
-                listOf(
-                        SubsetsTestCase(
-                                intArrayOf(1, 2, 3),
-                                listOf(
-                                        emptyList(),
-                                        listOf(1),
-                                        listOf(2),
-                                        listOf(1, 2),
-                                        listOf(3),
-                                        listOf(1, 3),
-                                        listOf(2, 3),
-                                        listOf(1, 2, 3)
-                                )
-                        ),
-                        SubsetsTestCase(intArrayOf(0), listOf(emptyList(), listOf(0))),
-                        SubsetsTestCase(
-                                intArrayOf(5, 6),
-                                listOf(emptyList(), listOf(5), listOf(6), listOf(5, 6))
-                        ),
-                        SubsetsTestCase(
-                                intArrayOf(-1, 2),
-                                listOf(emptyList(), listOf(-1), listOf(2), listOf(-1, 2))
-                        )
+            listOf(
+                SubsetsTestCase(
+                    intArrayOf(1, 2, 3),
+                    listOf(
+                        emptyList(),
+                        listOf(1),
+                        listOf(2),
+                        listOf(1, 2),
+                        listOf(3),
+                        listOf(1, 3),
+                        listOf(2, 3),
+                        listOf(1, 2, 3)
+                    )
+                ),
+                SubsetsTestCase(intArrayOf(0), listOf(emptyList(), listOf(0))),
+                SubsetsTestCase(
+                    intArrayOf(5, 6),
+                    listOf(emptyList(), listOf(5), listOf(6), listOf(5, 6))
+                ),
+                SubsetsTestCase(
+                    intArrayOf(-1, 2),
+                    listOf(emptyList(), listOf(-1), listOf(2), listOf(-1, 2))
                 )
-
-        fun normalize(res: List<List<Int>>): List<List<Int>> {
-            return res.sortedWith { a, b ->
-                val minSize = minOf(a.size, b.size)
-                for (i in 0 until minSize) {
-                    val cmp = a[i].compareTo(b[i])
-                    if (cmp != 0) return@sortedWith cmp
-                }
-                a.size.compareTo(b.size)
-            }
-        }
+            )
 
         val solution = Subsets_78()
 
         for ((index, tc) in testCases.withIndex()) {
             val result = solution.subsets(tc.nums)
-            val got = normalize(result)
-            val expected = normalize(tc.expected)
 
-            val pass = got == expected
-            println(
-                    "Subsets_78 Test ${index + 1}: " +
-                            if (pass) "PASS"
-                            else
-                                    "FAIL" +
-                                            " (Input: ${tc.nums.joinToString(prefix = "[", postfix = "]")}, Expected: $expected, Got: $got)"
+            TestUtils.assertListsAnyOrder(
+                label = "Subsets_78 Test ${index + 1} (Input: ${tc.nums.joinToString(prefix = "[", postfix = "]")})",
+                expected = tc.expected,
+                got = result,
+                formatter = { TestUtils.prettyNestedLists(it) }
             )
         }
     }

@@ -71,4 +71,46 @@ object TestUtils {
         )
         return pass
     }
+
+    fun <T> prettyNestedLists(
+        value: List<List<T>>,
+        elementFormatter: (T) -> String = { it.toString() }
+    ): String =
+        value.joinToString(prefix = "[", postfix = "]") { inner ->
+            inner.joinToString(prefix = "[", postfix = "]") { elementFormatter(it) }
+        }
+
+    fun <T : Comparable<T>> normalizeListsSizeThenLex(value: List<List<T>>): List<List<T>> =
+        value
+            .map { it.sorted() }
+            .sortedWith { a, b ->
+                if (a.size != b.size) {
+                    a.size.compareTo(b.size)
+                } else {
+                    var cmp = 0
+                    for (i in a.indices) {
+                        cmp = a[i].compareTo(b[i])
+                        if (cmp != 0) break
+                    }
+                    cmp
+                }
+            }
+
+    fun <T : Comparable<T>> assertListsAnyOrder(
+        label: String,
+        expected: List<List<T>>,
+        got: List<List<T>>,
+        formatter: (List<List<T>>) -> String = { it.toString() }
+    ): Boolean {
+        val normalizedExpected = normalizeListsSizeThenLex(expected)
+        val normalizedGot = normalizeListsSizeThenLex(got)
+        val pass = normalizedExpected == normalizedGot
+
+        println(
+            "$label: ${if (pass) "PASS" else "FAIL"}" +
+                if (pass) "" else
+                    " (Expected: ${formatter(normalizedExpected)}, Got: ${formatter(normalizedGot)})"
+        )
+        return pass
+    }
 }
