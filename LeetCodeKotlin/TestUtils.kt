@@ -136,4 +136,34 @@ object TestUtils {
 
         return pass
     }
+
+    fun makeStepLabel(
+        suite: String,
+        caseIndex: Int,
+        stepIndex: Int,
+        operation: String,
+        argument: String? = null
+    ): String {
+        return buildString {
+            append(suite)
+            append(" ")
+            append(caseIndex + 1)
+            append(" #")
+            append(stepIndex + 1)
+            append(" ")
+            append(operation)
+            if (argument != null) {
+                append("(\"")
+                append(argument)
+                append("\")")
+            } else {
+                append("()")
+            }
+        }
+    }
+
+    fun assertStepExecuted(label: String): Boolean {
+        println("$label: PASS")
+        return true
+    }
 }

@@ -1441,31 +1441,26 @@ object TestsRunner {
 
     private fun testImplementTrie_208() {
         val testCases = listOf(
-            // Example 1
             TrieTestCase(
                 operations = listOf("Trie", "insert", "search", "search", "startsWith", "insert", "search"),
                 arguments = listOf(null, "apple", "apple", "app", "app", "app", "app"),
                 expectedResults = listOf(null, null, true, false, true, null, true)
             ),
-            // Example 2: Overlapping words
             TrieTestCase(
                 operations = listOf("Trie", "insert", "insert", "search", "search", "startsWith"),
                 arguments = listOf(null, "apple", "applause", "apple", "applause", "app"),
                 expectedResults = listOf(null, null, null, true, true, true)
             ),
-            // Example 3: Single-character operations
             TrieTestCase(
                 operations = listOf("Trie", "insert", "search", "startsWith", "search"),
                 arguments = listOf(null, "a", "a", "a", "b"),
                 expectedResults = listOf(null, null, true, true, false)
             ),
-            // Example 4: No matching prefix
             TrieTestCase(
                 operations = listOf("Trie", "insert", "insert", "startsWith", "startsWith", "search"),
                 arguments = listOf(null, "car", "cart", "ca", "cat", "carrot"),
                 expectedResults = listOf(null, null, null, true, false, false)
             ),
-            // Example 5: Large input set
             TrieTestCase(
                 operations = listOf("Trie", "insert", "insert", "insert", "search", "search", "startsWith"),
                 arguments = listOf(null, "dictionary", "dictionaries", "dictator", "dictionary", "dictionaries", "dict"),
@@ -1473,44 +1468,52 @@ object TestsRunner {
             )
         )
 
-        for ((_, testCase) in testCases.withIndex()) {
+        for ((caseIndex, testCase) in testCases.withIndex()) {
             var trie: Trie? = null
 
-            for (opIndex in testCase.operations.indices) {
-                val op = testCase.operations[opIndex]
-                val arg = testCase.arguments[opIndex]
-                val expected = testCase.expectedResults[opIndex]
+            for (stepIndex in testCase.operations.indices) {
+                val operation = testCase.operations[stepIndex]
+                val argument = testCase.arguments[stepIndex]
+                val expected = testCase.expectedResults[stepIndex]
 
-                when (op) {
+                val label = TestUtils.makeStepLabel(
+                    suite = "Trie 208 Test",
+                    caseIndex = caseIndex,
+                    stepIndex = stepIndex,
+                    operation = operation,
+                    argument = argument
+                )
+
+                when (operation) {
                     "Trie" -> {
                         trie = Trie()
-                        println("Operation: Trie() -> null")
+                        TestUtils.assertStepExecuted(label)
                     }
+
                     "insert" -> {
-                        trie!!.insert(arg!!)
-                        println("Operation: insert(\"$arg\") -> null")
+                        trie!!.insert(argument!!)
+                        TestUtils.assertStepExecuted(label)
                     }
+
                     "search" -> {
-                        val result = trie!!.search(arg!!)
-                        print("Operation: search(\"$arg\") -> $result")
-                        if (expected != null && result == expected) {
-                            println(" [PASS]")
-                        } else {
-                            println(" [FAIL]")
-                        }
+                        val result = trie!!.search(argument!!)
+                        TestUtils.assertEq(
+                            label = label,
+                            expected = expected!!,
+                            got = result
+                        )
                     }
+
                     "startsWith" -> {
-                        val result = trie!!.startsWith(arg!!)
-                        print("Operation: startsWith(\"$arg\") -> $result")
-                        if (expected != null && result == expected) {
-                            println(" [PASS]")
-                        } else {
-                            println(" [FAIL]")
-                        }
+                        val result = trie!!.startsWith(argument!!)
+                        TestUtils.assertEq(
+                            label = label,
+                            expected = expected!!,
+                            got = result
+                        )
                     }
                 }
             }
-            println()
         }
     }
 
