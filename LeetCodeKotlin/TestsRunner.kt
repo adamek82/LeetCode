@@ -301,14 +301,10 @@ object TestsRunner {
             val result = solution.maxProfit(testCase.prices)
             val pass = (result == testCase.expectedResult)
 
-            println(
-                "Test ${index + 1}: res = " +
-                if (pass) {
-                    "PASS"
-                } else {
-                    "FAIL"
-                } +
-                " (Expected: ${testCase.expectedResult}, Got: $result)"
+            TestUtils.assertEq(
+                label = "BestTimeToBuyAndSellStock_121 Test ${index + 1}",
+                expected = testCase.expectedResult,
+                got = result
             )
         }
     }
@@ -329,7 +325,7 @@ object TestsRunner {
             val pass = (result == testCase.expectedResult)
 
             println(
-                "Test ${index + 1}: res = " +
+                "FindIfPathExistsInGraph_1971 Test ${index + 1}: res = " +
                 if (pass) {
                     "PASS"
                 } else {
@@ -370,7 +366,7 @@ object TestsRunner {
             val resultSorting = solution.groupAnagrams_sorting(testCase.input)
             val resultCounting = solution.groupAnagrams_counting(testCase.input)
 
-            val baseLabel = "GroupAnagrams Test ${index + 1}"
+            val baseLabel = "GroupAnagrams_49 Test ${index + 1}"
 
             TestUtils.assertListsAnyOrder(
                 label = "$baseLabel (Sorting)",
@@ -410,7 +406,7 @@ object TestsRunner {
         for ((index, testCase) in testCases.withIndex()) {
             val result = solution.addBinary(testCase.a, testCase.b)
             TestUtils.assertEq(
-                label = "AddBinary Test ${index + 1}",
+                label = "AAddBinary_67 Test ${index + 1}",
                 expected = testCase.expected,
                 got = result
             )
@@ -433,7 +429,7 @@ object TestsRunner {
         for ((index, testCase) in testCases.withIndex()) {
             val result = solution.hammingWeight(testCase.n)
             TestUtils.assertEq(
-                label = "HammingWeight Test ${index + 1}",
+                label = "HammingWeight_191 Test ${index + 1}",
                 expected = testCase.expected,
                 got = result
             )
@@ -456,7 +452,7 @@ object TestsRunner {
             val pass = (result == testCase.expectedResult)
 
             println(
-                "Test ${index + 1}: res = " +
+                "UniqueNumberOfOccurrences_1207 Test ${index + 1}: res = " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expectedResult}, Got: $result)"
             )
@@ -477,7 +473,7 @@ object TestsRunner {
         for ((index, testCase) in testCases.withIndex()) {
             val result = solution.sortedSquares(testCase.input)
             TestUtils.assertIntArrayEq(
-                label = "SquaresOfSortedArray Test ${index + 1}",
+                label = "SquaresOfSortedArray_977 Test ${index + 1}",
                 expected = testCase.expected,
                 got = result
             )
@@ -683,7 +679,7 @@ object TestsRunner {
         for ((index, testCase) in testCases.withIndex()) {
             val result = solution.findMaxAverage(testCase.nums, testCase.k)
             TestUtils.assertApprox(
-                label = "MaximumAverageSubarrayI Test ${index + 1}",
+                label = "MaximumAverageSubarrayI_643 Test ${index + 1}",
                 expected = testCase.expected,
                 got = result
             )
@@ -1477,7 +1473,7 @@ object TestsRunner {
                 val expected = testCase.expectedResults[stepIndex]
 
                 val label = TestUtils.makeStepLabel(
-                    suite = "Trie 208 Test",
+                    suite = "Trie_208 Test",
                     caseIndex = caseIndex,
                     stepIndex = stepIndex,
                     operation = operation,
@@ -1714,7 +1710,7 @@ object TestsRunner {
             val result = solution.canFinish(tc.numCourses, tc.prerequisites)
             val pass = result == tc.expectedResult
             println(
-                "Test ${index + 1}: res = " +
+                "CourseSchedule_207 Test ${index + 1}: res = " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${tc.expectedResult}, Got: $result)"
             )
@@ -1844,7 +1840,7 @@ object TestsRunner {
             solution.gameOfLife(board)
 
             TestUtils.assertMatrixEq(
-                label = "Game of Life Test ${index + 1}",
+                label = "GameOfLife_289 Test ${index + 1}",
                 expected = testCase.expected,
                 got = board
             )
