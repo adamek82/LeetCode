@@ -1,100 +1,172 @@
 object TestsRunner {
     @JvmStatic
     fun main(args: Array<String>) {
+        // =========================================================================
+        // Arrays & Strings
+        // =========================================================================
+
         println("Running BestTimeToBuyAndSellStock_121 tests:")
         testBestTimeToBuyAndSellStock_121()
-        println("Running FindIfPathExistsInGraph_1971 tests:")
-        testFindIfPathExistsInGraph_1971()
-        println("Running GroupAnagrams_49 tests:")
-        testGroupAnagrams_49()
+
         println("Running AddBinary_67 tests:")
         testAddBinary_67()
+
         println("Running HammingWeight_191 tests:")
         testHammingWeight_191()
+
+        // =========================================================================
+        // Hashmaps & Sets
+        // =========================================================================
+
+        println("Running GroupAnagrams_49 tests:")
+        testGroupAnagrams_49()
+
         println("Running UniqueNumberOfOccurrences_1207 tests:")
         testUniqueNumberOfOccurrences_1207()
-        println("Running SquaresOfSortedArray_977 tests:")
-        testSquaresOfSortedArray_977()
-        println("Running MinSubArrayLen_209 tests:")
-        testMinSubArrayLen_209()
-        println("Running PermutationInString_567 tests:")
-        testPermutationInString_567()
-        println("Running LongestRepeatingCharacterReplacement_424 tests:")
-        testLongestRepeatingCharacterReplacement_424()
+
         println("Running LongestConsecutiveSequence_128 tests:")
         testLongestConsecutiveSequence_128()
+
+        // =========================================================================
+        // 2 Pointers
+        // =========================================================================
+
+        println("Running SquaresOfSortedArray_977 tests:")
+        testSquaresOfSortedArray_977()
+
+        // =========================================================================
+        // Sliding Window
+        // =========================================================================
+
+        println("Running MinSubArrayLen_209 tests:")
+        testMinSubArrayLen_209()
+
+        println("Running PermutationInString_567 tests:")
+        testPermutationInString_567()
+
+        println("Running LongestRepeatingCharacterReplacement_424 tests:")
+        testLongestRepeatingCharacterReplacement_424()
+
         println("Running MaxConsecutiveOnesIII_1004 tests:")
         testMaxConsecutiveOnesIII_1004()
-        println("Running IslandPerimeter_463 tests:")
-        testIslandPerimeter_463()
+
         println("Running MaximumAverageSubarrayI_643 tests:")
         testMaximumAverageSubarrayI_643()
+
+        // =========================================================================
+        // Trees
+        // =========================================================================
+
         println("Running InvertBinaryTree_226 tests:")
         testInvertBinaryTree_226()
+
         println("Running MaximumDepthOfBinaryTree_104 tests:")
         testMaximumDepthOfBinaryTree_104()
+
         println("Running BalancedBinaryTree_110 tests:")
         testBalancedBinaryTree_110()
+
         println("Running BinaryTreeLevelOrderTraversal_102 tests:")
         testBinaryTreeLevelOrderTraversal_102()
+
         println("Running DiameterOfBinaryTree_543 tests:")
         testDiameterOfBinaryTree_543()
+
         println("Running SameTree_100 tests:")
         testSameTree_100()
+
         println("Running SymmetricTree_101 tests:")
         testSymmetricTree_101()
+
         println("Running PathSum_112 tests:")
         testPathSum_112()
+
         println("Running SubtreeOfAnotherTree_572 tests:")
         testSubtreeOfAnotherTree_572()
+
         println("Running AverageOfLevelsInBinaryTree_637 tests:")
         testAverageOfLevelsInBinaryTree_637()
+
         println("Running KthSmallestBST_230 tests:")
         testKthSmallestBST_230()
+
         println("Running MinimumAbsoluteDifferenceInBST_530 tests:")
         testMinimumAbsoluteDifferenceInBST_530()
+
         println("Running ValidateBinarySearchTree_98 tests:")
         testValidateBinarySearchTree_98()
+
         println("Running LowestCommonAncestorOfBinarySearchTree_235 tests:")
         testLowestCommonAncestorOfBinarySearchTree_235()
+
         println("Running ImplementTrie_208 tests:")
         testImplementTrie_208()
+
+        // =========================================================================
+        // Binary Search
+        // =========================================================================
+
         println("Running SqrtX_69 tests:")
         testSqrtX_69()
+
+        // =========================================================================
+        // Recursive Backtracking
+        // =========================================================================
+
         println("Running WordSearch_79 tests:")
         testWordSearch_79()
-        println("Running JumpGameII_45 tests:")
-        testJumpGameII_45()
+
         println("Running GenerateParentheses_22 tests:")
         testGenerateParentheses_22()
+
         println("Running LetterCombinations_17 tests:")
         testLetterCombinations_17()
-        println("Running CourseSchedule_207 tests:")
-        testCourseSchedule_207()
+
         println("Running Subsets_78 tests:")
         testSubsets_78()
+
+        // =========================================================================
+        // Dynamic Programming
+        // =========================================================================
+
+        println("Running JumpGameII_45 tests:")
+        testJumpGameII_45()
+
+        // =========================================================================
+        // Graphs
+        // =========================================================================
+
+        println("Running FindIfPathExistsInGraph_1971 tests:")
+        testFindIfPathExistsInGraph_1971()
+
+        println("Running CourseSchedule_207 tests:")
+        testCourseSchedule_207()
+
         println("Running GameOfLife_289 tests:")
         testGameOfLife_289()
-        println("Running  AllOOneDataStructure_432 tests:")
+
+        println("Running IslandPerimeter_463 tests:")
+        testIslandPerimeter_463()
+
+        // =========================================================================
+        // Design
+        // =========================================================================
+
+        println("Running AllOOneDataStructure_432 tests:")
         testAllOOneDataStructure_432()
     }
+
+    // =========================================================================
+    // Test case models
+    // =========================================================================
+
+    // =========================================================================
+    // Arrays & Strings
+    // =========================================================================
 
     data class MaxProfitTestCase(
         val prices: IntArray,
         val expectedResult: Int
-    )
-
-    data class PathTestCase(
-        val n: Int,
-        val edges: Array<IntArray>,
-        val source: Int,
-        val destination: Int,
-        val expectedResult: Boolean
-    )
-
-    data class GroupAnagramsTestCase(
-        val input: Array<String>,
-        val expected: List<List<String>>
     )
 
     data class AddBinaryTestCase(
@@ -108,15 +180,37 @@ object TestsRunner {
         val expected: Int
     )
 
+    // =========================================================================
+    // Hashmaps & Sets
+    // =========================================================================
+
+    data class GroupAnagramsTestCase(
+        val input: Array<String>,
+        val expected: List<List<String>>
+    )
+
     data class UniqueOccurrencesTestCase(
         val arr: IntArray,
         val expectedResult: Boolean
     )
 
+    data class LongestConsecutiveSequenceTestCase(
+        val nums: IntArray,
+        val expected: Int
+    )
+
+    // =========================================================================
+    // 2 Pointers
+    // =========================================================================
+
     data class SquaresTestCase(
         val input: IntArray,
         val expected: IntArray
     )
+
+    // =========================================================================
+    // Sliding Window
+    // =========================================================================
 
     data class MinSubArrayLenTestCase(
         val target: Int,
@@ -136,19 +230,9 @@ object TestsRunner {
         val expected: Int
     )
 
-    data class LongestConsecutiveSequenceTestCase(
-        val nums: IntArray,
-        val expected: Int
-    )
-
     data class MaxConsecutiveOnesIIITestCase(
         val nums: IntArray,
         val k: Int,
-        val expected: Int
-    )
-
-    data class IslandPerimeterTestCase(
-        val grid: Array<IntArray>,
         val expected: Int
     )
 
@@ -157,6 +241,10 @@ object TestsRunner {
         val k: Int,
         val expected: Double
     )
+
+    // =========================================================================
+    // Trees
+    // =========================================================================
 
     data class InvertBinaryTreeTestCase(
         val inputValues: List<Int?>,
@@ -240,10 +328,18 @@ object TestsRunner {
         val expectedResults: List<Boolean?>  // null if no boolean result is expected from the operation
     )
 
+    // =========================================================================
+    // Binary Search
+    // =========================================================================
+
     data class SqrtTestCase(
         val x: Int,
         val expected: Int
     )
+
+    // =========================================================================
+    // Recursive Backtracking
+    // =========================================================================
 
     data class WordSearchTestCase(
         val board: Array<CharArray>,
@@ -251,13 +347,9 @@ object TestsRunner {
         val expected: Boolean
     )
 
-    data class JumpGameII_TestCase(
-        val nums: IntArray,
-        val expected: Int
-    )
-
     data class GenerateParenthesesTestCase(
-        val n: Int, val expected: List<String>? = null,
+        val n: Int,
+        val expected: List<String>? = null,
         val expectedCount: Int? = null
     )
 
@@ -266,21 +358,53 @@ object TestsRunner {
         val expected: List<String>
     )
 
+    data class SubsetsTestCase(
+        val nums: IntArray,
+        val expected: List<List<Int>>
+    )
+
+    // =========================================================================
+    // Dynamic Programming
+    // =========================================================================
+
+    data class JumpGameII_TestCase(
+        val nums: IntArray,
+        val expected: Int
+    )
+
+    // =========================================================================
+    // Graphs
+    // =========================================================================
+
+    data class PathTestCase(
+        val n: Int,
+        val edges: Array<IntArray>,
+        val source: Int,
+        val destination: Int,
+        val expectedResult: Boolean
+    )
+
     data class ScheduleTestCase(
         val numCourses: Int,
         val prerequisites: Array<IntArray>,
         val expectedResult: Boolean
     )
 
-    data class SubsetsTestCase(
-        val nums: IntArray,
-        val expected: List<List<Int>>
-    )
-
     data class GameOfLifeTestCase(
         val input: Array<IntArray>,
         val expected: Array<IntArray>
     )
+
+    data class IslandPerimeterTestCase(
+        val grid: Array<IntArray>,
+        val expected: Int
+    )
+
+    // =========================================================================
+    // Design
+    // =========================================================================
+
+    // No dedicated data classes yet for the current design tests.
 
     private fun testBestTimeToBuyAndSellStock_121() {
         // The same test cases we used in C++
@@ -309,32 +433,55 @@ object TestsRunner {
         }
     }
 
-    private fun testFindIfPathExistsInGraph_1971() {
+    private fun testAddBinary_67() {
         val testCases = listOf(
-            PathTestCase(3, arrayOf(intArrayOf(0, 1), intArrayOf(1, 2), intArrayOf(2, 0)), 0, 2, true),
-            PathTestCase(6, arrayOf(intArrayOf(0, 1), intArrayOf(0, 2), intArrayOf(3, 5), intArrayOf(5, 4), intArrayOf(4, 3)), 0, 5, false),
-            PathTestCase(4, arrayOf(intArrayOf(0, 1), intArrayOf(1, 2), intArrayOf(2, 3)), 0, 3, true),
-            PathTestCase(5, arrayOf(intArrayOf(0, 4), intArrayOf(4, 3), intArrayOf(3, 2), intArrayOf(2, 1)), 0, 1, true),
-            PathTestCase(4, arrayOf(intArrayOf(0, 1), intArrayOf(1, 2)), 0, 3, false)
+            // From the LeetCode examples
+            AddBinaryTestCase("11", "1", "100"),
+            AddBinaryTestCase("1010", "1011", "10101"),
+            // Three additional, more complex tests
+            AddBinaryTestCase("0", "0", "0"),
+            AddBinaryTestCase("1111", "1111", "11110"),
+            AddBinaryTestCase("100000", "1", "100001")
         )
 
-        val solution = FindIfPathExistsInGraph_1971()
+        val solution = AddBinary_67()
 
         for ((index, testCase) in testCases.withIndex()) {
-            val result = solution.validPath(testCase.n, testCase.edges, testCase.source, testCase.destination)
-            val pass = (result == testCase.expectedResult)
-
-            println(
-                "FindIfPathExistsInGraph_1971 Test ${index + 1}: res = " +
-                if (pass) {
-                    "PASS"
-                } else {
-                    "FAIL"
-                } +
-                " (Expected: ${testCase.expectedResult}, Got: $result)"
+            val result = solution.addBinary(testCase.a, testCase.b)
+            TestUtils.assertEq(
+                label = "AddBinary_67 Test ${index + 1}",
+                expected = testCase.expected,
+                got = result
             )
         }
     }
+
+    private fun testHammingWeight_191() {
+        val testCases = listOf(
+            // Provided examples
+            HammingWeightTestCase(0xB, 3),             // was 11
+            HammingWeightTestCase(0x80, 1),            // was 128
+            HammingWeightTestCase(0x7FFFFFFD, 30),     // was 2147483645
+            // Two additional complicated ones
+            HammingWeightTestCase(0x7FFFFFFF, 31),     // was 2147483647
+            HammingWeightTestCase(0x55555555, 16)      // was 1431655765
+        )
+
+        val solution = NumberOf1Bits_191()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.hammingWeight(testCase.n)
+            TestUtils.assertEq(
+                label = "HammingWeight_191 Test ${index + 1}",
+                expected = testCase.expected,
+                got = result
+            )
+        }
+    }
+
+    // =========================================================================
+    // Hashmaps & Sets
+    // =========================================================================
 
     private fun testGroupAnagrams_49() {
         val testCases = listOf(
@@ -390,52 +537,6 @@ object TestsRunner {
         }
     }
 
-    private fun testAddBinary_67() {
-        val testCases = listOf(
-            // From the LeetCode examples
-            AddBinaryTestCase("11", "1", "100"),
-            AddBinaryTestCase("1010", "1011", "10101"),
-            // Three additional, more complex tests
-            AddBinaryTestCase("0", "0", "0"),
-            AddBinaryTestCase("1111", "1111", "11110"),
-            AddBinaryTestCase("100000", "1", "100001")
-        )
-
-        val solution = AddBinary_67()
-
-        for ((index, testCase) in testCases.withIndex()) {
-            val result = solution.addBinary(testCase.a, testCase.b)
-            TestUtils.assertEq(
-                label = "AAddBinary_67 Test ${index + 1}",
-                expected = testCase.expected,
-                got = result
-            )
-        }
-    }
-
-    private fun testHammingWeight_191() {
-        val testCases = listOf(
-            // Provided examples
-            HammingWeightTestCase(0xB, 3),             // was 11
-            HammingWeightTestCase(0x80, 1),            // was 128
-            HammingWeightTestCase(0x7FFFFFFD, 30),     // was 2147483645
-            // Two additional complicated ones
-            HammingWeightTestCase(0x7FFFFFFF, 31),     // was 2147483647
-            HammingWeightTestCase(0x55555555, 16)      // was 1431655765
-        )
-
-        val solution = NumberOf1Bits_191()
-
-        for ((index, testCase) in testCases.withIndex()) {
-            val result = solution.hammingWeight(testCase.n)
-            TestUtils.assertEq(
-                label = "HammingWeight_191 Test ${index + 1}",
-                expected = testCase.expected,
-                got = result
-            )
-        }
-    }
-
     private fun testUniqueNumberOfOccurrences_1207() {
         val testCases = listOf(
             UniqueOccurrencesTestCase(intArrayOf(1, 2, 2, 1, 1, 3), true),
@@ -459,6 +560,36 @@ object TestsRunner {
         }
     }
 
+    private fun testLongestConsecutiveSequence_128() {
+        val testCases = listOf(
+            // 3 examples from the problem statement:
+            LongestConsecutiveSequenceTestCase(intArrayOf(100, 4, 200, 1, 3, 2), 4),
+            LongestConsecutiveSequenceTestCase(intArrayOf(0, 3, 7, 2, 5, 8, 4, 6, 0, 1), 9),
+            LongestConsecutiveSequenceTestCase(intArrayOf(1, 0, 1, 2), 3),
+
+            // 2 additional, more complex tests:
+            LongestConsecutiveSequenceTestCase(intArrayOf(-1, 0, 1, 2, 3, 7, 8, 10, 11, 12), 5),
+            LongestConsecutiveSequenceTestCase(intArrayOf(-10, -9, -8, -100, 200, 205, 203, 202, 204, 201), 6)
+        )
+
+        val solution = LongestConsecutiveSequence_128()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.longestConsecutive(testCase.nums)
+            val pass = (result == testCase.expected)
+
+            println(
+                "LongestConsecutiveSequence_128 Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+
+    // =========================================================================
+    // 2 Pointers
+    // =========================================================================
+
     private fun testSquaresOfSortedArray_977() {
         val testCases = listOf(
             SquaresTestCase(intArrayOf(-4, -1, 0, 3, 10), intArrayOf(0, 1, 9, 16, 100)),
@@ -479,6 +610,10 @@ object TestsRunner {
             )
         }
     }
+
+    // =========================================================================
+    // Sliding Window
+    // =========================================================================
 
     private fun testMinSubArrayLen_209() {
         val testCases = listOf(
@@ -554,32 +689,6 @@ object TestsRunner {
         }
     }
 
-    private fun testLongestConsecutiveSequence_128() {
-        val testCases = listOf(
-            // 3 examples from the problem statement:
-            LongestConsecutiveSequenceTestCase(intArrayOf(100, 4, 200, 1, 3, 2), 4),
-            LongestConsecutiveSequenceTestCase(intArrayOf(0, 3, 7, 2, 5, 8, 4, 6, 0, 1), 9),
-            LongestConsecutiveSequenceTestCase(intArrayOf(1, 0, 1, 2), 3),
-
-            // 2 additional, more complex tests:
-            LongestConsecutiveSequenceTestCase(intArrayOf(-1, 0, 1, 2, 3, 7, 8, 10, 11, 12), 5),
-            LongestConsecutiveSequenceTestCase(intArrayOf(-10, -9, -8, -100, 200, 205, 203, 202, 204, 201), 6)
-        )
-
-        val solution = LongestConsecutiveSequence_128()
-
-        for ((index, testCase) in testCases.withIndex()) {
-            val result = solution.longestConsecutive(testCase.nums)
-            val pass = (result == testCase.expected)
-
-            println(
-                "LongestConsecutiveSequence Test ${index + 1}: " +
-                if (pass) "PASS" else "FAIL" +
-                " (Expected: ${testCase.expected}, Got: $result)"
-            )
-        }
-    }
-
     private fun testMaxConsecutiveOnesIII_1004() {
         val testCases = listOf(
             // 2 examples from the problem statement:
@@ -599,62 +708,6 @@ object TestsRunner {
             val pass = (result == testCase.expected)
             println(
                 "MaxConsecutiveOnesIII Test ${index + 1}: " +
-                if (pass) "PASS" else "FAIL" +
-                " (Expected: ${testCase.expected}, Got: $result)"
-            )
-        }
-    }
-
-    private fun testIslandPerimeter_463() {
-        val testCases = listOf(
-            // Example 1
-            IslandPerimeterTestCase(
-                arrayOf(
-                    intArrayOf(0, 1, 0, 0),
-                    intArrayOf(1, 1, 1, 0),
-                    intArrayOf(0, 1, 0, 0),
-                    intArrayOf(1, 1, 0, 0)
-                ),
-                16
-            ),
-            // Example 2
-            IslandPerimeterTestCase(
-                arrayOf(intArrayOf(1)),
-                4
-            ),
-            // Example 3
-            IslandPerimeterTestCase(
-                arrayOf(intArrayOf(1, 0)),
-                4
-            ),
-            // Additional complex example 1
-            IslandPerimeterTestCase(
-                arrayOf(
-                    intArrayOf(1, 1, 1, 0),
-                    intArrayOf(1, 1, 0, 0),
-                    intArrayOf(1, 0, 0, 0)
-                ),
-                12
-            ),
-            // Additional complex example 2
-            IslandPerimeterTestCase(
-                arrayOf(
-                    intArrayOf(0, 0, 0, 0, 0),
-                    intArrayOf(0, 1, 1, 1, 0),
-                    intArrayOf(0, 1, 1, 1, 0),
-                    intArrayOf(0, 0, 1, 0, 0),
-                    intArrayOf(0, 0, 0, 0, 0)
-                ),
-                12
-            )
-        )
-
-        val solution = IslandPerimeter_463()
-        for ((index, testCase) in testCases.withIndex()) {
-            val result = solution.islandPerimeter(testCase.grid)
-            val pass = (result == testCase.expected)
-            println(
-                "IslandPerimeter Test ${index + 1}: " +
                 if (pass) "PASS" else "FAIL" +
                 " (Expected: ${testCase.expected}, Got: $result)"
             )
@@ -685,6 +738,10 @@ object TestsRunner {
             )
         }
     }
+
+    // =========================================================================
+    // Trees
+    // =========================================================================
 
     private fun testInvertBinaryTree_226() {
         val solution = InvertBinaryTree_226()
@@ -1513,6 +1570,10 @@ object TestsRunner {
         }
     }
 
+    // =========================================================================
+    // Binary Search
+    // =========================================================================
+
     private fun testSqrtX_69() {
         val testCases = listOf(
             SqrtTestCase(4, 2),             // Example 1
@@ -1532,6 +1593,10 @@ object TestsRunner {
             )
         }
     }
+
+    // =========================================================================
+    // Recursive Backtracking
+    // =========================================================================
 
     private fun testWordSearch_79() {
         val testCases = listOf(
@@ -1597,29 +1662,6 @@ object TestsRunner {
             println("WordSearch_79 Test ${index + 1}: " +
                     if (pass) "PASS" else "FAIL" +
                     " (Word: \"${testCase.word}\", Expected: ${testCase.expected}, Got: $result)")
-        }
-    }
-
-    private fun testJumpGameII_45() {
-        val testCases = listOf(
-            // Test cases from the problem statement:
-            JumpGameII_TestCase(intArrayOf(2, 3, 1, 1, 4), 2),
-            JumpGameII_TestCase(intArrayOf(2, 3, 0, 1, 4), 2),
-            // Additional, more complex test cases:
-            // A chain of ones, where each step only advances one index.
-            JumpGameII_TestCase(IntArray(10) { 1 }, 9),
-            // A case with varying jump lengths requiring non-obvious choices.
-            JumpGameII_TestCase(intArrayOf(3, 4, 2, 1, 2, 3, 7, 1, 1, 1, 3), 4),
-            // A case mixing larger and smaller jump values.
-            JumpGameII_TestCase(intArrayOf(4, 1, 1, 3, 2, 1, 1, 1, 9, 0, 2, 3), 5)
-        )
-        val solution = JumpGameII_45()
-        for ((index, testCase) in testCases.withIndex()) {
-            val result = solution.jump(testCase.nums)
-            val pass = (result == testCase.expected)
-            println("JumpGameII_45 Test ${index + 1}: " +
-                if (pass) "PASS" else "FAIL" +
-                " (Expected: ${testCase.expected}, Got: $result)")
         }
     }
 
@@ -1696,27 +1738,6 @@ object TestsRunner {
         }
     }
 
-    private fun testCourseSchedule_207() {
-        val testCases = listOf(
-            ScheduleTestCase(2, arrayOf(intArrayOf(1, 0)), true),
-            ScheduleTestCase(2, arrayOf(intArrayOf(1, 0), intArrayOf(0, 1)), false),
-            ScheduleTestCase(5, arrayOf(intArrayOf(0, 1), intArrayOf(2, 3), intArrayOf(3, 4), intArrayOf(2, 1)), true),
-            ScheduleTestCase(5, arrayOf(intArrayOf(0, 1), intArrayOf(2, 3), intArrayOf(3, 4), intArrayOf(2, 1), intArrayOf(4, 2)), false)
-        )
-
-        val solution = CourseSchedule_207()
-
-        for ((index, tc) in testCases.withIndex()) {
-            val result = solution.canFinish(tc.numCourses, tc.prerequisites)
-            val pass = result == tc.expectedResult
-            println(
-                "CourseSchedule_207 Test ${index + 1}: res = " +
-                if (pass) "PASS" else "FAIL" +
-                " (Expected: ${tc.expectedResult}, Got: $result)"
-            )
-        }
-    }
-
     private fun testSubsets_78() {
         val testCases =
             listOf(
@@ -1754,6 +1775,85 @@ object TestsRunner {
                 expected = tc.expected,
                 got = result,
                 formatter = { TestUtils.prettyNestedLists(it) }
+            )
+        }
+    }
+
+    // =========================================================================
+    // Dynamic Programming
+    // =========================================================================
+
+    private fun testJumpGameII_45() {
+        val testCases = listOf(
+            // Test cases from the problem statement:
+            JumpGameII_TestCase(intArrayOf(2, 3, 1, 1, 4), 2),
+            JumpGameII_TestCase(intArrayOf(2, 3, 0, 1, 4), 2),
+            // Additional, more complex test cases:
+            // A chain of ones, where each step only advances one index.
+            JumpGameII_TestCase(IntArray(10) { 1 }, 9),
+            // A case with varying jump lengths requiring non-obvious choices.
+            JumpGameII_TestCase(intArrayOf(3, 4, 2, 1, 2, 3, 7, 1, 1, 1, 3), 4),
+            // A case mixing larger and smaller jump values.
+            JumpGameII_TestCase(intArrayOf(4, 1, 1, 3, 2, 1, 1, 1, 9, 0, 2, 3), 5)
+        )
+        val solution = JumpGameII_45()
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.jump(testCase.nums)
+            val pass = (result == testCase.expected)
+            println("JumpGameII_45 Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: $result)")
+        }
+    }
+
+    // =========================================================================
+    // Graphs
+    // =========================================================================
+
+    private fun testFindIfPathExistsInGraph_1971() {
+        val testCases = listOf(
+            PathTestCase(3, arrayOf(intArrayOf(0, 1), intArrayOf(1, 2), intArrayOf(2, 0)), 0, 2, true),
+            PathTestCase(6, arrayOf(intArrayOf(0, 1), intArrayOf(0, 2), intArrayOf(3, 5), intArrayOf(5, 4), intArrayOf(4, 3)), 0, 5, false),
+            PathTestCase(4, arrayOf(intArrayOf(0, 1), intArrayOf(1, 2), intArrayOf(2, 3)), 0, 3, true),
+            PathTestCase(5, arrayOf(intArrayOf(0, 4), intArrayOf(4, 3), intArrayOf(3, 2), intArrayOf(2, 1)), 0, 1, true),
+            PathTestCase(4, arrayOf(intArrayOf(0, 1), intArrayOf(1, 2)), 0, 3, false)
+        )
+
+        val solution = FindIfPathExistsInGraph_1971()
+
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.validPath(testCase.n, testCase.edges, testCase.source, testCase.destination)
+            val pass = (result == testCase.expectedResult)
+
+            println(
+                "FindIfPathExistsInGraph_1971 Test ${index + 1}: res = " +
+                if (pass) {
+                    "PASS"
+                } else {
+                    "FAIL"
+                } +
+                " (Expected: ${testCase.expectedResult}, Got: $result)"
+            )
+        }
+    }
+
+    private fun testCourseSchedule_207() {
+        val testCases = listOf(
+            ScheduleTestCase(2, arrayOf(intArrayOf(1, 0)), true),
+            ScheduleTestCase(2, arrayOf(intArrayOf(1, 0), intArrayOf(0, 1)), false),
+            ScheduleTestCase(5, arrayOf(intArrayOf(0, 1), intArrayOf(2, 3), intArrayOf(3, 4), intArrayOf(2, 1)), true),
+            ScheduleTestCase(5, arrayOf(intArrayOf(0, 1), intArrayOf(2, 3), intArrayOf(3, 4), intArrayOf(2, 1), intArrayOf(4, 2)), false)
+        )
+
+        val solution = CourseSchedule_207()
+
+        for ((index, tc) in testCases.withIndex()) {
+            val result = solution.canFinish(tc.numCourses, tc.prerequisites)
+            val pass = result == tc.expectedResult
+            println(
+                "CourseSchedule_207 Test ${index + 1}: res = " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${tc.expectedResult}, Got: $result)"
             )
         }
     }
@@ -1846,6 +1946,66 @@ object TestsRunner {
             )
         }
     }
+
+    private fun testIslandPerimeter_463() {
+        val testCases = listOf(
+            // Example 1
+            IslandPerimeterTestCase(
+                arrayOf(
+                    intArrayOf(0, 1, 0, 0),
+                    intArrayOf(1, 1, 1, 0),
+                    intArrayOf(0, 1, 0, 0),
+                    intArrayOf(1, 1, 0, 0)
+                ),
+                16
+            ),
+            // Example 2
+            IslandPerimeterTestCase(
+                arrayOf(intArrayOf(1)),
+                4
+            ),
+            // Example 3
+            IslandPerimeterTestCase(
+                arrayOf(intArrayOf(1, 0)),
+                4
+            ),
+            // Additional complex example 1
+            IslandPerimeterTestCase(
+                arrayOf(
+                    intArrayOf(1, 1, 1, 0),
+                    intArrayOf(1, 1, 0, 0),
+                    intArrayOf(1, 0, 0, 0)
+                ),
+                12
+            ),
+            // Additional complex example 2
+            IslandPerimeterTestCase(
+                arrayOf(
+                    intArrayOf(0, 0, 0, 0, 0),
+                    intArrayOf(0, 1, 1, 1, 0),
+                    intArrayOf(0, 1, 1, 1, 0),
+                    intArrayOf(0, 0, 1, 0, 0),
+                    intArrayOf(0, 0, 0, 0, 0)
+                ),
+                12
+            )
+        )
+
+        val solution = IslandPerimeter_463()
+        for ((index, testCase) in testCases.withIndex()) {
+            val result = solution.islandPerimeter(testCase.grid)
+            val pass = (result == testCase.expected)
+            println(
+                "IslandPerimeter_463 Test ${index + 1}: " +
+                if (pass) "PASS" else "FAIL" +
+                " (Expected: ${testCase.expected}, Got: $result)"
+            )
+        }
+    }
+
+    // =========================================================================
+    // Design
+    // =========================================================================
 
     private fun testAllOOneDataStructure_432() {
         // Test 1: basic
