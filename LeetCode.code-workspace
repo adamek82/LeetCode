@@ -17,12 +17,33 @@
 		},
 		{
 			"path": "LeetCodeC"
-		}
+		},
 		{
 			"path": "LeetCodeSql"
 		}
 	],
 	"settings": {
+		"java.import.exclusions": [
+			"**/LeetCodeCpp/**",
+			"**/LeetCodeC/**",
+			"**/LeetCodeJS/**",
+			"**/LeetCodePy/**",
+			"**/LeetCodeSql/**",
+			"**/.gradle/**",
+			"**/build/**",
+			"**/out/**"
+		],
+		"files.watcherExclude": {
+			"**/.git/objects/**": true,
+			"**/.gradle/**": true,
+			"**/build/**": true,
+			"**/out/**": true
+		},
+		"search.exclude": {
+			"**/.gradle/**": true,
+			"**/build/**": true,
+			"**/out/**": true
+		},
 		"files.associations": {
 			"atomic": "cpp",
 			"bit": "cpp",
