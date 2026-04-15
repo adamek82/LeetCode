@@ -423,7 +423,6 @@ object TestsRunner {
 
         for ((index, testCase) in testCases.withIndex()) {
             val result = solution.maxProfit(testCase.prices)
-            val pass = (result == testCase.expectedResult)
 
             TestUtils.assertEq(
                 label = "BestTimeToBuyAndSellStock_121 Test ${index + 1}",
