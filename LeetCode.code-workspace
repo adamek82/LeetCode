@@ -110,6 +110,7 @@
 			"sstream": "cpp",
 			"string": "cpp",
 			"iomanip": "cpp"
-		}
+		},
+		"java.debug.settings.onBuildFailureProceed": true
 	}
 }
