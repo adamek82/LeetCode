@@ -10,6 +10,8 @@ public final class TestUtils {
         public TestFailure(String msg) { super(msg); }
     }
 
+    private record CaseResult(boolean ok, String expectedText, String gotText) {}
+
     public static void assertTrue(boolean cond, String msg) {
         if (!cond) throw new TestFailure(msg);
     }
@@ -52,27 +54,16 @@ public final class TestUtils {
         BiPredicate<R, R> eq,
         Function<R, String> fmt
     ) {
-        System.out.println("Running " + suiteName + " tests:");
-        int pass = 0;
-
-        for (int i = 0; i < cases.size(); i++) {
-            TC tc = cases.get(i);
-            try {
+        runCasesInternal(
+            suiteName,
+            cases,
+            tc -> {
                 R got = actual.apply(tc);
                 R exp = expected.apply(tc);
                 boolean ok = eq.test(got, exp);
-                System.out.println("  Test " + (i + 1) + ": res = " + (ok ? "PASS" : "FAIL") +
-                    " (Expected: " + fmt.apply(exp) + ", Got: " + fmt.apply(got) + ")");
-                if (ok) pass++;
-            } catch (TestFailure tf) {
-                System.out.println("  Test " + (i + 1) + ": res = FAIL (" + tf.getMessage() + ")");
-            } catch (Exception e) {
-                System.out.println("  Test " + (i + 1) + ": res = ERROR (" + e + ")");
+                return new CaseResult(ok, fmt.apply(exp), fmt.apply(got));
             }
-        }
-
-        System.out.println("  => " + pass + "/" + cases.size() + " PASS");
-        System.out.println();
+        );
     }
 
     public static <TC, R> void runCases(
@@ -83,22 +74,37 @@ public final class TestUtils {
         Function<TC, String> expectedDescription,
         Function<R, String> actualFormatter
     ) {
+        runCasesInternal(
+            suiteName,
+            cases,
+            tc -> {
+                R got = actual.apply(tc);
+                boolean ok = validator.test(tc, got);
+                return new CaseResult(ok, expectedDescription.apply(tc), actualFormatter.apply(got));
+            }
+        );
+    }
+
+    private static <TC> void runCasesInternal(
+        String suiteName,
+        List<TC> cases,
+        Function<TC, CaseResult> evaluator
+    ) {
         System.out.println("Running " + suiteName + " tests:");
         int pass = 0;
 
         for (int i = 0; i < cases.size(); i++) {
             TC tc = cases.get(i);
             try {
-                R got = actual.apply(tc);
-                boolean ok = validator.test(tc, got);
+                CaseResult result = evaluator.apply(tc);
 
                 System.out.println(
-                    "  Test " + (i + 1) + ": res = " + (ok ? "PASS" : "FAIL") +
-                    " (Expected: " + expectedDescription.apply(tc) +
-                    ", Got: " + actualFormatter.apply(got) + ")"
+                    "  Test " + (i + 1) + ": res = " + (result.ok() ? "PASS" : "FAIL") +
+                    " (Expected: " + result.expectedText() +
+                    ", Got: " + result.gotText() + ")"
                 );
 
-                if (ok) pass++;
+                if (result.ok()) pass++;
             } catch (TestFailure tf) {
                 System.out.println("  Test " + (i + 1) + ": res = FAIL (" + tf.getMessage() + ")");
             } catch (Exception e) {
