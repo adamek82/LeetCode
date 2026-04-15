@@ -24,25 +24,35 @@
 	],
 	"settings": {
 		"java.import.exclusions": [
+			"LeetCodeCpp/**",
+			"LeetCodeC/**",
+			"LeetCodeJS/**",
+			"LeetCodePy/**",
+			"LeetCodeSql/**",
+			"LeetCodeKotlin/**",
 			"**/LeetCodeCpp/**",
 			"**/LeetCodeC/**",
 			"**/LeetCodeJS/**",
 			"**/LeetCodePy/**",
 			"**/LeetCodeSql/**",
+			"**/LeetCodeKotlin/**",
 			"**/.gradle/**",
 			"**/build/**",
-			"**/out/**"
+			"**/out/**",
+			"**/bin/**"
 		],
 		"files.watcherExclude": {
 			"**/.git/objects/**": true,
 			"**/.gradle/**": true,
 			"**/build/**": true,
-			"**/out/**": true
+			"**/out/**": true,
+			"**/bin/**": true
 		},
 		"search.exclude": {
 			"**/.gradle/**": true,
 			"**/build/**": true,
-			"**/out/**": true
+			"**/out/**": true,
+			"**/bin/**": true
 		},
 		"files.associations": {
 			"atomic": "cpp",
@@ -111,6 +121,7 @@
 			"string": "cpp",
 			"iomanip": "cpp"
 		},
-		"java.debug.settings.onBuildFailureProceed": true
+		"java.debug.settings.onBuildFailureProceed": true,
+		"java.configuration.updateBuildConfiguration": "automatic"
 	}
 }
