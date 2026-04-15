@@ -75,6 +75,41 @@ public final class TestUtils {
         System.out.println();
     }
 
+    public static <TC, R> void runCases(
+        String suiteName,
+        List<TC> cases,
+        Function<TC, R> actual,
+        BiPredicate<TC, R> validator,
+        Function<TC, String> expectedDescription,
+        Function<R, String> actualFormatter
+    ) {
+        System.out.println("Running " + suiteName + " tests:");
+        int pass = 0;
+
+        for (int i = 0; i < cases.size(); i++) {
+            TC tc = cases.get(i);
+            try {
+                R got = actual.apply(tc);
+                boolean ok = validator.test(tc, got);
+
+                System.out.println(
+                    "  Test " + (i + 1) + ": res = " + (ok ? "PASS" : "FAIL") +
+                    " (Expected: " + expectedDescription.apply(tc) +
+                    ", Got: " + actualFormatter.apply(got) + ")"
+                );
+
+                if (ok) pass++;
+            } catch (TestFailure tf) {
+                System.out.println("  Test " + (i + 1) + ": res = FAIL (" + tf.getMessage() + ")");
+            } catch (Exception e) {
+                System.out.println("  Test " + (i + 1) + ": res = ERROR (" + e + ")");
+            }
+        }
+
+        System.out.println("  => " + pass + "/" + cases.size() + " PASS");
+        System.out.println();
+    }
+
     public static String fmt(int[] a) {
         if (a == null) return "null";
         StringBuilder sb = new StringBuilder();

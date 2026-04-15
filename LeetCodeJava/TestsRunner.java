@@ -130,23 +130,16 @@ public class TestsRunner {
             new TestCases.CourseScheduleII_210_Case(5, new int[][]{{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 0}}, new int[]{})
         );
 
-        System.out.println("Running CourseScheduleII_210 tests:");
-        int pass = 0;
-
-        for (int i = 0; i < cases.size(); i++) {
-            var tc = cases.get(i);
-
-            int[] order = sol.findOrder(tc.numCourses(), tc.prerequisites());
-            boolean ok = tc.expectCycle()
-                ? (order != null && order.length == 0)
-                : TestCases.isValidTopologicalOrder(order, tc.numCourses(), tc.prerequisites());
-
-            System.out.println("  Test " + (i + 1) + ": res = " + (ok ? "PASS" : "FAIL"));
-            if (ok) pass++;
-        }
-
-        System.out.println("  => " + pass + "/" + cases.size() + " PASS");
-        System.out.println();
+        TestUtils.runCases(
+            "CourseScheduleII_210",
+            cases,
+            tc -> sol.findOrder(tc.numCourses(), tc.prerequisites()),
+            (tc, got) -> tc.expectCycle()
+                ? (got != null && got.length == 0)
+                : TestCases.isValidTopologicalOrder(got, tc.numCourses(), tc.prerequisites()),
+            tc -> tc.expectCycle() ? "[]" : "any valid topological order",
+            TestUtils::fmt
+        );
     }
 
     private static void networkDelayTime_743_tests() {
