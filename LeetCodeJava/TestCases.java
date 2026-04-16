@@ -1,8 +1,11 @@
 public final class TestCases {
     private TestCases() {}
 
-    // 207. Course Schedule
-    public record CourseSchedule_207_Case(int numCourses, int[][] prerequisites, boolean expected) {}
+    // =========================================================================
+    // Graphs
+    // =========================================================================
+
+    // Basic graph / grid traversal for reachability and connected components
 
     // 1971. Find if Path Exists in Graph
     public record FindIfPathExistsInGraph_1971_Case(int n, int[][] edges, int source, int destination, boolean expected) {}
@@ -13,14 +16,10 @@ public final class TestCases {
     // 695. Max Area of Island
     public record MaxAreaOfIsland_695_Case(int[][] grid, int expected) {}
 
-    // 743. Network Delay Time
-    public record NetworkDelayTime_743_Case(int[][] times, int n, int k, int expected) {}
+    // Directed-graph reasoning with topological order and cycle detection
 
-    // 1584. Min Cost to Connect All Points
-    public record MinCostToConnectAllPoints_1584_Case(int[][] points, int expected) {}
-
-    // 300. Longest Increasing Subsequence
-    public record LongestIncreasingSubsequence_300_Case(int[] nums, int expected) {}
+    // 207. Course Schedule
+    public record CourseSchedule_207_Case(int numCourses, int[][] prerequisites, boolean expected) {}
 
     // 210. Course Schedule II
     public record CourseScheduleII_210_Case(int numCourses, int[][] prerequisites, int[] expectedOrderOrEmpty) {
@@ -49,4 +48,21 @@ public final class TestCases {
         }
         return true;
     }
+
+    // Weighted graph algorithms: shortest paths and minimum spanning tree
+
+    // 743. Network Delay Time
+    public record NetworkDelayTime_743_Case(int[][] times, int n, int k, int expected) {}
+
+    // 1584. Min Cost to Connect All Points
+    public record MinCostToConnectAllPoints_1584_Case(int[][] points, int expected) {}
+
+    // =========================================================================
+    // Dynamic Programming
+    // =========================================================================
+
+    // Sequence DP on increasing structure and string matching
+
+    // 300. Longest Increasing Subsequence
+    public record LongestIncreasingSubsequence_300_Case(int[] nums, int expected) {}
 }

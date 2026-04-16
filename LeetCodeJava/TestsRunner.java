@@ -2,23 +2,11 @@ import java.util.List;
 
 public class TestsRunner {
 
-    private static void courseSchedule_207_tests() {
-        CourseSchedule_207 sol = new CourseSchedule_207();
+    // =========================================================================
+    // Graphs
+    // =========================================================================
 
-        var cases = List.of(
-            new TestCases.CourseSchedule_207_Case(2, new int[][]{{1, 0}}, true),
-            new TestCases.CourseSchedule_207_Case(2, new int[][]{{1, 0}, {0, 1}}, false),
-            new TestCases.CourseSchedule_207_Case(5, new int[][]{{0, 1}, {2, 3}, {3, 4}, {2, 1}}, true),
-            new TestCases.CourseSchedule_207_Case(5, new int[][]{{0, 1}, {2, 3}, {3, 4}, {2, 1}, {4, 2}}, false)
-        );
-
-        TestUtils.runCases(
-            "CourseSchedule_207",
-            cases,
-            tc -> sol.canFinish(tc.numCourses(), tc.prerequisites()),
-            TestCases.CourseSchedule_207_Case::expected
-        );
-    }
+    // Basic graph / grid traversal for reachability and connected components
 
     private static void findIfPathExistsInGraph_1971_tests() {
         FindIfPathExistsInGraph_1971 sol = new FindIfPathExistsInGraph_1971();
@@ -119,6 +107,26 @@ public class TestsRunner {
         );
     }
 
+    // Directed-graph reasoning with topological order and cycle detection
+
+    private static void courseSchedule_207_tests() {
+        CourseSchedule_207 sol = new CourseSchedule_207();
+
+        var cases = List.of(
+            new TestCases.CourseSchedule_207_Case(2, new int[][]{{1, 0}}, true),
+            new TestCases.CourseSchedule_207_Case(2, new int[][]{{1, 0}, {0, 1}}, false),
+            new TestCases.CourseSchedule_207_Case(5, new int[][]{{0, 1}, {2, 3}, {3, 4}, {2, 1}}, true),
+            new TestCases.CourseSchedule_207_Case(5, new int[][]{{0, 1}, {2, 3}, {3, 4}, {2, 1}, {4, 2}}, false)
+        );
+
+        TestUtils.runCases(
+            "CourseSchedule_207",
+            cases,
+            tc -> sol.canFinish(tc.numCourses(), tc.prerequisites()),
+            TestCases.CourseSchedule_207_Case::expected
+        );
+    }
+
     private static void courseScheduleII_210_tests() {
         CourseScheduleII_210 sol = new CourseScheduleII_210();
 
@@ -141,6 +149,8 @@ public class TestsRunner {
             TestUtils::fmt
         );
     }
+
+    // Weighted graph algorithms: shortest paths and minimum spanning tree
 
     private static void networkDelayTime_743_tests() {
         NetworkDelayTime_743 sol = new NetworkDelayTime_743();
@@ -180,6 +190,12 @@ public class TestsRunner {
         );
     }
 
+    // =========================================================================
+    // Dynamic Programming
+    // =========================================================================
+
+    // Sequence DP on increasing structure and string matching
+
     private static void longestIncreasingSubsequence_300_tests() {
         LongestIncreasingSubsequence_300 sol = new LongestIncreasingSubsequence_300();
 
@@ -202,13 +218,28 @@ public class TestsRunner {
     public static void main(String[] args) {
         System.out.println("Running LeetCodeJava tests:\n");
 
-        courseSchedule_207_tests();
+        // =========================================================================
+        // Graphs
+        // =========================================================================
+
+        // Basic graph / grid traversal for reachability and connected components
         findIfPathExistsInGraph_1971_tests();
         numberOfIslands_200_tests();
         maxAreaOfIsland_695_tests();
+
+        // Directed-graph reasoning with topological order and cycle detection
+        courseSchedule_207_tests();
         courseScheduleII_210_tests();
+
+        // Weighted graph algorithms: shortest paths and minimum spanning tree
         networkDelayTime_743_tests();
         minCostToConnectAllPoints_1584_tests();
+
+        // =========================================================================
+        // Dynamic Programming
+        // =========================================================================
+
+        // Sequence DP on increasing structure and string matching
         longestIncreasingSubsequence_300_tests();
     }
 }
