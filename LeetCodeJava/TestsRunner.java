@@ -208,9 +208,16 @@ public class TestsRunner {
         );
 
         TestUtils.runCases(
-            "LongestIncreasingSubsequence_300",
+            "LongestIncreasingSubsequence_300 - custom lower_bound",
             cases,
-            tc -> sol.lengthOfLIS(tc.nums()),
+            tc -> sol.lengthOfLIS_customLowerBound(tc.nums()),
+            TestCases.LongestIncreasingSubsequence_300_Case::expected
+        );
+
+        TestUtils.runCases(
+            "LongestIncreasingSubsequence_300 - Arrays.binarySearch",
+            cases,
+            tc -> sol.lengthOfLIS_arraysBinarySearch(tc.nums()),
             TestCases.LongestIncreasingSubsequence_300_Case::expected
         );
     }
