@@ -26,12 +26,24 @@
  *
  * Terminology:
  *  - A vertex is "discovered" if dist[u] < INF.
- *  - A vertex is "settled" when it is popped from pq with d == dist[u] and its
- *    outgoing edges are processed.
+ *
  *  - A heap entry (d, u) is "stale" if d > dist[u]. It corresponds to an older
  *    path to u that has already been improved.
  *
- * Loop invariants (at the top of each while-iteration):
+ *  - A heap entry (d, u) is "current" if d == dist[u], meaning that its key
+ *    matches the best distance to u currently stored in dist[u].
+ *
+ *  - A vertex becomes "settled" when its current heap entry is popped from pq.
+ *    At that moment, dist[u] is already the final shortest-path distance to u.
+ *    Immediately after that, the algorithm processes u's outgoing edges.
+ *
+ *    Important: in the induction step below, we reason about the state just
+ *    before (d, u) is popped from pq. At that point u is not settled yet. The
+ *    proof shows that after popping this current entry, it is safe to mark u as
+ *    settled.
+ *
+ * Loop invariants, maintained at the top of each while-iteration, before the
+ * next heap entry is popped:
  *
  *  1) For every settled vertex x, dist[x] is the true shortest-path distance
  *     from k to x, usually denoted δ(x).
@@ -49,45 +61,79 @@
  *
  * Basis:
  *  Initially, dist[k] = 0 and pq contains only (0, k). This represents the empty
- *  path from k to itself. No vertex has been settled yet, and all undiscovered
- *  vertices have distance INF.
+ *  path from k to itself. No vertex has been settled yet, and all other vertices
+ *  have distance INF.
  *
  * Induction step:
- *  Let (d, u) be the next pair popped from pq.
+ *  Consider the beginning of some while-iteration. Let (d, u) be the next pair
+ *  that pq will return as the minimum.
  *
  *  If d > dist[u], then this entry is stale. A strictly better path to u has
  *  already been found, so processing outgoing edges using the worse distance d
- *  cannot improve anything that would not also be reachable from dist[u].
- *  Therefore it is safe to skip this entry.
+ *  cannot improve anything that would not also be reachable from the better
+ *  distance dist[u]. Therefore it is safe to skip this entry.
  *
- *  Otherwise d == dist[u]. We claim that d is the true shortest-path distance
- *  δ(u).
+ *  Otherwise d == dist[u]. This entry is current. We claim that d is the true
+ *  shortest-path distance to u, i.e. d == δ(u).
  *
- *  Suppose, for contradiction, that there exists a strictly shorter path P from
- *  k to u with length δ(u) < d. Consider the first vertex y on P that is not
- *  settled at the moment u is popped. Let x be the predecessor of y on P.
- *  Then x is settled by the choice of y.
+ *  Consider the state just before (d, u) is popped from pq. At that point u is
+ *  not settled yet. Suppose, for contradiction, that there exists a strictly
+ *  shorter path P from k to u with length δ(u) < d.
  *
- *  When x was settled, the algorithm relaxed edge (x, y). Since dist[x] was
- *  already equal to δ(x), this relaxation must have discovered a candidate for y
- *  with distance:
+ *  Walk along this path P from k toward u. Since k is settled first, and u is
+ *  not settled yet just before being popped, there must be a first vertex on P
+ *  that is not yet settled. Call it y.
+ *
+ *  Let x be the predecessor of y on P:
+ *
+ *      k -> ... -> x -> y -> ... -> u
+ *
+ *  Since y is the first unsettled vertex on this path, x is already settled.
+ *
+ *  When x was settled, the algorithm processed all outgoing edges of x,
+ *  including edge (x, y). Since x is settled, dist[x] is already equal to δ(x).
+ *  Therefore relaxing edge (x, y) must have considered the distance:
+ *
+ *      δ(x) + w(x, y)
+ *
+ *  Because edge x -> y lies on the shortest path P to u, this value is exactly
+ *  the true shortest-path distance to y:
  *
  *      δ(x) + w(x, y) = δ(y)
  *
- *  and pushed an entry with key δ(y) into pq, unless an even better distance to y
- *  was already known.
+ *  Therefore the algorithm must have pushed a candidate for y with distance
+ *  δ(y), unless an even better distance to y was already known. In either case,
+ *  pq should contain a current candidate for y with key at most δ(y).
  *
- *  Because all edge weights are non-negative and y lies on a shortest path to u,
- *  we have:
+ *  Since all edge weights are non-negative and y appears before u on path P,
+ *  reaching y cannot be more expensive than reaching u along the same path:
+ *
+ *      δ(y) <= δ(u)
+ *
+ *  By the contradiction assumption:
+ *
+ *      δ(u) < d
+ *
+ *  Hence:
  *
  *      δ(y) <= δ(u) < d
  *
- *  Therefore, at the time u is popped, pq should contain a non-stale entry for
- *  some vertex on P with key less than d. That contradicts the fact that (d, u)
- *  was the minimum key popped from the min-heap.
+ *  So pq should contain a current candidate for y with key smaller than d.
  *
- *  Hence no shorter path to u exists, so d == δ(u). Processing u's outgoing edges
- *  then performs the usual relaxations:
+ *  But (d, u) was supposed to be the minimum entry returned by the min-heap.
+ *  This is impossible: the heap would have popped that cheaper candidate for y
+ *  before popping (d, u).
+ *
+ *  Contradiction.
+ *
+ *  Therefore no shorter path to u exists, so:
+ *
+ *      d == δ(u)
+ *
+ *  and it is safe to settle u.
+ *
+ *  The algorithm then processes u's outgoing edges and performs the usual
+ *  relaxations:
  *
  *      if (d + w < dist[v]) {
  *          dist[v] = d + w;
@@ -100,25 +146,32 @@
  *
  * Intuition behind the proof:
  * ---------------------------
- *  Dijkstra's algorithm grows a region of settled vertices around the source.
- *  At each step, the min-heap chooses the discovered vertex with the smallest
- *  currently known distance.
+ *  Dijkstra's algorithm behaves like a wave expanding from the source.
  *
- *  Once a vertex u is popped with d == dist[u], there is no way for some later
- *  path to reach u more cheaply.
+ *  Settled vertices form a region for which the final shortest distances are
+ *  already known. The heap stores candidates for the next vertices on the
+ *  boundary of that region.
  *
- *  Why? Any alternative path to u would have to leave the already-settled region
- *  through some not-yet-settled vertex y. But the prefix of that path from the
- *  source to y would already have distance less than the full path to u.
+ *  When a current entry (d, u) is popped from the heap, u is the cheapest known
+ *  candidate for expanding the settled region.
  *
- *  If that full path were shorter than d, then y would have a candidate distance
- *  smaller than d in the heap. The heap would then pop y before u. Since u was
- *  popped first, such a shorter path cannot exist.
+ *  If there were a shorter path to u, that path would have to cross from the
+ *  settled region into the unsettled region through some edge:
  *
- *  The non-negative edge weight assumption is essential here. Once we extend a
- *  path by another edge, its length cannot decrease. Therefore a path that first
- *  reaches some not-yet-settled vertex with distance at least d cannot later turn
- *  into a path to u with total distance smaller than d.
+ *      settled region              unsettled region
+ *
+ *      k -> ... -> x ------------> y -> ... -> u
+ *                 last settled     first unsettled
+ *
+ *  Since x was already settled, edge x -> y was already processed. And if the
+ *  entire path to u were cheaper than d, then the prefix of that path reaching y
+ *  would also be cheaper than d, because y appears earlier on the path and edge
+ *  weights are non-negative.
+ *
+ *  Therefore the heap would have to contain a candidate cheaper than (d, u).
+ *  But the heap has just returned (d, u) as the minimum. Contradiction.
+ *
+ *  This is why, after popping a current entry (d, u), dist[u] is final.
  *
  * Why the stale-entry guard works:
  * --------------------------------
@@ -144,9 +197,9 @@
  *
  *      if (d > dist[u]) continue;
  *
- *  We must not skip d == dist[u]. The first non-stale extraction of u has exactly
- *  d == dist[u] and is the moment when u becomes settled and its outgoing edges
- *  must be relaxed.
+ *  We must not skip d == dist[u]. A current extraction of u has exactly
+ *  d == dist[u], and this is the moment when u becomes settled and its outgoing
+ *  edges must be relaxed.
  *
  * Termination and result:
  * -----------------------
@@ -169,9 +222,13 @@
  *  - There are O(E) pushed entries and therefore O(E) pops.
  *  - Each heap operation costs O(log H), where H is the current heap size.
  *    In this no-decrease-key variant, H can be O(E), so this is O(log E).
- *    For a simple graph, E <= V^2, hence log E <= 2 log V, and Big-O ignores
- *    constant factors. Therefore O(log E) is usually written as O(log V),
- *    giving the standard O((V + E) log V) bound.
+ *
+ *    For a simple graph, E <= V^2, hence:
+ *
+ *        log E <= log(V^2) = 2 log V
+ *
+ *    Big-O notation ignores constant factors, so O(log E) is usually written
+ *    as O(log V). This gives the standard O((V + E) log V) bound.
  *
  *  Overall: O((V + E) log V).
  *
