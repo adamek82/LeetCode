@@ -218,19 +218,20 @@
  *  Let V be the number of vertices and E the number of edges.
  *
  *  - Building the adjacency list takes Θ(V + E).
+ *  - Initializing dist and scanning it at the end take Θ(V).
  *  - Each successful relaxation pushes one heap entry.
  *  - There are O(E) pushed entries and therefore O(E) pops.
  *  - Each heap operation costs O(log H), where H is the current heap size.
- *    In this no-decrease-key variant, H can be O(E), so this is O(log E).
+ *    In this no-decrease-key variant, H can be O(E), so the heap work is
+ *    directly bounded by O(E log E).
  *
- *    For a simple graph, E <= V^2, hence:
+ *    For a simple graph, E <= V^2, hence log E <= 2 log V. Therefore the heap
+ *    work is usually written as O(E log V).
  *
- *        log E <= log(V^2) = 2 log V
+ *  Overall: O(V + E log V).
  *
- *    Big-O notation ignores constant factors, so O(log E) is usually written
- *    as O(log V). This gives the standard O((V + E) log V) bound.
- *
- *  Overall: O((V + E) log V).
+ *  This is often also written as O((V + E) log V), which is a looser but common
+ *  upper bound for Dijkstra with a binary heap.
  *
  * Space complexity:
  * -----------------
