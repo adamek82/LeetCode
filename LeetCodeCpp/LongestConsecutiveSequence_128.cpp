@@ -6,49 +6,70 @@
  * Hash-set based expected O(n) solution.
  *
  * Idea:
- * - Insert all numbers into an unordered_set for O(1) average-time membership tests.
- * - A value `x` can only be the *start* of a consecutive sequence if `(x - 1)` is
- *   not in the set. For all other values (that have a predecessor), we skip work,
- *   because their sequence will be counted starting from that smaller predecessor.
- * - For each such starting value, walk forward (`x, x+1, x+2, ...`) as long as the
- *   next value is present in the set. Instead of maintaining a separate counter,
- *   keep `end` as the last value of the run; the run length is `end - x + 1`.
- * - Track the maximum length over all runs.
+ * - Insert all numbers into an unordered_set, so membership checks are O(1) on average.
+ *   Duplicates are removed automatically, which is fine because they do not change the
+ *   length of any consecutive sequence.
+ * - Reserve space before inserting elements to reduce the number of rehashes while the
+ *   set is being built.
+ * - Iterate over the set, not over the original vector, so each distinct value is
+ *   considered only once.
+ * - A value `x` can only be the start of a consecutive sequence if `x - 1` is not
+ *   present in the set. If `x - 1` exists, then the same sequence will be counted
+ *   starting from that smaller value, so `x` should be skipped.
+ * - For every detected start, walk forward through `x + 1`, `x + 2`, ... as long as
+ *   the next value exists. Keep `end` as the last value of the current run; the run
+ *   length is `end - x + 1`.
+ * - Track the maximum run length.
  *
  * Correctness sketch:
- * - Construction: after building `st`, for every v in `nums`, v is in `st`.
- *   Duplicates collapse in the set, which does not affect the longest consecutive length.
- * - Start detection: if `st` does not contain `x - 1`, then `x` has no predecessor in
- *   the set, so any maximal consecutive sequence containing `x` must start at `x`.
- * - Forward scan: while `st` contains `end + 1`, we can extend the run by one.
- *   When the loop stops, `end + 1` is missing, so `end` is the last element of the
- *   maximal run starting at `x`, and its length is `end - x + 1`.
- * - Uniqueness: each maximal run is counted exactly once at its smallest element.
- *   Any other element y in that run has y - 1 in `st`, so it fails the start test.
+ * - After building `st`, it contains exactly the distinct values from `nums`.
+ *   Removing duplicates does not affect the answer, because consecutive sequences
+ *   depend only on whether a value exists, not on how many times it appears.
+ * - If `x - 1` is not in `st`, then no smaller consecutive predecessor of `x` exists,
+ *   so any maximal consecutive run containing `x` must start at `x`.
+ * - If `x - 1` is in `st`, then `x` is not the first element of its run, so skipping it
+ *   is safe.
+ * - Starting from a valid start `x`, the while loop extends the run exactly while the
+ *   next consecutive value exists. When the loop stops, `end + 1` is missing, so `end`
+ *   is the last value of the maximal run starting at `x`.
+ * - Every maximal run is counted exactly once: at its smallest value. All other values
+ *   in the same run have a predecessor in `st` and therefore fail the start test.
  *
  * Complexity:
  * - Building the set takes expected O(n) time and O(n) extra space.
- * - The outer loop iterates over `nums`; only starts trigger the inner scan.
- * - Across the whole algorithm, the inner while loops advance `end` a total of O(n)
- *   times (amortized), because each distinct value can be the "next" element in a run
- *   at most once.
+ * - The outer loop iterates over at most n distinct values.
+ * - Across all starts, the inner while loops advance through each distinct value at
+ *   most once as part of some run, so the total work of all forward scans is O(n).
  * - Overall expected time: O(n), space: O(n).
+ *
+ * Note:
+ * - The O(n) bound is expected, not guaranteed, because it relies on average-case
+ *   unordered_set operations.
  */
 int LongestConsecutiveSequence_128::longestConsecutive(vector<int>& nums)
 {
-    unordered_set<int> st(nums.begin(), nums.end());
-    int longest = 0;
+    unordered_set<int> st;
+    st.reserve(nums.size() * 2);
 
     for (int x : nums) {
+        st.insert(x);
+    }
+
+    int longest = 0;
+
+    for (int x : st) {
         // Only start counting if 'x' is the beginning of a sequence.
         if (!st.contains(x - 1)) {
             int end = x;
 
             // Extend the run as long as the next consecutive value exists.
-            while (st.contains(end + 1)) ++end;
+            while (st.contains(end + 1)) {
+                ++end;
+            }
 
             longest = max(longest, end - x + 1);
         }
     }
+
     return longest;
 }
