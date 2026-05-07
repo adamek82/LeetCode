@@ -2,6 +2,15 @@ public final class TestCases {
     private TestCases() {}
 
     // =========================================================================
+    // 2 Pointers
+    // =========================================================================
+
+    /* Shrinking-window reasoning with left/right boundaries */
+
+    // 42. Trapping Rain Water
+    public record TrappingRainWater_42_Case(int[] height, int expected) {}
+
+    // =========================================================================
     // Graphs
     // =========================================================================
 
