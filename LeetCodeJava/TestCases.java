@@ -20,6 +20,15 @@ public final class TestCases {
     public record TrappingRainWater_42_Case(int[] height, int expected) {}
 
     // =========================================================================
+    // Recursive Backtracking
+    // =========================================================================
+
+    /* Backtracking over a 2D search space with visited-state control */
+
+    // 79. Word Search
+    public record WordSearch_79_Case(char[][] board, String word, boolean expected) {}
+
+    // =========================================================================
     // Graphs
     // =========================================================================
 

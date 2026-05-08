@@ -67,6 +67,64 @@ public class TestsRunner {
     }
 
     // =========================================================================
+    // Recursive Backtracking
+    // =========================================================================
+
+    /* Backtracking over a 2D search space with visited-state control */
+
+    private static void wordSearch_79_tests() {
+        WordSearch_79 sol = new WordSearch_79();
+
+        var cases = List.of(
+            // Example 1 from problem statement
+            new TestCases.WordSearch_79_Case(new char[][]{
+                {'A', 'B', 'C', 'E'},
+                {'S', 'F', 'C', 'S'},
+                {'A', 'D', 'E', 'E'}
+            }, "ABCCED", true),
+
+            // Example 2 from problem statement
+            new TestCases.WordSearch_79_Case(new char[][]{
+                {'A', 'B', 'C', 'E'},
+                {'S', 'F', 'C', 'S'},
+                {'A', 'D', 'E', 'E'}
+            }, "SEE", true),
+
+            // Example 3 from problem statement
+            new TestCases.WordSearch_79_Case(new char[][]{
+                {'A', 'B', 'C', 'E'},
+                {'S', 'F', 'C', 'S'},
+                {'A', 'D', 'E', 'E'}
+            }, "ABCB", false),
+
+            // Additional complex test case 1
+            new TestCases.WordSearch_79_Case(new char[][]{
+                {'A', 'B', 'C', 'E', 'F', 'G'},
+                {'H', 'I', 'J', 'K', 'L', 'M'},
+                {'N', 'O', 'P', 'Q', 'R', 'S'},
+                {'T', 'U', 'V', 'W', 'X', 'Y'},
+                {'Z', 'A', 'B', 'C', 'D', 'E'}
+            }, "ABCEFGMLKJIHNT", true),
+
+            // Additional complex test case 2
+            new TestCases.WordSearch_79_Case(new char[][]{
+                {'A', 'B', 'C', 'E', 'F', 'G'},
+                {'H', 'I', 'J', 'K', 'L', 'M'},
+                {'N', 'O', 'P', 'Q', 'R', 'S'},
+                {'T', 'U', 'V', 'W', 'X', 'Y'},
+                {'Z', 'A', 'B', 'C', 'D', 'E'}
+            }, "ZYXWVUTSRQPONMLK", false)
+        );
+
+        TestUtils.runCases(
+            "WordSearch_79",
+            cases,
+            tc -> sol.exist(GridUtils.copy(tc.board()), tc.word()),
+            TestCases.WordSearch_79_Case::expected
+        );
+    }
+
+    // =========================================================================
     // Graphs
     // =========================================================================
 
@@ -302,6 +360,13 @@ public class TestsRunner {
 
         /* Shrinking-window reasoning with left/right boundaries */
         trappingRainWater_42_tests();
+
+        // =========================================================================
+        // Recursive Backtracking
+        // =========================================================================
+
+        /* Backtracking over a 2D search space with visited-state control */
+        wordSearch_79_tests();
 
         // =========================================================================
         // Graphs
