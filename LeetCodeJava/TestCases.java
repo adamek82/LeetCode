@@ -2,6 +2,15 @@ public final class TestCases {
     private TestCases() {}
 
     // =========================================================================
+    // Hashmaps & Sets
+    // =========================================================================
+
+    /* More advanced set/map usage for ordering and sequence reasoning */
+
+    // 128. Longest Consecutive Sequence
+    public record LongestConsecutiveSequence_128_Case(int[] nums, int expected) {}
+
+    // =========================================================================
     // 2 Pointers
     // =========================================================================
 

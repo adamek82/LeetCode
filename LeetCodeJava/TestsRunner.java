@@ -3,6 +3,44 @@ import java.util.List;
 public class TestsRunner {
 
     // =========================================================================
+    // Hashmaps & Sets
+    // =========================================================================
+
+    /* More advanced set/map usage for ordering and sequence reasoning */
+
+    private static void longestConsecutiveSequence_128_tests() {
+        LongestConsecutiveSequence_128 sol = new LongestConsecutiveSequence_128();
+
+        var cases = List.of(
+            // Examples from problem statement
+            new TestCases.LongestConsecutiveSequence_128_Case(new int[]{100,4,200,1,3,2}, 4),
+            new TestCases.LongestConsecutiveSequence_128_Case(new int[]{0,3,7,2,5,8,4,6,0,1}, 9),
+            new TestCases.LongestConsecutiveSequence_128_Case(new int[]{1,0,1,2}, 3),
+
+            // Additional complex cases
+            new TestCases.LongestConsecutiveSequence_128_Case(new int[]{-1,-2,-3,7,6,5,4,3,2,1}, 7),
+            new TestCases.LongestConsecutiveSequence_128_Case(new int[]{10,5,12,3,55,30,4,11,11,5,13,14,6}, 5),
+
+            // Boundary values guarding against integer overflow in x - 1 / end + 1
+            new TestCases.LongestConsecutiveSequence_128_Case(
+                new int[]{Integer.MAX_VALUE - 1, Integer.MAX_VALUE},
+                2
+            ),
+            new TestCases.LongestConsecutiveSequence_128_Case(
+                new int[]{Integer.MIN_VALUE, Integer.MIN_VALUE + 1},
+                2
+            )
+        );
+
+        TestUtils.runCases(
+            "LongestConsecutiveSequence_128",
+            cases,
+            tc -> sol.longestConsecutive(tc.nums()),
+            TestCases.LongestConsecutiveSequence_128_Case::expected
+        );
+    }
+
+    // =========================================================================
     // 2 Pointers
     // =========================================================================
 
@@ -250,6 +288,13 @@ public class TestsRunner {
 
     public static void main(String[] args) {
         System.out.println("Running LeetCodeJava tests:\n");
+
+        // =========================================================================
+        // Hashmaps & Sets
+        // =========================================================================
+
+        /* More advanced set/map usage for ordering and sequence reasoning */
+        longestConsecutiveSequence_128_tests();
 
         // =========================================================================
         // 2 Pointers
