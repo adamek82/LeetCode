@@ -10,9 +10,11 @@
 #
 # Performance notes:
 #   - We DO NOT print the noisy "/showIncludes" lines to the console (it is very slow).
+#   - We also filter "/showIncludes" lines when compilation fails.
 #   - We store only project-local headers (under $PSScriptRoot) as dependencies.
 #     System headers almost never change and checking them would be expensive.
 #   - We skip the link step if nothing was recompiled.
+#   - We stop before linking if any compilation job fails.
 #   - We regenerate compile_commands.json only when sources have changed since last gen.
 #
 # Visual Studio discovery notes:
@@ -180,6 +182,9 @@ if (!(Test-Path $ConfigBuildDir)) { New-Item -ItemType Directory -Path $ConfigBu
 $ObjDir = Join-Path $ConfigBuildDir "obj"
 if (!(Test-Path $ObjDir)) { New-Item -ItemType Directory -Path $ObjDir | Out-Null }
 
+# Remove stale compilation failure markers from previous build attempts.
+Remove-Item -Path (Join-Path $ObjDir "*.failed") -ErrorAction SilentlyContinue
+
 # Per-TU dependency files (one per .cpp)
 $DepDir = Join-Path $ObjDir "deps"
 if (!(Test-Path $DepDir)) { New-Item -ItemType Directory -Path $DepDir | Out-Null }
@@ -191,6 +196,7 @@ $objFiles   = @()
 
 # Track whether we actually compiled anything in this run
 $compiledAny = $false
+$compileFailed = $false
 
 # Start timing
 $startTime = [System.Diagnostics.Stopwatch]::StartNew()
@@ -334,18 +340,57 @@ function Test-NeedsRebuild {
     return $false
 }
 
+function Wait-CompileJobs {
+    param(
+        [array]$Jobs
+    )
+
+    $failed = $false
+
+    foreach ($j in $Jobs) {
+        Receive-Job -Job $j -Wait
+
+        # Treat abnormal job termination as a build failure.
+        # Note: compiler failures are also signaled explicitly with *.failed marker files,
+        # because Start-Job may still end with State = Completed after a non-zero tool exit.
+        if ($j.State -ne 'Completed') {
+            $failed = $true
+        }
+
+        Remove-Job -Id $j.Id
+    }
+
+    return $failed
+}
+
 # Compile only changed .cpp files in parallel
 foreach ($file in $cppFiles) {
     $baseName = [System.IO.Path]::GetFileNameWithoutExtension($file.Name)
     $objFile  = Join-Path $ObjDir  ($baseName + ".obj")
     $depFile  = Join-Path $DepDir  ($baseName + ".deps.txt")
+    $failFile = Join-Path $ObjDir  ($baseName + ".failed")
 
     if (Test-NeedsRebuild -CppFile $file -ObjFile $objFile -DepFile $depFile) {
 
         $compiledAny = $true
 
+        # Remove stale failure marker for this translation unit.
+        Remove-Item -LiteralPath $failFile -ErrorAction SilentlyContinue
+
         $job = Start-Job -ScriptBlock {
-            param ($file, $objFile, $depFile, $compilerPdb, $commonFlags, $configFlags, $includeFlags, $defineFlags, $projectRoot)
+            param ($file, $objFile, $depFile, $failFile, $compilerPdb, $commonFlags, $configFlags, $includeFlags, $defineFlags, $projectRoot)
+
+            function Test-IsShowIncludesLine {
+                param([string]$Line)
+
+                # /showIncludes output is not stable across MSVC versions and localization packs.
+                # Different toolset builds may use different wording (even in the same language),
+                # so the regex intentionally matches multiple EN/PL variants seen in the wild.
+                # Example (EN): "Note: including file:  C:\path\to\header.h"
+                # Example (PL): "Uwaga: uwzględniono plik:  C:\path\to\header.h"
+                # Example (PL): "Uwaga: w tym pliku:  C:\path\to\header.h"
+                return $Line -match '^(?:Note|Uwaga)\s*:\s*(?:including file|uwzględniono plik|w tym pliku)\s*:'
+            }
 
             # Compile with /showIncludes so we can persist header dependencies for next builds.
             # We intentionally do NOT print the noisy include lines to the console.
@@ -360,11 +405,19 @@ foreach ($file in $cppFiles) {
             ) -join ' '
 
             $output = cmd.exe /c ("cl.exe " + $flags + " 2>&1")
+            $compileExitCode = $LASTEXITCODE
 
-            # If compilation failed, print everything and fail the job.
-            if ($LASTEXITCODE -ne 0) {
-                $output | ForEach-Object { Write-Host $_ }
-                exit $LASTEXITCODE
+            # If compilation failed, print only meaningful diagnostics.
+            # Do not print noisy /showIncludes lines.
+            if ($compileExitCode -ne 0) {
+                foreach ($line in $output) {
+                    if ($line -and ($line.Trim().Length -gt 0) -and !(Test-IsShowIncludesLine -Line $line)) {
+                        Write-Host $line
+                    }
+                }
+
+                Set-Content -LiteralPath $failFile -Value $compileExitCode -Encoding ASCII
+                return
             }
 
             # Parse /showIncludes output and persist dependencies.
@@ -372,12 +425,6 @@ foreach ($file in $cppFiles) {
             $deps = New-Object System.Collections.Generic.HashSet[string] ([StringComparer]::OrdinalIgnoreCase)
 
             foreach ($line in $output) {
-                # /showIncludes output is not stable across MSVC versions and localization packs.
-                # Different toolset builds may use different wording (even in the same language),
-                # so the regex intentionally matches multiple EN/PL variants seen in the wild.
-                # Example (EN): "Note: including file:  C:\path\to\header.h"
-                # Example (PL): "Uwaga: uwzględniono plik:  C:\path\to\header.h"
-                # Example (PL): "Uwaga: w tym pliku:  C:\path\to\header.h"
                 if ($line -match '^(?:Note|Uwaga)\s*:\s*(?:including file|uwzględniono plik|w tym pliku)\s*:\s*(.+)$') {
                     $p = $matches[1].Trim()
                     if ($p) {
@@ -398,10 +445,13 @@ foreach ($file in $cppFiles) {
                 }
             }
 
+            # Compilation succeeded, so remove any stale failure marker and write deps.
+            Remove-Item -LiteralPath $failFile -ErrorAction SilentlyContinue
+
             # Write one dependency per line (ASCII is enough for Windows paths).
             Set-Content -LiteralPath $depFile -Value ($deps | Sort-Object) -Encoding ASCII
 
-        } -ArgumentList $file, $objFile, $depFile, $compilerPdb, $commonFlags, $configFlags, $includeFlags, $defineFlags, $ProjectRoot
+        } -ArgumentList $file, $objFile, $depFile, $failFile, $compilerPdb, $commonFlags, $configFlags, $includeFlags, $defineFlags, $ProjectRoot
 
         $jobs += $job
     } else {
@@ -412,21 +462,41 @@ foreach ($file in $cppFiles) {
 
     # Limit the number of concurrent jobs to avoid CPU overload
     if ($jobs.Count -ge $maxParallel) {
-        foreach ($j in $jobs) {
-            Receive-Job -Job $j -Wait
-            Remove-Job -Id $j.Id
+        if (Wait-CompileJobs -Jobs $jobs) {
+            $compileFailed = $true
         }
+
+        if ((Get-ChildItem -Path $ObjDir -Filter "*.failed" -ErrorAction SilentlyContinue).Count -gt 0) {
+            $compileFailed = $true
+        }
+
         $jobs = @()
+
+        if ($compileFailed) {
+            Write-Error "Compilation failed. Build stopped before linking."
+            exit 1
+        }
     }
 }
 
 # Wait for any remaining compilation jobs to finish
 if ($jobs.Count -gt 0) {
     Write-Host "Waiting for compilation jobs to finish..."
-    foreach ($j in $jobs) {
-        Receive-Job -Job $j -Wait
-        Remove-Job -Id $j.Id
+
+    if (Wait-CompileJobs -Jobs $jobs) {
+        $compileFailed = $true
     }
+
+    if ((Get-ChildItem -Path $ObjDir -Filter "*.failed" -ErrorAction SilentlyContinue).Count -gt 0) {
+        $compileFailed = $true
+    }
+
+    $jobs = @()
+}
+
+if ($compileFailed) {
+    Write-Error "Compilation failed. Build stopped before linking."
+    exit 1
 }
 
 # Linking step (skip if nothing was recompiled)
@@ -456,6 +526,11 @@ if ($compiledAny -or !(Test-Path $exeOut)) {
 
     # Run the linker with the RSP
     cmd.exe /c "`"$linkPath`" /nologo @`"$linkRsp`""
+
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "Linking failed."
+        exit $LASTEXITCODE
+    }
 } else {
     Write-Host "Link step skipped (no compilation, executable already exists)."
 }
