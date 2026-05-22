@@ -1,8 +1,12 @@
 # PowerShell script for parallel incremental compilation with timing (for C)
 
-$vcvars64 = "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
+$vcvars64 = "C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
 $vscodeDir = "$PSScriptRoot\.vscode"
 $cFiles  = Get-ChildItem -Path $PSScriptRoot -Filter "*.c"
+
+if (!(Test-Path -LiteralPath $vcvars64)) {
+    throw "vcvars64.bat not found at: $vcvars64"
+}
 
 # Ensure the .vscode directory exists for storing .obj files
 if (!(Test-Path $vscodeDir)) {
@@ -23,6 +27,8 @@ cmd.exe /c "call `"$vcvars64`" && set" | ForEach-Object {
         [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2], [System.EnvironmentVariableTarget]::Process)
     }
 }
+
+$env:VSLANG = "1033"
 
 foreach ($file in $cFiles) {
     $objFile = Join-Path $vscodeDir ([System.IO.Path]::GetFileNameWithoutExtension($file.Name) + ".obj")
