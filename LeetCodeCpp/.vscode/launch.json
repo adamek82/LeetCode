@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "C++ Debug (Debug build)",
+      "name": "Debug: TestsRunner (Debug build)",
       "type": "cppvsdbg",
       "request": "launch",
       "program": "${workspaceFolder}/build/Debug/TestsRunner.exe",
@@ -11,10 +11,11 @@
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],
-      "console": "integratedTerminal"
+      "console": "integratedTerminal",
+      "preLaunchTask": "Build Debug"
     },
     {
-      "name": "C++ Debug (Release build)",
+      "name": "Debug: TestsRunner (Release build, optimized)",
       "type": "cppvsdbg",
       "request": "launch",
       "program": "${workspaceFolder}/build/Release/TestsRunner.exe",
@@ -23,7 +24,8 @@
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],
-      "console": "integratedTerminal"
+      "console": "integratedTerminal",
+      "preLaunchTask": "Build Release"
     }
   ]
 }

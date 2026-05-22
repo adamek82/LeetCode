@@ -95,6 +95,26 @@
       "group": {
         "kind": "build"
       }
+    },
+    {
+      "label": "Run Debug",
+      "type": "shell",
+      "command": "${workspaceFolder}\\build\\Debug\\TestsRunner.exe",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "Build Debug",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Release",
+      "type": "shell",
+      "command": "${workspaceFolder}\\build\\Release\\TestsRunner.exe",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "Build Release",
+      "problemMatcher": []
     }
   ]
 }
