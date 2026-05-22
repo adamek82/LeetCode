@@ -11,8 +11,7 @@
       "classPaths": [
         "${workspaceFolder}/build/install/LeetCodeJava/lib/*"
       ],
-      "console": "integratedTerminal",
-      "javaExec": "C:/Program Files/Java/jdk-21/bin/java.exe"
+      "console": "integratedTerminal"
     }
   ]
 }

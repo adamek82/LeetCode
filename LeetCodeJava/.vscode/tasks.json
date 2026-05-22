@@ -6,10 +6,7 @@
       "type": "shell",
       "command": ".\\gradlew.bat build",
       "options": {
-        "cwd": "${workspaceFolder}",
-        "env": {
-          "JAVA_HOME": "C:\\Program Files\\Java\\jdk-21"
-        }
+        "cwd": "${workspaceFolder}"
       },
       "problemMatcher": ["$gradle"],
       "group": {
@@ -21,10 +18,7 @@
       "type": "shell",
       "command": ".\\gradlew.bat installDist",
       "options": {
-        "cwd": "${workspaceFolder}",
-        "env": {
-          "JAVA_HOME": "C:\\Program Files\\Java\\jdk-21"
-        }
+        "cwd": "${workspaceFolder}"
       },
       "problemMatcher": ["$gradle"]
     }
