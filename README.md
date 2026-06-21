@@ -15,6 +15,19 @@ This repository contains my implementations of a wide range of LeetCode algorith
 
 ---
 
+## Documentation
+
+Algorithm notes and interview refreshers are kept separately from the source code:
+
+- [Documentation index](Docs/README.md)
+- [Binary Search — full notes](Docs/Algorithms/Binary_Search.md)
+- [Binary Search — interview cheat sheet](Docs/CheatSheets/Binary_Search_Interview_Cheat_Sheet.md)
+
+The source code intentionally keeps comments short. Longer explanations, invariants,
+correctness proofs, and implementation pitfalls belong in `Docs/`.
+
+---
+
 # LeetCode Solutions Overview
 
 | Number | Title | C | C++ | Java | JS | Kotlin | Python |
