@@ -1,166 +1,263 @@
 #include "SearchInsertPosition_35.h"
 
 /*
- * Binary search — insertion index variant
- * ---------------------------------------
- * Returns the index at which `target` should be inserted into a sorted
- * (strictly increasing) array `nums` so that the order is preserved.
- * If `target` is already present, this returns the index of one of its
- * occurrences (the first one for strictly increasing input).
+ * Search Insert Position (LeetCode 35)
+ * ------------------------------------
+ * Given a sorted, strictly increasing array nums, returns:
  *
- * For a detailed discussion of the *basic* binary search mechanics
- * (closed interval, invariant, termination, complexity), see the
- * documentation in BinarySearch_704.cpp. Here we focus on why the
- * final value of `left` is exactly the correct insertion position.
+ *   - the index of target, if target is present;
+ *   - otherwise, the index at which target should be inserted so that the
+ *     array remains sorted.
  *
- * High-level idea
- * ---------------
- * We run a standard binary search on a closed interval [left, right]
- * using:
+ * Specification:
+ *   Precondition:
+ *     - nums is sorted in strictly increasing order:
  *
- *   - if nums[mid] == target: return mid;
- *   - if nums[mid] <  target: move left  to mid + 1;
- *   - if nums[mid] >  target: move right to mid - 1;
+ *           nums[0] < nums[1] < ... < nums[n - 1]
  *
- * If we never find `target`, the loop eventually terminates with
- * left == right + 1 and we return `left`. This `left` is the smallest
- * index where `target` could be placed without breaking the sort order.
+ *   Postcondition:
+ *     The returned value r is the correct insertion position:
  *
- * Key invariants (strengthened)
- * -----------------------------
- * At the start of each iteration we maintain:
+ *       - 0 <= r <= nums.size()
  *
- *   1) Search interval invariant:
- *        If `target` exists in the array, then its index k lies in
- *        the closed interval [left, right].
+ *       - every index i < r satisfies:
  *
- *   2) Ordering invariant around the interval:
- *        All indices i < left  satisfy nums[i] < target.
- *        All indices i > right satisfy nums[i] > target.
+ *             nums[i] < target
  *
- * These two properties together say: everything strictly before `left`
- * is *too small*, everything strictly after `right` is *too large*, and
- * if `target` exists at all, it must be somewhere inside [left, right].
+ *       - if r < nums.size(), then:
  *
- * Why the updates preserve the invariants
- * ---------------------------------------
- * Consider one loop iteration with some mid between left and right:
+ *             nums[r] >= target
  *
- *   - Case A: nums[mid] == target
- *       We immediately return mid. This is a correct index where
- *       target appears, so we do not care about insertion any more.
+ *     Since nums is strictly increasing, if target occurs in nums, this r is
+ *     exactly the unique index where nums[r] == target. If target does not
+ *     occur, r is the position where target can be inserted while preserving
+ *     the sorted order.
  *
- *   - Case B: nums[mid] < target
- *       Since the array is sorted and nums[mid] < target:
- *         * For all i <= mid, nums[i] <= nums[mid] < target,
- *           so every index up to and including mid is "too small".
- *       Therefore target, if present, must lie strictly to the right
- *       of mid, in [mid + 1, right].
+ * Candidate interval:
+ *   We use a standard closed binary-search interval [left, right].
  *
- *       We set:
- *           left  = mid + 1;
- *           right = right;
+ *   At any moment:
  *
- *       This moves `left` rightwards so that:
- *         * All indices i < left are now <= mid and hence have
- *           nums[i] < target — still "too small".
- *         * We have not changed `right`, so any valid index k for
- *           target is still in [left, right].
+ *     - indices before left have already been ruled out because their values
+ *       are strictly smaller than target;
  *
- *   - Case C: nums[mid] > target
- *       Symmetrically, by sortedness and nums[mid] > target:
- *         * For all i >= mid, nums[i] >= nums[mid] > target,
- *           so every index from mid to right is "too large".
+ *     - indices after right have already been ruled out because their values
+ *       are strictly greater than target;
  *
- *       We set:
- *           right = mid - 1;
- *           left  = left;
+ *     - if target is present, its index must still be inside [left, right].
  *
- *       This moves `right` leftwards so that:
- *         * All indices i > right are now >= mid and thus have
- *           nums[i] > target — still "too large".
- *         * Any valid index k for target remains in [left, right].
+ * Loop invariant:
+ *   At the beginning of each iteration:
  *
- * In both Case B and Case C the strengthened invariants are preserved:
- *   - Everything before `left` stays strictly < target.
- *   - Everything after `right` stays strictly > target.
- *   - If target exists, its index remains in [left, right].
+ *     1. Every index before left is too small:
  *
- * Why `left` is the insertion point when the loop ends
- * ----------------------------------------------------
- * The loop condition is `while (left <= right)`. It stops only when
- * `left` has advanced past `right`, i.e. when `left == right + 1`.
+ *          for every i such that 0 <= i < left:
+ *              nums[i] < target
  *
- * At that moment:
+ *     2. Every index after right is too large:
  *
- *   - From the ordering invariant:
- *       * For all i < left, nums[i] < target.
- *       * For all i > right, nums[i] > target.
- *     But since left == right + 1, every index i >= left automatically
- *     satisfies i > right, so every i >= left has nums[i] > target
- *     (if such i exists at all).
+ *          for every i such that right < i < nums.size():
+ *              nums[i] > target
  *
- *   - Thus the array is partitioned as:
+ *     3. Bounds:
  *
- *         indices:    [0, ..., left-1] | [left, left+1, ...]
- *         values:     < target         | >= target (or no elements)
+ *          0 <= left <= nums.size()
+ *         -1 <= right < nums.size()
+ *          left <= right + 1
  *
- *   - This means:
- *       * `left` is the smallest index at which an element >= target
- *         could appear (if any exist).
- *       * All elements strictly before `left` are < target, so inserting
- *         target at position `left` keeps the array sorted.
- *       * There is no earlier index where we could insert target without
- *         breaking sorted order, because any such index i < left would
- *         have nums[i] >= target, contradicting the invariant
- *         nums[i] < target for all i < left.
+ *        When left <= right, [left, right] is a valid non-empty closed
+ *        candidate interval.
  *
- * Correctness sketch for the insertion index
- * ------------------------------------------
- *   - Soundness:
- *       Returning `left` never breaks the sort order:
- *         * Every element before `left` is < target.
- *         * Every element at or after `left` is >= target (if present).
- *       So placing target at `left` yields:
- *           nums[0] <= ... < nums[left-1] < target <= nums[left] <= ...
+ *        When left > right, the candidate interval is empty. Because of
+ *        left <= right + 1, this means left == right + 1.
  *
- *   - Minimality:
- *       `left` is the *first* index where we can insert target:
- *         * If there were a smaller index j < left where inserting target
- *           preserved sorted order, we would need nums[j] >= target.
- *         * But for all i < left we maintain nums[i] < target, so such
- *           a j cannot exist. Hence `left` is minimal.
+ * Initialization:
+ *   Initially:
  *
- *   - Completeness:
- *       If `target` is already in the array at index k, the above logic
- *       ensures that index k is never thrown away (it stays in [left, right]
- *       until found), so we return a correct occurrence instead of an
- *       insertion position. If `target` is *not* present, the invariants
- *       and the argument above guarantee that the final `left` is the
- *       unique correct insertion index.
+ *       left = 0
+ *       right = nums.size() - 1
+ *
+ *   There are no indices before left and no indices after right, so both
+ *   excluded regions are empty. Therefore the invariant holds vacuously.
+ *
+ * Preservation:
+ *   During each iteration the loop condition gives:
+ *
+ *       left <= right
+ *
+ *   We compute:
+ *
+ *       mid = left + (right - left) / 2
+ *
+ *   Since right - left >= 0, integer division gives:
+ *
+ *       0 <= (right - left) / 2 <= right - left
+ *
+ *   After adding left:
+ *
+ *       left <= mid <= right
+ *
+ *   Thus mid is a valid index inside the current candidate interval.
+ *
+ *   There are three cases:
+ *
+ *   1. nums[mid] == target
+ *
+ *      We return mid immediately.
+ *
+ *      This is correct because mid is a valid index and nums[mid] really is
+ *      equal to target.
+ *
+ *   2. nums[mid] < target
+ *
+ *      Since nums is sorted in strictly increasing order, every index i <= mid
+ *      satisfies:
+ *
+ *          nums[i] <= nums[mid] < target
+ *
+ *      Therefore all indices up to and including mid are too small. Target,
+ *      if present, cannot be there.
+ *
+ *      We set:
+ *
+ *          left = mid + 1
+ *
+ *      Now every index before the new left is known to contain a value smaller
+ *      than target. The region after right is unchanged. The invariant is
+ *      preserved.
+ *
+ *   3. nums[mid] > target
+ *
+ *      Since nums is sorted in strictly increasing order, every index i >= mid
+ *      satisfies:
+ *
+ *          nums[i] >= nums[mid] > target
+ *
+ *      Therefore all indices from mid onward are too large. Target, if
+ *      present, cannot be there.
+ *
+ *      We set:
+ *
+ *          right = mid - 1
+ *
+ *      Now every index after the new right is known to contain a value greater
+ *      than target. The region before left is unchanged. The invariant is
+ *      preserved.
+ *
+ * Correctness:
+ *
+ *   Case 1: target is found
+ *   -----------------------
+ *   The function returns from inside the loop only when:
+ *
+ *       nums[mid] == target
+ *
+ *   Also, mid is a valid index because left <= mid <= right and [left, right]
+ *   is a valid segment of the array during the loop.
+ *
+ *   Therefore returning mid is correct.
+ *
+ *
+ *   Case 2: target is not found
+ *   ---------------------------
+ *   If the loop terminates normally, then the loop condition is false:
+ *
+ *       !(left <= right)
+ *
+ *   so:
+ *
+ *       left > right
+ *
+ *   Together with the invariant left <= right + 1, this gives:
+ *
+ *       left == right + 1
+ *
+ *   The candidate interval [left, right] is empty.
+ *
+ *   From the invariant:
+ *
+ *     - every index i < left satisfies nums[i] < target;
+ *     - every index i > right satisfies nums[i] > target.
+ *
+ *   Since left == right + 1, every index i >= left also satisfies i > right.
+ *   Therefore every index i >= left satisfies nums[i] > target.
+ *
+ *   Thus the array is partitioned as:
+ *
+ *       indices:  [0, ..., left - 1] | [left, ..., nums.size() - 1]
+ *       values:      < target        |          > target
+ *
+ *   Therefore left is exactly the first position where target can be inserted:
+ *
+ *     - inserting target before left would break the order, because all
+ *       elements before left are smaller than target;
+ *
+ *     - inserting target at left preserves the order, because all elements
+ *       from left onward are greater than target;
+ *
+ *     - if left == nums.size(), target is greater than every element and is
+ *       inserted at the end.
+ *
+ * Termination:
+ *   While left <= right, the candidate interval has length:
+ *
+ *       right - left + 1
+ *
+ *   This is a non-negative integer.
+ *
+ *   On each non-returning iteration, the interval strictly shrinks:
+ *
+ *     - if nums[mid] < target, left becomes mid + 1, so the lower bound moves
+ *       strictly to the right;
+ *
+ *     - if nums[mid] > target, right becomes mid - 1, so the upper bound moves
+ *       strictly to the left.
+ *
+ *   Therefore the non-negative integer length of the candidate interval
+ *   strictly decreases on every non-returning iteration. It cannot decrease
+ *   indefinitely, so the loop must terminate.
  *
  * Complexity:
- *   - Time:  O(log n) in the length of nums, as we halve the search
- *            region each iteration.
+ *   - Time:  O(log n), where n = nums.size(), because each iteration roughly
+ *            halves the candidate interval.
  *   - Space: O(1) extra space.
  */
 int SearchInsertPosition_35::searchInsert(vector<int> &nums, int target)
 {
     int left = 0;
-    int right = static_cast<int>(nums.size()) - 1; // safe even for empty: 0 - 1 => -1
+
+    /*
+     * nums.size() returns size_t, which is unsigned.
+     *
+     * By casting before subtracting 1, an empty vector gives:
+     *
+     *     static_cast<int>(0) - 1 == -1
+     *
+     * Therefore:
+     *
+     *     left  = 0
+     *     right = -1
+     *
+     * and the loop condition left <= right is immediately false.
+     *
+     * This assumes nums.size() fits into int, which is fine for typical
+     * LeetCode constraints.
+     */
+    int right = static_cast<int>(nums.size()) - 1;
 
     while (left <= right) {
-        int mid = left + (right - left) / 2; // Prevents overflow
+        int mid = left + (right - left) / 2;
 
         if (nums[mid] == target) {
-            return mid; // Target found, return its index
-        } else if (nums[mid] < target) {
-            left = mid + 1; // Narrow search to the right half
+            return mid;
+        }
+
+        if (nums[mid] < target) {
+            left = mid + 1;
         } else {
-            right = mid - 1; // Narrow search to the left half
+            right = mid - 1;
         }
     }
 
-    // If the loop ends, `left` is the insertion point
     return left;
 }
