@@ -23,6 +23,7 @@
 		}
 	],
 	"settings": {
+		"java.autobuild.enabled": false,
 		"java.import.exclusions": [
 			"LeetCodeCpp/**",
 			"LeetCodeC/**",
