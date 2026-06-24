@@ -42,7 +42,7 @@ Predicate shape is not usually written explicitly; you compare `a[mid]` with `ta
 
 ```text
 [ possible candidates ]
-  left             right
+  left          right
 ```
 
 Typical rules:
@@ -67,8 +67,8 @@ Use when the predicate has shape:
 
 ```text
 false false false true true true
-                  ^
-             first true
+                   ^
+               first true
 ```
 
 Keep the interval non-empty and keep `mid` when it can still be the answer.
@@ -100,8 +100,8 @@ Use when the predicate has shape:
 
 ```text
 true true true false false false
-          ^
-      last true
+           ^
+       last true
 ```
 
 Here both branches discard `mid` with `±1`, and the loop ends with an empty interval:
@@ -322,7 +322,7 @@ int mySqrt(int x) {
     while (left <= right) {
         int mid = left + (right - left) / 2;
 
-        if (mid <= x / mid)      // mid * mid <= x, without overflow
+        if (mid <= x / mid)     // mid * mid <= x, without overflow
             left = mid + 1;     // mid works; try larger
         else
             right = mid - 1;    // mid is too large
@@ -452,7 +452,7 @@ Shape:
 
 ```text
 false false false true true true
-                  ^
+                   ^
           minimum feasible speed
 ```
 
