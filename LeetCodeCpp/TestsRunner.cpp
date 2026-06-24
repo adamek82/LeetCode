@@ -107,6 +107,7 @@
 #include "ValidNumber_65.h"
 #include "JewelsAndStones_771.h"
 #include "ValidPerfectSquare_367.h"
+#include "SqrtX_69.h"
 #include "PerfectSquares_279.h"
 #include "SameTree_100.h"
 #include "MissingNumber_268.h"
@@ -2286,6 +2287,28 @@ public:
     }
 
     /* Binary search over a numeric answer space */
+
+    static void sqrtX_69_tests() {
+        vector<SqrtXTestCase> testCases = {
+            // Examples from the problem statement
+            {4, 2},
+            {8, 2},
+
+            // Additional edge / boundary tests
+            {0, 0},
+            {1, 1},
+            {2, 1},
+            {2147395600, 46340}, // 46340^2, largest square within int range
+            {2147483647, 46340}  // INT_MAX, not a perfect square
+        };
+
+        SqrtX_69 solution;
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            int got = solution.mySqrt(testCases[i].x);
+            assertEqScalar("Sqrt(x) 69 Test " + to_string(i + 1),
+                        testCases[i].expected, got);
+        }
+    }
 
     static void validPerfectSquare_367_tests() {
         vector<ValidPerfectSquareTestCase> cases = {
@@ -5678,6 +5701,7 @@ public:
         TEST(278,  "First Bad Version",                              firstBadVersion_278_tests),
 
         /* Binary search over a numeric answer space */
+        TEST(69,   "Sqrt(x)",                                        sqrtX_69_tests),
         TEST(367,  "Valid Perfect Square",                           validPerfectSquare_367_tests),
         TEST(875,  "Koko Eating Bananas",                            kokoEatingBananas_875_tests),
 

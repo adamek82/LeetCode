@@ -562,6 +562,12 @@ namespace TestCases {
 
     /* Binary search over a numeric answer space */
 
+    // 69. Sqrt(x)
+    struct SqrtXTestCase {
+        int x;
+        int expected;
+    };
+
     // 367. Valid Perfect Square
     struct ValidPerfectSquareTestCase {
         int num;
