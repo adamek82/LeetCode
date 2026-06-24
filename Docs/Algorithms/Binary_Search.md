@@ -13,7 +13,7 @@ There are two major families of binary search patterns:
 
 2. **Boundary search**
    Find the first or last position where a monotone condition changes.
-   Usually the answer is known to exist inside the initial interval.
+   Usually the answer is derived from the final boundary.
 
 This document focuses on invariants, correctness, termination, and common
 implementation pitfalls.
@@ -78,9 +78,9 @@ This interval contains all indices that have not yet been ruled out.
 At any point:
 
 ```text
-indices before left      -> already ruled out
+indices before left        -> already ruled out
 indices from left to right -> still possible candidates
-indices after right      -> already ruled out
+indices after right        -> already ruled out
 ```
 
 So the mental model is:
@@ -429,7 +429,7 @@ Therefore, every returned index is valid and really contains `target`.
 The invariant says:
 
 ```text
-If target occurs in nums, it can only be inside [left, right].
+If target occurs in nums, it can only occur inside [left, right].
 ```
 
 Each non-returning iteration removes only indices where `target` cannot occur:
@@ -621,7 +621,9 @@ when:
 * the target may be absent;
 * the candidate interval is allowed to become empty;
 * you return immediately on exact match;
-* after the loop you return failure, such as `-1` or `false`.
+* after the loop you return failure, such as `-1` or `false`;
+* or you are using a last-true / first-false style and return a boundary value
+  such as `right` or `left`.
 
 Use:
 
@@ -638,18 +640,20 @@ for boundary-style searches where:
 
 ---
 
-## 12. Boundary Search
+## 12. Boundary Search: First True
 
 Boundary search is used when we want the first or last value satisfying a
 monotone predicate.
+
+The most common boundary pattern is **first true**.
 
 Example predicate shape:
 
 ```text
 false false false true true true
+                  ^
+              first true
 ```
-
-We want the first `true`.
 
 Generic pattern:
 
@@ -694,22 +698,333 @@ If no, discard it:
 left = mid + 1;
 ```
 
+### 12.1. Why `left < right`?
+
+This pattern keeps the interval non-empty.
+
+When:
+
+```text
+left == right
+```
+
+there is exactly one candidate left. By the invariant, that candidate must be
+the answer, so the loop should stop.
+
+This is why this pattern uses:
+
+```cpp
+while (left < right)
+```
+
+and not:
+
+```cpp
+while (left <= right)
+```
+
+If we used `left <= right` with `right = mid`, the loop could fail to make
+progress when `left == right == mid`.
+
 ---
 
-## 13. Exact Search vs Boundary Search
+## 13. Boundary Search: Last True
 
-| Question                  | Exact Search                          | Boundary Search        |
-| ------------------------- | ------------------------------------- | ---------------------- |
-| Can the answer be absent? | Yes                                   | Usually no             |
-| Interval type             | Closed, may become empty              | Closed, kept non-empty |
-| Loop condition            | `left <= right`                       | `left < right`         |
-| What happens to `mid`?    | Discarded after failed equality check | Sometimes kept         |
-| Exit state                | `left > right`                        | `left == right`        |
-| Typical result            | index or `-1`                         | boundary index/value   |
+Another useful pattern is **last true**.
+
+This appears when the predicate has this shape:
+
+```text
+true true true false false false
+          ^
+       last true
+```
+
+For example, in `Sqrt(x)` we want the largest integer `i` such that:
+
+```text
+i * i <= x
+```
+
+That predicate is true for small values and false for large values:
+
+```text
+i:        1     2     3     4
+i*i<=8:  true  true  false false
+                  ^
+              first false
+
+answer = last true = 2
+```
+
+A common implementation uses a closed interval that is allowed to become empty:
+
+```cpp
+int lastTrue(int left, int right)
+{
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (ok(mid)) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return right;
+}
+```
+
+After the loop:
+
+```text
+right = last true
+left  = first false
+left == right + 1
+```
+
+So the final shape is:
+
+```text
+true true true | false false false
+          right left
+```
+
+### 13.1. Loop Invariant
+
+At the beginning of each iteration:
+
+1. All indices before `left` are known to be true:
+
+```text
+for every i < left:
+    ok(i) == true
+```
+
+2. All indices after `right` are known to be false:
+
+```text
+for every i > right:
+    ok(i) == false
+```
+
+3. The unknown part is the closed interval:
+
+```text
+[left, right]
+```
+
+4. The bounds satisfy:
+
+```text
+left <= right + 1
+```
+
+So the mental model is:
+
+```text
+[ true ][ unknown ][ false ]
+        left   right
+```
+
+The interval `[left, right]` may eventually become empty.
 
 ---
 
-## 14. LeetCode Examples
+### 13.2. Preservation
+
+During the loop, the condition gives:
+
+```text
+left <= right
+```
+
+Therefore:
+
+```text
+left <= mid <= right
+```
+
+There are two cases.
+
+#### Case 1: `ok(mid) == true`
+
+Because the predicate is monotone in the shape:
+
+```text
+true true true false false false
+```
+
+if `ok(mid)` is true, then every index `i <= mid` is also true.
+
+So we can discard everything up to and including `mid` from the unknown region:
+
+```cpp
+left = mid + 1;
+```
+
+This preserves the fact that every index before the new `left` is true.
+
+The right false region is unchanged.
+
+The bound `left <= right + 1` is also preserved because `mid <= right`, so:
+
+```text
+mid + 1 <= right + 1
+```
+
+#### Case 2: `ok(mid) == false`
+
+If `ok(mid)` is false, then every index `i >= mid` is also false.
+
+So we can discard everything from `mid` onward from the unknown region:
+
+```cpp
+right = mid - 1;
+```
+
+This preserves the fact that every index after the new `right` is false.
+
+The left true region is unchanged.
+
+The bound `left <= right + 1` is also preserved because `left <= mid`, and
+after the update:
+
+```text
+right + 1 == mid
+```
+
+---
+
+### 13.3. Loop Exit
+
+The loop exits when:
+
+```text
+!(left <= right)
+```
+
+which means:
+
+```text
+left > right
+```
+
+For integers, this implies:
+
+```text
+left >= right + 1
+```
+
+But the invariant also gives:
+
+```text
+left <= right + 1
+```
+
+Therefore:
+
+```text
+left == right + 1
+```
+
+Using the semantic parts of the invariant:
+
+* every index `< left` is true;
+* every index `> right` is false.
+
+Since:
+
+```text
+left == right + 1
+```
+
+we get:
+
+```text
+right < left
+```
+
+So `right` is in the true region, and every index greater than `right` is in
+the false region.
+
+Therefore `right` is exactly the last index for which `ok(i)` is true.
+
+---
+
+### 13.4. Example: LC 69 — Sqrt(x)
+
+Problem:
+
+```text
+return floor(sqrt(x))
+```
+
+For `x >= 2`, search possible roots:
+
+```text
+[1, x / 2]
+```
+
+The predicate is:
+
+```text
+ok(mid) := mid * mid <= x
+```
+
+To avoid overflow, use the equivalent check:
+
+```cpp
+mid <= x / mid
+```
+
+Implementation:
+
+```cpp
+int mySqrt(int x)
+{
+    if (x < 2) {
+        return x;
+    }
+
+    int left = 1;
+    int right = x / 2;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (mid <= x / mid) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return right;
+}
+```
+
+This returns the largest integer whose square does not exceed `x`, which is
+exactly `floor(sqrt(x))`.
+
+---
+
+## 14. Exact Search vs Boundary Search
+
+| Question                  | Exact Search                          | First True Boundary       | Last True Boundary            |
+| ------------------------- | ------------------------------------- | ------------------------- | ----------------------------- |
+| Predicate shape           | equality / comparison to target       | `false ... false true...`  | `true ... true false...`      |
+| Can the answer be absent? | Yes                                   | Usually no                | Usually no                    |
+| Interval type             | Closed, may become empty              | Closed, kept non-empty    | Closed, may become empty      |
+| Loop condition            | `left <= right`                       | `left < right`            | `left <= right`               |
+| What happens to `mid`?    | Discarded after failed equality check | Kept when it may answer   | Always discarded after classifying |
+| Exit state                | `left > right`                        | `left == right`           | `left == right + 1`           |
+| Typical result            | index or `-1`                         | `left` / `right`          | `right`                       |
+
+---
+
+## 15. LeetCode Examples
 
 ### LC 704 — Binary Search
 
@@ -754,6 +1069,88 @@ int col = mid % cols;
 ```
 
 The binary search logic remains the same as exact search.
+
+---
+
+### LC 278 — First Bad Version
+
+This is a first-true boundary search.
+
+The predicate:
+
+```text
+isBadVersion(version)
+```
+
+has the shape:
+
+```text
+false false false true true true
+```
+
+The answer is the first version where the predicate becomes true.
+
+Use:
+
+```cpp
+while (left < right)
+```
+
+and when `mid` is bad:
+
+```cpp
+right = mid;
+```
+
+because `mid` can still be the first bad version.
+
+---
+
+### LC 69 — Sqrt(x)
+
+This is a last-true boundary search.
+
+The predicate:
+
+```text
+mid * mid <= x
+```
+
+has the shape:
+
+```text
+true true true false false false
+```
+
+The answer is the last value where the predicate is true.
+
+Use:
+
+```cpp
+while (left <= right)
+```
+
+and return:
+
+```cpp
+right
+```
+
+after the loop.
+
+---
+
+### LC 367 — Valid Perfect Square
+
+This is exact search over a numeric value space.
+
+We search for an integer `mid` such that:
+
+```text
+mid * mid == num
+```
+
+To avoid overflow, compute the square as `long long`.
 
 ---
 
@@ -815,7 +1212,7 @@ Find the first speed for which `canFinish(k)` is true.
 
 ---
 
-## 15. Recommended Source Code Comment Style
+## 16. Recommended Source Code Comment Style
 
 Do not put the full proof in the `.cpp` file.
 
@@ -830,6 +1227,18 @@ Acceptable implementation comment:
 
 ```cpp
 int right = static_cast<int>(nums.size()) - 1; // Empty vector gives right == -1.
+```
+
+For boundary-style searches, mention only the local trap:
+
+```cpp
+right = mid; // mid can still be the minimum.
+```
+
+or:
+
+```cpp
+return right; // Last value for which ok(value) is true.
 ```
 
 Avoid long comments that explain the entire algorithm in the source file.
