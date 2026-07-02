@@ -43,6 +43,9 @@ public final class TestCases {
     // 695. Max Area of Island
     public record MaxAreaOfIsland_695_Case(int[][] grid, int expected) {}
 
+    // 1091. Shortest Path in Binary Matrix
+    public record ShortestPathInBinaryMatrix_1091_Case(int[][] grid, int expected) {}
+
     // Directed-graph reasoning with topological order and cycle detection
 
     // 207. Course Schedule

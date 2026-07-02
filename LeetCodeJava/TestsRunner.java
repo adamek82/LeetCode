@@ -229,6 +229,55 @@ public class TestsRunner {
         );
     }
 
+    private static void shortestPathInBinaryMatrix_1091_tests() {
+        ShortestPathInBinaryMatrix_1091 sol = new ShortestPathInBinaryMatrix_1091();
+
+        var cases = List.of(
+            // Examples from problem statement
+            new TestCases.ShortestPathInBinaryMatrix_1091_Case(new int[][]{
+                {0, 1},
+                {1, 0}
+            }, 2),
+
+            new TestCases.ShortestPathInBinaryMatrix_1091_Case(new int[][]{
+                {0, 0, 0},
+                {1, 1, 0},
+                {1, 1, 0}
+            }, 4),
+
+            new TestCases.ShortestPathInBinaryMatrix_1091_Case(new int[][]{
+                {1, 0, 0},
+                {1, 1, 0},
+                {1, 1, 0}
+            }, -1),
+
+            // Additional larger reachable case
+            new TestCases.ShortestPathInBinaryMatrix_1091_Case(new int[][]{
+                {0, 0, 0, 0, 0},
+                {1, 1, 1, 1, 0},
+                {0, 0, 0, 1, 0},
+                {0, 1, 0, 1, 0},
+                {0, 1, 0, 0, 0}
+            }, 8),
+
+            // Additional larger unreachable case
+            new TestCases.ShortestPathInBinaryMatrix_1091_Case(new int[][]{
+                {0, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 1},
+                {1, 1, 1, 1, 0}
+            }, -1)
+        );
+
+        TestUtils.runCases(
+            "ShortestPathInBinaryMatrix_1091",
+            cases,
+            tc -> sol.shortestPathBinaryMatrix(GridUtils.copy(tc.grid())),
+            TestCases.ShortestPathInBinaryMatrix_1091_Case::expected
+        );
+    }
+
     // Directed-graph reasoning with topological order and cycle detection
 
     private static void courseSchedule_207_tests() {
@@ -376,6 +425,7 @@ public class TestsRunner {
         findIfPathExistsInGraph_1971_tests();
         numberOfIslands_200_tests();
         maxAreaOfIsland_695_tests();
+        shortestPathInBinaryMatrix_1091_tests();
 
         // Directed-graph reasoning with topological order and cycle detection
         courseSchedule_207_tests();
