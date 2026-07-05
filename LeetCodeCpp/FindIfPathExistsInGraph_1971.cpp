@@ -1,54 +1,73 @@
 #include "FindIfPathExistsInGraph_1971.h"
+
 #include "UnionFind.h"
-#include <stack>
+
 #include <queue>
+#include <stack>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
-bool FindIfPathExistsInGraph_1971::validPathRecursiveDFS(int n, const vector<vector<int>>& edges, int source, int destination) {
-    if (source == destination) return true;
+using namespace std;
 
-    // Create an adjacency list using a vector of vectors
+// This file intentionally keeps several solution variants for the same problem:
+// recursive DFS, iterative DFS, BFS, and Union-Find.
+bool FindIfPathExistsInGraph_1971::validPathRecursiveDFS(
+    int n,
+    const vector<vector<int>>& edges,
+    int source,
+    int destination)
+{
+    if (source == destination) {
+        return true;
+    }
+
     vector<vector<int>> graph(n);
     for (const auto& edge : edges) {
         graph[edge[0]].push_back(edge[1]);
         graph[edge[1]].push_back(edge[0]);
     }
 
-    // Use a vector to mark visited nodes
     vector<int> visited(n, 0);
     visited[source] = 1;
 
     return recursive_dfs(source, destination, graph, visited);
 }
 
-bool FindIfPathExistsInGraph_1971::validPathIterativeDFS([[maybe_unused]] int n, const vector<vector<int>> &edges, int source, int destination)
+bool FindIfPathExistsInGraph_1971::validPathIterativeDFS(
+    [[maybe_unused]] int n,
+    const vector<vector<int>>& edges,
+    int source,
+    int destination)
 {
-    if (source == destination) return true;
+    if (source == destination) {
+        return true;
+    }
 
-    // This time we're going to use a hashmap for graph representation
     unordered_map<int, vector<int>> graph;
     for (const auto& edge : edges) {
         graph[edge[0]].push_back(edge[1]);
         graph[edge[1]].push_back(edge[0]);
     }
 
-    // This time use a hashset to represent visited nodes
     unordered_set<int> visited;
-    stack<int> stack;
+    stack<int> st;
 
-    stack.push(source);
+    st.push(source);
     visited.insert(source);
 
-    while (!stack.empty()) {
-        int node = stack.top();
-        stack.pop();
-        if (node == destination) return true;
+    while (!st.empty()) {
+        int node = st.top();
+        st.pop();
 
-        for(int nei : graph[node]) {
-            if (visited.find(nei) == visited.end()) {
-                visited.insert(nei);
-                stack.push(nei);
+        if (node == destination) {
+            return true;
+        }
+
+        for (int neighbor : graph[node]) {
+            if (!visited.count(neighbor)) {
+                visited.insert(neighbor);
+                st.push(neighbor);
             }
         }
     }
@@ -56,33 +75,40 @@ bool FindIfPathExistsInGraph_1971::validPathIterativeDFS([[maybe_unused]] int n,
     return false;
 }
 
-bool FindIfPathExistsInGraph_1971::validPathBFS([[maybe_unused]] int n, const vector<vector<int>> &edges, int source, int destination)
+bool FindIfPathExistsInGraph_1971::validPathBFS(
+    [[maybe_unused]] int n,
+    const vector<vector<int>>& edges,
+    int source,
+    int destination)
 {
-    if (source == destination) return true;
+    if (source == destination) {
+        return true;
+    }
 
-    // This time we're going to use a hashmap for graph representation
     unordered_map<int, vector<int>> graph;
     for (const auto& edge : edges) {
         graph[edge[0]].push_back(edge[1]);
         graph[edge[1]].push_back(edge[0]);
     }
 
-    // This time use a hashset to represent visited nodes
     unordered_set<int> visited;
-    queue<int> queue;
+    queue<int> q;
 
-    queue.push(source);
+    q.push(source);
     visited.insert(source);
 
-    while (!queue.empty()) {
-        int node = queue.front();
-        queue.pop();
-        if (node == destination) return true;
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
 
-        for (int nei : graph[node]) {
-            if (visited.find(nei) == visited.end()) {
-                visited.insert(nei);
-                queue.push(nei);
+        if (node == destination) {
+            return true;
+        }
+
+        for (int neighbor : graph[node]) {
+            if (!visited.count(neighbor)) {
+                visited.insert(neighbor);
+                q.push(neighbor);
             }
         }
     }
@@ -90,27 +116,40 @@ bool FindIfPathExistsInGraph_1971::validPathBFS([[maybe_unused]] int n, const ve
     return false;
 }
 
-bool FindIfPathExistsInGraph_1971::validPathUnionFind(int n, const vector<vector<int>> &edges, int source, int destination)
+bool FindIfPathExistsInGraph_1971::validPathUnionFind(
+    int n,
+    const vector<vector<int>>& edges,
+    int source,
+    int destination)
 {
     UnionFind uf(n);
 
-    // Union all edges
     for (const auto& edge : edges) {
         uf.unionSets(edge[0], edge[1]);
     }
 
-    // Check if source and destination are in the same set
     return uf.find(source) == uf.find(destination);
 }
 
-bool FindIfPathExistsInGraph_1971::recursive_dfs(int node, int destination, vector<vector<int>>& graph, vector<int>& visited) {
-    if (node == destination) return true;
+bool FindIfPathExistsInGraph_1971::recursive_dfs(
+    int node,
+    int destination,
+    const vector<vector<int>>& graph,
+    vector<int>& visited)
+{
+    if (node == destination) {
+        return true;
+    }
 
     for (int neighbor : graph[node]) {
         if (!visited[neighbor]) {
             visited[neighbor] = 1;
-            if (recursive_dfs(neighbor, destination, graph, visited)) return true;
+
+            if (recursive_dfs(neighbor, destination, graph, visited)) {
+                return true;
+            }
         }
     }
+
     return false;
 }
