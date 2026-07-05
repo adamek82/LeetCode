@@ -1,10 +1,11 @@
 #pragma once
-#include <vector>
 
-using namespace std;
+#include <vector>
 
 class RottingOranges_994 {
 public:
+    int orangesRotting(std::vector<std::vector<int>>& grid);
+
+private:
     enum class CellState { EMPTY, FRESH, ROTTEN };
-    int orangesRotting(vector<vector<int>>& grid);
 };

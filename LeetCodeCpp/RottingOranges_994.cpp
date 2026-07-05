@@ -1,9 +1,13 @@
 #include "RottingOranges_994.h"
+
 #include <array>
 #include <queue>
 #include <utility>
+#include <vector>
 
-int RottingOranges_994::orangesRotting(vector<vector<int>> &grid)
+using namespace std;
+
+int RottingOranges_994::orangesRotting(vector<vector<int>>& grid)
 {
     if (grid.empty() || grid[0].empty()) {
         return 0;
@@ -12,27 +16,29 @@ int RottingOranges_994::orangesRotting(vector<vector<int>> &grid)
     const int m = static_cast<int>(grid.size());
     const int n = static_cast<int>(grid[0].size());
 
-    queue<pair<int, int>> rottenQueue; // To store the positions of rotten oranges
+    queue<pair<int, int>> rottenQueue;
     int freshCount = 0;
 
-    // Initialize the queue with all rotten oranges and count the fresh ones
     for (int i = 0; i < m; ++i) {
         for (int j = 0; j < n; ++j) {
             if (grid[i][j] == static_cast<int>(CellState::ROTTEN)) {
-                rottenQueue.push({i, j});
+                rottenQueue.emplace(i, j);
             } else if (grid[i][j] == static_cast<int>(CellState::FRESH)) {
                 ++freshCount;
             }
         }
     }
 
-    // If there are no fresh oranges, return 0
-    if (freshCount == 0) return 0;
+    if (freshCount == 0) {
+        return 0;
+    }
 
     int minutes = -1;
-    constexpr array<pair<int, int>, 4> directions = {{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}}; // 4 possible directions
 
-    // BFS to propagate rotting effect
+    static constexpr array<pair<int, int>, 4> directions{{
+        {0, 1}, {1, 0}, {0, -1}, {-1, 0}
+    }};
+
     while (!rottenQueue.empty()) {
         const int size = static_cast<int>(rottenQueue.size());
         ++minutes;
@@ -41,20 +47,20 @@ int RottingOranges_994::orangesRotting(vector<vector<int>> &grid)
             auto [x, y] = rottenQueue.front();
             rottenQueue.pop();
 
-            for (auto& dir : directions) {
-                int nx = x + dir.first;
-                int ny = y + dir.second;
+            for (const auto& [dx, dy] : directions) {
+                const int nx = x + dx;
+                const int ny = y + dy;
 
-                // Check if the neighboring cell is a fresh orange
-                if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == static_cast<int>(CellState::FRESH)) {
-                    grid[nx][ny] = static_cast<int>(CellState::ROTTEN); // Rot the fresh orange
-                    rottenQueue.push({nx, ny});
+                if (nx >= 0 && nx < m
+                    && ny >= 0 && ny < n
+                    && grid[nx][ny] == static_cast<int>(CellState::FRESH)) {
+                    grid[nx][ny] = static_cast<int>(CellState::ROTTEN);
+                    rottenQueue.emplace(nx, ny);
                     --freshCount;
                 }
             }
         }
     }
 
-    // If there are still fresh oranges, return -1
     return freshCount == 0 ? minutes : -1;
 }
