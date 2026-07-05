@@ -1,9 +1,8 @@
 #pragma once
-#include <vector>
 
-using namespace std;
+#include <vector>
 
 class NetworkDelayTime_743 {
 public:
-    int networkDelayTime(vector<vector<int>>& times, int n, int k);
+    int networkDelayTime(std::vector<std::vector<int>>& times, int n, int k);
 };
