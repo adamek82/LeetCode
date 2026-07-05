@@ -1,20 +1,15 @@
 #pragma once
+
 #include "GraphNode.h"
+
 #include <unordered_map>
-
-template <typename T>
-class GraphNode;
-
-using namespace std;
 
 class CloneGraph_133 {
 public:
     GraphNode<int>* cloneGraph(GraphNode<int>* node);
-private:
-    // A map from original node to its clone
-    // Note: This is specialized for Node<int>
-    unordered_map<GraphNode<int>*, GraphNode<int>*> cloned;
 
-    // Private DFS that clones the node and its neighbors
+private:
+    std::unordered_map<GraphNode<int>*, GraphNode<int>*> cloned;
+
     GraphNode<int>* dfs(GraphNode<int>* node);
 };
