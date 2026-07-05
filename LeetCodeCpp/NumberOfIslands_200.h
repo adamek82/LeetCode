@@ -1,11 +1,11 @@
 #pragma once
-#include <vector>
 
-using namespace std;
+#include <vector>
 
 class NumberOfIslands_200 {
 public:
-    int numIslands(vector<vector<char>>& grid);
+    int numIslands(std::vector<std::vector<char>>& grid);
+
 private:
-    void dfs(vector<vector<char>>& grid, int i, int j);
+    void dfs(std::vector<std::vector<char>>& grid, int i, int j);
 };
