@@ -1,13 +1,15 @@
 #pragma once
-#include <vector>
+
 #include <queue>
 #include <utility>
-
-using namespace std;
+#include <vector>
 
 class PacificAtlanticWaterFlow_417 {
 public:
-    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights);
+    std::vector<std::vector<int>> pacificAtlantic(std::vector<std::vector<int>>& heights);
+
 private:
-    void bfs(const vector<vector<int>>& heights, queue<pair<int, int>>& q, vector<vector<bool>>& visited);
+    void bfs(const std::vector<std::vector<int>>& heights,
+             std::queue<std::pair<int, int>>& q,
+             std::vector<std::vector<bool>>& visited);
 };
