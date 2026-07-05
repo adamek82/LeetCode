@@ -1,12 +1,12 @@
 #pragma once
-#include <vector>
 
-using namespace std;
+#include <vector>
 
 class MinCostToConnectAllPoints_1584 {
 public:
-    int minCostConnectPointsHeap(vector<vector<int>>& points);
-    int minCostConnectPointsArray(vector<vector<int>>& points);
+    int minCostConnectPointsHeap(std::vector<std::vector<int>>& points);
+    int minCostConnectPointsArray(std::vector<std::vector<int>>& points);
+
 private:
-    int manhattanDist(const vector<int>& p1, const vector<int>& p2);
+    int manhattanDist(const std::vector<int>& p1, const std::vector<int>& p2);
 };
