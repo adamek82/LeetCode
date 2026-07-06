@@ -1,9 +1,8 @@
 #pragma once
-#include <vector>
 
-using namespace std;
+#include <vector>
 
 class ShortestPathInBinaryMatrix_1091 {
 public:
-    int shortestPathBinaryMatrix(vector<vector<int>>& grid);
+    int shortestPathBinaryMatrix(std::vector<std::vector<int>>& grid);
 };
