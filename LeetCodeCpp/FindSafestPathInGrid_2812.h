@@ -1,18 +1,20 @@
 #pragma once
+
 #include <array>
 #include <limits>
+#include <utility>
 #include <vector>
 
-using namespace std;
-
 class FindSafestPathInGrid_2812 {
-    using pii = pair<int,int>;
-    static constexpr int INF = numeric_limits<int>::max() / 2;   // ≈ 1 073 741 823
-
-    // 4 possible directions
-    static constexpr array<pair<int,int>,4> directions =
-        {{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}};
-
 public:
-    int maximumSafenessFactor(vector<vector<int>>& grid);
+    int maximumSafenessFactor(std::vector<std::vector<int>>& grid);
+
+private:
+    using Point = std::pair<int, int>;
+
+    static constexpr int INF = std::numeric_limits<int>::max() / 2;
+
+    static constexpr std::array<std::pair<int, int>, 4> directions{{
+        {0, 1}, {1, 0}, {0, -1}, {-1, 0}
+    }};
 };
