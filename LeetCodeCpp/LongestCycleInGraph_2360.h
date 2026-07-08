@@ -1,9 +1,8 @@
 #pragma once
-#include <vector>
 
-using namespace std;
+#include <vector>
 
 class LongestCycleInGraph_2360 {
 public:
-    int longestCycle(vector<int>& edges);
+    int longestCycle(std::vector<int>& edges);
 };

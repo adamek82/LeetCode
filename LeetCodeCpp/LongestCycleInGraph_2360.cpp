@@ -1,26 +1,35 @@
 #include "LongestCycleInGraph_2360.h"
+
 #include <algorithm>
+#include <vector>
 
-int LongestCycleInGraph_2360::longestCycle(vector<int> &edges)
+using namespace std;
+
+int LongestCycleInGraph_2360::longestCycle(vector<int>& edges)
 {
+    const int n = static_cast<int>(edges.size());
+
     int ans = -1;
-    int time = 1;                       // global clock
-    vector<int> timeVisited(edges.size(), 0);
+    int time = 1;
+    vector<int> timeVisited(n, 0);
 
-    for (int i = 0; i < edges.size(); ++i) {
-      if (timeVisited[i]) continue;     // node already processed
+    for (int i = 0; i < n; ++i) {
+        if (timeVisited[i]) {
+            continue;
+        }
 
-      int startTime = time;             // clock value at the start of this walk
-      int u = i;
+        const int startTime = time;
+        int node = i;
 
-      while (u != -1 && !timeVisited[u]) {
-        timeVisited[u] = time++;        // stamp -- first visit ever
-        u = edges[u];                   // advance along unique edge
-      }
+        while (node != -1 && !timeVisited[node]) {
+            timeVisited[node] = time++;
+            node = edges[node];
+        }
 
-      // If we stopped because we re-entered the current walk ⇒ found a cycle
-      if (u != -1 && timeVisited[u] >= startTime)
-        ans = max(ans, time - timeVisited[u]);
+        if (node != -1 && timeVisited[node] >= startTime) {
+            ans = max(ans, time - timeVisited[node]);
+        }
     }
+
     return ans;
 }
