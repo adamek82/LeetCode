@@ -157,9 +157,9 @@ struct PrintScalar {
 };
 
 template <typename T>
-inline bool assertEqScalar(const string& label,
-                           const T& expected,
-                           const T& got) {
+[[nodiscard]] inline bool assertEqScalar(const string& label,
+                                         const T& expected,
+                                         const T& got) {
     return assertEqGeneric(label, expected, got, NoNormalize{}, PrintScalar{});
 }
 
@@ -232,7 +232,7 @@ inline bool assertEqVVStrAnyOrder(const string& label,
     return pass;
 }
 
-void assertMaxMin(const string& label,
+bool assertMaxMin(const string& label,
                   const function<string()>& getMax,
                   const function<string()>& getMin,
                   initializer_list<string> maxSet,

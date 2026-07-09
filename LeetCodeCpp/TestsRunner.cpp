@@ -178,11 +178,16 @@ using namespace TestCases;
 struct TestEntry {
     int id;                    // 0 for custom/non-LeetCode
     const char* title;         // human-readable
-    void (*fn)();              // pointer to static test function
+    bool (*fn)();              // pointer to static test function
 };
 
 // Helper to keep the table compact.
 #define TEST(ID, TITLE, FN) TestEntry{ (ID), (TITLE), &FN }
+
+#define REQUIRE_ASSERT(EXPR)        \
+    do {                            \
+        if (!(EXPR)) return false;  \
+    } while (false)
 
 class TestsRunner {
 public:
@@ -192,7 +197,7 @@ public:
 
     /* Simple iteration, counting, and basic array/string traversal */
 
-    static void fizzBuzz_412_tests() {
+    static bool fizzBuzz_412_tests() {
         vector<FizzBuzzTestCase> testCases = {
             {
                 3,
@@ -225,14 +230,15 @@ public:
 
             const string label =
                 "FizzBuzz 412 Test " + to_string(i + 1) + " (n=" + to_string(tc.n) + ")";
-
-            assertEqGeneric(label, tc.expected, got,
-                            [](vector<string> v) { return v; },
-                            PrintQuotedStrings{});
+            REQUIRE_ASSERT(assertEqGeneric(label, tc.expected, got,
+                                           [](vector<string> v) { return v; },
+                                           PrintQuotedStrings{}));
         }
+
+        return true;
     }
 
-    static void numberOfEmployeesWhoMetTarget_2798_tests() {
+    static bool numberOfEmployeesWhoMetTarget_2798_tests() {
         using namespace TestCases;
 
         vector<NumberOfEmployeesWhoMetTargetTestCase> testCases = {
@@ -248,22 +254,32 @@ public:
         };
 
         NumberOfEmployeesWhoMetTarget_2798 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto hours1 = testCases[i].hours; // copy, method takes non-const ref
-            auto hours2 = testCases[i].hours; // copy, method takes non-const ref
+            auto hours1 = testCases[i].hours;
+            auto hours2 = testCases[i].hours;
 
-            int gotLoop = sol.numberOfEmployeesWhoMetTarget_CountingLoop(hours1, testCases[i].target);
-            int gotIf   = sol.numberOfEmployeesWhoMetTarget_CountIf(hours2, testCases[i].target);
+            int gotLoop = sol.numberOfEmployeesWhoMetTarget_CountingLoop(
+                hours1, testCases[i].target);
+            int gotIf = sol.numberOfEmployeesWhoMetTarget_CountIf(
+                hours2, testCases[i].target);
 
-            assertEqScalar("Number of Employees Who Met Target 2798 (CountingLoop) Test " + to_string(i + 1),
-                        testCases[i].expected, gotLoop);
-
-            assertEqScalar("Number of Employees Who Met Target 2798 (CountIf) Test " + to_string(i + 1),
-                        testCases[i].expected, gotIf);
+            const string base =
+                "Number of Employees Who Met Target 2798 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [CountingLoop]",
+                testCases[i].expected,
+                gotLoop));
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [CountIf]",
+                testCases[i].expected,
+                gotIf));
         }
+
+        return true;
     }
 
-    static void mergeStringsAlternately_1768_tests() {
+    static bool mergeStringsAlternately_1768_tests() {
         vector<MergeStringsAlternatelyTestCase> tests = {
             // From the statement
             {"abc",   "pqr",   "apbqcr"},
@@ -278,12 +294,15 @@ public:
         MergeStringsAlternately_1768 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             string got = sol.mergeAlternately(tests[i].word1, tests[i].word2);
+
             const string label = "Merge Strings Alternately 1768 Test " + to_string(i + 1);
-            assertEqScalar(label, tests[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar(label, tests[i].expected, got));
         }
+
+        return true;
     }
 
-    static void findClosestNumber_2239_tests() {
+    static bool findClosestNumber_2239_tests() {
         vector<FindClosestNumberToZeroTestCase> tests = {
             // From the statement
             {{-4,-2,1,4,8}, 1},
@@ -299,14 +318,17 @@ public:
         FindClosestNumberToZero_2239 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             int got = sol.findClosestNumber(tests[i].nums);
+
             const string label = "Find Closest Number to Zero 2239 Test " + to_string(i + 1);
-            assertEqScalar(label, tests[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar(label, tests[i].expected, got));
         }
+
+        return true;
     }
 
     /* Sequence comparison, prefix checks, and simple string parsing */
 
-    static void isSubsequence_392_tests() {
+    static bool isSubsequence_392_tests() {
         vector<IsSubsequence392TestCase> tests = {
             {"abc",     "ahbgdc",   true},
             {"axc",     "ahbgdc",   false},
@@ -333,10 +355,10 @@ public:
             bool c = idxNext.isSubsequence_NextTable(s);
 
             const string base = "Is Subsequence 392 Test " + to_string(i + 1);
-            assertEqScalar(base + " [two-pointer]", tests[i].expected, a);
-            assertEqScalar(base + " [pos-index]",   tests[i].expected, b);
-            assertEqScalar(base + " [next-table]",  tests[i].expected, c);
-            assertEqScalar(base + " [consistency pos vs next]", b, c);
+            REQUIRE_ASSERT(assertEqScalar(base + " [two-pointer]", tests[i].expected, a));
+            REQUIRE_ASSERT(assertEqScalar(base + " [pos-index]", tests[i].expected, b));
+            REQUIRE_ASSERT(assertEqScalar(base + " [next-table]",  tests[i].expected, c));
+            REQUIRE_ASSERT(assertEqScalar(base + " [consistency pos vs next]", b, c));
         }
 
         // Follow-up: many queries for the same t (reuse preprocessed data)
@@ -359,16 +381,20 @@ public:
                 bool p = idxPos.isSubsequence_PosIndex(qs);
                 bool n = idxNext.isSubsequence_NextTable(qs);
 
-                const string base = "Is Subsequence 392 FU " + to_string(b + 1) + " Q" + to_string(qi + 1);
-                assertEqScalar(base + " [two-pointer]", expected, a);
-                assertEqScalar(base + " [pos-index]",   expected, p);
-                assertEqScalar(base + " [next-table]",  expected, n);
-                assertEqScalar(base + " [consistency pos vs next]", p, n);
+                const string base =
+                    "Is Subsequence 392 FU " + to_string(b + 1) +
+                    " Q" + to_string(qi + 1);
+                REQUIRE_ASSERT(assertEqScalar(base + " [two-pointer]", expected, a));
+                REQUIRE_ASSERT(assertEqScalar(base + " [pos-index]", expected, p));
+                REQUIRE_ASSERT(assertEqScalar(base + " [next-table]",  expected, n));
+                REQUIRE_ASSERT(assertEqScalar(base + " [consistency pos vs next]", p, n));
             }
         }
+
+        return true;
     }
 
-    static void longestCommonPrefix_14_tests() {
+    static bool longestCommonPrefix_14_tests() {
         vector<LongestCommonPrefixTestCase> tcs = {
             // Provided examples
             {{"flower","flow","flight"}, "fl"},
@@ -390,8 +416,8 @@ public:
         LongestCommonPrefix_14 sol;
         for (size_t i = 0; i < tcs.size(); ++i) {
             string gotL = sol.longestCommonPrefix_Linear(tcs[i].strs);
-            string gotS = sol.longestCommonPrefix_Sort(tcs[i].strs);      // cross-check
-            string gotV = sol.longestCommonPrefix_Vertical(tcs[i].strs);  // cross-check
+            string gotS = sol.longestCommonPrefix_Sort(tcs[i].strs);
+            string gotV = sol.longestCommonPrefix_Vertical(tcs[i].strs);
 
             if (gotL != gotS || gotL != gotV) {
                 cout << "[WARN] LCP variants disagree on case " << (i + 1)
@@ -399,34 +425,40 @@ public:
                     << "\" vertical=\"" << gotV << "\"\n";
             }
 
-            // Keep one "primary" assertion, but also validate other variants.
-            assertEqScalar("LCP14 Test " + to_string(i + 1) + " (linear)",   tcs[i].expected, gotL);
-            assertEqScalar("LCP14 Test " + to_string(i + 1) + " (vertical)", tcs[i].expected, gotV);
-            assertEqScalar("LCP14 Test " + to_string(i + 1) + " (sort)",     tcs[i].expected, gotS);
+            const string base = "LCP14 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(base + " [linear]", tcs[i].expected, gotL));
+            REQUIRE_ASSERT(assertEqScalar(base + " [vertical]", tcs[i].expected, gotV));
+            REQUIRE_ASSERT(assertEqScalar(base + " [sort]", tcs[i].expected, gotS));
         }
+
+        return true;
     }
 
-    static void summaryRanges_228_tests() {
+    static bool summaryRanges_228_tests() {
         vector<SummaryRangesTestCase> tests = {
-            {{0,1,2,4,5,7},                  {"0->2","4->5","7"}},
-            {{0,2,3,4,6,8,9},                {"0","2->4","6","8->9"}},
+            {{0,1,2,4,5,7},                   {"0->2","4->5","7"}},
+            {{0,2,3,4,6,8,9},                 {"0","2->4","6","8->9"}},
             {{},                              {}},
             {{5},                             {"5"}},
-            {{-3,-2,-1,0,2},                 {"-3->0","2"}},
-            {{INT_MAX-1, INT_MAX},           {to_string(INT_MAX-1) + "->" + to_string(INT_MAX)}},
-            {{INT_MIN, INT_MIN+1, INT_MIN+3},{to_string(INT_MIN) + "->" + to_string(INT_MIN+1), to_string(INT_MIN+3)}},
+            {{-3,-2,-1,0,2},                  {"-3->0","2"}},
+            {{INT_MAX-1, INT_MAX},            {to_string(INT_MAX-1) + "->" + to_string(INT_MAX)}},
+            {{INT_MIN, INT_MIN+1, INT_MIN+3}, {to_string(INT_MIN) + "->" + to_string(INT_MIN+1), to_string(INT_MIN+3)}},
             {{1,3,5},                         {"1","3","5"}}
         };
 
         SummaryRanges_228 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
-            auto in  = tests[i].nums;              // method takes non-const ref
+            auto in = tests[i].nums; // method takes non-const ref
             auto got = sol.summaryRanges(in);
-            assertEqStrings("Summary Ranges 228 Test " + to_string(i + 1), tests[i].expected, got);
+
+            const string label = "Summary Ranges 228 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqStrings(label, tests[i].expected, got));
         }
+
+        return true;
     }
 
-    static void romanToInteger_13_tests() {
+    static bool romanToInteger_13_tests() {
         vector<RomanToIntegerTestCase> tests = {
             // From the statement
             {"III", 3},
@@ -441,14 +473,19 @@ public:
         RomanToInteger_13 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             int got = sol.romanToInt(tests[i].input);
-            const string label = "Roman to Integer 13 Test " + to_string(i + 1) + " [\"" + tests[i].input + "\"]";
-            assertEqScalar(label, tests[i].expected, got);
+
+            const string label =
+                "Roman to Integer 13 Test " + to_string(i + 1) +
+                " [\"" + tests[i].input + "\"]";
+            REQUIRE_ASSERT(assertEqScalar(label, tests[i].expected, got));
         }
+
+        return true;
     }
 
     /* In-place array updates and two-pointer style compaction/merge */
 
-    static void removeDuplicatesFromSortedArray_26_tests() {
+    static bool removeDuplicatesFromSortedArray_26_tests() {
         vector<RemoveDuplicates26TestCase> tests = {
             {{1,1,2},                             {1,2}},
             {{0,0,1,1,1,2,2,3,3,4},               {0,1,2,3,4}},
@@ -462,13 +499,17 @@ public:
         vector<int> a; // reuse to avoid realloc chatter
 
         for (size_t i = 0; i < tests.size(); ++i) {
-            a = tests[i].nums;                      // the solver mutates in place
+            a = tests[i].nums; // the solver mutates in place
             int k = sol.removeDuplicates(a);
-            assertEqVIntPrefix("Remove Duplicates 26 Test " + to_string(i + 1), tests[i].expected, a, k);
+
+            const string label = "Remove Duplicates 26 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVIntPrefix(label, tests[i].expected, a, k));
         }
+
+        return true;
     }
 
-    static void removeElement_27_tests() {
+    static bool removeElement_27_tests() {
         vector<RemoveElementTestCase> cases = {
             {{3,2,2,3},           3, 2, {2,2}},           // example 1
             {{0,1,2,2,3,0,4,2},   2, 5, {0,0,1,3,4}},     // example 2
@@ -478,6 +519,7 @@ public:
         };
 
         RemoveElement_27 remover;
+
         for (size_t i = 0; i < cases.size(); ++i) {
             auto nums = cases[i].nums;                // copy to mutate
             int  k    = remover.removeElement(nums, cases[i].val);
@@ -489,12 +531,14 @@ public:
             sort(exp.begin(), exp.end());
 
             const string base = "Remove Element 27 Test " + to_string(i + 1);
-            assertEqScalar(base + " [k]", cases[i].expectedK, k);
-            assertEqVIntExact(base + " [elems unordered]", exp, got);
+            REQUIRE_ASSERT(assertEqScalar(base + " [k]", cases[i].expectedK, k));
+            REQUIRE_ASSERT(assertEqVIntExact(base + " [elems unordered]", exp, got));
         }
+
+        return true;
     }
 
-    static void mergeSortedArray_88_tests() {
+    static bool mergeSortedArray_88_tests() {
         vector<MergeSortedArrayTestCase> cases = {
             {{1,2,3,0,0,0}, 3, {2,5,6}, 3, {1,2,2,3,5,6}},
             {{1},           1, {},       0, {1}},
@@ -504,16 +548,19 @@ public:
         };
 
         MergeSortedArray_88 merger;
+
         for (size_t i = 0; i < cases.size(); ++i) {
             auto nums1 = cases[i].nums1; // copy; merge mutates in place
             merger.merge(nums1, cases[i].m, cases[i].nums2, cases[i].n);
 
             const string label = "Merge Sorted Array 88 Test " + to_string(i + 1);
-            assertEqVIntExact(label, cases[i].expected, nums1);
+            REQUIRE_ASSERT(assertEqVIntExact(label, cases[i].expected, nums1));
         }
+
+        return true;
     }
 
-    static void removeDuplicatesFromSortedArrayII_80_tests() {
+    static bool removeDuplicatesFromSortedArrayII_80_tests() {
         // Prepare test cases:
         vector<RemoveDuplicatesFromSortedArrayIITestCase> testCases = {
             // 2 examples from the problem statement:
@@ -527,19 +574,22 @@ public:
         };
 
         RemoveDuplicatesFromSortedArrayII_80 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto nums = testCases[i].input;           // work on a copy
             int k = sol.removeDuplicates(nums);
 
             const string base = "Remove Duplicates II 80 Test " + to_string(i + 1);
-            assertEqScalar(base + " [k]", testCases[i].expectedK, k);
-            assertEqVIntPrefix(base + " [prefix]", testCases[i].expected, nums, k);
+            REQUIRE_ASSERT(assertEqScalar(base + " [k]", testCases[i].expectedK, k));
+            REQUIRE_ASSERT(assertEqVIntPrefix(base + " [prefix]", testCases[i].expected, nums, k));
         }
+
+        return true;
     }
 
     /* Greedy scans, prefix thinking, and simple counting ideas */
 
-    static void bestTimeToBuyAndSellStock_121_tests() {
+    static bool bestTimeToBuyAndSellStock_121_tests() {
         vector<BestTimeToBuyAndSellStockTestCase> testCases = {
             // Provided examples
             {{7, 1, 5, 3, 6, 4}, 5},  // Example 1
@@ -554,13 +604,18 @@ public:
         };
 
         BestTimeToBuyAndSellStock_121 solution;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int result = solution.maxProfit(testCases[i].prices);
-            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
+
+            const string label = "Best Time to Buy and Sell Stock 121 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, result));
         }
+
+        return true;
     }
 
-    static void bestTimeToBuyAndSellStockII_122_tests() {
+    static bool bestTimeToBuyAndSellStockII_122_tests() {
         vector<BestTimeToBuyAndSellStockIITestCase> testCases = {
             // 3 examples from the problem statement:
             {{7,1,5,3,6,4}, 7}, // Example 1
@@ -587,17 +642,27 @@ public:
         };
 
         BestTimeToBuyAndSellStockII_122 sol;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            const int got_dailyDiffs = sol.maxProfit_DailyDiffs(testCases[i].prices);
-            const int got_valleyPeak = sol.maxProfit_ValleyPeak(testCases[i].prices);
 
-            const string base = "Best Time to Buy and Sell Stock II 122 Test " + to_string(i + 1);
-            assertEqScalar(base + " [DailyDiffs]", testCases[i].expected, got_dailyDiffs);
-            assertEqScalar(base + " [ValleyPeak]", testCases[i].expected, got_valleyPeak);
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const int gotDailyDiffs = sol.maxProfit_DailyDiffs(testCases[i].prices);
+            const int gotValleyPeak = sol.maxProfit_ValleyPeak(testCases[i].prices);
+
+            const string base =
+                "Best Time to Buy and Sell Stock II 122 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [DailyDiffs]",
+                testCases[i].expected,
+                gotDailyDiffs));
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [ValleyPeak]",
+                testCases[i].expected,
+                gotValleyPeak));
         }
+
+        return true;
     }
 
-    static void findPivotIndex_724_tests() {
+    static bool findPivotIndex_724_tests() {
         vector<FindPivotIndexTestCase> cases = {
             {{1,7,3,6,5,6},  3},     // example 1
             {{1,2,3},       -1},     // example 2
@@ -607,13 +672,18 @@ public:
         };
 
         FindPivotIndex_724 solver;
+
         for (size_t i = 0; i < cases.size(); ++i) {
             int got = solver.pivotIndex(cases[i].input);
-            assertEqScalar("Find Pivot Index 724 Test " + to_string(i + 1), cases[i].expected, got);
+
+            const string label = "Find Pivot Index 724 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, cases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void appleRedistributionIntoBoxes_3074_tests() {
+    static bool appleRedistributionIntoBoxes_3074_tests() {
         vector<AppleRedistributionIntoBoxesTestCase> testCases = {
             // Examples from the problem statement
             {{1, 3, 2},      {4, 3, 1, 5, 2}, 2},
@@ -630,6 +700,7 @@ public:
         };
 
         AppleRedistributionIntoBoxes_3074 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
 
@@ -638,12 +709,14 @@ public:
             int got = solver.minimumBoxes(const_cast<vector<int>&>(tc.apple),
                                           capacityCopy);
 
-            assertEqScalar("Apple Redistribution Into Boxes 3074 Test " + to_string(i + 1),
-                           tc.expected, got);
+            const string label = "Apple Redistribution Into Boxes 3074 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
-    static void splitTheArray_3046_tests() {
+    static bool splitTheArray_3046_tests() {
         vector<SplitTheArrayTestCase> tests = {
             {{1,1,2,2,3,4}, true},   // example 1
             {{1,1,1,1},     false},  // example 2
@@ -653,18 +726,23 @@ public:
             {{5,5,5,6,7,8}, false},  // a value appears 3 times
             {{10,20,30,40}, true},   // all unique
         };
+
         SplitTheArray_3046 sol;
+
         for (size_t i = 0; i < tests.size(); ++i) {
             auto v = tests[i].nums;
-            bool got = sol.isPossibleToSplit(v);
-            assertEqScalar("Split the Array 3046 Test " + to_string(i + 1),
-                           tests[i].expected, got);
+            bool got = sol.isPossibleToSplit(v);\
+
+            const string label = "Pascal's Triangle 118 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVVIntExact(label, testCases[i].expected, got));
         }
+
+        return true;
     }
 
     /* Core array techniques: construction, partitioning, and prefix products */
 
-    static void pascalsTriangle_118_tests() {
+    static bool pascalsTriangle_118_tests() {
         vector<PascalsTriangleTestCase> testCases = {
             // examples from the statement
             {1, {{1}}},
@@ -689,14 +767,18 @@ public:
         };
 
         PascalsTriangle_118 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto got = solver.generate(testCases[i].numRows);
-            assertEqVVIntExact("Pascal's Triangle 118 Test " + to_string(i + 1),
-                               testCases[i].expected, got);
+
+            const string label = "Pascal's Triangle 118 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVVIntExact(label, testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void sortColors_75_tests() {
+    static bool sortColors_75_tests() {
         vector<SortColorsTestCase> testCases = {
             {{2, 0, 2, 1, 1, 0}, {0, 0, 1, 1, 2, 2}},
             {{2, 0, 1},          {0, 1, 2}},
@@ -714,12 +796,14 @@ public:
             sol.sortColors_counting(arr_counting);
 
             const string base = "Sort Colors 75 Test " + to_string(i + 1);
-            assertEqVIntExact(base + " [threeTails]", testCases[i].expected, arr_threeTails);
-            assertEqVIntExact(base + " [counting]",   testCases[i].expected, arr_counting);
+            REQUIRE_ASSERT(assertEqVIntExact(base + " [threeTails]", testCases[i].expected, arr_threeTails));
+            REQUIRE_ASSERT(assertEqVIntExact(base + " [counting]",   testCases[i].expected, arr_counting));
         }
+
+        return true;
     }
 
-    static void productOfArrayExceptSelf_238_tests() {
+    static bool productOfArrayExceptSelf_238_tests() {
         vector<ProductOfArrayExceptSelfTestCase> testCases = {
             // Example 1
             {{1, 2, 3, 4}, {24, 12, 8, 6}},
@@ -737,11 +821,15 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto got = solution.productExceptSelf(testCases[i].input);
-            assertEqVIntExact("Product Except Self Test " + to_string(i + 1), testCases[i].expected, got);
+
+            const string label = "Product Except Self 238 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVIntExact(label, testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void hIndex_274_tests() {
+    static bool hIndex_274_tests() {
         // 5 test cases: the 2 from the LeetCode examples + 3 additional
         vector<HIndexTestCase> testCases = {
             // Example 1
@@ -758,13 +846,17 @@ public:
         HIndex_274 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = sol.hIndex(testCases[i].input);
-            assertEqScalar("H-Index 274 Test " + to_string(i + 1), testCases[i].expected, got);
+
+            const string label = "H-Index 274 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
+
+        return true;
     }
 
     /* More advanced transformations on intervals, strings, and matrices */
 
-    static void mergeIntervals_56_tests() {
+    static bool mergeIntervals_56_tests() {
         vector<MergeIntervalsTestCase> testCases = {
             // Problem statement examples
             {{{1, 3}, {2, 6}, {8, 10}, {15, 18}}, {{1, 6}, {8, 10}, {15, 18}}},
@@ -782,11 +874,15 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto got = solution.merge(testCases[i].input);
-            assertEqVVIntExact("Merge Intervals Test " + to_string(i + 1), testCases[i].expected, got);
+
+            const string label = "Merge Intervals Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVVIntExact(label, testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void zigzagConversion_6_tests() {
+    static bool zigzagConversion_6_tests() {
         vector<ZigzagConversionTestCase> testCases = {
             {"PAYPALISHIRING", 3, "PAHNAPLSIIGYIR"},
             {"PAYPALISHIRING", 4, "PINALSIGYAHRPI"},
@@ -802,18 +898,20 @@ public:
             string gotRow  = sol.convert_rowWise(tc.input, tc.numRows);
             string gotJump = sol.convert_jumpPattern(tc.input, tc.numRows);
 
-            const string base = "Zigzag Conversion 6 Test " + to_string(i + 1)
-                              + " (rows=" + to_string(tc.numRows) + ")";
-
-            assertEqScalar(base + " [row-wise]",    tc.expected, gotRow);
-            assertEqScalar(base + " [jump-pattern]",tc.expected, gotJump);
-            assertEqScalar(base + " [consistency]", gotRow,      gotJump);
+            const string base =
+                "Zigzag Conversion 6 Test " + to_string(i + 1) +
+                " (rows=" + to_string(tc.numRows) + ")";
+            REQUIRE_ASSERT(assertEqScalar(base + " [row-wise]", tc.expected, gotRow));
+            REQUIRE_ASSERT(assertEqScalar(base + " [jump-pattern]", tc.expected, gotJump));
+            REQUIRE_ASSERT(assertEqScalar(base + " [consistency]", gotRow, gotJump));
         }
+
+        return true;
     }
 
     /* 2D matrix traversal and in-place matrix transformation */
 
-    static void rotateImage_48_tests() {
+    static bool rotateImage_48_tests() {
         vector<RotateImageTestCase> testCases = {
             // Example 1
             {{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}, {{7, 4, 1}, {8, 5, 2}, {9, 6, 3}}},
@@ -830,22 +928,30 @@ public:
 
         RotateImage_48 rotator;
 
-        // -------- Transpose-then-Reverse variant --------------------------------
+        // Transpose-then-reverse variant
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto m = testCases[i].input; // fresh copy
             rotator.rotateTransposeReverse(m);
-            assertEqVVIntExact("[Transpose+Reverse] Test " + to_string(i + 1), testCases[i].expected, m);
+
+            const string label =
+                "Rotate Image 48 Test " + to_string(i + 1) + " [Transpose+Reverse]";
+            REQUIRE_ASSERT(assertEqVVIntExact(label, testCases[i].expected, m));
         }
 
-        // -------- Layer-by-Layer (“onion”) swap variant -------------------------
+        // Layer-by-layer ("onion") swap variant
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto m = testCases[i].input; // fresh copy
             rotator.rotateLayerSwap(m);
-            assertEqVVIntExact("[LayerSwap]        Test " + to_string(i + 1), testCases[i].expected, m);
+
+            const string label =
+                "Rotate Image 48 Test " + to_string(i + 1) + " [LayerSwap]";
+            REQUIRE_ASSERT(assertEqVVIntExact(label, testCases[i].expected, m));
         }
+
+        return true;
     }
 
-    static void spiralMatrix_54_tests() {
+    static bool spiralMatrix_54_tests() {
         vector<SpiralMatrixTestCase> testCases = {
             // Provided examples
             {{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}, {1, 2, 3, 6, 9, 8, 7, 4, 5}},
@@ -863,49 +969,71 @@ public:
         };
 
         SpiralMatrix_54 sm54;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             vector<int> result = sm54.spiralOrder(testCases[i].matrix);
-            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, result);
+
+            const string label = "Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVIntExact(label, testCases[i].expected, result));
         }
+
+        return true;
     }
 
     /* Preprocessing optimization for repeated subsequence queries */
 
-    // Big test focusing on next-position DP (also cross-check pos-index)
-    static void isSubsequence_392_nextpos_tests() {
+    // Stress test for next-position preprocessing; also cross-checks pos-index.
+    static bool isSubsequence_392_nextpos_tests() {
         string t;
         t.reserve(10000);
-        for (int i = 0; i < 10000; ++i) t.push_back(char('a' + (i % 26)));
 
-        IsSubsequence_392 idxNext, idxPos;
+        for (int i = 0; i < 10000; ++i) {
+            t.push_back(char('a' + (i % 26)));
+        }
+
+        IsSubsequence_392 idxNext;
+        IsSubsequence_392 idxPos;
+
         idxNext.preprocess_NextTable(t);
         idxPos.preprocess_PosIndex(t);
 
-        struct Q { string s; bool expected; };
-        vector<Q> qs;
+        struct Query {
+            string s;
+            bool expected;
+        };
+
+        vector<Query> queries;
+
         {
             string s;
             s.reserve(26 * 100);
-            for (int rep = 0; rep < 100; ++rep)
-                for (char c = 'a'; c <= 'z'; ++c) s.push_back(c);
-            qs.push_back({move(s), true});
-        }
-        qs.push_back({string(384, 'z'), true});
-        qs.push_back({string(385, 'z'), false});
-        qs.push_back({"leetcode", true});
-        qs.push_back({"zzzay", true});
-        qs.push_back({"", true});
 
-        for (size_t i = 0; i < qs.size(); ++i) {
-            bool gotN = idxNext.isSubsequence_NextTable(qs[i].s);
-            bool gotP = idxPos .isSubsequence_PosIndex(qs[i].s);
+            for (int rep = 0; rep < 100; ++rep) {
+                for (char c = 'a'; c <= 'z'; ++c) {
+                    s.push_back(c);
+                }
+            }
+
+            queries.push_back({move(s), true});
+        }
+
+        queries.push_back({string(384, 'z'), true});
+        queries.push_back({string(385, 'z'), false});
+        queries.push_back({"leetcode", true});
+        queries.push_back({"zzzay", true});
+        queries.push_back({"", true});
+
+        for (size_t i = 0; i < queries.size(); ++i) {
+            bool gotNext = idxNext.isSubsequence_NextTable(queries[i].s);
+            bool gotPos = idxPos.isSubsequence_PosIndex(queries[i].s);
 
             const string base = "Is Subsequence 392 Big Test " + to_string(i + 1);
-
-            assertEqScalar(base + " [NextTable]", qs[i].expected, gotN);
-            assertEqScalar(base + " [PosIndex]",  qs[i].expected, gotP);
-            assertEqScalar(base + " [Consistency]", gotN, gotP);
+            REQUIRE_ASSERT(assertEqScalar(base + " [NextTable]", queries[i].expected, gotNext));
+            REQUIRE_ASSERT(assertEqScalar(base + " [PosIndex]", queries[i].expected, gotPos));
+            REQUIRE_ASSERT(assertEqScalar(base + " [Consistency]", gotNext, gotPos));
         }
+
+        return true;
     }
 
     // ============================================================================
@@ -914,7 +1042,7 @@ public:
 
     /* Basic membership checks with sets and simple lookups */
 
-    static void numJewelsAndStones_771_tests() {
+    static bool numJewelsAndStones_771_tests() {
         vector<JewelsAndStonesTestCase> testCases = {
             // Problem-statement examples
             {"aA", "aAAbbbb", 3},
@@ -930,11 +1058,13 @@ public:
         JewelsAndStones_771 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solver.numJewelsInStones(testCases[i].jewels, testCases[i].stones);
-            assertEqScalar("Jewels & Stones 771 Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Jewels & Stones 771 Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void containsDuplicate_217_tests() {
+    static bool containsDuplicate_217_tests() {
         vector<ContainsDuplicateTestCase> tests = {
             // 3 from the statement
             {{1, 2, 3, 1}, true},
@@ -959,7 +1089,7 @@ public:
 
         for (size_t i = 0; i < tests.size(); ++i) {
             bool got = sol.containsDuplicate(tests[i].nums);
-            assertEqScalar("ContainsDuplicate 217 Test " + to_string(i + 1), tests[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("ContainsDuplicate 217 Test " + to_string(i + 1), tests[i].expected, got));
         }
 
         // Stress: large array + one duplicate appended
@@ -967,12 +1097,14 @@ public:
         iota(bigWithDup.begin(), bigWithDup.end(), -5000);
         bigWithDup.push_back(123); // duplicate
         bool got = sol.containsDuplicate(bigWithDup);
-        assertEqScalar("ContainsDuplicate 217 Stress", true, got);
+        REQUIRE_ASSERT(assertEqScalar("ContainsDuplicate 217 Stress", true, got));
+
+        return true;
     }
 
     /* Frequency counting on characters and values */
 
-    static void ransomNote_383_tests() {
+    static bool ransomNote_383_tests() {
         vector<RansomNoteTestCase> testCases = {
             // Examples from the problem statement
             {"a",  "b",   false},
@@ -987,12 +1119,14 @@ public:
         RansomNote_383 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool got = sol.canConstruct(testCases[i].ransomNote, testCases[i].magazine);
-            assertEqScalar("Ransom Note 383 Test " + to_string(i + 1),
-                           testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Ransom Note 383 Test " + to_string(i + 1),
+                           testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void validAnagram_242_tests() {
+    static bool validAnagram_242_tests() {
         vector<ValidAnagramTestCase> testCases = {
             // Examples from the problem statement
             {"anagram", "nagaram", true},
@@ -1007,11 +1141,13 @@ public:
         ValidAnagram_242 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool got = sol.isAnagram(testCases[i].s, testCases[i].t);
-            assertEqScalar("Valid Anagram 242 Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Valid Anagram 242 Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void maximumNumberOfBalloons_1189_tests()
+    static bool maximumNumberOfBalloons_1189_tests()
     {
         vector<MaximumNumberOfBalloonsTestCase> cases = {
             {"nlaebolko",            1},   // example 1
@@ -1024,11 +1160,13 @@ public:
         MaximumNumberOfBalloons_1189 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
             int got = solver.maxNumberOfBalloons(cases[i].text);
-            assertEqScalar("Maximum Number of Balloons 1189 Test " + to_string(i + 1), cases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Maximum Number of Balloons 1189 Test " + to_string(i + 1), cases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void uniqueNumberOfOccurrences_1207_tests() {
+    static bool uniqueNumberOfOccurrences_1207_tests() {
         vector<UniqueNumberOfOccurrencesTestCase> testCases = {
             // Examples from the problem statement
             {{1, 2, 2, 1, 1, 3},                true},
@@ -1046,12 +1184,14 @@ public:
             auto arr = testCases[i].arr; // copy (method takes non-const ref, but doesn't modify)
             bool got = sol.uniqueOccurrences(arr);
 
-            assertEqScalar("Unique Number Of Occurrences 1207 Test " + to_string(i + 1),
-                           testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Unique Number Of Occurrences 1207 Test " + to_string(i + 1),
+                           testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void majorityElement_169_tests() {
+    static bool majorityElement_169_tests() {
         // Define test cases
         vector<MajorityElementTestCase> testCases = {
             // Example 1
@@ -1079,15 +1219,17 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
             for (const auto& [name, run] : impls) {
-                assertEqScalar("Majority Element 169 [" + name + "] " + to_string(i + 1),
-                            tc.expected, run(tc));
+                REQUIRE_ASSERT(assertEqScalar("Majority Element 169 [" + name + "] " + to_string(i + 1),
+                            tc.expected, run(tc)));
             }
         }
+
+        return true;
     }
 
     /* Hashmap lookup patterns for complements and associations */
 
-    static void twoSum_1_tests() {
+    static bool twoSum_1_tests() {
         vector<TwoSumTestCase> cases = {
             {{2, 7, 11, 15},               9,  {0, 1}},
             {{3, 2, 4},                    6,  {1, 2}},
@@ -1106,13 +1248,15 @@ public:
             sort(got.begin(), got.end());
             sort(expected.begin(), expected.end());
 
-            assertEqVIntExact("Two Sum 1 Test " + to_string(i + 1), expected, got);
+            REQUIRE_ASSERT(assertEqVIntExact("Two Sum 1 Test " + to_string(i + 1), expected, got));
         }
+
+        return true;
     }
 
     /* Grouping values by a shared hashable signature */
 
-    static void groupAnagrams_49_tests() {
+    static bool groupAnagrams_49_tests() {
         vector<GroupAnagramsTestCase> testCases = {
             // Example 1
             {{"eat", "tea", "tan", "ate", "nat", "bat"},
@@ -1140,15 +1284,17 @@ public:
 
             const string base = "Group Anagrams 49 Test " + to_string(i + 1);
 
-            assertEqVVStrAnyOrder(base + " [sorting]",     testCases[i].expected, got_sorting);
-            assertEqVVStrAnyOrder(base + " [counting]",    testCases[i].expected, got_counting);
-            assertEqVVStrAnyOrder(base + " [consistency]", got_sorting,           got_counting);
+            REQUIRE_ASSERT(assertEqVVStrAnyOrder(base + " [sorting]",     testCases[i].expected, got_sorting));
+            REQUIRE_ASSERT(assertEqVVStrAnyOrder(base + " [counting]",    testCases[i].expected, got_counting));
+            REQUIRE_ASSERT(assertEqVVStrAnyOrder(base + " [consistency]", got_sorting,           got_counting));
         }
+
+        return true;
     }
 
     /* Using sets/maps to validate constraints and deduplicate states */
 
-    static void validSudoku_36_tests() {
+    static bool validSudoku_36_tests() {
         vector<ValidSudokuTestCase> testCases = {
             // Example 1: Valid Sudoku
             {{
@@ -1219,13 +1365,15 @@ public:
         ValidSudoku_36 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool got = solver.isValidSudoku(testCases[i].board);
-            assertEqScalar("Valid Sudoku Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Valid Sudoku Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
     /* More advanced set/map usage for ordering and sequence reasoning */
 
-    static void longestConsecutiveSequence_128_tests() {
+    static bool longestConsecutiveSequence_128_tests() {
         vector<LongestConsecutiveSequenceTestCase> testCases = {
             // Examples from problem statement
             {{100,4,200,1,3,2},         4},
@@ -1239,14 +1387,16 @@ public:
         LongestConsecutiveSequence_128 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = sol.longestConsecutive(testCases[i].nums);
-            assertEqScalar("Longest Consecutive Sequence 128 Test " + to_string(i + 1),
-                        testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Longest Consecutive Sequence 128 Test " + to_string(i + 1),
+                        testCases[i].expected, got));
         }
+
+        return true;
     }
 
     /* Frequency buckets and top-k style counting problems */
 
-    static void sortCharactersByFrequency_451_tests() {
+    static bool sortCharactersByFrequency_451_tests() {
         vector<SortCharactersByFrequencyTestCase> testCases = {
             {"tree"},       // 'e'x2, 'r','t'
             {"cccaaa"},     // 'c'x3, 'a'x3
@@ -1261,11 +1411,13 @@ public:
             const auto& tc = testCases[i];
             string got = sol.frequencySort(tc.input);
             const string label = "Sort Characters by Frequency 451 Test " + to_string(i + 1);
-            assertEqScalar(label, true, isValidFrequencySort(tc.input, got));
+            REQUIRE_ASSERT(assertEqScalar(label, true, isValidFrequencySort(tc.input, got)));
         }
+
+        return true;
     }
 
-    static void topKFrequentWords_692_tests() {
+    static bool topKFrequentWords_692_tests() {
         vector<TopKFrequentWordsTestCase> testCases = {
             // Examples from problem statement
             {{"i","love","leetcode","i","love","coding"}, 2, {"i","love"}},
@@ -1281,13 +1433,15 @@ public:
             auto got = sol.topKFrequent(testCases[i].words, testCases[i].k);
             const string label = "Top K Frequent Words 692 Test " + to_string(i + 1) +
                                 " (k=" + to_string(testCases[i].k) + ")";
-            assertEqStrings(label, testCases[i].expected, got);  // exact order matters
+            REQUIRE_ASSERT(assertEqStrings(label, testCases[i].expected, got));  // exact order matters
         }
+
+        return true;
     }
 
     /* Aggregation and pattern counting over grouped event data */
 
-    static void analyzeUserWebsiteVisitPattern_1152_tests() {
+    static bool analyzeUserWebsiteVisitPattern_1152_tests() {
         vector<AnalyzeUserWebsiteVisitPatternTestCase> testCases = {
             // Example 1 (From Problem Statement)
             {
@@ -1342,15 +1496,17 @@ public:
                 testCases[i].username, testCases[i].timestamp, testCases[i].website);
 
             const string base = "Analyze User Website Visit Pattern 1152 Test " + to_string(i + 1);
-            assertEqStrings(base + " [map]",     testCases[i].expected, m);
-            assertEqStrings(base + " [hashmap]", testCases[i].expected, h);
-            assertEqStrings(base + " [consistency]", m, h);
+            REQUIRE_ASSERT(assertEqStrings(base + " [map]",     testCases[i].expected, m));
+            REQUIRE_ASSERT(assertEqStrings(base + " [hashmap]", testCases[i].expected, h));
+            REQUIRE_ASSERT(assertEqStrings(base + " [consistency]", m, h));
         }
+
+        return true;
     }
 
     /* Hash-based data structure design */
 
-    static void designHashMap_706_tests() {
+    static bool designHashMap_706_tests() {
         vector<DesignHashMapTestCase> testCases = {
             // Example 1 (problem statement)
             {
@@ -1406,12 +1562,14 @@ public:
                     int got = hm.get(arg[0]);
                     int expected = exp.value();
                     const string label = makeStepLabel("HashMap Case", i, j, op, to_string(arg[0]));
-                    assertEqScalar(label, expected, got);
+                    REQUIRE_ASSERT(assertEqScalar(label, expected, got));
                 }
             }
 
             cout << "\n";
         }
+
+        return true;
     }
 
     // ============================================================================
@@ -1420,7 +1578,7 @@ public:
 
     /* Opposite-end pointers for simple in-place processing */
 
-    static void reverseString_344_tests() {
+    static bool reverseString_344_tests() {
         // build a large case up-front so it can be placed inside the uniform-init list
         vector<char> longIn;
         for (int i = 0; i < 10000; ++i) longIn.push_back('a' + (i % 26));
@@ -1445,11 +1603,13 @@ public:
             const string label = "Reverse String 344 Test " + to_string(i + 1);
             const string got(s.begin(), s.end());
             const string exp(testCases[i].expected.begin(), testCases[i].expected.end());
-            assertEqScalar(label, exp, got);
+            REQUIRE_ASSERT(assertEqScalar(label, exp, got));
         }
+
+        return true;
     }
 
-    static void validPalindrome_125_tests() {
+    static bool validPalindrome_125_tests() {
         // Build a long palindrome of 10,000 'a' with commas between (punctuation ignored by checker)
         constexpr int N = 10000;
         string longStr(2 * N, ',');
@@ -1471,13 +1631,15 @@ public:
         ValidPalindrome_125 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool got = solver.isPalindrome(testCases[i].input);
-            assertEqScalar("Valid Palindrome 125 Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Valid Palindrome 125 Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
     /* Two-pointer scans on sorted arrays */
 
-    static void squaresOfSortedArray_977_tests() {
+    static bool squaresOfSortedArray_977_tests() {
         vector<SquaresOfASortedArrayTestCase> testCases = {
             // 2 examples from the problem statement
             {{-4, -1, 0, 3, 10},      {0, 1, 9, 16, 100}},
@@ -1492,12 +1654,14 @@ public:
         SquaresOfSortedArray_977 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto got = sol.sortedSquares(testCases[i].nums);
-            assertEqVIntExact("Squares of Sorted Array 977 Test " + to_string(i + 1),
-                            testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqVIntExact("Squares of Sorted Array 977 Test " + to_string(i + 1),
+                            testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void twoSumII_167_tests() {
+    static bool twoSumII_167_tests() {
         // long stress-case prepared first so it can go in the init-list
         vector<int> longNums;
         for (int v = -1000; v <= 1000; ++v) longNums.push_back(v);  // 2001 elements
@@ -1518,11 +1682,13 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto nums = testCases[i].numbers; // solve on a copy
             auto got  = solver.twoSum(nums, testCases[i].target);
-            assertEqVIntExact("Two Sum II 167 Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqVIntExact("Two Sum II 167 Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void twoSumLessThanK_1099_tests() {
+    static bool twoSumLessThanK_1099_tests() {
         vector<TwoSumLessThanKTestCase> testCases = {
             // statement example
             {{34, 23, 1, 24, 75, 33, 54, 8}, 60, 58},   // 24 + 34
@@ -1542,14 +1708,16 @@ public:
             auto nums = testCases[i].nums;  // solver sorts in-place
             int got = solver.twoSumLessThanK(nums, testCases[i].k);
 
-            assertEqScalar("Two Sum Less Than K 1099 Test " + to_string(i + 1),
-                           testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Two Sum Less Than K 1099 Test " + to_string(i + 1),
+                           testCases[i].expected, got));
         }
+
+        return true;
     }
 
     /* Two-pointer optimization after sorting */
 
-    static void threeSum_15_tests() {
+    static bool threeSum_15_tests() {
         vector<ThreeSumTestCase> testCases = {
             // two examples from the problem statement
             {{-1,0,1,2,-1,-4},            {{-1,-1,2},{-1,0,1}}},
@@ -1566,11 +1734,13 @@ public:
         ThreeSum_15 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto got = solver.threeSum(testCases[i].nums);
-            assertEqVVIntAnyOrder("Three Sum 15 Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqVVIntAnyOrder("Three Sum 15 Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void threeSumClosest_16_tests() {
+    static bool threeSumClosest_16_tests() {
         vector<ThreeSumClosestTestCase> testCases = {
             // two examples from the problem statement
             {{-1, 2, 1, -4}, 1, 2},
@@ -1595,11 +1765,13 @@ public:
             auto nums = testCases[i].nums;  // solve on a copy (project style)
             int got   = solver.threeSumClosest(nums, testCases[i].target);
             const string label = "Three Sum Closest 16 Test " + to_string(i + 1);
-            assertEqScalar(label, testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void fourSum_18_tests() {
+    static bool fourSum_18_tests() {
         vector<FourSumTestCase> testCases = {
             // two examples from the problem statement
             {{1, 0, -1, 0, -2, 2}, 0,
@@ -1636,13 +1808,15 @@ public:
             auto nums = testCases[i].nums;  // work on a copy
             auto got  = solver.fourSum(nums, testCases[i].target);
             const string label = "Four Sum 18 Test " + to_string(i + 1);
-            assertEqVVIntAnyOrder(label, testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqVVIntAnyOrder(label, testCases[i].expected, got));
         }
+
+        return true;
     }
 
     /* Shrinking-window reasoning with left/right boundaries */
 
-    static void containerWithMostWater_11_tests() {
+    static bool containerWithMostWater_11_tests() {
         vector<ContainerWithMostWaterTestCase> testCases = {
             // two examples from the statement
             {{1,8,6,2,5,4,8,3,7}, 49},
@@ -1657,11 +1831,13 @@ public:
         ContainerWithMostWater_11 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solver.maxArea(testCases[i].height);
-            assertEqScalar("Container With Most Water 11 Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Container With Most Water 11 Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void trappingRainWater_42_tests() {
+    static bool trappingRainWater_42_tests() {
         vector<TrappingRainWaterTestCase> testCases = {
             // two examples from the statement
             {{0,1,0,2,1,0,1,3,2,1,2,1}, 6},
@@ -1677,8 +1853,10 @@ public:
         TrappingRainWater_42 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solver.trap(testCases[i].height);
-            assertEqScalar("Trapping Rain Water 42 Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Trapping Rain Water 42 Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
     // ============================================================================
@@ -1687,7 +1865,7 @@ public:
 
     /* Basic stack simulation for push/pop-style processing */
 
-    static void baseballGame_682_tests() {
+    static bool baseballGame_682_tests() {
         using namespace TestCases;
         vector<BaseballGameTestCase> testCases = {
             {{"5","2","C","D","+"}, 30},                      // Example 1
@@ -1708,12 +1886,14 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto ops = testCases[i].operations; // calPoints takes non-const ref
             int got = sol.calPoints(ops);
-            assertEqScalar("Baseball Game 682 Test " + to_string(i + 1),
-                           testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Baseball Game 682 Test " + to_string(i + 1),
+                           testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void validParentheses_20_tests() {
+    static bool validParentheses_20_tests() {
         vector<ValidParenthesesTestCase> testCases = {
             {"()", true},
             {"()[]{}", true},
@@ -1725,11 +1905,13 @@ public:
         ValidParentheses_20 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool got = solution.isValid(testCases[i].input);
-            assertEqScalar("Valid Parentheses Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Valid Parentheses Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void evaluateReversePolishNotation_150_tests() {
+    static bool evaluateReversePolishNotation_150_tests() {
         vector<EvaluateReversePolishNotationTestCase> testCases = {
             {{"2", "1", "+", "3", "*"}, 9},  // Example 1
             {{"4", "13", "5", "/", "+"}, 6}, // Example 2
@@ -1743,13 +1925,15 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = evaluator.evalRPN(testCases[i].input);
-            assertEqScalar("Evaluate RPN Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Evaluate RPN Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
     /* Stack-based parsing and nested expression decoding */
 
-    static void decodeString_GoogleOnsite_tests() {
+    static bool decodeString_GoogleOnsite_tests() {
         vector<DecodeStringTestCase> testCases = {
             {"ab[cd]{2}",                   "abcdcd"},
             {"def[ab[cd]{2}]{3}ghi",        "defabcdcdabcdcdabcdcdghi"},
@@ -1762,13 +1946,15 @@ public:
         DecodeString_GoogleOnsite solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
             string got = solver.decode(testCases[i].input);
-            assertEqScalar("Decode String (Google Onsite) Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Decode String (Google Onsite) Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
     /* Monotonic stack patterns for next greater / smaller reasoning */
 
-    static void dailyTemperatures_739_tests() {
+    static bool dailyTemperatures_739_tests() {
         vector<DailyTemperaturesTestCase> tests = {
             // Three examples from the problem statement
             {{73,74,75,71,69,72,76,73}, {1,1,4,2,1,1,0,0}},
@@ -1784,11 +1970,13 @@ public:
         DailyTemperatures_739 solver;
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = solver.dailyTemperatures(tests[i].temperatures);
-            assertEqVIntExact("Daily Temperatures 739 Test " + to_string(i + 1), tests[i].expected, got);
+            REQUIRE_ASSERT(assertEqVIntExact("Daily Temperatures 739 Test " + to_string(i + 1), tests[i].expected, got));
         }
+
+        return true;
     }
 
-    static void largestRectangleInHistogram_84_tests() {
+    static bool largestRectangleInHistogram_84_tests() {
         vector<LargestRectangleInHistogramTestCase> testCases = {
             // Example 1
             {{2, 1, 5, 6, 2, 3}, 10},
@@ -1807,13 +1995,15 @@ public:
         LargestRectangleInHistogram_84 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.largestRectangleArea(testCases[i].heights);
-            assertEqScalar("Largest Rectangle Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Largest Rectangle Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
     /* Stack-backed data structure design */
 
-    static void minStack_155_tests() {
+    static bool minStack_155_tests() {
         auto run = [](const vector<pair<string,int>>& ops) {
             MinStack_155 ms;
             vector<int> out;
@@ -1865,13 +2055,15 @@ public:
 
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = run(tests[i].operations);
-            assertEqVIntExact("Min Stack 155 Test " + to_string(i + 1), tests[i].expected, got);
+            REQUIRE_ASSERT(assertEqVIntExact("Min Stack 155 Test " + to_string(i + 1), tests[i].expected, got));
         }
+
+        return true;
     }
 
     /* Matrix reduction to a histogram-based stack problem */
 
-    static void maximalRectangle_85_tests() {
+    static bool maximalRectangle_85_tests() {
         vector<MaximalRectangleTestCase> testCases = {
             // ── three examples from the problem statement ──
             {{{'1','0','1','0','0'},
@@ -1895,8 +2087,10 @@ public:
         MaximalRectangle_85 solver;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solver.maximalRectangle(testCases[i].matrix);
-            assertEqScalar("Maximal Rectangle 85 Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Maximal Rectangle 85 Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
     // ============================================================================
@@ -1905,7 +2099,7 @@ public:
 
     /* Basic traversal and local pointer updates in linked lists */
 
-    static void removeDuplicatesFromSortedList_83_tests() {
+    static bool removeDuplicatesFromSortedList_83_tests() {
         using IntListNode = ListNode<int>;
 
         // Define test cases
@@ -1926,13 +2120,15 @@ public:
             IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].list);
             IntListNode* result = solution.deleteDuplicates(input);
 
-            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
+            REQUIRE_ASSERT(assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result)));
 
             ListUtils::freeList<int>(result);
         }
+
+        return true;
     }
 
-    static void insertGreatestCommonDivisors_2807_tests() {
+    static bool insertGreatestCommonDivisors_2807_tests() {
         using IntListNode = ListNode<int>;
 
         vector<InsertGreatestCommonDivisorsTestCase> testCases = {
@@ -1967,20 +2163,22 @@ public:
             IntListNode* got_euclid = solution.insertGreatestCommonDivisors_euclid(input_euclid);
             vector<int> gotVec_euclid = ListUtils::toVector<int>(got_euclid);
 
-            assertEqVIntExact("2807 [euclid]    Test " + to_string(i + 1),
-                              testCases[i].expected, gotVec_euclid);
+            REQUIRE_ASSERT(assertEqVIntExact("2807 [euclid]    Test " + to_string(i + 1),
+                              testCases[i].expected, gotVec_euclid));
 
-            assertEqVIntExact("2807 [agree]     Test " + to_string(i + 1),
-                              gotVec_std, gotVec_euclid);
+            REQUIRE_ASSERT(assertEqVIntExact("2807 [agree]     Test " + to_string(i + 1),
+                              gotVec_std, gotVec_euclid));
 
             // Ditto: `got_euclid == input_euclid`, so free only `got_euclid`.
             ListUtils::freeList<int>(got_euclid);
         }
+
+        return true;
     }
 
     /* Core linked-list transformations by rewiring next pointers */
 
-    static void reverseLinkedList_206_tests() {
+    static bool reverseLinkedList_206_tests() {
         using IntListNode = ListNode<int>;
 
         // Define test cases
@@ -2001,13 +2199,15 @@ public:
             IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].list);
             IntListNode* result = solution.reverseList(input);
 
-            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
+            REQUIRE_ASSERT(assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result)));
 
             ListUtils::freeList<int>(result);
         }
+
+        return true;
     }
 
-    static void mergeTwoSortedLists_21_tests() {
+    static bool mergeTwoSortedLists_21_tests() {
         using IntListNode = ListNode<int>;
 
         vector<MergeTwoSortedListsTestCase> testCases = {
@@ -2038,20 +2238,22 @@ public:
 
                 IntListNode* result = run(list1, list2);
 
-                assertEqVIntExact(
+                REQUIRE_ASSERT(assertEqVIntExact(
                     "Test " + to_string(i + 1) + " (" + name + ")",
                     tc.expected,
                     ListUtils::toVector<int>(result)
-                );
+                ));
 
                 ListUtils::freeList<int>(result);
             }
         }
+
+        return true;
     }
 
     /* Fast/slow pointer techniques on linked lists */
 
-    static void hasCycle_141_tests() {
+    static bool hasCycle_141_tests() {
         vector<LinkedListCycleTestCase> testCases = {
             // Provided examples
             {{3, 2, 0, -4}, 1, true},
@@ -2069,13 +2271,15 @@ public:
             ListNode<int>* head = ListUtils::createLinkedListWithCycle<int>(testCases[i].values, testCases[i].pos);
             bool result = solution.hasCycle(head);
 
-            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
+            REQUIRE_ASSERT(assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result));
 
             ListUtils::freeList<int>(head);
         }
+
+        return true;
     }
 
-    static void middleOfTheLinkedList_876_tests() {
+    static bool middleOfTheLinkedList_876_tests() {
         using IntListNode = ListNode<int>;
 
         vector<MiddleOfTheLinkedListTestCase> testCases = {
@@ -2095,13 +2299,15 @@ public:
             IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].values);
             IntListNode* result = solution.middleNode(input);
 
-            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
+            REQUIRE_ASSERT(assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result)));
 
             ListUtils::freeList<int>(input);
         }
+
+        return true;
     }
 
-    static void removeNthNodeFromEndOfList_19_tests() {
+    static bool removeNthNodeFromEndOfList_19_tests() {
         using IntListNode = ListNode<int>;
 
         vector<RemoveNthNodeFromEndOfListTestCase> testCases = {
@@ -2121,15 +2327,17 @@ public:
             IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].values);
             IntListNode* result = solution.removeNthFromEnd(input, testCases[i].n);
 
-            assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result));
+            REQUIRE_ASSERT(assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result)));
 
             ListUtils::freeList<int>(result);
         }
+
+        return true;
     }
 
     /* More advanced linked structures with extra references */
 
-    static void copyRandomList_138_tests() {
+    static bool copyRandomList_138_tests() {
         using IntListNode = ListNode<int>;
 
         vector<CopyRandomListTestCase> testCases = {
@@ -2156,17 +2364,19 @@ public:
             IntListNode* result = solution.copyRandomList(input);
             bool isCorrect = ListUtils::compareListsWithRandom<int>(result, expected);
 
-            assertEqScalar("Copy Random List Test " + to_string(i + 1), true, isCorrect);
+            REQUIRE_ASSERT(assertEqScalar("Copy Random List Test " + to_string(i + 1), true, isCorrect));
 
             ListUtils::freeList(input);
             ListUtils::freeList(result);
             ListUtils::freeList(expected);
         }
+
+        return true;
     }
 
     /* Linked-list-based data structure design */
 
-    static void lruCache_146_tests() {
+    static bool lruCache_146_tests() {
         vector<LRUCacheTestCase> testCases = {
             // From problem statement
             {
@@ -2207,10 +2417,12 @@ public:
                     int key = C.arguments[i][0];
                     int got = cache->get(key);
                     const string label = makeStepLabel("LRUCache_146", t, i, "get", to_string(key));
-                    assertEqScalar(label, C.expected[i].value(), got);
+                    REQUIRE_ASSERT(assertEqScalar(label, C.expected[i].value(), got));
                 }
             }
         }
+
+        return true;
     }
 
     // ============================================================================
@@ -2219,7 +2431,7 @@ public:
 
     /* Basic binary search on sorted arrays and monotonic positions */
 
-    static void binarySearch_704_tests() {
+    static bool binarySearch_704_tests() {
         vector<BinarySearchTestCase> testCases = {
             // Example 1
             {{-1, 0, 3, 5, 9, 12}, 9, 4},
@@ -2236,11 +2448,13 @@ public:
         BinarySearch_704 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.search(testCases[i].nums, testCases[i].target);
-            assertEqScalar("Binary Search Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Binary Search Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void searchInsertPosition_35_tests() {
+    static bool searchInsertPosition_35_tests() {
         vector<BinarySearchTestCase> testCases = {
             // Example 1: Target is found
             {{1, 3, 5, 6}, 5, 2},
@@ -2257,11 +2471,13 @@ public:
         SearchInsertPosition_35 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.searchInsert(testCases[i].nums, testCases[i].target);
-            assertEqScalar("Search Insert Position Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Search Insert Position Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void firstBadVersion_278_tests() {
+    static bool firstBadVersion_278_tests() {
         vector<FirstBadVersionTestCase> testCases = {
             // Example: first bad in the middle
             {5, 4, 4},
@@ -2281,14 +2497,16 @@ public:
             sol.firstBad = tc.firstBad;
 
             int got = sol.firstBadVersion(tc.n);
-            assertEqScalar("First Bad Version 278 Test " + to_string(i + 1),
-                           tc.expected, got);
+            REQUIRE_ASSERT(assertEqScalar("First Bad Version 278 Test " + to_string(i + 1),
+                           tc.expected, got));
         }
+
+        return true;
     }
 
     /* Binary search over a numeric answer space */
 
-    static void sqrtX_69_tests() {
+    static bool sqrtX_69_tests() {
         vector<SqrtXTestCase> testCases = {
             // Examples from the problem statement
             {4, 2},
@@ -2305,12 +2523,14 @@ public:
         SqrtX_69 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.mySqrt(testCases[i].x);
-            assertEqScalar("Sqrt(x) 69 Test " + to_string(i + 1),
-                        testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Sqrt(x) 69 Test " + to_string(i + 1),
+                        testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void validPerfectSquare_367_tests() {
+    static bool validPerfectSquare_367_tests() {
         vector<ValidPerfectSquareTestCase> cases = {
             {16,          true},    // example 1
             {14,          false},   // example 2
@@ -2322,11 +2542,13 @@ public:
         ValidPerfectSquare_367 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
             bool got = solver.isPerfectSquare(cases[i].num);
-            assertEqScalar("Valid Perfect Square 367 Test " + to_string(i + 1), cases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Valid Perfect Square 367 Test " + to_string(i + 1), cases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void kokoEatingBananas_875_tests() {
+    static bool kokoEatingBananas_875_tests() {
         vector<KokoEatingBananasTestCase> testCases = {
             // LeetCode examples
             {{3, 6, 7, 11}, 8, 4},              // Example 1
@@ -2347,14 +2569,16 @@ public:
         KokoEatingBananas_875 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.minEatingSpeed(testCases[i].piles, testCases[i].h);
-            assertEqScalar("Koko Eating Bananas 875 Test " + to_string(i + 1),
-                           testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Koko Eating Bananas 875 Test " + to_string(i + 1),
+                           testCases[i].expected, got));
         }
+
+        return true;
     }
 
     /* Binary search on matrix and rotated-array structure */
 
-    static void search2DMatrix_74_tests() {
+    static bool search2DMatrix_74_tests() {
         vector<Search2DMatrixTestCase> testCases = {
             // Provided examples
             {{{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}}, 3, true},
@@ -2369,11 +2593,13 @@ public:
         Search2DMatrix_74 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool got = solution.searchMatrix(testCases[i].matrix, testCases[i].target);
-            assertEqScalar("Search 2D Matrix Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Search 2D Matrix Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void findMinimumInRotatedSortedArray_153_tests() {
+    static bool findMinimumInRotatedSortedArray_153_tests() {
         vector<FindMinimumInRotatedSortedArrayTestCase> testCases = {
             {{3, 4, 5, 1, 2}, 1},                     // Example 1
             {{4, 5, 6, 7, 0, 1, 2}, 0},               // Example 2
@@ -2385,11 +2611,13 @@ public:
         FindMinimumInRotatedSortedArray_153 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.findMin(testCases[i].nums);
-            assertEqScalar("Find Min Rotated Array 153 Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Find Min Rotated Array 153 Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void searchInRotatedSortedArray_33_tests() {
+    static bool searchInRotatedSortedArray_33_tests() {
         vector<BinarySearchTestCase> testCases = {
             // Problem statement examples
             {{4, 5, 6, 7, 0, 1, 2}, 0, 4},   // Example 1
@@ -2417,9 +2645,11 @@ public:
         SearchInRotatedSortedArray_33 solution;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.search(testCases[i].nums, testCases[i].target);
-            assertEqScalar("Search Rotated Sorted Array 33 Test " + to_string(i + 1),
-                           testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Search Rotated Sorted Array 33 Test " + to_string(i + 1),
+                           testCases[i].expected, got));
         }
+
+        return true;
     }
 
     // ============================================================================
@@ -2428,7 +2658,7 @@ public:
 
     /* Fixed-size windows with rolling updates */
 
-    static void maximumAverageSubarrayI_643_tests() {
+    static bool maximumAverageSubarrayI_643_tests() {
         vector<MaximumAverageSubarrayITestCase> testCases = {
             // problem examples
             {{1, 12, -5, -6, 50, 3}, 4, 12.75},
@@ -2445,13 +2675,15 @@ public:
             double got = sol.findMaxAverage(testCases[i].nums, testCases[i].k);
             const string label = "Max Avg Subarray I 643 Test " + to_string(i + 1);
             // keep tolerance via approxEqual, assert on the boolean
-            assertEqScalar(label, true, approxEqual(got, testCases[i].expected));
+            REQUIRE_ASSERT(assertEqScalar(label, true, approxEqual(got, testCases[i].expected)));
         }
+
+        return true;
     }
 
     /* Expanding and shrinking windows with a running constraint */
 
-    static void maxConsecutiveOnesIII_1004_tests() {
+    static bool maxConsecutiveOnesIII_1004_tests() {
         vector<MaxConsecutiveOnesIIITestCase> testCases = {
             // two examples from the problem statement:
             {{1,1,1,0,0,0,1,1,1,1,0},           2,  6},
@@ -2466,11 +2698,13 @@ public:
         MaxConsecutiveOnesIII_1004 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = sol.longestOnes(testCases[i].nums, testCases[i].k);
-            assertEqScalar("Max Consecutive Ones III 1004 Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Max Consecutive Ones III 1004 Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void minimumSizeSubarraySum_209_tests() {
+    static bool minimumSizeSubarraySum_209_tests() {
         vector<MinimumSizeSubarraySumTestCase> testCases = {
             // 3 examples from the problem statement
             {7,  {2, 3, 1, 2, 4, 3},             2},
@@ -2487,13 +2721,15 @@ public:
         MinimumSizeSubarraySum_209 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = sol.minSubArrayLen(testCases[i].target, testCases[i].nums);
-            assertEqScalar("Minimum Size Subarray Sum 209 Test " + to_string(i + 1), testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Minimum Size Subarray Sum 209 Test " + to_string(i + 1), testCases[i].expected, got));
         }
+
+        return true;
     }
 
     /* Variable-size windows for distinctness and replacement limits */
 
-    static void longestSubstringWithoutRepeatingCharacters_3_tests() {
+    static bool longestSubstringWithoutRepeatingCharacters_3_tests() {
         vector<LongestSubstringWithoutRepeatingCharactersTestCase> testCases = {
             {"abcabcbb", 3},  // example 1
             {"bbbbb",    1},  // example 2
@@ -2506,12 +2742,14 @@ public:
         LongestSubstringWithoutRepeatingCharacters_3 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = sol.lengthOfLongestSubstring(testCases[i].input);
-            assertEqScalar("Longest Substring Without Repeating Characters 3 Test " + to_string(i + 1),
-                        testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Longest Substring Without Repeating Characters 3 Test " + to_string(i + 1),
+                        testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void longestRepeatingCharacterReplacement_424_tests() {
+    static bool longestRepeatingCharacterReplacement_424_tests() {
         vector<LongestRepeatingCharacterReplacementTestCase> testCases = {
             {"ABAB",      2, 4},  // Example 1
             {"AABABBA",   1, 4},  // Example 2
@@ -2524,14 +2762,16 @@ public:
         LongestRepeatingCharacterReplacement_424 sol;
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = sol.characterReplacement(testCases[i].input, testCases[i].k);
-            assertEqScalar("Longest Repeating Character Replacement 424 Test " + to_string(i + 1),
-                        testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar("Longest Repeating Character Replacement 424 Test " + to_string(i + 1),
+                        testCases[i].expected, got));
         }
+
+        return true;
     }
 
     /* Window matching with character-frequency requirements */
 
-    static void permutationInString_567_tests() {
+    static bool permutationInString_567_tests() {
         vector<PermutationInStringTestCase> testCases = {
             {"ab",   "eidbaooo",          true},
             {"ab",   "eidboaoo",          false},
@@ -2546,9 +2786,11 @@ public:
             const bool got_matchesCounter = sol.checkInclusion_matchesCounter(testCases[i].s1, testCases[i].s2);
 
             const string base = "Permutation in String 567 Test " + to_string(i + 1);
-            assertEqScalar(base + " [fullCompare]",    testCases[i].expected, got_fullCompare);
-            assertEqScalar(base + " [matchesCounter]", testCases[i].expected, got_matchesCounter);
+            REQUIRE_ASSERT(assertEqScalar(base + " [fullCompare]",    testCases[i].expected, got_fullCompare));
+            REQUIRE_ASSERT(assertEqScalar(base + " [matchesCounter]", testCases[i].expected, got_matchesCounter));
         }
+
+        return true;
     }
 
     // ============================================================================
@@ -2557,7 +2799,7 @@ public:
 
     /* Basic tree traversal, inspection, and structural transformation */
 
-    static void invertBinaryTree_226_tests() {
+    static bool invertBinaryTree_226_tests() {
         vector<InvertBinaryTreeTestCase> testCases = {
             // Example 1 from the problem statement
             {{4, 2, 7, 1, 3, 6, 9},
@@ -2623,14 +2865,16 @@ public:
             string expStr = TreeUtils::toLevelOrderString(expected);
 
             const string label = "Invert Binary Tree 226 Test " + to_string(i + 1);
-            assertEqScalar(label, expStr, gotStr);
+            REQUIRE_ASSERT(assertEqScalar(label, expStr, gotStr));
 
             TreeUtils::freeTree(expected);
             TreeUtils::freeTree(root);      // free the input tree
         }
+
+        return true;
     }
 
-    static void maximumDepthOfBinaryTree_104_tests() {
+    static bool maximumDepthOfBinaryTree_104_tests() {
         vector<MaximumDepthOfBinaryTreeTestCase> testCases = {
             // two examples from the problem statement
             {{3, 9, 20, nullopt, nullopt, 15, 7}, 3},
@@ -2654,15 +2898,17 @@ public:
             int dBfs = solver.maxDepthBFSQueue(root);
 
             const string base = "Max Depth 104 Test " + to_string(i + 1);
-            assertEqScalar(base + " [recursive]", testCases[i].expected, dRec);
-            assertEqScalar(base + " [DFS stack]", testCases[i].expected, dStk);
-            assertEqScalar(base + " [BFS queue]", testCases[i].expected, dBfs);
+            REQUIRE_ASSERT(assertEqScalar(base + " [recursive]", testCases[i].expected, dRec));
+            REQUIRE_ASSERT(assertEqScalar(base + " [DFS stack]", testCases[i].expected, dStk));
+            REQUIRE_ASSERT(assertEqScalar(base + " [BFS queue]", testCases[i].expected, dBfs));
 
             TreeUtils::freeTree(root);
         }
+
+        return true;
     }
 
-    static void sameTree_100_tests()
+    static bool sameTree_100_tests()
     {
         vector<SameTreeTestCase> cases = {
             // Examples
@@ -2700,16 +2946,18 @@ public:
             bool g2 = sol.isSameTreeIterativeDFS(p, q);
             bool g3 = sol.isSameTreeBFSQueue(p, q);
 
-            assertEqScalar(base + " [recursive]",     cases[i].expected, g1);
-            assertEqScalar(base + " [iterative DFS]", cases[i].expected, g2);
-            assertEqScalar(base + " [BFS queue]",     cases[i].expected, g3);
+            REQUIRE_ASSERT(assertEqScalar(base + " [recursive]",     cases[i].expected, g1));
+            REQUIRE_ASSERT(assertEqScalar(base + " [iterative DFS]", cases[i].expected, g2));
+            REQUIRE_ASSERT(assertEqScalar(base + " [BFS queue]",     cases[i].expected, g3));
 
             TreeUtils::freeTree(p);
             TreeUtils::freeTree(q);
         }
+
+        return true;
     }
 
-    static void symmetricTree_101_tests() {
+    static bool symmetricTree_101_tests() {
         vector<SymmetricTreeTestCase> cases = {
             // Example 1
             {{1, 2, 2, 3, 4, 4, 3}, true},
@@ -2752,14 +3000,16 @@ public:
             bool g1 = sol.isSymmetricRecursive(root);
             bool g2 = sol.isSymmetricIterative(root);
 
-            assertEqScalar(base + " [recursive]", cases[i].expected, g1);
-            assertEqScalar(base + " [iterative]", cases[i].expected, g2);
+            REQUIRE_ASSERT(assertEqScalar(base + " [recursive]", cases[i].expected, g1));
+            REQUIRE_ASSERT(assertEqScalar(base + " [iterative]", cases[i].expected, g2));
 
             TreeUtils::freeTree(root);
         }
+
+        return true;
     }
 
-    static void pathSum_112_tests() {
+    static bool pathSum_112_tests() {
         vector<PathSumTestCase> cases = {
             // Example 1
             {{5, 4, 8, 11, nullopt, 13, 4, 7, 2, nullopt, nullopt, nullopt, 1}, 22, true},
@@ -2805,15 +3055,17 @@ public:
             const string label = "PathSum_112 Test " + to_string(i + 1);
 
             bool got = sol.hasPathSum(root, cases[i].target);
-            assertEqScalar(label, cases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar(label, cases[i].expected, got));
 
             TreeUtils::freeTree(root);
         }
+
+        return true;
     }
 
     /* Bottom-up DFS reasoning with subtree-derived information */
 
-    static void balancedBinaryTree_110_tests() {
+    static bool balancedBinaryTree_110_tests() {
         vector<BalancedBinaryTreeTestCase> testCases = {
             // Example 1
             {{3, 9, 20, nullopt, nullopt, 15, 7}, true},
@@ -2853,13 +3105,15 @@ public:
             bool got = solver.isBalanced(root);
 
             const string label = "Balanced Binary Tree 110 Test " + to_string(i + 1);
-            assertEqScalar(label, tc.expected, got);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
 
             TreeUtils::freeTree(root);
         }
+
+        return true;
     }
 
-    static void diameterOfBinaryTree_543_tests() {
+    static bool diameterOfBinaryTree_543_tests() {
         vector<DiameterOfBinaryTreeTestCase> testCases = {
             // Example 1: [4,2,1,3,5] diameter = 3
             {{1, 2, 3, 4, 5}, 3},
@@ -2903,13 +3157,15 @@ public:
             int got = solver.diameterOfBinaryTree(root);
 
             const string label = "Diameter of Binary Tree 543 Test " + to_string(i + 1);
-            assertEqScalar(label, tc.expected, got);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
 
             TreeUtils::freeTree(root);
         }
+
+        return true;
     }
 
-    static void subtreeOfAnotherTree_572_tests() {
+    static bool subtreeOfAnotherTree_572_tests() {
         vector<SubtreeOfAnotherTreeTestCase> cases = {
             // Example 1
             {{3, 4, 5, 1, 2},
@@ -2986,16 +3242,18 @@ public:
             const string label = "SubtreeOfAnotherTree_572 Test " + to_string(i + 1);
             bool got = sol.isSubtree(root, subRoot);
 
-            assertEqScalar(label, tc.expected, got);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
 
             TreeUtils::freeTree(root);
             TreeUtils::freeTree(subRoot);
         }
+
+        return true;
     }
 
     /* Breadth-first traversal by tree levels */
 
-    static void binaryTreeLevelOrderTraversal_102_tests() {
+    static bool binaryTreeLevelOrderTraversal_102_tests() {
         vector<BinaryTreeLevelOrderTraversalTestCase> cases = {
             // Example 1
             {{3, 9, 20, nullopt, nullopt, 15, 7},
@@ -3046,13 +3304,15 @@ public:
             vector<vector<int>> got = sol.levelOrder(root);
 
             const string label = "BinaryTreeLevelOrderTraversal_102 Test " + to_string(i + 1);
-            assertEqVVIntExact(label, tc.expected, got);
+            REQUIRE_ASSERT(assertEqVVIntExact(label, tc.expected, got));
 
             TreeUtils::freeTree(root);
         }
+
+        return true;
     }
 
-    static void averageOfLevelsInBinaryTree_637_tests() {
+    static bool averageOfLevelsInBinaryTree_637_tests() {
         vector<AverageOfLevelsInBinaryTreeTestCase> cases = {
             // Example 1
             {{3, 9, 20, nullopt, nullopt, 15, 7},
@@ -3105,7 +3365,7 @@ public:
             const string base = "AverageOfLevelsInBinaryTree_637 Test " + to_string(i + 1);
 
             // First check length
-            assertEqScalar(base + " [size]", tc.expected.size(), got.size());
+            REQUIRE_ASSERT(assertEqScalar(base + " [size]", tc.expected.size(), got.size()));
 
             // Then check each level with approximate comparison
             for (size_t j = 0; j < tc.expected.size() && j < got.size(); ++j) {
@@ -3115,11 +3375,13 @@ public:
 
             TreeUtils::freeTree(root);
         }
+
+        return true;
     }
 
     /* BST-specific inorder and ordering properties */
 
-    static void kthSmallestElementInBST_230_tests() {
+    static bool kthSmallestElementInBST_230_tests() {
         vector<KthSmallestElementInABSTTestCase> testCases = {
             // Example 1
             {{3, 1, 4, nullopt, 2}, 1, 1},
@@ -3139,14 +3401,23 @@ public:
             TreeNode<int>* root = TreeUtils::vectorToTree<int>(testCases[i].tree);
             int got = solution.kthSmallest(root, testCases[i].k);
 
-            if (!assertEqScalar("Kth Smallest Element Test " + to_string(i + 1), testCases[i].expected, got)) {
+            const string label = "Kth Smallest Element Test " + to_string(i + 1);
+            const bool passed = assertEqScalar(label, testCases[i].expected, got);
+
+            if (!passed) {
                 cout << "  Input tree:\n";
                 TreeUtils::printTree(root);
                 cout << "  k=" << testCases[i].k << "\n";
             }
 
             TreeUtils::freeTree(root);
+
+            if (!passed) {
+                return false;
+            }
         }
+
+        return true;
     }
 
     static void minimumAbsoluteDifferenceInBST_530_tests() {
@@ -5895,14 +6166,22 @@ public:
         TEST(65,   "Valid Number",                                   validNumber_65_tests),
     };
 
-    static void runAllTests() {
+    static bool runAllTests() {
         for (const auto& t : kTests) {
-            // Unified banner: "Running <title> (#id) tests:"
             cout << "Running " << t.title;
             if (t.id > 0) cout << " (#" << t.id << ")";
             cout << " tests:\n";
-            t.fn();
+
+            if (!t.fn()) {
+                cout << "Stopping after first failing test suite: "
+                    << t.title;
+                if (t.id > 0) cout << " (#" << t.id << ")";
+                cout << '\n';
+                return false;
+            }
         }
+
+        return true;
     }
 };
 
