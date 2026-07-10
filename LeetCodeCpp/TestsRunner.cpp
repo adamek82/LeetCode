@@ -292,6 +292,7 @@ public:
         };
 
         MergeStringsAlternately_1768 sol;
+
         for (size_t i = 0; i < tests.size(); ++i) {
             string got = sol.mergeAlternately(tests[i].word1, tests[i].word2);
 
@@ -316,6 +317,7 @@ public:
         };
 
         FindClosestNumberToZero_2239 sol;
+
         for (size_t i = 0; i < tests.size(); ++i) {
             int got = sol.findClosestNumber(tests[i].nums);
 
@@ -414,6 +416,7 @@ public:
         };
 
         LongestCommonPrefix_14 sol;
+
         for (size_t i = 0; i < tcs.size(); ++i) {
             string gotL = sol.longestCommonPrefix_Linear(tcs[i].strs);
             string gotS = sol.longestCommonPrefix_Sort(tcs[i].strs);
@@ -447,6 +450,7 @@ public:
         };
 
         SummaryRanges_228 sol;
+
         for (size_t i = 0; i < tests.size(); ++i) {
             auto in = tests[i].nums; // method takes non-const ref
             auto got = sol.summaryRanges(in);
@@ -471,6 +475,7 @@ public:
         };
 
         RomanToInteger_13 sol;
+
         for (size_t i = 0; i < tests.size(); ++i) {
             int got = sol.romanToInt(tests[i].input);
 
@@ -717,7 +722,7 @@ public:
     }
 
     static bool splitTheArray_3046_tests() {
-        vector<SplitTheArrayTestCase> tests = {
+        vector<SplitTheArrayTestCase> testCases = {
             {{1,1,2,2,3,4}, true},   // example 1
             {{1,1,1,1},     false},  // example 2
             {{1,2},         true},   // minimal even length, trivially split [1] | [2]
@@ -729,12 +734,12 @@ public:
 
         SplitTheArray_3046 sol;
 
-        for (size_t i = 0; i < tests.size(); ++i) {
-            auto v = tests[i].nums;
-            bool got = sol.isPossibleToSplit(v);\
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto v = testCases[i].nums;
+            bool got = sol.isPossibleToSplit(v);
 
-            const string label = "Pascal's Triangle 118 Test " + to_string(i + 1);
-            REQUIRE_ASSERT(assertEqVVIntExact(label, testCases[i].expected, got));
+            const string label = "Split the Array 3046 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -788,6 +793,7 @@ public:
         };
 
         SortColors_75 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto arr_threeTails = testCases[i].input;
             auto arr_counting   = testCases[i].input;
@@ -844,6 +850,7 @@ public:
         };
 
         HIndex_274 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = sol.hIndex(testCases[i].input);
 
@@ -892,6 +899,7 @@ public:
         };
 
         ZigzagConversion_6 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
 
@@ -1056,9 +1064,12 @@ public:
         };
 
         JewelsAndStones_771 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solver.numJewelsInStones(testCases[i].jewels, testCases[i].stones);
-            REQUIRE_ASSERT(assertEqScalar("Jewels & Stones 771 Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Jewels & Stones 771 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -1089,7 +1100,9 @@ public:
 
         for (size_t i = 0; i < tests.size(); ++i) {
             bool got = sol.containsDuplicate(tests[i].nums);
-            REQUIRE_ASSERT(assertEqScalar("ContainsDuplicate 217 Test " + to_string(i + 1), tests[i].expected, got));
+
+            const string label = "ContainsDuplicate 217 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tests[i].expected, got));
         }
 
         // Stress: large array + one duplicate appended
@@ -1097,6 +1110,7 @@ public:
         iota(bigWithDup.begin(), bigWithDup.end(), -5000);
         bigWithDup.push_back(123); // duplicate
         bool got = sol.containsDuplicate(bigWithDup);
+
         REQUIRE_ASSERT(assertEqScalar("ContainsDuplicate 217 Stress", true, got));
 
         return true;
@@ -1117,10 +1131,12 @@ public:
         };
 
         RansomNote_383 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool got = sol.canConstruct(testCases[i].ransomNote, testCases[i].magazine);
-            REQUIRE_ASSERT(assertEqScalar("Ransom Note 383 Test " + to_string(i + 1),
-                           testCases[i].expected, got));
+
+            const string label = "Ransom Note 383 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -1139,9 +1155,12 @@ public:
         };
 
         ValidAnagram_242 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool got = sol.isAnagram(testCases[i].s, testCases[i].t);
-            REQUIRE_ASSERT(assertEqScalar("Valid Anagram 242 Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Valid Anagram 242 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -1160,7 +1179,9 @@ public:
         MaximumNumberOfBalloons_1189 solver;
         for (size_t i = 0; i < cases.size(); ++i) {
             int got = solver.maxNumberOfBalloons(cases[i].text);
-            REQUIRE_ASSERT(assertEqScalar("Maximum Number of Balloons 1189 Test " + to_string(i + 1), cases[i].expected, got));
+
+            const string label = "Maximum Number of Balloons 1189 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, cases[i].expected, got));
         }
 
         return true;
@@ -1184,8 +1205,8 @@ public:
             auto arr = testCases[i].arr; // copy (method takes non-const ref, but doesn't modify)
             bool got = sol.uniqueOccurrences(arr);
 
-            REQUIRE_ASSERT(assertEqScalar("Unique Number Of Occurrences 1207 Test " + to_string(i + 1),
-                           testCases[i].expected, got));
+            const string label = "Unique Number Of Occurrences 1207 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -1210,17 +1231,42 @@ public:
 
         MajorityElement_169 sol;
 
-        const vector<pair<string, function<int(const MajorityElementTestCase&)>>> impls = {
-            {"Boyer-Moore",  [&](const MajorityElementTestCase& tc){ return sol.majorityElement(tc.nums); }},
-            {"Hashmap",      [&](const MajorityElementTestCase& tc){ return sol.majorityElementWithHashmap(tc.nums); }},
-            {"Bit Counting", [&](const MajorityElementTestCase& tc){ return sol.majorityElementWithBitCounting(tc.nums); }},
+        struct MajorityImpl {
+            string name;
+            function<int(const MajorityElementTestCase&)> run;
+        };
+
+        const vector<MajorityImpl> impls = {
+            {
+                "Boyer-Moore",
+                [&](const MajorityElementTestCase& tc) {
+                    return sol.majorityElement(tc.nums);
+                }
+            },
+            {
+                "Hashmap",
+                [&](const MajorityElementTestCase& tc) {
+                    return sol.majorityElementWithHashmap(tc.nums);
+                }
+            },
+            {
+                "Bit Counting",
+                [&](const MajorityElementTestCase& tc) {
+                    return sol.majorityElementWithBitCounting(tc.nums);
+                }
+            },
         };
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
-            for (const auto& [name, run] : impls) {
-                REQUIRE_ASSERT(assertEqScalar("Majority Element 169 [" + name + "] " + to_string(i + 1),
-                            tc.expected, run(tc)));
+
+            for (const auto& impl : impls) {
+                int got = impl.run(tc);
+
+                const string label =
+                    "Majority Element 169 Test " + to_string(i + 1) +
+                    " [" + impl.name + "]";
+                REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
             }
         }
 
@@ -1240,6 +1286,7 @@ public:
         };
 
         TwoSum_1 solver;
+
         for (size_t i = 0; i < cases.size(); ++i) {
             auto got = solver.twoSum(cases[i].nums, cases[i].target);
 
@@ -1248,7 +1295,8 @@ public:
             sort(got.begin(), got.end());
             sort(expected.begin(), expected.end());
 
-            REQUIRE_ASSERT(assertEqVIntExact("Two Sum 1 Test " + to_string(i + 1), expected, got));
+            const string label = "Two Sum 1 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVIntExact(label, expected, got));
         }
 
         return true;
@@ -1278,15 +1326,15 @@ public:
         };
 
         GroupAnagrams_49 solution;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto got_sorting  = solution.groupAnagrams_sorting (testCases[i].input);
-            auto got_counting = solution.groupAnagrams_counting(testCases[i].input);
+            auto gotSorting = solution.groupAnagrams_sorting(testCases[i].input);
+            auto gotCounting = solution.groupAnagrams_counting(testCases[i].input);
 
             const string base = "Group Anagrams 49 Test " + to_string(i + 1);
-
-            REQUIRE_ASSERT(assertEqVVStrAnyOrder(base + " [sorting]",     testCases[i].expected, got_sorting));
-            REQUIRE_ASSERT(assertEqVVStrAnyOrder(base + " [counting]",    testCases[i].expected, got_counting));
-            REQUIRE_ASSERT(assertEqVVStrAnyOrder(base + " [consistency]", got_sorting,           got_counting));
+            REQUIRE_ASSERT(assertEqVVStrAnyOrder(base + " [sorting]", testCases[i].expected, gotSorting));
+            REQUIRE_ASSERT(assertEqVVStrAnyOrder(base + " [counting]", testCases[i].expected, gotCounting));
+            REQUIRE_ASSERT(assertEqVVStrAnyOrder(base + " [consistency]", gotSorting, gotCounting));
         }
 
         return true;
@@ -1363,9 +1411,13 @@ public:
         };
 
         ValidSudoku_36 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
+
             bool got = solver.isValidSudoku(testCases[i].board);
-            REQUIRE_ASSERT(assertEqScalar("Valid Sudoku Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Valid Sudoku Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -1385,10 +1437,12 @@ public:
         };
 
         LongestConsecutiveSequence_128 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = sol.longestConsecutive(testCases[i].nums);
-            REQUIRE_ASSERT(assertEqScalar("Longest Consecutive Sequence 128 Test " + to_string(i + 1),
-                        testCases[i].expected, got));
+
+            const string label = "Longest Consecutive Sequence 128 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -1410,6 +1464,7 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
             string got = sol.frequencySort(tc.input);
+
             const string label = "Sort Characters by Frequency 451 Test " + to_string(i + 1);
             REQUIRE_ASSERT(assertEqScalar(label, true, isValidFrequencySort(tc.input, got)));
         }
@@ -1429,11 +1484,14 @@ public:
         };
 
         TopKFrequentWords_692 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto got = sol.topKFrequent(testCases[i].words, testCases[i].k);
-            const string label = "Top K Frequent Words 692 Test " + to_string(i + 1) +
-                                " (k=" + to_string(testCases[i].k) + ")";
-            REQUIRE_ASSERT(assertEqStrings(label, testCases[i].expected, got));  // exact order matters
+
+            const string label =
+                "Top K Frequent Words 692 Test " + to_string(i + 1) +
+                " (k=" + to_string(testCases[i].k) + ")";
+            REQUIRE_ASSERT(assertEqStrings(label, testCases[i].expected, got)); // exact order matters
         }
 
         return true;
@@ -1489,6 +1547,7 @@ public:
         };
 
         AnalyzeUserWebsiteVisitPattern1152 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto m = sol.mostVisitedPattern_usingMap(
                 testCases[i].username, testCases[i].timestamp, testCases[i].website);
@@ -1561,6 +1620,7 @@ public:
                 if (op == "get") {
                     int got = hm.get(arg[0]);
                     int expected = exp.value();
+
                     const string label = makeStepLabel("HashMap Case", i, j, op, to_string(arg[0]));
                     REQUIRE_ASSERT(assertEqScalar(label, expected, got));
                 }
@@ -1596,14 +1656,16 @@ public:
         };
 
         ReverseString_344 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto s = testCases[i].input;          // work on a copy
+            auto s = testCases[i].input; // work on a copy
             solver.reverseString(s);
 
-            const string label = "Reverse String 344 Test " + to_string(i + 1);
             const string got(s.begin(), s.end());
-            const string exp(testCases[i].expected.begin(), testCases[i].expected.end());
-            REQUIRE_ASSERT(assertEqScalar(label, exp, got));
+            const string expected(testCases[i].expected.begin(), testCases[i].expected.end());
+
+            const string label = "Reverse String 344 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, expected, got));
         }
 
         return true;
@@ -1629,9 +1691,12 @@ public:
         };
 
         ValidPalindrome_125 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool got = solver.isPalindrome(testCases[i].input);
-            REQUIRE_ASSERT(assertEqScalar("Valid Palindrome 125 Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Valid Palindrome 125 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -1652,10 +1717,12 @@ public:
         };
 
         SquaresOfSortedArray_977 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto got = sol.sortedSquares(testCases[i].nums);
-            REQUIRE_ASSERT(assertEqVIntExact("Squares of Sorted Array 977 Test " + to_string(i + 1),
-                            testCases[i].expected, got));
+
+            const string label = "Squares of Sorted Array 977 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVIntExact(label, testCases[i].expected, got));
         }
 
         return true;
@@ -1679,10 +1746,13 @@ public:
         };
 
         TwoSumII_167 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto nums = testCases[i].numbers; // solve on a copy
             auto got  = solver.twoSum(nums, testCases[i].target);
-            REQUIRE_ASSERT(assertEqVIntExact("Two Sum II 167 Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Two Sum II 167 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVIntExact(label, testCases[i].expected, got));
         }
 
         return true;
@@ -1704,12 +1774,13 @@ public:
         };
 
         TwoSumLessThanK_1099 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto nums = testCases[i].nums;  // solver sorts in-place
             int got = solver.twoSumLessThanK(nums, testCases[i].k);
 
-            REQUIRE_ASSERT(assertEqScalar("Two Sum Less Than K 1099 Test " + to_string(i + 1),
-                           testCases[i].expected, got));
+            const string label = "Two Sum Less Than K 1099 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -1732,9 +1803,12 @@ public:
         };
 
         ThreeSum_15 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto got = solver.threeSum(testCases[i].nums);
-            REQUIRE_ASSERT(assertEqVVIntAnyOrder("Three Sum 15 Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Three Sum 15 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVVIntAnyOrder(label, testCases[i].expected, got));
         }
 
         return true;
@@ -1761,9 +1835,11 @@ public:
         };
 
         ThreeSumClosest_16 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto nums = testCases[i].nums;  // solve on a copy (project style)
             int got   = solver.threeSumClosest(nums, testCases[i].target);
+
             const string label = "Three Sum Closest 16 Test " + to_string(i + 1);
             REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
@@ -1804,9 +1880,11 @@ public:
         };
 
         FourSum_18 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto nums = testCases[i].nums;  // work on a copy
             auto got  = solver.fourSum(nums, testCases[i].target);
+
             const string label = "Four Sum 18 Test " + to_string(i + 1);
             REQUIRE_ASSERT(assertEqVVIntAnyOrder(label, testCases[i].expected, got));
         }
@@ -1829,9 +1907,12 @@ public:
         };
 
         ContainerWithMostWater_11 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solver.maxArea(testCases[i].height);
-            REQUIRE_ASSERT(assertEqScalar("Container With Most Water 11 Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Container With Most Water 11 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -1851,9 +1932,12 @@ public:
         };
 
         TrappingRainWater_42 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solver.trap(testCases[i].height);
-            REQUIRE_ASSERT(assertEqScalar("Trapping Rain Water 42 Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Trapping Rain Water 42 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
