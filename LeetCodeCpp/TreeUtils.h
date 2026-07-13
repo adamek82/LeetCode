@@ -1,35 +1,54 @@
 #pragma once
+
 #include "TreeNode.h"
-#include <vector>
+
+#include <memory>
 #include <optional>
 #include <string>
+#include <vector>
 
 using namespace std;
 
 class TreeUtils {
 public:
-    // Create a binary tree from a vector (level-by-level)
     template <typename T>
     static TreeNode<T>* vectorToTree(const vector<optional<T>>& values);
 
-    // Convert the tree to a level-order string representation
     template <typename T>
     static string toLevelOrderString(TreeNode<T>* root);
 
-    // Print the tree in a visually formatted style (similar to BTreePrinter)
     template <typename T>
     static void printTree(TreeNode<T>* root);
 
-    // Find a node in the tree by its value
     template <typename T>
     static TreeNode<T>* findNode(TreeNode<T>* root, T value);
 
-    // Free the binary tree memory
     template <typename T>
     static void freeTree(TreeNode<T>* root);
 
+    template <typename T>
+    struct TreeDeleter {
+        void operator()(TreeNode<T>* root) const {
+            TreeUtils::freeTree<T>(root);
+        }
+    };
+
+    template <typename T>
+    using UniqueTree = unique_ptr<TreeNode<T>, TreeDeleter<T>>;
+
+    template <typename T>
+    static UniqueTree<T> makeUniqueTree(const vector<optional<T>>& values) {
+        return UniqueTree<T>(vectorToTree<T>(values));
+    }
+
+    // For in-place tree algorithms that may return a different root.
+    template <typename T>
+    static void resetTreeRoot(UniqueTree<T>& owner, TreeNode<T>* newRoot) {
+        owner.release();
+        owner.reset(newRoot);
+    }
+
 private:
-    // Helper methods for tree printing
     template <typename T>
     static void printNodeInternal(const vector<TreeNode<T>*>& nodes, int level, int maxLevel);
 

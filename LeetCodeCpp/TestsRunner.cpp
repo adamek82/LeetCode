@@ -1967,11 +1967,13 @@ public:
         };
 
         BaseballGame_682 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto ops = testCases[i].operations; // calPoints takes non-const ref
             int got = sol.calPoints(ops);
-            REQUIRE_ASSERT(assertEqScalar("Baseball Game 682 Test " + to_string(i + 1),
-                           testCases[i].expected, got));
+
+            const string label = "Baseball Game 682 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -1987,9 +1989,12 @@ public:
         };
 
         ValidParentheses_20 solution;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool got = solution.isValid(testCases[i].input);
-            REQUIRE_ASSERT(assertEqScalar("Valid Parentheses Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Valid Parentheses Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2009,7 +2014,9 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = evaluator.evalRPN(testCases[i].input);
-            REQUIRE_ASSERT(assertEqScalar("Evaluate RPN Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Evaluate RPN Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2028,9 +2035,12 @@ public:
         };
 
         DecodeString_GoogleOnsite solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             string got = solver.decode(testCases[i].input);
-            REQUIRE_ASSERT(assertEqScalar("Decode String (Google Onsite) Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Decode String (Google Onsite) Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2052,9 +2062,12 @@ public:
         };
 
         DailyTemperatures_739 solver;
+
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = solver.dailyTemperatures(tests[i].temperatures);
-            REQUIRE_ASSERT(assertEqVIntExact("Daily Temperatures 739 Test " + to_string(i + 1), tests[i].expected, got));
+
+            const string label = "Daily Temperatures 739 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVIntExact(label, tests[i].expected, got));
         }
 
         return true;
@@ -2077,9 +2090,12 @@ public:
         };
 
         LargestRectangleInHistogram_84 solution;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.largestRectangleArea(testCases[i].heights);
-            REQUIRE_ASSERT(assertEqScalar("Largest Rectangle Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Largest Rectangle Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2139,7 +2155,9 @@ public:
 
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = run(tests[i].operations);
-            REQUIRE_ASSERT(assertEqVIntExact("Min Stack 155 Test " + to_string(i + 1), tests[i].expected, got));
+
+            const string label = "Min Stack 155 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVIntExact(label, tests[i].expected, got));
         }
 
         return true;
@@ -2169,9 +2187,12 @@ public:
         };
 
         MaximalRectangle_85 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solver.maximalRectangle(testCases[i].matrix);
-            REQUIRE_ASSERT(assertEqScalar("Maximal Rectangle 85 Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Maximal Rectangle 85 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2201,12 +2222,17 @@ public:
         RemoveDuplicatesFromSortedList_83 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].list);
-            IntListNode* result = solution.deleteDuplicates(input);
+            auto list = ListUtils::makeUniqueList<int>(testCases[i].list);
 
-            REQUIRE_ASSERT(assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result)));
+            IntListNode* result = solution.deleteDuplicates(list.get());
+            ListUtils::resetListHead(list, result);
 
-            ListUtils::freeList<int>(result);
+            const string label =
+                "Remove Duplicates from Sorted List 83 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVIntExact(
+                label,
+                testCases[i].expected,
+                ListUtils::toVector<int>(list.get())));
         }
 
         return true;
@@ -2231,30 +2257,22 @@ public:
         InsertGreatestCommonDivisors_2807 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            // Run both implementations on fresh copies (they mutate the list).
-            IntListNode* input_std = ListUtils::createLinkedList<int>(testCases[i].list);
-            IntListNode* got_std = solution.insertGreatestCommonDivisors_stdGcd(input_std);
-            vector<int> gotVec_std = ListUtils::toVector<int>(got_std);
+            auto stdList = ListUtils::makeUniqueList<int>(testCases[i].list);
+            IntListNode* stdHead = solution.insertGreatestCommonDivisors_stdGcd(stdList.get());
+            ListUtils::resetListHead(stdList, stdHead);
 
-            assertEqVIntExact("2807 [std::gcd]  Test " + to_string(i + 1),
-                              testCases[i].expected, gotVec_std);
+            vector<int> gotStd = ListUtils::toVector<int>(stdList.get());
 
-            // NOTE: The algorithm mutates the list in-place and returns the same head.
-            // Free ONLY through `got_std` (which equals `input_std`); do NOT free `input_std` separately.
-            ListUtils::freeList<int>(got_std);
+            auto euclidList = ListUtils::makeUniqueList<int>(testCases[i].list);
+            IntListNode* euclidHead = solution.insertGreatestCommonDivisors_euclid(euclidList.get());
+            ListUtils::resetListHead(euclidList, euclidHead);
 
-            IntListNode* input_euclid = ListUtils::createLinkedList<int>(testCases[i].list);
-            IntListNode* got_euclid = solution.insertGreatestCommonDivisors_euclid(input_euclid);
-            vector<int> gotVec_euclid = ListUtils::toVector<int>(got_euclid);
+            vector<int> gotEuclid = ListUtils::toVector<int>(euclidList.get());
 
-            REQUIRE_ASSERT(assertEqVIntExact("2807 [euclid]    Test " + to_string(i + 1),
-                              testCases[i].expected, gotVec_euclid));
-
-            REQUIRE_ASSERT(assertEqVIntExact("2807 [agree]     Test " + to_string(i + 1),
-                              gotVec_std, gotVec_euclid));
-
-            // Ditto: `got_euclid == input_euclid`, so free only `got_euclid`.
-            ListUtils::freeList<int>(got_euclid);
+            const string base = "Insert Greatest Common Divisors 2807 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVIntExact(base + " [std::gcd]", testCases[i].expected, gotStd));
+            REQUIRE_ASSERT(assertEqVIntExact(base + " [euclid]", testCases[i].expected, gotEuclid));
+            REQUIRE_ASSERT(assertEqVIntExact(base + " [consistency]", gotStd, gotEuclid));
         }
 
         return true;
@@ -2280,12 +2298,16 @@ public:
         ReverseLinkedList_206 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].list);
-            IntListNode* result = solution.reverseList(input);
+            auto list = ListUtils::makeUniqueList<int>(testCases[i].list);
 
-            REQUIRE_ASSERT(assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result)));
+            IntListNode* result = solution.reverseList(list.get());
+            ListUtils::resetListHead(list, result);
 
-            ListUtils::freeList<int>(result);
+            const string label = "Reverse Linked List 206 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVIntExact(
+                label,
+                testCases[i].expected,
+                ListUtils::toVector<int>(list.get())));
         }
 
         return true;
@@ -2307,28 +2329,48 @@ public:
 
         MergeTwoSortedLists_21 solution;
 
-        const vector<pair<string, function<IntListNode*(IntListNode*, IntListNode*)>>> impls = {
-            {"DummyNode", [&](IntListNode* a, IntListNode* b) { return solution.mergeTwoLists_DummyNode(a, b); }},
-            {"NoDummy",   [&](IntListNode* a, IntListNode* b) { return solution.mergeTwoLists_NoDummy(a, b); }},
+        struct Impl {
+            string name;
+            function<IntListNode*(IntListNode*, IntListNode*)> run;
+        };
+
+        const vector<Impl> impls = {
+            {
+                "DummyNode",
+                [&](IntListNode* a, IntListNode* b) {
+                    return solution.mergeTwoLists_DummyNode(a, b);
+                }
+            },
+            {
+                "NoDummy",
+                [&](IntListNode* a, IntListNode* b) {
+                    return solution.mergeTwoLists_NoDummy(a, b);
+                }
+            },
         };
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
 
-            for (const auto& [name, run] : impls) {
-                // Must create fresh lists per implementation (merge is in-place).
-                IntListNode* list1 = ListUtils::createLinkedList<int>(tc.list1);
-                IntListNode* list2 = ListUtils::createLinkedList<int>(tc.list2);
+            for (const auto& impl : impls) {
+                auto list1 = ListUtils::makeUniqueList<int>(tc.list1);
+                auto list2 = ListUtils::makeUniqueList<int>(tc.list2);
 
-                IntListNode* result = run(list1, list2);
+                IntListNode* result = impl.run(list1.get(), list2.get());
 
+                // mergeTwoLists re-links nodes from both inputs into one output list.
+                // The result owner must be the only owner of the merged chain.
+                list1.release();
+                list2.release();
+                ListUtils::UniqueList<int> resultList(result);
+
+                const string label =
+                    "Merge Two Sorted Lists 21 Test " + to_string(i + 1) +
+                    " [" + impl.name + "]";
                 REQUIRE_ASSERT(assertEqVIntExact(
-                    "Test " + to_string(i + 1) + " (" + name + ")",
+                    label,
                     tc.expected,
-                    ListUtils::toVector<int>(result)
-                ));
-
-                ListUtils::freeList<int>(result);
+                    ListUtils::toVector<int>(resultList.get())));
             }
         }
 
@@ -2352,12 +2394,14 @@ public:
         LinkedListCycle_141 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            ListNode<int>* head = ListUtils::createLinkedListWithCycle<int>(testCases[i].values, testCases[i].pos);
-            bool result = solution.hasCycle(head);
+            auto list = ListUtils::makeUniqueListWithCycle<int>(
+                testCases[i].values,
+                testCases[i].pos);
 
-            REQUIRE_ASSERT(assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result));
+            bool got = solution.hasCycle(list.get());
 
-            ListUtils::freeList<int>(head);
+            const string label = "Linked List Cycle 141 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2380,12 +2424,15 @@ public:
         MiddleOfLinkedList_876 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].values);
-            IntListNode* result = solution.middleNode(input);
+            auto list = ListUtils::makeUniqueList<int>(testCases[i].values);
 
-            REQUIRE_ASSERT(assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result)));
+            IntListNode* result = solution.middleNode(list.get());
 
-            ListUtils::freeList<int>(input);
+            const string label = "Middle of the Linked List 876 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVIntExact(
+                label,
+                testCases[i].expected,
+                ListUtils::toVector<int>(result)));
         }
 
         return true;
@@ -2408,12 +2455,16 @@ public:
         RemoveNthNodeFromEndOfList_19 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* input = ListUtils::createLinkedList<int>(testCases[i].values);
-            IntListNode* result = solution.removeNthFromEnd(input, testCases[i].n);
+            auto list = ListUtils::makeUniqueList<int>(testCases[i].values);
 
-            REQUIRE_ASSERT(assertEqVIntExact("Test " + to_string(i + 1), testCases[i].expected, ListUtils::toVector<int>(result)));
+            IntListNode* result = solution.removeNthFromEnd(list.get(), testCases[i].n);
+            ListUtils::resetListHead(list, result);
 
-            ListUtils::freeList<int>(result);
+            const string label = "Remove Nth Node From End of List 19 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVIntExact(
+                label,
+                testCases[i].expected,
+                ListUtils::toVector<int>(list.get())));
         }
 
         return true;
@@ -2442,17 +2493,17 @@ public:
         CopyListWithRandomPointer_138 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            IntListNode* input = ListUtils::createLinkedListWithRandom<int>(testCases[i].nodes);
-            IntListNode* expected = ListUtils::createLinkedListWithRandom<int>(testCases[i].expected);
+            auto input = ListUtils::makeUniqueListWithRandom<int>(testCases[i].nodes);
+            auto expected = ListUtils::makeUniqueListWithRandom<int>(testCases[i].expected);
 
-            IntListNode* result = solution.copyRandomList(input);
-            bool isCorrect = ListUtils::compareListsWithRandom<int>(result, expected);
+            ListUtils::UniqueList<int> result(solution.copyRandomList(input.get()));
 
-            REQUIRE_ASSERT(assertEqScalar("Copy Random List Test " + to_string(i + 1), true, isCorrect));
+            bool isCorrect = ListUtils::compareListsWithRandom<int>(
+                result.get(),
+                expected.get());
 
-            ListUtils::freeList(input);
-            ListUtils::freeList(result);
-            ListUtils::freeList(expected);
+            const string label = "Copy List with Random Pointer 138 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, true, isCorrect));
         }
 
         return true;
@@ -2487,21 +2538,22 @@ public:
         };
 
         for (size_t t = 0; t < testCases.size(); ++t) {
+            const auto& tc = testCases[t];
             unique_ptr<LRUCache> cache;
-            const auto& C = testCases[t];
 
-            for (size_t i = 0; i < C.operations.size(); ++i) {
-                const string& op = C.operations[i];
+            for (size_t i = 0; i < tc.operations.size(); ++i) {
+                const string& op = tc.operations[i];
 
                 if (op == "LRUCache") {
-                    cache = make_unique<LRUCache>(C.arguments[i][0]);
+                    cache = make_unique<LRUCache>(tc.arguments[i][0]);
                 } else if (op == "put") {
-                    cache->put(C.arguments[i][0], C.arguments[i][1]);
+                    cache->put(tc.arguments[i][0], tc.arguments[i][1]);
                 } else if (op == "get") {
-                    int key = C.arguments[i][0];
+                    int key = tc.arguments[i][0];
                     int got = cache->get(key);
+
                     const string label = makeStepLabel("LRUCache_146", t, i, "get", to_string(key));
-                    REQUIRE_ASSERT(assertEqScalar(label, C.expected[i].value(), got));
+                    REQUIRE_ASSERT(assertEqScalar(label, tc.expected[i].value(), got));
                 }
             }
         }
@@ -2530,9 +2582,12 @@ public:
         };
 
         BinarySearch_704 solution;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.search(testCases[i].nums, testCases[i].target);
-            REQUIRE_ASSERT(assertEqScalar("Binary Search Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Binary Search Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2553,9 +2608,12 @@ public:
         };
 
         SearchInsertPosition_35 solution;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.searchInsert(testCases[i].nums, testCases[i].target);
-            REQUIRE_ASSERT(assertEqScalar("Search Insert Position Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Search Insert Position Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2577,12 +2635,14 @@ public:
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
-            FirstBadVersion_278 sol;
-            sol.firstBad = tc.firstBad;
 
+            FirstBadVersion_278 sol;
+
+            sol.firstBad = tc.firstBad;
             int got = sol.firstBadVersion(tc.n);
-            REQUIRE_ASSERT(assertEqScalar("First Bad Version 278 Test " + to_string(i + 1),
-                           tc.expected, got));
+
+            const string label = "First Bad Version 278 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
 
         return true;
@@ -2605,10 +2665,12 @@ public:
         };
 
         SqrtX_69 solution;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.mySqrt(testCases[i].x);
-            REQUIRE_ASSERT(assertEqScalar("Sqrt(x) 69 Test " + to_string(i + 1),
-                        testCases[i].expected, got));
+
+            const string label = "Sqrt(x) 69 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2624,9 +2686,12 @@ public:
         };
 
         ValidPerfectSquare_367 solver;
+
         for (size_t i = 0; i < cases.size(); ++i) {
             bool got = solver.isPerfectSquare(cases[i].num);
-            REQUIRE_ASSERT(assertEqScalar("Valid Perfect Square 367 Test " + to_string(i + 1), cases[i].expected, got));
+
+            const string label = "Valid Perfect Square 367 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, cases[i].expected, got));
         }
 
         return true;
@@ -2651,10 +2716,12 @@ public:
         };
 
         KokoEatingBananas_875 solution;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.minEatingSpeed(testCases[i].piles, testCases[i].h);
-            REQUIRE_ASSERT(assertEqScalar("Koko Eating Bananas 875 Test " + to_string(i + 1),
-                           testCases[i].expected, got));
+
+            const string label = "Koko Eating Bananas 875 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2675,9 +2742,12 @@ public:
         };
 
         Search2DMatrix_74 solution;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool got = solution.searchMatrix(testCases[i].matrix, testCases[i].target);
-            REQUIRE_ASSERT(assertEqScalar("Search 2D Matrix Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Search 2D Matrix Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2693,9 +2763,12 @@ public:
         };
 
         FindMinimumInRotatedSortedArray_153 solution;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.findMin(testCases[i].nums);
-            REQUIRE_ASSERT(assertEqScalar("Find Min Rotated Array 153 Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Find Min Rotated Array 153 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2727,10 +2800,12 @@ public:
         };
 
         SearchInRotatedSortedArray_33 solution;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solution.search(testCases[i].nums, testCases[i].target);
-            REQUIRE_ASSERT(assertEqScalar("Search Rotated Sorted Array 33 Test " + to_string(i + 1),
-                           testCases[i].expected, got));
+
+            const string label = "Search Rotated Sorted Array 33 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2755,11 +2830,12 @@ public:
         };
 
         MaximumAverageSubarrayI_643 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             double got = sol.findMaxAverage(testCases[i].nums, testCases[i].k);
+
             const string label = "Max Avg Subarray I 643 Test " + to_string(i + 1);
-            // keep tolerance via approxEqual, assert on the boolean
-            REQUIRE_ASSERT(assertEqScalar(label, true, approxEqual(got, testCases[i].expected)));
+            REQUIRE_ASSERT(assertApprox(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2780,9 +2856,12 @@ public:
         };
 
         MaxConsecutiveOnesIII_1004 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = sol.longestOnes(testCases[i].nums, testCases[i].k);
-            REQUIRE_ASSERT(assertEqScalar("Max Consecutive Ones III 1004 Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Max Consecutive Ones III 1004 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2803,9 +2882,12 @@ public:
         };
 
         MinimumSizeSubarraySum_209 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = sol.minSubArrayLen(testCases[i].target, testCases[i].nums);
-            REQUIRE_ASSERT(assertEqScalar("Minimum Size Subarray Sum 209 Test " + to_string(i + 1), testCases[i].expected, got));
+
+            const string label = "Minimum Size Subarray Sum 209 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2824,10 +2906,12 @@ public:
         };
 
         LongestSubstringWithoutRepeatingCharacters_3 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = sol.lengthOfLongestSubstring(testCases[i].input);
-            REQUIRE_ASSERT(assertEqScalar("Longest Substring Without Repeating Characters 3 Test " + to_string(i + 1),
-                        testCases[i].expected, got));
+
+            const string label = "Longest Substring 3 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2844,10 +2928,12 @@ public:
         };
 
         LongestRepeatingCharacterReplacement_424 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = sol.characterReplacement(testCases[i].input, testCases[i].k);
-            REQUIRE_ASSERT(assertEqScalar("Longest Repeating Character Replacement 424 Test " + to_string(i + 1),
-                        testCases[i].expected, got));
+
+            const string label = "Character Replacement 424 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
 
         return true;
@@ -2865,13 +2951,14 @@ public:
         };
 
         PermutationInString_567 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
-            const bool got_fullCompare    = sol.checkInclusion_fullCompare(testCases[i].s1, testCases[i].s2);
-            const bool got_matchesCounter = sol.checkInclusion_matchesCounter(testCases[i].s1, testCases[i].s2);
+            const bool gotFullCompare = sol.checkInclusion_fullCompare(testCases[i].s1, testCases[i].s2);
+            const bool gotMatchesCounter = sol.checkInclusion_matchesCounter(testCases[i].s1, testCases[i].s2);
 
             const string base = "Permutation in String 567 Test " + to_string(i + 1);
-            REQUIRE_ASSERT(assertEqScalar(base + " [fullCompare]",    testCases[i].expected, got_fullCompare));
-            REQUIRE_ASSERT(assertEqScalar(base + " [matchesCounter]", testCases[i].expected, got_matchesCounter));
+            REQUIRE_ASSERT(assertEqScalar(base + " [fullCompare]", testCases[i].expected, gotFullCompare));
+            REQUIRE_ASSERT(assertEqScalar(base + " [matchesCounter]", testCases[i].expected, gotMatchesCounter));
         }
 
         return true;
@@ -2940,19 +3027,16 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
 
-            TreeNode<int>* root     = TreeUtils::vectorToTree<int>(tc.tree);
-            TreeNode<int>* expected = TreeUtils::vectorToTree<int>(tc.expected);
+            auto root = TreeUtils::makeUniqueTree<int>(tc.tree);
+            auto expected = TreeUtils::makeUniqueTree<int>(tc.expected);
 
-            TreeNode<int>* result = solver.invertTree(root);
+            TreeNode<int>* result = solver.invertTree(root.get());
 
             string gotStr = TreeUtils::toLevelOrderString(result);
-            string expStr = TreeUtils::toLevelOrderString(expected);
+            string expectedStr = TreeUtils::toLevelOrderString(expected.get());
 
             const string label = "Invert Binary Tree 226 Test " + to_string(i + 1);
-            REQUIRE_ASSERT(assertEqScalar(label, expStr, gotStr));
-
-            TreeUtils::freeTree(expected);
-            TreeUtils::freeTree(root);      // free the input tree
+            REQUIRE_ASSERT(assertEqScalar(label, expectedStr, gotStr));
         }
 
         return true;
@@ -2974,19 +3058,18 @@ public:
         };
 
         MaximumDepthOfBinaryTree_104 solver;
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(testCases[i].tree);
 
-            int dRec = solver.maxDepthRecursive(root);
-            int dStk = solver.maxDepthDFSStack(root);
-            int dBfs = solver.maxDepthBFSQueue(root);
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            auto root = TreeUtils::makeUniqueTree<int>(testCases[i].tree);
+
+            int dRec = solver.maxDepthRecursive(root.get());
+            int dStk = solver.maxDepthDFSStack(root.get());
+            int dBfs = solver.maxDepthBFSQueue(root.get());
 
             const string base = "Max Depth 104 Test " + to_string(i + 1);
             REQUIRE_ASSERT(assertEqScalar(base + " [recursive]", testCases[i].expected, dRec));
             REQUIRE_ASSERT(assertEqScalar(base + " [DFS stack]", testCases[i].expected, dStk));
             REQUIRE_ASSERT(assertEqScalar(base + " [BFS queue]", testCases[i].expected, dBfs));
-
-            TreeUtils::freeTree(root);
         }
 
         return true;
@@ -3020,22 +3103,19 @@ public:
         };
 
         SameTree_100 sol;
+
         for (size_t i = 0; i < cases.size(); ++i) {
-            auto* p = TreeUtils::vectorToTree<int>(cases[i].p);
-            auto* q = TreeUtils::vectorToTree<int>(cases[i].q);
+            auto p = TreeUtils::makeUniqueTree<int>(cases[i].p);
+            auto q = TreeUtils::makeUniqueTree<int>(cases[i].q);
 
-            const string base = "SameTree_100 Test " + to_string(i + 1);
+            bool g1 = sol.isSameTreeRecursive(p.get(), q.get());
+            bool g2 = sol.isSameTreeIterativeDFS(p.get(), q.get());
+            bool g3 = sol.isSameTreeBFSQueue(p.get(), q.get());
 
-            bool g1 = sol.isSameTreeRecursive(p, q);
-            bool g2 = sol.isSameTreeIterativeDFS(p, q);
-            bool g3 = sol.isSameTreeBFSQueue(p, q);
-
-            REQUIRE_ASSERT(assertEqScalar(base + " [recursive]",     cases[i].expected, g1));
+            const string base = "Same Tree 100 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(base + " [recursive]", cases[i].expected, g1));
             REQUIRE_ASSERT(assertEqScalar(base + " [iterative DFS]", cases[i].expected, g2));
-            REQUIRE_ASSERT(assertEqScalar(base + " [BFS queue]",     cases[i].expected, g3));
-
-            TreeUtils::freeTree(p);
-            TreeUtils::freeTree(q);
+            REQUIRE_ASSERT(assertEqScalar(base + " [BFS queue]", cases[i].expected, g3));
         }
 
         return true;
@@ -3077,17 +3157,14 @@ public:
         SymmetricTree_101 sol;
 
         for (size_t i = 0; i < cases.size(); ++i) {
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(cases[i].tree);
+            auto root = TreeUtils::makeUniqueTree<int>(cases[i].tree);
 
-            const string base = "SymmetricTree_101 Test " + to_string(i + 1);
+            bool g1 = sol.isSymmetricRecursive(root.get());
+            bool g2 = sol.isSymmetricIterative(root.get());
 
-            bool g1 = sol.isSymmetricRecursive(root);
-            bool g2 = sol.isSymmetricIterative(root);
-
+            const string base = "Symmetric Tree 101 Test " + to_string(i + 1);
             REQUIRE_ASSERT(assertEqScalar(base + " [recursive]", cases[i].expected, g1));
             REQUIRE_ASSERT(assertEqScalar(base + " [iterative]", cases[i].expected, g2));
-
-            TreeUtils::freeTree(root);
         }
 
         return true;
@@ -3134,14 +3211,12 @@ public:
         PathSum_112 sol;
 
         for (size_t i = 0; i < cases.size(); ++i) {
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(cases[i].tree);
+            auto root = TreeUtils::makeUniqueTree<int>(cases[i].tree);
 
-            const string label = "PathSum_112 Test " + to_string(i + 1);
+            bool got = sol.hasPathSum(root.get(), cases[i].target);
 
-            bool got = sol.hasPathSum(root, cases[i].target);
+            const string label = "Path Sum 112 Test " + to_string(i + 1);
             REQUIRE_ASSERT(assertEqScalar(label, cases[i].expected, got));
-
-            TreeUtils::freeTree(root);
         }
 
         return true;
@@ -3185,13 +3260,11 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
 
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
-            bool got = solver.isBalanced(root);
+            auto root = TreeUtils::makeUniqueTree<int>(tc.tree);
+            bool got = solver.isBalanced(root.get());
 
             const string label = "Balanced Binary Tree 110 Test " + to_string(i + 1);
             REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
-
-            TreeUtils::freeTree(root);
         }
 
         return true;
@@ -3237,13 +3310,11 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
 
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
-            int got = solver.diameterOfBinaryTree(root);
+            auto root = TreeUtils::makeUniqueTree<int>(tc.tree);
+            int got = solver.diameterOfBinaryTree(root.get());
 
             const string label = "Diameter of Binary Tree 543 Test " + to_string(i + 1);
             REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
-
-            TreeUtils::freeTree(root);
         }
 
         return true;
@@ -3384,13 +3455,11 @@ public:
         for (size_t i = 0; i < cases.size(); ++i) {
             const auto& tc = cases[i];
 
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
-            vector<vector<int>> got = sol.levelOrder(root);
+            auto root = TreeUtils::makeUniqueTree<int>(tc.tree);
+            vector<vector<int>> got = sol.levelOrder(root.get());
 
-            const string label = "BinaryTreeLevelOrderTraversal_102 Test " + to_string(i + 1);
+            const string label = "Binary Tree Level Order 102 Test " + to_string(i + 1);
             REQUIRE_ASSERT(assertEqVVIntExact(label, tc.expected, got));
-
-            TreeUtils::freeTree(root);
         }
 
         return true;
@@ -3443,21 +3512,16 @@ public:
         for (size_t i = 0; i < cases.size(); ++i) {
             const auto& tc = cases[i];
 
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
-            vector<double> got  = sol.averageOfLevels(root);
+            auto root = TreeUtils::makeUniqueTree<int>(tc.tree);
+            vector<double> got = sol.averageOfLevels(root.get());
 
-            const string base = "AverageOfLevelsInBinaryTree_637 Test " + to_string(i + 1);
-
-            // First check length
+            const string base = "Average of Levels in Binary Tree 637 Test " + to_string(i + 1);
             REQUIRE_ASSERT(assertEqScalar(base + " [size]", tc.expected.size(), got.size()));
 
-            // Then check each level with approximate comparison
             for (size_t j = 0; j < tc.expected.size() && j < got.size(); ++j) {
                 const string label = base + " [level " + to_string(j) + "]";
-                assertApprox(label, tc.expected[j], got[j], 1e-5);
+                REQUIRE_ASSERT(assertApprox(label, tc.expected[j], got[j], 1e-5));
             }
-
-            TreeUtils::freeTree(root);
         }
 
         return true;
@@ -3482,21 +3546,17 @@ public:
         KthSmallestElementInBST_230 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(testCases[i].tree);
-            int got = solution.kthSmallest(root, testCases[i].k);
+            auto root = TreeUtils::makeUniqueTree<int>(testCases[i].tree);
 
-            const string label = "Kth Smallest Element Test " + to_string(i + 1);
+            int got = solution.kthSmallest(root.get(), testCases[i].k);
+
+            const string label = "Kth Smallest Element in BST 230 Test " + to_string(i + 1);
             const bool passed = assertEqScalar(label, testCases[i].expected, got);
 
             if (!passed) {
                 cout << "  Input tree:\n";
-                TreeUtils::printTree(root);
-                cout << "  k=" << testCases[i].k << "\n";
-            }
-
-            TreeUtils::freeTree(root);
-
-            if (!passed) {
+                TreeUtils::printTree(root.get());
+                cout << "  k=" << testCases[i].k << '\n';
                 return false;
             }
         }
@@ -3504,7 +3564,7 @@ public:
         return true;
     }
 
-    static void minimumAbsoluteDifferenceInBST_530_tests() {
+    static bool minimumAbsoluteDifferenceInBST_530_tests() {
         vector<MinimumAbsoluteDifferenceInBSTTestCase> cases = {
             // Example 1
             {{4, 2, 6, 1, 3}, 1},
@@ -3542,17 +3602,15 @@ public:
         for (size_t i = 0; i < cases.size(); ++i) {
             const auto& tc = cases[i];
 
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(tc.tree);
-            int got = sol.getMinimumDifference(root);
+            auto root = TreeUtils::makeUniqueTree<int>(tc.tree);
+            int got = sol.getMinimumDifference(root.get());
 
-            const string label = "MinimumAbsoluteDifferenceInBST_530 Test " + to_string(i + 1);
-            assertEqScalar(label, tc.expected, got);
-
-            TreeUtils::freeTree(root);
+            const string label = "Minimum Absolute Difference in BST 530 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
     }
 
-    static void validateBinarySearchTree_98_tests() {
+    static bool validateBinarySearchTree_98_tests() {
         vector<ValidateBinarySearchTreeTestCase> testCases = {
             // Provided examples
             {{2, 1, 3}, true},
@@ -3567,19 +3625,22 @@ public:
         ValidateBinarySearchTree_98 validator;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            TreeNode<int>* root = TreeUtils::vectorToTree<int>(testCases[i].tree);
-            bool result = validator.isValidBST(root);
+            auto root = TreeUtils::makeUniqueTree<int>(testCases[i].tree);
 
-            if (!assertEqScalar("Validate BST Test " + to_string(i + 1), testCases[i].expected, result)) {
+            bool got = validator.isValidBST(root.get());
+
+            const string label = "Validate BST 98 Test " + to_string(i + 1);
+            const bool passed = assertEqScalar(label, testCases[i].expected, got);
+
+            if (!passed) {
                 cout << "  Input tree:\n";
-                TreeUtils::printTree(root);
+                TreeUtils::printTree(root.get());
+                return false;
             }
-
-            TreeUtils::freeTree(root);
         }
     }
 
-    static void lowestCommonAncestor_235_tests() {
+    static bool lowestCommonAncestor_235_tests() {
         vector<LowestCommonAncestorTestCase> testCases = {
             // Example 1
             {{6, 2, 8, 0, 4, 7, 9, nullopt, nullopt, 3, 5}, 2, 8, 6},
@@ -3596,26 +3657,29 @@ public:
         LowestCommonAncestorOfBST_235 lcaSolver;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            TreeNode<int>* root = TreeUtils::vectorToTree(testCases[i].tree);
-            TreeNode<int>* p = TreeUtils::findNode(root, testCases[i].p);
-            TreeNode<int>* q = TreeUtils::findNode(root, testCases[i].q);
+            auto root = TreeUtils::makeUniqueTree<int>(testCases[i].tree);
 
-            TreeNode<int>* lca = lcaSolver.lowestCommonAncestor(root, p, q);
+            TreeNode<int>* p = TreeUtils::findNode(root.get(), testCases[i].p);
+            TreeNode<int>* q = TreeUtils::findNode(root.get(), testCases[i].q);
+
+            TreeNode<int>* lca = lcaSolver.lowestCommonAncestor(root.get(), p, q);
             int got = lca ? lca->val : numeric_limits<int>::min();
 
-            if (!assertEqScalar("LCA Test " + to_string(i + 1), testCases[i].expected, got)) {
-                cout << "  Input tree:\n";
-                TreeUtils::printTree(root);
-                cout << "  p=" << testCases[i].p << ", q=" << testCases[i].q << "\n";
-            }
+            const string label = "LCA of BST 235 Test " + to_string(i + 1);
+            const bool passed = assertEqScalar(label, testCases[i].expected, got);
 
-            TreeUtils::freeTree(root);
+            if (!passed) {
+                cout << "  Input tree:\n";
+                TreeUtils::printTree(root.get());
+                cout << "  p=" << testCases[i].p << ", q=" << testCases[i].q << '\n';
+                return false;
+            }
         }
     }
 
     /* Tree-like prefix structure design */
 
-    static void implementTrie_208_tests() {
+    static bool implementTrie_208_tests() {
         vector<ImplementTrieTestCase> testCases = {
             // Example 1
             {
@@ -3650,34 +3714,41 @@ public:
         };
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            cout << "Running Trie Test Case " << i + 1 << ":\n";
-            Trie* trie = nullptr;
+            const auto& tc = testCases[i];
+            unique_ptr<Trie> trie;
 
-            for (size_t j = 0; j < testCases[i].operations.size(); ++j) {
-                const auto& op  = testCases[i].operations[j];
-                const auto& arg = testCases[i].arguments[j];
-                const auto& exp = testCases[i].expected[j];
+            for (size_t j = 0; j < tc.operations.size(); ++j) {
+                const auto& op = tc.operations[j];
+                const auto& arg = tc.arguments[j];
+                const auto& expected = tc.expected[j];
 
-                if (op == "Trie") { trie = new Trie(); continue; }
-                if (op == "insert") { trie->insert(arg.value()); continue; }
+                if (op == "Trie") {
+                    trie = make_unique<Trie>();
+                    continue;
+                }
+
+                if (op == "insert") {
+                    trie->insert(arg.value());
+                    continue;
+                }
 
                 if (op == "search" || op == "startsWith") {
                     bool got = (op == "search")
-                            ? trie->search(arg.value())
-                            : trie->startsWith(arg.value());
+                        ? trie->search(arg.value())
+                        : trie->startsWith(arg.value());
 
-                    bool expected = exp.value();
-                    const string label = makeStepLabel("Trie Case", i, j, op, arg);
+                    const string label = makeStepLabel("Trie 208 Case", i, j, op, arg);
+                    const bool passed = assertEqScalar(label, expected.value(), got);
 
-                    if (!assertEqScalar(label, expected, got)) {
+                    if (!passed) {
                         cout << "  (debug) op=" << op << " arg=\"" << arg.value() << "\"\n";
+                        return false;
                     }
                 }
             }
-
-            delete trie;
-            cout << "\n";
         }
+
+        return true;
     }
 
     // ============================================================================
@@ -3686,7 +3757,7 @@ public:
 
     /* Basic max-heap / min-heap simulation */
 
-    static void lastStoneWeight_1046_tests() {
+    static bool lastStoneWeight_1046_tests() {
         vector<LastStoneWeightTestCase> tests = {
             // 2 from the statement
             {{2,7,4,1,8,1}, 1},
@@ -3702,13 +3773,17 @@ public:
         LastStoneWeight_1046 sol;
         for (size_t i = 0; i < tests.size(); ++i) {
             int got = sol.lastStoneWeight(tests[i].stones);
-            assertEqScalar("Last Stone Weight 1046 Test " + to_string(i + 1), tests[i].expected, got);
+
+            const string label = "Last Stone Weight 1046 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tests[i].expected, got));
         }
+
+        return true;
     }
 
     /* Heap-based selection for k-th / top-k queries */
 
-    static void kthLargestElementInArray_215_tests()
+    static bool kthLargestElementInArray_215_tests()
     {
         vector<KthLargestElementTestCase> testCases = {
             // Problem statement examples
@@ -3740,49 +3815,68 @@ public:
             const int resMax = solution.findKthLargest_MaxHeap(v1, testCases[i].k);
             const int resMin = solution.findKthLargest_MinHeap(v2, testCases[i].k);
 
-            // Assertions instead of manual cout formatting
-            assertEqScalar("Kth Largest 215 Test " + to_string(i + 1) + " [MaxHeap]", testCases[i].expected, resMax);
-            assertEqScalar("Kth Largest 215 Test " + to_string(i + 1) + " [MinHeap]", testCases[i].expected, resMin);
+            const string label = "Kth Largest 215 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label + " [MaxHeap]", testCases[i].expected, resMax));
+            REQUIRE_ASSERT(assertEqScalar(label + " [MinHeap]", testCases[i].expected, resMin));
         }
+
+        return true;
     }
 
-    static void topKFrequent_347_tests() {
-        // helper: build a multiset vector from (value,count) pairs
-        auto bag = [](initializer_list<pair<int,int>> spec) {
-            vector<int> v; size_t tot = 0;
-            for (auto [val,c]: spec) tot += c;
-            v.reserve(tot);
-            for (auto [val,c]: spec) v.insert(v.end(), c, val);
-            return v;
+    static bool topKFrequent_347_tests() {
+        auto bag = [](initializer_list<pair<int, int>> spec) {
+            size_t total = 0;
+
+            for (const auto& [value, count] : spec) {
+                total += count;
+            }
+
+            vector<int> values;
+            values.reserve(total);
+
+            for (const auto& [value, count] : spec) {
+                values.insert(values.end(), count, value);
+            }
+
+            return values;
         };
+
+        auto stress = bag({{42, 100}, {-7, 80}});
+        stress.resize(stress.size() + 1000);
+        iota(stress.end() - 1000, stress.end(), 10001);
 
         vector<TopKFrequentElementsTestCase> tests = {
             {{1,1,1,2,2,3}, 2, {1,2}},
             {{1},           1, {1}},
             {{1,1,2,2,2,3}, 1, {2}},
             {{-1,-1,-1,0,0,2,2,2,2,3,3}, 2, {2,-1}},
-            // 7×7, 6×8, 5×9, 4×10, 3×11  -> k=3 => {7,8,9}
-            { bag({{7,7},{8,6},{9,5},{10,4},{11,3}}), 3, {7,8,9} },
-            // 42×100, -7×80, plus 1000 uniques -> k=2 => {42,-7}
-            { [&]{
-                auto v = bag({{42,100},{-7,80}});
-                v.resize(v.size()+1000);
-                iota(v.end()-1000, v.end(), 10001);
-                return v;
-            }(), 2, {42,-7} }
+
+            // 7x7, 8x6, 9x5, 10x4, 11x3 -> k=3 => {7,8,9}
+            {bag({{7,7}, {8,6}, {9,5}, {10,4}, {11,3}}), 3, {7,8,9}},
+
+            // 42x100, -7x80, plus 1000 uniques -> k=2 => {42,-7}
+            {stress, 2, {42,-7}},
         };
 
         TopKFrequentElements_347 sol;
+
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = sol.topKFrequent(tests[i].nums, tests[i].k);
-            auto e   = tests[i].expected;
+            auto expected = tests[i].expected;
+
             sort(got.begin(), got.end());
-            sort(e.begin(),   e.end());
-            assertEqVIntExact("Top K Frequent 347 Test " + to_string(i+1) + " (k=" + to_string(tests[i].k) + ")", e, got);
+            sort(expected.begin(), expected.end());
+
+            const string label =
+                "Top K Frequent Elements 347 Test " + to_string(i + 1) +
+                " (k=" + to_string(tests[i].k) + ")";
+            REQUIRE_ASSERT(assertEqVIntExact(label, expected, got));
         }
+
+        return true;
     }
 
-    static void kClosestPointsToOrigin_973_tests() {
+    static bool kClosestPointsToOrigin_973_tests() {
         vector<KClosestPointsToOriginTestCase> cases = {
             // Two official examples
             {{{1,3}, {-2,2}}, 1, {{-2,2}}},
@@ -3801,24 +3895,31 @@ public:
         };
 
         KClosestPointsToOrigin_973 solver;
-        for (size_t i = 0; i < cases.size(); ++i) {
-            // QuickSelect
-            auto in1  = cases[i].points;                 // solver may mutate
-            auto out1 = solver.kClosestQuickSelect(in1, cases[i].k);
-            assertEqScalar("K Closest 973 Test " + to_string(i + 1) + " [QuickSelect]", true,
-                isValidKClosestPoints(cases[i].points, cases[i].k, out1));
 
-            // Heap
-            auto in2  = cases[i].points;
-            auto out2 = solver.kClosestHeap(in2, cases[i].k);
-            assertEqScalar("K Closest 973 Test " + to_string(i + 1) + " [Heap]", true,
-                isValidKClosestPoints(cases[i].points, cases[i].k, out2));
+        for (size_t i = 0; i < cases.size(); ++i) {
+            const auto& tc = cases[i];
+
+            auto quickSelectInput = tc.points; // solver may mutate
+            auto quickSelectOutput = solver.kClosestQuickSelect(quickSelectInput, tc.k);
+
+            auto heapInput = tc.points;
+            auto heapOutput = solver.kClosestHeap(heapInput, tc.k);
+
+            const string base = "K Closest Points to Origin 973 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [QuickSelect]",
+                true,
+                isValidKClosestPoints(tc.points, tc.k, quickSelectOutput)));
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [Heap]",
+                true,
+                isValidKClosestPoints(tc.points, tc.k, heapOutput)));
         }
     }
 
     /* Merging multiple sorted streams with a heap frontier */
 
-    static void mergeKSortedLists_23_tests() {
+    static bool mergeKSortedLists_23_tests() {
         using IntListNode = ListNode<int>;
 
         vector<MergeKListsTestCase> testCases = {
@@ -3837,19 +3938,31 @@ public:
         MergeKSortedLists_23 solution;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
+            vector<ListUtils::UniqueList<int>> owners;
             vector<IntListNode*> lists;
+
+            owners.reserve(testCases[i].lists.size());
             lists.reserve(testCases[i].lists.size());
-            for (const auto& v : testCases[i].lists) {
-                lists.push_back(ListUtils::createLinkedList<int>(v));
+
+            for (const auto& values : testCases[i].lists) {
+                owners.push_back(ListUtils::makeUniqueList<int>(values));
+                lists.push_back(owners.back().get());
             }
 
             IntListNode* merged = solution.mergeKLists(lists);
 
-            assertEqVIntExact("Merge K Lists Test " + to_string(i + 1), testCases[i].expected,
-                            ListUtils::toVector<int>(merged));
+            for (auto& owner : owners) {
+                owner.release();
+            }
 
-            ListUtils::freeList<int>(merged);
+            ListUtils::UniqueList<int> mergedOwner(merged);
+
+            const string label = "Merge K Sorted Lists 23 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVIntExact(label, testCases[i].expected,
+                                             ListUtils::toVector<int>(mergedOwner.get())));
         }
+
+        return true;
     }
 
     /* Priority-queue traversal on a graph / grid state space */
