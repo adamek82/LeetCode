@@ -3967,7 +3967,7 @@ public:
 
     /* Priority-queue traversal on a graph / grid state space */
 
-    static void findTheSafestPathInGrid_2812_tests() {
+    static bool findTheSafestPathInGrid_2812_tests() {
         vector<FindTheSafestPathInGridTestCase> testCases = {
             // three examples from the statement
             {{{1, 0, 0},
@@ -3999,10 +3999,18 @@ public:
              1}};
 
         FindSafestPathInGrid_2812 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solver.maximumSafenessFactor(testCases[i].grid);
-            assertEqScalar("Safest Path 2812 Test " + to_string(i + 1), testCases[i].expected, got);
+            const auto& tc = testCases[i];
+
+            auto grid = tc.grid; // solver may mutate
+            int got = solver.maximumSafenessFactor(grid);
+
+            const string label = "Find Safest Path in Grid 2812 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
     // ============================================================================
@@ -4011,7 +4019,7 @@ public:
 
     /* Basic recursive generation of subsets, combinations, and permutations */
 
-    static void subsets_78_tests() {
+    static bool subsets_78_tests() {
         vector<SubsetsTestCase> tests = {
             // Example 1 (mask order for the bitmask method)
             {{1,2,3}, { {}, {1}, {2}, {1,2}, {3}, {1,3}, {2,3}, {1,2,3} }},
@@ -4024,29 +4032,27 @@ public:
 
         Subsets_78 sol;
 
-        // Reuse these to avoid extra scopes.
-        vector<int> in;
-        vector<vector<int>> got;
-
         for (size_t i = 0; i < tests.size(); ++i) {
-            // Bitmask variant: exact order comparison (matches mask enumeration order).
-            in  = tests[i].nums;               // solver takes non-const ref by project style
-            got = sol.subsets_bitmask(in);
-            assertEqVVIntExact("Subsets 78 (bitmask) Test " + to_string(i + 1), tests[i].expected, got);
+            const auto& tc = tests[i];
+            const string base = "Subsets 78 Test " + to_string(i + 1);
 
-            // Recursive/backtracking variant: order-insensitive comparison.
-            in  = tests[i].nums;
-            got = sol.subsets_recursive_prefix(in);
-            assertEqVVIntAnyOrder("Subsets 78 (recursive) Test " + to_string(i + 1), tests[i].expected, got);
+            auto bitmaskInput = tc.nums;
+            vector<vector<int>> bitmaskGot = sol.subsets_bitmask(bitmaskInput);
+            REQUIRE_ASSERT(assertEqVVIntExact(base + " [bitmask]", tc.expected, bitmaskGot));
 
-            // Recursive binary include/exclude variant: order-insensitive comparison.
-            in  = tests[i].nums;
-            got = sol.subsets_recursive_binary(in);
-            assertEqVVIntAnyOrder("Subsets 78 (recursive binary) Test " + to_string(i + 1), tests[i].expected, got);
+            auto prefixInput = tc.nums;
+            vector<vector<int>> prefixGot = sol.subsets_recursive_prefix(prefixInput);
+            REQUIRE_ASSERT(assertEqVVIntAnyOrder(base + " [recursive prefix]", tc.expected, prefixGot));
+
+            auto binaryInput = tc.nums;
+            vector<vector<int>> binaryGot = sol.subsets_recursive_binary(binaryInput);
+            REQUIRE_ASSERT(assertEqVVIntAnyOrder(base + " [recursive binary]", tc.expected, binaryGot));
         }
+
+        return true;
     }
 
-    static void combinations_77_tests() {
+    static bool combinations_77_tests() {
         vector<CombinationsTestCase> tests = {
             {4, 2, {{1,2},{1,3},{1,4},{2,3},{2,4},{3,4}}},
             {1, 1, {{1}}},
@@ -4058,22 +4064,44 @@ public:
 
         Combinations_77 sol;
 
-        const vector<pair<string, function<vector<vector<int>>(const CombinationsTestCase&)>>> impls = {
-            {"PickNext", [&](const CombinationsTestCase& tc){ return sol.combinePickNext(tc.n, tc.k); }},
-            {"TakeSkip", [&](const CombinationsTestCase& tc){ return sol.combineTakeSkip(tc.n, tc.k); }},
+        struct Impl {
+            string name;
+            function<vector<vector<int>>(const CombinationsTestCase&)> run;
+        };
+
+        const vector<Impl> impls = {
+            {
+                "PickNext",
+                [&](const CombinationsTestCase& tc) {
+                    return sol.combinePickNext(tc.n, tc.k);
+                }
+            },
+            {
+                "TakeSkip",
+                [&](const CombinationsTestCase& tc) {
+                    return sol.combineTakeSkip(tc.n, tc.k);
+                }
+            },
         };
 
         for (size_t i = 0; i < tests.size(); ++i) {
             const auto& tc = tests[i];
-            for (const auto& [name, run] : impls) {
-                auto got = run(tc);
-                assertEqVVIntAnyOrder("Combinations 77 [" + name + "] Test " + to_string(i + 1),
-                                    tc.expected, got);
+            const string base = "Combinations 77 Test " + to_string(i + 1);
+
+            for (const auto& impl : impls) {
+                vector<vector<int>> got = impl.run(tc);
+
+                REQUIRE_ASSERT(assertEqVVIntAnyOrder(
+                    base + " [" + impl.name + "]",
+                    tc.expected,
+                    got));
             }
         }
+
+        return true;
     }
 
-    static void permutations_46_tests() {
+    static bool permutations_46_tests() {
         vector<PermutationsTestCase> tests = {
             {{1,2,3}, {{1,2,3},{1,3,2},{2,1,3},{2,3,1},{3,1,2},{3,2,1}}},
             {{0,1},   {{0,1},{1,0}}},
@@ -4082,16 +4110,21 @@ public:
         };
 
         Permutations_46 sol;
+
         for (size_t i = 0; i < tests.size(); ++i) {
             auto in  = tests[i].nums;               // method takes non-const ref
             auto got = sol.permute(in);
-            assertEqVVIntPermutations("Permutations 46 Test " + to_string(i + 1), tests[i].expected, got);
+
+            const string label = "Permutations 46 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVVIntPermutations(label, tests[i].expected, got));
         }
+
+        return true;
     }
 
     /* Backtracking with constraints and incremental choice building */
 
-    static void letterCombinations_17_tests() {
+    static bool letterCombinations_17_tests() {
         vector<LetterCombinationsTestCase> tests = {
             {"23", {"ad","ae","af","bd","be","bf","cd","ce","cf"}},
             {"",   {}},
@@ -4102,13 +4135,18 @@ public:
         };
 
         LetterCombinations_17 sol;
+
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = sol.letterCombinations(tests[i].digits);
-            assertEqStringsAnyOrder("Letter Combinations 17 Test " + to_string(i + 1), tests[i].expected, got);
+
+            const string label = "Letter Combinations 17 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqStringsAnyOrder(label, tests[i].expected, got));
         }
+
+        return true;
     }
 
-    static void generateParentheses_22_tests() {
+    static bool generateParentheses_22_tests() {
         vector<GenerateParenthesesTestCase> tests = {
             {3, {"((()))","(()())","(())()","()(())","()()()"}},
             {1, {"()"}},
@@ -4119,13 +4157,18 @@ public:
         };
 
         GenerateParentheses_22 sol;
+
         for (size_t i = 0; i < tests.size(); ++i) {
             auto got = sol.generateParenthesis(tests[i].n);
-            assertEqStringsAnyOrder("Generate Parentheses 22 Test " + to_string(i + 1), tests[i].expected, got);
+
+            const string label = "Generate Parentheses 22 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqStringsAnyOrder(label, tests[i].expected, got));
         }
+
+        return true;
     }
 
-    static void combinationSum_39_tests() {
+    static bool combinationSum_39_tests() {
         vector<CombinationSumTestCase> tests = {
             {{2,3,6,7}, 7, {{2,2,3},{7}}},
             {{2,3,5},   8, {{2,2,2,2},{2,3,3},{3,5}}},
@@ -4136,16 +4179,21 @@ public:
         };
 
         CombinationSum_39 sol;
+
         for (size_t i = 0; i < tests.size(); ++i) {
             auto cand = tests[i].candidates;       // method takes non-const ref
             auto got  = sol.combinationSum(cand, tests[i].target);
-            assertEqVVIntAnyOrder("Combination Sum 39 Test " + to_string(i + 1), tests[i].expected, got);
+
+            const string label = "Combination Sum 39 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVVIntAnyOrder(label, tests[i].expected, got));
         }
+
+        return true;
     }
 
     /* Constraint-based board backtracking */
 
-    static void sudokuSolver_37_tests() {
+    static bool sudokuSolver_37_tests() {
         vector<SudokuSolverTestCase> testCases = {
             // Example 1: classic LeetCode example
             {
@@ -4225,16 +4273,12 @@ public:
                 }
             },
 
-            // Test 4: sparse board with unique solution.
+            // Sparse board with a unique solution.
             //
-            // Originally this test used a 17-clue Sudoku (the minimal number of clues
-            // for a uniquely solvable classic 9x9 puzzle). That version was correct
-            // and passed, but with this plain backtracking solver it could take a long
-            // time in Debug builds, which made the overall test run unnecessarily slow.
-            //
-            // As a compromise, this variant keeps the board relatively sparse and still
-            // exercises deeper recursion, but gives the solver a bit more help so the
-            // tests finish in reasonable time, especially in Debug mode.
+            // A previous version used a 17-clue Sudoku, which is close to the hardest
+            // realistic input for plain backtracking. It was correct, but too slow in
+            // Debug builds. This case stays sparse enough to exercise deeper recursion,
+            // while keeping the test suite reasonably fast.
             {
                 {
                     {'.', '.', '.', '7', '.', '.', '.', '1', '.'},
@@ -4263,27 +4307,31 @@ public:
 
         SudokuSolver_37 solver;
 
-        const vector<pair<string, function<void(vector<vector<char>>& board)>>> impls = {
-            {"PlainBacktracking", [&](vector<vector<char>>& board) { solver.solveSudoku_PlainBacktracking(board); }},
-            {"BitMasks",          [&](vector<vector<char>>& board) { solver.solveSudoku_BitMasks(board); }},
-        };
-
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
+            const string base = "Sudoku Solver 37 Test " + to_string(i + 1);
 
-            for (const auto& [name, run] : impls) {
-                auto board = tc.input;
-                run(board);
+            auto plainBoard = tc.input;
+            solver.solveSudoku_PlainBacktracking(plainBoard);
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [PlainBacktracking]",
+                true,
+                plainBoard == tc.expected));
 
-                bool same = (board == tc.expected);
-                assertEqScalar("Sudoku Solver 37 [" + name + "] Test " + to_string(i + 1), true, same);
-            }
+            auto bitMasksBoard = tc.input;
+            solver.solveSudoku_BitMasks(bitMasksBoard);
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [BitMasks]",
+                true,
+                bitMasksBoard == tc.expected));
         }
+
+        return true;
     }
 
     /* Backtracking over a 2D search space with visited-state control */
 
-    static void wordSearch_79_tests() {
+    static bool wordSearch_79_tests() {
         vector<WordSearchTestCase> testCases = {
             // Example 1 from problem statement
             {{{'A', 'B', 'C', 'E'},
@@ -4325,10 +4373,15 @@ public:
              false}};
 
         WordSearch_79 solution;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             bool got = solution.exist(testCases[i].board, testCases[i].word);
-            assertEqScalar("Word Search Test " + to_string(i + 1), testCases[i].expected, got);
+
+            const string label = "Word Search Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
+
+        return true;
     }
 
     // ============================================================================
