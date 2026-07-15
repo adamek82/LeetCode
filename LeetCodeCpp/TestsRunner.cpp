@@ -4390,7 +4390,7 @@ public:
 
     /* Basic graph / grid traversal for reachability and connected components */
 
-    static void findIfPathExistsInGraph_1971_tests() {
+    static bool findIfPathExistsInGraph_1971_tests() {
         vector<FindIfPathExistsInGraphTestCase> testCases = {
             {3, {{0, 1}, {1, 2}, {2, 0}}, 0, 2, true},
             {6, {{0, 1}, {0, 2}, {3, 5}, {5, 4}, {4, 3}}, 0, 5, false},
@@ -4419,13 +4419,16 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
             for (const auto& [name, method] : impls) {
-                assertEqScalar("Find Path 1971 [" + name + "] " + to_string(i + 1),
-                            tc.expected, runWith(method, tc));
+
+                const string label = "Find Path 1971 [" + name + "] " + to_string(i + 1);
+                REQUIRE_ASSERT(assertEqScalar(label, tc.expected, runWith(method, tc)));
             }
         }
+
+        return true;
     }
 
-    static void numIslands_200_tests()
+    static bool numIslands_200_tests()
     {
         // Define test cases
         vector<NumberOfIslandsTestCase> testCases = {
@@ -4461,11 +4464,15 @@ public:
         for (size_t i = 0; i < testCases.size(); i++)
         {
             int result = noi200.numIslands(testCases[i].grid);
-            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
+
+            const string label = "Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, result));
         }
+
+        return true;
     }
 
-    static void maxAreaOfIsland_695_tests() {
+    static bool maxAreaOfIsland_695_tests() {
         vector<MaxAreaOfIslandTestCase> testCases = {
             {{{0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
               {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0},
@@ -4504,12 +4511,15 @@ public:
             int resRec  = mai695.maxAreaOfIslandRecursive(gridRec);
             int resIter = mai695.maxAreaOfIslandIterative(gridIter);
 
-            assertEqScalar("Max Area Test" + to_string(i + 1) + " (recursive)", testCases[i].expected, resRec);
-            assertEqScalar("Max Area Test" + to_string(i + 1) + " (iterative)", testCases[i].expected, resIter);
+            const string base = "Max Area Test" + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(base + " (recursive)", testCases[i].expected, resRec));
+            REQUIRE_ASSERT(assertEqScalar(base + " (iterative)", testCases[i].expected, resIter));
         }
+
+        return true;
     }
 
-    static void cloneGraph_133_tests() {
+    static bool cloneGraph_133_tests() {
         vector<vector<vector<int>>> testCases = {
             {{2, 4}, {1, 3}, {2, 4}, {1, 3}},  // Example 1
             {{}},  // Example 2 (Single node, no neighbors)
@@ -4519,21 +4529,26 @@ public:
         };
 
         CloneGraph_133 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             GraphNode<int>* original = GraphUtils::buildGraph(testCases[i]);
             GraphNode<int>* cloned   = solver.cloneGraph(original);
 
             bool iso = GraphUtils::areGraphsIsomorphic(original, cloned);
-            assertEqScalar("Clone Graph 133 Test " + to_string(i + 1), true, iso);
+
+            const string label = "Clone Graph 133 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, true, iso));
 
             GraphUtils::freeGraph(original);
             GraphUtils::freeGraph(cloned);
         }
+
+        return true;
     }
 
     /* Shortest-path BFS on grids, transit networks, and implicit state graphs */
 
-    static void rottingOranges_994_tests()
+    static bool rottingOranges_994_tests()
     {
         vector<RottingOrangesTestCase> testCases = {
             {{{2, 1, 1}, {1, 1, 0}, {0, 1, 1}}, 4},  // Example 1
@@ -4558,11 +4573,15 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i)
         {
             int result = solution.orangesRotting(testCases[i].grid);
-            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
+
+            const string label = "Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, result));
         }
+
+        return true;
     }
 
-    static void shortestPathBinaryMatrix_1091_tests() {
+    static bool shortestPathBinaryMatrix_1091_tests() {
         vector<ShortestPathInBinaryMatrixTestCase> testCases = {
             /* 3 examples from the problem statement */
             {
@@ -4597,14 +4616,19 @@ public:
         };
 
         ShortestPathInBinaryMatrix_1091 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto grid = testCases[i].grid;  // solver mutates the grid
             int got = solver.shortestPathBinaryMatrix(grid);
-            assertEqScalar("Shortest Path Binary Matrix 1091 Test " + to_string(i + 1), testCases[i].expected, got);
+
+            const string label = "Shortest Path Binary Matrix 1091 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void busRoutes_815_tests() {
+    static bool busRoutes_815_tests() {
         vector<BusRoutesTestCase> cases = {
             // Official examples
             {{{1,2,7},{3,6,7}}, 1, 6, 2},
@@ -4616,14 +4640,19 @@ public:
         };
 
         BusRoutes_815 solver;
+
         for (size_t i = 0; i < cases.size(); ++i) {
             auto routes = cases[i].routes; // solver may mutate
             int got = solver.numBusesToDestination(routes, cases[i].source, cases[i].target);
-            assertEqScalar("Bus Routes 815 Test " + to_string(i + 1), cases[i].expected, got);
+
+            const string label = "Bus Routes 815 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, cases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void slidingPuzzle_773_tests() {
+    static bool slidingPuzzle_773_tests() {
         vector<SlidingPuzzleTestCase> testCases = {
             // examples from the statement
             {{{1,2,3},{4,0,5}}, 1},
@@ -4648,14 +4677,16 @@ public:
             auto board = testCases[i].board;
             int got = solver.slidingPuzzle(board);
 
-            assertEqScalar("Sliding Puzzle 773 Test " + to_string(i + 1),
-                           testCases[i].expected, got);
+            const string label = "Sliding Puzzle 773 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
+
+        return true;
     }
 
     /* Directed-graph reasoning with topological order and cycle detection */
 
-    static void courseSchedule_207_tests() {
+    static bool courseSchedule_207_tests() {
         vector<CourseScheduleTestCase> testCases = {
             {2, {{1, 0}}, true},
             {2, {{1, 0}, {0, 1}}, false},
@@ -4663,77 +4694,101 @@ public:
             {5, {{0, 1}, {2, 3}, {3, 4}, {2, 1}, {4, 2}}, false},
         };
 
-        CourseSchedule_207 cs207;
-
-        const vector<pair<string, function<bool(const CourseScheduleTestCase&)>>> impls = {
-            {"DFS",  [&](const CourseScheduleTestCase& tc){ return cs207.canFinishDFS(tc.numCourses, tc.prerequisites); }},
-            {"Kahn", [&](const CourseScheduleTestCase& tc){ return cs207.canFinishKahns(tc.numCourses, tc.prerequisites); }},
-        };
+        CourseSchedule_207 solver;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
-            for (const auto& [name, run] : impls) {
-                assertEqScalar("Course Schedule 207 [" + name + "] " + to_string(i + 1), tc.expected, run(tc));
-            }
+            const string base = "Course Schedule 207 Test " + to_string(i + 1);
+
+            bool dfsGot = solver.canFinishDFS(tc.numCourses, tc.prerequisites);
+            REQUIRE_ASSERT(assertEqScalar(base + " [DFS]", tc.expected, dfsGot));
+
+            bool kahnGot = solver.canFinishKahns(tc.numCourses, tc.prerequisites);
+            REQUIRE_ASSERT(assertEqScalar(base + " [Kahn]", tc.expected, kahnGot));
         }
+
+        return true;
     }
 
-    static void courseScheduleII_210_tests() {
+    static bool courseScheduleII_210_tests() {
         vector<CourseScheduleIITestCase> testCases = {
-            // Example 1
             {2, {{1, 0}}, {0, 1}},
-            // Example 2
             {4, {{1, 0}, {2, 0}, {3, 1}, {3, 2}}, {0, 1, 2, 3}},
-            // Example 3
             {1, {}, {0}},
-            // Additional Complex Test 1: A graph with two independent subgraphs
             {6, {{1, 0}, {2, 0}, {3, 4}, {5, 4}}, {0, 4, 1, 2, 3, 5}},
-            // Additional Complex Test 2: A cycle detection case
-            {5, {{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 0}}, {}}
+            {5, {{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 0}}, {}},
         };
 
-        auto validTopo = [](int n, const vector<vector<int>>& pre, const vector<int>& order) {
-            if (order.empty()) return pre.empty() ? n == 0 : false;
-            if ((int)order.size() != n) return false;
+        auto isValidTopoOrder = [](int n, const vector<vector<int>>& prerequisites,
+                                const vector<int>& order) {
+            if ((int)order.size() != n) {
+                return false;
+            }
 
-            unordered_map<int,int> pos;
-            pos.reserve(order.size());
-            for (int i = 0; i < (int)order.size(); ++i) pos[order[i]] = i;
+            vector<int> pos(n, -1);
 
-            for (const auto& e : pre)
-                if (pos[e[1]] > pos[e[0]]) return false;
+            for (int i = 0; i < n; ++i) {
+                int course = order[i];
+
+                if (course < 0 || course >= n || pos[course] != -1) {
+                    return false;
+                }
+
+                pos[course] = i;
+            }
+
+            for (const auto& edge : prerequisites) {
+                int course = edge[0];
+                int prereq = edge[1];
+
+                if (pos[prereq] > pos[course]) {
+                    return false;
+                }
+            }
 
             return true;
         };
 
-        CourseScheduleII_210 sol;
+        auto isExpectedResult = [&](const CourseScheduleIITestCase& tc,
+                                    const vector<int>& order) {
+            if (tc.expectedOrder.empty()) {
+                return order.empty();
+            }
 
-        using Method = vector<int> (CourseScheduleII_210::*)(int, vector<vector<int>>&);
-
-        const vector<pair<string, Method>> impls = {
-            {"DFS",  &CourseScheduleII_210::findOrderByDFSTraversal},
-            {"Kahn", &CourseScheduleII_210::findOrderByKahnsAlgorithm},
+            return isValidTopoOrder(tc.numCourses, tc.prerequisites, order);
         };
 
-        auto run = [&](Method method, const CourseScheduleIITestCase& tc) {
-            auto preCopy = tc.prerequisites; // because method takes non-const ref
-            auto order   = (sol.*method)(tc.numCourses, preCopy);
-            return tc.expectedOrder.empty() ? order.empty()
-                                        : validTopo(tc.numCourses, tc.prerequisites, order);
-        };
+        CourseScheduleII_210 solver;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
-            for (const auto& [name, method] : impls) {
-                assertEqScalar("Course Schedule II 210 [" + name + "] Test " + to_string(i + 1),
-                            true, run(method, tc));
-            }
+            const string base = "Course Schedule II 210 Test " + to_string(i + 1);
+
+            auto dfsPrerequisites = tc.prerequisites;
+            vector<int> dfsOrder = solver.findOrderByDFSTraversal(
+                tc.numCourses,
+                dfsPrerequisites);
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [DFS]",
+                true,
+                isExpectedResult(tc, dfsOrder)));
+
+            auto kahnPrerequisites = tc.prerequisites;
+            vector<int> kahnOrder = solver.findOrderByKahnsAlgorithm(
+                tc.numCourses,
+                kahnPrerequisites);
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [Kahn]",
+                true,
+                isExpectedResult(tc, kahnOrder)));
         }
+
+        return true;
     }
 
     /* Graph traversal on matrices with directional / monotonic constraints */
 
-    static void pacificAtlantic_417_tests()
+    static bool pacificAtlantic_417_tests()
     {
         vector<PacificAtlanticTestCase> testCases = {
             // Example 1
@@ -4773,11 +4828,15 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i)
         {
             auto result = pacificAtlanticSolution.pacificAtlantic(testCases[i].heights);
-            assertEqVVIntExact("Test " + to_string(i + 1), testCases[i].expected, result);
+
+            const string label = "Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVVIntExact(label, testCases[i].expected, result));
         }
+
+        return true;
     }
 
-    static void longestIncreasingPathInMatrix_329_tests() {
+    static bool longestIncreasingPathInMatrix_329_tests() {
         using TestCases::LongestIncreasingPathInMatrixTestCase;
 
         vector<LongestIncreasingPathInMatrixTestCase> testCases = {
@@ -4806,11 +4865,15 @@ public:
         };
 
         LongestIncreasingPathInMatrix_329 lip329;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = lip329.longestIncreasingPath(testCases[i].matrix);
-            assertEqScalar("Longest Increasing Path in Matrix 329 Test " + to_string(i + 1),
-                        testCases[i].expected, got);
+
+            const string label = "Longest Increasing Path in Matrix 329 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
+
+        return true;
     }
 
     /* Weighted graph algorithms: shortest paths and minimum spanning tree */
