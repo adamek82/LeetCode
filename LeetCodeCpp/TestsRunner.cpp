@@ -4878,92 +4878,90 @@ public:
 
     /* Weighted graph algorithms: shortest paths and minimum spanning tree */
 
-    static void networkDelayTime_743_tests() {
+    static bool networkDelayTime_743_tests() {
         vector<NetworkDelayTimeTestCase> testCases = {
-            // Provided Examples
-            {{ {2, 1, 1}, {2, 3, 1}, {3, 4, 1} }, 4, 2, 2},
-            {{ {1, 2, 1} }, 2, 1, 1},
-            {{ {1, 2, 1} }, 2, 2, -1},
+            // Provided examples
+            {{{2, 1, 1}, {2, 3, 1}, {3, 4, 1}}, 4, 2, 2},
+            {{{1, 2, 1}}, 2, 1, 1},
+            {{{1, 2, 1}}, 2, 2, -1},
 
-            // Additional Complex Example 1: 6 nodes, complex network
-            {{ {1, 2, 2}, {1, 3, 4}, {2, 4, 7}, {3, 4, 1}, {2, 5, 5}, {5, 6, 3}, {4, 6, 2} }, 6, 1, 7},
+            // Additional complex example 1: 6 nodes
+            {{{1, 2, 2}, {1, 3, 4}, {2, 4, 7}, {3, 4, 1},
+            {2, 5, 5}, {5, 6, 3}, {4, 6, 2}},
+            6, 1, 7},
 
-            // Additional Complex Example 2: 8 nodes, complex network
-            {{ {1, 2, 2}, {1, 3, 1}, {3, 4, 4}, {2, 5, 7}, {5, 6, 1}, {6, 7, 5}, {7, 8, 2}, {4, 8, 3} }, 8, 1, 15},
+            // Additional complex example 2: 8 nodes
+            {{{1, 2, 2}, {1, 3, 1}, {3, 4, 4}, {2, 5, 7},
+            {5, 6, 1}, {6, 7, 5}, {7, 8, 2}, {4, 8, 3}},
+            8, 1, 15},
         };
 
-        NetworkDelayTime_743 ndt743;
+        NetworkDelayTime_743 solver;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int result = ndt743.networkDelayTime(testCases[i].times, testCases[i].n, testCases[i].k);
-            assertEqScalar("Test " + to_string(i + 1), testCases[i].expected, result);
+            const auto& tc = testCases[i];
+
+            auto times = tc.times; // solver takes non-const ref
+            int got = solver.networkDelayTime(times, tc.n, tc.k);
+
+            const string label = "Network Delay Time 743 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
-    static void designGraphWithShortestPathCalculator_2642_tests() {
+    static bool designGraphWithShortestPathCalculator_2642_tests() {
         using EdgeList = vector<vector<int>>;
 
-        vector<DesignGraphWithShortestPathCalculatorTestCase> testCases = {
-            // Case 1 – official example
-            {
-                {"Graph","shortestPath","shortestPath","addEdge","shortestPath"},
-                {
-                    pair<int,EdgeList>{4, {{0,2,5},{0,1,2},{1,2,1},{3,0,3}}},
-                    pair<int,int>{3,2},
-                    pair<int,int>{0,3},
-                    vector<int>{1,3,4},
-                    pair<int,int>{0,3}
-                },
-                {nullopt, 6, -1, nullopt, 6}
-            },
-            // Case 2 – empty graph, then one edge
-            {
-                {"Graph","shortestPath","addEdge","shortestPath"},
-                {
-                    pair<int,EdgeList>{2, {}},
-                    pair<int,int>{0,1},
-                    vector<int>{0,1,10},
-                    pair<int,int>{0,1}
-                },
-                {nullopt, -1, nullopt, 10}
-            },
-            // Case 3 – cheaper path appears after addEdge
-            {
-                {"Graph","shortestPath","addEdge","shortestPath"},
-                {
-                    pair<int,EdgeList>{5, {{0,1,3},{1,2,4},{2,3,5},{3,4,6},{0,4,20}}},
-                    pair<int,int>{0,4},
-                    vector<int>{1,4,1},
-                    pair<int,int>{0,4}
-                },
-                {nullopt, 18, nullopt, 4}
-            }
-        };
+        {
+            const string base = "Graph_2642 official example";
 
-        for (size_t t = 0; t < testCases.size(); ++t) {
-            unique_ptr<Graph> g;
-            const auto& tc = testCases[t];
+            Graph g(4, EdgeList{{0, 2, 5}, {0, 1, 2}, {1, 2, 1}, {3, 0, 3}});
 
-            for (size_t i = 0; i < tc.operations.size(); ++i) {
-                const string& op = tc.operations[i];
+            REQUIRE_ASSERT(assertEqScalar(base + " shortestPath(3,2)", 6,
+                                          g.shortestPath(3, 2)));
+            REQUIRE_ASSERT(assertEqScalar(base + " shortestPath(0,3)", -1,
+                                          g.shortestPath(0, 3)));
 
-                if (op == "Graph") {
-                    auto [n, edges] = get<pair<int,EdgeList>>(tc.arguments[i]);
-                    g = make_unique<Graph>(n, edges);
-                } else if (op == "addEdge") {
-                    g->addEdge(get<vector<int>>(tc.arguments[i]));
-                } else if (op == "shortestPath") {
-                    auto [u, v] = get<pair<int,int>>(tc.arguments[i]);
-                    int got = g->shortestPath(u, v);
-                    const string label = makeStepLabel("Graph_2642", t, i, "shortestPath",
-                        to_string(u) + "," + to_string(v));
-                    assertEqScalar(label, tc.expected[i].value(), got);
-                }
-            }
+            g.addEdge({1, 3, 4});
+
+            REQUIRE_ASSERT(assertEqScalar(base + " shortestPath(0,3) after addEdge", 6,
+                                          g.shortestPath(0, 3)));
         }
+
+        {
+            const string base = "Graph_2642 empty graph then one edge";
+
+            Graph g(2, EdgeList{});
+
+            REQUIRE_ASSERT(assertEqScalar(base + " shortestPath(0,1)", -1,
+                                          g.shortestPath(0, 1)));
+
+            g.addEdge({0, 1, 10});
+
+            REQUIRE_ASSERT(assertEqScalar(base + " shortestPath(0,1) after addEdge", 10,
+                                          g.shortestPath(0, 1)));
+        }
+
+        {
+            const string base = "Graph_2642 cheaper path appears after addEdge";
+
+            Graph g(5, EdgeList{{0, 1, 3}, {1, 2, 4}, {2, 3, 5}, {3, 4, 6}, {0, 4, 20}});
+
+            REQUIRE_ASSERT(assertEqScalar(base + " shortestPath(0,4)", 18,
+                                          g.shortestPath(0, 4)));
+
+            g.addEdge({1, 4, 1});
+
+            REQUIRE_ASSERT(assertEqScalar(base + " shortestPath(0,4) after addEdge", 4,
+                                          g.shortestPath(0, 4)));
+        }
+
+        return true;
     }
 
-    static void minCostToConnectAllPoints_1584_tests() {
+    static bool minCostToConnectAllPoints_1584_tests() {
         vector<MinCostToConnectAllPointsTestCase> testCases = {
             // Provided examples
             {{{0, 0}, {2, 2}, {3, 10}, {5, 2}, {7, 0}}, 20},
@@ -4984,14 +4982,17 @@ public:
             int resHeap  = solution.minCostConnectPointsHeap(testCases[i].points);
             int resArray = solution.minCostConnectPointsArray(testCases[i].points);
 
-            assertEqScalar("Min Cost Test" + to_string(i + 1) + " (heap)", testCases[i].expected, resHeap);
-            assertEqScalar("Min Cost Test" + to_string(i + 1) + " (array)", testCases[i].expected, resArray);
+            const string base = "Min Cost Test" + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(base + " (heap)", testCases[i].expected, resHeap));
+            REQUIRE_ASSERT(assertEqScalar(base + " (array)", testCases[i].expected, resArray));
         }
+
+        return true;
     }
 
     /* Cycle analysis in directed and undirected graphs */
 
-    static void longestCycleInGraph_2360_tests() {
+    static bool longestCycleInGraph_2360_tests() {
         vector<LongestCycleInGraphTestCase> testCases = {
             // 2 examples from the LeetCode problem statement
             {{3, 3, 4, 2, 3}, 3},   // Example 1
@@ -5004,14 +5005,18 @@ public:
         };
 
         LongestCycleInGraph_2360 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = sol.longestCycle(testCases[i].edges);
+
             const string label = "Longest Cycle in Graph 2360 Test " + to_string(i + 1);
-            assertEqScalar(label, testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
+
+        return true;
     }
 
-    static void shortestCycleInGraph_2608_tests() {
+    static bool shortestCycleInGraph_2608_tests() {
         vector<ShortestCycleInGraphTestCase> cases = {
             // ── 2 examples from the problem statement ───────────────────────────
             {
@@ -5062,15 +5067,20 @@ public:
         };
 
         ShortestCycleInGraph_2608 sol;
+
         for (size_t i = 0; i < cases.size(); ++i) {
             int got = sol.findShortestCycle(cases[i].n, cases[i].edges);
-            assertEqScalar("Shortest Cycle in Graph 2608 Test " + to_string(i + 1), cases[i].expected, got);
+
+            const string label = "Shortest Cycle in Graph 2608 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, cases[i].expected, got));
         }
+
+        return true;
     }
 
     /* Grid simulation, multi-source expansion, and neighbor-based reasoning */
 
-    static void gameOfLife_289_tests() {
+    static bool gameOfLife_289_tests() {
         vector<GameOfLifeTestCase> testCases = {
             // Example 1
             {
@@ -5122,11 +5132,15 @@ public:
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto board = testCases[i].input;  // in-place update required
             solver.gameOfLife(board);
-            assertEqVVIntExact("Game of Life Test " + to_string(i + 1), testCases[i].expected, board);
+
+            const string label = "Game of Life Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVVIntExact(label, testCases[i].expected, board));
         }
+
+        return true;
     }
 
-    static void wallsAndGates_286_tests() {
+    static bool wallsAndGates_286_tests() {
         const int INF = 2147483647;          // 2^31-1
 
         vector<WallsAndGatesTestCase> testCases = {
@@ -5174,14 +5188,19 @@ public:
         };
 
         WallsAndGates_286 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             auto rooms = testCases[i].rooms;    // copy so we can mutate
             solver.wallsAndGates(rooms);
-            assertEqVVIntExact("Walls & Gates 286 Test " + to_string(i + 1), testCases[i].expected, rooms);
+
+            const string label = "Walls & Gates 286 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVVIntExact(label, testCases[i].expected, rooms));
         }
+
+        return true;
     }
 
-    static void islandPerimeter_463_tests() {
+    static bool islandPerimeter_463_tests() {
         vector<IslandPerimeterTestCase> testCases = {
             // Example 1 from the statement
             {
@@ -5234,11 +5253,15 @@ public:
         };
 
         IslandPerimeter_463 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             int got = solver.islandPerimeter(testCases[i].grid);
+
             const string label = "Island Perimeter 463 Test " + to_string(i + 1);
-            assertEqScalar(label, testCases[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
         }
+
+        return true;
     }
 
     // ============================================================================
