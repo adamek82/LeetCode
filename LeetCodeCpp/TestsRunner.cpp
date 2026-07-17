@@ -8,6 +8,7 @@
 #include <numeric>
 #include "TestCases.h"
 #include "TestUtils.h"
+#include "TestRegistry.h"
 #include "CourseSchedule_207.h"
 #include "FindIfPathExistsInGraph_1971.h"
 #include "NumberOfIslands_200.h"
@@ -172,22 +173,6 @@
 using namespace std;
 using namespace TestUtils;
 using namespace TestCases;
-
-// --- Unified test registry ---------------------------------------------------
-// Each entry binds: LeetCode id (0 if custom), human title, and the static test fn.
-struct TestEntry {
-    int id;                    // 0 for custom/non-LeetCode
-    const char* title;         // human-readable
-    bool (*fn)();              // pointer to static test function
-};
-
-// Helper to keep the table compact.
-#define TEST(ID, TITLE, FN) TestEntry{ (ID), (TITLE), &FN }
-
-#define REQUIRE_ASSERT(EXPR)        \
-    do {                            \
-        if (!(EXPR)) return false;  \
-    } while (false)
 
 class TestsRunner {
 public:
@@ -6469,7 +6454,7 @@ public:
         return true;
     }
 
-    inline static const TestEntry kTests[] = {
+    inline static const TestRegistry::Entry kTests[] = {
         // ============================================================================
         // Arrays & Strings
         // ============================================================================
@@ -6825,21 +6810,7 @@ public:
     };
 
     static bool runAllTests() {
-        for (const auto& t : kTests) {
-            cout << "Running " << t.title;
-            if (t.id > 0) cout << " (#" << t.id << ")";
-            cout << " tests:\n";
-
-            if (!t.fn()) {
-                cout << "Stopping after first failing test suite: "
-                    << t.title;
-                if (t.id > 0) cout << " (#" << t.id << ")";
-                cout << '\n';
-                return false;
-            }
-        }
-
-        return true;
+        return TestRegistry::runAllTests(kTests);
     }
 };
 
