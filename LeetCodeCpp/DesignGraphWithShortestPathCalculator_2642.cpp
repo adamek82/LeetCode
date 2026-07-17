@@ -8,18 +8,20 @@
 
 using namespace std;
 
-Graph::Graph(int n, vector<vector<int>>& edges)
-    : n(n),
-      adj(n)
+Graph::Graph(int n, const vector<vector<int>>& edges)
+    : n(n), adj(n)
 {
     for (const auto& edge : edges) {
-        adj[edge[0]].emplace_back(edge[1], edge[2]);
+        addEdge(edge);
     }
 }
 
-void Graph::addEdge(vector<int> edge)
-{
-    adj[edge[0]].emplace_back(edge[1], edge[2]);
+void Graph::addEdge(const vector<int>& edge) {
+    int from = edge[0];
+    int to = edge[1];
+    int cost = edge[2];
+
+    adj[from].push_back({to, cost});
 }
 
 int Graph::shortestPath(int node1, int node2)

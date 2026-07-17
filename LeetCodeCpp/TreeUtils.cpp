@@ -188,12 +188,8 @@ void TreeUtils::freeTree(TreeNode<T>* root) {
     delete root;
 }
 
-/*
- * NOTE: These explicit template instantiations are required because the template
- * definitions live in the corresponding .cpp file (not in the header).
- * For the full rationale and alternatives, see the detailed comment at the bottom
- * of ListUtils.cpp, since it's the same case here.
- */
+// Template definitions live in this .cpp, so explicitly instantiate the
+// variants used by the project to avoid linker errors.
 template TreeNode<int>* TreeUtils::vectorToTree(const vector<optional<int>>& values);
 template string TreeUtils::toLevelOrderString(TreeNode<int>* root);
 template void TreeUtils::printTree(TreeNode<int>* root);

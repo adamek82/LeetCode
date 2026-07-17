@@ -5,9 +5,9 @@
 
 class Graph {
 public:
-    Graph(int n, std::vector<std::vector<int>>& edges);
+    Graph(int n, const std::vector<std::vector<int>>& edges);
 
-    void addEdge(std::vector<int> edge);
+    void addEdge(const std::vector<int>& edge);
     int shortestPath(int node1, int node2);
 
 private:

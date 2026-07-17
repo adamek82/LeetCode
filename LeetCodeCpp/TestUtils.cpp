@@ -189,16 +189,24 @@ bool assertEqVIntPrefix(const string& label,
     return pass;
 }
 
-void assertMaxMin(const string& label,
+bool assertMaxMin(const string& label,
                   const function<string()>& getMax,
                   const function<string()>& getMin,
                   initializer_list<string> maxSet,
                   initializer_list<string> minSet) {
     const bool maxOk = find(maxSet.begin(), maxSet.end(), getMax()) != maxSet.end();
+
+    if (!assertEqScalar(label + " [max]", true, maxOk)) {
+        return false;
+    }
+
     const bool minOk = find(minSet.begin(), minSet.end(), getMin()) != minSet.end();
 
-    assertEqScalar(label + " [max]", true, maxOk);
-    assertEqScalar(label + " [min]", true, minOk);
+    if (!assertEqScalar(label + " [min]", true, minOk)) {
+        return false;
+    }
+
+    return true;
 }
 
 // distance^2 helper kept file-local

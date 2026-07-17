@@ -1,38 +1,66 @@
 #pragma once
 #include "ListNode.h"
-#include <vector>
-#include <string>
+#include <memory>
 #include <optional>
+#include <string>
+#include <vector>
 
 using namespace std;
 
 class ListUtils {
 public:
-    // Create a linked list from a vector
     template <typename T>
     static ListNode<T>* createLinkedList(const vector<T>& values);
 
-    // Convert a linked list to a vector
     template <typename T>
     static vector<T> toVector(ListNode<T>* head);
 
-    // Convert a linked list to a string representation
     template <typename T>
     static string toString(ListNode<T>* head);
 
-    // Free the linked list memory
     template <typename T>
     static void freeList(ListNode<T>* head);
 
-    // Create a linked list from a vector and set up a cycle if pos >= 0
     template <typename T>
     static ListNode<T>* createLinkedListWithCycle(const vector<T>& values, int pos);
 
-    // Creates a linked list with random pointers based on a vector of values and optional random indices
     template <typename T>
     static ListNode<T> *createLinkedListWithRandom(const vector<pair<T, optional<int>>> &nodes);
 
-    // Compares two linked lists with random pointers for structural and value equality
     template <typename T>
     static bool compareListsWithRandom(ListNode<T> *list1, ListNode<T> *list2);
+
+    template <typename T>
+    struct ListDeleter {
+        void operator()(ListNode<T>* node) const {
+            freeList<T>(node);
+        }
+    };
+
+    template <typename T>
+    using UniqueList = unique_ptr<ListNode<T>, ListDeleter<T>>;
+
+    template <typename T>
+    static UniqueList<T> makeUniqueList(const vector<T>& values) {
+        return UniqueList<T>(createLinkedList<T>(values));
+    }
+
+    template <typename T>
+    static UniqueList<T> makeUniqueListWithCycle(const vector<T>& values, int pos) {
+        return UniqueList<T>(createLinkedListWithCycle<T>(values, pos));
+    }
+
+    template <typename T>
+    static UniqueList<T> makeUniqueListWithRandom(
+        const vector<pair<T, optional<int>>>& nodes) {
+        return UniqueList<T>(createLinkedListWithRandom<T>(nodes));
+    }
+
+    // Use after an in-place linked-list algorithm returns a possibly different head.
+    // Ownership stays with the same unique_ptr, but its stored head pointer is updated.
+    template <typename T>
+    static void resetListHead(UniqueList<T>& owner, ListNode<T>* newHead) {
+        owner.release();
+        owner.reset(newHead);
+    }
 };
