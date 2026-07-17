@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <iostream>
+#include <vector>
 
 namespace TestRegistry {
 
@@ -54,6 +55,11 @@ template <size_t N>
 inline bool runAllTests(const Entry (&tests)[N],
                         std::ostream& out = std::cout) {
     return runAllTests(tests, tests + N, out);
+}
+
+inline bool runAllTests(const std::vector<Entry>& tests,
+                        std::ostream& out = std::cout) {
+    return runAllTests(tests.data(), tests.data() + tests.size(), out);
 }
 
 } // namespace TestRegistry
