@@ -1173,9 +1173,20 @@ namespace TestCases {
 
     /* Core custom data structures and API-oriented implementations */
 
-    // Min Heap (custom)
+    enum class MinHeapOpKind {
+        Insert,
+        ExtractMin,
+        Update,
+    };
+
+    struct MinHeapOp {
+        MinHeapOpKind kind;
+        int value = 0;
+        int newValue = 0;
+    };
+
     struct MinHeapTestCase {
-        vector<pair<string, int>> operations; // {op, value(if any)}
+        vector<MinHeapOp> operations;
         vector<int> expected;
     };
 

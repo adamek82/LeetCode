@@ -5270,392 +5270,489 @@ public:
 
     /* Introductory 1D DP with direct state transitions */
 
-    static void fibonacci_509_tests() {
+    static bool fibonacci_509_tests() {
         vector<FibonacciNumberTestCase> tests = {
             // 3 from the statement
             {2, 1},
             {3, 2},
             {4, 3},
-            // 3 additional / edge-ish
+
+            // Edge cases and a larger value
             {0, 0},
             {1, 1},
-            {30, 832040}
+            {30, 832040},
         };
 
         FibonacciNumber_509 sol;
+
         for (size_t i = 0; i < tests.size(); ++i) {
-            int got = sol.fib(tests[i].n);
-            assertEqScalar("Fibonacci 509 Test " + to_string(i + 1) + " (n=" + to_string(tests[i].n) + ")",
-                tests[i].expected, got);
+            const auto& tc = tests[i];
+
+            int got = sol.fib(tc.n);
+
+            const string label =
+                "Fibonacci 509 Test " + to_string(i + 1) +
+                " (n=" + to_string(tc.n) + ")";
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
-    static void climbingStairs_70_tests() {
+    static bool climbingStairs_70_tests() {
         vector<ClimbingStairsTestCase> tests = {
             // 2 from the statement
             {2, 2},
             {3, 3},
 
-            // 4 additional / edge-ish
+            // Edge cases and larger values
             {1, 1},
             {4, 5},
             {10, 89},
-            {45, 1836311903}
+            {45, 1836311903},
         };
 
         ClimbingStairs_70 sol;
+
         for (size_t i = 0; i < tests.size(); ++i) {
-            int got = sol.climbStairs(tests[i].n);
-            assertEqScalar("Climbing Stairs 70 Test " + to_string(i + 1) + " (n=" + to_string(tests[i].n) + ")",
-                tests[i].expected, got);
+            const auto& tc = tests[i];
+
+            int got = sol.climbStairs(tc.n);
+
+            const string label =
+                "Climbing Stairs 70 Test " + to_string(i + 1) +
+                " (n=" + to_string(tc.n) + ")";
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
-    static void minCostClimbingStairs_746_tests() {
+    static bool minCostClimbingStairs_746_tests() {
         vector<MinCostClimbingStairsTestCase> tests = {
             // 2 from the statement
-            {{10,15,20}, 15},
-            {{1,100,1,1,1,100,1,1,100,1}, 6},
+            {{10, 15, 20}, 15},
+            {{1, 100, 1, 1, 1, 100, 1, 1, 100, 1}, 6},
 
-            // 4 additional / edge-ish
-            {{5, 6}, 5},                         // n=2, pick cheaper start
-            {{0,0,0,0}, 0},                      // all zeros
-            {{2,2,2,2,2}, 4},                    // uniform costs
-            {{999,1,999,1,999,1,999,1}, 4}       // pick all the 1's
+            // Edge cases and patterned inputs
+            {{5, 6}, 5},                          // n=2, pick cheaper start
+            {{0, 0, 0, 0}, 0},                    // all zeros
+            {{2, 2, 2, 2, 2}, 4},                 // uniform costs
+            {{999, 1, 999, 1, 999, 1, 999, 1}, 4}, // pick all the 1s
         };
 
         MinCostClimbingStairs_746 sol;
+
         for (size_t i = 0; i < tests.size(); ++i) {
-            int got = sol.minCostClimbingStairs(tests[i].cost);
-            assertEqScalar("Min Cost Climbing Stairs 746 Test " + to_string(i + 1), tests[i].expected, got);
+            const auto& tc = tests[i];
+
+            int got = sol.minCostClimbingStairs(tc.cost);
+
+            const string label = "Min Cost Climbing Stairs 746 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
     /* Linear DP on arrays with local recurrence choices */
 
-    static void houseRobber_198_tests() {
+    static bool houseRobber_198_tests() {
         vector<HouseRobberTestCase> tests = {
             // 2 from the statement
-            {{1,2,3,1}, 4},
-            {{2,7,9,3,1}, 12},
+            {{1, 2, 3, 1}, 4},
+            {{2, 7, 9, 3, 1}, 12},
 
-            // 4 additional / edge-ish
-            {{2,1,1,2}, 4},                 // choose 2 + 2
-            {{0,0,0,0,0}, 0},               // all zeros
-            {{6,6,4,8,4,3,3,10}, 27},       // mixed values
-            {{100}, 100}                    // single element
+            // Edge cases and patterned inputs
+            {{2, 1, 1, 2}, 4},           // choose 2 + 2
+            {{0, 0, 0, 0, 0}, 0},        // all zeros
+            {{6, 6, 4, 8, 4, 3, 3, 10}, 27},
+            {{100}, 100},                // single element
         };
 
         HouseRobber_198 sol;
+
         for (size_t i = 0; i < tests.size(); ++i) {
-            int got = sol.rob(tests[i].nums);
-            assertEqScalar("House Robber 198 Test " + to_string(i + 1), tests[i].expected, got);
+            const auto& tc = tests[i];
+
+            int got = sol.rob(tc.nums);
+
+            const string label = "House Robber 198 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
-    static void maximumSubarray_53_tests() {
-        vector<MaximumSubarrayTestCase> tc = {
+    static bool maximumSubarray_53_tests() {
+        vector<MaximumSubarrayTestCase> tests = {
             // 3 canonical LeetCode examples
-            {{-2,1,-3,4,-1,2,1,-5,4}, 6},
+            {{-2, 1, -3, 4, -1, 2, 1, -5, 4}, 6},
             {{1}, 1},
-            {{5,4,-1,7,8}, 23},
+            {{5, 4, -1, 7, 8}, 23},
 
-            // all-negative array → pick single largest element
-            {{-8,-3,-6,-2,-5,-4}, -2},
+            // All-negative array -> pick the single largest element
+            {{-8, -3, -6, -2, -5, -4}, -2},
 
-            // larger mixed array (answer = 25, subarray [10, -2, 3, 14])
-            {{-1,10,-2,3,14,-5,2}, 25}
+            // Larger mixed array: answer is 25 from [10, -2, 3, 14]
+            {{-1, 10, -2, 3, 14, -5, 2}, 25},
         };
 
         MaximumSubarray_53 solver;
-        for (size_t i = 0; i < tc.size(); ++i) {
-            int got = solver.maxSubArray(tc[i].nums);
-            assertEqScalar("Maximum Subarray 53 Test " + to_string(i + 1), tc[i].expected, got);
+
+        for (size_t i = 0; i < tests.size(); ++i) {
+            const auto& tc = tests[i];
+
+            int got = solver.maxSubArray(tc.nums);
+
+            const string label = "Maximum Subarray 53 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
     /* Reachability and minimum-jump style DP / greedy-DP crossover */
 
-    static void jumpGame_55_tests() {
+    static bool jumpGame_55_tests() {
         vector<JumpGameTestCase> tests = {
-            {{2,3,1,1,4}, true},     // example 1
-            {{3,2,1,0,4}, false},    // example 2
-            {{0}, true},             // single element is trivially reachable
+            {{2, 3, 1, 1, 4}, true},   // example 1
+            {{3, 2, 1, 0, 4}, false},  // example 2
+            {{0}, true},               // single element is trivially reachable
             {{1}, true},
-            {{1,0,1}, false},        // stuck at index 1
-            {{2,0}, true},           // one jump to end
-            {{2,0,0}, true},         // reach=2 at i=0 covers the end
-            {{1,1,0,1}, false},      // stuck at index 2
-            {{5,0,0,0,0}, true},     // first jump covers all
-            {{2,5,0,0}, true},       // reach grows via index 1
-            {{2,0,2,0,1}, true},     // detours but reachable
-            {{2,0,1,0,0}, false}     // reach stalls before the end
+            {{1, 0, 1}, false},        // stuck at index 1
+            {{2, 0}, true},            // one jump to end
+            {{2, 0, 0}, true},         // reach=2 at i=0 covers the end
+            {{1, 1, 0, 1}, false},     // stuck at index 2
+            {{5, 0, 0, 0, 0}, true},   // first jump covers all
+            {{2, 5, 0, 0}, true},      // reach grows via index 1
+            {{2, 0, 2, 0, 1}, true},   // detours but reachable
+            {{2, 0, 1, 0, 0}, false},  // reach stalls before the end
         };
 
         JumpGame_55 sol;
+
         for (size_t i = 0; i < tests.size(); ++i) {
-            auto arr = tests[i].nums;                  // method takes non-const ref
-            bool got = sol.canJump(arr);
+            const auto& tc = tests[i];
+
+            auto nums = tc.nums; // solver takes non-const ref
+            bool got = sol.canJump(nums);
+
             const string label = "Jump Game 55 Test " + to_string(i + 1);
-            assertEqScalar(label, tests[i].expected, got);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
-    static void jumpGameII_45_tests() {
+    static bool jumpGameII_45_tests() {
         vector<JumpGameIITestCase> tests = {
-            {{2,3,1,1,4}, 2},            // example 1
-            {{2,3,0,1,4}, 2},            // example 2
-            {{0}, 0},                    // single element
-            {{1}, 0},                    // single element
-            {{1,1,1,1}, 3},              // need to hop each step
-            {{5,0,0,0,0}, 1},            // one jump covers all
-            {{1,4,1,1,1,1}, 2},          // to index 1, then to end
-            {{3,2,1}, 1},                // first jump reaches the end
-            {{9,8,7,6,5,4,3,2,1,0}, 1}   // giant first jump
+            {{2, 3, 1, 1, 4}, 2},                // example 1
+            {{2, 3, 0, 1, 4}, 2},                // example 2
+            {{0}, 0},                            // single element
+            {{1}, 0},                            // single element
+            {{1, 1, 1, 1}, 3},                   // need to hop each step
+            {{5, 0, 0, 0, 0}, 1},                // one jump covers all
+            {{1, 4, 1, 1, 1, 1}, 2},             // to index 1, then to end
+            {{3, 2, 1}, 1},                      // first jump reaches the end
+            {{9, 8, 7, 6, 5, 4, 3, 2, 1, 0}, 1}, // giant first jump
         };
 
         JumpGameII_45 sol;
+
         for (size_t i = 0; i < tests.size(); ++i) {
-            auto arr = tests[i].nums;           // method takes non-const ref
-            int got = sol.jump(arr);
-            assertEqScalar("Jump Game II 45 Test " + to_string(i + 1), tests[i].expected, got);
+            const auto& tc = tests[i];
+
+            auto nums = tc.nums; // solver takes non-const ref
+            int got = sol.jump(nums);
+
+            const string label = "Jump Game II 45 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
     /* Grid DP with path counting and blocked cells */
 
-    static void uniquePaths_62_tests() {
+    static bool uniquePaths_62_tests() {
         vector<UniquePathsTestCase> cases = {
-            /* three official cases from the problem statement */
+            // Official cases from the problem statement
             {3, 7, 28},
             {3, 2, 3},
             {1, 1, 1},
-            /* two more demanding cases – still ≤ 2 000 000 000 */
+
+            // Larger cases, still <= 2,000,000,000
             {12, 23, 193536720},
-            {8, 69, 1984829850}
+            {8, 69, 1984829850},
         };
 
         UniquePaths_62 solver;
+
         for (size_t i = 0; i < cases.size(); ++i) {
             const auto& tc = cases[i];
-            const string baseLabel =
+
+            const string base =
                 "Unique Paths 62 Test " + to_string(i + 1) +
                 " (m=" + to_string(tc.m) + ", n=" + to_string(tc.n) + ")";
 
-            int gotComb    = solver.uniquePaths_Comb(tc.m, tc.n);
-            int gotDP2D    = solver.uniquePaths_DP2D(tc.m, tc.n);
+            int gotComb = solver.uniquePaths_Comb(tc.m, tc.n);
+            int gotDP2D = solver.uniquePaths_DP2D(tc.m, tc.n);
             int gotDP2Rows = solver.uniquePaths_DP2Rows(tc.m, tc.n);
 
-            assertEqScalar(baseLabel + " [comb]",     tc.expected, gotComb);
-            assertEqScalar(baseLabel + " [dp-2D]",    tc.expected, gotDP2D);
-            assertEqScalar(baseLabel + " [dp-2rows]", tc.expected, gotDP2Rows);
+            REQUIRE_ASSERT(assertEqScalar(base + " [comb]", tc.expected, gotComb));
+            REQUIRE_ASSERT(assertEqScalar(base + " [dp-2D]", tc.expected, gotDP2D));
+            REQUIRE_ASSERT(assertEqScalar(base + " [dp-2rows]", tc.expected, gotDP2Rows));
         }
+
+        return true;
     }
 
-    static void uniquePathsII_63_tests() {
+    static bool uniquePathsII_63_tests() {
         vector<UniquePathsIITestCase> testCases = {
             // From the problem statement
-            {{{0,0,0},{0,1,0},{0,0,0}}, 2},
-            {{{0,1},{0,0}}, 1},
+            {{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}}, 2},
+            {{{0, 1}, {0, 0}}, 1},
 
-            // Additional complex cases
-            // 1) Single‐row with an obstacle blocking all paths past it
-            {{{0,1,0,0,0}}, 0},
+            // Single row with an obstacle blocking all paths past it
+            {{{0, 1, 0, 0, 0}}, 0},
 
-            // 2) 3×3 with no obstacles: C(4,2)=6
-            {{{0,0,0},{0,0,0},{0,0,0}}, 6},
+            // 3x3 with no obstacles: C(4,2)=6
+            {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, 6},
 
-            // 3) Larger 10×10 grid with no obstacles:
-            //    number of paths = C(18,9) = 48620
+            // 10x10 with no obstacles: C(18,9)=48620
             {
                 vector<vector<int>>(10, vector<int>(10, 0)),
-                48620
-            }
+                48620,
+            },
         };
 
         UniquePathsII_63 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = sol.uniquePathsWithObstacles(testCases[i].grid);
-            assertEqScalar("Unique Paths II 63 Test " + to_string(i + 1), testCases[i].expected, got);
+            const auto& tc = testCases[i];
+
+            auto grid = tc.grid; // solver may mutate
+            int got = sol.uniquePathsWithObstacles(grid);
+
+            const string label = "Unique Paths II 63 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
     /* Unbounded-choice and counting / minimization DP */
 
-    static void coinChange_322_tests() {
+    static bool coinChange_322_tests() {
         vector<CoinChangeTestCase> testCases = {
             // 3 examples from the problem statement
-            { {1,2,5},       11,  3  },
-            { {2},           3,  -1  },
-            { {1},           0,   0  },
+            {{1, 2, 5}, 11, 3},
+            {{2}, 3, -1},
+            {{1}, 0, 0},
 
-            // 2 complex examples:
-            // • 8 denominations, amount ≥ 30
-            { {1,3,4,5,10,20,50,100}, 99,  5  },
-            // • 8 prime‐value coins, larger amount
-            { {2,3,5,7,11,13,17,19}, 100,  6  }
+            // 8 denominations, amount >= 30
+            {{1, 3, 4, 5, 10, 20, 50, 100}, 99, 5},
+
+            // 8 prime-value coins, larger amount
+            {{2, 3, 5, 7, 11, 13, 17, 19}, 100, 6},
         };
 
         CoinChange_322 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = sol.coinChange(testCases[i].coins, testCases[i].amount);
-            const string label = "Coin Change 322 Test " + to_string(i + 1) +
-                                " (amount=" + to_string(testCases[i].amount) + ")";
-            assertEqScalar(label, testCases[i].expected, got);
+            const auto& tc = testCases[i];
+
+            auto coins = tc.coins; // solver may mutate
+            int got = sol.coinChange(coins, tc.amount);
+
+            const string label =
+                "Coin Change 322 Test " + to_string(i + 1) +
+                " (amount=" + to_string(tc.amount) + ")";
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
-    static void perfectSquares_279_tests() {
-        // 2 from the problem + 3 more complex (incl. edge n = 10^4)
+    static bool perfectSquares_279_tests() {
         vector<PerfectSquaresTestCase> testCases = {
-            {12,    3},  // Example 1: 12 = 4 + 4 + 4
-            {13,    2},  // Example 2: 13 = 9 + 4
-            {3000,  3},  // 3 squares (e.g., 3000 = 1600 + 900 + 500)
-            {9991,  4},  // Legendre form (4^a(8b+7)) ⇒ needs 4 squares
-            {10000, 1}   // Edge case (max n): 10000 = 100^2
+            // 2 examples from the problem statement
+            {12, 3}, // 12 = 4 + 4 + 4
+            {13, 2}, // 13 = 9 + 4
+
+            // Larger and edge cases
+            {3000, 3},
+            {9991, 4},  // Legendre form 4^a(8b+7), so 4 squares are needed
+            {10000, 1}, // 10000 = 100^2
         };
 
         PerfectSquares_279 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solver.numSquares(testCases[i].n);
-            assertEqScalar("Perfect Squares 279 Test " + to_string(i + 1), testCases[i].expected, got);
+            const auto& tc = testCases[i];
+
+            int got = solver.numSquares(tc.n);
+
+            const string label =
+                "Perfect Squares 279 Test " + to_string(i + 1) +
+                " (n=" + to_string(tc.n) + ")";
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
     /* Sequence DP on increasing structure and string matching */
 
-    static void longestIncreasingSubsequence_300_tests() {
+    static bool longestIncreasingSubsequence_300_tests() {
         vector<LongestIncreasingSubsequenceTestCase> testCases = {
             // Provided examples
-            {{10, 9, 2, 5, 3, 7, 101, 18}, 4}, // Example 1
-            {{0, 1, 0, 3, 2, 3}, 4},           // Example 2
-            {{7, 7, 7, 7, 7, 7, 7}, 1},        // Example 3
+            {{10, 9, 2, 5, 3, 7, 101, 18}, 4},
+            {{0, 1, 0, 3, 2, 3}, 4},
+            {{7, 7, 7, 7, 7, 7, 7}, 1},
 
-            // Additional complex examples
-            {{3, 10, 2, 1, 20, 4, 6, 21, 22, 23}, 6}, // Example 4
-            {{9, 2, 5, 3, 7, 101, 18, 9, 4, 5, 6, 7, 8}, 7} // Example 5
+            // Larger mixed cases
+            {{3, 10, 2, 1, 20, 4, 6, 21, 22, 23}, 6},
+            {{9, 2, 5, 3, 7, 101, 18, 9, 4, 5, 6, 7, 8}, 7},
         };
 
-        LongestIncreasingSubsequence_300 solution;
+        LongestIncreasingSubsequence_300 solver;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            // Run both implementations and check against expected, then cross-check equality.
-            auto nums1 = testCases[i].nums;              // tails version takes non-const ref
-            int got_tails = solution.lengthOfLIS_tails(nums1);
-            int got_dp    = solution.lengthOfLIS_dp(testCases[i].nums);
+            const auto& tc = testCases[i];
+            const string base = "LIS 300 Test " + to_string(i + 1);
 
-            assertEqScalar("LIS 300 [tails]  Test " + to_string(i + 1), testCases[i].expected, got_tails);
-            assertEqScalar("LIS 300 [dp]     Test " + to_string(i + 1), testCases[i].expected, got_dp);
-            assertEqScalar("LIS 300 [agree]  Test " + to_string(i + 1), got_tails, got_dp);
+            auto tailsInput = tc.nums; // tails version takes non-const ref
+            int tailsLen = solver.lengthOfLIS_tails(tailsInput);
+            int dpLen = solver.lengthOfLIS_dp(tc.nums);
+
+            REQUIRE_ASSERT(assertEqScalar(base + " [tails length]", tc.expected, tailsLen));
+            REQUIRE_ASSERT(assertEqScalar(base + " [dp length]", tc.expected, dpLen));
+            REQUIRE_ASSERT(assertEqScalar(base + " [length consistency]", tailsLen, dpLen));
+
+            vector<int> tailsSeq = solver.getLIS_tails(tc.nums);
+            vector<int> dpSeq = solver.getLIS_dp(tc.nums);
+
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [tails seq size]",
+                tc.expected,
+                static_cast<int>(tailsSeq.size())));
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [dp seq size]",
+                tc.expected,
+                static_cast<int>(dpSeq.size())));
+
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [tails seq increasing]",
+                true,
+                isStrictlyIncreasing(tailsSeq)));
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [dp seq increasing]",
+                true,
+                isStrictlyIncreasing(dpSeq)));
+
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [tails seq subsequence]",
+                true,
+                isSubsequence(tailsSeq, tc.nums)));
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [dp seq subsequence]",
+                true,
+                isSubsequence(dpSeq, tc.nums)));
+
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [tails seq matches tails length]",
+                tailsLen,
+                static_cast<int>(tailsSeq.size())));
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [dp seq matches dp length]",
+                dpLen,
+                static_cast<int>(dpSeq.size())));
+
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [seq length consistency]",
+                tailsSeq.size(),
+                dpSeq.size()));
         }
 
-        /*
-        * Follow-up: reconstruct one actual LIS and validate its properties.
-        * We can't assert exact sequence (there can be many LIS), so we assert:
-        *  - returned sequence is a subsequence of input
-        *  - strictly increasing
-        *  - its length equals the length returned by lengthOfLIS_* and expected
-        */
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            const vector<int>& nums = testCases[i].nums;
-
-            vector<int> lis_tails = solution.getLIS_tails(nums);
-            vector<int> lis_dp    = solution.getLIS_dp(nums);
-
-            // Length must match expected
-            assertEqScalar("LIS 300 FU [tails seq size == expected] Test " + to_string(i + 1),
-                        testCases[i].expected, (int)lis_tails.size());
-            assertEqScalar("LIS 300 FU [dp seq size == expected] Test " + to_string(i + 1),
-                        testCases[i].expected, (int)lis_dp.size());
-
-            // Must be strictly increasing
-            assertEqScalar("LIS 300 FU [tails seq strictly increasing] Test " + to_string(i + 1),
-                        true, isStrictlyIncreasing(lis_tails));
-            assertEqScalar("LIS 300 FU [dp seq strictly increasing] Test " + to_string(i + 1),
-                        true, isStrictlyIncreasing(lis_dp));
-
-            // Must be a subsequence of the original input
-            assertEqScalar("LIS 300 FU [tails seq is subsequence] Test " + to_string(i + 1),
-                        true, isSubsequence(lis_tails, nums));
-            assertEqScalar("LIS 300 FU [dp seq is subsequence] Test " + to_string(i + 1),
-                        true, isSubsequence(lis_dp, nums));
-
-            // Cross-check with length-only methods (defensive consistency check)
-            auto nums1 = testCases[i].nums;
-            int got_tails = solution.lengthOfLIS_tails(nums1);
-            int got_dp    = solution.lengthOfLIS_dp(testCases[i].nums);
-
-            assertEqScalar("LIS 300 FU [tails seq size == tails len] Test " + to_string(i + 1),
-                        got_tails, (int)lis_tails.size());
-            assertEqScalar("LIS 300 FU [tails seq size == dp len]    Test " + to_string(i + 1),
-                        got_dp, (int)lis_tails.size());
-
-            assertEqScalar("LIS 300 FU [dp seq size == tails len] Test " + to_string(i + 1),
-                        got_tails, (int)lis_dp.size());
-            assertEqScalar("LIS 300 FU [dp seq size == dp len]    Test " + to_string(i + 1),
-                        got_dp, (int)lis_dp.size());
-
-            // Both reconstructions must have the same length (sequence can differ)
-            assertEqScalar("LIS 300 FU [tails seq size == dp seq size] Test " + to_string(i + 1),
-                        (int)lis_tails.size(), (int)lis_dp.size());
-        }
+        return true;
     }
 
-    static void longestCommonSubsequence_1143_tests() {
+    static bool longestCommonSubsequence_1143_tests() {
         vector<LongestCommonSubsequenceTestCase> testCases = {
             // Provided examples
-            {"abcde", "ace", 3}, // Example 1
-            {"abc", "abc", 3},   // Example 2
-            {"abc", "def", 0},   // Example 3
+            {"abcde", "ace", 3},
+            {"abc", "abc", 3},
+            {"abc", "def", 0},
 
-            // Additional complex examples
-            {"abcdefghijabcdefghij", "acegikacegik", 10}, // Alternating match
-            {"abcdefghijklmnopqrst", "zyxwvutsrqponmlkjih", 1} // No common subsequence
+            // Larger cases
+            {"abcdefghijabcdefghij", "acegikacegik", 10},
+            {"abcdefghijklmnopqrst", "zyxwvutsrqponmlkjih", 1},
         };
 
         LongestCommonSubsequence_1143 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
+            const string base = "LCS 1143 Test " + to_string(i + 1);
 
-            int gotLen = sol.longestCommonSubsequence(tc.text1, tc.text2);
-            assertEqScalar("LCS 1143 Test " + to_string(i + 1), tc.expected, gotLen);
+            int fullDP = sol.longestCommonSubsequence(tc.text1, tc.text2);
+            int twoRows = sol.longestCommonSubsequenceTwoRows(tc.text1, tc.text2);
 
-            int gotLen2 = sol.longestCommonSubsequenceTwoRows(tc.text1, tc.text2);
-            assertEqScalar("LCS 1143 [2rows] Test " + to_string(i + 1), tc.expected, gotLen2);
+            REQUIRE_ASSERT(assertEqScalar(base + " [full DP]", tc.expected, fullDP));
+            REQUIRE_ASSERT(assertEqScalar(base + " [2 rows]", tc.expected, twoRows));
+            REQUIRE_ASSERT(assertEqScalar(base + " [length consistency]", fullDP, twoRows));
 
-            string gotStr = sol.longestCommonSubsequenceString(tc.text1, tc.text2);
+            string lcs = sol.longestCommonSubsequenceString(tc.text1, tc.text2);
 
-            assertEqScalar("LCS 1143 [string] len Test " + to_string(i + 1),
-                           tc.expected, static_cast<int>(gotStr.size()));
-
-            assertEqScalar("LCS 1143 [string] subseq(text1) Test " + to_string(i + 1),
-                           true, isSubsequenceStr(gotStr, tc.text1));
-
-            assertEqScalar("LCS 1143 [string] subseq(text2) Test " + to_string(i + 1),
-                           true, isSubsequenceStr(gotStr, tc.text2));
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [string length]",
+                tc.expected,
+                static_cast<int>(lcs.size())));
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [string subseq text1]",
+                true,
+                isSubsequenceStr(lcs, tc.text1)));
+            REQUIRE_ASSERT(assertEqScalar(
+                base + " [string subseq text2]",
+                true,
+                isSubsequenceStr(lcs, tc.text2)));
         }
+
+        return true;
     }
 
-    static void wildcardMatching_44_tests() {
-        vector<WildcardMatchingTestCase> tc = {
-            /* three examples from the statement */
-            {"aa", "a",       false},
-            {"aa", "*",       true },
-            {"cb", "?a",      false},
-            /* three extra / harder cases */
-            {"adceb",         "*a*b",        true },
-            {"acdcb",         "a*c?b",       false},
-            {"abcabczzzde",   "*abc???de*",  true },
-            {"baaaacxyz",     "*a*?xyz",     true },
-            {"abcded",        "a*d",         true },
-            {"abcdbcde",      "a*de",        true },
+    static bool wildcardMatching_44_tests() {
+        vector<WildcardMatchingTestCase> tests = {
+            // Three examples from the statement
+            {"aa", "a", false},
+            {"aa", "*", true},
+            {"cb", "?a", false},
+
+            // Extra harder cases
+            {"adceb", "*a*b", true},
+            {"acdcb", "a*c?b", false},
+            {"abcabczzzde", "*abc???de*", true},
+            {"baaaacxyz", "*a*?xyz", true},
+            {"abcded", "a*d", true},
+            {"abcdbcde", "a*de", true},
         };
 
         WildcardMatching_44 solver;
-        for (size_t i = 0; i < tc.size(); ++i) {
-            bool got = solver.isMatch(tc[i].s, tc[i].p);
-            assertEqScalar("Wildcard Matching 44 Test " + to_string(i + 1), tc[i].expected, got);
+
+        for (size_t i = 0; i < tests.size(); ++i) {
+            const auto& tc = tests[i];
+
+            bool got = solver.isMatch(tc.s, tc.p);
+
+            const string label =
+                "Wildcard Matching 44 Test " + to_string(i + 1) +
+                " (pattern=\"" + tc.p + "\")";
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
     // ============================================================================
@@ -5664,34 +5761,38 @@ public:
 
     /* Bitwise representation, bit counting, XOR, and binary-string arithmetic */
 
-    static void base7_504_tests() {
+    static bool base7_504_tests() {
         using namespace TestCases;
 
         vector<Base7TestCase> testCases = {
             // Examples from the problem statement
-            {100,  "202"},
-            {-7,   "-10"},
+            {100, "202"},
+            {-7, "-10"},
 
             // Additional checks
-            {0,    "0"},
-            {1,    "1"},
-            {7,    "10"},
-            {343,  "1000"},  // 7^3
-            {49,   "100"},   // 7^2
-            {-1,   "-1"},
+            {0, "0"},
+            {1, "1"},
+            {7, "10"},
+            {343, "1000"}, // 7^3
+            {49, "100"},   // 7^2
+            {-1, "-1"},
         };
 
         Base7_504 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
             const auto& tc = testCases[i];
+
             string got = sol.convertToBase7(tc.num);
 
-            assertEqScalar("Base 7 504 Test " + to_string(i + 1),
-                           tc.expected, got);
+            const string label = "Base 7 504 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
-    static void missingNumber_268_tests() {
+    static bool missingNumber_268_tests() {
         vector<MissingNumberTestCase> testCases = {
             // Problem statement examples
             {{3, 0, 1}, 2},
@@ -5699,84 +5800,107 @@ public:
             {{9, 6, 4, 2, 3, 5, 7, 0, 1}, 8},
 
             // Additional edge/complex cases
-            {{1, 2, 3}, 0},                 // missing 0
-            {{0, 1, 2, 3}, 4},              // missing n
-            {{10, 9, 8, 7, 5, 4, 3, 2, 1, 0}, 6} // unsorted, includes n
+            {{1, 2, 3}, 0},    // missing 0
+            {{0, 1, 2, 3}, 4}, // missing n
+
+            // Unsorted, includes n
+            {{10, 9, 8, 7, 5, 4, 3, 2, 1, 0}, 6},
         };
 
         MissingNumber_268 solution;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
-            int got = solution.missingNumber(testCases[i].nums);
-            assertEqScalar("Missing Number 268 Test " + to_string(i + 1), testCases[i].expected, got);
+            const auto& tc = testCases[i];
+
+            auto nums = tc.nums; // solver takes non-const ref
+            int got = solution.missingNumber(nums);
+
+            const string label = "Missing Number 268 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
-    static void singleNumber_136_tests() {
+    static bool singleNumber_136_tests() {
         using namespace TestCases;
 
         vector<SingleNumberTestCase> testCases = {
             // Examples from the problem statement
-            {{2, 2, 1},             1},
-            {{4, 1, 2, 1, 2},       4},
-            {{1},                   1},
+            {{2, 2, 1}, 1},
+            {{4, 1, 2, 1, 2}, 4},
+            {{1}, 1},
 
             // Additional checks with zeros / negatives
-            {{0, 1, 0},             1},
-            {{-1, -1, -2},          -2},
-            {{-3, 0, 0, -3, 7},     7},
+            {{0, 1, 0}, 1},
+            {{-1, -1, -2}, -2},
+            {{-3, 0, 0, -3, 7}, 7},
         };
 
         SingleNumber_136 sol;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto nums = testCases[i].nums; // method takes non-const ref
+            const auto& tc = testCases[i];
+
+            auto nums = tc.nums; // method takes non-const ref
             int got = sol.singleNumber(nums);
 
-            assertEqScalar("Single Number 136 Test " + to_string(i + 1),
-                           testCases[i].expected, got);
+            const string label = "Single Number 136 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
-    static void numberOf1Bits_191_tests()
-    {
-        vector<NumberOf1BitsTestCase> cases = {
-            {11u,          3},          // 1011
-            {128u,         1},          // 10000000
-            {2147483645u, 30},          // 0x7FFFFFFD
-            {0u,           0},          // edge: zero
-            {0xFFFFFFFFu, 32}           // all ones
+    static bool numberOf1Bits_191_tests() {
+        vector<NumberOf1BitsTestCase> testCases = {
+            {11u, 3},          // 1011
+            {128u, 1},         // 10000000
+            {2147483645u, 30}, // 0x7FFFFFFD
+            {0u, 0},           // zero
+            {0xFFFFFFFFu, 32}, // all ones
         };
 
         NumberOf1Bits_191 solver;
-        for (size_t i = 0; i < cases.size(); ++i) {
-            const auto& tc = cases[i];
 
-            int gotK = solver.hammingWeightKernighan(tc.n);
-            int gotL = solver.hammingWeightLookup(tc.n);
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
 
-            const string baseMsg = "Number of 1 Bits 191 Test "
-                                   + to_string(i + 1)
-                                   + " (n=" + to_string(tc.n) + ")";
+            int gotKernighan = solver.hammingWeightKernighan(tc.n);
+            int gotLookup = solver.hammingWeightLookup(tc.n);
 
-            assertEqScalar(baseMsg + " [Kernighan]", tc.expected, gotK);
-            assertEqScalar(baseMsg + " [Lookup]",    tc.expected, gotL);
+            const string base =
+                "Number of 1 Bits 191 Test " + to_string(i + 1) +
+                " (n=" + to_string(tc.n) + ")";
+
+            REQUIRE_ASSERT(assertEqScalar(base + " [Kernighan]", tc.expected, gotKernighan));
+            REQUIRE_ASSERT(assertEqScalar(base + " [Lookup]", tc.expected, gotLookup));
         }
+
+        return true;
     }
 
-    static void addBinary_67_tests()
-    {
-        vector<AddBinaryTestCase> cases = {
-            {"11",      "1",       "100"},      // example 1
-            {"1010",    "1011",    "10101"},    // example 2
-            {"0",       "0",       "0"},        // both zero
-            {"1111",    "1",       "10000"},    // carry over entire length
-            {"100",     "110010",  "110110"}    // different lengths
+    static bool addBinary_67_tests() {
+        vector<AddBinaryTestCase> testCases = {
+            {"11", "1", "100"},        // example 1
+            {"1010", "1011", "10101"}, // example 2
+            {"0", "0", "0"},           // both zero
+            {"1111", "1", "10000"},    // carry over entire length
+            {"100", "110010", "110110"}, // different lengths
         };
 
         AddBinary_67 solver;
-        for (size_t i = 0; i < cases.size(); ++i) {
-            string got = solver.addBinary(cases[i].a, cases[i].b);
-            assertEqScalar("Add Binary 67 Test " + to_string(i + 1), cases[i].expected, got);
+
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+
+            string got = solver.addBinary(tc.a, tc.b);
+
+            const string label = "Add Binary 67 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
     // ============================================================================
@@ -5785,132 +5909,279 @@ public:
 
     /* Core custom data structures and API-oriented implementations */
 
-    static vector<int> runMinHeapScenario(const vector<pair<string,int>>& ops) {
+    static vector<int> runMinHeapScenario(const vector<MinHeapOp>& ops) {
         MinHeap heap;
-        vector<int> out;
-        for (const auto& [op, x] : ops) {
-            if (op == "insert") {
-                heap.insert(x);
-            } else if (op == "extractMin") {
-                out.push_back(heap.extractMin());
-            } else if (op == "update") {
-                heap.update(x, x);
+        vector<int> output;
+
+        for (const auto& op : ops) {
+            switch (op.kind) {
+                case MinHeapOpKind::Insert:
+                    heap.insert(op.value);
+                    break;
+
+                case MinHeapOpKind::ExtractMin:
+                    output.push_back(heap.extractMin());
+                    break;
+
+                case MinHeapOpKind::Update:
+                    heap.update(op.value, op.newValue);
+                    break;
             }
         }
-        return out;
+
+        return output;
     }
 
-    static void minHeap_tests() {
+    static bool minHeap_tests() {
+        auto insert = [](int value) {
+            return MinHeapOp{MinHeapOpKind::Insert, value};
+        };
+
+        auto extractMin = [] {
+            return MinHeapOp{MinHeapOpKind::ExtractMin};
+        };
+
+        auto update = [](int index, int newValue) {
+            return MinHeapOp{MinHeapOpKind::Update, index, newValue};
+        };
+
         vector<MinHeapTestCase> testCases = {
             {
-                {{"insert",5},{"insert",3},{"insert",8},{"insert",1},{"insert",2},{"extractMin",0},{"extractMin",0}},
-                {1,2}       // Expected results of the extractMin calls
+                {
+                    insert(5),
+                    insert(3),
+                    insert(8),
+                    insert(1),
+                    insert(2),
+                    extractMin(),
+                    extractMin(),
+                },
+                {1, 2},
             },
             {
-                {{"insert",10},{"insert",20},{"insert",5},{"update",1},{"extractMin",0}},
-                {1}         // Updated root is extracted
+                {
+                    insert(10),
+                    insert(20),
+                    insert(5),
+                    update(1, 1), // index 1: 5 -> 1
+                    extractMin(),
+                },
+                {1},
             },
             {
-                {{"insert",100},{"insert",50},{"insert",25},{"extractMin",0},{"extractMin",0}},
-                {25,50}     // Both extractions
-            }
+                {
+                    insert(100),
+                    insert(50),
+                    insert(25),
+                    extractMin(),
+                    extractMin(),
+                },
+                {25, 50},
+            },
         };
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            const auto got = runMinHeapScenario(testCases[i].operations);
-            assertEqVIntExact("MinHeap Test " + to_string(i + 1), testCases[i].expected, got);
+            const auto& tc = testCases[i];
+
+            vector<int> got = runMinHeapScenario(tc.operations);
+
+            const string label = "MinHeap Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqVIntExact(label, tc.expected, got));
         }
+
+        return true;
     }
 
-    static void allOOneDataStructure_432_tests() {
-        // Test 1: basic
+    static bool allOOneDataStructure_432_tests() {
+        auto expectMaxMin = [](const string& label,
+                            AllOOneDataStructure_432& ds,
+                            initializer_list<string> maxKeys,
+                            initializer_list<string> minKeys) {
+            return assertMaxMin(
+                label,
+                [&] { return ds.getMaxKey(); },
+                [&] { return ds.getMinKey(); },
+                maxKeys,
+                minKeys);
+        };
+
+        // Basic case
         AllOOneDataStructure_432 ds1;
-        ds1.inc("hello"); ds1.inc("hello");
-        assertMaxMin("AllOOne T1/A",
-                    [&]{ return ds1.getMaxKey(); }, [&]{ return ds1.getMinKey(); },
-                    {"hello"}, {"hello"});
+        ds1.inc("hello");
+        ds1.inc("hello");
+
+        REQUIRE_ASSERT(expectMaxMin(
+            "AllOOne 432 Test 1 [hello twice]",
+            ds1,
+            {"hello"},
+            {"hello"}));
 
         ds1.inc("leet");
-        assertMaxMin("AllOOne T1/B",
-                    [&]{ return ds1.getMaxKey(); }, [&]{ return ds1.getMinKey(); },
-                    {"hello"}, {"leet"});
 
-        // Test 2: ties
+        REQUIRE_ASSERT(expectMaxMin(
+            "AllOOne 432 Test 1 [add leet]",
+            ds1,
+            {"hello"},
+            {"leet"}));
+
+        // Ties
         AllOOneDataStructure_432 ds2;
         ds2.inc("foo");
-        ds2.inc("bar"); ds2.inc("bar");
-        assertMaxMin("AllOOne T2/A",
-                    [&]{ return ds2.getMaxKey(); }, [&]{ return ds2.getMinKey(); },
-                    {"bar"}, {"foo"});
+        ds2.inc("bar");
+        ds2.inc("bar");
 
-        ds2.inc("foo"); // both = 2
-        assertMaxMin("AllOOne T2/B",
-                    [&]{ return ds2.getMaxKey(); }, [&]{ return ds2.getMinKey(); },
-                    {"foo","bar"}, {"foo","bar"});
+        REQUIRE_ASSERT(expectMaxMin(
+            "AllOOne 432 Test 2 [bar ahead]",
+            ds2,
+            {"bar"},
+            {"foo"}));
 
-        // Test 3: dec() & removal
+        ds2.inc("foo");
+
+        REQUIRE_ASSERT(expectMaxMin(
+            "AllOOne 432 Test 2 [tie at 2]",
+            ds2,
+            {"foo", "bar"},
+            {"foo", "bar"}));
+
+        // dec() and removal
         AllOOneDataStructure_432 ds3;
-        ds3.inc("a"); ds3.inc("a"); ds3.inc("a"); // a=3
-        ds3.inc("b"); ds3.inc("c");               // b=1, c=1
-        assertMaxMin("AllOOne T3/A",
-                    [&]{ return ds3.getMaxKey(); }, [&]{ return ds3.getMinKey(); },
-                    {"a"}, {"b","c"});
+        ds3.inc("a");
+        ds3.inc("a");
+        ds3.inc("a");
+        ds3.inc("b");
+        ds3.inc("c");
 
-        ds3.dec("a"); ds3.dec("a"); ds3.dec("a"); // a removed
-        assertMaxMin("AllOOne T3/B",
-                    [&]{ return ds3.getMaxKey(); }, [&]{ return ds3.getMinKey(); },
-                    {"b","c"}, {"b","c"});
+        REQUIRE_ASSERT(expectMaxMin(
+            "AllOOne 432 Test 3 [a=3, b=c=1]",
+            ds3,
+            {"a"},
+            {"b", "c"}));
+
+        ds3.dec("a");
+        ds3.dec("a");
+        ds3.dec("a");
+
+        REQUIRE_ASSERT(expectMaxMin(
+            "AllOOne 432 Test 3 [a removed]",
+            ds3,
+            {"b", "c"},
+            {"b", "c"}));
+
+        return true;
     }
 
-    static void examRoom_855_tests() {
-        // Case 1: EXACT sequence from the statement.
-        ExamRoomTestCase c1{
-            /* ops */ {"ExamRoom", "seat", "seat", "seat", "seat", "leave", "seat"},
-            /* args*/ {{10},        {},      {},      {},      {},      {4},    {}},
-            /* exp */ {nullopt,      0,       9,       4,       2,      nullopt, 5}
+    static bool examRoom_855_tests() {
+        auto init = [](int n) {
+            return ExamRoomTestCase{
+                {"ExamRoom"},
+                {{n}},
+                {nullopt},
+            };
         };
 
-        // Case 2: Edges cleared then re-filled; checks tie-breaking and edges.
-        // n = 8
-        // seat -> 0; seat -> 7; seat -> 3; leave(0); leave(7); seat -> 7; seat -> 0; seat -> 5
-        ExamRoomTestCase c2{
-            /* ops */ {"ExamRoom", "seat", "seat", "seat", "leave", "leave", "seat", "seat", "seat"},
-            /* args*/ {{8},         {},     {},     {},     {0},     {7},     {},     {},     {}},
-            /* exp */ {nullopt,      0,      7,      3,     nullopt, nullopt,  7,      0,      5}
+        auto appendSeat = [](ExamRoomTestCase& tc, int expectedSeat) {
+            tc.operations.push_back("seat");
+            tc.arguments.push_back({});
+            tc.expected.push_back(expectedSeat);
         };
 
-        // Case 3: Interleaved interior leaves and inserts; exercises mid-splits.
-        // n = 10
-        ExamRoomTestCase c3{
-            /* ops */ {"ExamRoom", "seat","seat","seat","seat","leave","seat","leave","seat","seat","leave","seat"},
-            /* args*/ {{10},        {},    {},    {},    {},    {4},    {},    {2},    {},    {},    {5},    {}},
-            /* exp */ {nullopt,      0,     9,     4,     2,    nullopt, 5,    nullopt, 2,     7,    nullopt, 4}
+        auto appendLeave = [](ExamRoomTestCase& tc, int seatNo) {
+            tc.operations.push_back("leave");
+            tc.arguments.push_back({seatNo});
+            tc.expected.push_back(nullopt);
         };
 
-        vector<ExamRoomTestCase> cases = {c1, c2, c3};
+        vector<ExamRoomTestCase> testCases;
 
-        for (size_t t = 0; t < cases.size(); ++t) {
-            optional<ExamRoom_855> er;
-            const auto& C = cases[t];
+        {
+            // Exact sequence from the statement
+            auto tc = init(10);
 
-            for (size_t i = 0; i < C.operations.size(); ++i) {
-                const string& op = C.operations[i];
-                const auto&    a = C.arguments[i];
-                const auto&   ex = C.expected[i];
+            appendSeat(tc, 0);
+            appendSeat(tc, 9);
+            appendSeat(tc, 4);
+            appendSeat(tc, 2);
+            appendLeave(tc, 4);
+            appendSeat(tc, 5);
+
+            testCases.push_back(move(tc));
+        }
+
+        {
+            // Edges cleared and re-filled; checks tie-breaking and edges
+            auto tc = init(8);
+
+            appendSeat(tc, 0);
+            appendSeat(tc, 7);
+            appendSeat(tc, 3);
+            appendLeave(tc, 0);
+            appendLeave(tc, 7);
+            appendSeat(tc, 7);
+            appendSeat(tc, 0);
+            appendSeat(tc, 5);
+
+            testCases.push_back(move(tc));
+        }
+
+        {
+            // Interleaved interior leaves and inserts; exercises mid-splits
+            auto tc = init(10);
+
+            appendSeat(tc, 0);
+            appendSeat(tc, 9);
+            appendSeat(tc, 4);
+            appendSeat(tc, 2);
+            appendLeave(tc, 4);
+            appendSeat(tc, 5);
+            appendLeave(tc, 2);
+            appendSeat(tc, 2);
+            appendSeat(tc, 7);
+            appendLeave(tc, 5);
+            appendSeat(tc, 4);
+
+            testCases.push_back(move(tc));
+        }
+
+        for (size_t caseIdx = 0; caseIdx < testCases.size(); ++caseIdx) {
+            const auto& tc = testCases[caseIdx];
+
+            REQUIRE_ASSERT(assertEqScalar(
+                "Exam Room 855 Test " + to_string(caseIdx + 1) + " [ops/args size]",
+                tc.operations.size(),
+                tc.arguments.size()));
+            REQUIRE_ASSERT(assertEqScalar(
+                "Exam Room 855 Test " + to_string(caseIdx + 1) + " [ops/expected size]",
+                tc.operations.size(),
+                tc.expected.size()));
+
+            optional<ExamRoom_855> room;
+
+            for (size_t stepIdx = 0; stepIdx < tc.operations.size(); ++stepIdx) {
+                const string& op = tc.operations[stepIdx];
+                const auto& args = tc.arguments[stepIdx];
+                const auto& expected = tc.expected[stepIdx];
+
+                const string label =
+                    makeStepLabel("Exam Room 855 Test", caseIdx, stepIdx, op, nullopt);
 
                 if (op == "ExamRoom") {
-                    er.emplace(a[0]);
-                }
-                else if (op == "leave") {
-                    er->leave(a[0]);
-                }
-                else if (op == "seat") {
-                    int got = er->seat();
-                    const string label = makeStepLabel("ExamRoom_855", t, i, op, nullopt);
-                    assertEqScalar(label, ex.value(), got);
+                    REQUIRE_ASSERT(assertEqScalar(label + " [expected void]", false, expected.has_value()));
+                    room.emplace(args[0]);
+                } else if (op == "seat") {
+                    REQUIRE_ASSERT(assertEqScalar(label + " [has expected]", true, expected.has_value()));
+
+                    int got = room->seat();
+                    REQUIRE_ASSERT(assertEqScalar(label, expected.value(), got));
+                } else if (op == "leave") {
+                    REQUIRE_ASSERT(assertEqScalar(label + " [expected void]", false, expected.has_value()));
+
+                    room->leave(args[0]);
                 }
             }
         }
+
+        return true;
     }
 
     /* Randomized object design */
