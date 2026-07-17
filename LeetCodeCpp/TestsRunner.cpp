@@ -3565,49 +3565,35 @@ public:
     }
 
     static bool minimumAbsoluteDifferenceInBST_530_tests() {
-        vector<MinimumAbsoluteDifferenceInBSTTestCase> cases = {
-            // Example 1
+        vector<MinimumAbsoluteDifferenceInBSTTestCase> testCases = {
+            // Examples from the problem statement
             {{4, 2, 6, 1, 3}, 1},
-
-            // Example 2
             {{1, 0, 48, nullopt, nullopt, 12, 49}, 1},
 
             // Simple two-node tree
             {{1, nullopt, 3}, 2},
 
-            // Skewed increasing tree: consecutive integers → min diff = 1
-            //    1
-            //     \
-            //      2
-            //       \
-            //        3
-            //         \
-            //          4
+            // Skewed increasing tree
             {{1, nullopt, 2, nullopt, 3, nullopt, 4}, 1},
 
-            // Typical LC-style example with more nodes:
-            //       90
-            //      /
-            //    69
-            //   /  \
-            // 49   89
-            //   \
-            //   52
-            // Sorted: [49, 52, 69, 89, 90] → min diff = 1
+            // In-order: [49, 52, 69, 89, 90]
             {{90, 69, nullopt, 49, 89, nullopt, 52}, 1},
         };
 
         MinimumAbsoluteDifferenceInBST_530 sol;
 
-        for (size_t i = 0; i < cases.size(); ++i) {
-            const auto& tc = cases[i];
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
 
             auto root = TreeUtils::makeUniqueTree<int>(tc.tree);
             int got = sol.getMinimumDifference(root.get());
 
-            const string label = "Minimum Absolute Difference in BST 530 Test " + to_string(i + 1);
+            const string label =
+                "Minimum Absolute Difference in BST 530 Test " + to_string(i + 1);
             REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
     static bool validateBinarySearchTree_98_tests() {
@@ -3616,65 +3602,69 @@ public:
             {{2, 1, 3}, true},
             {{5, 1, 4, nullopt, nullopt, 3, 6}, false},
 
-            // Additional complex test cases
-            {{10, 5, 15, nullopt, nullopt, 6, 20}, false}, // Violates BST in right subtree
-            {{3, 1, 5, 0, 2, 4, 6}, true},                          // Valid BST
-            {{1, nullopt, 2, nullopt, 3, nullopt, 4}, true} // Skewed right
+            // Additional cases
+            {{10, 5, 15, nullopt, nullopt, 6, 20}, false}, // violation in right subtree
+            {{3, 1, 5, 0, 2, 4, 6}, true},
+            {{1, nullopt, 2, nullopt, 3, nullopt, 4}, true}, // skewed right
         };
 
         ValidateBinarySearchTree_98 validator;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto root = TreeUtils::makeUniqueTree<int>(testCases[i].tree);
+            const auto& tc = testCases[i];
 
+            auto root = TreeUtils::makeUniqueTree<int>(tc.tree);
             bool got = validator.isValidBST(root.get());
 
             const string label = "Validate BST 98 Test " + to_string(i + 1);
-            const bool passed = assertEqScalar(label, testCases[i].expected, got);
 
-            if (!passed) {
+            if (!assertEqScalar(label, tc.expected, got)) {
                 cout << "  Input tree:\n";
                 TreeUtils::printTree(root.get());
                 return false;
             }
         }
+
+        return true;
     }
 
     static bool lowestCommonAncestor_235_tests() {
         vector<LowestCommonAncestorTestCase> testCases = {
-            // Example 1
+            // Examples from the problem statement
             {{6, 2, 8, 0, 4, 7, 9, nullopt, nullopt, 3, 5}, 2, 8, 6},
-            // Example 2
             {{6, 2, 8, 0, 4, 7, 9, nullopt, nullopt, 3, 5}, 2, 4, 2},
-            // Example 3
             {{2, 1}, 2, 1, 2},
-            // Additional Complex Test 1
+
+            // Larger BSTs
             {{10, 5, 15, 3, 8, 12, 20, 1, 4, 7, 9, nullopt, nullopt, 18, 25}, 4, 9, 5},
-            // Additional Complex Test 2
             {{30, 10, 50, 5, 20, 40, 60, nullopt, 8, 15, 25, 35, 45, nullopt, 70}, 15, 45, 30},
         };
 
-        LowestCommonAncestorOfBST_235 lcaSolver;
+        LowestCommonAncestorOfBST_235 solver;
 
         for (size_t i = 0; i < testCases.size(); ++i) {
-            auto root = TreeUtils::makeUniqueTree<int>(testCases[i].tree);
+            const auto& tc = testCases[i];
 
-            TreeNode<int>* p = TreeUtils::findNode(root.get(), testCases[i].p);
-            TreeNode<int>* q = TreeUtils::findNode(root.get(), testCases[i].q);
+            auto root = TreeUtils::makeUniqueTree<int>(tc.tree);
 
-            TreeNode<int>* lca = lcaSolver.lowestCommonAncestor(root.get(), p, q);
+            TreeNode<int>* p = TreeUtils::findNode(root.get(), tc.p);
+            TreeNode<int>* q = TreeUtils::findNode(root.get(), tc.q);
+
+            TreeNode<int>* lca = solver.lowestCommonAncestor(root.get(), p, q);
             int got = lca ? lca->val : numeric_limits<int>::min();
 
-            const string label = "LCA of BST 235 Test " + to_string(i + 1);
-            const bool passed = assertEqScalar(label, testCases[i].expected, got);
+            const string label =
+                "LCA of BST 235 Test " + to_string(i + 1) +
+                " (p=" + to_string(tc.p) + ", q=" + to_string(tc.q) + ")";
 
-            if (!passed) {
+            if (!assertEqScalar(label, tc.expected, got)) {
                 cout << "  Input tree:\n";
                 TreeUtils::printTree(root.get());
-                cout << "  p=" << testCases[i].p << ", q=" << testCases[i].q << '\n';
                 return false;
             }
         }
+
+        return true;
     }
 
     /* Tree-like prefix structure design */
@@ -3877,44 +3867,48 @@ public:
     }
 
     static bool kClosestPointsToOrigin_973_tests() {
-        vector<KClosestPointsToOriginTestCase> cases = {
-            // Two official examples
-            {{{1,3}, {-2,2}}, 1, {{-2,2}}},
-            {{{3,3}, {5,-1}, {-2,4}}, 2, {{3,3}, {-2,4}}},
+        vector<KClosestPointsToOriginTestCase> testCases = {
+            // Official examples
+            {{{1, 3}, {-2, 2}}, 1, {{-2, 2}}},
+            {{{3, 3}, {5, -1}, {-2, 4}}, 2, {{3, 3}, {-2, 4}}},
 
-            // Three extra, trickier cases
-            // 1) Many symmetrically placed points, ask for almost all
-            {{{0,1}, {1,0}, {-1,0}, {0,-1}}, 3,
-                            {{0,1}, {1,0}, {-1,0}}},
-            // 2) Points at extreme coordinates
-            {{{10000,10000}, {-10000,-10000}, {5000,0}, {0,5000}}, 2,
-                            {{5000,0}, {0,5000}}},
-            // 3) Mixed positives and negatives, k near n
-            {{{2,2}, {1,1}, {3,3}, {-2,-2}, {-1,-1}}, 4,
-                            {{-2,-2}, {-1,-1}, {1,1}, {2,2}}}
+            // Ties at the same distance; any 3 of these 4 are valid
+            {{{0, 1}, {1, 0}, {-1, 0}, {0, -1}}, 3, {{0, 1}, {1, 0}, {-1, 0}}},
+
+            // Points at extreme coordinates
+            {{{10000, 10000}, {-10000, -10000}, {5000, 0}, {0, 5000}}, 2,
+            {{5000, 0}, {0, 5000}}},
+
+            // Mixed signs, k near n
+            {{{2, 2}, {1, 1}, {3, 3}, {-2, -2}, {-1, -1}}, 4,
+            {{-2, -2}, {-1, -1}, {1, 1}, {2, 2}}},
         };
 
         KClosestPointsToOrigin_973 solver;
 
-        for (size_t i = 0; i < cases.size(); ++i) {
-            const auto& tc = cases[i];
+        for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+            const string base = "K Closest Points to Origin 973 Test " + to_string(i + 1);
 
             auto quickSelectInput = tc.points; // solver may mutate
-            auto quickSelectOutput = solver.kClosestQuickSelect(quickSelectInput, tc.k);
+            vector<vector<int>> quickSelectOutput =
+                solver.kClosestQuickSelect(quickSelectInput, tc.k);
 
-            auto heapInput = tc.points;
-            auto heapOutput = solver.kClosestHeap(heapInput, tc.k);
+            auto heapInput = tc.points; // solver may mutate
+            vector<vector<int>> heapOutput =
+                solver.kClosestHeap(heapInput, tc.k);
 
-            const string base = "K Closest Points to Origin 973 Test " + to_string(i + 1);
             REQUIRE_ASSERT(assertEqScalar(
-                base + " [QuickSelect]",
+                base + " [QuickSelect valid]",
                 true,
                 isValidKClosestPoints(tc.points, tc.k, quickSelectOutput)));
             REQUIRE_ASSERT(assertEqScalar(
-                base + " [Heap]",
+                base + " [Heap valid]",
                 true,
                 isValidKClosestPoints(tc.points, tc.k, heapOutput)));
         }
+
+        return true;
     }
 
     /* Merging multiple sorted streams with a heap frontier */
@@ -6186,156 +6180,164 @@ public:
 
     /* Randomized object design */
 
-    static void shuffleAnArray_384_tests() {
-        using vec = vector<int>;
+    static bool shuffleAnArray_384_tests() {
+        using Vec = vector<int>;
 
-        /* -----------------------------------------------------------
-        * LeetCode-style "operations" smoke test
-        * ----------------------------------------------------------- */
+        auto assertChiSquare = [](const string& label,
+                                double value,
+                                double threshold,
+                                bool expectBelow) {
+            const bool pass = expectBelow ? value < threshold : value >= threshold;
+
+            cout << label << ": " << (pass ? "PASS" : "FAIL")
+                << " (X=" << value << ", threshold=" << threshold << ")\n";
+
+            return pass;
+        };
+
         {
-            vec nums = {1, 2, 3};
+            Vec nums = {1, 2, 3};
             ShuffleAnArray_384_FisherYates sol(nums, /*seed=*/123456789ULL);
 
-            vec out1 = sol.shuffle();
-            vec out2 = sol.reset();
-            vec out3 = sol.shuffle();
+            Vec shuffled1 = sol.shuffle();
+            Vec reset = sol.reset();
+            Vec shuffled2 = sol.shuffle();
 
-            bool pass1 = isPermutationVecInt(nums, out1);
-            bool pass2 = (out2 == nums);
-            bool pass3 = isPermutationVecInt(nums, out3);
-
-            bool pass = pass1 && pass2 && pass3;
-            cout << "Shuffle 384 Ops Test: " << (pass ? "PASS" : "FAIL") << "\n";
-            if (!pass) {
-                cout << "  Details: perm1=" << (pass1 ? "ok" : "bad")
-                    << ", reset=" << (pass2 ? "ok" : "bad")
-                    << ", perm2=" << (pass3 ? "ok" : "bad") << "\n";
-                cout << "  out1="; printVec(out1); cout << "\n";
-                cout << "  out2="; printVec(out2); cout << "\n";
-                cout << "  out3="; printVec(out3); cout << "\n";
-            }
+            REQUIRE_ASSERT(assertEqScalar(
+                "Shuffle 384 Ops Test [shuffle #1 is permutation]",
+                true,
+                isPermutationVecInt(nums, shuffled1)));
+            REQUIRE_ASSERT(assertEqVIntExact(
+                "Shuffle 384 Ops Test [reset]",
+                nums,
+                reset));
+            REQUIRE_ASSERT(assertEqScalar(
+                "Shuffle 384 Ops Test [shuffle #2 is permutation]",
+                true,
+                isPermutationVecInt(nums, shuffled2)));
         }
 
-        /* -----------------------------------------------------------
-        * χ² (chi-square) uniformity tests
-        *
-        * We test the *distribution* of outcomes rather than a single outcome.
-        * For each test we gather counts per category and compute Pearson's χ²:
-        *   X = sum_i (obs[i] - E)^2 / E
-        *
-        * Smaller X means closer to uniform. For df=k-1 categories,
-        * X typically hovers around df if the distribution is truly uniform.
-        *
-        * We keep fixed seeds to make these tests deterministic in CI.
-        * ----------------------------------------------------------- */
-
-        // (A) Permutation-level uniformity for n=3 (6 permutations), df=5.
-        // This test is very strong and the WRONG shuffle should fail very reliably.
         {
-            vec base = {1, 2, 3};
-            const int nperm = 6;
+            // Permutation-level uniformity for n=3. The wrong shuffle should be visibly biased.
+            Vec base = {1, 2, 3};
+            const int numPermutations = 6;
+            const int samples = 60000;
+            const double threshold = 24.0;
 
-            // Bigger N makes the bias explode (X grows ~ linearly with N if bias is fixed).
-            const int N = 60000;
+            static const vector<Vec> permutations = [] {
+                vector<Vec> all;
+                Vec current = {1, 2, 3};
 
-            // Map permutation -> index in lexicographic order.
-            static const vector<vec> perms = [] {
-                vector<vec> all;
-                vec t = {1, 2, 3};
-                do { all.push_back(t); } while (next_permutation(t.begin(), t.end()));
+                do {
+                    all.push_back(current);
+                } while (next_permutation(current.begin(), current.end()));
+
                 return all;
             }();
 
-            auto perm_index = [&](const vec& v) -> int {
-                for (int i = 0; i < static_cast<int>(perms.size()); ++i) {
-                    if (v == perms[i]) return i;
+            auto permutationIndex = [&](const Vec& v) -> int {
+                auto it = find(permutations.begin(), permutations.end(), v);
+                if (it == permutations.end()) {
+                    return -1;
                 }
-                return -1; // should never happen
+
+                return static_cast<int>(distance(permutations.begin(), it));
             };
 
             ShuffleAnArray_384_FisherYates good(base, /*seed=*/987654321ULL);
             ShuffleAnArray_384_Wrong bad(base, /*seed=*/987654321ULL);
 
-            vector<long long> counts_good(nperm, 0);
-            vector<long long> counts_bad(nperm, 0);
+            vector<long long> goodCounts(numPermutations, 0);
+            vector<long long> badCounts(numPermutations, 0);
 
-            for (int t = 0; t < N; ++t) {
+            for (int i = 0; i < samples; ++i) {
                 good.reset();
                 bad.reset();
 
-                ++counts_good[perm_index(good.shuffle())];
-                ++counts_bad[perm_index(bad.shuffle())];
+                const int goodIndex = permutationIndex(good.shuffle());
+                const int badIndex = permutationIndex(bad.shuffle());
+
+                if (goodIndex < 0 || badIndex < 0) {
+                    cout << "Shuffle 384 Chi-square Test A: FAIL"
+                        << " (invalid permutation index"
+                        << ", goodIndex=" << goodIndex
+                        << ", badIndex=" << badIndex << ")\n";
+                    return false;
+                }
+
+                ++goodCounts[goodIndex];
+                ++badCounts[badIndex];
             }
 
-            const double expected = static_cast<double>(N) / nperm;
-            const double Xg = chiSquare(counts_good, expected);
-            const double Xb = chiSquare(counts_bad, expected);
+            const double expected = static_cast<double>(samples) / numPermutations;
+            const double goodX = chiSquare(goodCounts, expected);
+            const double badX = chiSquare(badCounts, expected);
 
-            // df=5. Keep slack for the good shuffle (should be stable).
-            const bool pass_good = Xg < 24.0;
-
-            // For WRONG shuffle: we *want* it to fail consistently.
-            const bool pass_bad  = Xb >= 24.0;
-
-            cout << "Shuffle 384 chi-square Test A (GOOD, n=3 perms): "
-                << (pass_good ? "PASS" : "FAIL")
-                << " (X=" << Xg << ")\n";
-
-            cout << "Shuffle 384 chi-square Test A (WRONG, n=3 perms): "
-                << (pass_bad ? "PASS" : "FAIL")
-                << " (X=" << Xb << ")\n";
+            REQUIRE_ASSERT(assertChiSquare(
+                "Shuffle 384 Chi-square Test A [Fisher-Yates]",
+                goodX,
+                threshold,
+                /*expectBelow=*/true));
+            REQUIRE_ASSERT(assertChiSquare(
+                "Shuffle 384 Chi-square Test A [wrong shuffle]",
+                badX,
+                threshold,
+                /*expectBelow=*/false));
         }
 
-        // (B) Per-position distribution for n=5 (each value equally likely in each position).
         {
-            vec base = {0, 1, 2, 3, 4};
+            // Per-position uniformity for n=5. Each value should appear uniformly across positions.
+            Vec base = {0, 1, 2, 3, 4};
             const int n = static_cast<int>(base.size());
-            const int N = 30000;
+            const int samples = 30000;
+            const double threshold = 22.0;
 
             ShuffleAnArray_384_FisherYates good(base, /*seed=*/424242ULL);
             ShuffleAnArray_384_Wrong bad(base, /*seed=*/424242ULL);
 
-            long long cnt_good[5][5] = {};
-            long long cnt_bad[5][5] = {};
+            vector<vector<long long>> goodCounts(n, vector<long long>(n, 0));
+            vector<vector<long long>> badCounts(n, vector<long long>(n, 0));
 
-            for (int t = 0; t < N; ++t) {
+            for (int i = 0; i < samples; ++i) {
                 good.reset();
                 bad.reset();
 
-                auto vg = good.shuffle();
-                auto vb = bad.shuffle();
+                Vec goodShuffle = good.shuffle();
+                Vec badShuffle = bad.shuffle();
 
                 for (int pos = 0; pos < n; ++pos) {
-                    ++cnt_good[vg[pos]][pos];
-                    ++cnt_bad[vb[pos]][pos];
+                    ++goodCounts[goodShuffle[pos]][pos];
+                    ++badCounts[badShuffle[pos]][pos];
                 }
             }
 
-            const double expected = static_cast<double>(N) / n;
-            bool pass_good = true;
-            bool pass_bad = false;
+            const double expected = static_cast<double>(samples) / n;
+            bool goodUniform = true;
+            bool badBiased = false;
 
-            // For each value: χ² across positions (df=4). Use a strict-ish cutoff.
-            for (int val = 0; val < n; ++val) {
-                vector<long long> obs_g(n), obs_b(n);
-                for (int pos = 0; pos < n; ++pos) {
-                    obs_g[pos] = cnt_good[val][pos];
-                    obs_b[pos] = cnt_bad[val][pos];
+            for (int value = 0; value < n; ++value) {
+                const double goodX = chiSquare(goodCounts[value], expected);
+                const double badX = chiSquare(badCounts[value], expected);
+
+                if (goodX >= threshold) {
+                    goodUniform = false;
                 }
-
-                const double Xg = chiSquare(obs_g, expected);
-                const double Xb = chiSquare(obs_b, expected);
-
-                if (Xg >= 22.0) pass_good = false;
-                if (Xb >= 22.0) pass_bad = true; // we WANT wrong shuffle to fail somewhere
+                if (badX >= threshold) {
+                    badBiased = true;
+                }
             }
 
-            cout << "Shuffle 384 chi-square Test B (GOOD, n=5 per-position): "
-                << (pass_good ? "PASS" : "FAIL") << "\n";
-
-            cout << "Shuffle 384 chi-square Test B (WRONG, n=5 per-position): "
-                << (pass_bad ? "PASS" : "FAIL") << "\n";
+            REQUIRE_ASSERT(assertEqScalar(
+                "Shuffle 384 Chi-square Test B [Fisher-Yates per-position]",
+                true,
+                goodUniform));
+            REQUIRE_ASSERT(assertEqScalar(
+                "Shuffle 384 Chi-square Test B [wrong shuffle detected]",
+                true,
+                badBiased));
         }
+
+        return true;
     }
 
     // ============================================================================
@@ -6344,78 +6346,127 @@ public:
 
     /* Problems that do not fit cleanly into the main technique-based categories */
 
-    static void findCelebrity_277_tests() {
+    static bool findCelebrity_277_tests() {
         vector<FindCelebrityTestCase> testCases = {
-            // Easy: A knows B, B knows no one → B is celebrity
+            // 1 is the celebrity
             {{{0, 1}, {0, 0}}, 1},
 
-            // Edge: 1 person only
+            // Single person is trivially the celebrity
             {{{0}}, 0},
 
-            // Edge: 3 people, 2 is celeb
-            {{
-                {0, 1, 1},
-                {0, 0, 1},
-                {0, 0, 0}
-            }, 2},
+            // No celebrity: 0 and 1 know each other
+            {{{0, 1}, {1, 0}}, -1},
 
-            // 4x4 complex
-            {{
-                {0, 1, 1, 1},
-                {0, 0, 1, 1},
-                {0, 0, 0, 1},
-                {0, 0, 0, 0}
-            }, 3},
+            // 2 is the celebrity
+            {
+                {
+                    {0, 1, 1},
+                    {0, 0, 1},
+                    {0, 0, 0},
+                },
+                2,
+            },
 
-            // 7x7 larger case, celebrity at 6
-            {{
-                {0,1,1,1,1,1,1},
-                {0,0,1,1,1,1,1},
-                {0,0,0,1,1,1,1},
-                {0,0,0,0,1,1,1},
-                {0,0,0,0,0,1,1},
-                {0,0,0,0,0,0,1},
-                {0,0,0,0,0,0,0}
-            }, 6}
+            // No celebrity: candidate 2 knows 0
+            {
+                {
+                    {0, 1, 1},
+                    {0, 0, 1},
+                    {1, 0, 0},
+                },
+                -1,
+            },
+
+            // 3 is the celebrity
+            {
+                {
+                    {0, 1, 1, 1},
+                    {0, 0, 1, 1},
+                    {0, 0, 0, 1},
+                    {0, 0, 0, 0},
+                },
+                3,
+            },
+
+            // Larger case: 6 is the celebrity
+            {
+                {
+                    {0, 1, 1, 1, 1, 1, 1},
+                    {0, 0, 1, 1, 1, 1, 1},
+                    {0, 0, 0, 1, 1, 1, 1},
+                    {0, 0, 0, 0, 1, 1, 1},
+                    {0, 0, 0, 0, 0, 1, 1},
+                    {0, 0, 0, 0, 0, 0, 1},
+                    {0, 0, 0, 0, 0, 0, 0},
+                },
+                6,
+            },
         };
 
         for (size_t i = 0; i < testCases.size(); ++i) {
+            const auto& tc = testCases[i];
+
             FindCelebrity_277 sol;
-            sol.knowsMatrix = testCases[i].matrix;
-            int got = sol.findCelebrity(static_cast<int>(testCases[i].matrix.size()));
-            assertEqScalar("Find Celebrity 277 Test " + to_string(i + 1),
-                        testCases[i].expected, got);
+            sol.knowsMatrix = tc.matrix;
+
+            int got = sol.findCelebrity(static_cast<int>(tc.matrix.size()));
+
+            const string label = "Find Celebrity 277 Test " + to_string(i + 1);
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
-    static void validNumber_65_tests() {
+    static bool validNumber_65_tests() {
         vector<ValidNumberTestCase> testCases = {
-            {"0",              true},   // example 1
-            {"e",              false},  // example 2
-            {".",              false},  // example 3
-            {"2",              true},
-            {"0089",           true},
-            {"-0.1",           true},
-            {"+3.14",          true},
-            {"4.",             true},
-            {"-.9",            true},
-            {"2e10",           true},
-            {"-90E3",          true},
-            {"3e+7",           true},
-            {"+6e-1",          true},
-            {"53.5e93",        true},
-            {"-123.456e789",   true},
-            {"abc",            false},
-            {"1a",             false},
-            {"99e2.5",         false}
+            // Valid integers / decimals
+            {"0", true},
+            {"2", true},
+            {"0089", true},
+            {"-0.1", true},
+            {"+3.14", true},
+            {"4.", true},
+            {"-.9", true},
+
+            // Valid exponent forms
+            {"2e10", true},
+            {"-90E3", true},
+            {"3e+7", true},
+            {"+6e-1", true},
+            {"53.5e93", true},
+            {"-123.456e789", true},
+
+            // Invalid forms
+            {"e", false},
+            {".", false},
+            {"abc", false},
+            {"1a", false},
+            {"99e2.5", false},
+            {"1e", false},
+            {"e3", false},
+            {"--6", false},
+            {"-+3", false},
+            {"95a54e53", false},
+            {"+.", false},
+            {".e1", false},
+            {"6e6.5", false},
         };
 
         ValidNumber_65 solver;
+
         for (size_t i = 0; i < testCases.size(); ++i) {
-            bool got = solver.isNumber(testCases[i].input);
-            assertEqScalar("Valid Number 65 Test " + to_string(i + 1) + " [\"" + testCases[i].input + "\"]",
-                testCases[i].expected, got);
+            const auto& tc = testCases[i];
+
+            bool got = solver.isNumber(tc.input);
+
+            const string label =
+                "Valid Number 65 Test " + to_string(i + 1) +
+                " [\"" + tc.input + "\"]";
+            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
         }
+
+        return true;
     }
 
     inline static const TestEntry kTests[] = {
