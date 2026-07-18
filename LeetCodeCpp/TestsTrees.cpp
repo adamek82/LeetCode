@@ -34,10 +34,6 @@ using namespace TestUtils;
 
 namespace {
 
-// ============================================================================
-// Trees
-// ============================================================================
-
 /* Basic tree traversal, inspection, and structural transformation */
 
 static bool invertBinaryTree_226_tests() {

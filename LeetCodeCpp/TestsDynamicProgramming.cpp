@@ -27,10 +27,6 @@ using namespace TestUtils;
 
 namespace {
 
-// ============================================================================
-// Dynamic Programming
-// ============================================================================
-
 /* Introductory 1D DP with direct state transitions */
 
 static bool fibonacci_509_tests() {
