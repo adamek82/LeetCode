@@ -23,6 +23,7 @@
 #include "TestsBacktracking.h"
 #include "TestsBitManipulation.h"
 #include "TestsDesign.h"
+#include "TestsOther.h"
 #include "ListUtils.h"
 #include "TreeUtils.h"
 #include "BestTimeToBuyAndSellStock_121.h"
@@ -41,7 +42,6 @@
 #include "ValidAnagram_242.h"
 #include "AnalyzeUserWebsiteVisitPattern1152.h"
 #include "GroupAnagrams_49.h"
-#include "FindCelebrity_277.h"
 #include "LongestConsecutiveSequence_128.h"
 #include "FizzBuzz_412.h"
 #include "SortCharactersByFrequency_451.h"
@@ -51,7 +51,6 @@
 #include "RemoveElement_27.h"
 #include "MaximumNumberOfBalloons_1189.h"
 #include "FindPivotIndex_724.h"
-#include "ValidNumber_65.h"
 #include "JewelsAndStones_771.h"
 #include "ContainsDuplicate_217.h"
 #include "FindClosestNumberToZero_2239.h"
@@ -931,135 +930,6 @@ public:
         return true;
     }
 
-    // ============================================================================
-    // Other
-    // ============================================================================
-
-    /* Problems that do not fit cleanly into the main technique-based categories */
-
-    static bool findCelebrity_277_tests() {
-        vector<FindCelebrityTestCase> testCases = {
-            // 1 is the celebrity
-            {{{0, 1}, {0, 0}}, 1},
-
-            // Single person is trivially the celebrity
-            {{{0}}, 0},
-
-            // No celebrity: 0 and 1 know each other
-            {{{0, 1}, {1, 0}}, -1},
-
-            // 2 is the celebrity
-            {
-                {
-                    {0, 1, 1},
-                    {0, 0, 1},
-                    {0, 0, 0},
-                },
-                2,
-            },
-
-            // No celebrity: candidate 2 knows 0
-            {
-                {
-                    {0, 1, 1},
-                    {0, 0, 1},
-                    {1, 0, 0},
-                },
-                -1,
-            },
-
-            // 3 is the celebrity
-            {
-                {
-                    {0, 1, 1, 1},
-                    {0, 0, 1, 1},
-                    {0, 0, 0, 1},
-                    {0, 0, 0, 0},
-                },
-                3,
-            },
-
-            // Larger case: 6 is the celebrity
-            {
-                {
-                    {0, 1, 1, 1, 1, 1, 1},
-                    {0, 0, 1, 1, 1, 1, 1},
-                    {0, 0, 0, 1, 1, 1, 1},
-                    {0, 0, 0, 0, 1, 1, 1},
-                    {0, 0, 0, 0, 0, 1, 1},
-                    {0, 0, 0, 0, 0, 0, 1},
-                    {0, 0, 0, 0, 0, 0, 0},
-                },
-                6,
-            },
-        };
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            const auto& tc = testCases[i];
-
-            FindCelebrity_277 sol;
-            sol.knowsMatrix = tc.matrix;
-
-            int got = sol.findCelebrity(static_cast<int>(tc.matrix.size()));
-
-            const string label = "Find Celebrity 277 Test " + to_string(i + 1);
-            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
-        }
-
-        return true;
-    }
-
-    static bool validNumber_65_tests() {
-        vector<ValidNumberTestCase> testCases = {
-            // Valid integers / decimals
-            {"0", true},
-            {"2", true},
-            {"0089", true},
-            {"-0.1", true},
-            {"+3.14", true},
-            {"4.", true},
-            {"-.9", true},
-
-            // Valid exponent forms
-            {"2e10", true},
-            {"-90E3", true},
-            {"3e+7", true},
-            {"+6e-1", true},
-            {"53.5e93", true},
-            {"-123.456e789", true},
-
-            // Invalid forms
-            {"e", false},
-            {".", false},
-            {"abc", false},
-            {"1a", false},
-            {"99e2.5", false},
-            {"1e", false},
-            {"e3", false},
-            {"--6", false},
-            {"-+3", false},
-            {"95a54e53", false},
-            {"+.", false},
-            {".e1", false},
-            {"6e6.5", false},
-        };
-
-        ValidNumber_65 solver;
-
-        for (size_t i = 0; i < testCases.size(); ++i) {
-            const auto& tc = testCases[i];
-
-            bool got = solver.isNumber(tc.input);
-
-            const string label =
-                "Valid Number 65 Test " + to_string(i + 1) +
-                " [\"" + tc.input + "\"]";
-            REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
-        }
-
-        return true;
-    }
-
     static vector<TestRegistry::Entry> getTests() {
         vector<TestRegistry::Entry> tests = {
             // ============================================================================
@@ -1174,17 +1044,10 @@ public:
             tests.insert(tests.end(), designTests.begin(), designTests.end());
         }
 
-        const vector<TestRegistry::Entry> afterDesign = {
-            // ============================================================================
-            // Other
-            // ============================================================================
-
-            /* Problems that do not fit cleanly into the main technique-based categories */
-            TEST(277,  "Find the Celebrity",                             findCelebrity_277_tests),
-            TEST(65,   "Valid Number",                                   validNumber_65_tests),
-        };
-
-        tests.insert(tests.end(), afterDesign.begin(), afterDesign.end());
+        {
+            auto otherTests = TestsOther::getTests();
+            tests.insert(tests.end(), otherTests.begin(), otherTests.end());
+        }
 
         return tests;
     }
