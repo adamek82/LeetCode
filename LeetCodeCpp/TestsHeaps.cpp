@@ -25,7 +25,7 @@ namespace {
 
 /* Basic max-heap / min-heap simulation */
 
-static bool lastStoneWeight_1046_tests() {
+bool lastStoneWeight_1046_tests() {
     vector<LastStoneWeightTestCase> tests = {
         // 2 from the statement
         {{2,7,4,1,8,1}, 1},
@@ -51,7 +51,7 @@ static bool lastStoneWeight_1046_tests() {
 
 /* Heap-based selection for k-th / top-k queries */
 
-static bool kthLargestElementInArray_215_tests()
+bool kthLargestElementInArray_215_tests()
 {
     vector<KthLargestElementTestCase> testCases = {
         // Problem statement examples
@@ -91,7 +91,7 @@ static bool kthLargestElementInArray_215_tests()
     return true;
 }
 
-static bool topKFrequent_347_tests() {
+bool topKFrequent_347_tests() {
     auto bag = [](initializer_list<pair<int, int>> spec) {
         size_t total = 0;
 
@@ -144,7 +144,7 @@ static bool topKFrequent_347_tests() {
     return true;
 }
 
-static bool kClosestPointsToOrigin_973_tests() {
+bool kClosestPointsToOrigin_973_tests() {
     vector<KClosestPointsToOriginTestCase> testCases = {
         // Official examples
         {{{1, 3}, {-2, 2}}, 1, {{-2, 2}}},
@@ -191,7 +191,7 @@ static bool kClosestPointsToOrigin_973_tests() {
 
 /* Merging multiple sorted streams with a heap frontier */
 
-static bool mergeKSortedLists_23_tests() {
+bool mergeKSortedLists_23_tests() {
     using IntListNode = ListNode<int>;
 
     vector<MergeKListsTestCase> testCases = {
@@ -239,7 +239,7 @@ static bool mergeKSortedLists_23_tests() {
 
 /* Priority-queue traversal on a graph / grid state space */
 
-static bool findSafestPathInGrid_2812_tests() {
+bool findSafestPathInGrid_2812_tests() {
     vector<FindTheSafestPathInGridTestCase> testCases = {
         // three examples from the statement
         {{{1, 0, 0},
@@ -287,7 +287,7 @@ static bool findSafestPathInGrid_2812_tests() {
 
 /* Core custom data structures and API-oriented implementations */
 
-static vector<int> runMinHeapScenario(const vector<MinHeapOp>& ops) {
+vector<int> runMinHeapScenario(const vector<MinHeapOp>& ops) {
     MinHeap heap;
     vector<int> output;
 
@@ -310,7 +310,7 @@ static vector<int> runMinHeapScenario(const vector<MinHeapOp>& ops) {
     return output;
 }
 
-static bool minHeap_tests() {
+bool minHeap_tests() {
     auto insert = [](int value) {
         return MinHeapOp{MinHeapOpKind::Insert, value};
     };

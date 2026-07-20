@@ -44,7 +44,7 @@ namespace {
 
 /* Basic membership checks with sets and simple lookups */
 
-static bool numJewelsAndStones_771_tests() {
+bool numJewelsAndStones_771_tests() {
     vector<JewelsAndStonesTestCase> testCases = {
         // Problem-statement examples
         {"aA", "aAAbbbb", 3},
@@ -69,7 +69,7 @@ static bool numJewelsAndStones_771_tests() {
     return true;
 }
 
-static bool containsDuplicate_217_tests() {
+bool containsDuplicate_217_tests() {
     vector<ContainsDuplicateTestCase> tests = {
         // 3 from the statement
         {{1, 2, 3, 1}, true},
@@ -112,7 +112,7 @@ static bool containsDuplicate_217_tests() {
 
 /* Frequency counting on characters and values */
 
-static bool ransomNote_383_tests() {
+bool ransomNote_383_tests() {
     vector<RansomNoteTestCase> testCases = {
         // Examples from the problem statement
         {"a",  "b",   false},
@@ -136,7 +136,7 @@ static bool ransomNote_383_tests() {
     return true;
 }
 
-static bool validAnagram_242_tests() {
+bool validAnagram_242_tests() {
     vector<ValidAnagramTestCase> testCases = {
         // Examples from the problem statement
         {"anagram", "nagaram", true},
@@ -160,7 +160,7 @@ static bool validAnagram_242_tests() {
     return true;
 }
 
-static bool maximumNumberOfBalloons_1189_tests()
+bool maximumNumberOfBalloons_1189_tests()
 {
     vector<MaximumNumberOfBalloonsTestCase> cases = {
         {"nlaebolko",            1},   // example 1
@@ -181,7 +181,7 @@ static bool maximumNumberOfBalloons_1189_tests()
     return true;
 }
 
-static bool uniqueNumberOfOccurrences_1207_tests() {
+bool uniqueNumberOfOccurrences_1207_tests() {
     vector<UniqueNumberOfOccurrencesTestCase> testCases = {
         // Examples from the problem statement
         {{1, 2, 2, 1, 1, 3},                true},
@@ -206,7 +206,7 @@ static bool uniqueNumberOfOccurrences_1207_tests() {
     return true;
 }
 
-static bool majorityElement_169_tests() {
+bool majorityElement_169_tests() {
     // Define test cases
     vector<MajorityElementTestCase> testCases = {
         // Example 1
@@ -269,7 +269,7 @@ static bool majorityElement_169_tests() {
 
 /* Hashmap lookup patterns for complements and associations */
 
-static bool twoSum_1_tests() {
+bool twoSum_1_tests() {
     vector<TwoSumTestCase> cases = {
         {{2, 7, 11, 15},               9,  {0, 1}},
         {{3, 2, 4},                    6,  {1, 2}},
@@ -298,7 +298,7 @@ static bool twoSum_1_tests() {
 
 /* Grouping values by a shared hashable signature */
 
-static bool groupAnagrams_49_tests() {
+bool groupAnagrams_49_tests() {
     vector<GroupAnagramsTestCase> testCases = {
         // Example 1
         {{"eat", "tea", "tan", "ate", "nat", "bat"},
@@ -336,7 +336,7 @@ static bool groupAnagrams_49_tests() {
 
 /* Using sets/maps to validate constraints and deduplicate states */
 
-static bool validSudoku_36_tests() {
+bool validSudoku_36_tests() {
     vector<ValidSudokuTestCase> testCases = {
         // Example 1: Valid Sudoku
         {{
@@ -419,7 +419,7 @@ static bool validSudoku_36_tests() {
 
 /* More advanced set/map usage for ordering and sequence reasoning */
 
-static bool longestConsecutiveSequence_128_tests() {
+bool longestConsecutiveSequence_128_tests() {
     vector<LongestConsecutiveSequenceTestCase> testCases = {
         // Examples from problem statement
         {{100,4,200,1,3,2},         4},
@@ -444,7 +444,7 @@ static bool longestConsecutiveSequence_128_tests() {
 
 /* Frequency buckets and top-k style counting problems */
 
-static bool sortCharactersByFrequency_451_tests() {
+bool sortCharactersByFrequency_451_tests() {
     vector<SortCharactersByFrequencyTestCase> testCases = {
         {"tree"},       // 'e'x2, 'r','t'
         {"cccaaa"},     // 'c'x3, 'a'x3
@@ -466,7 +466,7 @@ static bool sortCharactersByFrequency_451_tests() {
     return true;
 }
 
-static bool topKFrequentWords_692_tests() {
+bool topKFrequentWords_692_tests() {
     vector<TopKFrequentWordsTestCase> testCases = {
         // Examples from problem statement
         {{"i","love","leetcode","i","love","coding"}, 2, {"i","love"}},
@@ -493,7 +493,7 @@ static bool topKFrequentWords_692_tests() {
 
 /* Aggregation and pattern counting over grouped event data */
 
-static bool analyzeUserWebsiteVisitPattern_1152_tests() {
+bool analyzeUserWebsiteVisitPattern_1152_tests() {
     vector<AnalyzeUserWebsiteVisitPatternTestCase> testCases = {
         // Example 1 (From Problem Statement)
         {
@@ -559,7 +559,7 @@ static bool analyzeUserWebsiteVisitPattern_1152_tests() {
 
 /* Hash-based data structure design */
 
-static bool designHashMap_706_tests() {
+bool designHashMap_706_tests() {
     vector<DesignHashMapTestCase> testCases = {
         // Example 1 (problem statement)
         {

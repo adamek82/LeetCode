@@ -20,7 +20,7 @@ namespace {
 
 /* Bitwise representation, bit counting, XOR, and binary-string arithmetic */
 
-static bool base7_504_tests() {
+bool base7_504_tests() {
     using namespace TestCases;
 
     vector<Base7TestCase> testCases = {
@@ -51,7 +51,7 @@ static bool base7_504_tests() {
     return true;
 }
 
-static bool missingNumber_268_tests() {
+bool missingNumber_268_tests() {
     vector<MissingNumberTestCase> testCases = {
         // Problem statement examples
         {{3, 0, 1}, 2},
@@ -81,7 +81,7 @@ static bool missingNumber_268_tests() {
     return true;
 }
 
-static bool singleNumber_136_tests() {
+bool singleNumber_136_tests() {
     using namespace TestCases;
 
     vector<SingleNumberTestCase> testCases = {
@@ -111,7 +111,7 @@ static bool singleNumber_136_tests() {
     return true;
 }
 
-static bool numberOf1Bits_191_tests() {
+bool numberOf1Bits_191_tests() {
     vector<NumberOf1BitsTestCase> testCases = {
         {11u, 3},          // 1011
         {128u, 1},         // 10000000
@@ -139,7 +139,7 @@ static bool numberOf1Bits_191_tests() {
     return true;
 }
 
-static bool addBinary_67_tests() {
+bool addBinary_67_tests() {
     vector<AddBinaryTestCase> testCases = {
         {"11", "1", "100"},        // example 1
         {"1010", "1011", "10101"}, // example 2

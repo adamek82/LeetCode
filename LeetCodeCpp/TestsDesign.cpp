@@ -17,7 +17,7 @@ using namespace TestUtils;
 
 namespace {
 
-static bool allOOneDataStructure_432_tests() {
+bool allOOneDataStructure_432_tests() {
     auto expectMaxMin = [](const string& label,
                         AllOOneDataStructure_432& ds,
                         initializer_list<string> maxKeys,
@@ -96,7 +96,7 @@ static bool allOOneDataStructure_432_tests() {
     return true;
 }
 
-static bool examRoom_855_tests() {
+bool examRoom_855_tests() {
     auto init = [](int n) {
         return ExamRoomTestCase{
             {"ExamRoom"},
@@ -211,7 +211,7 @@ static bool examRoom_855_tests() {
 
 /* Randomized object design */
 
-static bool shuffleAnArray_384_tests() {
+bool shuffleAnArray_384_tests() {
     using Vec = vector<int>;
 
     auto assertChiSquare = [](const string& label,

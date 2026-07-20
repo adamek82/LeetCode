@@ -29,7 +29,7 @@ namespace {
 
 /* Basic traversal and local pointer updates in linked lists */
 
-static bool removeDuplicatesFromSortedList_83_tests() {
+bool removeDuplicatesFromSortedList_83_tests() {
     using IntListNode = ListNode<int>;
 
     // Define test cases
@@ -63,7 +63,7 @@ static bool removeDuplicatesFromSortedList_83_tests() {
     return true;
 }
 
-static bool insertGreatestCommonDivisors_2807_tests() {
+bool insertGreatestCommonDivisors_2807_tests() {
     using IntListNode = ListNode<int>;
 
     vector<InsertGreatestCommonDivisorsTestCase> testCases = {
@@ -105,7 +105,7 @@ static bool insertGreatestCommonDivisors_2807_tests() {
 
 /* Core linked-list transformations by rewiring next pointers */
 
-static bool reverseLinkedList_206_tests() {
+bool reverseLinkedList_206_tests() {
     using IntListNode = ListNode<int>;
 
     // Define test cases
@@ -138,7 +138,7 @@ static bool reverseLinkedList_206_tests() {
     return true;
 }
 
-static bool mergeTwoSortedLists_21_tests() {
+bool mergeTwoSortedLists_21_tests() {
     using IntListNode = ListNode<int>;
 
     vector<MergeTwoSortedListsTestCase> testCases = {
@@ -204,7 +204,7 @@ static bool mergeTwoSortedLists_21_tests() {
 
 /* Fast/slow pointer techniques on linked lists */
 
-static bool hasCycle_141_tests() {
+bool hasCycle_141_tests() {
     vector<LinkedListCycleTestCase> testCases = {
         // Provided examples
         {{3, 2, 0, -4}, 1, true},
@@ -232,7 +232,7 @@ static bool hasCycle_141_tests() {
     return true;
 }
 
-static bool middleOfTheLinkedList_876_tests() {
+bool middleOfTheLinkedList_876_tests() {
     using IntListNode = ListNode<int>;
 
     vector<MiddleOfTheLinkedListTestCase> testCases = {
@@ -263,7 +263,7 @@ static bool middleOfTheLinkedList_876_tests() {
     return true;
 }
 
-static bool removeNthNodeFromEndOfList_19_tests() {
+bool removeNthNodeFromEndOfList_19_tests() {
     using IntListNode = ListNode<int>;
 
     vector<RemoveNthNodeFromEndOfListTestCase> testCases = {
@@ -297,7 +297,7 @@ static bool removeNthNodeFromEndOfList_19_tests() {
 
 /* More advanced linked structures with extra references */
 
-static bool copyRandomList_138_tests() {
+bool copyRandomList_138_tests() {
     using IntListNode = ListNode<int>;
 
     vector<CopyRandomListTestCase> testCases = {
@@ -336,7 +336,7 @@ static bool copyRandomList_138_tests() {
 
 /* Linked-list-based data structure design */
 
-static bool lruCache_146_tests() {
+bool lruCache_146_tests() {
     vector<LRUCacheTestCase> testCases = {
         // From problem statement
         {

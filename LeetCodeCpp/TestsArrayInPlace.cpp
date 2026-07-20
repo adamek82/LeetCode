@@ -28,7 +28,7 @@ namespace {
 
 /* In-place array updates and two-pointer style compaction/merge */
 
-static bool removeDuplicatesFromSortedArray_26_tests() {
+bool removeDuplicatesFromSortedArray_26_tests() {
     vector<RemoveDuplicates26TestCase> tests = {
         {{1,1,2},                             {1,2}},
         {{0,0,1,1,1,2,2,3,3,4},               {0,1,2,3,4}},
@@ -52,7 +52,7 @@ static bool removeDuplicatesFromSortedArray_26_tests() {
     return true;
 }
 
-static bool removeElement_27_tests() {
+bool removeElement_27_tests() {
     vector<RemoveElementTestCase> cases = {
         {{3,2,2,3},           3, 2, {2,2}},           // example 1
         {{0,1,2,2,3,0,4,2},   2, 5, {0,0,1,3,4}},     // example 2
@@ -81,7 +81,7 @@ static bool removeElement_27_tests() {
     return true;
 }
 
-static bool mergeSortedArray_88_tests() {
+bool mergeSortedArray_88_tests() {
     vector<MergeSortedArrayTestCase> cases = {
         {{1,2,3,0,0,0}, 3, {2,5,6}, 3, {1,2,2,3,5,6}},
         {{1},           1, {},       0, {1}},
@@ -103,7 +103,7 @@ static bool mergeSortedArray_88_tests() {
     return true;
 }
 
-static bool removeDuplicatesFromSortedArrayII_80_tests() {
+bool removeDuplicatesFromSortedArrayII_80_tests() {
     // Prepare test cases:
     vector<RemoveDuplicatesFromSortedArrayIITestCase> testCases = {
         // 2 examples from the problem statement:
@@ -132,7 +132,7 @@ static bool removeDuplicatesFromSortedArrayII_80_tests() {
 
 /* Core array techniques: construction, partitioning, and prefix products */
 
-static bool pascalsTriangle_118_tests() {
+bool pascalsTriangle_118_tests() {
     vector<PascalsTriangleTestCase> testCases = {
         // examples from the statement
         {1, {{1}}},
@@ -168,7 +168,7 @@ static bool pascalsTriangle_118_tests() {
     return true;
 }
 
-static bool sortColors_75_tests() {
+bool sortColors_75_tests() {
     vector<SortColorsTestCase> testCases = {
         {{2, 0, 2, 1, 1, 0}, {0, 0, 1, 1, 2, 2}},
         {{2, 0, 1},          {0, 1, 2}},
@@ -194,7 +194,7 @@ static bool sortColors_75_tests() {
     return true;
 }
 
-static bool productOfArrayExceptSelf_238_tests() {
+bool productOfArrayExceptSelf_238_tests() {
     vector<ProductOfArrayExceptSelfTestCase> testCases = {
         // Example 1
         {{1, 2, 3, 4}, {24, 12, 8, 6}},
@@ -220,7 +220,7 @@ static bool productOfArrayExceptSelf_238_tests() {
     return true;
 }
 
-static bool hIndex_274_tests() {
+bool hIndex_274_tests() {
     // 5 test cases: the 2 from the LeetCode examples + 3 additional
     vector<HIndexTestCase> testCases = {
         // Example 1
@@ -248,7 +248,7 @@ static bool hIndex_274_tests() {
 
 /* 2D matrix traversal and in-place matrix transformation */
 
-static bool rotateImage_48_tests() {
+bool rotateImage_48_tests() {
     vector<RotateImageTestCase> testCases = {
         // Example 1
         {{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}, {{7, 4, 1}, {8, 5, 2}, {9, 6, 3}}},
@@ -288,7 +288,7 @@ static bool rotateImage_48_tests() {
     return true;
 }
 
-static bool spiralMatrix_54_tests() {
+bool spiralMatrix_54_tests() {
     vector<SpiralMatrixTestCase> testCases = {
         // Provided examples
         {{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}, {1, 2, 3, 6, 9, 8, 7, 4, 5}},

@@ -25,7 +25,7 @@ namespace {
 
 /* Simple iteration, counting, and basic array/string traversal */
 
-static bool fizzBuzz_412_tests() {
+bool fizzBuzz_412_tests() {
     vector<FizzBuzzTestCase> testCases = {
         {
             3,
@@ -66,7 +66,7 @@ static bool fizzBuzz_412_tests() {
     return true;
 }
 
-static bool numberOfEmployeesWhoMetTarget_2798_tests() {
+bool numberOfEmployeesWhoMetTarget_2798_tests() {
     using namespace TestCases;
 
     vector<NumberOfEmployeesWhoMetTargetTestCase> testCases = {
@@ -107,7 +107,7 @@ static bool numberOfEmployeesWhoMetTarget_2798_tests() {
     return true;
 }
 
-static bool mergeStringsAlternately_1768_tests() {
+bool mergeStringsAlternately_1768_tests() {
     vector<MergeStringsAlternatelyTestCase> tests = {
         // From the statement
         {"abc",   "pqr",   "apbqcr"},
@@ -131,7 +131,7 @@ static bool mergeStringsAlternately_1768_tests() {
     return true;
 }
 
-static bool findClosestNumber_2239_tests() {
+bool findClosestNumber_2239_tests() {
     vector<FindClosestNumberToZeroTestCase> tests = {
         // From the statement
         {{-4,-2,1,4,8}, 1},
@@ -158,7 +158,7 @@ static bool findClosestNumber_2239_tests() {
 
 /* Sequence comparison, prefix checks, and simple string parsing */
 
-static bool isSubsequence_392_tests() {
+bool isSubsequence_392_tests() {
     vector<IsSubsequence392TestCase> tests = {
         {"abc",     "ahbgdc",   true},
         {"axc",     "ahbgdc",   false},
@@ -224,7 +224,7 @@ static bool isSubsequence_392_tests() {
     return true;
 }
 
-static bool longestCommonPrefix_14_tests() {
+bool longestCommonPrefix_14_tests() {
     vector<LongestCommonPrefixTestCase> tcs = {
         // Provided examples
         {{"flower","flow","flight"}, "fl"},
@@ -265,7 +265,7 @@ static bool longestCommonPrefix_14_tests() {
     return true;
 }
 
-static bool summaryRanges_228_tests() {
+bool summaryRanges_228_tests() {
     vector<SummaryRangesTestCase> tests = {
         {{0,1,2,4,5,7},                   {"0->2","4->5","7"}},
         {{0,2,3,4,6,8,9},                 {"0","2->4","6","8->9"}},
@@ -290,7 +290,7 @@ static bool summaryRanges_228_tests() {
     return true;
 }
 
-static bool romanToInteger_13_tests() {
+bool romanToInteger_13_tests() {
     vector<RomanToIntegerTestCase> tests = {
         // From the statement
         {"III", 3},
@@ -319,7 +319,7 @@ static bool romanToInteger_13_tests() {
 /* Preprocessing optimization for repeated subsequence queries */
 
 // Stress test for next-position preprocessing; also cross-checks pos-index.
-static bool isSubsequence_392_nextpos_tests() {
+bool isSubsequence_392_nextpos_tests() {
     string t;
     t.reserve(10000);
 

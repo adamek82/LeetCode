@@ -24,7 +24,7 @@ namespace {
 
 /* Greedy scans, prefix thinking, and simple counting ideas */
 
-static bool bestTimeToBuyAndSellStock_121_tests() {
+bool bestTimeToBuyAndSellStock_121_tests() {
     vector<BestTimeToBuyAndSellStockTestCase> testCases = {
         // Provided examples
         {{7, 1, 5, 3, 6, 4}, 5},  // Example 1
@@ -50,7 +50,7 @@ static bool bestTimeToBuyAndSellStock_121_tests() {
     return true;
 }
 
-static bool bestTimeToBuyAndSellStockII_122_tests() {
+bool bestTimeToBuyAndSellStockII_122_tests() {
     vector<BestTimeToBuyAndSellStockIITestCase> testCases = {
         // 3 examples from the problem statement:
         {{7,1,5,3,6,4}, 7}, // Example 1
@@ -97,7 +97,7 @@ static bool bestTimeToBuyAndSellStockII_122_tests() {
     return true;
 }
 
-static bool findPivotIndex_724_tests() {
+bool findPivotIndex_724_tests() {
     vector<FindPivotIndexTestCase> cases = {
         {{1,7,3,6,5,6},  3},     // example 1
         {{1,2,3},       -1},     // example 2
@@ -118,7 +118,7 @@ static bool findPivotIndex_724_tests() {
     return true;
 }
 
-static bool appleRedistributionIntoBoxes_3074_tests() {
+bool appleRedistributionIntoBoxes_3074_tests() {
     vector<AppleRedistributionIntoBoxesTestCase> testCases = {
         // Examples from the problem statement
         {{1, 3, 2},      {4, 3, 1, 5, 2}, 2},
@@ -151,7 +151,7 @@ static bool appleRedistributionIntoBoxes_3074_tests() {
     return true;
 }
 
-static bool splitTheArray_3046_tests() {
+bool splitTheArray_3046_tests() {
     vector<SplitTheArrayTestCase> testCases = {
         {{1,1,2,2,3,4}, true},   // example 1
         {{1,1,1,1},     false},  // example 2
@@ -177,7 +177,7 @@ static bool splitTheArray_3046_tests() {
 
 /* More advanced transformations on intervals, strings, and matrices */
 
-static bool mergeIntervals_56_tests() {
+bool mergeIntervals_56_tests() {
     vector<MergeIntervalsTestCase> testCases = {
         // Problem statement examples
         {{{1, 3}, {2, 6}, {8, 10}, {15, 18}}, {{1, 6}, {8, 10}, {15, 18}}},
@@ -203,7 +203,7 @@ static bool mergeIntervals_56_tests() {
     return true;
 }
 
-static bool zigzagConversion_6_tests() {
+bool zigzagConversion_6_tests() {
     vector<ZigzagConversionTestCase> testCases = {
         {"PAYPALISHIRING", 3, "PAHNAPLSIIGYIR"},
         {"PAYPALISHIRING", 4, "PINALSIGYAHRPI"},

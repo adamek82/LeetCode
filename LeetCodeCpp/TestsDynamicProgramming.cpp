@@ -29,7 +29,7 @@ namespace {
 
 /* Introductory 1D DP with direct state transitions */
 
-static bool fibonacci_509_tests() {
+bool fibonacci_509_tests() {
     vector<FibonacciNumberTestCase> tests = {
         // 3 from the statement
         {2, 1},
@@ -58,7 +58,7 @@ static bool fibonacci_509_tests() {
     return true;
 }
 
-static bool climbingStairs_70_tests() {
+bool climbingStairs_70_tests() {
     vector<ClimbingStairsTestCase> tests = {
         // 2 from the statement
         {2, 2},
@@ -87,7 +87,7 @@ static bool climbingStairs_70_tests() {
     return true;
 }
 
-static bool minCostClimbingStairs_746_tests() {
+bool minCostClimbingStairs_746_tests() {
     vector<MinCostClimbingStairsTestCase> tests = {
         // 2 from the statement
         {{10, 15, 20}, 15},
@@ -116,7 +116,7 @@ static bool minCostClimbingStairs_746_tests() {
 
 /* Linear DP on arrays with local recurrence choices */
 
-static bool houseRobber_198_tests() {
+bool houseRobber_198_tests() {
     vector<HouseRobberTestCase> tests = {
         // 2 from the statement
         {{1, 2, 3, 1}, 4},
@@ -143,7 +143,7 @@ static bool houseRobber_198_tests() {
     return true;
 }
 
-static bool maximumSubarray_53_tests() {
+bool maximumSubarray_53_tests() {
     vector<MaximumSubarrayTestCase> tests = {
         // 3 canonical LeetCode examples
         {{-2, 1, -3, 4, -1, 2, 1, -5, 4}, 6},
@@ -173,7 +173,7 @@ static bool maximumSubarray_53_tests() {
 
 /* Reachability and minimum-jump style DP / greedy-DP crossover */
 
-static bool jumpGame_55_tests() {
+bool jumpGame_55_tests() {
     vector<JumpGameTestCase> tests = {
         {{2, 3, 1, 1, 4}, true},   // example 1
         {{3, 2, 1, 0, 4}, false},  // example 2
@@ -204,7 +204,7 @@ static bool jumpGame_55_tests() {
     return true;
 }
 
-static bool jumpGameII_45_tests() {
+bool jumpGameII_45_tests() {
     vector<JumpGameIITestCase> tests = {
         {{2, 3, 1, 1, 4}, 2},                // example 1
         {{2, 3, 0, 1, 4}, 2},                // example 2
@@ -234,7 +234,7 @@ static bool jumpGameII_45_tests() {
 
 /* Grid DP with path counting and blocked cells */
 
-static bool uniquePaths_62_tests() {
+bool uniquePaths_62_tests() {
     vector<UniquePathsTestCase> cases = {
         // Official cases from the problem statement
         {3, 7, 28},
@@ -267,7 +267,7 @@ static bool uniquePaths_62_tests() {
     return true;
 }
 
-static bool uniquePathsII_63_tests() {
+bool uniquePathsII_63_tests() {
     vector<UniquePathsIITestCase> testCases = {
         // From the problem statement
         {{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}}, 2},
@@ -303,7 +303,7 @@ static bool uniquePathsII_63_tests() {
 
 /* Unbounded-choice and counting / minimization DP */
 
-static bool coinChange_322_tests() {
+bool coinChange_322_tests() {
     vector<CoinChangeTestCase> testCases = {
         // 3 examples from the problem statement
         {{1, 2, 5}, 11, 3},
@@ -334,7 +334,7 @@ static bool coinChange_322_tests() {
     return true;
 }
 
-static bool perfectSquares_279_tests() {
+bool perfectSquares_279_tests() {
     vector<PerfectSquaresTestCase> testCases = {
         // 2 examples from the problem statement
         {12, 3}, // 12 = 4 + 4 + 4
@@ -364,7 +364,7 @@ static bool perfectSquares_279_tests() {
 
 /* Sequence DP on increasing structure and string matching */
 
-static bool longestIncreasingSubsequence_300_tests() {
+bool longestIncreasingSubsequence_300_tests() {
     vector<LongestIncreasingSubsequenceTestCase> testCases = {
         // Provided examples
         {{10, 9, 2, 5, 3, 7, 101, 18}, 4},
@@ -438,7 +438,7 @@ static bool longestIncreasingSubsequence_300_tests() {
     return true;
 }
 
-static bool longestCommonSubsequence_1143_tests() {
+bool longestCommonSubsequence_1143_tests() {
     vector<LongestCommonSubsequenceTestCase> testCases = {
         // Provided examples
         {"abcde", "ace", 3},
@@ -482,7 +482,7 @@ static bool longestCommonSubsequence_1143_tests() {
     return true;
 }
 
-static bool wildcardMatching_44_tests() {
+bool wildcardMatching_44_tests() {
     vector<WildcardMatchingTestCase> tests = {
         // Three examples from the statement
         {"aa", "a", false},
