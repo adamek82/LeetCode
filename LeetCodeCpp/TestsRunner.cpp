@@ -930,6 +930,12 @@ public:
         return true;
     }
 
+private:
+    static void appendTests(vector<TestRegistry::Entry>& dst,
+                            vector<TestRegistry::Entry> src) {
+        dst.insert(dst.end(), src.begin(), src.end());
+    }
+
     static vector<TestRegistry::Entry> getTests() {
         vector<TestRegistry::Entry> tests = {
             // ============================================================================
@@ -979,79 +985,25 @@ public:
             TEST(392,  "Is Subsequence (next-position table)",           isSubsequence_392_nextpos_tests),
         };
 
-        {
-            auto hashmapTests = TestsHashmapsSets::getTests();
-            tests.insert(tests.end(), hashmapTests.begin(), hashmapTests.end());
-        }
-
-        {
-            auto twoPointerTests = TestsTwoPointers::getTests();
-            tests.insert(tests.end(), twoPointerTests.begin(), twoPointerTests.end());
-        }
-
-        {
-            auto stackTests = TestsStacks::getTests();
-            tests.insert(tests.end(), stackTests.begin(), stackTests.end());
-        }
-
-        {
-            auto linkedListTests = TestsLinkedLists::getTests();
-            tests.insert(tests.end(), linkedListTests.begin(), linkedListTests.end());
-        }
-
-        {
-            auto binarySearchTests = TestsBinarySearch::getTests();
-            tests.insert(tests.end(), binarySearchTests.begin(), binarySearchTests.end());
-        }
-
-        {
-            auto slidingWindowTests = TestsSlidingWindow::getTests();
-            tests.insert(tests.end(), slidingWindowTests.begin(), slidingWindowTests.end());
-        }
-
-        {
-            auto treeTests = TestsTrees::getTests();
-            tests.insert(tests.end(), treeTests.begin(), treeTests.end());
-        }
-
-        {
-            auto heapTests = TestsHeaps::getTests();
-            tests.insert(tests.end(), heapTests.begin(), heapTests.end());
-        }
-
-        {
-            auto backtrackingTests = TestsBacktracking::getTests();
-            tests.insert(tests.end(), backtrackingTests.begin(), backtrackingTests.end());
-        }
-
-        {
-            auto graphTests = TestsGraphs::getTests();
-            tests.insert(tests.end(), graphTests.begin(), graphTests.end());
-        }
-
-        {
-            auto dpTests = TestsDynamicProgramming::getTests();
-            tests.insert(tests.end(), dpTests.begin(), dpTests.end());
-        }
-
-        {
-            auto bitManipulationTests = TestsBitManipulation::getTests();
-            tests.insert(tests.end(), bitManipulationTests.begin(), bitManipulationTests.end());
-        }
-
-        {
-            auto designTests = TestsDesign::getTests();
-            tests.insert(tests.end(), designTests.begin(), designTests.end());
-        }
-
-        {
-            auto otherTests = TestsOther::getTests();
-            tests.insert(tests.end(), otherTests.begin(), otherTests.end());
-        }
+        appendTests(tests, TestsHashmapsSets::getTests());
+        appendTests(tests, TestsTwoPointers::getTests());
+        appendTests(tests, TestsStacks::getTests());
+        appendTests(tests, TestsLinkedLists::getTests());
+        appendTests(tests, TestsBinarySearch::getTests());
+        appendTests(tests, TestsSlidingWindow::getTests());
+        appendTests(tests, TestsTrees::getTests());
+        appendTests(tests, TestsHeaps::getTests());
+        appendTests(tests, TestsBacktracking::getTests());
+        appendTests(tests, TestsGraphs::getTests());
+        appendTests(tests, TestsDynamicProgramming::getTests());
+        appendTests(tests, TestsBitManipulation::getTests());
+        appendTests(tests, TestsDesign::getTests());
+        appendTests(tests, TestsOther::getTests());
 
         return tests;
     }
 
+public:
     static bool runAllTests() {
         return TestRegistry::runAllTests(getTests());
     }
