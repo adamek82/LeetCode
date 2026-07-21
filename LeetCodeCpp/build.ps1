@@ -33,8 +33,7 @@ param(
 )
 
 $ProjectRoot = (Resolve-Path -LiteralPath $PSScriptRoot).Path
-$vscodeDir   = Join-Path $PSScriptRoot ".vscode"   # only cache/config, not build outputs
-$cppFiles    = Get-ChildItem -Path $PSScriptRoot -Filter "*.cpp"
+$vscodeDir   = Join-Path $PSScriptRoot ".vscode"
 
 # Resolve BuildDir (relative -> under project root)
 if (![System.IO.Path]::IsPathRooted($BuildDir)) {
@@ -47,6 +46,25 @@ if (!(Test-Path $BuildDir))  { New-Item -ItemType Directory -Path $BuildDir  | O
 
 # Normalize BuildDir to an absolute path
 $BuildDir = (Resolve-Path -LiteralPath $BuildDir).Path
+
+# Discover all translation units recursively.
+# Exclude generated files under build/ and editor caches under .vscode/.
+$cppFiles = Get-ChildItem `
+    -Path $ProjectRoot `
+    -Filter "*.cpp" `
+    -File `
+    -Recurse |
+    Where-Object {
+        !$_.FullName.StartsWith(
+            $BuildDir,
+            [System.StringComparison]::OrdinalIgnoreCase
+        ) -and
+        !$_.FullName.StartsWith(
+            $vscodeDir,
+            [System.StringComparison]::OrdinalIgnoreCase
+        )
+    } |
+    Sort-Object FullName
 
 # -----------------------------------------------------------------------------
 # Locate vcvars64.bat once (fast path: cached), otherwise discover via vswhere
@@ -183,7 +201,8 @@ $ObjDir = Join-Path $ConfigBuildDir "obj"
 if (!(Test-Path $ObjDir)) { New-Item -ItemType Directory -Path $ObjDir | Out-Null }
 
 # Remove stale compilation failure markers from previous build attempts.
-Remove-Item -Path (Join-Path $ObjDir "*.failed") -ErrorAction SilentlyContinue
+Get-ChildItem -Path $ObjDir -Filter "*.failed" -Recurse -ErrorAction SilentlyContinue |
+    Remove-Item -Force -ErrorAction SilentlyContinue
 
 # Per-TU dependency files (one per .cpp)
 $DepDir = Join-Path $ObjDir "deps"
@@ -245,13 +264,86 @@ if ($Config -eq "Debug") {
 }
 
 # --- Include/define flags (explicit, so we don't rely on "environment magic") ---
-$includeFlags = @()
+$includeFlags = @(
+    '/I"{0}"' -f $ProjectRoot
+)
 if ($env:INCLUDE) {
-    $includeFlags = $env:INCLUDE.Split(';') |
+    $includeFlags += $env:INCLUDE.Split(';') |
         Where-Object { $_ -and $_.Trim().Length -gt 0 } |
         ForEach-Object { '/I"{0}"' -f $_ }
 }
 $defineFlags = @()
+
+function Get-RelativePathCompat {
+    param(
+        [string]$BasePath,
+        [string]$TargetPath
+    )
+
+    $baseFull = [System.IO.Path]::GetFullPath($BasePath)
+    $targetFull = [System.IO.Path]::GetFullPath($TargetPath)
+
+    # Uri.MakeRelativeUri treats BasePath as a directory only if it ends with a separator.
+    if (!$baseFull.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
+        $baseFull += [System.IO.Path]::DirectorySeparatorChar
+    }
+
+    $baseUri = New-Object System.Uri($baseFull)
+    $targetUri = New-Object System.Uri($targetFull)
+
+    # Different drives/schemes cannot be expressed as a normal relative path.
+    # In this project all sources should be under ProjectRoot, so this is just a safety net.
+    if ($baseUri.Scheme -ne $targetUri.Scheme) {
+        return $targetFull
+    }
+
+    $relativeUri = $baseUri.MakeRelativeUri($targetUri)
+    $relativePath = [System.Uri]::UnescapeDataString($relativeUri.ToString())
+
+    if ($targetUri.Scheme -eq "file") {
+        $relativePath = $relativePath.Replace(
+            '/',
+            [System.IO.Path]::DirectorySeparatorChar
+        )
+    }
+
+    return $relativePath
+}
+
+function Get-TranslationUnitOutputs {
+    param(
+        [System.IO.FileInfo]$CppFile,
+        [string]$ObjectRoot,
+        [string]$DependencyRoot
+    )
+
+    $relativePath = Get-RelativePathCompat `
+        -BasePath $ProjectRoot `
+        -TargetPath $CppFile.FullName
+
+    $relativeWithoutExtension =
+        [System.IO.Path]::ChangeExtension($relativePath, $null)
+
+    $objFile = Join-Path $ObjectRoot ($relativeWithoutExtension + ".obj")
+    $depFile = Join-Path $DependencyRoot ($relativeWithoutExtension + ".deps.txt")
+    $failFile = Join-Path $ObjectRoot ($relativeWithoutExtension + ".failed")
+
+    return [PSCustomObject]@{
+        ObjFile  = $objFile
+        DepFile  = $depFile
+        FailFile = $failFile
+    }
+}
+
+function Ensure-ParentDirectory {
+    param([string]$Path)
+
+    $parent = Split-Path -Parent $Path
+
+    if (!(Test-Path -LiteralPath $parent)) {
+        New-Item -ItemType Directory -Path $parent -Force | Out-Null
+    }
+}
 
 # --- Generate compile_commands.json for IntelliSense (MSVC), only when needed ---
 $compileCommandsPath   = Join-Path $ConfigBuildDir "compile_commands.json"
@@ -277,7 +369,14 @@ if ($needCompileDb) {
 
     $compileDb = @()
     foreach ($file in $cppFiles) {
-        $objFile = Join-Path $ObjDir ([System.IO.Path]::GetFileNameWithoutExtension($file.Name) + ".obj")
+        $outputs = Get-TranslationUnitOutputs `
+            -CppFile $file `
+            -ObjectRoot $ObjDir `
+            -DependencyRoot $DepDir
+
+        $objFile = $outputs.ObjFile
+
+        Ensure-ParentDirectory -Path $objFile
 
         $cmdParts = @(
             ('"{0}"' -f $clPath)
@@ -290,7 +389,7 @@ if ($needCompileDb) {
         )
 
         $compileDb += [PSCustomObject]@{
-            directory = $PSScriptRoot
+            directory = $ProjectRoot
             command   = ($cmdParts -join ' ')
             file      = $file.FullName
             output    = $objFile
@@ -365,14 +464,28 @@ function Wait-CompileJobs {
 
 # Compile only changed .cpp files in parallel
 foreach ($file in $cppFiles) {
-    $baseName = [System.IO.Path]::GetFileNameWithoutExtension($file.Name)
-    $objFile  = Join-Path $ObjDir  ($baseName + ".obj")
-    $depFile  = Join-Path $DepDir  ($baseName + ".deps.txt")
-    $failFile = Join-Path $ObjDir  ($baseName + ".failed")
+    $outputs = Get-TranslationUnitOutputs `
+        -CppFile $file `
+        -ObjectRoot $ObjDir `
+        -DependencyRoot $DepDir
+
+    $objFile  = $outputs.ObjFile
+    $depFile  = $outputs.DepFile
+    $failFile = $outputs.FailFile
+
+    Ensure-ParentDirectory -Path $objFile
+    Ensure-ParentDirectory -Path $depFile
+    Ensure-ParentDirectory -Path $failFile
 
     if (Test-NeedsRebuild -CppFile $file -ObjFile $objFile -DepFile $depFile) {
 
         $compiledAny = $true
+
+        $relativeSource = Get-RelativePathCompat `
+            -BasePath $ProjectRoot `
+            -TargetPath $file.FullName
+
+        Write-Host "Compiling $relativeSource"
 
         # Remove stale failure marker for this translation unit.
         Remove-Item -LiteralPath $failFile -ErrorAction SilentlyContinue
@@ -455,7 +568,11 @@ foreach ($file in $cppFiles) {
 
         $jobs += $job
     } else {
-        Write-Host "Skipping $($file.Name), up-to-date."
+        $relativeSource = Get-RelativePathCompat `
+            -BasePath $ProjectRoot `
+            -TargetPath $file.FullName
+
+        Write-Host "Skipping $relativeSource, up-to-date."
     }
 
     $objFiles += $objFile
@@ -466,7 +583,7 @@ foreach ($file in $cppFiles) {
             $compileFailed = $true
         }
 
-        if ((Get-ChildItem -Path $ObjDir -Filter "*.failed" -ErrorAction SilentlyContinue).Count -gt 0) {
+        if ((Get-ChildItem -Path $ObjDir -Filter "*.failed" -Recurse -ErrorAction SilentlyContinue).Count -gt 0) {
             $compileFailed = $true
         }
 
@@ -487,7 +604,7 @@ if ($jobs.Count -gt 0) {
         $compileFailed = $true
     }
 
-    if ((Get-ChildItem -Path $ObjDir -Filter "*.failed" -ErrorAction SilentlyContinue).Count -gt 0) {
+    if ((Get-ChildItem -Path $ObjDir -Filter "*.failed" -Recurse -ErrorAction SilentlyContinue).Count -gt 0) {
         $compileFailed = $true
     }
 
