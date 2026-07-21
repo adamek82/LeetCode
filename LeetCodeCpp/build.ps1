@@ -491,7 +491,7 @@ foreach ($file in $cppFiles) {
         Remove-Item -LiteralPath $failFile -ErrorAction SilentlyContinue
 
         $job = Start-Job -ScriptBlock {
-            param ($file, $objFile, $depFile, $failFile, $compilerPdb, $commonFlags, $configFlags, $includeFlags, $defineFlags, $projectRoot)
+            param ($file, $relativeSource, $objFile, $depFile, $failFile, $compilerPdb, $commonFlags, $configFlags, $includeFlags, $defineFlags, $projectRoot)
 
             function Test-IsShowIncludesLine {
                 param([string]$Line)
@@ -504,6 +504,29 @@ foreach ($file in $cppFiles) {
                 # Example (PL): "Uwaga: w tym pliku:  C:\path\to\header.h"
                 return $Line -match '^(?:Note|Uwaga)\s*:\s*(?:including file|uwzględniono plik|w tym pliku)\s*:'
             }
+
+            function Test-IsCompilerSourceBanner {
+                param(
+                    [string]$Line,
+                    [string]$SourceName,
+                    [string]$SourceFullName,
+                    [string]$RelativeSource
+                )
+
+                if (!$Line) {
+                    return $false
+                }
+
+                $trimmed = $Line.Trim()
+
+                return `
+                    ($trimmed -eq $SourceName) -or
+                    ($trimmed -eq $RelativeSource) -or
+                    ($trimmed -eq $SourceFullName)
+            }
+
+            $sourceName = $file.Name
+            $sourceFullName = $file.FullName
 
             # Compile with /showIncludes so we can persist header dependencies for next builds.
             # We intentionally do NOT print the noisy include lines to the console.
@@ -524,7 +547,14 @@ foreach ($file in $cppFiles) {
             # Do not print noisy /showIncludes lines.
             if ($compileExitCode -ne 0) {
                 foreach ($line in $output) {
-                    if ($line -and ($line.Trim().Length -gt 0) -and !(Test-IsShowIncludesLine -Line $line)) {
+                    if ($line -and
+                        ($line.Trim().Length -gt 0) -and
+                        !(Test-IsShowIncludesLine -Line $line) -and
+                        !(Test-IsCompilerSourceBanner `
+                            -Line $line `
+                            -SourceName $sourceName `
+                            -SourceFullName $sourceFullName `
+                            -RelativeSource $relativeSource)) {
                         Write-Host $line
                     }
                 }
@@ -551,8 +581,15 @@ foreach ($file in $cppFiles) {
                         }
                     }
                 } else {
-                    # Print non-include lines only (errors/warnings/normal output).
-                    if ($line -and ($line.Trim().Length -gt 0)) {
+                    # Print meaningful compiler output only.
+                    # Suppress cl.exe source-file banner; keep warnings and diagnostics.
+                    if ($line -and
+                        ($line.Trim().Length -gt 0) -and
+                        !(Test-IsCompilerSourceBanner `
+                            -Line $line `
+                            -SourceName $sourceName `
+                            -SourceFullName $sourceFullName `
+                            -RelativeSource $relativeSource)) {
                         Write-Host $line
                     }
                 }
@@ -564,7 +601,7 @@ foreach ($file in $cppFiles) {
             # Write one dependency per line (ASCII is enough for Windows paths).
             Set-Content -LiteralPath $depFile -Value ($deps | Sort-Object) -Encoding ASCII
 
-        } -ArgumentList $file, $objFile, $depFile, $failFile, $compilerPdb, $commonFlags, $configFlags, $includeFlags, $defineFlags, $ProjectRoot
+        } -ArgumentList $file, $relativeSource, $objFile, $depFile, $failFile, $compilerPdb, $commonFlags, $configFlags, $includeFlags, $defineFlags, $ProjectRoot
 
         $jobs += $job
     } else {
