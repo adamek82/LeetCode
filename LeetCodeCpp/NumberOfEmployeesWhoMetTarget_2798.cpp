@@ -2,7 +2,7 @@
 #include <algorithm>
 
 int NumberOfEmployeesWhoMetTarget_2798::
-numberOfEmployeesWhoMetTarget_CountingLoop(vector<int>& hours, int target)
+numberOfEmployeesWhoMetTarget_CountingLoop(const vector<int>& hours, int target)
 {
     int count = 0;
 
@@ -15,7 +15,7 @@ numberOfEmployeesWhoMetTarget_CountingLoop(vector<int>& hours, int target)
 }
 
 int NumberOfEmployeesWhoMetTarget_2798::
-numberOfEmployeesWhoMetTarget_CountIf(vector<int>& hours, int target)
+numberOfEmployeesWhoMetTarget_CountIf(const vector<int>& hours, int target)
 {
     return static_cast<int>(
         count_if(hours.begin(), hours.end(),
