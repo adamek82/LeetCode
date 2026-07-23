@@ -18,6 +18,5 @@ int NumberOfEmployeesWhoMetTarget_2798::
 numberOfEmployeesWhoMetTarget_CountIf(const vector<int>& hours, int target)
 {
     return static_cast<int>(
-        count_if(hours.begin(), hours.end(),
-                 [target](int h) { return h >= target; }));
+        count_if(hours.begin(), hours.end(), [target](int h) { return h >= target; }));
 }
