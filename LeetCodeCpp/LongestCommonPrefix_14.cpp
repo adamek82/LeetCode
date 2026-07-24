@@ -1,159 +1,68 @@
 #include "LongestCommonPrefix_14.h"
 #include <algorithm>
 
-/*
- * Longest Common Prefix — linear LCP shrink
- *
- * Idea
- * ----
- * Maintain the current candidate prefix length L for all strings seen so far.
- * Initialize L = |strs[0]|. For each next string s:
- *   - Let lim = min(L, |s|).
- *   - Scan base[0..lim) and s[0..lim) once, left-to-right, to find the first
- *     mismatch position j (or j = lim if none).
- *   - Set L = j. If L becomes 0, return "" early.
- * Finally, return base.substr(0, L).
- *
- * Invariant / Correctness
- * -----------------------
- * After processing i strings, L equals the length of the longest common prefix
- * of strs[0], …, strs[i]. The update L := j computes exactly the LCP(base, s)
- * truncated to the previous L, thus preserving the invariant. When the loop
- * ends, L is the LCP length across all strings, so base.substr(0, L) is the
- * answer.
- *
- * Complexity
- * ----------
- * Each string contributes at most lim + 1 character comparisons (lim ≤ m),
- * and L never increases. Summing over all strings yields ≤ n·m comparisons,
- * where n = number of strings and m = min_i |strs[i]|.
- * Time:  O(n · m)
- * Space: O(1) extra
- *
- * Note
- * ----
- * For slightly better constants you may choose the shortest string as `base`,
- * but it’s not required for the O(n·m) bound.
- */
-string LongestCommonPrefix_14::longestCommonPrefix_Linear(const vector<string> &strs) const
+string LongestCommonPrefix_14::longestCommonPrefix_Horizontal(const vector<string>& strs) const
 {
     if (strs.empty())
         return "";
-    const string &base = strs[0];
-    size_t L = base.size();
-    for (size_t i = 1; i < strs.size(); ++i)
-    {
-        const string &s = strs[i];
+
+    const string& base = strs[0];
+    size_t prefixLength = base.size();
+
+    for (size_t i = 1; i < strs.size(); ++i) {
+        const string& s = strs[i];
+        const size_t limit = min(prefixLength, s.size());
+
         size_t j = 0;
-        size_t lim = min(L, s.size());
-        while (j < lim && base[j] == s[j])
-            ++j;    // single-pass scan
-        L = j;
-        if (L == 0)
+        while (j < limit && base[j] == s[j])
+            ++j;
+
+        prefixLength = j;
+
+        if (prefixLength == 0)
             return "";
     }
-    return base.substr(0, L);
+
+    return base.substr(0, prefixLength);
 }
 
-/*
- * Longest Common Prefix — vertical scan (column-wise)
- *
- * Idea
- * ----
- * Use the first string as a reference ("base"). Compare characters vertically:
- * for position j = 0..|base|-1, check that every string has the same character
- * at j. The first position where any string is shorter or differs ends the LCP.
- *
- * Correctness (invariant)
- * -----------------------
- * Before checking position j, all strings are known to share the prefix
- * base[0..j). When we detect either:
- *   - some string has length == j (ran out), or
- *   - some string differs at position j,
- * then no longer common prefix can include position j, so base.substr(0, j)
- * is exactly the global LCP. If the loop finishes, base is a prefix of all
- * strings and is therefore the LCP.
- *
- * Complexity
- * ----------
- * At most m positions are checked, where m = min_i |strs[i]|.
- * For each position we may scan all n strings.
- * Time:  O(n · m)
- * Space: O(1) extra
- */
 string LongestCommonPrefix_14::longestCommonPrefix_Vertical(const vector<string>& strs) const
 {
     if (strs.empty())
         return "";
 
     const string& base = strs[0];
-    for (size_t j = 0; j < base.size(); ++j)
-    {
+
+    for (size_t j = 0; j < base.size(); ++j) {
         const char c = base[j];
-        for (size_t i = 1; i < strs.size(); ++i)
-        {
+
+        for (size_t i = 1; i < strs.size(); ++i) {
             const string& s = strs[i];
+
             if (j >= s.size() || s[j] != c)
                 return base.substr(0, j);
         }
     }
+
     return base;
 }
 
-/*
- * Longest Common Prefix — sort + compare extremes
- *
- * Idea
- * ----
- * Copy the input, sort it lexicographically, then compute the common prefix
- * only between the first string `a = v.front()` and the last string
- * `b = v.back()`. Return that prefix.
- *
- * Why "first and last" are enough
- * ------------------------------
- * After sorting, all strings that share a given prefix P form one contiguous
- * block in the sorted order (because lexicographic order groups equal-prefix
- * strings together).
- *
- * Let P be the longest common prefix of *all* strings in v.
- * - Then in particular, both the smallest string `a` and the largest string `b`
- *   (lexicographically) must start with P, so LCP(a, b) has length >= |P|.
- * - Conversely, suppose `a` and `b` first differ at position k. Then there exist
- *   strings in the set that are <= b and >= a, but any string that would share
- *   a longer prefix than k with both a and b would have to lie "between" them
- *   and still start with that longer prefix. Since a and b already disagree at k,
- *   no string can force the global common prefix to extend beyond k.
- *   Therefore the common prefix of all strings cannot be longer than LCP(a, b).
- *
- * Combining both directions gives:
- *   LCP(all strings) == LCP(v.front(), v.back()).
- *
- * Complexity
- * ----------
- * Sorting dominates. With n strings and average length ~m:
- * - sort: O(n log n) comparisons, each comparison can cost up to O(m)
- *   (lexicographic compare may scan characters until mismatch)
- * - final prefix scan: O(m)
- * Total time:  O(n log n · m)   (worst-case)
- * Extra space: O(n) for the copied vector (plus sort overhead), and O(1) extra
- * beyond that.
- *
- * Note
- * ----
- * This is typically less optimal than the linear "shrink L" approach
- * (O(n · m) time, O(1) extra), so treat it as an optional alternative
- * (e.g., for A/B checks in tests) rather than the primary implementation.
- */
-string LongestCommonPrefix_14::longestCommonPrefix_Sort(const vector<string> &strs) const
+string LongestCommonPrefix_14::longestCommonPrefix_Sort(const vector<string>& strs) const
 {
     if (strs.empty())
         return "";
-    vector<string> v = strs;
-    sort(v.begin(), v.end());
-    const string &a = v.front();
-    const string &b = v.back();
-    size_t i = 0, lim = min(a.size(), b.size());
-    while (i < lim && a[i] == b[i])
-        ++i;
-    return a.substr(0, i);
+
+    vector<string> sorted = strs;
+    sort(sorted.begin(), sorted.end());
+
+    const string& first = sorted.front();
+    const string& last = sorted.back();
+    const size_t limit = min(first.size(), last.size());
+
+    size_t prefixLength = 0;
+    while (prefixLength < limit && first[prefixLength] == last[prefixLength]) {
+        ++prefixLength;
+    }
+
+    return first.substr(0, prefixLength);
 }

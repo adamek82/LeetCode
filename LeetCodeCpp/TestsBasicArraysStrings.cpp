@@ -246,7 +246,7 @@ bool longestCommonPrefix_14_tests() {
     LongestCommonPrefix_14 sol;
 
     for (size_t i = 0; i < tcs.size(); ++i) {
-        string gotL = sol.longestCommonPrefix_Linear(tcs[i].strs);
+        string gotL = sol.longestCommonPrefix_Horizontal(tcs[i].strs);
         string gotS = sol.longestCommonPrefix_Sort(tcs[i].strs);
         string gotV = sol.longestCommonPrefix_Vertical(tcs[i].strs);
 
