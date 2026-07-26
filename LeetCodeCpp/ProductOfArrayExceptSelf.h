@@ -5,5 +5,5 @@ using namespace std;
 
 class ProductOfArrayExceptSelf {
 public:
-    vector<int> productExceptSelf(vector<int>& nums);
+    vector<int> productExceptSelf(const vector<int>& nums);
 };
