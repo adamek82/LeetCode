@@ -922,10 +922,10 @@ cycleLength = 2 · (numRows - 1)
 For `numRows = 4`, input indices form this layout:
 
 ```text
-0       6       12
-1     5 7     11 13
-2   4   8   10   14
-3       9       15
+0        6          12
+1     5  7      11  13
+2  4     8  10      14
+3        9          15
 ```
 
 For a row `r` and a cycle starting at `k`:
