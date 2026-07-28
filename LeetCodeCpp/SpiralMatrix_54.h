@@ -5,5 +5,5 @@ using namespace std;
 
 class SpiralMatrix_54 {
 public:
-    vector<int> spiralOrder(vector<vector<int>>& matrix);
+    vector<int> spiralOrder(const vector<vector<int>>& matrix);
 };
