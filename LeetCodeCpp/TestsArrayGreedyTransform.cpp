@@ -217,8 +217,8 @@ bool zigzagConversion_6_tests() {
     for (size_t i = 0; i < testCases.size(); ++i) {
         const auto& tc = testCases[i];
 
-        string gotRow  = sol.convert_rowWise(tc.input, tc.numRows);
-        string gotJump = sol.convert_jumpPattern(tc.input, tc.numRows);
+        string gotRow  = sol.convertRowWise(tc.input, tc.numRows);
+        string gotJump = sol.convertJumpPattern(tc.input, tc.numRows);
 
         const string base =
             "Zigzag Conversion 6 Test " + to_string(i + 1) +
