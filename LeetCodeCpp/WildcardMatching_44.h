@@ -5,5 +5,5 @@ using namespace std;
 
 class WildcardMatching_44 {
 public:
-    bool isMatch(string s, string p);
+    bool isMatch(const string& text, const string& pattern);
 };
