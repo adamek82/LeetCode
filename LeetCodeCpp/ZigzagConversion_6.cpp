@@ -34,28 +34,26 @@ string ZigzagConversion_6::convertRowWise(const string& s, int numRows)
 
 string ZigzagConversion_6::convertJumpPattern(const string& s, int numRows)
 {
-    if (numRows == 1 || s.size() <= static_cast<size_t>(numRows))
+    if (numRows <= 1 || s.size() <= static_cast<size_t>(numRows))
         return s;
 
-    const size_t cycleLength =
-        static_cast<size_t>(2 * (numRows - 1));
+    const size_t rowCount = static_cast<size_t>(numRows);
+    const size_t cycleLength = 2 * (rowCount - 1);
 
     string result;
     result.reserve(s.size());
 
-    for (int row = 0; row < numRows; ++row) {
-        const size_t rowIndex = static_cast<size_t>(row);
-
+    for (size_t row = 0; row < rowCount; ++row) {
         for (size_t cycleStart = 0;
-             cycleStart + rowIndex < s.size();
+             cycleStart + row < s.size();
              cycleStart += cycleLength) {
-            result += s[cycleStart + rowIndex];
+            result += s[cycleStart + row];
 
             const size_t diagonalIndex =
-                cycleStart + cycleLength - rowIndex;
+                cycleStart + cycleLength - row;
 
             if (row != 0 &&
-                row != numRows - 1 &&
+                row != rowCount - 1 &&
                 diagonalIndex < s.size()) {
                 result += s[diagonalIndex];
             }
