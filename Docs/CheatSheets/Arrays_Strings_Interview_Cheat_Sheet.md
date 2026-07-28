@@ -537,18 +537,38 @@ Time O(mn), space O(1) excluding output
 
 ### 6. Zigzag Conversion
 
-**Hook:** simulate a row pointer moving down and up; reverse direction at row `0`
-and row `numRows-1`.
+#### Preferred: row simulation
+
+**Hook:** move a row pointer down and up; at the top set direction to `+1`, at the
+bottom set it to `-1`.
 
 ```text
-cycle length = 2*numRows - 2
+0, 1, 2, ..., last, ..., 2, 1, 0, ...
 ```
 
-Simulation is usually easier to reproduce than direct cycle indexing.
+Store characters in row buffers, then concatenate them.
 
 ```text
 Time O(n), space O(n)
 ```
+
+#### Alternative: direct cycle indexing
+
+```text
+cycleLength = 2 * (numRows - 1)
+vertical    = cycleStart + row
+diagonal    = cycleStart + cycleLength - row
+```
+
+Only interior rows contribute the diagonal character. This is easier to reason
+about than alternating jump sizes.
+
+```text
+Time O(n), space O(1) excluding output
+```
+
+**Default choice:** row simulation for clarity; direct indexing for constant
+auxiliary space.
 
 ---
 
@@ -607,7 +627,8 @@ Transpose-and-reverse is easier to derive and less error-prone.
 | H-Index buckets | `O(n)` | `O(n)` |
 | Merge Intervals | `O(n log n)` | output |
 | Spiral Matrix | `O(mn)` | `O(1)` excluding output |
-| Zigzag Conversion | `O(n)` | `O(n)` |
+| Zigzag row simulation | `O(n)` | `O(n)` |
+| Zigzag direct indexing | `O(n)` | `O(1)` excluding output |
 | Rotate Image | `O(n^2)` | `O(1)` |
 
 ---

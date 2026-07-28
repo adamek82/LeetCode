@@ -858,16 +858,21 @@ After understanding the simulation, a periodic formula may explain or optimize i
 
 ## 28. Zigzag Conversion — LC 6
 
-### Row simulation
+There are two useful ways to see the same structure:
 
-Move a current row index down and up:
+1. simulate the row pointer moving down and up;
+2. read the final rows directly from the periodic index pattern.
+
+### 28.1. Row simulation
+
+Move a current row index through this sequence:
 
 ```text
-0 -> 1 -> 2 -> ... -> last -> ... -> 1 -> 0 -> ...
+0 -> 1 -> 2 -> ... -> last -> ... -> 2 -> 1 -> 0 -> ...
 ```
 
-Append each character to its current row. Reverse direction at the first and last
-rows, then concatenate all rows.
+Append each character to its current row. At the top, force the direction down;
+at the bottom, force it up. Finally concatenate the rows.
 
 For `numRows = 4`:
 
@@ -875,32 +880,86 @@ For `numRows = 4`:
 row sequence: 0 1 2 3 2 1 0 1 2 3 ...
 ```
 
-This is a tiny state machine with state `(row, direction)`.
+The entire state is only:
+
+```text
+current row + direction (+1 or -1)
+```
+
+This is the easiest variant to derive because it directly imitates drawing the
+zigzag.
 
 Special case:
 
 ```text
-numRows == 1 -> output equals input
+numRows == 1 or numRows >= s.length() -> output equals input
 ```
 
-### Cycle interpretation
+#### Invariant
 
-A complete down-and-up cycle has length:
+After processing any prefix of the string, every processed character is stored
+in exactly the row in which it appears in the zigzag, and `(row, direction)`
+identifies the row for the next character.
 
-```text
-cycleLength = 2 · numRows - 2
-```
-
-The first and last rows contribute one character per cycle. Interior rows may
-contribute two, one on the downward diagonal and one on the upward diagonal.
-
-The cycle formula is useful for direct indexing, but simulation is usually easier
-to explain and less error-prone.
+#### Complexity
 
 ```text
 Time:  O(n)
 Space: O(n)
 ```
+
+The row buffers contain all input characters before they are joined into the
+result.
+
+### 28.2. Direct cycle indexing
+
+A complete descent and diagonal ascent repeats every:
+
+```text
+cycleLength = 2 · (numRows - 1)
+```
+
+For `numRows = 4`, input indices form this layout:
+
+```text
+0       6       12
+1     5 7     11 13
+2   4   8   10   14
+3       9       15
+```
+
+For a row `r` and a cycle starting at `k`:
+
+```text
+vertical index = k + r
+diagonal index = k + cycleLength - r
+```
+
+The first and last rows contain only the vertical index. Every interior row may
+contain both indices, provided they are still inside the string.
+
+This viewpoint is clearer than alternating mysterious jump lengths such as
+`8, 2, 8, 2`. It says directly: take the vertical character, then the diagonal
+character from the same cycle.
+
+#### Why the boundary rows are special
+
+For `r == 0` or `r == numRows - 1`, the diagonal index points to the same
+character as a vertical index from the current or adjacent cycle, so adding
+it would duplicate a character.
+
+#### Complexity
+
+```text
+Time:  O(n)
+Space: O(1) excluding the output
+```
+
+### 28.3. Which version to choose?
+
+Use row simulation as the default interview solution: it is easier to reconstruct
+and less error-prone. Use direct cycle indexing when you want constant auxiliary
+space or want to demonstrate the periodic structure.
 
 ---
 
