@@ -1,41 +1,58 @@
 #include "WallsAndGates_286.h"
+
+#include <array>
+#include <limits>
 #include <queue>
+#include <utility>
 
+namespace {
 
-void WallsAndGates_286::wallsAndGates(vector<vector<int>> &rooms)
+constexpr int EMPTY_ROOM = numeric_limits<int>::max();
+
+constexpr array<pair<int, int>, 4> DIRECTIONS = {{
+    {0, 1},
+    {1, 0},
+    {0, -1},
+    {-1, 0},
+}};
+
+} // namespace
+
+void WallsAndGates_286::wallsAndGates(vector<vector<int>>& rooms)
 {
-    if (rooms.empty() || rooms[0].empty()) return;
+    if (rooms.empty() || rooms.front().empty()) {
+        return;
+    }
 
-    const int m = static_cast<int>(rooms.size());
-    const int n = static_cast<int>(rooms[0].size());
-    queue<pair<int,int>> q;
+    const int rowCount = static_cast<int>(rooms.size());
+    const int colCount = static_cast<int>(rooms.front().size());
 
-    // 1️⃣ Load all gates into the queue (multi-source BFS start points)
-    for (int r = 0; r < m; ++r) {
-        for (int c = 0; c < n; ++c) {
-            if (rooms[r][c] == 0) {
-                q.emplace(r, c);
+    queue<pair<int, int>> cells;
+
+    for (int row = 0; row < rowCount; ++row) {
+        for (int col = 0; col < colCount; ++col) {
+            if (rooms[row][col] == 0) {
+                cells.emplace(row, col);
             }
         }
     }
 
-    // 2️⃣ BFS expansion: first time we reach a room, we've found its
-    //    shortest distance to any gate.
-    while (!q.empty()) {
-        auto [r, c] = q.front();
-        q.pop();
+    while (!cells.empty()) {
+        const auto [row, col] = cells.front();
+        cells.pop();
 
-        for (auto [dr, dc] : directions) {
-            int nr = r + dr;
-            int nc = c + dc;
+        for (const auto [rowOffset, colOffset] : DIRECTIONS) {
+            const int nextRow = row + rowOffset;
+            const int nextCol = col + colOffset;
 
-            // Skip out-of-bounds, walls, and already-visited cells
-            if (nr < 0 || nr >= m || nc < 0 || nc >= n ||
-                rooms[nr][nc] != INF)
+            if (nextRow < 0 || nextRow >= rowCount ||
+                nextCol < 0 || nextCol >= colCount ||
+                rooms[nextRow][nextCol] != EMPTY_ROOM) {
                 continue;
+            }
 
-            rooms[nr][nc] = rooms[r][c] + 1;  // relax distance
-            q.emplace(nr, nc);
+            rooms[nextRow][nextCol] = rooms[row][col] + 1;
+            cells.emplace(nextRow, nextCol);
         }
     }
 }
