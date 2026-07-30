@@ -4,5 +4,5 @@ using namespace std;
 
 class ValidNumber_65 {
 public:
-    bool isNumber(string s);
+    bool isNumber(const string& s) const;
 };
