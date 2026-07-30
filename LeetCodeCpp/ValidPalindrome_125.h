@@ -4,5 +4,5 @@ using namespace std;
 
 class ValidPalindrome_125 {
 public:
-    bool isPalindrome(string s);
+    bool isPalindrome(const string& s) const;
 };
