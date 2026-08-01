@@ -234,19 +234,19 @@ bool majorityElement_169_tests() {
         {
             "Boyer-Moore",
             [&](const MajorityElementTestCase& tc) {
-                return sol.majorityElement(tc.nums);
+                return sol.majorityElementBoyerMoore(tc.nums);
             }
         },
         {
             "Hashmap",
             [&](const MajorityElementTestCase& tc) {
-                return sol.majorityElementWithHashmap(tc.nums);
+                return sol.majorityElementHashmap(tc.nums);
             }
         },
         {
             "Bit Counting",
             [&](const MajorityElementTestCase& tc) {
-                return sol.majorityElementWithBitCounting(tc.nums);
+                return sol.majorityElementBitCounting(tc.nums);
             }
         },
     };

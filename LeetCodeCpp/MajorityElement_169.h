@@ -1,11 +1,12 @@
 #pragma once
+
 #include <vector>
 
 using namespace std;
 
 class MajorityElement_169 {
 public:
-    int majorityElement(const vector<int>& nums);
-    int majorityElementWithHashmap(const vector<int>& nums);
-    int majorityElementWithBitCounting(const vector<int>& nums);
+    int majorityElementBoyerMoore(const vector<int>& nums) const;
+    int majorityElementHashmap(const vector<int>& nums) const;
+    int majorityElementBitCounting(const vector<int>& nums) const;
 };
