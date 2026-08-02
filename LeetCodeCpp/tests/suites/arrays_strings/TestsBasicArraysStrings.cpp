@@ -8,7 +8,7 @@
 #include "tests/framework/TestUtils.h"
 
 #include "problems/arrays_strings/FizzBuzz_412.h"
-#include "problems/other/NumberOfEmployeesWhoMetTarget_2798.h"
+#include "problems/arrays_strings/NumberOfEmployeesWhoMetTarget_2798.h"
 #include "problems/arrays_strings/MergeStringsAlternately_1768.h"
 #include "problems/arrays_strings/FindClosestNumberToZero_2239.h"
 

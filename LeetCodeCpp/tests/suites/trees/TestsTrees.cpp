@@ -26,7 +26,7 @@
 #include "problems/trees/ValidateBinarySearchTree_98.h"
 #include "problems/trees/LowestCommonAncestorOfBST_235.h"
 
-#include "problems/design/Trie.h"
+#include "problems/trees/Trie.h"
 
 using namespace std;
 using namespace TestCases;

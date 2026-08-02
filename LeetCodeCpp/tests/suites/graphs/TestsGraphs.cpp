@@ -37,7 +37,7 @@
 
 #include "problems/arrays_strings/GameOfLife_289.h"
 #include "problems/graphs/WallsAndGates_286.h"
-#include "problems/graphs/IslandPerimeter_463.h"
+#include "problems/arrays_strings/IslandPerimeter_463.h"
 
 using namespace std;
 using namespace TestCases;

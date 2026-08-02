@@ -7,7 +7,7 @@
 #include "tests/framework/TestCases.h"
 #include "tests/framework/TestUtils.h"
 
-#include "problems/arrays_strings/ReverseString_344.h"
+#include "problems/two_pointers/ReverseString_344.h"
 #include "problems/two_pointers/ValidPalindrome_125.h"
 
 #include "problems/two_pointers/SquaresOfSortedArray_977.h"
