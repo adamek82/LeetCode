@@ -28,9 +28,9 @@
 #include "problems/hashmaps_sets/SortCharactersByFrequency_451.h"
 #include "problems/hashmaps_sets/TopKFrequentWords_692.h"
 
-#include "problems/design/AnalyzeUserWebsiteVisitPattern1152.h"
+#include "problems/hashmaps_sets/AnalyzeUserWebsiteVisitPattern1152.h"
 
-#include "problems/design/DesignHashMap_706.h"
+#include "problems/hashmaps_sets/DesignHashMap_706.h"
 
 using namespace std;
 using namespace TestCases;

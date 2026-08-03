@@ -7,7 +7,7 @@
 #include "tests/framework/TestUtils.h"
 
 #include "problems/other/FindCelebrity_277.h"
-#include "problems/arrays_strings/ValidNumber_65.h"
+#include "problems/other/ValidNumber_65.h"
 
 using namespace std;
 using namespace TestCases;

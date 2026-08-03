@@ -19,7 +19,7 @@
 
 #include "problems/linked_lists/CopyListWithRandomPointer_138.h"
 
-#include "problems/design/LRUCache_146.h"
+#include "problems/linked_lists/LRUCache_146.h"
 
 using namespace std;
 using namespace TestCases;
