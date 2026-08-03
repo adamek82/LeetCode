@@ -13,7 +13,7 @@
 #include "problems/heaps/KthLargestElementInArray_215.h"
 #include "problems/heaps/TopKFrequentElements_347.h"
 #include "problems/heaps/KClosestPointsToOrigin_973.h"
-#include "problems/linked_lists/MergeKSortedLists_23.h"
+#include "problems/heaps/MergeKSortedLists_23.h"
 #include "problems/heaps/MinHeap.h"
 #include "problems/heaps/FindSafestPathInGrid_2812.h"
 

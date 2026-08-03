@@ -6,8 +6,8 @@
 #include "tests/framework/TestCases.h"
 #include "tests/framework/TestUtils.h"
 
-#include "problems/arrays_strings/AddBinary_67.h"
-#include "problems/arrays_strings/Base7_504.h"
+#include "problems/bit_manipulation/AddBinary_67.h"
+#include "problems/bit_manipulation/Base7_504.h"
 #include "problems/bit_manipulation/NumberOf1Bits_191.h"
 #include "problems/bit_manipulation/SingleNumber_136.h"
 #include "problems/bit_manipulation/MissingNumber_268.h"

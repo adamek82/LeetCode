@@ -15,7 +15,7 @@
 #include "problems/hashmaps_sets/ValidAnagram_242.h"
 #include "problems/hashmaps_sets/MaximumNumberOfBalloons_1189.h"
 #include "problems/hashmaps_sets/UniqueNumberOfOccurrences_1207.h"
-#include "problems/arrays_strings/MajorityElement_169.h"
+#include "problems/hashmaps_sets/MajorityElement_169.h"
 
 #include "problems/hashmaps_sets/TwoSum_1.h"
 
