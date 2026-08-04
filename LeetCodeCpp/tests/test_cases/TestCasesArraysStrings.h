@@ -171,7 +171,7 @@ struct SpiralMatrixTestCase {
     std::vector<int> expected;
 };
 
-// 392. Is Subsequence follow-up
+// 392. Is Subsequence (follow-up with next-position table)
 struct IsSubsequenceFollowUpTestCase {
     std::string t;
     std::vector<std::pair<std::string, bool>> queries;
