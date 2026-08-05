@@ -346,20 +346,56 @@ function Ensure-ParentDirectory {
 }
 
 # --- Generate compile_commands.json for IntelliSense (MSVC), only when needed ---
-$compileCommandsPath   = Join-Path $ConfigBuildDir "compile_commands.json"
-$compileCommandsLatest = Join-Path $BuildDir "compile_commands.json"
+$compileCommandsPath       = Join-Path $ConfigBuildDir "compile_commands.json"
+$compileCommandsLatest     = Join-Path $BuildDir "compile_commands.json"
+$compileCommandsSourceList = Join-Path $ConfigBuildDir "compile_commands.sources.txt"
+
+# Timestamps alone are not enough here. A pure git mv can change the source
+# path set without changing file contents, and compile_commands.json must still
+# be regenerated so IDE metadata and object output paths stay correct.
+$currentCompileDbSources = @(
+    $cppFiles |
+        ForEach-Object {
+            Get-RelativePathCompat `
+                -BasePath $ProjectRoot `
+                -TargetPath $_.FullName
+        } |
+        Sort-Object
+)
 
 $needCompileDb = $false
-if (!(Test-Path $compileCommandsPath)) {
+if (!(Test-Path -LiteralPath $compileCommandsPath)) {
     $needCompileDb = $true
 } else {
-    $ccTime = (Get-Item $compileCommandsPath).LastWriteTime
+    $ccTime = (Get-Item -LiteralPath $compileCommandsPath).LastWriteTime
+
     if (($cppFiles | Where-Object { $_.LastWriteTime -gt $ccTime }).Count -gt 0) {
         $needCompileDb = $true
     }
+
     # If build.ps1 itself changed, the commands/flags might have changed too.
-    if ((Get-Item $MyInvocation.MyCommand.Path).LastWriteTime -gt $ccTime) {
+    if ((Get-Item -LiteralPath $MyInvocation.MyCommand.Path).LastWriteTime -gt $ccTime) {
         $needCompileDb = $true
+    }
+
+    # Regenerate if the translation-unit list changed, even if timestamps did not.
+    # This catches moved, added, removed, or renamed .cpp files.
+    if (!(Test-Path -LiteralPath $compileCommandsSourceList)) {
+        $needCompileDb = $true
+    } else {
+        $previousCompileDbSources = @(
+            Get-Content `
+                -LiteralPath $compileCommandsSourceList `
+                -ErrorAction SilentlyContinue
+        )
+
+        $sourceListDiff = Compare-Object `
+            -ReferenceObject $previousCompileDbSources `
+            -DifferenceObject $currentCompileDbSources
+
+        if ($sourceListDiff) {
+            $needCompileDb = $true
+        }
     }
 }
 
@@ -403,6 +439,11 @@ if ($needCompileDb) {
 
     # Keep a stable "latest" path for VSCode settings
     Copy-Item -LiteralPath $compileCommandsPath -Destination $compileCommandsLatest -Force
+
+    Set-Content `
+        -LiteralPath $compileCommandsSourceList `
+        -Value $currentCompileDbSources `
+        -Encoding ASCII
 
     Write-Host "Generated compile_commands.json at: $compileCommandsPath"
     Write-Host "Updated IDE compile_commands.json at: $compileCommandsLatest"
