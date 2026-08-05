@@ -1,27 +1,33 @@
-# PowerShell script for parallel incremental compilation with timing
+# PowerShell script for parallel incremental compilation with timing.
 # Supports Debug/Release configurations and keeps outputs separated:
 #   build\Debug\...
 #   build\Release\...
 #
 # Incremental dependency tracking:
-#   Uses `cl.exe /showIncludes` to capture header dependencies per translation unit.
-#   Saves them under: build\<Config>\obj\deps\<name>.deps.txt
-#   Rebuilds a TU if any listed header is newer than the corresponding .obj.
+#   Uses cl.exe /showIncludes to capture header dependencies per translation unit.
+#   Saves them under:
+#     build\<Config>\obj\deps\<relative-source-path>.deps.txt
+#   Rebuilds a translation unit if the .cpp file or any tracked project-local
+#   header is newer than the corresponding .obj.
 #
 # Performance notes:
-#   - We DO NOT print the noisy "/showIncludes" lines to the console (it is very slow).
-#   - We also filter "/showIncludes" lines when compilation fails.
-#   - We store only project-local headers (under $PSScriptRoot) as dependencies.
+#   - We do not print noisy /showIncludes lines to the console.
+#   - We also filter /showIncludes lines when compilation fails.
+#   - We store only project-local headers, under $PSScriptRoot, as dependencies.
 #     System headers almost never change and checking them would be expensive.
-#   - We skip the link step if nothing was recompiled.
+#   - We skip the link step if nothing was recompiled and the executable exists.
 #   - We stop before linking if any compilation job fails.
-#   - We regenerate compile_commands.json only when sources have changed since last gen.
+#   - We regenerate compile_commands.json when:
+#       * it is missing,
+#       * any .cpp file is newer than the database,
+#       * build.ps1 changed,
+#       * the translation-unit list changed.
 #
 # Visual Studio discovery notes:
-#   - We DO NOT hardcode vcvars64.bat path.
-#   - We discover it once via vswhere.exe and cache it under .vscode\vcvars64_path.txt
-#   - We cache the vcvars environment under .vscode\vcvars_env.ps1
-#   - We auto-regenerate vcvars_env.ps1 when vcvars64.bat changes (stamp file).
+#   - We do not hardcode the vcvars64.bat path.
+#   - We discover it via vswhere.exe and cache it under .vscode\vcvars64_path.txt.
+#   - We cache the vcvars environment under .vscode\vcvars_env.ps1.
+#   - We auto-regenerate vcvars_env.ps1 when vcvars64.bat changes.
 
 param(
     # Base build directory (config subdirs will be created under it)
