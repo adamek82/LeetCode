@@ -1,39 +1,37 @@
 #pragma once
-#include <set>
+
 #include <queue>
+#include <set>
 #include <vector>
 
 using namespace std;
 
-// LeetCode 855. Exam Room
-// Optimal O(log M) per operation using a max-heap of gaps + lazy deletion.
-// M = number of seated students (<= #operations).
-
 class ExamRoom_855 {
 public:
-    explicit ExamRoom_855(int n_);
+    explicit ExamRoom_855(int n);
+
     int seat();
-    void leave(int p);
+    void leave(int seat);
 
 private:
+    struct Gap {
+        int left;
+        int right;
+        int distance;
+        int seat;
+    };
+
+    struct GapCompare {
+        bool operator()(const Gap& a, const Gap& b) const;
+    };
+
     const int n;
 
-    struct Seg {
-        int L, R;     // bounding occupied seats (may be sentinels -1 and n)
-        int dist;     // priority distance for this gap
-        int seat;     // chosen seat in this gap
-    };
+    set<int> occupied;
+    priority_queue<Gap, vector<Gap>, GapCompare> gaps;
 
-    struct Cmp {
-        bool operator()(const Seg& a, const Seg& b) const;
-    };
-
-    set<int> taken;   // occupied seats; includes sentinels -1 and n
-    priority_queue<Seg, vector<Seg>, Cmp> pq;
-
-    // helpers
-    int seatOf(int L, int R) const;
-    int distOf(int L, int R) const;
-    void pushGap(int L, int R);
-    bool isValid(int L, int R) const;
+    int seatInGap(int left, int right) const;
+    int distanceInGap(int left, int right) const;
+    void pushGap(int left, int right);
+    bool isValidGap(int left, int right) const;
 };
