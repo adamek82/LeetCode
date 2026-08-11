@@ -252,6 +252,7 @@ Problems are grouped according to the C++ directory structure.
 | 104 | Maximum Depth of Binary Tree | ✗ | ✓ | ✗ | ✗ | ✓ | ✗ |
 | 110 | Balanced Binary Tree | ✗ | ✓ | ✗ | ✗ | ✓ | ✗ |
 | 112 | Path Sum | ✗ | ✓ | ✗ | ✗ | ✓ | ✗ |
+| 208 | Implement Trie (Prefix Tree) | ✗ | ✓ | ✗ | ✗ | ✗ | ✗ |
 | 226 | Invert Binary Tree | ✗ | ✓ | ✗ | ✗ | ✓ | ✗ |
 | 230 | Kth Smallest Element in a BST | ✗ | ✓ | ✗ | ✗ | ✓ | ✗ |
 | 235 | Lowest Common Ancestor of a Binary Search Tree | ✗ | ✓ | ✗ | ✗ | ✓ | ✗ |
@@ -283,4 +284,3 @@ specific LeetCode problem number:
 
 - `heaps/MinHeap` — standalone min-heap implementation
 - `stacks/DecodeString_GoogleOnsite` — Google onsite-style decode-string exercise
-- `trees/Trie` — standalone trie implementation
