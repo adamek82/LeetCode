@@ -327,8 +327,11 @@ function Get-TranslationUnitOutputs {
         -BasePath $ProjectRoot `
         -TargetPath $CppFile.FullName
 
-    $relativeWithoutExtension =
-        [System.IO.Path]::ChangeExtension($relativePath, $null)
+    $extension = [System.IO.Path]::GetExtension($relativePath)
+    $relativeWithoutExtension = $relativePath.Substring(
+        0,
+        $relativePath.Length - $extension.Length
+    )
 
     $objFile = Join-Path $ObjectRoot ($relativeWithoutExtension + ".obj")
     $depFile = Join-Path $DependencyRoot ($relativeWithoutExtension + ".deps.txt")
