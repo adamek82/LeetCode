@@ -21,6 +21,7 @@ while still showing which problems are also implemented in the other languages.
 - `LeetCodeJS/` — JavaScript solutions and tests
 - `LeetCodeKotlin/` — Kotlin solutions and tests
 - `LeetCodePy/` — Python solutions and tests
+- `LeetCodeSql/` — SQL solutions and runner
 
 ---
 
@@ -284,3 +285,14 @@ specific LeetCode problem number:
 
 - `heaps/MinHeap` — standalone min-heap implementation
 - `stacks/DecodeString_GoogleOnsite` — Google onsite-style decode-string exercise
+
+---
+
+## SQL Solutions
+
+SQL problems are kept separately from the categorized C++-based overview above.
+
+| # | Problem |
+| ---: | --- |
+| 175 | Combine Two Tables |
+| 182 | Duplicate Emails |
