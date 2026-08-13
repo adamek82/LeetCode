@@ -1,7 +1,8 @@
 #pragma once
 
-#include "common/TreeNode.h"
 #include <vector>
+
+#include "common/TreeNode.h"
 
 using namespace std;
 
