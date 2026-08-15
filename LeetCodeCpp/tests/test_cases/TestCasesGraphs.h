@@ -57,6 +57,14 @@ struct SlidingPuzzleTestCase {
     int expected;
 };
 
+// 127. Word Ladder
+struct WordLadderTestCase {
+    std::string beginWord;
+    std::string endWord;
+    std::vector<std::string> wordList;
+    int expected;
+};
+
 // 207. Course Schedule
 struct CourseScheduleTestCase {
     int numCourses;

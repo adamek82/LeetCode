@@ -21,6 +21,7 @@
 #include "problems/graphs/ShortestPathInBinaryMatrix_1091.h"
 #include "problems/graphs/BusRoutes_815.h"
 #include "problems/graphs/SlidingPuzzle_773.h"
+#include "problems/graphs/WordLadder_127.h"
 
 #include "problems/graphs/CourseSchedule_207.h"
 #include "problems/graphs/CourseScheduleII_210.h"
@@ -336,6 +337,81 @@ bool slidingPuzzle_773_tests() {
 
         const string label = "Sliding Puzzle 773 Test " + to_string(i + 1);
         REQUIRE_ASSERT(assertEqScalar(label, testCases[i].expected, got));
+    }
+
+    return true;
+}
+
+bool wordLadder_127_tests() {
+    vector<WordLadderTestCase> testCases = {
+        // Official examples
+        {
+            "hit",
+            "cog",
+            {"hot", "dot", "dog", "lot", "log", "cog"},
+            5
+        },
+        {
+            "hit",
+            "cog",
+            {"hot", "dot", "dog", "lot", "log"},
+            0
+        },
+
+        // Direct transformation
+        {
+            "hit",
+            "hot",
+            {"hot"},
+            2
+        },
+
+        // endWord exists, but is unreachable
+        {
+            "hit",
+            "cog",
+            {"hot", "dot", "tod", "cog"},
+            0
+        },
+
+        // Larger case with several competing branches
+        {
+            "red",
+            "tax",
+            {
+                "ted", "tex", "red", "tax", "tad",
+                "den", "rex", "pee", "rad", "rid",
+                "rod", "tod", "ten", "tan", "ran"
+            },
+            4
+        },
+
+        // Longer transformation with distracting words
+        {
+            "cold",
+            "warm",
+            {
+                "cord", "card", "ward", "warm",
+                "bold", "bald", "bard", "barn",
+                "born", "corn", "core", "care",
+                "ware", "worm", "word", "work"
+            },
+            5
+        }
+    };
+
+    WordLadder_127 solver;
+
+    for (size_t i = 0; i < testCases.size(); ++i) {
+        const auto& tc = testCases[i];
+
+        const int got = solver.ladderLength(
+            tc.beginWord,
+            tc.endWord,
+            tc.wordList);
+
+        const string label = "Word Ladder 127 Test " + to_string(i + 1);
+        REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
     }
 
     return true;
@@ -939,6 +1015,7 @@ std::vector<TestRegistry::Entry> getTests() {
         TEST(1091, "Shortest Path Binary Matrix",                 shortestPathBinaryMatrix_1091_tests),
         TEST(815,  "Bus Routes",                                  busRoutes_815_tests),
         TEST(773,  "Sliding Puzzle",                              slidingPuzzle_773_tests),
+        TEST(127,  "Word Ladder",                                 wordLadder_127_tests),
 
         // Directed-graph reasoning with topological order and cycle detection
         TEST(207,  "Course Schedule",                             courseSchedule_207_tests),
