@@ -1,9 +1,10 @@
 #pragma once
-#include <vector>
 
-using namespace std;
+#include <vector>
 
 class ShortestCycleInGraph_2608 {
 public:
-    int findShortestCycle(int n, vector<vector<int>>& edges);
+    int findShortestCycle(
+        int vertexCount,
+        const std::vector<std::vector<int>>& edges) const;
 };

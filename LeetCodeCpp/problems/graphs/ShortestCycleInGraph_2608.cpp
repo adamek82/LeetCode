@@ -1,58 +1,59 @@
 #include "ShortestCycleInGraph_2608.h"
-#include <queue>
-#include <algorithm>
 
-int ShortestCycleInGraph_2608::findShortestCycle(int n, vector<vector<int>> &edges)
+#include <algorithm>
+#include <queue>
+
+using namespace std;
+
+int ShortestCycleInGraph_2608::findShortestCycle(
+    int vertexCount,
+    const vector<vector<int>>& edges) const
 {
-    vector<vector<int>> g(n);
-    for (auto& e : edges) {
-        int u = e[0], v = e[1];
-        g[u].push_back(v);
-        g[v].push_back(u);
+    vector<vector<int>> adjacencyList(vertexCount);
+
+    for (const auto& edge : edges) {
+        const int firstVertex = edge[0];
+        const int secondVertex = edge[1];
+
+        adjacencyList[firstVertex].push_back(secondVertex);
+        adjacencyList[secondVertex].push_back(firstVertex);
     }
 
-    /*
-     * We use a large finite INF sentinel (1e9) instead of std::numeric_limits<int>::max().
-     * Reason: it is safely above any real BFS distance here (dist <= n-1), while keeping
-     * arithmetic like (2*dist[u] + 1) and (dist[u] + dist[v] + 1) comfortably away from
-     * integer overflow concerns and avoiding extra casts/guards.
-     *
-     * Alternative: constexpr int INF = std::numeric_limits<int>::max() / 4;
-     * This also works (keeps "infinite" far away and still leaves headroom), but for this
-     * problem a simple 1'000'000'000 sentinel is clear, sufficient, and not worth extra fuss.
-     */
-    constexpr int INF = 1'000'000'000;
-    int best = INF;
-    vector<int> dist(n);
+    constexpr int UNVISITED = -1;
+    const int noCycle = vertexCount + 1;
 
-    for (int s = 0; s < n; ++s) {
-        fill(dist.begin(), dist.end(), INF);
-        queue<int> q;
-        dist[s] = 0;
-        q.push(s);
+    int shortestCycle = noCycle;
+    vector<int> distances(vertexCount);
 
-        while (!q.empty()) {
-            int u = q.front(); q.pop();
+    for (int start = 0; start < vertexCount; ++start) {
+        fill(distances.begin(), distances.end(), UNVISITED);
 
-            if (2 * dist[u] + 1 >= best)       // cannot beat current best
+        queue<int> vertices;
+        distances[start] = 0;
+        vertices.push(start);
+
+        while (!vertices.empty()) {
+            const int current = vertices.front();
+            vertices.pop();
+
+            if (2 * distances[current] + 1 >= shortestCycle)
                 continue;
 
-            for (int v : g[u]) {
-                if (dist[v] == INF) {          // tree edge
-                    dist[v] = dist[u] + 1;
-                    q.push(v);
-                } else if (dist[v] + 1 != dist[u]) {
-                    /*
-                     *  v is NOT the parent of u in the BFS tree.
-                     *  In an undirected BFS tree the parent of u
-                     *  is the only neighbour whose distance is
-                     *  exactly dist[u]-1, so the inequality
-                     *  identifies a cross/side edge that closes a cycle.
-                     */
-                    best = min(best, dist[u] + dist[v] + 1);
+            for (const int neighbor : adjacencyList[current]) {
+                if (distances[neighbor] == UNVISITED) {
+                    distances[neighbor] = distances[current] + 1;
+                    vertices.push(neighbor);
+                } else if (distances[neighbor] + 1 != distances[current]) {
+                    shortestCycle = min(
+                        shortestCycle,
+                        distances[current] + distances[neighbor] + 1);
+
+                    if (shortestCycle == 3)
+                        return 3;
                 }
             }
         }
     }
-    return best == INF ? -1 : best;
+
+    return shortestCycle == noCycle ? -1 : shortestCycle;
 }
