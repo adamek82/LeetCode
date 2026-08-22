@@ -130,6 +130,14 @@ struct ShortestCycleInGraphTestCase {
     int expected;
 };
 
+// 3017. Count the Number of Houses at a Certain Distance II
+struct CountHousesAtCertainDistanceIITestCase {
+    int n;
+    int x;
+    int y;
+    std::vector<long long> expected;
+};
+
 // 289. Game of Life
 struct GameOfLifeTestCase {
     std::vector<std::vector<int>> input;

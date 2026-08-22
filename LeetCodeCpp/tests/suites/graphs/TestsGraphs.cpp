@@ -35,6 +35,7 @@
 
 #include "problems/graphs/LongestCycleInGraph_2360.h"
 #include "problems/graphs/ShortestCycleInGraph_2608.h"
+#include "problems/graphs/CountHousesAtCertainDistanceII_3017.h"
 
 #include "problems/graphs/GameOfLife_289.h"
 #include "problems/graphs/WallsAndGates_286.h"
@@ -811,6 +812,95 @@ bool shortestCycleInGraph_2608_tests() {
     return true;
 }
 
+bool countHousesAtCertainDistanceII_3017_tests() {
+    vector<CountHousesAtCertainDistanceIITestCase> testCases = {
+        // Official examples
+        {3, 1, 3, {6, 0, 0}},
+        {5, 2, 4, {10, 8, 2, 0, 0}},
+        {4, 1, 1, {6, 4, 2, 0}},
+
+        // Minimum n; the extra edge duplicates the existing connection
+        {2, 1, 2, {2, 0}},
+
+        // x == y inside the path: equivalent to having no useful extra edge
+        {6, 3, 3, {10, 8, 6, 4, 2, 0}},
+
+        // x > y: verifies that the implementation handles reversed endpoints
+        {5, 4, 2, {10, 8, 2, 0, 0}},
+
+        // Internal cycle with asymmetric tails
+        {7, 3, 5, {14, 12, 10, 4, 2, 0, 0}},
+
+        // Whole graph is an odd cycle
+        {7, 1, 7, {14, 14, 14, 0, 0, 0, 0}},
+
+        // Whole graph is an even cycle
+        {8, 1, 8, {16, 16, 16, 8, 0, 0, 0, 0}},
+    };
+
+    CountHousesAtCertainDistanceII_3017 solver;
+
+    auto assertResult = [](const string& label,
+                           const vector<long long>& expected,
+                           const vector<long long>& got) {
+        if (expected.size() != got.size()) {
+            return assertEqScalar(
+                label + " size",
+                expected.size(),
+                got.size());
+        }
+
+        for (size_t i = 0; i < expected.size(); ++i) {
+            if (expected[i] != got[i]) {
+                return assertEqScalar(
+                    label + " distance " + to_string(i + 1),
+                    expected[i],
+                    got[i]);
+            }
+        }
+
+        return true;
+    };
+
+    for (size_t i = 0; i < testCases.size(); ++i) {
+        const auto& tc = testCases[i];
+        const auto got = solver.countOfPairs(tc.n, tc.x, tc.y);
+
+        const string label =
+            "Count Houses at Certain Distance II 3017 Test " +
+            to_string(i + 1);
+
+        REQUIRE_ASSERT(assertResult(label, tc.expected, got));
+    }
+
+    // Performance / maximum-size case.
+    //
+    // x = 1 and y = n turn the path into a cycle C_n.
+    // For even n:
+    //   distances 1 .. n/2 - 1 -> every house has two houses at that distance
+    //   distance n/2           -> every house has one opposite house
+    //   larger distances       -> impossible
+    {
+        constexpr int n = 100000;
+
+        vector<long long> expected(n, 0);
+
+        for (int distance = 1; distance < n / 2; ++distance) {
+            expected[distance - 1] = 2LL * n;
+        }
+        expected[n / 2 - 1] = n;
+
+        const auto got = solver.countOfPairs(n, 1, n);
+
+        REQUIRE_ASSERT(assertResult(
+            "Count Houses at Certain Distance II 3017 Performance",
+            expected,
+            got));
+    }
+
+    return true;
+}
+
 /* Grid simulation, multi-source expansion, and neighbor-based reasoning */
 
 bool gameOfLife_289_tests() {
@@ -1033,6 +1123,7 @@ std::vector<TestRegistry::Entry> getTests() {
         // Cycle analysis in directed and undirected graphs
         TEST(2360, "Longest Cycle in a Graph",                    longestCycleInGraph_2360_tests),
         TEST(2608, "Shortest Cycle in a Graph",                   shortestCycleInGraph_2608_tests),
+        TEST(3017, "Count Houses at a Certain Distance II",       countHousesAtCertainDistanceII_3017_tests),
 
         // Grid simulation, multi-source expansion, and neighbor-based reasoning
         TEST(289,  "Game of Life",                                gameOfLife_289_tests),
