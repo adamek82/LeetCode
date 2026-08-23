@@ -1,35 +1,35 @@
 #include "LongestCycleInGraph_2360.h"
 
 #include <algorithm>
-#include <vector>
 
 using namespace std;
 
-int LongestCycleInGraph_2360::longestCycle(vector<int>& edges)
+int LongestCycleInGraph_2360::longestCycle(const vector<int>& edges) const
 {
-    const int n = static_cast<int>(edges.size());
+    const int nodeCount = static_cast<int>(edges.size());
 
-    int ans = -1;
-    int time = 1;
-    vector<int> timeVisited(n, 0);
+    int longestCycleLength = -1;
+    int timestamp = 1;
+    vector<int> visitTime(nodeCount);
 
-    for (int i = 0; i < n; ++i) {
-        if (timeVisited[i]) {
+    for (int start = 0; start < nodeCount; ++start) {
+        if (visitTime[start] != 0) {
             continue;
         }
 
-        const int startTime = time;
-        int node = i;
+        const int traversalStartTime = timestamp;
+        int node = start;
 
-        while (node != -1 && !timeVisited[node]) {
-            timeVisited[node] = time++;
+        while (node != -1 && visitTime[node] == 0) {
+            visitTime[node] = timestamp++;
             node = edges[node];
         }
 
-        if (node != -1 && timeVisited[node] >= startTime) {
-            ans = max(ans, time - timeVisited[node]);
+        if (node != -1 && visitTime[node] >= traversalStartTime) {
+            const int cycleLength = timestamp - visitTime[node];
+            longestCycleLength = max(longestCycleLength, cycleLength);
         }
     }
 
-    return ans;
+    return longestCycleLength;
 }
