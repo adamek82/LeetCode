@@ -1,9 +1,9 @@
 #pragma once
-#include <vector>
 
-using namespace std;
+#include <vector>
 
 class IslandPerimeter_463 {
 public:
-    int islandPerimeter(const vector<vector<int>>& grid);
+    int islandPerimeter(
+        const std::vector<std::vector<int>>& grid) const;
 };
