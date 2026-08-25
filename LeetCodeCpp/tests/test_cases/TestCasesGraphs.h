@@ -65,6 +65,12 @@ struct WordLadderTestCase {
     int expected;
 };
 
+struct ShortestPathVisitingAllNodesCase {
+    const char* label;
+    Edges graph;
+    int expected;
+};
+
 // 207. Course Schedule
 struct CourseScheduleTestCase {
     int numCourses;

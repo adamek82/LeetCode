@@ -22,6 +22,7 @@
 #include "problems/graphs/BusRoutes_815.h"
 #include "problems/graphs/SlidingPuzzle_773.h"
 #include "problems/graphs/WordLadder_127.h"
+#include "problems/graphs/ShortestPathVisitingAllNodes_847.h"
 
 #include "problems/graphs/CourseSchedule_207.h"
 #include "problems/graphs/CourseScheduleII_210.h"
@@ -413,6 +414,55 @@ bool wordLadder_127_tests() {
 
         const string label = "Word Ladder 127 Test " + to_string(i + 1);
         REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
+    }
+
+    return true;
+}
+
+bool shortestPathVisitingAllNodes_847_tests() {
+    struct TestCase {
+        vector<vector<int>> graph;
+        int expected;
+    };
+
+    const vector<TestCase> testCases = {
+        // Official examples
+        {{{1, 2, 3}, {0}, {0}, {0}}, 4},
+        {{{1}, {0, 2, 4}, {1, 3, 4}, {2}, {1, 2}}, 4},
+
+        // Edge cases
+        {{{}}, 0},
+        {{{1}, {0}}, 1},
+
+        // Different graph structures
+        {{{1}, {0, 2}, {1, 3}, {2, 4}, {3, 5}, {4}}, 5},
+        {{{1, 5}, {0, 2}, {1, 3}, {2, 4}, {3, 5}, {4, 0}}, 5},
+        {
+            {{1, 2, 3, 4},
+             {0, 2, 3, 4},
+             {0, 1, 3, 4},
+             {0, 1, 2, 4},
+             {0, 1, 2, 3}},
+            4
+        },
+
+        // Maximum n; revisiting the center is necessary
+        {
+            {{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11},
+             {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}},
+            20
+        },
+    };
+
+    const ShortestPathVisitingAllNodes_847 solver;
+
+    for (size_t i = 0; i < testCases.size(); ++i) {
+        const auto& testCase = testCases[i];
+        const int got = solver.shortestPathLength(testCase.graph);
+
+        const string label =
+            "Shortest Path Visiting All Nodes 847 Test " + to_string(i + 1);
+        REQUIRE_ASSERT(assertEqScalar(label, testCase.expected, got));
     }
 
     return true;
@@ -1106,6 +1156,7 @@ std::vector<TestRegistry::Entry> getTests() {
         TEST(815,  "Bus Routes",                                  busRoutes_815_tests),
         TEST(773,  "Sliding Puzzle",                              slidingPuzzle_773_tests),
         TEST(127,  "Word Ladder",                                 wordLadder_127_tests),
+        TEST(847,  "Shortest Path Visiting All Nodes",            shortestPathVisitingAllNodes_847_tests),
 
         // Directed-graph reasoning with topological order and cycle detection
         TEST(207,  "Course Schedule",                             courseSchedule_207_tests),
