@@ -29,7 +29,6 @@ bool FindIfPathExistsInGraph_1971::validPathRecursiveDFS(
     }
 
     vector<int> visited(n, 0);
-    visited[source] = 1;
 
     return recursive_dfs(source, destination, graph, visited);
 }
@@ -141,13 +140,12 @@ bool FindIfPathExistsInGraph_1971::recursive_dfs(
         return true;
     }
 
-    for (int neighbor : graph[node]) {
-        if (!visited[neighbor]) {
-            visited[neighbor] = 1;
+    visited[node] = 1;
 
-            if (recursive_dfs(neighbor, destination, graph, visited)) {
-                return true;
-            }
+    for (int neighbor : graph[node]) {
+        if (!visited[neighbor] &&
+            recursive_dfs(neighbor, destination, graph, visited)) {
+            return true;
         }
     }
 
