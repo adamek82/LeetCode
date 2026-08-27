@@ -1,22 +1,15 @@
 #pragma once
+
 #include <vector>
 
-using namespace std;
-
 class UnionFind {
-private:
-    vector<int> parent;
-
 public:
-    // Constructor: Initialize n elements, each in its own set
-    UnionFind(int n);
+    explicit UnionFind(int elementCount);
 
-    // Find: Returns the representative (root) of the set containing n
-    int find(int n);
+    int find(int node);
+    void unionSets(int first, int second);
 
-    // Union with path compression performed during union
-    void unionSets(int src, int dst);
-
-    // Display parent array (for debugging)
-    void displayParents();
+private:
+    std::vector<int> parents;
+    std::vector<int> componentSizes;
 };
