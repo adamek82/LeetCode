@@ -64,8 +64,7 @@ bool FindIfPathExistsInGraph_1971::validPathIterativeDFS(
         }
 
         for (int neighbor : graph[node]) {
-            if (!visited.count(neighbor)) {
-                visited.insert(neighbor);
+            if (visited.insert(neighbor).second) {
                 st.push(neighbor);
             }
         }
