@@ -105,8 +105,7 @@ bool FindIfPathExistsInGraph_1971::validPathBFS(
         }
 
         for (int neighbor : graph[node]) {
-            if (!visited.count(neighbor)) {
-                visited.insert(neighbor);
+            if (visited.insert(neighbor).second) {
                 q.push(neighbor);
             }
         }
