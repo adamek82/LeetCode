@@ -136,6 +136,13 @@ struct ShortestCycleInGraphTestCase {
     int expected;
 };
 
+// 1192. Critical Connections in a Network
+struct CriticalConnectionsInNetworkTestCase {
+    int n;
+    Edges connections;
+    Edges expected;
+};
+
 // 3017. Count the Number of Houses at a Certain Distance II
 struct CountHousesAtCertainDistanceIITestCase {
     int n;

@@ -36,6 +36,7 @@
 
 #include "problems/graphs/LongestCycleInGraph_2360.h"
 #include "problems/graphs/ShortestCycleInGraph_2608.h"
+#include "problems/graphs/CriticalConnectionsInNetwork_1192.h"
 #include "problems/graphs/CountHousesAtCertainDistanceII_3017.h"
 
 #include "problems/graphs/GameOfLife_289.h"
@@ -862,6 +863,77 @@ bool shortestCycleInGraph_2608_tests() {
     return true;
 }
 
+bool criticalConnectionsInNetwork_1192_tests()
+{
+    vector<CriticalConnectionsInNetworkTestCase> testCases = {
+        // Official example 1: triangle with one leaf edge
+        {
+            4,
+            {{0, 1}, {1, 2}, {2, 0}, {1, 3}},
+            {{1, 3}}
+        },
+
+        // Official example 2: the only edge is necessarily a bridge
+        {
+            2,
+            {{0, 1}},
+            {{0, 1}}
+        },
+
+        // A single cycle has no bridges
+        {
+            5,
+            {{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 0}},
+            {}
+        },
+
+        // Every edge in a chain is a bridge
+        {
+            5,
+            {{0, 1}, {1, 2}, {2, 3}, {3, 4}},
+            {{0, 1}, {1, 2}, {2, 3}, {3, 4}}
+        },
+
+        // Two cycles connected by one bridge
+        {
+            6,
+            {
+                {0, 1}, {1, 2}, {2, 0},
+                {1, 3},
+                {3, 4}, {4, 5}, {5, 3}
+            },
+            {{1, 3}}
+        },
+
+        // Two triangles sharing an articulation vertex, but no bridge
+        {
+            5,
+            {
+                {0, 1}, {1, 2}, {2, 0},
+                {1, 3}, {3, 4}, {4, 1}
+            },
+            {}
+        }
+    };
+
+    CriticalConnectionsInNetwork_1192 solver;
+
+    for (size_t i = 0; i < testCases.size(); ++i) {
+        const auto& tc = testCases[i];
+        const auto got =
+            solver.criticalConnections(tc.n, tc.connections);
+
+        const string label =
+            "Critical Connections in a Network 1192 Test " +
+            to_string(i + 1);
+
+        REQUIRE_ASSERT(
+            assertEqVVIntAnyOrder(label, tc.expected, got));
+    }
+
+    return true;
+}
+
 bool countHousesAtCertainDistanceII_3017_tests() {
     vector<CountHousesAtCertainDistanceIITestCase> testCases = {
         // Official examples
@@ -1174,6 +1246,7 @@ std::vector<TestRegistry::Entry> getTests() {
         // Cycle analysis in directed and undirected graphs
         TEST(2360, "Longest Cycle in a Graph",                    longestCycleInGraph_2360_tests),
         TEST(2608, "Shortest Cycle in a Graph",                   shortestCycleInGraph_2608_tests),
+        TEST(1192, "Critical Connections in a Network",           criticalConnectionsInNetwork_1192_tests),
         TEST(3017, "Count Houses at a Certain Distance II",       countHousesAtCertainDistanceII_3017_tests),
 
         // Grid simulation, multi-source expansion, and neighbor-based reasoning
