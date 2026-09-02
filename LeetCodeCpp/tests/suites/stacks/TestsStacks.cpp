@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "tests/framework/TestCases.h"
+#include "tests/test_cases/TestCasesStacks.h"
 #include "tests/framework/TestUtils.h"
 
 #include "problems/stacks/BaseballGame_682.h"

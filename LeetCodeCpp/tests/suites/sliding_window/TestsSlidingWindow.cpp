@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "tests/framework/TestCases.h"
+#include "tests/test_cases/TestCasesSlidingWindow.h"
 #include "tests/framework/TestUtils.h"
 
 #include "problems/sliding_window/MaximumAverageSubarrayI_643.h"

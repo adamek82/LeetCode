@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "tests/framework/TestCases.h"
+#include "tests/test_cases/TestCasesOther.h"
 #include "tests/framework/TestUtils.h"
 
 #include "problems/other/FindCelebrity_277.h"

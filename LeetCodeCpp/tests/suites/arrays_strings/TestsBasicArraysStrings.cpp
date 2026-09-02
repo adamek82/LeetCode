@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "tests/framework/TestCases.h"
+#include "tests/test_cases/TestCasesArraysStrings.h"
 #include "tests/framework/TestUtils.h"
 
 #include "problems/arrays_strings/FizzBuzz_412.h"

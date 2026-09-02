@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "tests/framework/TestCases.h"
+#include "tests/test_cases/TestCasesHashmapsSets.h"
 #include "tests/framework/TestUtils.h"
 
 #include "problems/hashmaps_sets/JewelsAndStones_771.h"

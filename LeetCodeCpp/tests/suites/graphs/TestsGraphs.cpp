@@ -7,7 +7,7 @@
 #include <variant>
 #include <vector>
 
-#include "tests/framework/TestCases.h"
+#include "tests/test_cases/TestCasesGraphs.h"
 #include "tests/framework/TestUtils.h"
 
 #include "problems/graphs/FindIfPathExistsInGraph_1971.h"

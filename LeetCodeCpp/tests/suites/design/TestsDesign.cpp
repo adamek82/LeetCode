@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "tests/framework/TestCases.h"
+#include "tests/test_cases/TestCasesDesign.h"
 #include "tests/framework/TestUtils.h"
 
 #include "problems/design/AllOOneDataStructure_432.h"

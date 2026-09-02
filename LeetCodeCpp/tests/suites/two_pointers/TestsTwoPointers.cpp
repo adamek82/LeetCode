@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "tests/framework/TestCases.h"
+#include "tests/test_cases/TestCasesTwoPointers.h"
 #include "tests/framework/TestUtils.h"
 
 #include "problems/two_pointers/ReverseString_344.h"

@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "tests/framework/TestCases.h"
+#include "tests/test_cases/TestCasesDynamicProgramming.h"
 #include "tests/framework/TestUtils.h"
 
 #include "problems/dynamic_programming/FibonacciNumber_509.h"

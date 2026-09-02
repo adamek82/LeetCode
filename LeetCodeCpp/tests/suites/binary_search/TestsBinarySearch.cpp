@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "tests/framework/TestCases.h"
+#include "tests/test_cases/TestCasesBinarySearch.h"
 #include "tests/framework/TestUtils.h"
 
 #include "problems/binary_search/BinarySearch_704.h"

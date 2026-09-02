@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "tests/framework/TestCases.h"
+#include "tests/test_cases/TestCasesBacktracking.h"
 #include "tests/framework/TestUtils.h"
 
 #include "problems/backtracking/Subsets_78.h"

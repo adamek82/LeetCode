@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "tests/framework/TestCases.h"
+#include "tests/test_cases/TestCasesBitManipulation.h"
 #include "tests/framework/TestUtils.h"
 
 #include "problems/bit_manipulation/AddBinary_67.h"
