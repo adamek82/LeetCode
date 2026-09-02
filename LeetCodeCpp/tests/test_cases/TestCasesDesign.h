@@ -6,23 +6,6 @@
 
 namespace TestCases {
 
-enum class MinHeapOpKind {
-    Insert,
-    ExtractMin,
-    Update,
-};
-
-struct MinHeapOp {
-    MinHeapOpKind kind;
-    int value = 0;
-    int newValue = 0;
-};
-
-struct MinHeapTestCase {
-    std::vector<MinHeapOp> operations;
-    std::vector<int> expected;
-};
-
 // 855. Exam Room
 struct ExamRoomTestCase {
     std::vector<std::string> operations;

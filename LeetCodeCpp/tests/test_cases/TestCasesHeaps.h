@@ -4,6 +4,23 @@
 
 namespace TestCases {
 
+enum class MinHeapOpKind {
+    Insert,
+    ExtractMin,
+    Update,
+};
+
+struct MinHeapOp {
+    MinHeapOpKind kind;
+    int value = 0;
+    int newValue = 0;
+};
+
+struct MinHeapTestCase {
+    std::vector<MinHeapOp> operations;
+    std::vector<int> expected;
+};
+
 // 1046. Last Stone Weight
 struct LastStoneWeightTestCase {
     std::vector<int> stones;
