@@ -19,6 +19,13 @@ struct FindIfPathExistsInGraphTestCase {
     bool expected;
 };
 
+// 2685. Count the Number of Complete Components
+struct CountCompleteComponentsTestCase {
+    int n;
+    Edges edges;
+    int expected;
+};
+
 // 200. Number of Islands
 struct NumberOfIslandsTestCase {
     GridChar grid;

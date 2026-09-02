@@ -11,6 +11,7 @@
 #include "tests/framework/TestUtils.h"
 
 #include "problems/graphs/FindIfPathExistsInGraph_1971.h"
+#include "problems/graphs/CountCompleteComponents_2685.h"
 #include "problems/graphs/NumberOfIslands_200.h"
 #include "problems/graphs/MaxAreaOfIsland_695.h"
 #include "common/GraphNode.h"
@@ -84,6 +85,76 @@ bool findIfPathExistsInGraph_1971_tests() {
             const string label = "Find Path 1971 [" + name + "] " + to_string(i + 1);
             REQUIRE_ASSERT(assertEqScalar(label, tc.expected, runWith(method, tc)));
         }
+    }
+
+    return true;
+}
+
+bool countCompleteComponents_2685_tests() {
+    const vector<CountCompleteComponentsTestCase> testCases = {
+        {
+            6,
+            {{0, 1}, {0, 2}, {1, 2}, {3, 4}},
+            3
+        },
+        {
+            6,
+            {{0, 1}, {0, 2}, {1, 2}, {3, 4}, {3, 5}},
+            1
+        },
+        {
+            1,
+            {},
+            1
+        },
+        {
+            5,
+            {},
+            5
+        },
+        {
+            4,
+            {{0, 1}, {1, 2}, {2, 3}},
+            0
+        },
+        {
+            10,
+            {
+                {0, 1}, {0, 2}, {0, 3}, {0, 4},
+                {1, 2}, {1, 3}, {1, 4},
+                {2, 3}, {2, 4},
+                {3, 4},
+                {5, 6}, {5, 7}, {5, 8},
+                {6, 7}, {6, 8}
+            },
+            2
+        },
+        {
+            8,
+            {
+                {0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}, {0, 6}, {0, 7},
+                {1, 2}, {1, 3}, {1, 4}, {1, 5}, {1, 6}, {1, 7},
+                {2, 3}, {2, 4}, {2, 5}, {2, 6}, {2, 7},
+                {3, 4}, {3, 5}, {3, 6}, {3, 7},
+                {4, 5}, {4, 6}, {4, 7},
+                {5, 6}, {5, 7},
+                {6, 7}
+            },
+            1
+        },
+    };
+
+    CountCompleteComponents_2685 solver;
+
+    for (size_t i = 0; i < testCases.size(); ++i) {
+        const auto& testCase = testCases[i];
+        const int got = solver.countCompleteComponents(
+            testCase.n,
+            testCase.edges);
+
+        const string label =
+            "Count Complete Components 2685 Test " + to_string(i + 1);
+        REQUIRE_ASSERT(assertEqScalar(label, testCase.expected, got));
     }
 
     return true;
@@ -1218,6 +1289,7 @@ std::vector<TestRegistry::Entry> getTests() {
     return {
         // Basic graph / grid traversal for reachability and connected components
         TEST(1971, "Find if Path Exists in Graph",                findIfPathExistsInGraph_1971_tests),
+        TEST(2685, "Count the Number of Complete Components",     countCompleteComponents_2685_tests),
         TEST(200,  "Number of Islands",                           numIslands_200_tests),
         TEST(695,  "Max Area of Island",                          maxAreaOfIsland_695_tests),
         TEST(133,  "Clone Graph",                                 cloneGraph_133_tests),
