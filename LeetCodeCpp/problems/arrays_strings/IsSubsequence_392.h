@@ -17,7 +17,9 @@ public:
 
 private:
     static inline int col(char c)
-    { return c - 'a'; }
+    {
+        return c - 'a';
+    }
 
     string t_;
     array<vector<size_t>, 26> pos_;

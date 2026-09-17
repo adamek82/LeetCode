@@ -152,13 +152,17 @@ inline bool assertEqGeneric(const string& label,
 struct NoNormalize {
     template <typename U>
     U operator()(U v) const
-    { return v; }
+    {
+        return v;
+    }
 };
 
 struct PrintScalar {
     template <typename U>
     void operator()(const U& v) const
-    { cout << v; }
+    {
+        cout << v;
+    }
 };
 
 template <typename T>
@@ -172,15 +176,21 @@ template <typename T>
 // Printers adapted to existing helpers.
 struct PrintVecInt {
     void operator()(const vector<int>& v) const
-    { printVec(v); }
+    {
+        printVec(v);
+    }
 };
 struct PrintVVInt {
     void operator()(const vector<vector<int>>& vv) const
-    { printVVInt(vv); }
+    {
+        printVVInt(vv);
+    }
 };
 struct PrintQuotedStrings {
     void operator()(const vector<string>& v) const
-    { printQuoted(v); }
+    {
+        printQuoted(v);
+    }
 };
 
 // ----- Public API: thin wrappers kept as function names used in the runner -----
