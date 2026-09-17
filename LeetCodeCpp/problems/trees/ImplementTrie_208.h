@@ -29,7 +29,8 @@ private:
     TrieNode* root;
 
     template <typename Range>
-    void insertAll(const Range& list) {
+    void insertAll(const Range& list)
+    {
         for (const auto& word : list) {
             root->addWord(word);
         }

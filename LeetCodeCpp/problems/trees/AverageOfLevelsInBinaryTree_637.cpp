@@ -2,7 +2,8 @@
 
 #include <queue>
 
-vector<double> AverageOfLevelsInBinaryTree_637::averageOfLevels(TreeNode<int>* root) {
+vector<double> AverageOfLevelsInBinaryTree_637::averageOfLevels(TreeNode<int>* root)
+{
     vector<double> result;
 
     if (root == nullptr) {

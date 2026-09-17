@@ -16,7 +16,8 @@ public:
     bool isSubsequence_NextTable(const string& s) const;
 
 private:
-    static inline int col(char c) { return c - 'a'; }
+    static inline int col(char c)
+    { return c - 'a'; }
 
     string t_;
     array<vector<size_t>, 26> pos_;

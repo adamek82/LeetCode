@@ -52,7 +52,8 @@ namespace {
 
 /* Basic graph / grid traversal for reachability and connected components */
 
-bool findIfPathExistsInGraph_1971_tests() {
+bool findIfPathExistsInGraph_1971_tests()
+{
     vector<FindIfPathExistsInGraphTestCase> testCases = {
         {3, {{0, 1}, {1, 2}, {2, 0}}, 0, 2, true},
         {6, {{0, 1}, {0, 2}, {3, 5}, {5, 4}, {4, 3}}, 0, 5, false},
@@ -90,7 +91,8 @@ bool findIfPathExistsInGraph_1971_tests() {
     return true;
 }
 
-bool countCompleteComponents_2685_tests() {
+bool countCompleteComponents_2685_tests()
+{
     const vector<CountCompleteComponentsTestCase> testCases = {
         {
             6,
@@ -204,7 +206,8 @@ bool numIslands_200_tests()
     return true;
 }
 
-bool maxAreaOfIsland_695_tests() {
+bool maxAreaOfIsland_695_tests()
+{
     vector<MaxAreaOfIslandTestCase> testCases = {
         {{{0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0},
@@ -251,7 +254,8 @@ bool maxAreaOfIsland_695_tests() {
     return true;
 }
 
-bool cloneGraph_133_tests() {
+bool cloneGraph_133_tests()
+{
     vector<vector<vector<int>>> testCases = {
         {{2, 4}, {1, 3}, {2, 4}, {1, 3}},  // Example 1
         {{}},  // Example 2 (Single node, no neighbors)
@@ -313,7 +317,8 @@ bool rottingOranges_994_tests()
     return true;
 }
 
-bool shortestPathBinaryMatrix_1091_tests() {
+bool shortestPathBinaryMatrix_1091_tests()
+{
     vector<ShortestPathInBinaryMatrixTestCase> testCases = {
         /* 3 examples from the problem statement */
         {
@@ -360,7 +365,8 @@ bool shortestPathBinaryMatrix_1091_tests() {
     return true;
 }
 
-bool busRoutes_815_tests() {
+bool busRoutes_815_tests()
+{
     vector<BusRoutesTestCase> cases = {
         // Official examples
         {{{1,2,7},{3,6,7}}, 1, 6, 2},
@@ -384,7 +390,8 @@ bool busRoutes_815_tests() {
     return true;
 }
 
-bool slidingPuzzle_773_tests() {
+bool slidingPuzzle_773_tests()
+{
     vector<SlidingPuzzleTestCase> testCases = {
         // examples from the statement
         {{{1,2,3},{4,0,5}}, 1},
@@ -416,7 +423,8 @@ bool slidingPuzzle_773_tests() {
     return true;
 }
 
-bool wordLadder_127_tests() {
+bool wordLadder_127_tests()
+{
     vector<WordLadderTestCase> testCases = {
         // Official examples
         {
@@ -491,7 +499,8 @@ bool wordLadder_127_tests() {
     return true;
 }
 
-bool shortestPathVisitingAllNodes_847_tests() {
+bool shortestPathVisitingAllNodes_847_tests()
+{
     struct TestCase {
         vector<vector<int>> graph;
         int expected;
@@ -542,7 +551,8 @@ bool shortestPathVisitingAllNodes_847_tests() {
 
 /* Directed-graph reasoning with topological order and cycle detection */
 
-bool courseSchedule_207_tests() {
+bool courseSchedule_207_tests()
+{
     vector<CourseScheduleTestCase> testCases = {
         {2, {{1, 0}}, true},
         {2, {{1, 0}, {0, 1}}, false},
@@ -566,7 +576,8 @@ bool courseSchedule_207_tests() {
     return true;
 }
 
-bool courseScheduleII_210_tests() {
+bool courseScheduleII_210_tests()
+{
     vector<CourseScheduleIITestCase> testCases = {
         {2, {{1, 0}}, {0, 1}},
         {4, {{1, 0}, {2, 0}, {3, 1}, {3, 2}}, {0, 1, 2, 3}},
@@ -692,7 +703,8 @@ bool pacificAtlantic_417_tests()
     return true;
 }
 
-bool longestIncreasingPathInMatrix_329_tests() {
+bool longestIncreasingPathInMatrix_329_tests()
+{
     using TestCases::LongestIncreasingPathInMatrixTestCase;
 
     vector<LongestIncreasingPathInMatrixTestCase> testCases = {
@@ -734,7 +746,8 @@ bool longestIncreasingPathInMatrix_329_tests() {
 
 /* Weighted graph algorithms: shortest paths and minimum spanning tree */
 
-bool networkDelayTime_743_tests() {
+bool networkDelayTime_743_tests()
+{
     vector<NetworkDelayTimeTestCase> testCases = {
         // Provided examples
         {{{2, 1, 1}, {2, 3, 1}, {3, 4, 1}}, 4, 2, 2},
@@ -767,7 +780,8 @@ bool networkDelayTime_743_tests() {
     return true;
 }
 
-bool designGraphWithShortestPathCalculator_2642_tests() {
+bool designGraphWithShortestPathCalculator_2642_tests()
+{
     using EdgeList = vector<vector<int>>;
 
     {
@@ -817,7 +831,8 @@ bool designGraphWithShortestPathCalculator_2642_tests() {
     return true;
 }
 
-bool minCostToConnectAllPoints_1584_tests() {
+bool minCostToConnectAllPoints_1584_tests()
+{
     vector<MinCostToConnectAllPointsTestCase> testCases = {
         // Provided examples
         {{{0, 0}, {2, 2}, {3, 10}, {5, 2}, {7, 0}}, 20},
@@ -848,7 +863,8 @@ bool minCostToConnectAllPoints_1584_tests() {
 
 /* Cycle analysis in directed and undirected graphs */
 
-bool longestCycleInGraph_2360_tests() {
+bool longestCycleInGraph_2360_tests()
+{
     vector<LongestCycleInGraphTestCase> testCases = {
         // 2 examples from the LeetCode problem statement
         {{3, 3, 4, 2, 3}, 3},   // Example 1
@@ -872,7 +888,8 @@ bool longestCycleInGraph_2360_tests() {
     return true;
 }
 
-bool shortestCycleInGraph_2608_tests() {
+bool shortestCycleInGraph_2608_tests()
+{
     vector<ShortestCycleInGraphTestCase> cases = {
         // ── 2 examples from the problem statement ───────────────────────────
         {
@@ -1005,7 +1022,8 @@ bool criticalConnectionsInNetwork_1192_tests()
     return true;
 }
 
-bool countHousesAtCertainDistanceII_3017_tests() {
+bool countHousesAtCertainDistanceII_3017_tests()
+{
     vector<CountHousesAtCertainDistanceIITestCase> testCases = {
         // Official examples
         {3, 1, 3, {6, 0, 0}},
@@ -1096,7 +1114,8 @@ bool countHousesAtCertainDistanceII_3017_tests() {
 
 /* Grid simulation, multi-source expansion, and neighbor-based reasoning */
 
-bool gameOfLife_289_tests() {
+bool gameOfLife_289_tests()
+{
     vector<GameOfLifeTestCase> testCases = {
         // Example 1
         {
@@ -1156,7 +1175,8 @@ bool gameOfLife_289_tests() {
     return true;
 }
 
-bool wallsAndGates_286_tests() {
+bool wallsAndGates_286_tests()
+{
     const int INF = 2147483647;          // 2^31-1
 
     vector<WallsAndGatesTestCase> testCases = {
@@ -1216,7 +1236,8 @@ bool wallsAndGates_286_tests() {
     return true;
 }
 
-bool islandPerimeter_463_tests() {
+bool islandPerimeter_463_tests()
+{
     vector<IslandPerimeterTestCase> testCases = {
         // Example 1 from the statement
         {
@@ -1285,7 +1306,8 @@ bool islandPerimeter_463_tests() {
 
 namespace TestsGraphs {
 
-std::vector<TestRegistry::Entry> getTests() {
+std::vector<TestRegistry::Entry> getTests()
+{
     return {
         // Basic graph / grid traversal for reachability and connected components
         TEST(1971, "Find if Path Exists in Graph",                findIfPathExistsInGraph_1971_tests),

@@ -17,7 +17,8 @@ using namespace TestUtils;
 
 namespace {
 
-bool allOOneDataStructure_432_tests() {
+bool allOOneDataStructure_432_tests()
+{
     auto expectMaxMin = [](const string& label,
                         AllOOneDataStructure_432& ds,
                         initializer_list<string> maxKeys,
@@ -96,7 +97,8 @@ bool allOOneDataStructure_432_tests() {
     return true;
 }
 
-bool examRoom_855_tests() {
+bool examRoom_855_tests()
+{
     auto init = [](int n) {
         return ExamRoomTestCase{
             {"ExamRoom"},
@@ -211,7 +213,8 @@ bool examRoom_855_tests() {
 
 /* Randomized object design */
 
-bool shuffleAnArray_384_tests() {
+bool shuffleAnArray_384_tests()
+{
     using Vec = vector<int>;
 
     auto assertChiSquare = [](const string& label,
@@ -375,7 +378,8 @@ bool shuffleAnArray_384_tests() {
 
 namespace TestsDesign {
 
-std::vector<TestRegistry::Entry> getTests() {
+std::vector<TestRegistry::Entry> getTests()
+{
     return {
         // Core custom data structures and API-oriented implementations
         TEST(432, "All O`one Data Structure", allOOneDataStructure_432_tests),

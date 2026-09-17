@@ -3,7 +3,8 @@
 TreeNode<int>* LowestCommonAncestorOfBST_235::lowestCommonAncestor(
     TreeNode<int>* root,
     TreeNode<int>* p,
-    TreeNode<int>* q) {
+    TreeNode<int>* q)
+{
     while (root != nullptr) {
         if (p->val < root->val && q->val < root->val) {
             root = root->left;

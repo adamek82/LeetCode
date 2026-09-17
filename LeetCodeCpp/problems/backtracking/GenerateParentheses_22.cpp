@@ -28,7 +28,8 @@
  * - Space : O(n) auxiliary for recursion depth and current string.
  */
 void GenerateParentheses_22::dfs(int openLeft, int closeLeft,
-                                 string& cur, vector<string>& out) {
+                                 string& cur, vector<string>& out)
+{
     if (openLeft == 0 && closeLeft == 0) {
         out.push_back(cur);
         return;
@@ -45,7 +46,8 @@ void GenerateParentheses_22::dfs(int openLeft, int closeLeft,
     }
 }
 
-vector<string> GenerateParentheses_22::generateParenthesis(int n) {
+vector<string> GenerateParentheses_22::generateParenthesis(int n)
+{
     vector<string> out;
     string cur;
     cur.reserve(n * 2);

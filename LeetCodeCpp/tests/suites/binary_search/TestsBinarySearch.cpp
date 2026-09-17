@@ -26,7 +26,8 @@ namespace {
 
 /* Basic binary search on sorted arrays and monotonic positions */
 
-bool binarySearch_704_tests() {
+bool binarySearch_704_tests()
+{
     vector<BinarySearchTestCase> testCases = {
         // Example 1
         {{-1, 0, 3, 5, 9, 12}, 9, 4},
@@ -52,7 +53,8 @@ bool binarySearch_704_tests() {
     return true;
 }
 
-bool searchInsertPosition_35_tests() {
+bool searchInsertPosition_35_tests()
+{
     vector<BinarySearchTestCase> testCases = {
         // Example 1: Target is found
         {{1, 3, 5, 6}, 5, 2},
@@ -78,7 +80,8 @@ bool searchInsertPosition_35_tests() {
     return true;
 }
 
-bool firstBadVersion_278_tests() {
+bool firstBadVersion_278_tests()
+{
     vector<FirstBadVersionTestCase> testCases = {
         // Example: first bad in the middle
         {5, 4, 4},
@@ -109,7 +112,8 @@ bool firstBadVersion_278_tests() {
 
 /* Binary search over a numeric answer space */
 
-bool sqrtX_69_tests() {
+bool sqrtX_69_tests()
+{
     vector<SqrtXTestCase> testCases = {
         // Examples from the problem statement
         {4, 2},
@@ -135,7 +139,8 @@ bool sqrtX_69_tests() {
     return true;
 }
 
-bool validPerfectSquare_367_tests() {
+bool validPerfectSquare_367_tests()
+{
     vector<ValidPerfectSquareTestCase> cases = {
         {16,          true},    // example 1
         {14,          false},   // example 2
@@ -156,7 +161,8 @@ bool validPerfectSquare_367_tests() {
     return true;
 }
 
-bool kokoEatingBananas_875_tests() {
+bool kokoEatingBananas_875_tests()
+{
     vector<KokoEatingBananasTestCase> testCases = {
         // LeetCode examples
         {{3, 6, 7, 11}, 8, 4},              // Example 1
@@ -188,7 +194,8 @@ bool kokoEatingBananas_875_tests() {
 
 /* Binary search on matrix and rotated-array structure */
 
-bool search2DMatrix_74_tests() {
+bool search2DMatrix_74_tests()
+{
     vector<Search2DMatrixTestCase> testCases = {
         // Provided examples
         {{{1, 3, 5, 7}, {10, 11, 16, 20}, {23, 30, 34, 60}}, 3, true},
@@ -212,7 +219,8 @@ bool search2DMatrix_74_tests() {
     return true;
 }
 
-bool findMinimumInRotatedSortedArray_153_tests() {
+bool findMinimumInRotatedSortedArray_153_tests()
+{
     vector<FindMinimumInRotatedSortedArrayTestCase> testCases = {
         {{3, 4, 5, 1, 2}, 1},                     // Example 1
         {{4, 5, 6, 7, 0, 1, 2}, 0},               // Example 2
@@ -233,7 +241,8 @@ bool findMinimumInRotatedSortedArray_153_tests() {
     return true;
 }
 
-bool searchInRotatedSortedArray_33_tests() {
+bool searchInRotatedSortedArray_33_tests()
+{
     vector<BinarySearchTestCase> testCases = {
         // Problem statement examples
         {{4, 5, 6, 7, 0, 1, 2}, 0, 4},   // Example 1
@@ -274,7 +283,8 @@ bool searchInRotatedSortedArray_33_tests() {
 
 namespace TestsBinarySearch {
 
-std::vector<TestRegistry::Entry> getTests() {
+std::vector<TestRegistry::Entry> getTests()
+{
     return {
         // Basic binary search on sorted arrays and monotonic positions
         TEST(704, "Binary Search",                        binarySearch_704_tests),

@@ -21,7 +21,8 @@
  *   - Time per operation: O(1) for push/pop/top/getMin.
  *   - Extra space: one int per element (the running min).
  */
-void MinStack_155::push(int val) {
+void MinStack_155::push(int val)
+{
     if (st_.empty()) {
         st_.emplace_back(val, val);
     } else {
@@ -30,14 +31,17 @@ void MinStack_155::push(int val) {
     }
 }
 
-void MinStack_155::pop() {
+void MinStack_155::pop()
+{
     st_.pop_back();     // Problem guarantees non-empty on pop.
 }
 
-int MinStack_155::top() const {
+int MinStack_155::top() const
+{
     return st_.back().first;
 }
 
-int MinStack_155::getMin() const {
+int MinStack_155::getMin() const
+{
     return st_.back().second;
 }

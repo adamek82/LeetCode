@@ -3,12 +3,14 @@
 #include <stdexcept>
 
 // Constructor
-MinHeap::MinHeap() {
+MinHeap::MinHeap()
+{
     heap.push_back(-1); // Dummy element to make 1-based indexing easier
 }
 
 // Helper: Restore the heap property by moving an element upward
-void MinHeap::upheap(int idx) {
+void MinHeap::upheap(int idx)
+{
     while (idx > 1 && heap[idx] < heap[idx / 2]) {
         swap(heap[idx], heap[idx / 2]);
         idx /= 2; // Move up
@@ -16,7 +18,8 @@ void MinHeap::upheap(int idx) {
 }
 
 // Helper: Restore the heap property by moving an element downward
-void MinHeap::downheap(int idx) {
+void MinHeap::downheap(int idx)
+{
     // heap.size() is size_t; cast first to avoid unsigned underflow when size == 0.
     int size = static_cast<int>(heap.size()) - 1;
     while (idx * 2 <= size) { // While there's at least a left child
@@ -31,14 +34,16 @@ void MinHeap::downheap(int idx) {
 }
 
 // Insert an element into the heap
-void MinHeap::insert(int val) {
+void MinHeap::insert(int val)
+{
     heap.push_back(val); // Add the element to the end
     // heap.size() is size_t; cast first to keep indices signed and avoid unsigned arithmetic.
     upheap(static_cast<int>(heap.size()) - 1);  // Restore min-heap property
 }
 
 // Extract the minimum element
-int MinHeap::extractMin() {
+int MinHeap::extractMin()
+{
     if (heap.size() <= 1) throw runtime_error("Heap is empty");
     int minVal = heap[1];
     heap[1] = heap.back(); // Move the last element to the root
@@ -48,7 +53,8 @@ int MinHeap::extractMin() {
 }
 
 // Update the value at a specific index
-void MinHeap::update(int idx, int newVal) {
+void MinHeap::update(int idx, int newVal)
+{
     if (idx <= 0 || idx >= heap.size()) throw runtime_error("Invalid index");
     int oldVal = heap[idx];
     heap[idx] = newVal;
@@ -60,7 +66,8 @@ void MinHeap::update(int idx, int newVal) {
 }
 
 // Print the current state of the heap
-void MinHeap::printHeap() {
+void MinHeap::printHeap()
+{
     for (int i = 1; i < heap.size(); i++) {
         cout << heap[i] << " ";
     }

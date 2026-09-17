@@ -32,7 +32,8 @@ public:
 
     template <typename T>
     struct ListDeleter {
-        void operator()(ListNode<T>* node) const {
+        void operator()(ListNode<T>* node) const
+        {
             freeList<T>(node);
         }
     };
@@ -41,25 +42,29 @@ public:
     using UniqueList = unique_ptr<ListNode<T>, ListDeleter<T>>;
 
     template <typename T>
-    static UniqueList<T> makeUniqueList(const vector<T>& values) {
+    static UniqueList<T> makeUniqueList(const vector<T>& values)
+    {
         return UniqueList<T>(createLinkedList<T>(values));
     }
 
     template <typename T>
-    static UniqueList<T> makeUniqueListWithCycle(const vector<T>& values, int pos) {
+    static UniqueList<T> makeUniqueListWithCycle(const vector<T>& values, int pos)
+    {
         return UniqueList<T>(createLinkedListWithCycle<T>(values, pos));
     }
 
     template <typename T>
     static UniqueList<T> makeUniqueListWithRandom(
-        const vector<pair<T, optional<int>>>& nodes) {
+        const vector<pair<T, optional<int>>>& nodes)
+    {
         return UniqueList<T>(createLinkedListWithRandom<T>(nodes));
     }
 
     // Use after an in-place linked-list algorithm returns a possibly different head.
     // Ownership stays with the same unique_ptr, but its stored head pointer is updated.
     template <typename T>
-    static void resetListHead(UniqueList<T>& owner, ListNode<T>* newHead) {
+    static void resetListHead(UniqueList<T>& owner, ListNode<T>* newHead)
+    {
         owner.release();
         owner.reset(newHead);
     }

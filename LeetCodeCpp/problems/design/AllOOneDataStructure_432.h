@@ -10,7 +10,9 @@ struct Node {
     // One bucket of keys sharing the same count.
     int count;
     unordered_set<string> keys;
-    Node(int c) : count(c) {}
+    Node(int c) : count(c)
+    {
+    }
 };
 
 class AllOOneDataStructure_432 {

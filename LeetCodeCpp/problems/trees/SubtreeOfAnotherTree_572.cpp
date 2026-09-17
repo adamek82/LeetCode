@@ -22,7 +22,8 @@ using namespace std;
  * - Space: O(h1 + h2) for recursion, where h1 and h2 are the heights of
  *          `root` and `subRoot` (worst-case O(n + m), best-case O(log n + log m)).
  */
-bool SubtreeOfAnotherTree_572::isSubtree(TreeNode<int>* root, TreeNode<int>* subRoot) {
+bool SubtreeOfAnotherTree_572::isSubtree(TreeNode<int>* root, TreeNode<int>* subRoot)
+{
     if (!subRoot) return true;   // empty tree is a subtree of any tree
     if (!root)    return false;  // non-empty subRoot cannot be in an empty root
 
@@ -32,7 +33,8 @@ bool SubtreeOfAnotherTree_572::isSubtree(TreeNode<int>* root, TreeNode<int>* sub
            isSubtree(root->right, subRoot);
 }
 
-bool SubtreeOfAnotherTree_572::isSame(TreeNode<int>* a, TreeNode<int>* b) {
+bool SubtreeOfAnotherTree_572::isSame(TreeNode<int>* a, TreeNode<int>* b)
+{
     if (!a && !b) return true;
     if (!a || !b) return false;
     if (a->val != b->val) return false;

@@ -31,11 +31,13 @@
 // Implementation 1: plain backtracking
 // ============================================================================
 
-void SudokuSolver_37::solveSudoku_PlainBacktracking(vector<vector<char>>& board) {
+void SudokuSolver_37::solveSudoku_PlainBacktracking(vector<vector<char>>& board)
+{
     backtrackPlain(board);
 }
 
-bool SudokuSolver_37::backtrackPlain(vector<vector<char>>& board) {
+bool SudokuSolver_37::backtrackPlain(vector<vector<char>>& board)
+{
     for (int r = 0; r < 9; ++r) {
         for (int c = 0; c < 9; ++c) {
             if (board[r][c] == '.') {
@@ -59,7 +61,8 @@ bool SudokuSolver_37::backtrackPlain(vector<vector<char>>& board) {
     return true;
 }
 
-bool SudokuSolver_37::isValidPlain(const vector<vector<char>>& board, int row, int col, char ch) {
+bool SudokuSolver_37::isValidPlain(const vector<vector<char>>& board, int row, int col, char ch)
+{
     for (int i = 0; i < 9; ++i) {
         if (board[row][i] == ch) return false;
         if (board[i][col] == ch) return false;
@@ -81,7 +84,8 @@ bool SudokuSolver_37::isValidPlain(const vector<vector<char>>& board, int row, i
 // Implementation 2: bit masks + backtracking
 // ============================================================================
 
-void SudokuSolver_37::solveSudoku_BitMasks(vector<vector<char>>& board) {
+void SudokuSolver_37::solveSudoku_BitMasks(vector<vector<char>>& board)
+{
     int rowMask[9] = {};
     int colMask[9] = {};
     int boxMask[9] = {};
@@ -111,7 +115,8 @@ bool SudokuSolver_37::backtrackBitMasks(vector<vector<char>>& board,
                                         int pos,
                                         int rowMask[9],
                                         int colMask[9],
-                                        int boxMask[9]) {
+                                        int boxMask[9])
+{
     if (pos == static_cast<int>(empty.size())) {
         return true;
     }
@@ -173,6 +178,7 @@ bool SudokuSolver_37::backtrackBitMasks(vector<vector<char>>& board,
     return false;
 }
 
-int SudokuSolver_37::boxIndex(int row, int col) {
+int SudokuSolver_37::boxIndex(int row, int col)
+{
     return (row / 3) * 3 + (col / 3);
 }

@@ -5,11 +5,13 @@
 
 using namespace std;
 
-bool BalancedBinaryTree_110::isBalanced(TreeNode<int>* root) {
+bool BalancedBinaryTree_110::isBalanced(TreeNode<int>* root)
+{
     return heightOrUnbalanced(root) != -1;
 }
 
-int BalancedBinaryTree_110::heightOrUnbalanced(TreeNode<int>* node) {
+int BalancedBinaryTree_110::heightOrUnbalanced(TreeNode<int>* node)
+{
     if (node == nullptr) {
         return 0;
     }

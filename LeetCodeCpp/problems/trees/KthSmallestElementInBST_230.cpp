@@ -4,7 +4,8 @@
 
 using namespace std;
 
-int KthSmallestElementInBST_230::kthSmallest(TreeNode<int>* root, int k) {
+int KthSmallestElementInBST_230::kthSmallest(TreeNode<int>* root, int k)
+{
     stack<TreeNode<int>*> nodes;
     TreeNode<int>* node = root;
 

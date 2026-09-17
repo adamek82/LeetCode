@@ -4,13 +4,15 @@
 
 using namespace std;
 
-int DiameterOfBinaryTree_543::diameterOfBinaryTree(TreeNode<int>* root) {
+int DiameterOfBinaryTree_543::diameterOfBinaryTree(TreeNode<int>* root)
+{
     int best = 0;
     dfsHeight(root, best);
     return best;
 }
 
-int DiameterOfBinaryTree_543::dfsHeight(TreeNode<int>* node, int& best) {
+int DiameterOfBinaryTree_543::dfsHeight(TreeNode<int>* node, int& best)
+{
     if (node == nullptr) {
         return 0;
     }

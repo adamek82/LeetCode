@@ -6,7 +6,8 @@
 
 using namespace std;
 
-int MinimumAbsoluteDifferenceInBST_530::getMinimumDifference(TreeNode<int>* root) {
+int MinimumAbsoluteDifferenceInBST_530::getMinimumDifference(TreeNode<int>* root)
+{
     stack<TreeNode<int>*> nodes;
     TreeNode<int>* node = root;
     TreeNode<int>* previous = nullptr;

@@ -16,7 +16,8 @@ Graph::Graph(int n, const vector<vector<int>>& edges)
     }
 }
 
-void Graph::addEdge(const vector<int>& edge) {
+void Graph::addEdge(const vector<int>& edge)
+{
     int from = edge[0];
     int to = edge[1];
     int cost = edge[2];

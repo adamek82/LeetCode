@@ -7,7 +7,8 @@
 
 // Create a binary tree from a vector (level-by-level)
 template <typename T>
-TreeNode<T>* TreeUtils::vectorToTree(const vector<optional<T>>& values) {
+TreeNode<T>* TreeUtils::vectorToTree(const vector<optional<T>>& values)
+{
     if (values.empty() || !values[0]) return nullptr;
 
     TreeNode<T>* root = new TreeNode<T>(values[0].value());
@@ -50,7 +51,8 @@ TreeNode<T>* TreeUtils::vectorToTree(const vector<optional<T>>& values) {
 
 // Convert the tree to a level-order string representation
 template <typename T>
-string TreeUtils::toLevelOrderString(TreeNode<T>* root) {
+string TreeUtils::toLevelOrderString(TreeNode<T>* root)
+{
     if (!root) return "null";
 
     ostringstream oss;
@@ -75,7 +77,8 @@ string TreeUtils::toLevelOrderString(TreeNode<T>* root) {
 
 // Print the tree
 template <typename T>
-void TreeUtils::printTree(TreeNode<T>* root) {
+void TreeUtils::printTree(TreeNode<T>* root)
+{
     if (!root) return;
 
     int maxLevel = TreeUtils::maxLevel(root);
@@ -84,7 +87,8 @@ void TreeUtils::printTree(TreeNode<T>* root) {
 
 // Helper: Print nodes recursively
 template <typename T>
-void TreeUtils::printNodeInternal(const vector<TreeNode<T>*>& nodes, int level, int maxLevel) {
+void TreeUtils::printNodeInternal(const vector<TreeNode<T>*>& nodes, int level, int maxLevel)
+{
     if (nodes.empty() || isAllElementsNull(nodes)) return;
 
     int floor = maxLevel - level;
@@ -140,7 +144,8 @@ void TreeUtils::printNodeInternal(const vector<TreeNode<T>*>& nodes, int level, 
 }
 
 // Helper: Print whitespaces
-void TreeUtils::printWhitespaces(int count) {
+void TreeUtils::printWhitespaces(int count)
+{
     for (int i = 0; i < count; i++) {
         cout << " ";
     }
@@ -148,14 +153,16 @@ void TreeUtils::printWhitespaces(int count) {
 
 // Helper: Find the maximum depth of the tree
 template <typename T>
-int TreeUtils::maxLevel(TreeNode<T>* node) {
+int TreeUtils::maxLevel(TreeNode<T>* node)
+{
     if (!node) return 0;
     return max(maxLevel(node->left), maxLevel(node->right)) + 1;
 }
 
 // Helper: Check if all elements in a vector are null
 template <typename T>
-bool TreeUtils::isAllElementsNull(const vector<TreeNode<T>*>& nodes) {
+bool TreeUtils::isAllElementsNull(const vector<TreeNode<T>*>& nodes)
+{
     for (TreeNode<T>* node : nodes) {
         if (node != nullptr) return false;
     }
@@ -163,7 +170,8 @@ bool TreeUtils::isAllElementsNull(const vector<TreeNode<T>*>& nodes) {
 }
 
 template <typename T>
-TreeNode<T>* TreeUtils::findNode(TreeNode<T>* root, T value) {
+TreeNode<T>* TreeUtils::findNode(TreeNode<T>* root, T value)
+{
     while (root) {
         if (root->val == value) {
             return root; // Node found
@@ -177,7 +185,8 @@ TreeNode<T>* TreeUtils::findNode(TreeNode<T>* root, T value) {
 }
 
 template <typename T>
-void TreeUtils::freeTree(TreeNode<T>* root) {
+void TreeUtils::freeTree(TreeNode<T>* root)
+{
     if (!root) return;
 
     // Recursively free left and right subtrees

@@ -1,9 +1,12 @@
 #include "LRUCache_146.h"
 
 LRUCache::LRUCache(int capacity)
-    : _cap(capacity) {}
+    : _cap(capacity)
+{
+}
 
-int LRUCache::get(int key) {
+int LRUCache::get(int key)
+{
     auto it = _map.find(key);
     if (it == _map.end()) return -1;
     // move accessed node to front (MRU)
@@ -11,7 +14,8 @@ int LRUCache::get(int key) {
     return it->second->second;
 }
 
-void LRUCache::put(int key, int value) {
+void LRUCache::put(int key, int value)
+{
     auto it = _map.find(key);
     if (it != _map.end()) {
         // key exists: update and move to front

@@ -6,7 +6,8 @@
 // Conversely, when every frequency <= 2, we can always distribute:
 // - give one copy to nums1, the second (if exists) to nums2,
 // - then balance singles to reach size n/2 for each part.
-bool SplitTheArray_3046::isPossibleToSplit(vector<int>& nums) {
+bool SplitTheArray_3046::isPossibleToSplit(vector<int>& nums)
+{
     int cnt[101] = {0};
     for (int x : nums) {
         if (++cnt[x] > 2) return false;

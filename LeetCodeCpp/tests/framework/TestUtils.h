@@ -18,7 +18,8 @@ namespace TestUtils {
 
 /// Prints a 1D vector in bracketed form: [a,b,c]
 template <typename T>
-void printVec(const vector<T>& v, ostream& os = cout) {
+void printVec(const vector<T>& v, ostream& os = cout)
+{
     os << '[';
     for (size_t i = 0; i < v.size(); ++i) {
         os << v[i];
@@ -41,7 +42,8 @@ void printVVString(const vector<vector<string>>& vv,
 
 // --- print a 2D matrix with rows on separate lines ---
 template <typename T>
-inline void printMatrix(const vector<vector<T>>& m, ostream& os = cout) {
+inline void printMatrix(const vector<vector<T>>& m, ostream& os = cout)
+{
     for (const auto& row : m) printVec(row, os);
 }
 
@@ -132,7 +134,8 @@ template <typename T, typename Normalizer, typename Printer>
 inline bool assertEqGeneric(const string& label,
                             T expected, T got,
                             Normalizer normalize,
-                            Printer print) {
+                            Printer print)
+{
     expected = normalize(move(expected));
     got      = normalize(move(got));
     const bool pass = (expected == got);
@@ -148,69 +151,81 @@ inline bool assertEqGeneric(const string& label,
 // No-op normalizer for exact comparisons.
 struct NoNormalize {
     template <typename U>
-    U operator()(U v) const { return v; }
+    U operator()(U v) const
+    { return v; }
 };
 
 struct PrintScalar {
     template <typename U>
-    void operator()(const U& v) const { cout << v; }
+    void operator()(const U& v) const
+    { cout << v; }
 };
 
 template <typename T>
 [[nodiscard]] inline bool assertEqScalar(const string& label,
                                          const T& expected,
-                                         const T& got) {
+                                         const T& got)
+{
     return assertEqGeneric(label, expected, got, NoNormalize{}, PrintScalar{});
 }
 
 // Printers adapted to existing helpers.
 struct PrintVecInt {
-    void operator()(const vector<int>& v) const { printVec(v); }
+    void operator()(const vector<int>& v) const
+    { printVec(v); }
 };
 struct PrintVVInt {
-    void operator()(const vector<vector<int>>& vv) const { printVVInt(vv); }
+    void operator()(const vector<vector<int>>& vv) const
+    { printVVInt(vv); }
 };
 struct PrintQuotedStrings {
-    void operator()(const vector<string>& v) const { printQuoted(v); }
+    void operator()(const vector<string>& v) const
+    { printQuoted(v); }
 };
 
 // ----- Public API: thin wrappers kept as function names used in the runner -----
 
 inline bool assertEqVIntExact(const string& label,
                               const vector<int>& expected,
-                              const vector<int>& got) {
+                              const vector<int>& got)
+{
     return assertEqGeneric(label, expected, got, NoNormalize{}, PrintVecInt{});
 }
 
 inline bool assertEqVVIntExact(const string& label,
                                const vector<vector<int>>& expected,
-                               const vector<vector<int>>& got) {
+                               const vector<vector<int>>& got)
+{
     return assertEqGeneric(label, expected, got, NoNormalize{}, PrintVVInt{});
 }
 
 inline bool assertEqVVIntAnyOrder(const string& label,
                                   vector<vector<int>> expected,
-                                  vector<vector<int>> got) {
+                                  vector<vector<int>> got)
+{
     return assertEqGeneric(label, move(expected), move(got),
                            normalizeVV_SizeThenLex, PrintVVInt{});
 }
 
 inline bool assertEqVVIntPermutations(const string& label,
                                       vector<vector<int>> expected,
-                                      vector<vector<int>> got) {
+                                      vector<vector<int>> got)
+{
     return assertEqGeneric(label, move(expected), move(got),
                            normalizeVV_LexOnly, PrintVVInt{});
 }
 
 inline bool assertEqStrings(const string& label,
                             const vector<string>& expected,
-                            const vector<string>& got) {
+                            const vector<string>& got)
+{
     return assertEqGeneric(label, expected, got, NoNormalize{}, PrintQuotedStrings{});
 }
 
 inline bool assertEqStringsAnyOrder(const string& label,
                                     vector<string> expected,
-                                    vector<string> got) {
+                                    vector<string> got)
+{
     return assertEqGeneric(label, move(expected), move(got),
                            normalizeStrings, PrintQuotedStrings{});
 }
@@ -218,7 +233,8 @@ inline bool assertEqStringsAnyOrder(const string& label,
 // Compare vector<vector<string>> ignoring order of groups and words within groups.
 inline bool assertEqVVStrAnyOrder(const string& label,
                                   vector<vector<string>> expected,
-                                  vector<vector<string>> got) {
+                                  vector<vector<string>> got)
+{
     expected = normalizeVVStr_SizeThenLex(move(expected));
     got      = normalizeVVStr_SizeThenLex(move(got));
 

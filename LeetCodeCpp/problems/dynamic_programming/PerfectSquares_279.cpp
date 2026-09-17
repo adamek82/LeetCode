@@ -48,7 +48,8 @@ using namespace std;
  *   - Precomputing squares and breaking when s > k improve constant factors.
  */
 
-int PerfectSquares_279::numSquares(int n) {
+int PerfectSquares_279::numSquares(int n)
+{
     vector<int> dp(n + 1, numeric_limits<int>::max() / 2);  // avoid overflow
     dp[0] = 0;
 

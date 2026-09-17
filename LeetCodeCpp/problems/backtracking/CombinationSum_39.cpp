@@ -37,7 +37,8 @@
  * - Space : O(k) auxiliary for recursion stack and current path.
  */
 void CombinationSum_39::dfs(int start, int remain, const vector<int>& cand,
-                            vector<int>& cur, vector<vector<int>>& out) {
+                            vector<int>& cur, vector<vector<int>>& out)
+{
     if (remain == 0) {
         out.push_back(cur);
         return;
@@ -52,7 +53,8 @@ void CombinationSum_39::dfs(int start, int remain, const vector<int>& cand,
     }
 }
 
-vector<vector<int>> CombinationSum_39::combinationSum(vector<int>& candidates, int target) {
+vector<vector<int>> CombinationSum_39::combinationSum(vector<int>& candidates, int target)
+{
     sort(candidates.begin(), candidates.end()); // required for pruning & order
     vector<vector<int>> out;
     vector<int> cur;

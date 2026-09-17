@@ -27,7 +27,8 @@ namespace {
 
 /* Basic stack simulation for push/pop-style processing */
 
-bool baseballGame_682_tests() {
+bool baseballGame_682_tests()
+{
     using namespace TestCases;
     vector<BaseballGameTestCase> testCases = {
         {{"5","2","C","D","+"}, 30},                      // Example 1
@@ -57,7 +58,8 @@ bool baseballGame_682_tests() {
     return true;
 }
 
-bool validParentheses_20_tests() {
+bool validParentheses_20_tests()
+{
     vector<ValidParenthesesTestCase> testCases = {
         {"()", true},
         {"()[]{}", true},
@@ -78,7 +80,8 @@ bool validParentheses_20_tests() {
     return true;
 }
 
-bool evaluateReversePolishNotation_150_tests() {
+bool evaluateReversePolishNotation_150_tests()
+{
     vector<EvaluateReversePolishNotationTestCase> testCases = {
         {{"2", "1", "+", "3", "*"}, 9},  // Example 1
         {{"4", "13", "5", "/", "+"}, 6}, // Example 2
@@ -102,7 +105,8 @@ bool evaluateReversePolishNotation_150_tests() {
 
 /* Stack-based parsing and nested expression decoding */
 
-bool decodeString_GoogleOnsite_tests() {
+bool decodeString_GoogleOnsite_tests()
+{
     vector<DecodeStringTestCase> testCases = {
         {"ab[cd]{2}",                   "abcdcd"},
         {"def[ab[cd]{2}]{3}ghi",        "defabcdcdabcdcdabcdcdghi"},
@@ -126,7 +130,8 @@ bool decodeString_GoogleOnsite_tests() {
 
 /* Monotonic stack patterns for next greater / smaller reasoning */
 
-bool dailyTemperatures_739_tests() {
+bool dailyTemperatures_739_tests()
+{
     vector<DailyTemperaturesTestCase> tests = {
         // Three examples from the problem statement
         {{73,74,75,71,69,72,76,73}, {1,1,4,2,1,1,0,0}},
@@ -151,7 +156,8 @@ bool dailyTemperatures_739_tests() {
     return true;
 }
 
-bool largestRectangleInHistogram_84_tests() {
+bool largestRectangleInHistogram_84_tests()
+{
     vector<LargestRectangleInHistogramTestCase> testCases = {
         // Example 1
         {{2, 1, 5, 6, 2, 3}, 10},
@@ -181,7 +187,8 @@ bool largestRectangleInHistogram_84_tests() {
 
 /* Stack-backed data structure design */
 
-bool minStack_155_tests() {
+bool minStack_155_tests()
+{
     auto run = [](const vector<pair<string,int>>& ops) {
         MinStack_155 ms;
         vector<int> out;
@@ -243,7 +250,8 @@ bool minStack_155_tests() {
 
 /* Matrix reduction to a histogram-based stack problem */
 
-bool maximalRectangle_85_tests() {
+bool maximalRectangle_85_tests()
+{
     vector<MaximalRectangleTestCase> testCases = {
         // ── three examples from the problem statement ──
         {{{'1','0','1','0','0'},
@@ -280,7 +288,8 @@ bool maximalRectangle_85_tests() {
 
 namespace TestsStacks {
 
-std::vector<TestRegistry::Entry> getTests() {
+std::vector<TestRegistry::Entry> getTests()
+{
     return {
         // Basic stack simulation for push/pop-style processing
         TEST(682,  "Baseball Game",                     baseballGame_682_tests),

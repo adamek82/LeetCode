@@ -7,7 +7,8 @@
 
 using namespace std;
 
-int MaximumDepthOfBinaryTree_104::maxDepthRecursive(TreeNode<int>* root) {
+int MaximumDepthOfBinaryTree_104::maxDepthRecursive(TreeNode<int>* root)
+{
     if (root == nullptr) {
         return 0;
     }
@@ -17,7 +18,8 @@ int MaximumDepthOfBinaryTree_104::maxDepthRecursive(TreeNode<int>* root) {
         maxDepthRecursive(root->right));
 }
 
-int MaximumDepthOfBinaryTree_104::maxDepthDFSStack(TreeNode<int>* root) {
+int MaximumDepthOfBinaryTree_104::maxDepthDFSStack(TreeNode<int>* root)
+{
     if (root == nullptr) {
         return 0;
     }
@@ -44,7 +46,8 @@ int MaximumDepthOfBinaryTree_104::maxDepthDFSStack(TreeNode<int>* root) {
     return maxDepth;
 }
 
-int MaximumDepthOfBinaryTree_104::maxDepthBFSQueue(TreeNode<int>* root) {
+int MaximumDepthOfBinaryTree_104::maxDepthBFSQueue(TreeNode<int>* root)
+{
     if (root == nullptr) {
         return 0;
     }

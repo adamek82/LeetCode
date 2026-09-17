@@ -29,7 +29,8 @@ namespace {
 
 /* Opposite-end pointers for simple in-place processing */
 
-bool reverseString_344_tests() {
+bool reverseString_344_tests()
+{
     // build a large case up-front so it can be placed inside the uniform-init list
     vector<char> longIn;
     for (int i = 0; i < 10000; ++i) longIn.push_back('a' + (i % 26));
@@ -62,7 +63,8 @@ bool reverseString_344_tests() {
     return true;
 }
 
-bool validPalindrome_125_tests() {
+bool validPalindrome_125_tests()
+{
     // Build a long palindrome of 10,000 'a' with commas between (punctuation ignored by checker)
     constexpr int N = 10000;
     string longStr(2 * N, ',');
@@ -95,7 +97,8 @@ bool validPalindrome_125_tests() {
 
 /* Two-pointer scans on sorted arrays */
 
-bool squaresOfSortedArray_977_tests() {
+bool squaresOfSortedArray_977_tests()
+{
     vector<SquaresOfASortedArrayTestCase> testCases = {
         // 2 examples from the problem statement
         {{-4, -1, 0, 3, 10},      {0, 1, 9, 16, 100}},
@@ -119,7 +122,8 @@ bool squaresOfSortedArray_977_tests() {
     return true;
 }
 
-bool twoSumII_167_tests() {
+bool twoSumII_167_tests()
+{
     // long stress-case prepared first so it can go in the init-list
     vector<int> longNums;
     for (int v = -1000; v <= 1000; ++v) longNums.push_back(v);  // 2001 elements
@@ -149,7 +153,8 @@ bool twoSumII_167_tests() {
     return true;
 }
 
-bool twoSumLessThanK_1099_tests() {
+bool twoSumLessThanK_1099_tests()
+{
     vector<TwoSumLessThanKTestCase> testCases = {
         // statement example
         {{34, 23, 1, 24, 75, 33, 54, 8}, 60, 58},   // 24 + 34
@@ -179,7 +184,8 @@ bool twoSumLessThanK_1099_tests() {
 
 /* Two-pointer optimization after sorting */
 
-bool threeSum_15_tests() {
+bool threeSum_15_tests()
+{
     vector<ThreeSumTestCase> testCases = {
         // two examples from the problem statement
         {{-1,0,1,2,-1,-4},            {{-1,-1,2},{-1,0,1}}},
@@ -205,7 +211,8 @@ bool threeSum_15_tests() {
     return true;
 }
 
-bool threeSumClosest_16_tests() {
+bool threeSumClosest_16_tests()
+{
     vector<ThreeSumClosestTestCase> testCases = {
         // two examples from the problem statement
         {{-1, 2, 1, -4}, 1, 2},
@@ -238,7 +245,8 @@ bool threeSumClosest_16_tests() {
     return true;
 }
 
-bool fourSum_18_tests() {
+bool fourSum_18_tests()
+{
     vector<FourSumTestCase> testCases = {
         // two examples from the problem statement
         {{1, 0, -1, 0, -2, 2}, 0,
@@ -285,7 +293,8 @@ bool fourSum_18_tests() {
 
 /* Shrinking-window reasoning with left/right boundaries */
 
-bool containerWithMostWater_11_tests() {
+bool containerWithMostWater_11_tests()
+{
     vector<ContainerWithMostWaterTestCase> testCases = {
         // two examples from the statement
         {{1,8,6,2,5,4,8,3,7}, 49},
@@ -309,7 +318,8 @@ bool containerWithMostWater_11_tests() {
     return true;
 }
 
-bool trappingRainWater_42_tests() {
+bool trappingRainWater_42_tests()
+{
     vector<TrappingRainWaterTestCase> testCases = {
         // two examples from the statement
         {{0,1,0,2,1,0,1,3,2,1,2,1}, 6},
@@ -338,7 +348,8 @@ bool trappingRainWater_42_tests() {
 
 namespace TestsTwoPointers {
 
-std::vector<TestRegistry::Entry> getTests() {
+std::vector<TestRegistry::Entry> getTests()
+{
     return {
         // Opposite-end pointers for simple in-place processing
         TEST(344,  "Reverse String",              reverseString_344_tests),

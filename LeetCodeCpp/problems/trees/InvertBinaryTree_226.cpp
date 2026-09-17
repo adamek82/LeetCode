@@ -4,7 +4,8 @@
 
 using namespace std;
 
-TreeNode<int>* InvertBinaryTree_226::invertTree(TreeNode<int>* root) {
+TreeNode<int>* InvertBinaryTree_226::invertTree(TreeNode<int>* root)
+{
     if (root == nullptr) {
         return nullptr;
     }

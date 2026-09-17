@@ -28,7 +28,8 @@
  *         permutation into the output costs O(n).
  * Space : O(n) auxiliary for recursion depth; the swaps are in-place.
  */
-void Permutations_46::dfsPerm(int pos, vector<int>& nums, vector<vector<int>>& out) {
+void Permutations_46::dfsPerm(int pos, vector<int>& nums, vector<vector<int>>& out)
+{
     const int n = static_cast<int>(nums.size());
     if (pos == n) {
         out.push_back(nums);   // record one full permutation
@@ -41,7 +42,8 @@ void Permutations_46::dfsPerm(int pos, vector<int>& nums, vector<vector<int>>& o
     }
 }
 
-vector<vector<int>> Permutations_46::permute(vector<int>& nums) {
+vector<vector<int>> Permutations_46::permute(vector<int>& nums)
+{
     vector<vector<int>> out;
     dfsPerm(0, nums, out);
     return out;

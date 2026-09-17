@@ -5,7 +5,8 @@
 using namespace std;
 
 vector<long long> CountHousesAtCertainDistanceII_3017::countOfPairs(
-    int n, int x, int y) {
+    int n, int x, int y)
+{
     --x;
     --y;
 

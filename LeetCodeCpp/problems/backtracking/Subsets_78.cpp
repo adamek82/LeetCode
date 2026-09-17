@@ -36,7 +36,8 @@
  *   Time  : O(n * 2^n)
  *   Space : O(n) auxiliary for building one subset (O(2^n) in the output)
  */
-vector<vector<int>> Subsets_78::subsets_bitmask(vector<int>& nums) {
+vector<vector<int>> Subsets_78::subsets_bitmask(vector<int>& nums)
+{
     const int n = static_cast<int>(nums.size());
     const int total = 1 << n;
 
@@ -137,7 +138,8 @@ void Subsets_78::subsetsDfs(const vector<int>& nums,
     }
 }
 
-vector<vector<int>> Subsets_78::subsets_recursive_prefix(vector<int>& nums) {
+vector<vector<int>> Subsets_78::subsets_recursive_prefix(vector<int>& nums)
+{
     const size_t n = nums.size();
 
     vector<vector<int>> out;

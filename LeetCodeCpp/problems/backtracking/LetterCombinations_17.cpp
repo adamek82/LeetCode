@@ -25,7 +25,8 @@
  * - Space : O(n) auxiliary (recursion depth + current path)
  */
 void LetterCombinations_17::dfs(const string& digits, int idx,
-                                string& path, vector<string>& out) {
+                                string& path, vector<string>& out)
+{
     if (idx == static_cast<int>(digits.size())) {
         out.push_back(path);
         return;
@@ -40,7 +41,8 @@ void LetterCombinations_17::dfs(const string& digits, int idx,
     }
 }
 
-vector<string> LetterCombinations_17::letterCombinations(string digits) {
+vector<string> LetterCombinations_17::letterCombinations(string digits)
+{
     if (digits.empty()) return {};
 
     vector<string> out;

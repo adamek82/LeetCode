@@ -31,12 +31,14 @@ using namespace std;
  *          iterative one, where h is tree height and w is maximum tree width.
  */
 
-bool SymmetricTree_101::isSymmetricRecursive(TreeNode<int>* root) {
+bool SymmetricTree_101::isSymmetricRecursive(TreeNode<int>* root)
+{
     if (!root) return true;
     return isMirror(root->left, root->right);
 }
 
-bool SymmetricTree_101::isMirror(TreeNode<int>* left, TreeNode<int>* right) {
+bool SymmetricTree_101::isMirror(TreeNode<int>* left, TreeNode<int>* right)
+{
     if (!left && !right) return true;
     if (!left || !right) return false;
     if (left->val != right->val) return false;
@@ -50,7 +52,8 @@ bool SymmetricTree_101::isMirror(TreeNode<int>* left, TreeNode<int>* right) {
  * - Maintains the same invariants as the recursive solution but uses an
  *   explicit queue instead of the call stack.
  */
-bool SymmetricTree_101::isSymmetricIterative(TreeNode<int>* root) {
+bool SymmetricTree_101::isSymmetricIterative(TreeNode<int>* root)
+{
     if (!root) return true;
 
     queue<pair<TreeNode<int>*, TreeNode<int>*>> q;

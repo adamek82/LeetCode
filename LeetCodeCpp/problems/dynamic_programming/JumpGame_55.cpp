@@ -3,7 +3,8 @@
 
 using namespace std;
 
-bool JumpGame_55::canJump(vector<int>& nums) {
+bool JumpGame_55::canJump(vector<int>& nums)
+{
     int reach = 0;
     const int n = static_cast<int>(nums.size());
 

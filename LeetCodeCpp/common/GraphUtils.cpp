@@ -31,7 +31,8 @@ static bool dfsIso(GraphNode<int>* n1,
 
 namespace GraphUtils {
 
-GraphNode<int>* buildGraph(const vector<vector<int>>& adjList) {
+GraphNode<int>* buildGraph(const vector<vector<int>>& adjList)
+{
     if (adjList.empty()) return nullptr;
 
     unordered_map<int, GraphNode<int>*> nodeMap;
@@ -53,7 +54,8 @@ GraphNode<int>* buildGraph(const vector<vector<int>>& adjList) {
     return nodeMap[1]; // entry point
 }
 
-bool areGraphsIsomorphic(GraphNode<int>* original, GraphNode<int>* cloned) {
+bool areGraphsIsomorphic(GraphNode<int>* original, GraphNode<int>* cloned)
+{
     if (!original && !cloned) return true;
     if (!original || !cloned) return false;
     if (original->val != cloned->val) return false;
@@ -62,7 +64,8 @@ bool areGraphsIsomorphic(GraphNode<int>* original, GraphNode<int>* cloned) {
     return dfsIso(original, cloned, visited);
 }
 
-void freeGraph(GraphNode<int>* start) {
+void freeGraph(GraphNode<int>* start)
+{
     if (!start) return;
     unordered_set<GraphNode<int>*> seen;
     vector<GraphNode<int>*> stack;

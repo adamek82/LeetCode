@@ -21,7 +21,8 @@ namespace {
 
 /* Fixed-size windows with rolling updates */
 
-bool maximumAverageSubarrayI_643_tests() {
+bool maximumAverageSubarrayI_643_tests()
+{
     vector<MaximumAverageSubarrayITestCase> testCases = {
         // problem examples
         {{1, 12, -5, -6, 50, 3}, 4, 12.75},
@@ -47,7 +48,8 @@ bool maximumAverageSubarrayI_643_tests() {
 
 /* Expanding and shrinking windows with a running constraint */
 
-bool maxConsecutiveOnesIII_1004_tests() {
+bool maxConsecutiveOnesIII_1004_tests()
+{
     vector<MaxConsecutiveOnesIIITestCase> testCases = {
         // two examples from the problem statement:
         {{1,1,1,0,0,0,1,1,1,1,0},           2,  6},
@@ -71,7 +73,8 @@ bool maxConsecutiveOnesIII_1004_tests() {
     return true;
 }
 
-bool minimumSizeSubarraySum_209_tests() {
+bool minimumSizeSubarraySum_209_tests()
+{
     vector<MinimumSizeSubarraySumTestCase> testCases = {
         // 3 examples from the problem statement
         {7,  {2, 3, 1, 2, 4, 3},             2},
@@ -99,7 +102,8 @@ bool minimumSizeSubarraySum_209_tests() {
 
 /* Variable-size windows for distinctness and replacement limits */
 
-bool longestSubstringWithoutRepeatingCharacters_3_tests() {
+bool longestSubstringWithoutRepeatingCharacters_3_tests()
+{
     vector<LongestSubstringWithoutRepeatingCharactersTestCase> testCases = {
         {"abcabcbb", 3},  // example 1
         {"bbbbb",    1},  // example 2
@@ -121,7 +125,8 @@ bool longestSubstringWithoutRepeatingCharacters_3_tests() {
     return true;
 }
 
-bool longestRepeatingCharacterReplacement_424_tests() {
+bool longestRepeatingCharacterReplacement_424_tests()
+{
     vector<LongestRepeatingCharacterReplacementTestCase> testCases = {
         {"ABAB",      2, 4},  // Example 1
         {"AABABBA",   1, 4},  // Example 2
@@ -145,7 +150,8 @@ bool longestRepeatingCharacterReplacement_424_tests() {
 
 /* Window matching with character-frequency requirements */
 
-bool permutationInString_567_tests() {
+bool permutationInString_567_tests()
+{
     vector<PermutationInStringTestCase> testCases = {
         {"ab",   "eidbaooo",          true},
         {"ab",   "eidboaoo",          false},
@@ -172,7 +178,8 @@ bool permutationInString_567_tests() {
 
 namespace TestsSlidingWindow {
 
-std::vector<TestRegistry::Entry> getTests() {
+std::vector<TestRegistry::Entry> getTests()
+{
     return {
         // Fixed-size windows with rolling updates
         TEST(643,  "Maximum Average Subarray I",

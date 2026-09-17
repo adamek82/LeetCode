@@ -131,7 +131,9 @@ struct SortColorsTestCase {
 
     SortColorsTestCase(std::vector<int> in, std::vector<int> exp)
         : input(std::move(in)),
-          expected(std::move(exp)) {}
+          expected(std::move(exp))
+    {
+    }
 };
 
 // 238. Product of Array Except Self

@@ -5,7 +5,8 @@
 
 /* ---------- Helpers ---------------------------------------------------- */
 // Squared distance from the origin (safer in 64-bit).
-long long KClosestPointsToOrigin_973::distSq(const Point& p) {
+long long KClosestPointsToOrigin_973::distSq(const Point& p)
+{
     return 1LL * p[0] * p[0] + 1LL * p[1] * p[1];
 }
 

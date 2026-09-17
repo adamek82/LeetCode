@@ -2,7 +2,8 @@
 #include <algorithm>
 
 // Returns the maximum nums[i] + nums[j] < k for i < j, or -1 if no such pair exists.
-int TwoSumLessThanK_1099::twoSumLessThanK(vector<int>& nums, int k) {
+int TwoSumLessThanK_1099::twoSumLessThanK(vector<int>& nums, int k)
+{
     if (nums.size() < 2) return -1;
 
     sort(nums.begin(), nums.end());

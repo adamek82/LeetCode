@@ -27,15 +27,18 @@
 
 ShuffleAnArray_384_FisherYates::ShuffleAnArray_384_FisherYates(
     const Vec& nums, uint64_t seed)
-    : original_(nums), current_(nums), rng_(seed) {
+    : original_(nums), current_(nums), rng_(seed)
+{
 }
 
-ShuffleAnArray_384::Vec ShuffleAnArray_384_FisherYates::reset() {
+ShuffleAnArray_384::Vec ShuffleAnArray_384_FisherYates::reset()
+{
     current_ = original_;
     return current_;
 }
 
-ShuffleAnArray_384::Vec ShuffleAnArray_384_FisherYates::shuffle() {
+ShuffleAnArray_384::Vec ShuffleAnArray_384_FisherYates::shuffle()
+{
     const int n = static_cast<int>(current_.size());
     if (n <= 1) return current_;
 
@@ -52,15 +55,18 @@ ShuffleAnArray_384::Vec ShuffleAnArray_384_FisherYates::shuffle() {
 // It *looks* random, but does not generate all permutations with probability 1/n!.
 ShuffleAnArray_384_Wrong::ShuffleAnArray_384_Wrong(
     const Vec& nums, uint64_t seed)
-    : original_(nums), current_(nums), rng_(seed) {
+    : original_(nums), current_(nums), rng_(seed)
+{
 }
 
-ShuffleAnArray_384::Vec ShuffleAnArray_384_Wrong::reset() {
+ShuffleAnArray_384::Vec ShuffleAnArray_384_Wrong::reset()
+{
     current_ = original_;
     return current_;
 }
 
-ShuffleAnArray_384::Vec ShuffleAnArray_384_Wrong::shuffle() {
+ShuffleAnArray_384::Vec ShuffleAnArray_384_Wrong::shuffle()
+{
     const int n = static_cast<int>(current_.size());
     if (n <= 1) return current_;
     uniform_int_distribution<int> dist(0, n - 1);

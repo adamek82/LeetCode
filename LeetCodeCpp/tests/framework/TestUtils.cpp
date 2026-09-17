@@ -8,7 +8,8 @@ namespace TestUtils {
 
 /* ------------------------ Printing ------------------------ */
 
-void printQuoted(const vector<string>& v, ostream& os) {
+void printQuoted(const vector<string>& v, ostream& os)
+{
     os << '[';
     for (size_t i = 0; i < v.size(); ++i) {
         os << '"' << v[i] << '"';
@@ -17,7 +18,8 @@ void printQuoted(const vector<string>& v, ostream& os) {
     os << ']';
 }
 
-void printVVInt(const vector<vector<int>>& vv, ostream& os) {
+void printVVInt(const vector<vector<int>>& vv, ostream& os)
+{
     os << '[';
     for (size_t i = 0; i < vv.size(); ++i) {
         printVec(vv[i], os);
@@ -27,7 +29,8 @@ void printVVInt(const vector<vector<int>>& vv, ostream& os) {
 }
 
 // Print nested string vectors as [[ "a","b" ],[ "c" ]]
-void printVVString(const vector<vector<string>>& vv, ostream& os) {
+void printVVString(const vector<vector<string>>& vv, ostream& os)
+{
     os << '[';
     for (size_t i = 0; i < vv.size(); ++i) {
         os << '[';
@@ -82,47 +85,56 @@ normalizeStrings(vector<string> v) {
 
 /* ------------------------ Equality ------------------------ */
 
-bool equalVecIntExact(const vector<int>& a, const vector<int>& b) {
+bool equalVecIntExact(const vector<int>& a, const vector<int>& b)
+{
     return a == b;
 }
 
 bool equalStringsExact(const vector<string>& a,
-                       const vector<string>& b) {
+                       const vector<string>& b)
+{
     return a == b;
 }
 
 bool equalStringsAnyOrder(vector<string> a,
-                          vector<string> b) {
+                          vector<string> b)
+{
     return normalizeStrings(move(a)) == normalizeStrings(move(b));
 }
 
 bool equalVVIntExact(const vector<vector<int>>& a,
-                     const vector<vector<int>>& b) {
+                     const vector<vector<int>>& b)
+{
     return a == b;
 }
 
 bool equalVVIntAnyOrder(vector<vector<int>> a,
-                        vector<vector<int>> b) {
+                        vector<vector<int>> b)
+{
     return normalizeVV_SizeThenLex(move(a)) == normalizeVV_SizeThenLex(move(b));
 }
 
 bool equalVVIntPermutations(vector<vector<int>> a,
-                            vector<vector<int>> b) {
+                            vector<vector<int>> b)
+{
     return normalizeVV_LexOnly(move(a)) == normalizeVV_LexOnly(move(b));
 }
 
-bool approxEqual(double a, double b, double eps) {
+bool approxEqual(double a, double b, double eps)
+{
     return fabs(a - b) < eps;
 }
 
-bool isStrictlyIncreasing(const vector<int>& v) {
+bool isStrictlyIncreasing(const vector<int>& v)
+{
     for (size_t i = 1; i < v.size(); ++i) {
         if (!(v[i - 1] < v[i])) return false;
     }
     return true;
 }
 
-bool isSubsequence(const vector<int>& sub, const vector<int>& full) {
+bool isSubsequence(const vector<int>& sub, const vector<int>& full)
+{
     size_t j = 0;
     for (size_t i = 0; i < full.size() && j < sub.size(); ++i) {
         if (full[i] == sub[j]) ++j;
@@ -130,7 +142,8 @@ bool isSubsequence(const vector<int>& sub, const vector<int>& full) {
     return j == sub.size();
 }
 
-bool isSubsequenceStr(const string& sub, const string& full) {
+bool isSubsequenceStr(const string& sub, const string& full)
+{
     size_t j = 0;
     for (size_t i = 0; i < full.size() && j < sub.size(); ++i) {
         if (full[i] == sub[j]) ++j;
@@ -141,7 +154,8 @@ bool isSubsequenceStr(const string& sub, const string& full) {
 /* ---------------- Probability / statistics --------------- */
 
 bool isPermutationVecInt(const vector<int>& expected,
-                         const vector<int>& got) {
+                         const vector<int>& got)
+{
     if (expected.size() != got.size()) return false;
     auto a = expected;
     auto b = got;
@@ -150,7 +164,8 @@ bool isPermutationVecInt(const vector<int>& expected,
     return a == b;
 }
 
-double chiSquare(const vector<long long>& obs, double expectedEach) {
+double chiSquare(const vector<long long>& obs, double expectedEach)
+{
     double X = 0.0;
     for (long long c : obs) {
         const double diff = double(c) - expectedEach;
@@ -162,7 +177,8 @@ double chiSquare(const vector<long long>& obs, double expectedEach) {
 /* --------------------- Assert + logging ------------------- */
 
 bool assertApprox(const string& label,
-                  double expected, double got, double eps) {
+                  double expected, double got, double eps)
+{
     bool pass = approxEqual(expected, got, eps);
     cout << label << ": " << (pass ? "PASS" : "FAIL")
               << " (Expected: " << expected << ", Got: " << got
@@ -172,7 +188,8 @@ bool assertApprox(const string& label,
 
 bool assertEqVIntPrefix(const string& label,
                         const vector<int>& expected,
-                        const vector<int>& vec, int k) {
+                        const vector<int>& vec, int k)
+{
     if (k < 0) k = 0;
     if (k > static_cast<int>(vec.size())) k = static_cast<int>(vec.size());
     vector<int> prefix(vec.begin(), vec.begin() + k);
@@ -193,7 +210,8 @@ bool assertMaxMin(const string& label,
                   const function<string()>& getMax,
                   const function<string()>& getMin,
                   initializer_list<string> maxSet,
-                  initializer_list<string> minSet) {
+                  initializer_list<string> minSet)
+{
     const bool maxOk = find(maxSet.begin(), maxSet.end(), getMax()) != maxSet.end();
 
     if (!assertEqScalar(label + " [max]", true, maxOk)) {
@@ -210,13 +228,15 @@ bool assertMaxMin(const string& label,
 }
 
 // distance^2 helper kept file-local
-inline long long distSq2D(const vector<int>& p) {
+inline long long distSq2D(const vector<int>& p)
+{
     return 1LL * p[0] * p[0] + 1LL * p[1] * p[1];
 }
 
 bool isValidKClosestPoints(const vector<vector<int>>& input,
                            int k,
-                           const vector<vector<int>>& out) {
+                           const vector<vector<int>>& out)
+{
     if (static_cast<int>(out.size()) != k) return false;
 
     // Build multiset of original points to check membership & multiplicity.
@@ -244,7 +264,8 @@ string makeStepLabel(const string& suite,
                      size_t caseIdx,
                      size_t stepIdx,
                      const string& op,
-                     const optional<string>& arg) {
+                     const optional<string>& arg)
+{
     string label;
     label.reserve(suite.size() + op.size() + 32);
     label.append(suite).append(" ")
@@ -259,7 +280,8 @@ string makeStepLabel(const string& suite,
     return label;
 }
 
-bool isValidFrequencySort(const string& orig, const string& res) {
+bool isValidFrequencySort(const string& orig, const string& res)
+{
     if (orig.size() != res.size()) return false;
 
     // Count chars in original and result

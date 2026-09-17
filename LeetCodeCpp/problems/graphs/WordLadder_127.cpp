@@ -6,7 +6,8 @@
 int WordLadder_127::ladderLength(
     const string& beginWord,
     const string& endWord,
-    const vector<string>& wordList) {
+    const vector<string>& wordList)
+{
 
     unordered_set<string> words(wordList.begin(), wordList.end());
 

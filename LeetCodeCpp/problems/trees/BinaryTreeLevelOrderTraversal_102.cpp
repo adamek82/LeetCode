@@ -5,7 +5,8 @@
 using namespace std;
 
 vector<vector<int>> BinaryTreeLevelOrderTraversal_102::levelOrder(
-    TreeNode<int>* root) {
+    TreeNode<int>* root)
+{
     vector<vector<int>> result;
 
     if (root == nullptr) {

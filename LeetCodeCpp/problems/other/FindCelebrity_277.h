@@ -8,7 +8,8 @@ public:
     // The matrix should be set before calling findCelebrity
     vector<vector<int>> knowsMatrix;
 
-    bool knows(int a, int b) {
+    bool knows(int a, int b)
+    {
         return knowsMatrix[a][b] == 1;
     }
 

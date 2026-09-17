@@ -24,7 +24,8 @@ namespace {
 
 /* Greedy scans, prefix thinking, and simple counting ideas */
 
-bool bestTimeToBuyAndSellStock_121_tests() {
+bool bestTimeToBuyAndSellStock_121_tests()
+{
     vector<BestTimeToBuyAndSellStockTestCase> testCases = {
         // Provided examples
         {{7, 1, 5, 3, 6, 4}, 5},  // Example 1
@@ -50,7 +51,8 @@ bool bestTimeToBuyAndSellStock_121_tests() {
     return true;
 }
 
-bool bestTimeToBuyAndSellStockII_122_tests() {
+bool bestTimeToBuyAndSellStockII_122_tests()
+{
     vector<BestTimeToBuyAndSellStockIITestCase> testCases = {
         // 3 examples from the problem statement:
         {{7,1,5,3,6,4}, 7}, // Example 1
@@ -97,7 +99,8 @@ bool bestTimeToBuyAndSellStockII_122_tests() {
     return true;
 }
 
-bool findPivotIndex_724_tests() {
+bool findPivotIndex_724_tests()
+{
     vector<FindPivotIndexTestCase> cases = {
         {{1,7,3,6,5,6},  3},     // example 1
         {{1,2,3},       -1},     // example 2
@@ -118,7 +121,8 @@ bool findPivotIndex_724_tests() {
     return true;
 }
 
-bool appleRedistributionIntoBoxes_3074_tests() {
+bool appleRedistributionIntoBoxes_3074_tests()
+{
     vector<AppleRedistributionIntoBoxesTestCase> testCases = {
         // Examples from the problem statement
         {{1, 3, 2},      {4, 3, 1, 5, 2}, 2},
@@ -151,7 +155,8 @@ bool appleRedistributionIntoBoxes_3074_tests() {
     return true;
 }
 
-bool splitTheArray_3046_tests() {
+bool splitTheArray_3046_tests()
+{
     vector<SplitTheArrayTestCase> testCases = {
         {{1,1,2,2,3,4}, true},   // example 1
         {{1,1,1,1},     false},  // example 2
@@ -177,7 +182,8 @@ bool splitTheArray_3046_tests() {
 
 /* More advanced transformations on intervals, strings, and matrices */
 
-bool mergeIntervals_56_tests() {
+bool mergeIntervals_56_tests()
+{
     vector<MergeIntervalsTestCase> testCases = {
         // Problem statement examples
         {{{1, 3}, {2, 6}, {8, 10}, {15, 18}}, {{1, 6}, {8, 10}, {15, 18}}},
@@ -203,7 +209,8 @@ bool mergeIntervals_56_tests() {
     return true;
 }
 
-bool zigzagConversion_6_tests() {
+bool zigzagConversion_6_tests()
+{
     vector<ZigzagConversionTestCase> testCases = {
         {"PAYPALISHIRING", 3, "PAHNAPLSIIGYIR"},
         {"PAYPALISHIRING", 4, "PINALSIGYAHRPI"},
@@ -235,7 +242,8 @@ bool zigzagConversion_6_tests() {
 
 namespace TestsArrayGreedyTransform {
 
-std::vector<TestRegistry::Entry> getTests() {
+std::vector<TestRegistry::Entry> getTests()
+{
     return {
         // Greedy scans, prefix thinking, and simple counting ideas
         TEST(121,  "Best Time to Buy and Sell Stock",     bestTimeToBuyAndSellStock_121_tests),

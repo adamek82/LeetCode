@@ -17,11 +17,13 @@ using namespace std;
  * - Space: O(h) for the recursion stack, where h is the height of the tree
  *          (O(n) worst case, O(log n) for a balanced tree).
  */
-bool PathSum_112::hasPathSum(TreeNode<int>* root, int targetSum) {
+bool PathSum_112::hasPathSum(TreeNode<int>* root, int targetSum)
+{
     return dfs(root, targetSum);
 }
 
-bool PathSum_112::dfs(TreeNode<int>* node, int remainingSum) {
+bool PathSum_112::dfs(TreeNode<int>* node, int remainingSum)
+{
     if (!node) return false;
 
     remainingSum -= node->val;

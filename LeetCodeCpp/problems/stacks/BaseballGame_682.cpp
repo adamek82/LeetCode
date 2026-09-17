@@ -1,6 +1,7 @@
 #include "BaseballGame_682.h"
 
-int BaseballGame_682::calPoints(vector<string>& operations) {
+int BaseballGame_682::calPoints(vector<string>& operations)
+{
     vector<int> st;
     int total = 0;
 

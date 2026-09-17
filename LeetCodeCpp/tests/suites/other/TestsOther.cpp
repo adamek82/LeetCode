@@ -17,7 +17,8 @@ namespace {
 
 /* Problems that do not fit cleanly into the main technique-based categories */
 
-bool findCelebrity_277_tests() {
+bool findCelebrity_277_tests()
+{
     vector<FindCelebrityTestCase> testCases = {
         // 1 is the celebrity
         {{{0, 1}, {0, 0}}, 1},
@@ -89,7 +90,8 @@ bool findCelebrity_277_tests() {
     return true;
 }
 
-bool validNumber_65_tests() {
+bool validNumber_65_tests()
+{
     vector<ValidNumberTestCase> testCases = {
         // Valid integers / decimals
         {"0", true},
@@ -144,7 +146,8 @@ bool validNumber_65_tests() {
 
 namespace TestsOther {
 
-std::vector<TestRegistry::Entry> getTests() {
+std::vector<TestRegistry::Entry> getTests()
+{
     return {
         // Problems that do not fit cleanly into the main technique-based categories
         TEST(277, "Find the Celebrity", findCelebrity_277_tests),

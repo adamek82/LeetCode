@@ -1,23 +1,30 @@
 #include "TrieNode.h"
 
 TrieNode::TrieNode()
-    : TrieNode('\0') {}
+    : TrieNode('\0')
+{
+}
 
 TrieNode::TrieNode(char character)
     : character(character),
-      terminates(false) {}
+      terminates(false)
+{
+}
 
-TrieNode::~TrieNode() {
+TrieNode::~TrieNode()
+{
     for (const auto& [_, child] : children) {
         delete child;
     }
 }
 
-char TrieNode::getChar() const {
+char TrieNode::getChar() const
+{
     return character;
 }
 
-void TrieNode::addWord(const string& word) {
+void TrieNode::addWord(const string& word)
+{
     TrieNode* node = this;
 
     for (const char c : word) {
@@ -36,15 +43,18 @@ void TrieNode::addWord(const string& word) {
     }
 }
 
-TrieNode* TrieNode::getChild(char c) {
+TrieNode* TrieNode::getChild(char c)
+{
     const auto it = children.find(c);
     return it != children.end() ? it->second : nullptr;
 }
 
-bool TrieNode::terminatesWord() const {
+bool TrieNode::terminatesWord() const
+{
     return terminates;
 }
 
-void TrieNode::setTerminates(bool value) {
+void TrieNode::setTerminates(bool value)
+{
     this->terminates = value;
 }

@@ -51,7 +51,8 @@ vector<string> AnalyzeUserWebsiteVisitPattern1152::mostVisitedPattern_usingMap(v
 // Define a custom hash function for vector<string>
 // This allows unordered_map to use vector<string> as a key.
 struct VectorHash {
-    size_t operator()(const vector<string>& v) const {
+    size_t operator()(const vector<string>& v) const
+    {
         size_t hashValue = 0;
         hash<string> hasher;
 

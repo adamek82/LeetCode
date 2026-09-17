@@ -28,7 +28,8 @@ public:
 
     template <typename T>
     struct TreeDeleter {
-        void operator()(TreeNode<T>* root) const {
+        void operator()(TreeNode<T>* root) const
+        {
             TreeUtils::freeTree<T>(root);
         }
     };
@@ -37,13 +38,15 @@ public:
     using UniqueTree = unique_ptr<TreeNode<T>, TreeDeleter<T>>;
 
     template <typename T>
-    static UniqueTree<T> makeUniqueTree(const vector<optional<T>>& values) {
+    static UniqueTree<T> makeUniqueTree(const vector<optional<T>>& values)
+    {
         return UniqueTree<T>(vectorToTree<T>(values));
     }
 
     // For in-place tree algorithms that may return a different root.
     template <typename T>
-    static void resetTreeRoot(UniqueTree<T>& owner, TreeNode<T>* newRoot) {
+    static void resetTreeRoot(UniqueTree<T>& owner, TreeNode<T>* newRoot)
+    {
         owner.release();
         owner.reset(newRoot);
     }

@@ -36,7 +36,8 @@ namespace {
 
 /* Basic tree traversal, inspection, and structural transformation */
 
-bool invertBinaryTree_226_tests() {
+bool invertBinaryTree_226_tests()
+{
     vector<InvertBinaryTreeTestCase> testCases = {
         // Example 1 from the problem statement
         {{4, 2, 7, 1, 3, 6, 9},
@@ -108,7 +109,8 @@ bool invertBinaryTree_226_tests() {
     return true;
 }
 
-bool maximumDepthOfBinaryTree_104_tests() {
+bool maximumDepthOfBinaryTree_104_tests()
+{
     vector<MaximumDepthOfBinaryTreeTestCase> testCases = {
         // two examples from the problem statement
         {{3, 9, 20, nullopt, nullopt, 15, 7}, 3},
@@ -187,7 +189,8 @@ bool sameTree_100_tests()
     return true;
 }
 
-bool symmetricTree_101_tests() {
+bool symmetricTree_101_tests()
+{
     vector<SymmetricTreeTestCase> cases = {
         // Example 1
         {{1, 2, 2, 3, 4, 4, 3}, true},
@@ -236,7 +239,8 @@ bool symmetricTree_101_tests() {
     return true;
 }
 
-bool pathSum_112_tests() {
+bool pathSum_112_tests()
+{
     vector<PathSumTestCase> cases = {
         // Example 1
         {{5, 4, 8, 11, nullopt, 13, 4, 7, 2, nullopt, nullopt, nullopt, 1}, 22, true},
@@ -290,7 +294,8 @@ bool pathSum_112_tests() {
 
 /* Bottom-up DFS reasoning with subtree-derived information */
 
-bool balancedBinaryTree_110_tests() {
+bool balancedBinaryTree_110_tests()
+{
     vector<BalancedBinaryTreeTestCase> testCases = {
         // Example 1
         {{3, 9, 20, nullopt, nullopt, 15, 7}, true},
@@ -336,7 +341,8 @@ bool balancedBinaryTree_110_tests() {
     return true;
 }
 
-bool diameterOfBinaryTree_543_tests() {
+bool diameterOfBinaryTree_543_tests()
+{
     vector<DiameterOfBinaryTreeTestCase> testCases = {
         // Example 1: [4,2,1,3,5] diameter = 3
         {{1, 2, 3, 4, 5}, 3},
@@ -386,7 +392,8 @@ bool diameterOfBinaryTree_543_tests() {
     return true;
 }
 
-bool subtreeOfAnotherTree_572_tests() {
+bool subtreeOfAnotherTree_572_tests()
+{
     vector<SubtreeOfAnotherTreeTestCase> cases = {
         // Example 1
         {{3, 4, 5, 1, 2},
@@ -474,7 +481,8 @@ bool subtreeOfAnotherTree_572_tests() {
 
 /* Breadth-first traversal by tree levels */
 
-bool binaryTreeLevelOrderTraversal_102_tests() {
+bool binaryTreeLevelOrderTraversal_102_tests()
+{
     vector<BinaryTreeLevelOrderTraversalTestCase> cases = {
         // Example 1
         {{3, 9, 20, nullopt, nullopt, 15, 7},
@@ -531,7 +539,8 @@ bool binaryTreeLevelOrderTraversal_102_tests() {
     return true;
 }
 
-bool averageOfLevelsInBinaryTree_637_tests() {
+bool averageOfLevelsInBinaryTree_637_tests()
+{
     vector<AverageOfLevelsInBinaryTreeTestCase> cases = {
         // Example 1
         {{3, 9, 20, nullopt, nullopt, 15, 7},
@@ -595,7 +604,8 @@ bool averageOfLevelsInBinaryTree_637_tests() {
 
 /* BST-specific inorder and ordering properties */
 
-bool kthSmallestElementInBST_230_tests() {
+bool kthSmallestElementInBST_230_tests()
+{
     vector<KthSmallestElementInABSTTestCase> testCases = {
         // Example 1
         {{3, 1, 4, nullopt, 2}, 1, 1},
@@ -630,7 +640,8 @@ bool kthSmallestElementInBST_230_tests() {
     return true;
 }
 
-bool minimumAbsoluteDifferenceInBST_530_tests() {
+bool minimumAbsoluteDifferenceInBST_530_tests()
+{
     vector<MinimumAbsoluteDifferenceInBSTTestCase> testCases = {
         // Examples from the problem statement
         {{4, 2, 6, 1, 3}, 1},
@@ -662,7 +673,8 @@ bool minimumAbsoluteDifferenceInBST_530_tests() {
     return true;
 }
 
-bool validateBinarySearchTree_98_tests() {
+bool validateBinarySearchTree_98_tests()
+{
     vector<ValidateBinarySearchTreeTestCase> testCases = {
         // Provided examples
         {{2, 1, 3}, true},
@@ -694,7 +706,8 @@ bool validateBinarySearchTree_98_tests() {
     return true;
 }
 
-bool lowestCommonAncestor_235_tests() {
+bool lowestCommonAncestor_235_tests()
+{
     vector<LowestCommonAncestorTestCase> testCases = {
         // Examples from the problem statement
         {{6, 2, 8, 0, 4, 7, 9, nullopt, nullopt, 3, 5}, 2, 8, 6},
@@ -735,7 +748,8 @@ bool lowestCommonAncestor_235_tests() {
 
 /* Tree-like prefix structure design */
 
-bool implementTrie_208_tests() {
+bool implementTrie_208_tests()
+{
     vector<ImplementTrieTestCase> testCases = {
         // Example 1
         {
@@ -811,7 +825,8 @@ bool implementTrie_208_tests() {
 
 namespace TestsTrees {
 
-std::vector<TestRegistry::Entry> getTests() {
+std::vector<TestRegistry::Entry> getTests()
+{
     return {
         // Basic tree traversal, inspection, and structural transformation
         TEST(226,  "Invert Binary Tree",                  invertBinaryTree_226_tests),

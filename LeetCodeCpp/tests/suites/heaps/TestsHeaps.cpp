@@ -25,7 +25,8 @@ namespace {
 
 /* Basic max-heap / min-heap simulation */
 
-bool lastStoneWeight_1046_tests() {
+bool lastStoneWeight_1046_tests()
+{
     vector<LastStoneWeightTestCase> tests = {
         // 2 from the statement
         {{2,7,4,1,8,1}, 1},
@@ -91,7 +92,8 @@ bool kthLargestElementInArray_215_tests()
     return true;
 }
 
-bool topKFrequent_347_tests() {
+bool topKFrequent_347_tests()
+{
     auto bag = [](initializer_list<pair<int, int>> spec) {
         size_t total = 0;
 
@@ -144,7 +146,8 @@ bool topKFrequent_347_tests() {
     return true;
 }
 
-bool kClosestPointsToOrigin_973_tests() {
+bool kClosestPointsToOrigin_973_tests()
+{
     vector<KClosestPointsToOriginTestCase> testCases = {
         // Official examples
         {{{1, 3}, {-2, 2}}, 1, {{-2, 2}}},
@@ -191,7 +194,8 @@ bool kClosestPointsToOrigin_973_tests() {
 
 /* Merging multiple sorted streams with a heap frontier */
 
-bool mergeKSortedLists_23_tests() {
+bool mergeKSortedLists_23_tests()
+{
     using IntListNode = ListNode<int>;
 
     vector<MergeKListsTestCase> testCases = {
@@ -239,7 +243,8 @@ bool mergeKSortedLists_23_tests() {
 
 /* Priority-queue traversal on a graph / grid state space */
 
-bool findSafestPathInGrid_2812_tests() {
+bool findSafestPathInGrid_2812_tests()
+{
     vector<FindTheSafestPathInGridTestCase> testCases = {
         // three examples from the statement
         {{{1, 0, 0},
@@ -287,7 +292,8 @@ bool findSafestPathInGrid_2812_tests() {
 
 /* Core custom data structures and API-oriented implementations */
 
-vector<int> runMinHeapScenario(const vector<MinHeapOp>& ops) {
+vector<int> runMinHeapScenario(const vector<MinHeapOp>& ops)
+{
     MinHeap heap;
     vector<int> output;
 
@@ -310,7 +316,8 @@ vector<int> runMinHeapScenario(const vector<MinHeapOp>& ops) {
     return output;
 }
 
-bool minHeap_tests() {
+bool minHeap_tests()
+{
     auto insert = [](int value) {
         return MinHeapOp{MinHeapOpKind::Insert, value};
     };
@@ -374,7 +381,8 @@ bool minHeap_tests() {
 
 namespace TestsHeaps {
 
-std::vector<TestRegistry::Entry> getTests() {
+std::vector<TestRegistry::Entry> getTests()
+{
     return {
         // Basic max-heap / min-heap simulation
         TEST(1046, "Last Stone Weight",              lastStoneWeight_1046_tests),

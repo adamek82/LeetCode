@@ -25,7 +25,8 @@ namespace {
 
 /* Basic recursive generation of subsets, combinations, and permutations */
 
-bool subsets_78_tests() {
+bool subsets_78_tests()
+{
     vector<SubsetsTestCase> tests = {
         // Example 1 (mask order for the bitmask method)
         {{1,2,3}, { {}, {1}, {2}, {1,2}, {3}, {1,3}, {2,3}, {1,2,3} }},
@@ -58,7 +59,8 @@ bool subsets_78_tests() {
     return true;
 }
 
-bool combinations_77_tests() {
+bool combinations_77_tests()
+{
     vector<CombinationsTestCase> tests = {
         {4, 2, {{1,2},{1,3},{1,4},{2,3},{2,4},{3,4}}},
         {1, 1, {{1}}},
@@ -107,7 +109,8 @@ bool combinations_77_tests() {
     return true;
 }
 
-bool permutations_46_tests() {
+bool permutations_46_tests()
+{
     vector<PermutationsTestCase> tests = {
         {{1,2,3}, {{1,2,3},{1,3,2},{2,1,3},{2,3,1},{3,1,2},{3,2,1}}},
         {{0,1},   {{0,1},{1,0}}},
@@ -130,7 +133,8 @@ bool permutations_46_tests() {
 
 /* Backtracking with constraints and incremental choice building */
 
-bool letterCombinations_17_tests() {
+bool letterCombinations_17_tests()
+{
     vector<LetterCombinationsTestCase> tests = {
         {"23", {"ad","ae","af","bd","be","bf","cd","ce","cf"}},
         {"",   {}},
@@ -152,7 +156,8 @@ bool letterCombinations_17_tests() {
     return true;
 }
 
-bool generateParentheses_22_tests() {
+bool generateParentheses_22_tests()
+{
     vector<GenerateParenthesesTestCase> tests = {
         {3, {"((()))","(()())","(())()","()(())","()()()"}},
         {1, {"()"}},
@@ -174,7 +179,8 @@ bool generateParentheses_22_tests() {
     return true;
 }
 
-bool combinationSum_39_tests() {
+bool combinationSum_39_tests()
+{
     vector<CombinationSumTestCase> tests = {
         {{2,3,6,7}, 7, {{2,2,3},{7}}},
         {{2,3,5},   8, {{2,2,2,2},{2,3,3},{3,5}}},
@@ -199,7 +205,8 @@ bool combinationSum_39_tests() {
 
 /* Constraint-based board backtracking */
 
-bool sudokuSolver_37_tests() {
+bool sudokuSolver_37_tests()
+{
     vector<SudokuSolverTestCase> testCases = {
         // Example 1: classic LeetCode example
         {
@@ -337,7 +344,8 @@ bool sudokuSolver_37_tests() {
 
 /* Backtracking over a 2D search space with visited-state control */
 
-bool wordSearch_79_tests() {
+bool wordSearch_79_tests()
+{
     vector<WordSearchTestCase> testCases = {
         // Example 1 from problem statement
         {{{'A', 'B', 'C', 'E'},
@@ -394,7 +402,8 @@ bool wordSearch_79_tests() {
 
 namespace TestsBacktracking {
 
-std::vector<TestRegistry::Entry> getTests() {
+std::vector<TestRegistry::Entry> getTests()
+{
     return {
         // Basic subset/permutation generation
         TEST(78, "Subsets",       subsets_78_tests),

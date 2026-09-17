@@ -29,7 +29,8 @@ namespace {
 
 /* Basic traversal and local pointer updates in linked lists */
 
-bool removeDuplicatesFromSortedList_83_tests() {
+bool removeDuplicatesFromSortedList_83_tests()
+{
     using IntListNode = ListNode<int>;
 
     // Define test cases
@@ -63,7 +64,8 @@ bool removeDuplicatesFromSortedList_83_tests() {
     return true;
 }
 
-bool insertGreatestCommonDivisors_2807_tests() {
+bool insertGreatestCommonDivisors_2807_tests()
+{
     using IntListNode = ListNode<int>;
 
     vector<InsertGreatestCommonDivisorsTestCase> testCases = {
@@ -105,7 +107,8 @@ bool insertGreatestCommonDivisors_2807_tests() {
 
 /* Core linked-list transformations by rewiring next pointers */
 
-bool reverseLinkedList_206_tests() {
+bool reverseLinkedList_206_tests()
+{
     using IntListNode = ListNode<int>;
 
     // Define test cases
@@ -138,7 +141,8 @@ bool reverseLinkedList_206_tests() {
     return true;
 }
 
-bool mergeTwoSortedLists_21_tests() {
+bool mergeTwoSortedLists_21_tests()
+{
     using IntListNode = ListNode<int>;
 
     vector<MergeTwoSortedListsTestCase> testCases = {
@@ -204,7 +208,8 @@ bool mergeTwoSortedLists_21_tests() {
 
 /* Fast/slow pointer techniques on linked lists */
 
-bool hasCycle_141_tests() {
+bool hasCycle_141_tests()
+{
     vector<LinkedListCycleTestCase> testCases = {
         // Provided examples
         {{3, 2, 0, -4}, 1, true},
@@ -232,7 +237,8 @@ bool hasCycle_141_tests() {
     return true;
 }
 
-bool middleOfTheLinkedList_876_tests() {
+bool middleOfTheLinkedList_876_tests()
+{
     using IntListNode = ListNode<int>;
 
     vector<MiddleOfTheLinkedListTestCase> testCases = {
@@ -263,7 +269,8 @@ bool middleOfTheLinkedList_876_tests() {
     return true;
 }
 
-bool removeNthNodeFromEndOfList_19_tests() {
+bool removeNthNodeFromEndOfList_19_tests()
+{
     using IntListNode = ListNode<int>;
 
     vector<RemoveNthNodeFromEndOfListTestCase> testCases = {
@@ -297,7 +304,8 @@ bool removeNthNodeFromEndOfList_19_tests() {
 
 /* More advanced linked structures with extra references */
 
-bool copyRandomList_138_tests() {
+bool copyRandomList_138_tests()
+{
     using IntListNode = ListNode<int>;
 
     vector<CopyRandomListTestCase> testCases = {
@@ -336,7 +344,8 @@ bool copyRandomList_138_tests() {
 
 /* Linked-list-based data structure design */
 
-bool lruCache_146_tests() {
+bool lruCache_146_tests()
+{
     vector<LRUCacheTestCase> testCases = {
         // From problem statement
         {
@@ -390,7 +399,8 @@ bool lruCache_146_tests() {
 
 namespace TestsLinkedLists {
 
-std::vector<TestRegistry::Entry> getTests() {
+std::vector<TestRegistry::Entry> getTests()
+{
     return {
         // Basic traversal and local pointer updates in linked lists
         TEST(83,   "Remove Duplicates from Sorted List",             removeDuplicatesFromSortedList_83_tests),

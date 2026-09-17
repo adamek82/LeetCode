@@ -37,11 +37,13 @@ using namespace TestCases;
 class TestsRunner {
 private:
     static void appendTests(vector<TestRegistry::Entry>& dst,
-                            const vector<TestRegistry::Entry>& src) {
+                            const vector<TestRegistry::Entry>& src)
+    {
         dst.insert(dst.end(), src.begin(), src.end());
     }
 
-    static vector<TestRegistry::Entry> getTests() {
+    static vector<TestRegistry::Entry> getTests()
+    {
         vector<TestRegistry::Entry> tests;
 
         appendTests(tests, TestsBasicArraysStrings::getTests());
@@ -67,12 +69,14 @@ private:
     }
 
 public:
-    static bool runAllTests() {
+    static bool runAllTests()
+    {
         return TestRegistry::runAllTests(getTests());
     }
 };
 
-int main() {
+int main()
+{
     cout << "Running LeetCodeCpp tests:\n";
     TestsRunner::runAllTests();
     return 0;
