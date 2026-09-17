@@ -1,9 +1,7 @@
 #pragma once
 #include <vector>
 
-using namespace std;
-
 class CoinChange_322 {
 public:
-    int coinChange(vector<int>& coins, int amount);
+    int coinChange(std::vector<int>& coins, int amount);
 };
