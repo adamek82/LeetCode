@@ -173,6 +173,12 @@ struct SpiralMatrixTestCase {
     std::vector<int> expected;
 };
 
+// 73. Set Matrix Zeroes
+struct SetMatrixZeroesTestCase {
+    std::vector<std::vector<int>> input;
+    std::vector<std::vector<int>> expected;
+};
+
 // 392. Is Subsequence (follow-up with next-position table)
 struct IsSubsequenceFollowUpTestCase {
     std::string t;

@@ -19,6 +19,7 @@
 
 #include "problems/arrays_strings/RotateImage_48.h"
 #include "problems/arrays_strings/SpiralMatrix_54.h"
+#include "problems/arrays_strings/SetMatrixZeroes_73.h"
 
 using namespace std;
 using namespace TestCases;
@@ -327,6 +328,40 @@ bool spiralMatrix_54_tests()
     return true;
 }
 
+bool setMatrixZeroes_73_tests()
+{
+    vector<SetMatrixZeroesTestCase> testCases = {
+        {{{1, 1, 1}, {1, 0, 1}, {1, 1, 1}},
+            {{1, 0, 1}, {0, 0, 0}, {1, 0, 1}}},
+        {{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}},
+            {{0, 0, 0, 0}, {0, 4, 5, 0}, {0, 3, 1, 0}}},
+
+        {{{1, 0, 3}, {4, 5, 6}}, {{0, 0, 0}, {4, 0, 6}}},
+        {{{1, 2, 3}, {0, 5, 6}}, {{0, 2, 3}, {0, 0, 0}}},
+
+        {{{1, 0, 3}}, {{0, 0, 0}}},
+        {{{1}, {0}, {3}}, {{0}, {0}, {0}}},
+        {{{0}}, {{0}}},
+
+        {{{0, 2}, {3, 4}}, {{0, 0}, {0, 4}}},
+        {{{1, 2, 3}, {4, 0, 6}, {7, 8, 9}, {10, 11, 0}},
+            {{1, 0, 0}, {0, 0, 0}, {7, 0, 0}, {0, 0, 0}}},
+        {{}, {}}
+    };
+
+    SetMatrixZeroes_73 solver;
+
+    for (size_t i = 0; i < testCases.size(); ++i) {
+        auto matrix = testCases[i].input;
+        solver.setZeroes(matrix);
+
+        const string label = "Set Matrix Zeroes 73 Test " + to_string(i + 1);
+        REQUIRE_ASSERT(assertEqVVIntExact(label, testCases[i].expected, matrix));
+    }
+
+    return true;
+}
+
 } // namespace
 
 namespace TestsArrayInPlace {
@@ -349,6 +384,7 @@ std::vector<TestRegistry::Entry> getTests()
         // 2D matrix traversal and in-place matrix transformation
         TEST(48,  "Rotate Image",                           rotateImage_48_tests),
         TEST(54,  "Spiral Matrix",                          spiralMatrix_54_tests),
+        TEST(73,  "Set Matrix Zeroes",                      setMatrixZeroes_73_tests),
     };
 }
 
