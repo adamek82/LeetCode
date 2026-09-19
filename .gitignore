@@ -48,3 +48,6 @@ LeetCodeCpp/compile_commands.json
 
 # Accidental temp file created by terminal paging / git show mishaps
 q
+
+# Local brace-style preview output
+brace-preview.txt
