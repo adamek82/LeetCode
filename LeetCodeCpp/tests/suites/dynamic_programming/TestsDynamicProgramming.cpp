@@ -282,6 +282,19 @@ bool uniquePathsII_63_tests()
         {{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}}, 2},
         {{{0, 1}, {0, 0}}, 1},
 
+        // Empty grids and single cells
+        {{}, 0},
+        {{{}}, 0},
+        {{{0}}, 1},
+        {{{1}}, 0},
+
+        // A blocked destination and a blocked first column
+        {{{0, 0}, {0, 1}}, 0},
+        {{{0}, {1}, {0}}, 0},
+
+        // A fully blocked row must clear all previously accumulated paths
+        {{{0, 0, 0}, {1, 1, 1}, {0, 0, 0}}, 0},
+
         // Single row with an obstacle blocking all paths past it
         {{{0, 1, 0, 0, 0}}, 0},
 
