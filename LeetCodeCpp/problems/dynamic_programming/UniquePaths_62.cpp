@@ -20,37 +20,46 @@
  * -------------------------------------------------------------------
  * Implementation #1 – combinatorial formula (O(1) extra space)
  *
- * Naive factorials overflow quickly (e.g. C(100,50) uses 100!),
- * so we use the multiplicative identity
+ * From the factorial definition:
  *
- *     C(N, k) = Π_{i = 1..k}  (N − k + i) / i,   where  k = min(m−1,n−1).
+ *     C(N, k) = N! / (k! (N-k)!).
  *
- * Here the loop does:
+ * Cancelling (N-k)! gives:
  *
- *     res_0 = 1
- *     res_i = res_{i-1} * (N − k + i) / i
+ *     C(N, k) = ((N-k+1)(N-k+2)...N) / (1*2*...*k).
  *
- * Invariant (proof that res stays integer):
- *     After i-th iteration:
- *         res_i = C(N − k + i, i)
- *     Base:  res_0 = 1 = C(N − k + 0, 0).
- *     Step:  assume res_{i-1} = C(N − k + i − 1, i − 1). Then
+ * Choose k = min(m - 1, n - 1): the symmetry C(N, k) = C(N, N-k)
+ * lets us count the smaller group, minimizing the number of iterations.
  *
- *         res_i
- *           = C(N − k + i − 1, i − 1) * (N − k + i) / i
- *           = C(N − k + i, i)   // standard identity:
- *                               // C(n, r) * (n+1)/(r+1) = C(n+1, r+1)
+ * Starting with res = 1, the loop builds the product incrementally:
  *
- *     A binomial coefficient C(a, b) is always an integer, so each
- *     division by i is exact and res never becomes fractional.
+ *     res = res * (N - k + i) / i.
+ *
+ * After iteration i:
+ *
+ *     res = ((N-k+1)(N-k+2)...(N-k+i)) / (1*2*...*i).
+ *
+ * Therefore, the loop invariant is:
+ *
+ *     res = C(N-k+i, i).
+ *
+ * Thus each division by i is exact: the result is a binomial
+ * coefficient and hence an integer, provided no overflow occurs.
+ * At i = k, res = C(N, k). For k = 0, the empty product is 1
+ * and the loop is skipped (a single row or column has one path).
+ *
+ * This avoids computing large factorials, but the intermediate
+ * multiplication res * (N - k + i) can still overflow the chosen
+ * integer type in general. long long suffices under this problem's
+ * constraints: m, n <= 100 and the final answer <= 2 * 10^9.
  *
  * Example (m=3, n=7 ⇒ N=8, k=2):
  *   res = 1
- *   i = 1:  res = 1 * (8-2+1)=7 / 1  = 7    = C(7,1)
- *   i = 2:  res = 7 * (8-2+2)=8 / 2  = 28   = C(8,2)
+ *   i = 1:  res = 1 * (8-2+1) / 1 = 1 * 7 / 1 = 7  = C(7,1)
+ *   i = 2:  res = 7 * (8-2+2) / 2 = 7 * 8 / 2 = 28 = C(8,2)
  *
  * Complexity:
- *     Time  O(min(m,n))  ≤ 99 iterations.
+ *     Time  O(min(m,n)); k iterations, at most 99 when m, n <= 100.
  *     Space O(1).
  */
 int UniquePaths_62::uniquePaths_Comb(int m, int n)
@@ -60,12 +69,12 @@ int UniquePaths_62::uniquePaths_Comb(int m, int n)
 
     long long res = 1;
     for (long long i = 1; i <= k; ++i) {
-        // After (i-1) iterations, res = C(N, i-1).
-        // Multiply by next numerator factor, divide by next i,
-        // to obtain C(N, i) without overflow or loss of precision.
+        // Before iteration i, res = C(N - k + i - 1, i - 1).
+        // Multiply by the next numerator factor and divide exactly by i
+        // to obtain C(N - k + i, i), assuming no intermediate overflow.
         res = res * (N - k + i) / i;
     }
-    return static_cast<int>(res);     // fits in 32-bit
+    return static_cast<int>(res);     // answer <= 2 * 10^9 by the problem's guarantee
 }
 
 /*
@@ -115,7 +124,7 @@ int UniquePaths_62::uniquePaths_DP2D(int m, int n)
 int UniquePaths_62::uniquePaths_DP2Rows(int m, int n)
 {
     vector<int> prev(n, 1);  // row 0: all ones
-    vector<int> curr(n, 1);  // will be overwritten for each next row
+    vector<int> curr(n, 1);  // curr[1..n-1] is overwritten each row; curr[0] stays 1
 
     for (int i = 1; i < m; ++i) {
         for (int j = 1; j < n; ++j) {

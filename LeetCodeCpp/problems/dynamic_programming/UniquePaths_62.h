@@ -5,7 +5,7 @@ using namespace std;
 
 class UniquePaths_62 {
 public:
-    // O(1) extra space – combinatorial formula using binomial coefficient.
+    // O(min(m,n)) time, O(1) extra space – multiplicative binomial coefficient formula.
     int uniquePaths_Comb(int m, int n);
 
     // O(m * n) time, O(m * n) space – classic 2D DP table.
