@@ -1,13 +1,10 @@
 #pragma once
 #include <string>
 
-using namespace std;
-
 class LongestCommonSubsequence_1143 {
 public:
-    int longestCommonSubsequence(const string& text1, const string& text2);
-    string longestCommonSubsequenceString(const string& text1, const string& text2);
+    int longestCommonSubsequence(const std::string& text1, const std::string& text2);
+    std::string longestCommonSubsequenceString(const std::string& text1, const std::string& text2);
 
-    // Space-optimized length-only DP: keeps only 2 rows (O(min(m,n)) memory).
-    int longestCommonSubsequenceTwoRows(const string& text1, const string& text2);
+    int longestCommonSubsequenceTwoRows(const std::string& text1, const std::string& text2);
 };
