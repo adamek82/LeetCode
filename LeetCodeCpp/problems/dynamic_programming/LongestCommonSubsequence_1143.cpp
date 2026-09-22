@@ -73,12 +73,13 @@ string LongestCommonSubsequence_1143::longestCommonSubsequenceString(
     }
 
     string lcs;
-    lcs.reserve(dp[m][n]);
+    lcs.resize(dp[m][n]);
+    size_t pos = lcs.size();
 
     int i = m, j = n;
     while (i > 0 && j > 0) {
         if (text1[i - 1] == text2[j - 1]) {
-            lcs.push_back(text1[i - 1]);
+            lcs[--pos] = text1[i - 1];
             --i; --j;
         } else if (dp[i - 1][j] >= dp[i][j - 1]) {
             --i;
@@ -87,6 +88,5 @@ string LongestCommonSubsequence_1143::longestCommonSubsequenceString(
         }
     }
 
-    reverse(lcs.begin(), lcs.end());
     return lcs;
 }
