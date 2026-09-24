@@ -42,7 +42,7 @@ These rules apply to `LeetCodeCpp` and take precedence over inconsistent older c
 
 Run from `LeetCodeCpp`:
 
-```powershell id="9bncqz"
+```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\build.ps1 -Config Debug
 if ($LASTEXITCODE -ne 0) { throw "C++ build failed." }
 .\build\Debug\TestsRunner.exe
