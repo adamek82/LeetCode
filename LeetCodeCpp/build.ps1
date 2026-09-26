@@ -1,4 +1,4 @@
-# PowerShell script for parallel incremental compilation with timing.
+﻿# PowerShell script for parallel incremental compilation with timing.
 # Supports Debug/Release configurations and keeps outputs separated:
 #   build\Debug\...
 #   build\Release\...
@@ -53,24 +53,38 @@ if (!(Test-Path $BuildDir))  { New-Item -ItemType Directory -Path $BuildDir  | O
 # Normalize BuildDir to an absolute path
 $BuildDir = (Resolve-Path -LiteralPath $BuildDir).Path
 
-# Discover all translation units recursively.
-# Exclude generated files under build/ and editor caches under .vscode/.
-$cppFiles = Get-ChildItem `
-    -Path $ProjectRoot `
-    -Filter "*.cpp" `
-    -File `
-    -Recurse |
-    Where-Object {
-        !$_.FullName.StartsWith(
-            $BuildDir,
-            [System.StringComparison]::OrdinalIgnoreCase
-        ) -and
-        !$_.FullName.StartsWith(
-            $vscodeDir,
-            [System.StringComparison]::OrdinalIgnoreCase
-        )
-    } |
-    Sort-Object FullName
+# Discover translation units without entering generated or editor directories.
+function Get-ProjectCppFiles {
+    param(
+        [string]$Root,
+        [string]$OutputDir
+    )
+
+    $excludedDirNames = @(".git", ".vscode", "build", "out", "bin", "obj")
+    $dirs = [System.Collections.Generic.Stack[string]]::new()
+    $dirs.Push($Root)
+
+    while ($dirs.Count -gt 0) {
+        $dir = $dirs.Pop()
+
+        Get-ChildItem -LiteralPath $dir -Filter "*.cpp" -File -ErrorAction Stop
+
+        Get-ChildItem -LiteralPath $dir -Directory -Force -ErrorAction Stop |
+            Where-Object {
+                $excludedDirNames -notcontains $_.Name -and
+                ![string]::Equals(
+                    $_.FullName,
+                    $OutputDir,
+                    [System.StringComparison]::OrdinalIgnoreCase
+                ) -and
+                !(($_.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -ne 0)
+            } |
+            ForEach-Object { $dirs.Push($_.FullName) }
+    }
+}
+
+$cppFiles = @(Get-ProjectCppFiles -Root $ProjectRoot -OutputDir $BuildDir |
+    Sort-Object FullName)
 
 # -----------------------------------------------------------------------------
 # Locate vcvars64.bat once (fast path: cached), otherwise discover via vswhere
