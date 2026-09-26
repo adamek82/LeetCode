@@ -41,34 +41,41 @@ int LongestIncreasingSubsequence_300::lengthOfLIS_dp(const vector<int>& nums)
 
 vector<int> LongestIncreasingSubsequence_300::getLIS_tails(const vector<int>& nums)
 {
-    const int n = (int)nums.size();
-    if (n == 0) return {};
+    const int n = static_cast<int>(nums.size());
+    if (n == 0)
+        return {};
 
-    vector<int> tailsIdx;
-    tailsIdx.reserve(n);
+    vector<int> tailIdx;
+    tailIdx.reserve(n);
 
     vector<int> prev(n, -1);
 
     for (int i = 0; i < n; ++i) {
-        const int x = nums[i];
-
         auto it = lower_bound(
-            tailsIdx.begin(), tailsIdx.end(), x,
-            [&](int idx, int value) { return nums[idx] < value; }
-        );
-        const int pos = (int)distance(tailsIdx.begin(), it);
+            tailIdx.begin(), tailIdx.end(), nums[i],
+            [&](int idx, int value) {
+                return nums[idx] < value;
+            });
 
-        prev[i] = (pos > 0) ? tailsIdx[pos - 1] : -1;
+        int pos = static_cast<int>(it - tailIdx.begin());
 
-        if (it == tailsIdx.end()) tailsIdx.push_back(i);
-        else *it = i;
+        if (pos > 0)
+            prev[i] = tailIdx[pos - 1];
+
+        if (it == tailIdx.end())
+            tailIdx.push_back(i);
+        else
+            *it = i;
     }
 
-    vector<int> lis;
-    for (int cur = tailsIdx.back(); cur != -1; cur = prev[cur]) {
-        lis.push_back(nums[cur]);
+    vector<int> lis(tailIdx.size());
+
+    int cur = tailIdx.back();
+    for (int pos = static_cast<int>(lis.size()) - 1; pos >= 0; --pos) {
+        lis[pos] = nums[cur];
+        cur = prev[cur];
     }
-    reverse(lis.begin(), lis.end());
+
     return lis;
 }
 
