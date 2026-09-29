@@ -523,6 +523,14 @@ bool wildcardMatching_44_tests()
         {"baaaacxyz", "*a*?xyz", true},
         {"abcded", "a*d", true},
         {"abcdbcde", "a*de", true},
+
+        // Empty inputs and consecutive stars matching an empty sequence
+        {"", "", true},
+        {"", "***", true},
+        {"", "*?*", false},
+        {"", "*a*", false},
+        {"a", "", false},
+        {"abc", "a**bc", true},
     };
 
     WildcardMatching_44 solver;
@@ -530,12 +538,14 @@ bool wildcardMatching_44_tests()
     for (size_t i = 0; i < tests.size(); ++i) {
         const auto& tc = tests[i];
 
-        bool got = solver.isMatch(tc.s, tc.p);
+        const bool gotGreedy = solver.isMatch(tc.s, tc.p);
+        const bool gotDP2D = solver.isMatch_DP2D(tc.s, tc.p);
 
         const string label =
             "Wildcard Matching 44 Test " + to_string(i + 1) +
             " (pattern=\"" + tc.p + "\")";
-        REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
+        REQUIRE_ASSERT(assertEqScalar(label + " [greedy]", tc.expected, gotGreedy));
+        REQUIRE_ASSERT(assertEqScalar(label + " [dp-2D]", tc.expected, gotDP2D));
     }
 
     return true;

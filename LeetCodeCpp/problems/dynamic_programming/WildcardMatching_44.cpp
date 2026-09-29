@@ -1,4 +1,7 @@
 #include "WildcardMatching_44.h"
+#include <vector>
+
+using namespace std;
 
 bool WildcardMatching_44::isMatch(const string& text, const string& pattern)
 {
@@ -40,4 +43,33 @@ bool WildcardMatching_44::isMatch(const string& text, const string& pattern)
     }
 
     return patternIndex == pattern.size();
+}
+
+bool WildcardMatching_44::isMatch_DP2D(const string& text, const string& pattern)
+{
+    const size_t m = text.size();
+    const size_t n = pattern.size();
+
+    vector<vector<bool>> dp(m + 1, vector<bool>(n + 1, false));
+
+    dp[0][0] = true;
+
+    for (size_t j = 1; j <= n; ++j) {
+        if (pattern[j - 1] == '*') {
+            dp[0][j] = dp[0][j - 1];
+        }
+    }
+
+    for (size_t i = 1; i <= m; ++i) {
+        for (size_t j = 1; j <= n; ++j) {
+            if (pattern[j - 1] == '*') {
+                dp[i][j] = dp[i][j - 1] || dp[i - 1][j];
+            } else if (pattern[j - 1] == '?' ||
+                       pattern[j - 1] == text[i - 1]) {
+                dp[i][j] = dp[i - 1][j - 1];
+            }
+        }
+    }
+
+    return dp[m][n];
 }

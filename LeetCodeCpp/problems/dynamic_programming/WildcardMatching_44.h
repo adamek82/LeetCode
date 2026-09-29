@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
 
-using namespace std;
-
 class WildcardMatching_44 {
 public:
-    bool isMatch(const string& text, const string& pattern);
+    bool isMatch(const std::string& text, const std::string& pattern);
+
+    bool isMatch_DP2D(const std::string& text, const std::string& pattern);
 };
