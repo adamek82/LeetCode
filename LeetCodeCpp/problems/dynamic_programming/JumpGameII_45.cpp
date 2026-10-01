@@ -4,7 +4,8 @@
 int JumpGameII_45::jump(vector<int>& nums)
 {
     const int n = static_cast<int>(nums.size());
-    if (n <= 1) return 0;
+    if (n <= 1)
+        return 0;
 
     int jumps = 0;
     int layerEnd = 0;
@@ -15,6 +16,9 @@ int JumpGameII_45::jump(vector<int>& nums)
         if (i == layerEnd) {
             ++jumps;
             layerEnd = nextLayerEnd;
+
+            if (layerEnd >= n - 1)
+                return jumps;
         }
     }
     return jumps;
