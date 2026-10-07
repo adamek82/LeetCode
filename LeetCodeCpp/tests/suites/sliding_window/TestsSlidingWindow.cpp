@@ -110,7 +110,11 @@ bool longestSubstringWithoutRepeatingCharacters_3_tests()
         {"pwwkew",   3},  // example 3
         // two more complex cases:
         {"dvdf",     3},  // "vdf"
-        {"anviaj",   5}   // "nviaj"
+        {"anviaj",   5},  // "nviaj"
+        {"",         0},
+        {"a",        1},
+        {"abba",     2},
+        {string("\x80\0\xFF\x80", 4), 3}
     };
 
     LongestSubstringWithoutRepeatingCharacters_3 sol;
