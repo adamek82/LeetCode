@@ -1,9 +1,7 @@
 #pragma once
 #include <string>
 
-using namespace std;
-
 class LongestRepeatingCharacterReplacement_424 {
 public:
-    int characterReplacement(string s, int k);
+    int characterReplacement(const std::string& s, int k);
 };
