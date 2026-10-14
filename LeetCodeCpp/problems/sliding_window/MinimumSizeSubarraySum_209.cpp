@@ -43,25 +43,20 @@
  * Time:  O(n)   (each index moves forward at most once)
  * Space: O(1)
  */
-int MinimumSizeSubarraySum_209::minSubArrayLen(int target, vector<int> &nums)
+int MinimumSizeSubarraySum_209::minSubArrayLen(int target, const vector<int>& nums)
 {
-    /*
-     * nums.size() is size_t; keep n as int because indices
-     * (l/r) are int and we compute (r - l + 1).
-     */
-    int n = static_cast<int>(nums.size());
-    int l = 0;                            // left boundary
-    long long sum = 0;                    // running window sum
-    int best = numeric_limits<int>::max();   // minimal length so far
+    size_t left = 0;
+    size_t best = nums.size() + 1;
+    long long sum = 0;
 
-    for (int r = 0; r < n; ++r) {
-        sum += nums[r];                   // expand window
+    for (size_t right = 0; right < nums.size(); ++right) {
+        sum += nums[right];
 
-        // shrink from the left while we still meet / exceed target
         while (sum >= target) {
-            best = min(best, r - l + 1);
-            sum -= nums[l++];
+            best = min(best, right + 1 - left);
+            sum -= nums[left++];
         }
     }
-    return best == numeric_limits<int>::max() ? 0 : best;
+
+    return best > nums.size() ? 0 : static_cast<int>(best);
 }
