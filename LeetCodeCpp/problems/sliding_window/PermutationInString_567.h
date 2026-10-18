@@ -1,17 +1,20 @@
 #pragma once
-#include <string>
 #include <array>
+#include <cstddef>
+#include <string>
 
 class PermutationInString_567 {
 public:
     bool checkInclusion_fullCompare(const std::string& s1, const std::string& s2);
-
     bool checkInclusion_matchesCounter(const std::string& s1, const std::string& s2);
 
 private:
-    static void applyDelta(std::array<int, 26>& window,
-                           const std::array<int, 26>& need,
-                           int idx,
+    static constexpr std::size_t AlphabetSize = 26;
+    using FrequencyArray = std::array<int, AlphabetSize>;
+
+    static void applyDelta(FrequencyArray& window,
+                           const FrequencyArray& need,
+                           std::size_t idx,
                            int delta,
-                           int& matches);
+                           std::size_t& matches);
 };
