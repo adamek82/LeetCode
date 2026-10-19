@@ -11,7 +11,9 @@ int MaxConsecutiveOnesIII_1004::longestOnes(const vector<int>& nums, int k)
     int remainingFlips = k;
 
     for (size_t right = 0; right < nums.size(); ++right) {
-        if (nums[right] == 0) --remainingFlips;
+        if (nums[right] == 0) {
+            --remainingFlips;
+        }
 
         while (remainingFlips < 0) {
             if (nums[left] == 0) {
