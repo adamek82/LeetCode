@@ -7,7 +7,6 @@ using namespace std;
 int MaxConsecutiveOnesIII_1004::longestOnes(const vector<int>& nums, int k)
 {
     size_t left = 0;
-    size_t best = 0;
     int remainingFlips = k;
 
     for (size_t right = 0; right < nums.size(); ++right) {
@@ -15,15 +14,10 @@ int MaxConsecutiveOnesIII_1004::longestOnes(const vector<int>& nums, int k)
             --remainingFlips;
         }
 
-        while (remainingFlips < 0) {
-            if (nums[left] == 0) {
-                ++remainingFlips;
-            }
-            ++left;
+        if (remainingFlips < 0 && nums[left++] == 0) {
+            ++remainingFlips;
         }
-
-        best = max(best, right + 1 - left);
     }
 
-    return static_cast<int>(best);
+    return static_cast<int>(nums.size() - left);
 }
