@@ -3,6 +3,38 @@
 
 using namespace std;
 
+bool PermutationInString_567::checkInclusion_requiredCounter(
+    const string& s1, const string& s2)
+{
+    const size_t m = s1.size();
+    if (m > s2.size())
+        return false;
+
+    FrequencyArray count{};
+    for (char c : s1) {
+        ++count[c - 'a'];
+    }
+
+    size_t required = m;
+
+    for (size_t right = 0; right < s2.size(); ++right) {
+        if (--count[s2[right] - 'a'] >= 0) {
+            --required;
+        }
+
+        if (right >= m) {
+            if (++count[s2[right - m] - 'a'] > 0) {
+                ++required;
+            }
+        }
+
+        if (required == 0)
+            return true;
+    }
+
+    return false;
+}
+
 bool PermutationInString_567::checkInclusion_fullCompare(
     const string& s1, const string& s2)
 {

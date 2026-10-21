@@ -7,6 +7,7 @@ class PermutationInString_567 {
 public:
     bool checkInclusion_fullCompare(const std::string& s1, const std::string& s2);
     bool checkInclusion_matchesCounter(const std::string& s1, const std::string& s2);
+    bool checkInclusion_requiredCounter(const std::string& s1, const std::string& s2);
 
 private:
     static constexpr std::size_t AlphabetSize = 26;

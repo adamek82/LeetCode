@@ -161,7 +161,11 @@ bool permutationInString_567_tests()
         {"ab",   "eidboaoo",          false},
         {"adc",  "dcda",              true},
         {"xyz",  "afdgzyxksldfm",     true},
-        {"abcd", "abc",               false}
+        {"abcd", "abc",               false},
+        {"aab",  "aaab",              true},
+        {"aab",  "abb",               false},
+        {"a",    "a",                 true},
+        {"a",    "bbb",               false}
     };
 
     PermutationInString_567 sol;
@@ -169,10 +173,12 @@ bool permutationInString_567_tests()
     for (size_t i = 0; i < testCases.size(); ++i) {
         const bool gotFullCompare = sol.checkInclusion_fullCompare(testCases[i].s1, testCases[i].s2);
         const bool gotMatchesCounter = sol.checkInclusion_matchesCounter(testCases[i].s1, testCases[i].s2);
+        const bool gotRequiredCounter = sol.checkInclusion_requiredCounter(testCases[i].s1, testCases[i].s2);
 
         const string base = "Permutation in String 567 Test " + to_string(i + 1);
         REQUIRE_ASSERT(assertEqScalar(base + " [fullCompare]", testCases[i].expected, gotFullCompare));
         REQUIRE_ASSERT(assertEqScalar(base + " [matchesCounter]", testCases[i].expected, gotMatchesCounter));
+        REQUIRE_ASSERT(assertEqScalar(base + " [requiredCounter]", testCases[i].expected, gotRequiredCounter));
     }
 
     return true;
