@@ -50,15 +50,12 @@ bool SameTree_100::isSameTreeIterativeDFS(TreeNode<int>* p, TreeNode<int>* q)
 
 bool SameTree_100::isSameTreeBFSQueue(TreeNode<int>* p, TreeNode<int>* q)
 {
-    queue<TreeNode<int>*> qp, qq;
-    qp.push(p);
-    qq.push(q);
+    queue<pair<TreeNode<int>*, TreeNode<int>*>> nodes;
+    nodes.emplace(p, q);
 
-    while (!qp.empty()) {
-        const auto n1 = qp.front();
-        qp.pop();
-        const auto n2 = qq.front();
-        qq.pop();
+    while (!nodes.empty()) {
+        const auto [n1, n2] = nodes.front();
+        nodes.pop();
 
         if (!n1 || !n2) {
             if (n1 != n2) {
@@ -71,10 +68,8 @@ bool SameTree_100::isSameTreeBFSQueue(TreeNode<int>* p, TreeNode<int>* q)
             return false;
         }
 
-        qp.push(n1->left);
-        qq.push(n2->left);
-        qp.push(n1->right);
-        qq.push(n2->right);
+        nodes.emplace(n1->left, n2->left);
+        nodes.emplace(n1->right, n2->right);
     }
 
     return true;
