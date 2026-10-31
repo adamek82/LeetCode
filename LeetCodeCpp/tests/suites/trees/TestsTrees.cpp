@@ -1,5 +1,6 @@
 #include "TestsTrees.h"
 
+#include <limits>
 #include <optional>
 #include <string>
 #include <vector>
@@ -675,6 +676,9 @@ bool minimumAbsoluteDifferenceInBST_530_tests()
 
 bool validateBinarySearchTree_98_tests()
 {
+    const int minValue = numeric_limits<int>::min();
+    const int maxValue = numeric_limits<int>::max();
+
     vector<ValidateBinarySearchTreeTestCase> testCases = {
         // Provided examples
         {{2, 1, 3}, true},
@@ -684,6 +688,12 @@ bool validateBinarySearchTree_98_tests()
         {{10, 5, 15, nullopt, nullopt, 6, 20}, false}, // violation in right subtree
         {{3, 1, 5, 0, 2, 4, 6}, true},
         {{1, nullopt, 2, nullopt, 3, nullopt, 4}, true}, // skewed right
+
+        {{minValue}, true},
+        {{maxValue}, true},
+        {{0, minValue, maxValue}, true},
+        {{minValue, nullopt, minValue}, false},
+        {{maxValue, maxValue}, false},
     };
 
     ValidateBinarySearchTree_98 validator;

@@ -6,10 +6,13 @@ using namespace std;
 
 bool ValidateBinarySearchTree_98::isValidBST(TreeNode<int>* root)
 {
-    return validate(root, numeric_limits<long>::min(), numeric_limits<long>::max());
+    return validate(root,
+                    numeric_limits<long long>::min(),
+                    numeric_limits<long long>::max());
 }
 
-bool ValidateBinarySearchTree_98::validate(TreeNode<int>* node, long minVal, long maxVal)
+bool ValidateBinarySearchTree_98::validate(
+    TreeNode<int>* node, long long minVal, long long maxVal)
 {
     if (!node) {
         return true;
