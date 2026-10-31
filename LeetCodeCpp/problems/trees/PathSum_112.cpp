@@ -4,21 +4,16 @@ using namespace std;
 
 bool PathSum_112::hasPathSum(TreeNode<int>* root, int targetSum)
 {
-    return dfs(root, targetSum);
-}
-
-bool PathSum_112::dfs(TreeNode<int>* node, int remainingSum)
-{
-    if (!node) {
+    if (root == nullptr) {
         return false;
     }
 
-    remainingSum -= node->val;
+    targetSum -= root->val;
 
-    if (!node->left && !node->right) {
-        return remainingSum == 0;
+    if (root->left == nullptr && root->right == nullptr) {
+        return targetSum == 0;
     }
 
-    return dfs(node->left, remainingSum) ||
-           dfs(node->right, remainingSum);
+    return hasPathSum(root->left, targetSum) ||
+           hasPathSum(root->right, targetSum);
 }
