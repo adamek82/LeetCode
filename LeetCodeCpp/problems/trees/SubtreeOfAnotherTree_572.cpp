@@ -1,7 +1,5 @@
 #include "SubtreeOfAnotherTree_572.h"
 
-using namespace std;
-
 bool SubtreeOfAnotherTree_572::isSubtree(TreeNode<int>* root, TreeNode<int>* subRoot)
 {
     if (!subRoot) {
