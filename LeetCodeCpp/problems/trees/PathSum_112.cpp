@@ -1,7 +1,5 @@
 #include "PathSum_112.h"
 
-using namespace std;
-
 bool PathSum_112::hasPathSum(TreeNode<int>* root, int targetSum)
 {
     if (root == nullptr) {
