@@ -19,7 +19,7 @@ vector<vector<int>> BinaryTreeLevelOrderTraversal_102::levelOrder(
     while (!nodes.empty()) {
         const size_t levelSize = nodes.size();
 
-        vector<int> level;
+        auto& level = result.emplace_back();
         level.reserve(levelSize);
 
         for (size_t i = 0; i < levelSize; ++i) {
@@ -35,8 +35,6 @@ vector<vector<int>> BinaryTreeLevelOrderTraversal_102::levelOrder(
                 nodes.push(node->right);
             }
         }
-
-        result.push_back(move(level));
     }
 
     return result;
