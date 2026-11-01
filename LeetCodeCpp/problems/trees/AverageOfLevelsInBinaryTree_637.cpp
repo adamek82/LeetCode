@@ -2,6 +2,8 @@
 
 #include <queue>
 
+using namespace std;
+
 vector<double> AverageOfLevelsInBinaryTree_637::averageOfLevels(TreeNode<int>* root)
 {
     vector<double> result;
@@ -31,8 +33,7 @@ vector<double> AverageOfLevelsInBinaryTree_637::averageOfLevels(TreeNode<int>* r
             }
         }
 
-        result.push_back(
-            static_cast<double>(sum) / static_cast<double>(levelSize));
+        result.push_back(static_cast<double>(sum) / levelSize);
     }
 
     return result;
