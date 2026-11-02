@@ -1,5 +1,6 @@
 #include "TestsTrees.h"
 
+#include <iostream>
 #include <limits>
 #include <optional>
 #include <string>
@@ -836,6 +837,14 @@ bool implementTrie_208_tests()
 
     for (size_t i = 0; i < testCases.size(); ++i) {
         const auto& tc = testCases[i];
+
+        if (tc.operations.size() != tc.arguments.size() ||
+            tc.operations.size() != tc.expected.size()) {
+            cerr << "Invalid Trie test case #" << i + 1
+                 << ": mismatched vector sizes\n";
+            return false;
+        }
+
         unique_ptr<Trie> trie;
 
         for (size_t j = 0; j < tc.operations.size(); ++j) {
