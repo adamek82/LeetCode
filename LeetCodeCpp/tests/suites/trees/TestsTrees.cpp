@@ -758,10 +758,11 @@ bool lowestCommonAncestor_235_tests()
 
 /* Tree-like prefix structure design */
 
+
 bool implementTrie_208_tests()
 {
-    vector<ImplementTrieTestCase> testCases = {
-        // Example 1
+    const vector<ImplementTrieTestCase> testCases = {
+        // Example 1: Original LeetCode example
         {
             {"Trie", "insert", "search", "search", "startsWith", "insert", "search"},
             {nullopt, "apple", "apple", "app", "app", "app", "app"},
@@ -788,8 +789,48 @@ bool implementTrie_208_tests()
         // Example 5: Large input set
         {
             {"Trie", "insert", "insert", "insert", "search", "search", "startsWith"},
-            {nullopt, "dictionary", "dictionaries", "dictator", "dictionary", "dictionaries", "dict"},
+            {nullopt, "dictionary", "dictionaries", "dictator",
+             "dictionary", "dictionaries", "dict"},
             {nullopt, nullopt, nullopt, nullopt, true, true, true}
+        },
+        // Example 6: Empty Trie
+        {
+            {"Trie", "search", "startsWith", "search", "startsWith"},
+            {nullopt, "a", "a", "", ""},
+            {nullopt, false, false, false, true}
+        },
+        // Example 7: Empty word
+        {
+            {"Trie", "insert", "search", "startsWith", "search"},
+            {nullopt, "", "", "", "a"},
+            {nullopt, nullopt, true, true, false}
+        },
+        // Example 8: Duplicate insertion
+        {
+            {"Trie", "insert", "insert", "search", "startsWith"},
+            {nullopt, "apple", "apple", "apple", "app"},
+            {nullopt, nullopt, nullopt, true, true}
+        },
+        // Example 9: Prefix is not automatically a word
+        {
+            {"Trie", "insert", "search", "startsWith", "insert", "search"},
+            {nullopt, "apple", "app", "app", "app", "app"},
+            {nullopt, nullopt, false, true, nullopt, true}
+        },
+        // Example 10: Insertion order
+        {
+            {"Trie", "insert", "insert", "search", "search", "startsWith"},
+            {nullopt, "app", "apple", "app", "apple", "appl"},
+            {nullopt, nullopt, nullopt, true, true, true}
+        },
+        // Example 11: Shared prefixes and branching
+        {
+            {"Trie", "insert", "insert", "insert",
+            "search", "search", "search", "startsWith"},
+            {nullopt, "car", "cat", "can",
+            "car", "cat", "cab", "ca"},
+            {nullopt, nullopt, nullopt, nullopt,
+            true, true, false, true}
         }
     };
 
@@ -813,7 +854,7 @@ bool implementTrie_208_tests()
             }
 
             if (op == "search" || op == "startsWith") {
-                bool got = (op == "search")
+                const bool got = (op == "search")
                     ? trie->search(arg.value())
                     : trie->startsWith(arg.value());
 
@@ -821,10 +862,73 @@ bool implementTrie_208_tests()
                 const bool passed = assertEqScalar(label, expected.value(), got);
 
                 if (!passed) {
-                    cout << "  (debug) op=" << op << " arg=\"" << arg.value() << "\"\n";
+                    cout << "  (debug) op=" << op
+                         << " arg=\"" << arg.value() << "\"\n";
                     return false;
                 }
             }
+        }
+    }
+
+    // Constructors accepting collections
+    {
+        const vector<string> words = {"apple", "app", "banana"};
+        const Trie trie(words);
+
+        if (!assertEqScalar("Trie 208 vector constructor: apple",
+                            true, trie.search("apple")) ||
+            !assertEqScalar("Trie 208 vector constructor: app",
+                            true, trie.search("app")) ||
+            !assertEqScalar("Trie 208 vector constructor: banana",
+                            true, trie.search("banana")) ||
+            !assertEqScalar("Trie 208 vector constructor: missing",
+                            false, trie.search("ban"))) {
+            return false;
+        }
+    }
+
+    {
+        const Trie trie({"cat", "car", "dog"});
+
+        if (!assertEqScalar("Trie 208 initializer_list constructor: cat",
+                            true, trie.search("cat")) ||
+            !assertEqScalar("Trie 208 initializer_list constructor: car",
+                            true, trie.search("car")) ||
+            !assertEqScalar("Trie 208 initializer_list constructor: dog",
+                            true, trie.search("dog")) ||
+            !assertEqScalar("Trie 208 initializer_list constructor: missing",
+                            false, trie.search("do"))) {
+            return false;
+        }
+    }
+
+    // Move constructor
+    {
+        Trie original({"apple", "banana"});
+        Trie moved(std::move(original));
+
+        if (!assertEqScalar("Trie 208 move constructor: apple",
+                            true, moved.search("apple")) ||
+            !assertEqScalar("Trie 208 move constructor: banana",
+                            true, moved.search("banana"))) {
+            return false;
+        }
+    }
+
+    // Move assignment
+    {
+        Trie source({"apple", "banana"});
+        Trie destination({"orange"});
+
+        destination = std::move(source);
+
+        if (!assertEqScalar("Trie 208 move assignment: apple",
+                            true, destination.search("apple")) ||
+            !assertEqScalar("Trie 208 move assignment: banana",
+                            true, destination.search("banana")) ||
+            !assertEqScalar("Trie 208 move assignment: old content",
+                            false, destination.search("orange"))) {
+            return false;
         }
     }
 

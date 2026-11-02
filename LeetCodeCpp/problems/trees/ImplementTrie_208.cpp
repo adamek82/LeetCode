@@ -1,7 +1,9 @@
 #include "ImplementTrie_208.h"
 
+using namespace std;
+
 Trie::Trie()
-    : root(new TrieNode())
+    : root(make_unique<TrieNode>())
 {
 }
 
@@ -15,11 +17,6 @@ Trie::Trie(const initializer_list<string>& list)
     : Trie()
 {
     insertAll(list);
-}
-
-Trie::~Trie()
-{
-    delete root;
 }
 
 void Trie::insert(const string& word)
@@ -37,14 +34,14 @@ bool Trie::startsWith(const string& prefix) const
     return contains(prefix, false);
 }
 
-TrieNode* Trie::getRoot() const
+const TrieNode* Trie::getRoot() const
 {
-    return root;
+    return root.get();
 }
 
-bool Trie::contains(const string& prefix, bool exact) const
+bool Trie::contains(const string& prefix, bool fullWord) const
 {
-    TrieNode* node = root;
+    const TrieNode* node = root.get();
 
     for (const char c : prefix) {
         node = node->getChild(c);
@@ -53,5 +50,5 @@ bool Trie::contains(const string& prefix, bool exact) const
         }
     }
 
-    return !exact || node->terminatesWord();
+    return !fullWord || node->terminatesWord();
 }
