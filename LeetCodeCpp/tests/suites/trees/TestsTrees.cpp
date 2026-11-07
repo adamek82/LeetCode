@@ -644,7 +644,7 @@ bool kthSmallestElementInBST_230_tests()
 
 bool minimumAbsoluteDifferenceInBST_530_tests()
 {
-    vector<MinimumAbsoluteDifferenceInBSTTestCase> testCases = {
+    const vector<MinimumAbsoluteDifferenceInBSTTestCase> testCases = {
         // Examples from the problem statement
         {{4, 2, 6, 1, 3}, 1},
         {{1, 0, 48, nullopt, nullopt, 12, 49}, 1},
@@ -657,6 +657,11 @@ bool minimumAbsoluteDifferenceInBST_530_tests()
 
         // In-order: [49, 52, 69, 89, 90]
         {{90, 69, nullopt, 49, 89, nullopt, 52}, 1},
+
+        {{20, 12, nullopt, 5, nullopt, 0}, 5},
+        {{10, 2, 20, nullopt, 9}, 1},
+        {{10, 0, 20, nullopt, nullopt, 11}, 1},
+        {{0, nullopt, 100000}, 100000},
     };
 
     MinimumAbsoluteDifferenceInBST_530 sol;
@@ -665,11 +670,13 @@ bool minimumAbsoluteDifferenceInBST_530_tests()
         const auto& tc = testCases[i];
 
         auto root = TreeUtils::makeUniqueTree<int>(tc.tree);
-        int got = sol.getMinimumDifference(root.get());
+        const int gotRecursive = sol.getMinimumDifferenceRecursive(root.get());
+        const int gotIterative = sol.getMinimumDifferenceIterative(root.get());
 
         const string label =
             "Minimum Absolute Difference in BST 530 Test " + to_string(i + 1);
-        REQUIRE_ASSERT(assertEqScalar(label, tc.expected, got));
+        REQUIRE_ASSERT(assertEqScalar(label + " [recursive]", tc.expected, gotRecursive));
+        REQUIRE_ASSERT(assertEqScalar(label + " [iterative]", tc.expected, gotIterative));
     }
 
     return true;
