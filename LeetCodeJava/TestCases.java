@@ -1,3 +1,5 @@
+import java.util.List;
+
 public final class TestCases {
     private TestCases() {}
 
@@ -18,6 +20,15 @@ public final class TestCases {
 
     // 42. Trapping Rain Water
     public record TrappingRainWater_42_Case(int[] height, int expected) {}
+
+    // =========================================================================
+    // Trees
+    // =========================================================================
+
+    /* Breadth-first traversal by tree levels */
+
+    // 102. Binary Tree Level Order Traversal
+    public record BinaryTreeLevelOrderTraversal_102_Case(TreeNode root, List<List<Integer>> expected) {}
 
     // =========================================================================
     // Recursive Backtracking

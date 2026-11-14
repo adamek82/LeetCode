@@ -67,6 +67,72 @@ public class TestsRunner {
     }
 
     // =========================================================================
+    // Trees
+    // =========================================================================
+
+    /* Breadth-first traversal by tree levels */
+
+    private static void binaryTreeLevelOrderTraversal_102_tests() {
+        BinaryTreeLevelOrderTraversal_102 sol = new BinaryTreeLevelOrderTraversal_102();
+
+        var cases = List.of(
+            // Cases shared with the C++ suite
+            new TestCases.BinaryTreeLevelOrderTraversal_102_Case(
+                new TreeNode(3, new TreeNode(9), new TreeNode(20, new TreeNode(15), new TreeNode(7))),
+                List.of(List.of(3), List.of(9, 20), List.of(15, 7))
+            ),
+            new TestCases.BinaryTreeLevelOrderTraversal_102_Case(
+                new TreeNode(1),
+                List.of(List.of(1))
+            ),
+            new TestCases.BinaryTreeLevelOrderTraversal_102_Case(null, List.of()),
+            new TestCases.BinaryTreeLevelOrderTraversal_102_Case(
+                new TreeNode(1, new TreeNode(2, new TreeNode(3), null), null),
+                List.of(List.of(1), List.of(2), List.of(3))
+            ),
+            new TestCases.BinaryTreeLevelOrderTraversal_102_Case(
+                new TreeNode(1, new TreeNode(2, null, new TreeNode(4)), new TreeNode(3, null, new TreeNode(5))),
+                List.of(List.of(1), List.of(2, 3), List.of(4, 5))
+            ),
+            new TestCases.BinaryTreeLevelOrderTraversal_102_Case(
+                new TreeNode(10, new TreeNode(5, new TreeNode(3), null),
+                    new TreeNode(15, new TreeNode(12), new TreeNode(18))),
+                List.of(List.of(10), List.of(5, 15), List.of(3, 12, 18))
+            ),
+
+            // Right-skewed tree
+            new TestCases.BinaryTreeLevelOrderTraversal_102_Case(
+                new TreeNode(1, null, new TreeNode(2, null, new TreeNode(3))),
+                List.of(List.of(1), List.of(2), List.of(3))
+            ),
+            // Complete tree: preserve left-to-right order across parents
+            new TestCases.BinaryTreeLevelOrderTraversal_102_Case(
+                new TreeNode(1, new TreeNode(2, new TreeNode(4), new TreeNode(5)),
+                    new TreeNode(3, new TreeNode(6), new TreeNode(7))),
+                List.of(List.of(1), List.of(2, 3), List.of(4, 5, 6, 7))
+            ),
+            // Zero, negative values and duplicates are ordinary node values
+            new TestCases.BinaryTreeLevelOrderTraversal_102_Case(
+                new TreeNode(0, new TreeNode(-2, new TreeNode(-1000), new TreeNode(0)),
+                    new TreeNode(-2, null, new TreeNode(1000))),
+                List.of(List.of(0), List.of(-2, -2), List.of(-1000, 0, 1000))
+            ),
+            // Alternating missing children across four levels
+            new TestCases.BinaryTreeLevelOrderTraversal_102_Case(
+                new TreeNode(1, null, new TreeNode(2, new TreeNode(3, null, new TreeNode(4)), null)),
+                List.of(List.of(1), List.of(2), List.of(3), List.of(4))
+            )
+        );
+
+        TestUtils.runCases(
+            "BinaryTreeLevelOrderTraversal_102",
+            cases,
+            tc -> sol.levelOrder(tc.root()),
+            TestCases.BinaryTreeLevelOrderTraversal_102_Case::expected
+        );
+    }
+
+    // =========================================================================
     // Recursive Backtracking
     // =========================================================================
 
@@ -409,6 +475,13 @@ public class TestsRunner {
 
         /* Shrinking-window reasoning with left/right boundaries */
         trappingRainWater_42_tests();
+
+        // =========================================================================
+        // Trees
+        // =========================================================================
+
+        /* Breadth-first traversal by tree levels */
+        binaryTreeLevelOrderTraversal_102_tests();
 
         // =========================================================================
         // Recursive Backtracking
