@@ -28,3 +28,22 @@ void RotateArray_189::rotate(vector<int>& nums, int k)
         } while (current != start);
     }
 }
+
+vector<int> RotateArray_189::rotateCopy(const vector<int>& nums, int k)
+{
+    const size_t n = nums.size();
+    if (n == 0)
+        return {};
+
+    const size_t start = n - static_cast<size_t>(k) % n;
+    vector<int> rotated;
+    rotated.reserve(n);
+
+    for (size_t i = start; i < n; ++i)
+        rotated.push_back(nums[i]);
+
+    for (size_t i = 0; i < start; ++i)
+        rotated.push_back(nums[i]);
+
+    return rotated;
+}

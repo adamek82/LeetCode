@@ -166,9 +166,11 @@ bool rotateArray_189_tests()
     for (size_t i = 0; i < testCases.size(); ++i) {
         auto nums = testCases[i].input;
         solver.rotate(nums, testCases[i].k);
+        const auto copied = solver.rotateCopy(testCases[i].input, testCases[i].k);
 
         const string label = "Rotate Array 189 Test " + to_string(i + 1);
-        REQUIRE_ASSERT(assertEqVIntExact(label, testCases[i].expected, nums));
+        REQUIRE_ASSERT(assertEqVIntExact(label + " [cycles]", testCases[i].expected, nums));
+        REQUIRE_ASSERT(assertEqVIntExact(label + " [copy]", testCases[i].expected, copied));
     }
 
     return true;
