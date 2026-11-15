@@ -87,6 +87,13 @@ struct RemoveDuplicatesFromSortedArrayIITestCase {
     std::vector<int> expected;
 };
 
+// 189. Rotate Array
+struct RotateArrayTestCase {
+    std::vector<int> input;
+    int k;
+    std::vector<int> expected;
+};
+
 // 121. Best Time to Buy and Sell Stock
 struct BestTimeToBuyAndSellStockTestCase {
     std::vector<int> prices;

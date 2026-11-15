@@ -1,7 +1,10 @@
 #include "TestsArrayInPlace.h"
 
 #include <algorithm>
+#include <climits>
+#include <numeric>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "tests/test_cases/TestCasesArraysStrings.h"
@@ -11,6 +14,7 @@
 #include "problems/arrays_strings/RemoveElement_27.h"
 #include "problems/arrays_strings/MergeSortedArray_88.h"
 #include "problems/arrays_strings/RemoveDuplicatesFromSortedArrayII_80.h"
+#include "problems/arrays_strings/RotateArray_189.h"
 
 #include "problems/arrays_strings/PascalsTriangle_118.h"
 #include "problems/arrays_strings/SortColors_75.h"
@@ -130,6 +134,41 @@ bool removeDuplicatesFromSortedArrayII_80_tests()
         const string base = "Remove Duplicates II 80 Test " + to_string(i + 1);
         REQUIRE_ASSERT(assertEqScalar(base + " [k]", testCases[i].expectedK, k));
         REQUIRE_ASSERT(assertEqVIntPrefix(base + " [prefix]", testCases[i].expected, nums, k));
+    }
+
+    return true;
+}
+
+bool rotateArray_189_tests()
+{
+    vector<RotateArrayTestCase> testCases = {
+        {{1, 2, 3, 4, 5, 6, 7}, 3, {5, 6, 7, 1, 2, 3, 4}},
+        {{-1, -100, 3, 99}, 2, {3, 99, -1, -100}},
+
+        {{42}, 100000, {42}},
+        {{1, 2, 3}, 0, {1, 2, 3}},
+        {{1, 2, 3, 4}, 12, {1, 2, 3, 4}},
+        {{1, 2, 3, 4, 5, 6}, 100000, {3, 4, 5, 6, 1, 2}},
+        {{1, 2, 3, 4, 5, 6, 7, 8, 9}, 6, {4, 5, 6, 7, 8, 9, 1, 2, 3}},
+        {{1, 2}, 1, {2, 1}},
+        {{INT_MIN, 0, INT_MAX, 0, -1}, 2, {0, -1, INT_MIN, 0, INT_MAX}}
+    };
+
+    // 20,000 disjoint cycles; expected output is the suffix followed by the prefix.
+    RotateArrayTestCase largeCase = {vector<int>(100000), 40000, vector<int>(100000)};
+    iota(largeCase.input.begin(), largeCase.input.end(), 0);
+    iota(largeCase.expected.begin(), largeCase.expected.begin() + 40000, 60000);
+    iota(largeCase.expected.begin() + 40000, largeCase.expected.end(), 0);
+    testCases.push_back(move(largeCase));
+
+    RotateArray_189 solver;
+
+    for (size_t i = 0; i < testCases.size(); ++i) {
+        auto nums = testCases[i].input;
+        solver.rotate(nums, testCases[i].k);
+
+        const string label = "Rotate Array 189 Test " + to_string(i + 1);
+        REQUIRE_ASSERT(assertEqVIntExact(label, testCases[i].expected, nums));
     }
 
     return true;
@@ -374,6 +413,7 @@ std::vector<TestRegistry::Entry> getTests()
         TEST(27,  "Remove Element",                         removeElement_27_tests),
         TEST(88,  "Merge Sorted Array",                     mergeSortedArray_88_tests),
         TEST(80,  "Remove Duplicates from Sorted Array II", removeDuplicatesFromSortedArrayII_80_tests),
+        TEST(189, "Rotate Array",                          rotateArray_189_tests),
 
         // Core array techniques: construction, partitioning, and prefix products
         TEST(118, "Pascal's Triangle",                      pascalsTriangle_118_tests),
