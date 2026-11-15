@@ -4,7 +4,32 @@
 
 using namespace std;
 
-int KthSmallestElementInBST_230::kthSmallest(TreeNode<int>* root, int k)
+int KthSmallestElementInBST_230::kthSmallestRecursive(TreeNode<int>* root, int k)
+{
+    int answer = -1;
+    inorderTraversal(root, k, answer);
+    return answer;
+}
+
+bool KthSmallestElementInBST_230::inorderTraversal(TreeNode<int>* node, int& k, int& answer)
+{
+    if (node == nullptr) {
+        return false;
+    }
+
+    if (inorderTraversal(node->left, k, answer)) {
+        return true;
+    }
+
+    if (--k == 0) {
+        answer = node->val;
+        return true;
+    }
+
+    return inorderTraversal(node->right, k, answer);
+}
+
+int KthSmallestElementInBST_230::kthSmallestIterative(TreeNode<int>* root, int k)
 {
     stack<TreeNode<int>*> nodes;
     TreeNode<int>* node = root;

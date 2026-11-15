@@ -608,7 +608,7 @@ bool averageOfLevelsInBinaryTree_637_tests()
 
 bool kthSmallestElementInBST_230_tests()
 {
-    vector<KthSmallestElementInABSTTestCase> testCases = {
+    const vector<KthSmallestElementInABSTTestCase> testCases = {
         // Example 1
         {{3, 1, 4, nullopt, 2}, 1, 1},
         // Example 2
@@ -618,7 +618,12 @@ bool kthSmallestElementInBST_230_tests()
         // Additional Test 2: Single node tree
         {{42}, 1, 42},
         // Additional Test 3: Skewed tree
-        {{1, nullopt, 2, nullopt, 3, nullopt, 4}, 4, 4}
+        {{1, nullopt, 2, nullopt, 3, nullopt, 4}, 4, 4},
+        // Left-skewed tree: stop in the deepest left subtree
+        {{4, 3, nullopt, 2, nullopt, 1}, 1, 1},
+        // Root and right-subtree results
+        {{4, 2, 6, 1, 3, 5, 7}, 4, 4},
+        {{4, 2, 6, 1, 3, 5, 7}, 6, 6}
     };
 
     KthSmallestElementInBST_230 solution;
@@ -626,17 +631,12 @@ bool kthSmallestElementInBST_230_tests()
     for (size_t i = 0; i < testCases.size(); ++i) {
         auto root = TreeUtils::makeUniqueTree<int>(testCases[i].tree);
 
-        int got = solution.kthSmallest(root.get(), testCases[i].k);
+        const int gotRecursive = solution.kthSmallestRecursive(root.get(), testCases[i].k);
+        const int gotIterative = solution.kthSmallestIterative(root.get(), testCases[i].k);
 
         const string label = "Kth Smallest Element in BST 230 Test " + to_string(i + 1);
-        const bool passed = assertEqScalar(label, testCases[i].expected, got);
-
-        if (!passed) {
-            cout << "  Input tree:\n";
-            TreeUtils::printTree(root.get());
-            cout << "  k=" << testCases[i].k << '\n';
-            return false;
-        }
+        REQUIRE_ASSERT(assertEqScalar(label + " [recursive]", testCases[i].expected, gotRecursive));
+        REQUIRE_ASSERT(assertEqScalar(label + " [iterative]", testCases[i].expected, gotIterative));
     }
 
     return true;

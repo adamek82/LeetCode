@@ -4,5 +4,9 @@
 
 class KthSmallestElementInBST_230 {
 public:
-    int kthSmallest(TreeNode<int>* root, int k);
+    int kthSmallestRecursive(TreeNode<int>* root, int k);
+    int kthSmallestIterative(TreeNode<int>* root, int k);
+
+private:
+    bool inorderTraversal(TreeNode<int>* node, int& k, int& answer);
 };
