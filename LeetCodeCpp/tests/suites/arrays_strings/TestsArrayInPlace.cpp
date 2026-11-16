@@ -168,7 +168,7 @@ bool rotateArray_189_tests()
 
     for (size_t i = 0; i < testCases.size(); ++i) {
         auto nums = testCases[i].input;
-        solver.rotate(nums, testCases[i].k);
+        solver.rotateCycles(nums, testCases[i].k);
         auto reversed = testCases[i].input;
         solver.rotateReverse(reversed, testCases[i].k);
         const auto copied = solver.rotateCopy(testCases[i].input, testCases[i].k);

@@ -21,7 +21,7 @@ void reverseRange(vector<int>& nums, size_t first, size_t last)
 
 } // namespace
 
-void RotateArray_189::rotate(vector<int>& nums, int k)
+void RotateArray_189::rotateCycles(vector<int>& nums, int k)
 {
     const size_t n = nums.size();
     if (n < 2)
