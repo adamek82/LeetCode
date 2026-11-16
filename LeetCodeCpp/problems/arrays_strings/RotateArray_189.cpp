@@ -5,6 +5,22 @@
 
 using namespace std;
 
+namespace {
+
+// Intentionally avoid std::reverse to practice implementing range reversal.
+void reverseRange(vector<int>& nums, size_t first, size_t last)
+{
+    while (first < last) {
+        --last;
+        if (first >= last)
+            break;
+        swap(nums[first], nums[last]);
+        ++first;
+    }
+}
+
+} // namespace
+
 void RotateArray_189::rotate(vector<int>& nums, int k)
 {
     const size_t n = nums.size();
@@ -27,6 +43,21 @@ void RotateArray_189::rotate(vector<int>& nums, int k)
             current = next;
         } while (current != start);
     }
+}
+
+void RotateArray_189::rotateReverse(vector<int>& nums, int k)
+{
+    const size_t n = nums.size();
+    if (n < 2)
+        return;
+
+    const size_t shift = static_cast<size_t>(k) % n;
+    if (shift == 0)
+        return;
+
+    reverseRange(nums, 0, n);
+    reverseRange(nums, 0, shift);
+    reverseRange(nums, shift, n);
 }
 
 vector<int> RotateArray_189::rotateCopy(const vector<int>& nums, int k)

@@ -146,6 +146,9 @@ bool rotateArray_189_tests()
         {{-1, -100, 3, 99}, 2, {3, 99, -1, -100}},
 
         {{42}, 100000, {42}},
+        {{}, 3, {}},
+        {{1, 2, 3, 4, 5}, 1, {5, 1, 2, 3, 4}},
+        {{1, 2, 3, 4, 5}, 4, {2, 3, 4, 5, 1}},
         {{1, 2, 3}, 0, {1, 2, 3}},
         {{1, 2, 3, 4}, 12, {1, 2, 3, 4}},
         {{1, 2, 3, 4, 5, 6}, 100000, {3, 4, 5, 6, 1, 2}},
@@ -166,10 +169,13 @@ bool rotateArray_189_tests()
     for (size_t i = 0; i < testCases.size(); ++i) {
         auto nums = testCases[i].input;
         solver.rotate(nums, testCases[i].k);
+        auto reversed = testCases[i].input;
+        solver.rotateReverse(reversed, testCases[i].k);
         const auto copied = solver.rotateCopy(testCases[i].input, testCases[i].k);
 
         const string label = "Rotate Array 189 Test " + to_string(i + 1);
         REQUIRE_ASSERT(assertEqVIntExact(label + " [cycles]", testCases[i].expected, nums));
+        REQUIRE_ASSERT(assertEqVIntExact(label + " [reverse]", testCases[i].expected, reversed));
         REQUIRE_ASSERT(assertEqVIntExact(label + " [copy]", testCases[i].expected, copied));
     }
 
