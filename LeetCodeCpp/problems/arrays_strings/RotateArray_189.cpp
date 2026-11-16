@@ -10,10 +10,8 @@ namespace {
 // Intentionally avoid std::reverse to practice implementing range reversal.
 void reverseRange(vector<int>& nums, size_t first, size_t last)
 {
-    while (first < last) {
+    while (last - first > 1) {
         --last;
-        if (first >= last)
-            break;
         swap(nums[first], nums[last]);
         ++first;
     }
