@@ -1,6 +1,7 @@
 #include "KthSmallestElementInBST_230.h"
 
 #include <stack>
+#include <utility>
 
 using namespace std;
 
@@ -50,5 +51,6 @@ int KthSmallestElementInBST_230::kthSmallestIterative(TreeNode<int>* root, int k
         node = node->right;
     }
 
-    return -1;
+    // The problem guarantees 1 <= k <= the number of nodes.
+    unreachable();
 }
