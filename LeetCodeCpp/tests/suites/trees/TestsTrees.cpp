@@ -27,6 +27,7 @@
 #include "problems/trees/MinimumAbsoluteDifferenceInBST_530.h"
 #include "problems/trees/ValidateBinarySearchTree_98.h"
 #include "problems/trees/LowestCommonAncestorOfBST_235.h"
+#include "problems/trees/DeleteNodeInBST_450.h"
 
 #include "problems/trees/ImplementTrie_208.h"
 
@@ -764,6 +765,68 @@ bool lowestCommonAncestor_235_tests()
     return true;
 }
 
+bool deleteNodeInBST_450_tests()
+{
+    const vector<DeleteNodeInBSTTestCase> testCases = {
+        // Examples from the problem statement
+        {{5, 3, 6, 2, 4, nullopt, 7}, 3,
+            {5, 4, 6, 2, nullopt, nullopt, 7}},
+        {{5, 3, 6, 2, 4, nullopt, 7}, 0,
+            {5, 3, 6, 2, 4, nullopt, 7}},
+        {{}, 0, {}},
+
+        {{0}, 0, {}},
+
+        // Root with only a left or right child; boundary values
+        {{0, -100000}, 0, {-100000}},
+        {{0, nullopt, 100000}, 0, {100000}},
+
+        // Leaf in the right subtree
+        {{5, 3, 6, 2, 4, nullopt, 7}, 7,
+            {5, 3, 6, 2, 4}},
+
+        // Internal node with only a left child
+        {{5, 3, 8, 2, nullopt, 7, 9, 1}, 3,
+            {5, 2, 8, 1, nullopt, 7, 9}},
+
+        // Successor is the immediate right child and has a right child
+        {{5, 3, 6, 2, 4, nullopt, 7}, 5,
+            {6, 3, 7, 2, 4}},
+
+        // Missing key beyond the end of a skewed tree
+        {{1, nullopt, 2, nullopt, 3, nullopt, 4}, 5,
+            {1, nullopt, 2, nullopt, 3, nullopt, 4}},
+
+        // Larger tree: successor is several left edges away and has a right child
+        {{50, 30, 80, 20, 40, 60, 90, 10, 25, 35, 45, 55, 70, 85, 95,
+          nullopt, nullopt, nullopt, nullopt, nullopt, nullopt, nullopt, nullopt,
+          52, 57, 65, 75, nullopt, nullopt, nullopt, 100, nullopt, 53}, 50,
+            {52, 30, 80, 20, 40, 60, 90, 10, 25, 35, 45, 55, 70, 85, 95,
+             nullopt, nullopt, nullopt, nullopt, nullopt, nullopt, nullopt, nullopt,
+             53, 57, 65, 75, nullopt, nullopt, nullopt, 100}},
+    };
+
+    DeleteNodeInBST_450 solution;
+
+    for (size_t i = 0; i < testCases.size(); ++i) {
+        const auto& tc = testCases[i];
+
+        auto root = TreeUtils::makeUniqueTree<int>(tc.tree);
+        auto expected = TreeUtils::makeUniqueTree<int>(tc.expected);
+
+        TreeNode<int>* result = solution.deleteNode(root.get(), tc.key);
+        TreeUtils::resetTreeRoot(root, result);
+
+        const string gotStr = TreeUtils::toLevelOrderString(root.get());
+        const string expectedStr = TreeUtils::toLevelOrderString(expected.get());
+
+        const string label = "Delete Node in a BST 450 Test " + to_string(i + 1);
+        REQUIRE_ASSERT(assertEqScalar(label, expectedStr, gotStr));
+    }
+
+    return true;
+}
+
 /* Tree-like prefix structure design */
 
 
@@ -979,6 +1042,7 @@ std::vector<TestRegistry::Entry> getTests()
         TEST(530,  "Minimum Absolute Difference in BST",  minimumAbsoluteDifferenceInBST_530_tests),
         TEST(98,   "Validate Binary Search Tree",         validateBinarySearchTree_98_tests),
         TEST(235,  "Lowest Common Ancestor",              lowestCommonAncestor_235_tests),
+        TEST(450,  "Delete Node in a BST",                 deleteNodeInBST_450_tests),
 
         // Tree-like prefix structure design
         TEST(208,  "Implement Trie",                      implementTrie_208_tests),

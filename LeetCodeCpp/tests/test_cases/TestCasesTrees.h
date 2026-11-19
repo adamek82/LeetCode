@@ -96,6 +96,13 @@ struct LowestCommonAncestorTestCase {
     int expected;
 };
 
+// 450. Delete Node in a BST
+struct DeleteNodeInBSTTestCase {
+    std::vector<std::optional<int>> tree;
+    int key;
+    std::vector<std::optional<int>> expected;
+};
+
 // 208. Implement Trie (Prefix Tree)
 struct ImplementTrieTestCase {
     std::vector<std::string> operations;
