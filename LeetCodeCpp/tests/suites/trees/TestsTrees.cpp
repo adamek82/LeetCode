@@ -1042,7 +1042,7 @@ std::vector<TestRegistry::Entry> getTests()
         TEST(530,  "Minimum Absolute Difference in BST",  minimumAbsoluteDifferenceInBST_530_tests),
         TEST(98,   "Validate Binary Search Tree",         validateBinarySearchTree_98_tests),
         TEST(235,  "Lowest Common Ancestor",              lowestCommonAncestor_235_tests),
-        TEST(450,  "Delete Node in a BST",                 deleteNodeInBST_450_tests),
+        TEST(450,  "Delete Node in a BST",                deleteNodeInBST_450_tests),
 
         // Tree-like prefix structure design
         TEST(208,  "Implement Trie",                      implementTrie_208_tests),
