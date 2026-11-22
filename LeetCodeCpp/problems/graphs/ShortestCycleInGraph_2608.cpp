@@ -36,8 +36,9 @@ int ShortestCycleInGraph_2608::findShortestCycle(
             const int current = vertices.front();
             vertices.pop();
 
-            if (2 * distances[current] + 1 >= shortestCycle)
+            if (2 * distances[current] + 1 >= shortestCycle) {
                 continue;
+            }
 
             for (const int neighbor : adjacencyList[current]) {
                 if (distances[neighbor] == UNVISITED) {
@@ -48,8 +49,9 @@ int ShortestCycleInGraph_2608::findShortestCycle(
                         shortestCycle,
                         distances[current] + distances[neighbor] + 1);
 
-                    if (shortestCycle == 3)
+                    if (shortestCycle == 3) {
                         return 3;
+                    }
                 }
             }
         }
