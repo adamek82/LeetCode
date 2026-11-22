@@ -16,10 +16,11 @@ vector<string> SummaryRanges_228::summaryRanges(const vector<int>& nums)
 
         const int end = nums[j - 1];
 
-        if (start == end)
+        if (start == end) {
             ranges.push_back(to_string(start));
-        else
+        } else {
             ranges.push_back(to_string(start) + "->" + to_string(end));
+        }
 
         i = j;
     }

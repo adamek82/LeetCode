@@ -10,7 +10,9 @@ bool SplitTheArray_3046::isPossibleToSplit(vector<int>& nums)
 {
     int cnt[101] = {0};
     for (int x : nums) {
-        if (++cnt[x] > 2) return false;
+        if (++cnt[x] > 2) {
+            return false;
+        }
     }
     return true;
 }

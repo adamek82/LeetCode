@@ -24,7 +24,9 @@ int FindPivotIndex_724::pivotIndex(const vector<int>& nums)
     long left = 0;
     for (int i = 0; i < static_cast<int>(nums.size()); ++i) {
         long right = total - left - nums[i];
-        if (left == right) return i;
+        if (left == right) {
+            return i;
+        }
         left += nums[i];
     }
     return -1;

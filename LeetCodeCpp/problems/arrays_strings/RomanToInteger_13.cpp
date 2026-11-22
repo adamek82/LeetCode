@@ -26,10 +26,11 @@ int RomanToInteger_13::romanToInt(const string& s)
     for (auto it = s.rbegin(); it != s.rend(); ++it) {
         const int current = value(*it);
 
-        if (current < previous)
+        if (current < previous) {
             result -= current;
-        else
+        } else {
             result += current;
+        }
 
         previous = current;
     }

@@ -37,8 +37,9 @@ bool IsSubsequence_392::isSubsequence_TwoPointer(const string& s, const string& 
     size_t j = 0;
 
     while (i < s.size() && j < t.size()) {
-        if (s[i] == t[j])
+        if (s[i] == t[j]) {
             ++i;
+        }
 
         ++j;
     }
@@ -56,8 +57,9 @@ bool IsSubsequence_392::isSubsequence_PosIndex(const string& s) const
         const auto& positions = pos_[c - 'a'];
         const auto it = lower_bound(positions.begin(), positions.end(), nextPosition);
 
-        if (it == positions.end())
+        if (it == positions.end()) {
             return false;
+        }
 
         nextPosition = *it + 1;
     }
@@ -74,8 +76,9 @@ bool IsSubsequence_392::isSubsequence_NextTable(const string& s) const
     for (char c : s) {
         const size_t position = nextPos_[nextPosition][col(c)];
 
-        if (position == t_.size())
+        if (position == t_.size()) {
             return false;
+        }
 
         nextPosition = position + 1;
     }

@@ -7,9 +7,10 @@ void MergeSortedArray_88::merge(vector<int>& nums1, int m, const vector<int>& nu
     int write = m + n - 1;
 
     while (j >= 0) {
-        if (i >= 0 && nums1[i] > nums2[j])
+        if (i >= 0 && nums1[i] > nums2[j]) {
             nums1[write--] = nums1[i--];
-        else
+        } else {
             nums1[write--] = nums2[j--];
+        }
     }
 }

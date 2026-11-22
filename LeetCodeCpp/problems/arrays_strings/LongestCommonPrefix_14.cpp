@@ -3,8 +3,9 @@
 
 string LongestCommonPrefix_14::longestCommonPrefix_Horizontal(const vector<string>& strs) const
 {
-    if (strs.empty())
+    if (strs.empty()) {
         return "";
+    }
 
     const string& base = strs[0];
     size_t prefixLength = base.size();
@@ -19,8 +20,9 @@ string LongestCommonPrefix_14::longestCommonPrefix_Horizontal(const vector<strin
 
         prefixLength = j;
 
-        if (prefixLength == 0)
+        if (prefixLength == 0) {
             return "";
+        }
     }
 
     return base.substr(0, prefixLength);
@@ -28,8 +30,9 @@ string LongestCommonPrefix_14::longestCommonPrefix_Horizontal(const vector<strin
 
 string LongestCommonPrefix_14::longestCommonPrefix_Vertical(const vector<string>& strs) const
 {
-    if (strs.empty())
+    if (strs.empty()) {
         return "";
+    }
 
     const string& base = strs[0];
 
@@ -39,8 +42,9 @@ string LongestCommonPrefix_14::longestCommonPrefix_Vertical(const vector<string>
         for (size_t i = 1; i < strs.size(); ++i) {
             const string& s = strs[i];
 
-            if (j >= s.size() || s[j] != c)
+            if (j >= s.size() || s[j] != c) {
                 return base.substr(0, j);
+            }
         }
     }
 
@@ -49,8 +53,9 @@ string LongestCommonPrefix_14::longestCommonPrefix_Vertical(const vector<string>
 
 string LongestCommonPrefix_14::longestCommonPrefix_Sort(const vector<string>& strs) const
 {
-    if (strs.empty())
+    if (strs.empty()) {
         return "";
+    }
 
     vector<string> sorted = strs;
     sort(sorted.begin(), sorted.end());

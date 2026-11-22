@@ -22,12 +22,14 @@ void reverseRange(vector<int>& nums, size_t first, size_t last)
 void RotateArray_189::rotateCycles(vector<int>& nums, int k)
 {
     const size_t n = nums.size();
-    if (n < 2)
+    if (n < 2) {
         return;
+    }
 
     const size_t shift = static_cast<size_t>(k) % n;
-    if (shift == 0)
+    if (shift == 0) {
         return;
+    }
 
     const size_t cycles = gcd(n, shift);
 
@@ -46,12 +48,14 @@ void RotateArray_189::rotateCycles(vector<int>& nums, int k)
 void RotateArray_189::rotateReverse(vector<int>& nums, int k)
 {
     const size_t n = nums.size();
-    if (n < 2)
+    if (n < 2) {
         return;
+    }
 
     const size_t shift = static_cast<size_t>(k) % n;
-    if (shift == 0)
+    if (shift == 0) {
         return;
+    }
 
     reverseRange(nums, 0, n);
     reverseRange(nums, 0, shift);
@@ -61,8 +65,9 @@ void RotateArray_189::rotateReverse(vector<int>& nums, int k)
 vector<int> RotateArray_189::rotateCopy(const vector<int>& nums, int k)
 {
     const size_t n = nums.size();
-    if (n == 0)
+    if (n == 0) {
         return {};
+    }
 
     const size_t start = n - static_cast<size_t>(k) % n;
     vector<int> rotated;

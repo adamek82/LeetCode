@@ -2,8 +2,9 @@
 
 vector<int> SpiralMatrix_54::spiralOrder(const vector<vector<int>>& matrix)
 {
-    if (matrix.empty() || matrix[0].empty())
+    if (matrix.empty() || matrix[0].empty()) {
         return {};
+    }
 
     int top = 0;
     int bottom = static_cast<int>(matrix.size()) - 1;

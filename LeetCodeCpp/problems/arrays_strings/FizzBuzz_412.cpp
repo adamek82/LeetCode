@@ -9,14 +9,15 @@ vector<string> FizzBuzz_412::fizzBuzz(int n)
         const bool fizz = (i % 3 == 0);
         const bool buzz = (i % 5 == 0);
 
-        if (fizz && buzz)
+        if (fizz && buzz) {
             ans.push_back("FizzBuzz");
-        else if (fizz)
+        } else if (fizz) {
             ans.push_back("Fizz");
-        else if (buzz)
+        } else if (buzz) {
             ans.push_back("Buzz");
-        else
+        } else {
             ans.push_back(to_string(i));
+        }
     }
 
     return ans;
