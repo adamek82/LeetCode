@@ -13,7 +13,9 @@ int CoinChange_322::coinChange(vector<int>& coins, int amount)
 
     for (int i = 1; i <= amount; ++i) {
         for (int c : coins) {
-            if (c > i) break;
+            if (c > i) {
+                break;
+            }
             dp[i] = min(dp[i], dp[i - c] + 1);
         }
     }

@@ -2,7 +2,9 @@
 
 int ClimbingStairs_70::climbStairs(int n)
 {
-    if (n <= 2) return n;
+    if (n <= 2) {
+        return n;
+    }
 
     int a = 1;
     int b = 2;

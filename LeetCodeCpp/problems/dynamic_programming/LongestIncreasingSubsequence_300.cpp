@@ -23,7 +23,9 @@ int LongestIncreasingSubsequence_300::lengthOfLIS_tails(vector<int> &nums)
 int LongestIncreasingSubsequence_300::lengthOfLIS_dp(const vector<int>& nums)
 {
     const int n = static_cast<int>(nums.size());
-    if (n == 0) return 0;
+    if (n == 0) {
+        return 0;
+    }
 
     vector<int> dp(n, 1);
     int best = 1;
@@ -42,8 +44,9 @@ int LongestIncreasingSubsequence_300::lengthOfLIS_dp(const vector<int>& nums)
 vector<int> LongestIncreasingSubsequence_300::getLIS_tails(const vector<int>& nums)
 {
     const int n = static_cast<int>(nums.size());
-    if (n == 0)
+    if (n == 0) {
         return {};
+    }
 
     vector<int> tailIdx;
     tailIdx.reserve(n);
@@ -59,13 +62,15 @@ vector<int> LongestIncreasingSubsequence_300::getLIS_tails(const vector<int>& nu
 
         int pos = static_cast<int>(it - tailIdx.begin());
 
-        if (pos > 0)
+        if (pos > 0) {
             prev[i] = tailIdx[pos - 1];
+        }
 
-        if (it == tailIdx.end())
+        if (it == tailIdx.end()) {
             tailIdx.push_back(i);
-        else
+        } else {
             *it = i;
+        }
     }
 
     vector<int> lis(tailIdx.size());
@@ -82,7 +87,9 @@ vector<int> LongestIncreasingSubsequence_300::getLIS_tails(const vector<int>& nu
 vector<int> LongestIncreasingSubsequence_300::getLIS_dp(const vector<int>& nums)
 {
     const int n = (int)nums.size();
-    if (n == 0) return {};
+    if (n == 0) {
+        return {};
+    }
 
     vector<int> dp(n, 1);
     vector<int> prev(n, -1);

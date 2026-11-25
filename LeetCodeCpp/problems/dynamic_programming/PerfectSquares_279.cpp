@@ -15,7 +15,9 @@ int PerfectSquares_279::numSquares(int n)
 
     for (int k = 1; k <= n; ++k) {
         for (int s : squares) {
-            if (s > k) break;
+            if (s > k) {
+                break;
+            }
             dp[k] = min(dp[k], dp[k - s] + 1);
         }
     }
