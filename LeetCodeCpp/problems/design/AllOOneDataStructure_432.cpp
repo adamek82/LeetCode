@@ -177,7 +177,9 @@ void AllOOneDataStructure_432::dec(const string &key)
 string AllOOneDataStructure_432::getMaxKey()
 {
     // If no keys at all
-    if (nodeList.empty()) return "";
+    if (nodeList.empty()) {
+        return "";
+    }
     // The back of nodeList has the largest count
     // Return any key from that node's set
     return *(nodeList.back().keys.begin());
@@ -186,7 +188,9 @@ string AllOOneDataStructure_432::getMaxKey()
 string AllOOneDataStructure_432::getMinKey()
 {
     // If no keys at all
-    if (nodeList.empty()) return "";
+    if (nodeList.empty()) {
+        return "";
+    }
     // The front of nodeList has the smallest count
     // Return any key from that node's set
     return *(nodeList.front().keys.begin());

@@ -4,8 +4,9 @@
 
 bool ExamRoom_855::GapCompare::operator()(const Gap& a, const Gap& b) const
 {
-    if (a.distance != b.distance)
+    if (a.distance != b.distance) {
         return a.distance < b.distance;
+    }
 
     return a.seat > b.seat;
 }
@@ -24,8 +25,9 @@ int ExamRoom_855::seat()
         const Gap gap = gaps.top();
         gaps.pop();
 
-        if (!isValidGap(gap.left, gap.right))
+        if (!isValidGap(gap.left, gap.right)) {
             continue;
+        }
 
         const int seat = gap.seat;
         occupied.insert(seat);
@@ -53,30 +55,35 @@ void ExamRoom_855::leave(int seat)
 
 int ExamRoom_855::seatInGap(int left, int right) const
 {
-    if (left == -1)
+    if (left == -1) {
         return 0;
+    }
 
-    if (right == n)
+    if (right == n) {
         return n - 1;
+    }
 
     return left + (right - left) / 2;
 }
 
 int ExamRoom_855::distanceInGap(int left, int right) const
 {
-    if (left == -1)
+    if (left == -1) {
         return right;
+    }
 
-    if (right == n)
+    if (right == n) {
         return n - 1 - left;
+    }
 
     return (right - left) / 2;
 }
 
 void ExamRoom_855::pushGap(int left, int right)
 {
-    if (right - left <= 1)
+    if (right - left <= 1) {
         return;
+    }
 
     gaps.push({
         left,
@@ -90,8 +97,9 @@ bool ExamRoom_855::isValidGap(int left, int right) const
 {
     const auto it = occupied.find(left);
 
-    if (it == occupied.end())
+    if (it == occupied.end()) {
         return false;
+    }
 
     const auto nextIt = next(it);
     return nextIt != occupied.end() && *nextIt == right;

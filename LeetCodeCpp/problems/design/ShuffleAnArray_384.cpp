@@ -40,7 +40,9 @@ ShuffleAnArray_384::Vec ShuffleAnArray_384_FisherYates::reset()
 ShuffleAnArray_384::Vec ShuffleAnArray_384_FisherYates::shuffle()
 {
     const int n = static_cast<int>(current_.size());
-    if (n <= 1) return current_;
+    if (n <= 1) {
+        return current_;
+    }
 
     // Fisher–Yates shuffle: unbiased.
     for (int i = n - 1; i > 0; --i) {
@@ -68,7 +70,9 @@ ShuffleAnArray_384::Vec ShuffleAnArray_384_Wrong::reset()
 ShuffleAnArray_384::Vec ShuffleAnArray_384_Wrong::shuffle()
 {
     const int n = static_cast<int>(current_.size());
-    if (n <= 1) return current_;
+    if (n <= 1) {
+        return current_;
+    }
     uniform_int_distribution<int> dist(0, n - 1);
 
     // WRONG: choosing j from the full [0, n-1] range for each i is biased.
