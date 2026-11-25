@@ -46,7 +46,9 @@ void CombinationSum_39::dfs(int start, int remain, const vector<int>& cand,
     const int n = static_cast<int>(cand.size());
     for (int i = start; i < n; ++i) {
         int v = cand[i];
-        if (v > remain) break;           // pruning thanks to sorting
+        if (v > remain) { // pruning thanks to sorting
+            break;
+        }
         cur.push_back(v);                // choose v
         dfs(i, remain - v, cand, cur, out); // reuse allowed -> pass i (not i+1)
         cur.pop_back();                  // backtrack

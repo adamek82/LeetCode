@@ -43,7 +43,9 @@ void LetterCombinations_17::dfs(const string& digits, int idx,
 
 vector<string> LetterCombinations_17::letterCombinations(string digits)
 {
-    if (digits.empty()) return {};
+    if (digits.empty()) {
+        return {};
+    }
 
     vector<string> out;
     string path;

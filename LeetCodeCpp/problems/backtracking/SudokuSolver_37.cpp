@@ -64,8 +64,12 @@ bool SudokuSolver_37::backtrackPlain(vector<vector<char>>& board)
 bool SudokuSolver_37::isValidPlain(const vector<vector<char>>& board, int row, int col, char ch)
 {
     for (int i = 0; i < 9; ++i) {
-        if (board[row][i] == ch) return false;
-        if (board[i][col] == ch) return false;
+        if (board[row][i] == ch) {
+            return false;
+        }
+        if (board[i][col] == ch) {
+            return false;
+        }
     }
 
     int startRow = (row / 3) * 3;
@@ -73,7 +77,9 @@ bool SudokuSolver_37::isValidPlain(const vector<vector<char>>& board, int row, i
 
     for (int r = startRow; r < startRow + 3; ++r) {
         for (int c = startCol; c < startCol + 3; ++c) {
-            if (board[r][c] == ch) return false;
+            if (board[r][c] == ch) {
+                return false;
+            }
         }
     }
 
