@@ -51,8 +51,9 @@ int MaximumNumberOfBalloons_1189::maxNumberOfBalloons(string &text)
 
     int ans = numeric_limits<int>::max();
     for (int i = 0; i < 26; ++i)
-        if (need[i])
+        if (need[i]) {
             ans = min(ans, freq[i] / need[i]);
+        }
 
     return ans == numeric_limits<int>::max() ? 0 : ans;
 }

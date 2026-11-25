@@ -23,7 +23,9 @@ vector<string> AnalyzeUserWebsiteVisitPattern1152::mostVisitedPattern_usingMap(v
     // Step 3: Count frequency of each 3-sequence pattern
     map<vector<string>, int> patternCount;
     for (const auto& [user, sites] : userToSites) {
-        if (sites.size() < 3) continue;
+        if (sites.size() < 3) {
+            continue;
+        }
         set<vector<string>> uniquePatterns;
 
         // Generate all unique 3-sequences
@@ -91,7 +93,9 @@ vector<string> AnalyzeUserWebsiteVisitPattern1152::mostVisitedPattern_usingHashm
 
     for (const auto& [user, sites] : userVisits) {
         int m = static_cast<int>(sites.size());
-        if (m < 3) continue; // User must have visited at least 3 sites
+        if (m < 3) { // User must have visited at least 3 sites
+            continue;
+        }
 
         set<vector<string>> uniquePatterns; // To avoid duplicate 3-sequences per user
         for (int i = 0; i < m; i++) {

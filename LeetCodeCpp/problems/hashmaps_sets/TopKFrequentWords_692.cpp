@@ -14,8 +14,9 @@ vector<string> TopKFrequentWords_692::topKFrequent(vector<string> &words, int k)
     // The candidate is considered "worse" if it has a lower frequency,
     // or if frequencies are equal and its word is lexicographically larger.
     auto cmp = [](const pair<string, int>& a, const pair<string, int>& b) {
-        if (a.second == b.second)
+        if (a.second == b.second) {
             return a.first < b.first; // for equal frequencies, word with lower lexical order is "better"
+        }
         return a.second > b.second;   // lower frequency is "worse"
     };
 

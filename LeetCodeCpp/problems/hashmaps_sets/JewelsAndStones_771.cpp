@@ -29,8 +29,9 @@ int JewelsAndStones_771::numJewelsInStones(string jewels, string stones)
 
     int cnt = 0;
     for (char c : stones)
-        if (isJewel[static_cast<unsigned char>(c)])
+        if (isJewel[static_cast<unsigned char>(c)]) {
             ++cnt;
+        }
 
     return cnt;
 }

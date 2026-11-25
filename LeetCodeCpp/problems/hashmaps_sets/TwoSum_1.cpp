@@ -24,8 +24,9 @@ vector<int> TwoSum_1::twoSum(const vector<int>& nums, int target)
     for (int i = 0; i < static_cast<int>(nums.size()); ++i) {
         int need = target - nums[i];
         auto it = seen.find(need);
-        if (it != seen.end())
+        if (it != seen.end()) {
             return {it->second, i};
+        }
         seen[nums[i]] = i;
     }
     return {}; // should never hit — problem guarantees one answer

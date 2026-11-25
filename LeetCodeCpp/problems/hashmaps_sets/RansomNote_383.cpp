@@ -28,7 +28,9 @@
 
 bool RansomNote_383::canConstruct(string ransomNote, string magazine)
 {
-    if (ransomNote.size() > magazine.size()) return false;
+    if (ransomNote.size() > magazine.size()) {
+        return false;
+    }
 
     vector<int> count(26, 0);
 
@@ -39,7 +41,9 @@ bool RansomNote_383::canConstruct(string ransomNote, string magazine)
     for (char c : ransomNote) {
         int idx = c - 'a';
         count[idx]--;
-        if (count[idx] < 0) return false; // not enough of this character
+        if (count[idx] < 0) { // not enough of this character
+            return false;
+        }
     }
 
     return true;
