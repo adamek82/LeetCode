@@ -13,7 +13,7 @@ Trie::Trie(const vector<string>& list)
     insertAll(list);
 }
 
-Trie::Trie(const initializer_list<string>& list)
+Trie::Trie(initializer_list<string> list)
     : Trie()
 {
     insertAll(list);

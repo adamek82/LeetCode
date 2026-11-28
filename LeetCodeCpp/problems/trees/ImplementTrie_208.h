@@ -11,7 +11,7 @@ class Trie {
 public:
     Trie();
     explicit Trie(const std::vector<std::string>& list);
-    Trie(const std::initializer_list<std::string>& list);
+    Trie(std::initializer_list<std::string> list);
 
     Trie(const Trie&) = delete;
     Trie& operator=(const Trie&) = delete;
