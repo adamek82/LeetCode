@@ -10,8 +10,6 @@
 
 using namespace std;
 
-// This file intentionally keeps several solution variants for the same problem:
-// recursive DFS, iterative DFS, BFS, and Union-Find.
 bool FindIfPathExistsInGraph_1971::validPathRecursiveDFS(
     int n,
     const vector<vector<int>>& edges,
